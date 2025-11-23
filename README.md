@@ -132,6 +132,10 @@ To build for GitHub Pages locally:
 NEXT_PUBLIC_BASE_PATH=/vizualni-admin yarn build:static
 ```
 
+**Note**: If the static build fails with an invariant error, ensure all dynamic
+routes use `fallback: false` in `getStaticPaths`. See
+`docs/STATIC_EXPORT_TROUBLESHOOTING.md` for detailed troubleshooting steps.
+
 CI runs `yarn lint --max-warnings=0` using the repo’s ESLint config (no global
 install) before the GitHub Pages build. Sourcemap uploads to Sentry are
 optional: CI forces `SENTRY_UPLOAD=false`, and you can enable real uploads
@@ -170,6 +174,11 @@ Key configuration options:
 - API endpoints for data.gov.rs
 - Authentication settings
 - Internationalization settings (Serbian/English)
+
+## Troubleshooting
+
+For build issues, especially with static export, see
+[docs/STATIC_EXPORT_TROUBLESHOOTING.md](docs/STATIC_EXPORT_TROUBLESHOOTING.md).
 
 ## Features
 

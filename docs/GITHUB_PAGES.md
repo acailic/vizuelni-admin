@@ -4,7 +4,8 @@ This guide explains how to deploy Vizualni Admin to GitHub Pages.
 
 ## Overview
 
-The project is configured to automatically deploy to GitHub Pages when changes are pushed to the `main` branch. The site will be available at:
+The project is configured to automatically deploy to GitHub Pages when changes
+are pushed to the `main` branch. The site will be available at:
 
 `https://acailic.github.io/vizualni-admin/`
 
@@ -12,13 +13,14 @@ The project is configured to automatically deploy to GitHub Pages when changes a
 
 ### Automatic Deployment
 
-The repository includes a GitHub Actions workflow (`.github/workflows/deploy-github-pages.yml`) that:
+The repository includes a GitHub Actions workflow
+(`.github/workflows/deploy-github-pages.yml`) that:
 
 1. Builds the Next.js app as a static export
 2. Runs ESLint with the local repo configuration (`yarn lint --max-warnings=0`)
-2. Compiles translations
-3. Uploads the static files to GitHub Pages
-4. Deploys to the GitHub Pages environment
+3. Compiles translations
+4. Uploads the static files to GitHub Pages
+5. Deploys to the GitHub Pages environment
 
 ### Manual Deployment
 
@@ -56,33 +58,44 @@ Then open `http://localhost:3000/vizualni-admin/` in your browser.
 
 ## CI Notes
 
-- Linting runs with the repo’s ESLint config (`yarn lint --max-warnings=0`), so no global eslint is used.
-- Sourcemap uploads to Sentry are optional. The workflow sets `SENTRY_UPLOAD=false` to avoid requiring `SENTRY_AUTH_TOKEN`. To perform real uploads locally or in another CI, provide `SENTRY_AUTH_TOKEN` (and set `SENTRY_UPLOAD=true` if you want to override the guard).
+- Linting runs with the repo’s ESLint config (`yarn lint --max-warnings=0`), so
+  no global eslint is used.
+- Sourcemap uploads to Sentry are optional. The workflow sets
+  `SENTRY_UPLOAD=false` to avoid requiring `SENTRY_AUTH_TOKEN`. To perform real
+  uploads locally or in another CI, provide `SENTRY_AUTH_TOKEN` (and set
+  `SENTRY_UPLOAD=true` if you want to override the guard).
 
 ## Important Notes
 
 ### Database Features
 
-⚠️ **Note**: GitHub Pages serves static files only. Features requiring a database will not work in the GitHub Pages deployment, including:
+⚠️ **Note**: GitHub Pages serves static files only. Features requiring a
+database will not work in the GitHub Pages deployment, including:
 
 - Saving chart configurations
 - User authentication
 - Database-backed features
 
 The GitHub Pages deployment is ideal for:
+
 - Demonstrating the UI and chart capabilities
 - Browsing static examples
 - Showcasing the visualization tool
 
-For full functionality, deploy to a platform that supports Node.js and PostgreSQL (see [DEPLOYMENT.md](DEPLOYMENT.md)).
+For full functionality, deploy to a platform that supports Node.js and
+PostgreSQL (see [DEPLOYMENT.md](DEPLOYMENT.md)).
 
 ### Base Path
 
-The app is configured to work with the `/vizualni-admin` base path when deployed to GitHub Pages. This is handled automatically through the `NEXT_PUBLIC_BASE_PATH` environment variable.
+The app is configured to work with the `/vizualni-admin` base path when deployed
+to GitHub Pages. This is handled automatically through the
+`NEXT_PUBLIC_BASE_PATH` environment variable.
 
 ### API Integration
 
-When deployed to GitHub Pages, the app will connect to data.gov.rs API for fetching datasets. Make sure any API keys are properly configured as GitHub repository secrets if needed.
+When deployed to GitHub Pages, the app will connect to data.gov.rs API for
+fetching datasets. Make sure any API keys are properly configured as GitHub
+repository secrets if needed.
 
 ## Configuration Details
 
@@ -92,7 +105,7 @@ The `next.config.js` is configured to detect when building for GitHub Pages:
 
 ```javascript
 const isGitHubPages = process.env.NEXT_PUBLIC_BASE_PATH !== undefined;
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 module.exports = {
   output: isGitHubPages ? "export" : "standalone",
@@ -102,12 +115,13 @@ module.exports = {
     unoptimized: isGitHubPages,
   },
   // ...
-}
+};
 ```
 
 ### Environment Variables
 
 GitHub Pages builds use:
+
 - `NEXT_PUBLIC_BASE_PATH=/vizualni-admin` - Sets the base path for assets
 - `NEXT_PUBLIC_VERSION` - Populated from package.json
 - `NEXT_PUBLIC_GITHUB_REPO` - Populated from package.json
@@ -117,6 +131,7 @@ GitHub Pages builds use:
 ### Pages Not Updating
 
 If the site doesn't update after a push:
+
 1. Check the **Actions** tab for workflow status
 2. Look for any build errors in the workflow logs
 3. Verify the `main` branch has the latest changes
@@ -124,6 +139,7 @@ If the site doesn't update after a push:
 ### 404 Errors
 
 If you get 404 errors:
+
 1. Ensure GitHub Pages is enabled in repository settings
 2. Check that the base path is correct
 3. Verify the workflow completed successfully
@@ -131,26 +147,53 @@ If you get 404 errors:
 ### Build Failures
 
 If the build fails:
+
 1. Check the workflow logs in the **Actions** tab
 2. Common issues:
    - Missing dependencies: Run `yarn install` locally to verify
    - TypeScript errors: Run `yarn typecheck` locally
    - Build errors: Run `yarn build:static` locally to reproduce
 
+### Invariant Error During Build
+
+If you encounter an invariant error during static build:
+
+1. **Check for incompatible fallback values**: Ensure all dynamic routes use
+   `fallback: false` in `getStaticPaths`, not `fallback: 'blocking'` or
+   `fallback: true`
+2. **Verify all paths are pre-generated**: Dynamic routes must return all
+   possible paths in `getStaticPaths` for static export
+3. **Enable verbose logging**: Set `logging.level: 'info'` in `next.config.js`
+   to see detailed build output
+4. **Check the build output**: Look for messages about which pages failed to
+   generate
+5. **Test locally**: Run
+   `NEXT_PUBLIC_BASE_PATH=/vizualni-admin yarn build:static` to reproduce the
+   issue
+
+**Common causes:**
+
+- Using `fallback: 'blocking'` with static export (not supported)
+- Missing `getStaticPaths` in dynamic routes
+- Empty paths array without `fallback: false`
+
 ## Limitations
 
 GitHub Pages deployments have some limitations compared to full deployments:
 
-| Feature | GitHub Pages | Full Deployment |
-|---------|-------------|-----------------|
-| Static charts | ✅ Yes | ✅ Yes |
-| Browse datasets | ✅ Yes | ✅ Yes |
-| Create visualizations | ✅ Yes | ✅ Yes |
-| Save configurations | ❌ No | ✅ Yes |
-| User accounts | ❌ No | ✅ Yes |
-| Database storage | ❌ No | ✅ Yes |
-| Server-side rendering | ❌ No | ✅ Yes |
-| API routes | ❌ No | ✅ Yes |
+| Feature               | GitHub Pages | Full Deployment |
+| --------------------- | ------------ | --------------- |
+| Static charts         | ✅ Yes       | ✅ Yes          |
+| Browse datasets       | ✅ Yes       | ✅ Yes          |
+| Browse dynamic routes | ⚠️ Limited   | ✅ Yes          |
+| Create visualizations | ✅ Yes       | ✅ Yes          |
+| Save configurations   | ❌ No        | ✅ Yes          |
+| User accounts         | ❌ No        | ✅ Yes          |
+| Database storage      | ❌ No        | ✅ Yes          |
+| Server-side rendering | ❌ No        | ✅ Yes          |
+| API routes            | ❌ No        | ✅ Yes          |
+
+[^1]: Browse routes work client-side only in static export mode.
 
 ## Custom Domain
 
@@ -160,7 +203,9 @@ To use a custom domain with GitHub Pages:
 2. Configure DNS settings for your domain
 3. Enable HTTPS in repository settings
 
-See [GitHub's custom domain documentation](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site) for details.
+See
+[GitHub's custom domain documentation](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site)
+for details.
 
 ## Security
 
