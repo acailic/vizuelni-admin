@@ -53,7 +53,6 @@ export const Header = ({ hideLogo, extendTopBar, }) => {
             </svg>
             <span>GitHub</span>
           </Box>
-          <LoginMenu />
           <LanguagePicker />
         </Flex>
       </Box>

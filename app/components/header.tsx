@@ -7,7 +7,6 @@ import { __HEADER_HEIGHT_CSS_VAR } from "@/components/header-constants";
 import { LanguagePicker } from "@/components/language-picker";
 import { SimpleHeader } from "@/components/simple-header";
 import { SOURCE_OPTIONS } from "@/domain/data-source/constants";
-import { LoginMenu } from "@/login/components/login-menu";
 import { useResizeObserver } from "@/utils/use-resize-observer";
 
 export const Header = ({
@@ -93,7 +92,6 @@ export const Header = ({
             </svg>
             <span>GitHub</span>
           </Box>
-          <LoginMenu />
           <LanguagePicker />
         </Flex>
       </Box>
