@@ -307,7 +307,7 @@ export default function ClimateDemo() {
             year: d.year.toString(),
             'Reforested': d.reforested,
             'Deforested': -d.deforested, // Negative for visual comparison
-        }))} xKey="year" yKey="value" width={450} height={400}/>
+        }))} xKey="year" yKey={['Reforested', 'Deforested']} width={450} height={400} multiSeries/>
               <Typography variant="caption" color="text.secondary" sx={{ mt: 2, display: 'block' }}>
                 {locale === 'sr'
             ? 'Pozitivne vrednosti od 2016. pokazuju uspešno pošumljavanje.'

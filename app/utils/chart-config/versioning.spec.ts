@@ -558,8 +558,6 @@ describe("migration edge cases", () => {
 
 describe("migration chain validation", () => {
   it("should have continuous migration chain for chartConfig", () => {
-    const versions = chartConfigMigrations.map((m) => m.to);
-
     for (let i = 0; i < chartConfigMigrations.length - 1; i++) {
       const current = chartConfigMigrations[i];
       const next = chartConfigMigrations[i + 1];

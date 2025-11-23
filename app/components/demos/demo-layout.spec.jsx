@@ -23,24 +23,24 @@ describe("DemoLayout", () => {
             }}>
         <div>content</div>
       </DemoLayout>);
-        expect(screen.getByText("Test Demo")).toBeInTheDocument();
-        expect(screen.getByText("Description")).toBeInTheDocument();
-        expect(screen.getByText(/Org/)).toBeInTheDocument();
+        expect(screen.getByText("Test Demo")).toBeTruthy();
+        expect(screen.getByText("Description")).toBeTruthy();
+        expect(screen.getByText(/Org/)).toBeTruthy();
         // the formatted date can vary by locale; assert year is present
-        expect(screen.getByText(/2024/)).toBeInTheDocument();
-        expect(screen.getByText("content")).toBeInTheDocument();
+        expect(screen.getByText(/2024/)).toBeTruthy();
+        expect(screen.getByText("content")).toBeTruthy();
     });
     it("hides back button when hideBackButton is true", () => {
         render(<DemoLayout title="No Back" hideBackButton>
         <div>child</div>
       </DemoLayout>);
-        expect(screen.queryByText(/Nazad na demo galeriju/)).not.toBeInTheDocument();
+        expect(screen.queryByText(/Nazad na demo galeriju/)).toBeNull();
     });
 });
 describe("Demo helper states", () => {
     it("renders loading with default message", () => {
         render(<DemoLoading />);
-        expect(screen.getByText(/Učitavanje podataka sa data.gov.rs/i)).toBeInTheDocument();
+        expect(screen.getByText(/Učitavanje podataka sa data.gov.rs/i)).toBeTruthy();
     });
     it("renders error with retry", () => {
         const onRetry = vi.fn();
@@ -50,6 +50,6 @@ describe("Demo helper states", () => {
     });
     it("renders empty state message", () => {
         render(<DemoEmpty message="nothing here"/>);
-        expect(screen.getByText("nothing here")).toBeInTheDocument();
+        expect(screen.getByText("nothing here")).toBeTruthy();
     });
 });

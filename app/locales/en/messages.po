@@ -13,11 +13,6 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app/components/social-media-share.jsx
-#: app/components/social-media-share.tsx
-msgid "social.share.mail.subject"
-msgstr "social.share.mail.subject"
-
 #: app/components/chart-footnotes.jsx
 #: app/components/chart-footnotes.tsx
 #: app/components/chart-published.jsx
@@ -27,10 +22,25 @@ msgstr "social.share.mail.subject"
 msgid "metadata.link.created.with"
 msgstr "Created with"
 
+#: app/components/demos/demo-layout.jsx
+#: app/components/demos/demo-layout.tsx
+msgid "demos.layout.back"
+msgstr "← Back to demo gallery"
+
+#: app/components/demos/demo-layout.jsx
+#: app/components/demos/demo-layout.tsx
+msgid "demos.layout.error-title"
+msgstr "Error loading data"
+
 #: app/components/move-drag-button.jsx
 #: app/components/move-drag-button.tsx
 msgid "Drag filters to reorganize"
 msgstr "Drag filters to reorganize"
+
+#: app/components/social-media-share.jsx
+#: app/components/social-media-share.tsx
+msgid "social.share.mail.subject"
+msgstr "social.share.mail.subject"
 
 #: app/configurator/components/add-dataset-drawer/add-dataset-drawer.jsx
 #: app/configurator/components/add-dataset-drawer/add-dataset-drawer.tsx
@@ -148,30 +158,20 @@ msgstr "{share}% of population lives in urban areas"
 msgid "demos.demographics.regional.share"
 msgstr "{share}% of total population"
 
-#: app/components/demos/demo-layout.jsx
-#: app/components/demos/demo-layout.tsx
-msgid "demos.layout.back"
-msgstr "← Back to demo gallery"
-
+#: app/pages/demos/demographics.jsx
 #: app/pages/demos/demographics.tsx
 msgid "demos.demographics.alert.detail"
 msgstr "⚠️ DEMOGRAPHIC WARNING: Serbia's population is declining. Projections show a decrease of <0>{0}%</0> by 2050 (from {1}M to {2}M). Median age is <1>{3} years</1>."
-
-#: app/pages/demos/demographics.jsx
-msgid "demos.demographics.alert"
-msgstr "⚠️ DEMOGRAPHIC WARNING: Serbia's population is declining. Projections show a decrease of<0>{0}%</0> by 2050 (from {1}M to {2}M). Median age is<1>{3} years</1>."
 
 #: app/pages/demos/demographics.jsx
 #: app/pages/demos/demographics.tsx
 msgid "demos.demographics.title"
 msgstr "👥 Serbia Demographics - Age Pyramid and Trends"
 
-#: app/pages/demos/index.jsx
 #: app/pages/demos/index.tsx
 msgid "demos.index.about.title"
 msgstr "💡 About Demo Visualizations"
 
-#: app/pages/demos/index.jsx
 #: app/pages/demos/index.tsx
 msgid "demos.index.hero.title"
 msgstr "📊 Demo Visualization Gallery"
@@ -210,22 +210,18 @@ msgstr "9 → 1"
 msgid "controls.sorting.byDimensionLabel.ascending"
 msgstr "A → Z"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.hero"
 msgstr "A bundle of high-signal indicators across economy, mobility, energy, and digitalization."
 
-#: app/pages/demos/index.jsx
 #: app/pages/demos/index.tsx
 msgid "demos.index.showcase.description"
 msgstr "A compact set of highlight charts across economy, transport, energy, and digitalization."
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.description"
 msgstr "A quick look at multiple chart types using representative datasets."
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.hero.body"
 msgstr "A visually coherent set of charts spotlighting momentum, drops, source mix, and the skills gap."
@@ -523,7 +519,6 @@ msgstr "At least two numerical measures with the same unit are required."
 msgid "controls.sorting.byAuto"
 msgstr "Automatic"
 
-#: app/pages/demos/index.jsx
 #: app/pages/demos/index.tsx
 msgid "demos.index.stats.available"
 msgstr "Available Demos"
@@ -594,7 +589,6 @@ msgstr "Base URL"
 msgid "chart.map.layers.base.behind-area-layer"
 msgstr "Behind area layer"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.hero.stat1.hint"
 msgstr "Belgrade leads"
@@ -614,7 +608,6 @@ msgstr "Bold"
 msgid "browse.dataset.all"
 msgstr "Browse all datasets"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.cta"
 msgstr "Browse all demo pages"
@@ -733,7 +726,6 @@ msgstr "Clear selection"
 msgid "controls.annotations.annotation.clear-text"
 msgstr "Clear text"
 
-#: app/pages/demos/index.jsx
 #: app/pages/demos/index.tsx
 msgid "demos.index.hero.body"
 msgstr "Click on any demo below to see an interactive visualization with real data."
@@ -745,7 +737,6 @@ msgstr "Click on any demo below to see an interactive visualization with real da
 msgid "button.hint.click.to.copy"
 msgstr "Click to copy"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.hero.stat3.label"
 msgstr "Coal share: 64%"
@@ -991,14 +982,14 @@ msgstr "Data loading error"
 msgid "controls.section.data-points"
 msgstr "Data Points"
 
-#: app/components/demos/demo-layout.jsx
-#: app/components/demos/demo-layout.tsx
-msgid "demos.layout.source"
-msgstr "Data source"
-
 #: app/components/data-source-menu.jsx
 #: app/components/data-source-menu.tsx
 msgid "data.source"
+msgstr "Data source"
+
+#: app/components/demos/demo-layout.jsx
+#: app/components/demos/demo-layout.tsx
+msgid "demos.layout.source"
 msgstr "Data source"
 
 #: app/components/chart-footnotes.jsx
@@ -1095,12 +1086,10 @@ msgstr "Delete chart?"
 msgid "login.profile.my-color-palettes.delete"
 msgstr "Delete color palette"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.title"
 msgstr "Demo Showcase Visualizations"
 
-#: app/pages/demos/index.jsx
 #: app/pages/demos/index.tsx
 msgid "demos.index.title"
 msgstr "Demo Visualizations"
@@ -1117,12 +1106,10 @@ msgstr "Description"
 msgid "controls.metadata-panel.metadata"
 msgstr "Details"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.chip.digital"
 msgstr "Digital"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.digital.title"
 msgstr "Digital Skills Gap"
@@ -1212,7 +1199,6 @@ msgstr "Duplicate"
 msgid "controls.section.animation.dynamic-scaling"
 msgstr "Dynamic Scaling"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.chip.economy"
 msgstr "Economic pulse"
@@ -1286,12 +1272,10 @@ msgstr "Enable unit conversion"
 msgid "controls.custom-color-palettes.end"
 msgstr "Ending color"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.chip.energy"
 msgstr "Energy"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.energy.title"
 msgstr "Energy Mix Snapshot"
@@ -1308,11 +1292,6 @@ msgstr "English"
 msgid "social.share.text.placeholder"
 msgstr "Enter your share text here..."
 
-#: app/components/demos/demo-layout.jsx
-#: app/components/demos/demo-layout.tsx
-msgid "demos.layout.error-title"
-msgstr "Error loading data"
-
 #: app/login/components/color-palettes/color-palette-examples.jsx
 #: app/login/components/color-palettes/color-palette-examples.tsx
 msgid "controls.custom-color-palettes.example"
@@ -1323,7 +1302,6 @@ msgstr "Example"
 msgid "browse.datasets.description"
 msgstr "Explore datasets provided by the LINDAS Linked Data Service by either filtering by categories or organizations or search directly for specific keywords. Click on a dataset to see more detailed information and start creating your own visualizations."
 
-#: app/pages/demos/index.jsx
 #: app/pages/demos/index.tsx
 msgid "demos.index.description"
 msgstr "Explore different visualizations of Serbian open data"
@@ -1430,7 +1408,6 @@ msgstr "Further information"
 msgid "footer.information.title"
 msgstr "Further information"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.hero.stat1.label"
 msgstr "GDP YoY: +4.3%"
@@ -1465,7 +1442,6 @@ msgstr "Grouped"
 msgid "controls.section.groups"
 msgstr "Groups"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.economy.ylabel"
 msgstr "Growth (%)"
@@ -1802,7 +1778,6 @@ msgstr "Medium"
 msgid "controls.custom-color-palettes.mid"
 msgstr "Middle color"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.transport.ylabel"
 msgstr "Million trips"
@@ -1822,7 +1797,6 @@ msgstr "Minute"
 msgid "controls.section.imputation"
 msgstr "Missing values"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.chip.mobility"
 msgstr "Mobility"
@@ -1909,7 +1883,6 @@ msgstr "Name"
 msgid "dataset.search.placeholder"
 msgstr "Name, organization, keyword..."
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.hero.stat3.hint"
 msgstr "Needs diversification"
@@ -1944,7 +1917,6 @@ msgstr "New"
 msgid "dataset.search.preview.added-dataset"
 msgstr "New dataset added. You can now use its data in the chart(s)."
 
-#: app/pages/demos/index.jsx
 #: app/pages/demos/index.tsx
 msgid "demos.index.showcase.title"
 msgstr "New Demo Showcase"
@@ -2080,7 +2052,6 @@ msgstr "Opacity"
 msgid "controls.colorpicker.open"
 msgstr "Open Color Picker"
 
-#: app/pages/demos/index.jsx
 #: app/pages/demos/index.tsx
 msgid "demos.index.showcase.cta"
 msgstr "Open showcase"
@@ -2100,7 +2071,6 @@ msgstr "optional"
 msgid "demos.layout.organization"
 msgstr "Organization"
 
-#: app/pages/demos/index.jsx
 #: app/pages/demos/index.tsx
 msgid "demos.index.stats.organizations"
 msgstr "Organizations"
@@ -2231,7 +2201,6 @@ msgstr "Preview with small width"
 msgid "button.layout"
 msgstr "Proceed to layout options"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.transport.title"
 msgstr "Public Transport Momentum"
@@ -2251,12 +2220,10 @@ msgstr "Quantiles (equal distribution of values)"
 msgid "controls.color.scale.discretization.quantize"
 msgstr "Quantize (equal intervals)"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.economy.xlabel"
 msgstr "Region"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.economy.title"
 msgstr "Regional GDP Growth"
@@ -2331,7 +2298,6 @@ msgstr "Reset color palette"
 msgid "controls.filters.select.reset-colors"
 msgstr "Reset colors"
 
-#: app/pages/demos/index.jsx
 #: app/pages/demos/index.tsx
 msgid "demos.index.stats.resources"
 msgstr "Resources on data.gov.rs"
@@ -2361,7 +2327,6 @@ msgstr "Right axis (line)"
 msgid "controls.chart.combo.y.right-axis-measure"
 msgstr "Right axis measure"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.dataset.organization"
 msgstr "Sample dataset"
@@ -2417,7 +2382,6 @@ msgstr "Search..."
 msgid "time-units.Second"
 msgstr "Second"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.digital.xlabel"
 msgstr "Segment"
@@ -2599,7 +2563,6 @@ msgstr "Share"
 msgid "login.chart.share"
 msgstr "Share"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.digital.ylabel"
 msgstr "Share (%)"
@@ -2609,24 +2572,22 @@ msgstr "Share (%)"
 msgid "social.share.quick.description"
 msgstr "Share directly to your favorite social platform"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.energy.description"
 msgstr "Share of electricity generation by source."
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.digital.description"
 msgstr "Share of population with at least basic digital skills."
 
-#: app/components/social-media-share.jsx
-#: app/components/social-media-share.tsx
-msgid "social.share.facebook"
-msgstr "Share on Facebook"
-
 #: app/components/publish-actions.jsx
 #: app/components/publish-actions.tsx
 msgid "publication.share.linktitle.facebook"
+msgstr "Share on Facebook"
+
+#: app/components/social-media-share.jsx
+#: app/components/social-media-share.tsx
+msgid "social.share.facebook"
 msgstr "Share on Facebook"
 
 #: app/components/publish-actions.jsx
@@ -2664,15 +2625,15 @@ msgstr "Share Text"
 msgid "social.share.url.title"
 msgstr "Share URL"
 
-#: app/components/social-media-share.jsx
-#: app/components/social-media-share.tsx
-msgid "social.share.email"
-msgstr "Share via email"
-
 #: app/components/publish-actions.jsx
 #: app/components/publish-actions.tsx
 msgid "publication.share.linktitle.mail"
 msgstr "Share via Email"
+
+#: app/components/social-media-share.jsx
+#: app/components/social-media-share.tsx
+msgid "social.share.email"
+msgstr "Share via email"
 
 #: app/configurator/components/layout-configurator.jsx
 #: app/configurator/components/layout-configurator.tsx
@@ -2771,7 +2732,6 @@ msgstr "Show uncertainties extending from data points to represent standard erro
 msgid "controls.filter.show-values"
 msgstr "Show value"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.dataset.title"
 msgstr "Showcase indicators"
@@ -2921,7 +2881,6 @@ msgstr "Status"
 msgid "footer.contact.title"
 msgstr "Stay informed"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.hero.stat2.hint"
 msgstr "Steady recovery"
@@ -3044,7 +3003,6 @@ msgstr "The linking of different datasets carries risks such as data inconsisten
 msgid "footer.about_us.text"
 msgstr "The portal data.gov.rs allows the visualization of Serbian Open Government Data. Open Government Data (OGD) are data that are made available to the public free of charge in computer-readable format."
 
-#: app/pages/demos/index.jsx
 #: app/pages/demos/index.tsx
 msgid "demos.index.about.paragraph2"
 msgstr "The project is built with Next.js and optimized for GitHub Pages deployment with static export."
@@ -3074,7 +3032,6 @@ msgstr "There is no dimension that can be animated."
 msgid "hint.coordinatesloadingerror.message"
 msgstr "There was a problem with loading the coordinates from geographical dimensions. Please try again later."
 
-#: app/pages/demos/index.jsx
 #: app/pages/demos/index.tsx
 msgid "demos.index.about.paragraph1"
 msgstr "These visualizations use real data from the Republic of Serbia open data portal (data.gov.rs). Data is loaded in real-time directly from the API."
@@ -3152,12 +3109,10 @@ msgstr "Total size"
 msgid "controls.symbol.triangle"
 msgstr "Triangle"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.hero.stat2.label"
 msgstr "Trips 2023: 171M"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.transport.description"
 msgstr "Trips in millions – COVID dip in 2020, then a steady recovery."
@@ -3298,7 +3253,6 @@ msgstr "View in Cube Validator"
 msgid "login.profile.my-visualizations.chart-views"
 msgstr "Views"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.cta.body"
 msgstr "Visit the full gallery for more categories and live data pulls."
@@ -3315,7 +3269,6 @@ msgstr "Visualize color palettes"
 msgid "publication.share.mail.subject"
 msgstr "data.gov.rs"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.cta.title"
 msgstr "Want more?"
@@ -3325,7 +3278,6 @@ msgstr "Want more?"
 msgid "time-units.Week"
 msgstr "Week"
 
-#: app/pages/demos/index.jsx
 #: app/pages/demos/index.tsx
 msgid "demos.index.hero.intro"
 msgstr "Welcome to the demo visualization gallery using data from data.gov.rs. Each demo showcases different ways to visualize open data from the Republic of Serbia."
@@ -3350,7 +3302,6 @@ msgstr "WMTS WMS URL"
 msgid "provider-info.working-layers"
 msgstr "Working layers"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.transport.xlabel"
 msgstr "Year"
@@ -3360,7 +3311,6 @@ msgstr "Year"
 msgid "time-units.Year"
 msgstr "Year"
 
-#: app/pages/demos/showcase.jsx
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.economy.description"
 msgstr "Year-over-year GDP growth by region."

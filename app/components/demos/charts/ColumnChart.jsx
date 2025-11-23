@@ -9,7 +9,7 @@ import { format } from 'd3-format';
 import { scaleBand, scaleLinear } from 'd3-scale';
 import { select } from 'd3-selection';
 import 'd3-transition';
-import { memo, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { chartDefaults } from '@/utils/demo-helpers';
 const defaultColumnConfig = chartDefaults.column;
 function ColumnChartComponent({ data, xKey, yKey, width = defaultColumnConfig.width, height = defaultColumnConfig.height, margin = defaultColumnConfig.margin, colors = ['#ff9800', '#ff5722', '#f44336', '#e91e63', '#9c27b0', '#673ab7'], xLabel = '', yLabel = '', multiSeries = false, stacked = false, showZeroLine = false }) {
@@ -245,5 +245,7 @@ function ColumnChartComponent({ data, xKey, yKey, width = defaultColumnConfig.wi
       <svg ref={svgRef} width={width} height={height} style={{ maxWidth: '100%', height: 'auto' }}/>
     </Box>);
 }
-export const ColumnChart = memo(ColumnChartComponent);
+export function ColumnChart(props) {
+    return <ColumnChartComponent {...props}/>;
+}
 ColumnChart.displayName = 'ColumnChart';
