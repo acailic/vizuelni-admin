@@ -1,25 +1,13 @@
 import dynamic from "next/dynamic";
 
 const pages = [
-  { path: "/sr/index", locale: "sr" },
-
-  { path: "/de/index", locale: "de" },
-  { path: "/de/impressum", locale: "de" },
-  { path: "/de/rechtliche-grundlagen", locale: "de" },
-
-  { path: "/fr/index", locale: "fr" },
-  { path: "/fr/impressum", locale: "fr" },
-  { path: "/fr/cadre-juridique", locale: "fr" },
-
-  { path: "/it/index", locale: "it" },
-  { path: "/it/colophon", locale: "it" },
-  { path: "/it/quadro-giuridico", locale: "it" },
+  { path: "/sr/index", locale: "sr-Latn" },
 
   { path: "/en/index", locale: "en" },
   { path: "/en/imprint", locale: "en" },
   { path: "/en/legal-framework", locale: "en" },
 
-  { path: "/sr/tutorials", locale: "sr" },
+  { path: "/sr/tutorials", locale: "sr-Latn" },
   { path: "/en/tutorials", locale: "en" },
 ];
 

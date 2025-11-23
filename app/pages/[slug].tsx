@@ -76,10 +76,15 @@ export const getStaticProps: GetStaticProps<ContentPageProps> = async ({
   // In static export (GitHub Pages), locale is undefined because i18n is disabled.
   // We fallback to defaultLocale.
   const effectiveLocale = locale || defaultLocale;
-  const path = `/${effectiveLocale}/${params!.slug as string}`;
+  const candidates = [
+    `/${effectiveLocale}/${params!.slug as string}`,
+    // Legacy Serbian content lives under /sr even though the configured locale is sr-Latn
+    `/sr/${params!.slug as string}`,
+  ];
+  const path = candidates.find((p) => staticPages[p]);
 
   // FIXME: this check should not be needed when fallback: false can be used
-  const pageExists = !!staticPages[path];
+  const pageExists = !!path && !!staticPages[path];
 
   if (!pageExists) {
     return {
@@ -89,7 +94,7 @@ export const getStaticProps: GetStaticProps<ContentPageProps> = async ({
 
   return {
     props: {
-      staticPage: path,
+      staticPage: path!,
     },
   };
 };
