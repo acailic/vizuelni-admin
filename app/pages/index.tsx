@@ -6,6 +6,7 @@ import {
   Typography,
   Button,
   CardActions,
+  Stack,
 } from "@mui/material";
 import { GetStaticProps } from "next";
 import Link from "next/link";
@@ -106,6 +107,64 @@ const TutorialsSection = ({ locale }: { locale: "sr" | "en" }) => {
   );
 };
 
+const HeroSection = ({ locale }: { locale: "sr" | "en" }) => {
+  return (
+    <Box
+      sx={{
+        position: "relative",
+        overflow: "hidden",
+        borderRadius: 6,
+        px: { xs: 3, md: 6 },
+        py: { xs: 8, md: 12 },
+        background:
+          "radial-gradient(circle at 10% 10%, rgba(0,163,255,0.15), transparent 25%), radial-gradient(circle at 90% 0%, rgba(0,220,190,0.2), transparent 30%), linear-gradient(135deg, #0f1b2c, #132c42)",
+        color: "white",
+        mb: { xs: 6, md: 8 },
+      }}
+    >
+      <Box sx={{ maxWidth: 720 }}>
+        <Typography variant="overline" sx={{ letterSpacing: 2 }}>
+          {locale === "sr" ? "Vizualizujte podatke" : "Visualize open data"}
+        </Typography>
+        <Typography variant="h3" sx={{ fontWeight: 800, mt: 2, mb: 2 }}>
+          {locale === "sr"
+            ? "Brže do priče iz otvorenih podataka Srbije"
+            : "Get to insights from Serbian open data faster"}
+        </Typography>
+        <Typography variant="body1" sx={{ opacity: 0.9, mb: 4 }}>
+          {locale === "sr"
+            ? "Pregledajte data.gov.rs, izaberite dataset i kreirajte vizualizacije koje možete odmah deliti ili ugraditi."
+            : "Browse data.gov.rs, pick a dataset, and craft visualizations you can share or embed instantly."}
+        </Typography>
+        <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+          <Button
+            variant="contained"
+            color="primary"
+            component={Link}
+            href="/browse"
+            sx={{ minWidth: 160 }}
+          >
+            {locale === "sr" ? "Pregledaj datasete" : "Browse datasets"}
+          </Button>
+          <Button
+            variant="outlined"
+            color="inherit"
+            component={Link}
+            href="/docs/getting-started"
+            sx={{
+              minWidth: 160,
+              borderColor: "rgba(255,255,255,0.4)",
+              color: "white",
+            }}
+          >
+            {locale === "sr" ? "Vodič za početak" : "Start guide"}
+          </Button>
+        </Stack>
+      </Box>
+    </Box>
+  );
+};
+
 export default function ContentPage({ staticPage }: ContentPageProps) {
   const Component = staticPages[staticPage]?.component;
   const isHomePage = staticPage === "/sr/index" || staticPage === "/en/index";
@@ -113,6 +172,7 @@ export default function ContentPage({ staticPage }: ContentPageProps) {
 
   return (
     <ContentMDXProvider>
+      {isHomePage && <HeroSection locale={locale} />}
       {Component ? <Component /> : "NOT FOUND"}
       {isHomePage && <TutorialsSection locale={locale} />}
     </ContentMDXProvider>

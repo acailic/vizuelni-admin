@@ -12,9 +12,11 @@ import { useEvent } from "@/utils/use-event";
 export const useRedirectToLatestCube = ({
   datasetIri,
   dataSource,
+  pause = false,
 }: {
   datasetIri: string | undefined;
   dataSource: ConfiguratorState["dataSource"];
+  pause?: boolean;
 }) => {
   const locale = useLocale();
   const router = useRouter();
@@ -69,8 +71,8 @@ export const useRedirectToLatestCube = ({
       return;
     }
 
-    if (router.isReady) {
+    if (router.isReady && !pause) {
       handleLoad();
     }
-  }, [router, locale, dataSource, datasetIri, handleLoad]);
+  }, [router, locale, dataSource, datasetIri, handleLoad, pause]);
 };

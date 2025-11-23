@@ -13,7 +13,9 @@ import { useDebounce } from "use-debounce";
 import { BrowseFilter, DataCubeAbout } from "@/browse/lib/filters";
 import { buildURLFromBrowseParams, isOdsIframe } from "@/browse/lib/params";
 import { useRedirectToLatestCube } from "@/browse/lib/use-redirect-to-latest-cube";
+import { useDataGovSearch } from "@/browse/lib/use-data-gov-search";
 import { BrowseStateProvider, useBrowseContext } from "@/browse/model/context";
+import { DataGovDatasetResults } from "@/browse/ui/data-gov-dataset-results";
 import { DatasetMetadataSingleCube } from "@/browse/ui/dataset-metadata-single-cube";
 import {
   DataSetPreview,
@@ -52,8 +54,10 @@ import {
   useSearchCubesQuery,
 } from "@/graphql/query-hooks";
 import { Icon } from "@/icons";
+import { GRAPHQL_ENDPOINT } from "@/domain/env";
 import { useConfiguratorState, useLocale } from "@/src";
 import { softJSONParse } from "@/utils/soft-json-parse";
+import { maybeWindow } from "@/utils/maybe-window";
 import { useResizeObserver } from "@/utils/use-resize-observer";
 
 export const SelectDatasetStep = (
@@ -106,6 +110,12 @@ const SelectDatasetStepInner = ({
   const router = useRouter();
   const odsIframe = isOdsIframe(router.query);
   const classes = useStyles({ datasetPresent: !!dataset, odsIframe });
+  const windowRef = maybeWindow();
+  const isStaticExport =
+    !!process.env.NEXT_PUBLIC_BASE_PATH ||
+    (windowRef ? windowRef.location.hostname.includes("github.io") : false);
+  const useDataGovFallback =
+    isStaticExport && GRAPHQL_ENDPOINT === "/api/graphql";
 
   const [debouncedQuery] = useDebounce(search, 500, { leading: true });
   const handleHeightChange = useCallback(
@@ -159,10 +169,18 @@ const SelectDatasetStepInner = ({
       includeDrafts,
       filters: queryFilters,
     },
-    pause: !!dataset,
+    pause: !!dataset || useDataGovFallback,
   });
+  const dataGovSearch = useDataGovFallback
+    ? useDataGovSearch(debouncedQuery)
+    : undefined;
 
-  useRedirectToLatestCube({ dataSource, datasetIri: dataset });
+  useRedirectToLatestCube({
+    dataSource,
+    datasetIri: dataset,
+    // Skip redirect when we fallback to the REST API because we don't have cube IRIs.
+    pause: useDataGovFallback,
+  });
 
   const { allCubes, cubes } = useMemo(() => {
     if (!data || data.searchCubes.length === 0) {
@@ -274,6 +292,50 @@ const SelectDatasetStepInner = ({
 
   if (state !== "SELECTING_DATASET") {
     return null;
+  }
+
+  if (useDataGovFallback) {
+    return (
+      <div ref={odsIframe ? ref : null}>
+        <SelectDatasetBanner dataset={undefined} variant={variant} />
+        <ContentWrapper
+          sx={
+            odsIframe
+              ? { maxWidth: "unset !important", px: "8px !important" }
+              : {}
+          }
+        >
+          <PanelLayout type="LM" className={classes.panelLayout}>
+            <PanelBodyWrapper type="M" className={classes.panelMiddle}>
+              <MotionBox key="filters" {...navPresenceProps}>
+                <Typography variant="h2" sx={{ mb: 3 }}>
+                  <Trans id="browse.dataset.find">
+                    Pronađite dataset sa data.gov.rs
+                  </Trans>
+                </Typography>
+                <Typography variant="body2" sx={{ mb: 3 }} color="grey.700">
+                  <Trans id="browse.dataset.find.details">
+                    Ovaj statički prikaz koristi direktan data.gov.rs API zato
+                    što GitHub Pages ne hostuje /api/graphql. Pretraga podržava
+                    ključne reči, a izbor dataset-a vodi direktno na portal.
+                  </Trans>
+                </Typography>
+                <SearchDatasetInput browseState={browseState} />
+                <SearchDatasetControls
+                  browseState={browseState}
+                  cubes={[]}
+                />
+                <DataGovDatasetResults
+                  results={dataGovSearch?.results ?? []}
+                  fetching={dataGovSearch?.fetching ?? false}
+                  error={dataGovSearch?.error}
+                />
+              </MotionBox>
+            </PanelBodyWrapper>
+          </PanelLayout>
+        </ContentWrapper>
+      </div>
+    );
   }
 
   return (

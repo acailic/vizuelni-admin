@@ -40,15 +40,14 @@ export const SelectDatasetBanner = ({
             <ContentWrapper className={classes.innerWrapper}>
               <div className={classes.content}>
                 <Typography className={classes.title} variant="h1">
-                  Swiss Open Government Data
+                  Otvoreni podaci Republike Srbije
                 </Typography>
                 <Typography className={classes.description} variant="body2">
                   <Trans id="browse.datasets.description">
-                    Explore datasets provided by the LINDAS Linked Data Service
-                    by either filtering by categories or organizations or search
-                    directly for specific keywords. Click on a dataset to see
-                    more detailed information and start creating your own
-                    visualizations.
+                    Pregledajte skupove podataka portala data.gov.rs, filtrirajte
+                    po kategorijama ili organizacijama ili odmah potražite ključne
+                    pojmove. Izaberite dataset da vidite detalje i napravite
+                    vizualizaciju.
                   </Trans>
                 </Typography>
                 <SearchDatasetInput browseState={browseState} />
