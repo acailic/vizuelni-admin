@@ -1,22 +1,16 @@
-import { Trans } from "@lingui/macro";
-import { alertClasses, Box, Button, Stack, Typography, } from "@mui/material";
+import { alertClasses, } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import ErrorPage from "next/error";
-import Head from "next/head";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ChartPublished } from "@/components/chart-published";
+
 import { useEmbedQueryParams } from "@/components/embed-params";
-import { HintWarning, PublishSuccess } from "@/components/hint";
-import { ContentLayout } from "@/components/layout";
-import { PublishActions } from "@/components/publish-actions";
 import { getChartConfig } from "@/config-utils";
-import { ConfiguratorStateProvider } from "@/configurator/configurator-state";
 import { deserializeProps } from "@/db/serialize";
 import { useLocale } from "@/locales/use-locale";
 import { useDataSourceStore } from "@/stores/data-source";
+
 import { PUBLISHED_STATE } from "../../db/prisma-types";
 // For static export, we'll return an empty array
 // Charts won't be pre-rendered in demo mode

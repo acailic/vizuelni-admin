@@ -1,15 +1,8 @@
-import { t, Trans } from "@lingui/macro";
-import { Box, Stack, Typography } from "@mui/material";
+import { t } from "@lingui/macro";
 import get from "lodash/get";
 import { useCallback, useMemo } from "react";
+
 import { DEFAULT_FIXED_COLOR_FIELD_OPACITY, DEFAULT_OTHER_COLOR_FIELD_OPACITY, } from "@/charts/map/constants";
-import { RadioGroup } from "@/components/form";
-import { ColorPalette } from "@/configurator/components/chart-controls/color-palette";
-import { ColorRampField } from "@/configurator/components/chart-controls/color-ramp";
-import { ControlSection, ControlSectionContent, SectionTitle, } from "@/configurator/components/chart-controls/section";
-import { Abbreviations } from "@/configurator/components/chart-options-selector/abbreviations";
-import { ChartOptionRadioField, ChartOptionSelectField, ChartOptionSliderField, ColorPickerField, } from "@/configurator/components/field";
-import { DimensionValuesMultiFilter } from "@/configurator/components/filters";
 import { getComponentsFilteredByType, isMeasure, } from "@/domain/data";
 export const ColorComponentField = ({ chartConfig, encoding, component, componentTypes, dimensions, measures, getFieldOptionGroups, optional, enableUseAbbreviations, }) => {
     const field = encoding.field;

@@ -2,7 +2,6 @@
  * Pie Chart component using D3
  * Optimized for data.gov.rs demo visualizations
  */
-import { Box } from "@mui/material";
 import { sum } from "d3-array";
 import { format } from "d3-format";
 import { interpolate } from "d3-interpolate";

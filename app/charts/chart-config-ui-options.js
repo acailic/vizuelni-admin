@@ -6,6 +6,7 @@ import { schemeCategory10 } from "d3-scale-chromatic";
 import get from "lodash/get";
 import setWith from "lodash/setWith";
 import unset from "lodash/unset";
+
 import { DEFAULT_SORTING, initializeMapLayerField } from "@/charts";
 import { DEFAULT_FIXED_COLOR_FIELD, getDefaultCategoricalColorField, getDefaultNumericalColorField, } from "@/charts/map/constants";
 import { checkForMissingValuesInSegments, getSegment, parseOptionalNumericVariable, parseStringVariable, } from "@/charts/shared/chart-helpers";

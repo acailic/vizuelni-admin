@@ -1,30 +1,19 @@
-import { t, Trans } from "@lingui/macro";
-import { Box, Button, ButtonBase, Checkbox, CircularProgress, Collapse, DialogContent, DialogTitle, Divider, Grow, IconButton, Input, ListItemText, MenuItem, Select, Typography, useEventCallback, } from "@mui/material";
+import { t } from "@lingui/macro";
+import { useEventCallback, } from "@mui/material";
 import groupBy from "lodash/groupBy";
 import keyBy from "lodash/keyBy";
 import uniq from "lodash/uniq";
 import { useEffect, useMemo, useRef, useState, } from "react";
-import { DatasetResults } from "@/browse/ui/dataset-results";
-import { SearchDatasetDraftsControl } from "@/browse/ui/search-dataset-drafts-control";
-import { SearchDatasetResultsCount } from "@/browse/ui/search-dataset-results-count";
-import { SearchDatasetSortControl } from "@/browse/ui/search-dataset-sort-control";
-import { Flex } from "@/components/flex";
-import { Tag } from "@/components/tag";
-import { VisuallyHidden } from "@/components/visually-hidden";
-import { CautionAlert, useCautionAlert, } from "@/configurator/components/add-dataset-drawer/caution-alert";
+
+import { useCautionAlert, } from "@/configurator/components/add-dataset-drawer/caution-alert";
 import { inferJoinBy } from "@/configurator/components/add-dataset-drawer/infer-join-by";
-import { PreviewDataTable } from "@/configurator/components/add-dataset-drawer/preview-table";
 import { useAddDataset } from "@/configurator/components/add-dataset-drawer/use-add-dataset";
 import { useStyles } from "@/configurator/components/add-dataset-drawer/use-styles";
-import { RightDrawer } from "@/configurator/components/drawers";
 import { isTemporalDimensionWithTimeUnit, } from "@/domain/data";
 import { truthy } from "@/domain/types";
 import { useDataCubesComponentsQuery, useDataCubesComponentTermsetsQuery, } from "@/graphql/hooks";
 import { parseComponentId } from "@/graphql/make-component-id";
 import { SearchCubeFilterType, SearchCubeResultOrder, useSearchCubesQuery, } from "@/graphql/query-hooks";
-import { Icon } from "@/icons";
-import SvgIcClose from "@/icons/components/IcClose";
-import SvgIcInfoCircle from "@/icons/components/IcInfoCircle";
 import { useLocale } from "@/locales/use-locale";
 import { useEventEmitter } from "@/utils/event-emitter";
 const DialogCloseButton = (props) => {

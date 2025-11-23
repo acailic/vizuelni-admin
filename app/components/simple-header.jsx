@@ -1,4 +1,3 @@
-import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 export const SimpleHeader = ({ longTitle, shortTitle, rootHref, sx, }) => {
     const router = useRouter();

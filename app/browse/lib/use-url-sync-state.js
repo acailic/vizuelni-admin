@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+
 import { buildURLFromBrowseParams, extractParamFromPath, getBrowseParamsFromQuery, } from "@/browse/lib/params";
 import { maybeWindow } from "@/utils/maybe-window";
 import { useEvent } from "@/utils/use-event";

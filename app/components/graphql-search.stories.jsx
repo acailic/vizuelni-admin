@@ -1,10 +1,6 @@
-import { Box, Checkbox, CircularProgress, FormControlLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, TextField, Typography, } from "@mui/material";
 import keyBy from "lodash/keyBy";
 import { useEffect, useState } from "react";
-import { ObjectInspector } from "react-inspector";
-import { DatasetResult } from "@/browse/ui/dataset-result";
-import { Error } from "@/components/hint";
-import { Tag } from "@/components/tag";
+
 import { truthy } from "@/domain/types";
 import { SearchCubeFilterType, useDataCubeComponentTermsetsQuery, useSearchCubesQuery, } from "@/graphql/query-hooks";
 const options = [

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
+
 import { renderBars } from "@/charts/bar/rendering-utils";
 import { useBarValueLabelsData } from "@/charts/bar/show-values-utils";
 import { useGetAnnotationRenderState } from "@/charts/shared/annotation-utils";

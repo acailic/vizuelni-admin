@@ -2,6 +2,7 @@ import { t } from "@lingui/macro";
 import { ascending, descending } from "d3-array";
 import uniqBy from "lodash/uniqBy";
 import { useMemo } from "react";
+
 import { hasChartConfigs, useConfiguratorState, } from "@/configurator/configurator-state";
 import { getTemporalEntityValue, isTemporalDimensionWithTimeUnit, isTemporalEntityDimension, } from "@/domain/data";
 import { useTimeFormatLocale } from "@/formatters";

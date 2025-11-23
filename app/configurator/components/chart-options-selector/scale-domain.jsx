@@ -1,9 +1,7 @@
 import { t } from "@lingui/macro";
-import { Stack } from "@mui/material";
 import get from "lodash/get";
 import { useMemo, useState } from "react";
-import { Flex } from "@/components/flex";
-import { Checkbox, Input } from "@/components/form";
+
 import { isConfiguring, useConfiguratorState, } from "@/configurator/configurator-state";
 import { FIELD_VALUE_NONE } from "@/configurator/constants";
 import { useLocale } from "@/locales/use-locale";

@@ -1,6 +1,6 @@
-import { t, Trans } from "@lingui/macro";
-import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, } from "@mui/material";
+import { t } from "@lingui/macro";
 import { useState } from "react";
+
 import { sleep } from "@/utils/sleep";
 export const ConfirmationDialog = ({ title, text, onClick, onSuccess, onConfirm, ...props }) => {
     const [loading, setLoading] = useState(false);

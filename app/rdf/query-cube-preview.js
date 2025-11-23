@@ -1,9 +1,11 @@
 import groupBy from "lodash/groupBy";
 import uniqBy from "lodash/uniqBy";
 import rdf from "rdf-ext";
+
 import { truthy } from "@/domain/types";
 import { stringifyComponentId } from "@/graphql/make-component-id";
 import { resolveDimensionType, resolveMeasureType } from "@/graphql/resolvers";
+
 import * as ns from "./namespace";
 import { getDataKind, getIsNumerical, getScaleType, getTimeFormat, getTimeUnit, parseNumericalTerm, parseResolution, } from "./parse";
 import { buildLocalizedSubQuery } from "./query-utils";

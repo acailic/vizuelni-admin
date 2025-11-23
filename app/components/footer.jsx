@@ -1,7 +1,5 @@
 import { t } from "@lingui/macro";
-import { Box, Link, Typography } from "@mui/material";
-import NextLink from "next/link";
-import { Footer as FooterComponent, } from "@/components/footer-components";
+
 import contentRoutes from "@/content-routes.json";
 import { BUILD_COMMIT, BUILD_GITHUB_REPO, BUILD_VERSION } from "@/domain/env";
 import { useLocale } from "@/locales/use-locale";

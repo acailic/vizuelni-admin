@@ -1,4 +1,5 @@
 import isEmpty from "lodash/isEmpty";
+
 import { orderedIsEqual } from "@/utils/ordered-is-equal";
 /** Used to make urql re-query when order of filters changes. */
 const getPossibleFiltersQueryKey = (unmappedFilters) => {

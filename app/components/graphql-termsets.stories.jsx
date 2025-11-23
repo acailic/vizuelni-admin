@@ -1,6 +1,5 @@
-import { CircularProgress, FormControlLabel, Select, Stack, Typography, } from "@mui/material";
 import { useState } from "react";
-import { Tag } from "@/components/tag";
+
 import { useDataCubeComponentTermsetsQuery } from "@/graphql/query-hooks";
 export const Termsets = () => {
     var _a;

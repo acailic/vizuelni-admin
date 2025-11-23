@@ -1,4 +1,3 @@
-import * as React from "react";
 function SvgIcAnimation(props) {
     return (<svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path d="M16 14H8v-1h8v1zM16 17H8v-1h8v1z" fill="currentColor"/>

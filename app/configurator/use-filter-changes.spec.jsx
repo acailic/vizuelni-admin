@@ -1,6 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import merge from "lodash/merge";
 import { describe, expect, it } from "vitest";
+
 import { useFilterChanges } from "@/configurator/use-filter-changes";
 describe("use-filter-changes", () => {
     it("should work", () => {

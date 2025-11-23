@@ -1,8 +1,9 @@
 import { act, cleanup, render, waitFor } from "@testing-library/react";
 import { renderHook } from "@testing-library/react-hooks";
 import { useMemo } from "react";
-import { Client, Provider } from "urql";
+import { Client } from "urql";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
 import { makeUseQuery, transformDataCubesComponents, transformDataCubesObservations, useDataCubesComponentsQuery, } from "@/graphql/hooks";
 import { useDataCubesComponentsQueryVariables } from "@/graphql/hooks.mock";
 import { Response } from "@/test/utils";

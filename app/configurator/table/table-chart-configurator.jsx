@@ -1,16 +1,7 @@
-import { DragDropContext } from "@hello-pangea/dnd";
-import { t, Trans } from "@lingui/macro";
-import { Typography } from "@mui/material";
+import { t } from "@lingui/macro";
 import { makeStyles } from "@mui/styles";
-import { Loading } from "@/components/hint";
-import { TabDropZone } from "@/configurator/components/chart-controls/drag-and-drop-tab";
-import { ControlSection, ControlSectionContent, SectionTitle, } from "@/configurator/components/chart-controls/section";
-import { ShowFilterAreaOpen } from "@/configurator/components/chart-controls/show-filter-area-open";
-import { ChartTypeSelector } from "@/configurator/components/chart-type-selector";
-import { DatasetsControlSection } from "@/configurator/components/dataset-control-section";
-import { ChartAnnotatorTabField, ChartOptionCheckboxField, } from "@/configurator/components/field";
+
 import { useOrderedTableColumns } from "@/configurator/components/ui-helpers";
-import { TableLinksSection } from "@/configurator/table/configurator/links-section";
 import { useTableChartController } from "@/configurator/table/table-chart-configurator.hook";
 const useStyles = makeStyles((theme) => ({
     emptyGroups: {

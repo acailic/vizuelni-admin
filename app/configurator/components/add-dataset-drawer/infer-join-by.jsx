@@ -1,5 +1,6 @@
 import groupBy from "lodash/groupBy";
 import mapValues from "lodash/mapValues";
+
 import { isDimensionOfTimeUnit } from "@/domain/data";
 import { truthy } from "@/domain/types";
 import { mkVersionedJoinBy } from "@/graphql/join";

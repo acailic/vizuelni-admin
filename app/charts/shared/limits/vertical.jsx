@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+
 import { useChartState } from "@/charts/shared/chart-state";
 import { createLimitsComponent } from "@/charts/shared/limits/create-component";
 export const VerticalLimits = (props) => {

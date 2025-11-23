@@ -1,7 +1,5 @@
-import { Box, Chip, Typography, } from "@mui/material";
-import { Flex } from "@/components/flex";
-import { DisabledMessageIcon, selectSizeToTypography, } from "@/components/form";
-import { Icon } from "@/icons";
+
+import { selectSizeToTypography, } from "@/components/form";
 export const MultiSelectTags = ({ options, getTagProps, size, }) => {
     return (<Flex sx={{
             flexWrap: "nowrap",

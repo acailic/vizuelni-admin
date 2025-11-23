@@ -3,16 +3,15 @@ import { scaleLinear, scaleOrdinal, scaleTime, } from "d3-scale";
 import { schemeCategory10 } from "d3-scale-chromatic";
 import orderBy from "lodash/orderBy";
 import { useCallback, useMemo } from "react";
+
 import { useLinesStateData, useLinesStateVariables, } from "@/charts/line/lines-state-props";
 import { DEFAULT_ANNOTATION_CIRCLE_COLOR } from "@/charts/shared/annotation-circle";
 import { getChartWidth, useAxisLabelSizeVariables, useChartBounds, useChartPadding, } from "@/charts/shared/chart-dimensions";
 import { getWideData } from "@/charts/shared/chart-helpers";
-import { ChartContext, } from "@/charts/shared/chart-state";
 import { getCenteredTooltipPlacement, MOBILE_TOOLTIP_PLACEMENT, } from "@/charts/shared/interaction/tooltip-box";
 import { DEFAULT_MARGIN_TOP } from "@/charts/shared/margins";
 import { useShowTemporalValueLabelsVariables, } from "@/charts/shared/show-values-utils";
 import { useChartFormatters } from "@/charts/shared/use-chart-formatters";
-import { InteractionProvider } from "@/charts/shared/use-interaction";
 import { useSize } from "@/charts/shared/use-size";
 import { formatNumberWithUnit, useFormatNumber, useTimeFormatUnit, } from "@/formatters";
 import { getPalette } from "@/palettes";

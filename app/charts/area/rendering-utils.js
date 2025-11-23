@@ -1,5 +1,6 @@
 import { interpolatePath } from "d3-interpolate-path";
 import { select } from "d3-selection";
+
 import { maybeTransition, } from "@/charts/shared/rendering-utils";
 export const renderAreas = (g, data, options) => {
     const { transition } = options;

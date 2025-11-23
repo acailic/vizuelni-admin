@@ -1,5 +1,4 @@
-import { Link, Typography } from "@mui/material";
-import { Icon } from "@/icons";
+
 export const ChartLink = ({ locale, chartKey, }) => {
     return (<Link href={`/${locale}/v/${chartKey}`} target="_blank" sx={{
             display: "flex",

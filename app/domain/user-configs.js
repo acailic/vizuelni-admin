@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+
 import { fetchChartConfig, fetchChartConfigs, fetchChartViewCount, } from "@/utils/chart-config/api";
 import { useFetchData } from "@/utils/use-fetch-data";
 export const userConfigsKey = ["userConfigs"];

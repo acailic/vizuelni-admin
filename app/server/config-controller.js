@@ -1,4 +1,5 @@
 import { getServerSession } from "next-auth";
+
 import { createConfig, getConfig, removeConfig, updateConfig, } from "@/db/config";
 import { isDataSourceUrlAllowed } from "@/domain/data-source";
 import { nextAuthOptions } from "@/pages/api/auth/[...nextauth]";

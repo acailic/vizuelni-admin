@@ -1,11 +1,10 @@
-import { Box, Collapse, Skeleton, Typography, useEventCallback, } from "@mui/material";
+import { useEventCallback, } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 import { createContext, forwardRef, useContext, useMemo, } from "react";
-import { MaybeTooltip } from "@/components/maybe-tooltip";
+
 import { useDisclosure } from "@/components/use-disclosure";
 import { isConfiguring, isLayouting } from "@/configurator/configurator-state";
-import { Icon } from "@/icons";
 import { useConfiguratorState } from "@/src";
 const useControlSectionStyles = makeStyles((theme) => ({
     controlSection: {

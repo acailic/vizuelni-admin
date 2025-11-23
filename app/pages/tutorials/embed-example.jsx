@@ -1,7 +1,5 @@
-import { Box, Typography, TextField, Checkbox, FormControlLabel, Tabs, Tab, Container } from '@mui/material';
-import React, { useState } from 'react';
-import { BarChart } from '@/components/demos/charts/BarChart';
-import CodeBlock from '@/components/tutorials/CodeBlock';
+import { useState } from 'react';
+
 // Sample data for demonstration
 const sampleData = [
     { category: 'Kategorija A', value: 120 },

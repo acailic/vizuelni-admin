@@ -1,6 +1,5 @@
-import { Box, Grid, Card, CardContent, Typography, Button, CardActions, } from "@mui/material";
 import Link from "next/link";
-import { ContentMDXProvider } from "@/components/content-mdx-provider";
+
 import { staticPages } from "@/static-pages";
 const TutorialsSection = ({ locale }) => {
     const tutorials = [

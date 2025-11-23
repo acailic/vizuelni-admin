@@ -1,4 +1,5 @@
 import { interpolate } from "d3-interpolate";
+
 import { isAreaConfig } from "@/config-types";
 export const interpolateZerosValue = () => {
     return 0;

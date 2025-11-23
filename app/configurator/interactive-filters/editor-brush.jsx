@@ -1,9 +1,8 @@
-import { Box, Typography } from "@mui/material";
 import { brushX } from "d3-brush";
 import { scaleTime } from "d3-scale";
 import { pointer, select } from "d3-selection";
 import { useCallback, useEffect, useRef } from "react";
-import { Flex } from "@/components/flex";
+
 import { useTimeFormatUnit } from "@/formatters";
 import { useTheme } from "@/themes";
 import { useResizeObserver } from "@/utils/use-resize-observer";

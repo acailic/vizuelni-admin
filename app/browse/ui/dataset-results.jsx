@@ -1,7 +1,4 @@
-import { Trans } from "@lingui/macro";
-import { Typography } from "@mui/material";
-import { DatasetResult } from "@/browse/ui/dataset-result";
-import { Loading, LoadingDataError } from "@/components/hint";
+
 export const DatasetResults = ({ fetching, error, cubes, datasetResultProps, }) => {
     if (fetching) {
         return <Loading />;

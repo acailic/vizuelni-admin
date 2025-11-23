@@ -1,11 +1,7 @@
-import { Trans } from "@lingui/macro";
-import { Box, Link, Link as MUILink, Stack, Typography, } from "@mui/material";
+import { Link as MUILink, } from "@mui/material";
 import sortBy from "lodash/sortBy";
-import NextLink from "next/link";
-import { DataDownloadMenu } from "@/components/data-download";
-import { Tag } from "@/components/tag";
+
 import { useFormatDate } from "@/formatters";
-import { Icon } from "@/icons";
 import { useLocale } from "@/locales/use-locale";
 import { makeOpenDataLink } from "@/utils/opendata";
 export const DatasetMetadata = ({ cube, showTitle, sparqlEditorUrl, dataSource, queryFilters, }) => {

@@ -1,11 +1,7 @@
-import { Trans } from "@lingui/macro";
-import { Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
-import { MarkdownInheritFonts } from "@/components/markdown";
+
 import { getChartConfig } from "@/config-utils";
-import { ControlSection, ControlSectionContent, SectionTitle, } from "@/configurator/components/chart-controls/section";
-import { ChartAnnotatorTabField, LayoutAnnotatorTabField, } from "@/configurator/components/field";
 import { getFieldLabel } from "@/configurator/components/field-i18n";
 import { isConfiguring, isLayouting, useConfiguratorState, } from "@/configurator/configurator-state";
 import { useLocale } from "@/locales/use-locale";

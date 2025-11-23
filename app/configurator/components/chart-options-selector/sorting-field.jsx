@@ -1,9 +1,8 @@
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import get from "lodash/get";
 import { useCallback } from "react";
+
 import { DEFAULT_SORTING } from "@/charts";
-import { Radio, RadioGroup, Select } from "@/components/form";
-import { ControlSection, ControlSectionContent, SectionTitle, } from "@/configurator/components/chart-controls/section";
 import { getFieldLabel } from "@/configurator/components/field-i18n";
 import { isConfiguring, useConfiguratorState, } from "@/configurator/configurator-state";
 import { useLocale } from "@/locales/use-locale";

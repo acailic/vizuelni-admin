@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+
 import { getChartConfig } from "@/config-utils";
 import { isConfiguring, useConfiguratorState, } from "@/configurator/configurator-state";
 import { moveFields } from "@/configurator/table/table-config-state";

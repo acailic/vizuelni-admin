@@ -1,5 +1,6 @@
 import { min } from "d3-array";
 import { useCallback } from "react";
+
 import { sortComboData } from "@/charts/combo/combo-state-props";
 import { getLabelWithUnit, usePlottableData, } from "@/charts/shared/chart-helpers";
 import { shouldUseDynamicMinScaleValue, useBaseVariables, useChartData, useInteractiveFiltersVariables, useTemporalXVariables, } from "@/charts/shared/chart-state";

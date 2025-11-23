@@ -1,13 +1,11 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, CircularProgress, paperClasses, Stack, Typography, } from "@mui/material";
+import { paperClasses, } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useState } from "react";
-import { Inspector } from "react-inspector";
+
 import { getChartConfig } from "@/config-utils";
 import { useConfiguratorState } from "@/configurator";
 import { dataSourceToSparqlEditorUrl } from "@/domain/data-source";
 import { useDataCubesComponentsQuery } from "@/graphql/hooks";
-import { Icon } from "@/icons";
-import SvgIcChevronRight from "@/icons/components/IcChevronRight";
 import { useLocale } from "@/locales/use-locale";
 import { useInteractiveFiltersGetState } from "@/stores/interactive-filters";
 import { useEvent } from "@/utils/use-event";

@@ -1,9 +1,7 @@
 import { sanitizeUrl } from "@braintree/sanitize-url";
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { useEffect, useMemo, useState } from "react";
-import { Input, Select } from "@/components/form";
-import { ControlSection, ControlSectionContent, SectionTitle, } from "@/configurator/components/chart-controls/section";
-import { ChartOptionCheckboxField } from "@/configurator/components/field";
+
 import { isConfiguring, useConfiguratorState, } from "@/configurator/configurator-state";
 import { useLocale } from "@/locales/use-locale";
 import { useEvent } from "@/utils/use-event";

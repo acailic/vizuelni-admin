@@ -1,10 +1,6 @@
-import { Box, Button, Chip, Container, Grid, Stack, Typography } from '@mui/material';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
-import { ColumnChart } from '@/components/demos/charts/ColumnChart';
-import { LineChart } from '@/components/demos/charts/LineChart';
-import { DemoLayout } from '@/components/demos/demo-layout';
+
 import { internetAdoption, techIndustryGrowth } from '@/data/serbia-digital';
 import { sectorComposition, tradeBalance } from '@/data/serbia-economy';
 import { energyProduction, energyStats } from '@/data/serbia-energy';

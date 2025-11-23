@@ -1,4 +1,5 @@
 import { createTheme } from "@mui/material/styles";
+
 import { components } from "@/themes/components";
 import { breakpoints, shadows, spacing } from "@/themes/constants";
 import { palette } from "@/themes/palette";

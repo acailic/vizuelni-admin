@@ -1,27 +1,10 @@
 import { memo } from "react";
-import { Bars, ErrorWhiskers } from "@/charts/bar/bars";
-import { BarsGrouped, ErrorWhiskers as ErrorWhiskersGrouped, } from "@/charts/bar/bars-grouped";
-import { GroupedBarChart } from "@/charts/bar/bars-grouped-state";
-import { BarsStacked } from "@/charts/bar/bars-stacked";
-import { StackedBarsChart } from "@/charts/bar/bars-stacked-state";
-import { BarChart } from "@/charts/bar/bars-state";
-import { InteractionBars, InteractionBarsStacked, StackedBarAnnotationHighlight, } from "@/charts/bar/overlay-bars";
-import { ChartDataWrapper } from "@/charts/chart-data-wrapper";
+
 import { useIsEditingAnnotation } from "@/charts/shared/annotation-utils";
-import { Annotations } from "@/charts/shared/annotations";
-import { AxisHeightBand, AxisHeightBandDomain, } from "@/charts/shared/axis-height-band";
-import { AxisHideYOverflowRect } from "@/charts/shared/axis-hide-overflow-rect";
-import { AxisWidthLinear } from "@/charts/shared/axis-width-linear";
-import { BrushTime, shouldShowBrush } from "@/charts/shared/brush";
-import { ChartContainer, ChartControlsContainer, ChartSvg, } from "@/charts/shared/containers";
-import { HoverAnnotationDot } from "@/charts/shared/interaction/hover-annotation-dot";
-import { Tooltip } from "@/charts/shared/interaction/tooltip";
-import { LegendColor } from "@/charts/shared/legend-color";
-import { HorizontalLimits } from "@/charts/shared/limits/horizontal";
+import { shouldShowBrush } from "@/charts/shared/brush";
 import { useChartConfigFilters, useLimits } from "@/config-utils";
 import { hasChartConfigs } from "@/configurator";
 import { useConfiguratorState } from "@/configurator/configurator-state";
-import { TimeSlider } from "@/configurator/interactive-filters/time-slider";
 export const ChartBarsVisualization = (props) => {
     return <ChartDataWrapper {...props} Component={ChartBars}/>;
 };

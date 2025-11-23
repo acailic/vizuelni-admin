@@ -1,10 +1,10 @@
 import { useState } from "react";
+
 import { TITLE_H_PADDING, TITLE_V_PADDING, useAxisTitleSize, } from "@/charts/combo/shared";
 import { TICK_PADDING, useRenderAxisHeightLinear, } from "@/charts/shared/axis-height-linear";
 import { useChartState } from "@/charts/shared/chart-state";
 import { useChartTheme } from "@/charts/shared/use-chart-theme";
 import { DISABLE_SCREENSHOT_COLOR_WIPE_ATTR } from "@/components/chart-shared";
-import { OpenMetadataPanelWrapper } from "@/components/metadata-panel";
 import { theme } from "@/themes/theme";
 export const AxisHeightLinearDual = (props) => {
     const { orientation = "left" } = props;

@@ -1,6 +1,6 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi, } from "vitest";
-import { ChartMoreButton } from "@/components/chart-shared";
+
 import { useChartTablePreview } from "@/components/chart-table-preview";
 import { useConfiguratorState } from "@/configurator/configurator-state/context";
 import { useLocale } from "@/locales/use-locale";

@@ -1,4 +1,3 @@
-import * as React from "react";
 function SvgIcPrinter(props) {
     return (<svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path fillRule="evenodd" clipRule="evenodd" d="M17.127 12.626a.875.875 0 11-.972-1.454.875.875 0 01.972 1.454zm-.439-.84a.125.125 0 00-.172.115c0 .139.25.139.25 0a.127.127 0 00-.037-.088.125.125 0 00-.04-.027z" fill="currentColor"/>

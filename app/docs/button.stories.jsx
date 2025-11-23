@@ -1,7 +1,5 @@
 import { Button } from "@mui/material";
-import { Icon } from "../icons";
-import SvgIcChevronLeft from "../icons/components/IcChevronLeft";
-import SvgIcChevronRight from "../icons/components/IcChevronRight";
+
 const meta = {
     component: Button,
     title: "components / Button",

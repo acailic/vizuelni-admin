@@ -1,5 +1,6 @@
 import { max } from "d3-array";
 import { useMemo } from "react";
+
 import { TICK_PADDING } from "@/charts/shared/axis-height-linear";
 import { BRUSH_BOTTOM_SPACE } from "@/charts/shared/brush/constants";
 import { getTickNumber } from "@/charts/shared/ticks";

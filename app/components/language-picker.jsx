@@ -1,7 +1,6 @@
-import { Box, Button, Menu, MenuItem, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Icon } from "@/icons";
+
 import localeConfig from "@/locales/locales.json";
 import { useLocale } from "@/locales/use-locale";
 // Simple Language/Globe icon component

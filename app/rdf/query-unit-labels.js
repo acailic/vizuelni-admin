@@ -1,5 +1,6 @@
 import { SELECT } from "@tpluscode/sparql-builder";
 import uniqBy from "lodash/uniqBy";
+
 import { batchLoad } from "@/rdf/batch-load";
 import { pragmas } from "@/rdf/create-source";
 import * as ns from "@/rdf/namespace";

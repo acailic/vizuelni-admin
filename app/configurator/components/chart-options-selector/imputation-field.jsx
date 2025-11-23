@@ -1,9 +1,8 @@
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import get from "lodash/get";
 import { useCallback } from "react";
-import { Select } from "@/components/form";
+
 import { IMPUTATION_TYPES } from "@/config-types";
-import { ControlSection, ControlSectionContent, SectionTitle, } from "@/configurator/components/chart-controls/section";
 import { getFieldLabel } from "@/configurator/components/field-i18n";
 import { isConfiguring, useConfiguratorState, } from "@/configurator/configurator-state";
 export const ImputationField = ({ chartConfig, }) => {

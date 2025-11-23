@@ -1,8 +1,6 @@
-import { Table, TableBody, TableCell, TableHead, TableRow, TableSortLabel, } from "@mui/material";
 import { ascending, descending } from "d3-array";
 import { useCallback, useMemo, useRef, useState } from "react";
-import { ComponentLabel } from "@/components/chart-data-table-preview/ui/component-label";
-import { Loading } from "@/components/hint";
+
 import { isNumericalMeasure, } from "@/domain/data";
 import { getSortedComponents } from "@/domain/get-sorted-components";
 import { useDimensionFormatters } from "@/formatters";

@@ -1,7 +1,7 @@
 import { act, render } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
 import { describe, expect, it } from "vitest";
-import { LineChart } from "./LineChart";
+
 const seriesData = [
     { year: "2020", value: 5, alt: 7 },
     { year: "2021", value: 8, alt: 9 },

@@ -1,5 +1,6 @@
 import { line } from "d3-shape";
-import { Fragment, memo, useEffect, useMemo, useRef } from "react";
+import { memo, useEffect, useMemo, useRef } from "react";
+
 import { useChartState } from "@/charts/shared/chart-state";
 import { renderTotalValueLabels } from "@/charts/shared/render-value-labels";
 import { renderContainer, renderVerticalWhiskers, } from "@/charts/shared/rendering-utils";

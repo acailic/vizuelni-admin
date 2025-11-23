@@ -1,4 +1,3 @@
-import * as React from "react";
 function SvgIcWiFi(props) {
     return (<svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path d="M5.023 15.807A10.795 10.795 0 0015.807 5.023h-.75A10.045 10.045 0 015.023 15.057v.75z" fill="currentColor"/>

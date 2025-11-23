@@ -1,6 +1,5 @@
-import { Tooltip as MUITooltip } from "@mui/material";
 import { useState } from "react";
-import { Icon } from "@/icons";
+
 import { useEvent } from "@/utils/use-event";
 /**
  * Internal component for overflow variant to ensure hooks are called unconditionally

@@ -1,5 +1,6 @@
 import { select } from "d3-selection";
 import { useCallback, useMemo } from "react";
+
 import { isStandardErrorDimension, } from "@/domain/data";
 /** Use to create a unique key for rendering the shapes.
  * It's important to animate them correctly when using d3.

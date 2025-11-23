@@ -1,4 +1,3 @@
-import { Box, Skeleton, Stack } from "@mui/material";
 /**
  * Generic skeleton loader
  */

@@ -1,7 +1,6 @@
 import { render } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import { ChartDataWrapper } from "@/charts/chart-data-wrapper";
-import { LoadingStateProvider } from "@/charts/shared/chart-loading-state";
+
 vi.mock("@/graphql/hooks", () => ({
     useDataCubesComponentsQuery: vi.fn().mockReturnValue([
         {

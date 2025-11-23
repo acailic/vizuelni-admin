@@ -1,10 +1,7 @@
-import { Box } from "@mui/material";
 import { useEffect, useRef } from "react";
+
 import { getChartConfig } from "@/config-utils";
 import { isAnnotatorField, isConfiguring, isLayouting, useConfiguratorState, } from "@/configurator";
-import { ControlSection, ControlSectionContent, SectionTitle, } from "@/configurator/components/chart-controls/section";
-import { ConfirmButton } from "@/configurator/components/confirm-button";
-import { MetaInputField } from "@/configurator/components/field";
 import { getFieldLabel } from "@/configurator/components/field-i18n";
 import { useOrderedLocales } from "@/locales/use-locale";
 import { useEvent } from "@/utils/use-event";

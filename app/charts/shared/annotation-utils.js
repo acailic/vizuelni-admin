@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+
 import { useInteraction } from "@/charts/shared/use-interaction";
 import { isSegmentInConfig, } from "@/config-types";
 import { extractSingleFilters, getChartConfig } from "@/config-utils";

@@ -1,21 +1,16 @@
 import { t } from "@lingui/macro";
-import { Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 import orderBy from "lodash/orderBy";
 import { memo, useCallback, useMemo } from "react";
+
 import { useChartState } from "@/charts/shared/chart-state";
 import { rgbArrayToHex } from "@/charts/shared/colors";
 import { getLegendGroups } from "@/charts/shared/legend-color-helpers";
-import { Flex } from "@/components/flex";
-import { Checkbox } from "@/components/form";
-import { MaybeTooltip } from "@/components/maybe-tooltip";
-import { OpenMetadataPanelWrapper } from "@/components/metadata-panel";
 import { useChartConfigFilters } from "@/config-utils";
 import { isSegmentInConfig, useReadOnlyConfiguratorState, } from "@/configurator";
 import { isOrdinalDimension, isOrdinalMeasure, } from "@/domain/data";
 import { useFormatNumber } from "@/formatters";
-import SvgIcChevronRight from "@/icons/components/IcChevronRight";
 import { useChartInteractiveFilters } from "@/stores/interactive-filters";
 import { interlace } from "@/utils/interlace";
 import { makeDimensionValueSorters } from "@/utils/sorting-values";

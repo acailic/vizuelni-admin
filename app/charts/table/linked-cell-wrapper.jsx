@@ -1,7 +1,6 @@
-import { Link } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+
 import { getSlugifiedId } from "@/charts/shared/chart-helpers";
-import { Icon } from "@/icons";
 const useStyles = makeStyles((theme) => ({
     link: {
         display: "inline-flex",

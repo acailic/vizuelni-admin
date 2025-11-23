@@ -1,8 +1,6 @@
-import { Trans } from "@lingui/macro";
 import get from "lodash/get";
+
 import { isMapConfig } from "@/config-types";
-import { ControlSection, ControlSectionContent, SectionTitle, } from "@/configurator/components/chart-controls/section";
-import { DimensionValuesMultiFilter, TimeFilter, } from "@/configurator/components/filters";
 import { isMeasure, isTemporalDimension, isTemporalEntityDimension, } from "@/domain/data";
 export const MultiFilterField = ({ chartConfig, component, encoding, field, dimensions, measures, }) => {
     const colorComponentId = get(chartConfig, isMapConfig(chartConfig)

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Limits, } from "@/charts/shared/limits/rendering-utils";
+
 export const createLimitsComponent = ({ isHorizontal, getChartState, }) => {
     const Component = ({ axisDimension, limits, }) => {
         const { bounds: { margins, chartWidth, chartHeight }, xScale, yScale, getX, getY, } = getChartState();

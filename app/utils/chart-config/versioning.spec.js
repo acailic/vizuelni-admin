@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { decodeChartConfig, decodeConfiguratorState, } from "@/config-types";
 import { configJoinedCubes } from "@/configurator/configurator-state/mocks";
 import { stringifyComponentId } from "@/graphql/make-component-id";

@@ -1,5 +1,4 @@
-import { Box, CircularProgress, Fade } from "@mui/material";
-import { LoadingSkeleton } from "./loading-skeleton";
+
 /**
  * Wrapper component to show loading state with optional skeleton
  * Provides smooth transitions between loading and loaded states

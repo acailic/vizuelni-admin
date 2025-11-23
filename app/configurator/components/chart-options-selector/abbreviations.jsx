@@ -1,4 +1,3 @@
-import { ChartOptionCheckboxField } from "@/configurator/components/field";
 import { getFieldLabel } from "@/configurator/components/field-i18n";
 import { canUseAbbreviations } from "@/configurator/components/ui-helpers";
 export const Abbreviations = ({ field, path, component, }) => {

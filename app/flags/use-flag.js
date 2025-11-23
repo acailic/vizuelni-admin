@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import { flag } from "@/flags/flag";
 export const useFlag = (name) => {
     const [flagValue, setFlag] = useState(() => flag(name));

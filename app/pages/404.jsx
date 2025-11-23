@@ -1,6 +1,4 @@
-import { Box, Container, Typography } from "@mui/material";
-import { Actions, ErrorPageHint, HomeLink, } from "@/components/error-pages-components";
-import { ContentLayout } from "@/components/layout";
+
 const heroBoxSx = {
     background: "linear-gradient(135deg, #0C4076 0%, #C6363C 100%)",
     my: "auto",

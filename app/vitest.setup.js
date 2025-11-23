@@ -2,6 +2,7 @@ import clownface from "clownface";
 import rdf from "rdf-ext";
 import { createClient, defaultExchanges } from "urql";
 import { vi } from "vitest";
+
 import { GRAPHQL_ENDPOINT } from "@/domain/env";
 import * as ns from "@/rdf/namespace";
 // Since it's a macro, it's not defined at runtime, maybe in the future

@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 export const ContentWrapper = ({ children, sx, className, ...props }) => {
     return (<Box className={className} sx={{
             display: "flex",

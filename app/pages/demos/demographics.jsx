@@ -1,10 +1,7 @@
 // @ts-nocheck
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
-import { Alert, Box, Card, CardContent, Chip, Grid, Paper, Typography, } from "@mui/material";
-import { PopulationPyramid } from "@/components/demos/charts/PopulationPyramid";
-import { PopulationTrends } from "@/components/demos/charts/PopulationTrends";
-import { DemoLayout } from "@/components/demos/demo-layout";
+
 import { agePopulationData, demographicStats, dependencyRatios, populationTrends, regionalPopulation, } from "@/data/serbia-demographics";
 export default function DemographicsDemo() {
     var _a;

@@ -1,5 +1,4 @@
-import { Box, Button, Divider, Typography } from "@mui/material";
-import { ContentWrapper } from "@/components/content-wrapper";
+
 import { useIsMobile } from "@/utils/use-is-mobile";
 export const Actions = ({ contribute, newsletter, bugReport, featureRequest, }) => {
     const isMobile = useIsMobile();

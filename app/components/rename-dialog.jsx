@@ -1,8 +1,6 @@
-import { t, Trans } from "@lingui/macro";
-import { LoadingButton } from "@mui/lab";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography, useEventCallback, } from "@mui/material";
-import { Flex } from "@/components/flex";
-import { Input } from "@/components/form";
+import { t } from "@lingui/macro";
+import { useEventCallback, } from "@mui/material";
+
 import { useUserConfigs } from "@/domain/user-configs";
 import { updateConfig } from "@/utils/chart-config/api";
 import { useMutate } from "@/utils/use-fetch-data";

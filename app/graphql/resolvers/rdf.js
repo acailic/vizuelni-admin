@@ -3,6 +3,7 @@ import DataLoader from "dataloader";
 import groupBy from "lodash/groupBy";
 import { topology } from "topojson-server";
 import { parse as parseWKT } from "wellknown";
+
 import { isMeasure, } from "@/domain/data";
 import { truthy } from "@/domain/types";
 import { getFiltersByComponentIris, parseComponentId, stringifyComponentId, } from "@/graphql/make-component-id";

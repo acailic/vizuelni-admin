@@ -1,7 +1,6 @@
 import { t } from "@lingui/macro";
 import { useState } from "react";
-import { Flex } from "@/components/flex";
-import { SearchField } from "@/components/form";
+
 export const SearchDatasetInput = ({ browseState: { inputRef, search, onSubmitSearch, onReset }, searchFieldProps, }) => {
     const [_, setShowDraftCheckbox] = useState(false);
     const searchLabel = t({

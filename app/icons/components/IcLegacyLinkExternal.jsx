@@ -1,4 +1,3 @@
-import * as React from "react";
 function SvgIcLegacyLinkExternal(props) {
     return (<svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path d="M14.46 4.852v.75h4.17l-5.99 5.988.532.53 5.988-5.988v4.17h.75v-5.45h-5.45z" fill="currentColor"/>

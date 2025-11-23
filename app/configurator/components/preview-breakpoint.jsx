@@ -1,10 +1,10 @@
 import { t } from "@lingui/macro";
-import { Divider, ToggleButton, ToggleButtonGroup, Tooltip, useTheme, } from "@mui/material";
+import { useTheme, } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 import { useMemo, useState } from "react";
+
 import { FREE_CANVAS_BREAKPOINTS } from "@/components/react-grid";
-import { Icon } from "@/icons";
 import { theme } from "@/themes/theme";
 export const usePreviewBreakpoint = () => {
     const [breakpoint, setBreakpoint] = useState(null);

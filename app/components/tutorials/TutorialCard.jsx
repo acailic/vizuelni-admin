@@ -1,6 +1,6 @@
-import { Box, Button, Card, CardActionArea, CardContent, Chip, Typography, } from "@mui/material";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+
 import { useTutorialProgress } from "@/hooks/useTutorialProgress";
 export default function TutorialCard({ tutorial, locale }) {
     const progressApi = useTutorialProgress();

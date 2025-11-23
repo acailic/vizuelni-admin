@@ -1,11 +1,5 @@
-import { Trans } from "@lingui/macro";
-import { Typography } from "@mui/material";
-import { Flex } from "@/components/flex";
-import { RadioGroup } from "@/components/form";
+
 import { isBarConfig, isColorInConfig, } from "@/config-types";
-import { ColorPalette } from "@/configurator/components/chart-controls/color-palette";
-import { ControlSection, ControlSectionContent, SectionTitle, } from "@/configurator/components/chart-controls/section";
-import { ChartOptionRadioField, ColorPickerField, } from "@/configurator/components/field";
 import { getFieldLabel } from "@/configurator/components/field-i18n";
 export const LayoutField = ({ encoding, component, chartConfig, components, hasColorPalette, hasSubType, measures, }) => {
     const activeField = chartConfig.activeField;

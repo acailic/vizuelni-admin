@@ -1,9 +1,6 @@
-import { t, Trans } from "@lingui/macro";
-import { Box, Button, Divider, IconButton, Stack, TextField, Tooltip, Typography, } from "@mui/material";
+import { t } from "@lingui/macro";
 import { useEffect, useState } from "react";
-import { CopyToClipboardTextInput } from "@/components/copy-to-clipboard-text-input";
-import { Flex } from "@/components/flex";
-import { Icon } from "@/icons";
+
 import { useI18n } from "@/utils/use-i18n";
 import { useScreenshot } from "@/utils/use-screenshot";
 /**

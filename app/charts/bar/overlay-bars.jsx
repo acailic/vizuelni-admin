@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
+
 import { useGetRenderStackedBarDatum } from "@/charts/bar/rendering-utils";
 import { useChartState } from "@/charts/shared/chart-state";
-import { StackedAnnotationHighlight } from "@/charts/shared/overlay-rects";
 import { useAnnotationInteractions } from "@/charts/shared/use-annotation-interactions";
 export const InteractionBars = ({ disableGaps = true, }) => {
     const { chartData, bounds: { chartWidth, margins }, getY, yScale, yScaleInteraction, } = useChartState();

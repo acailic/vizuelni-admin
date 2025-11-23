@@ -1,6 +1,4 @@
-import { Box, Button, IconButton, Link, Typography } from "@mui/material";
-import { ContentWrapper } from "@/components/content-wrapper";
-import { Icon } from "@/icons";
+
 export const Footer = ({ children, bottomLinks, nCols = 3, ContentWrapperProps, }) => {
     return (<Box component="footer" sx={{
             borderTop: "1px solid",

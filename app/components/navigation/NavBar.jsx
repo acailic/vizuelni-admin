@@ -2,13 +2,7 @@
  * Main navigation bar component
  * Provides consistent navigation across the application
  */
-import BarChartIcon from '@mui/icons-material/BarChart';
-import DescriptionIcon from '@mui/icons-material/Description';
-import HomeIcon from '@mui/icons-material/Home';
-import MenuIcon from '@mui/icons-material/Menu';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
-import { AppBar, Toolbar, Typography, Button, Box, IconButton, useMediaQuery, useTheme, Drawer, List, ListItem, ListItemButton, ListItemText, ListItemIcon, } from '@mui/material';
-import Link from 'next/link';
+import { useMediaQuery, useTheme, } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 const navigationItems = [

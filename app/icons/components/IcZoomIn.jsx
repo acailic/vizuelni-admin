@@ -1,4 +1,3 @@
-import * as React from "react";
 function SvgIcZoomIn(props) {
     return (<svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path fillRule="evenodd" clipRule="evenodd" d="M9.86 11v3h1v-3h3v-1h-3V7h-1v3h-3v1h3z" fill="currentColor"/>

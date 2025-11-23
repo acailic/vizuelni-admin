@@ -1,6 +1,7 @@
 import { ascending, rollup, sum } from "d3-array";
 import orderBy from "lodash/orderBy";
 import { useCallback } from "react";
+
 import { usePlottableData } from "@/charts/shared/chart-helpers";
 import { useBandXVariables, useBaseVariables, useChartData, useInteractiveFiltersVariables, useNumericalYErrorVariables, useNumericalYVariables, useSegmentVariables, } from "@/charts/shared/chart-state";
 import { useRenderingKeyVariable } from "@/charts/shared/rendering-utils";

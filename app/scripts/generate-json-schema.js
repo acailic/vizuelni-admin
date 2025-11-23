@@ -1,5 +1,7 @@
 import { writeFileSync } from "fs";
+
 import { toJsonSchema } from "io-ts-to-json-schema";
+
 const { ChartConfig, ConfiguratorState } = require("../config-types");
 const generateAndWriteJsonSchema = ({ $id, type, title, description, }) => {
     const schema = {

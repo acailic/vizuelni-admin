@@ -1,19 +1,14 @@
 import { useEvent } from "@dnd-kit/utilities";
-import { t, Trans } from "@lingui/macro";
-import { Box, Button, Typography } from "@mui/material";
+import { t } from "@lingui/macro";
 import { makeStyles } from "@mui/styles";
 import { useCallback, useRef, useState } from "react";
-import { Flex } from "@/components/flex";
-import { RadioGroup } from "@/components/form";
-import { Input, Radio } from "@/components/form";
-import { BackButton } from "@/configurator";
+
 import { getDefaultColorValues } from "@/palettes";
 import { theme } from "@/themes/theme";
 import { createCustomColorPalette, updateCustomColorPalette, } from "@/utils/chart-config/api";
 import { createColorId } from "@/utils/color-palette-utils";
 import { useMutate } from "@/utils/use-fetch-data";
-import { ColorPaletteExample } from "./color-palette-examples";
-import { ColorPaletteCreator } from "./color-palette-types";
+
 const useStyles = makeStyles({
     root: {
         width: "100%",

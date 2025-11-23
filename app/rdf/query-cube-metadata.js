@@ -1,4 +1,5 @@
 import { SELECT } from "@tpluscode/sparql-builder";
+
 import { DataCubePublicationStatus } from "@/graphql/query-hooks";
 import { pragmas } from "@/rdf/create-source";
 import * as ns from "@/rdf/namespace";

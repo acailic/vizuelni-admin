@@ -1,7 +1,9 @@
 import { readFile } from "fs/promises";
 import { join } from "path";
+
 import omit from "lodash/omit";
 import { describe, expect, it } from "vitest";
+
 import { parseWMSContent } from "@/charts/map/wms-utils";
 import { parseWMTSContent } from "@/charts/map/wmts-utils";
 const formatTree = (node, getLabel, depth = 0) => {

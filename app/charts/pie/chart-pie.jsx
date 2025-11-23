@@ -1,17 +1,7 @@
 import { memo } from "react";
-import { ChartDataWrapper } from "@/charts/chart-data-wrapper";
-import { Pie } from "@/charts/pie/pie";
-import { PieChart } from "@/charts/pie/pie-state";
+
 import { useIsEditingAnnotation } from "@/charts/shared/annotation-utils";
-import { Annotations } from "@/charts/shared/annotations";
-import { AxisHeightTitle } from "@/charts/shared/axis-height-title";
-import { ChartContainer, ChartControlsContainer, ChartSvg, } from "@/charts/shared/containers";
-import { HoverAnnotationDot } from "@/charts/shared/interaction/hover-annotation-dot";
-import { Tooltip } from "@/charts/shared/interaction/tooltip";
-import { LegendColor } from "@/charts/shared/legend-color";
-import { OnlyNegativeDataHint } from "@/components/hint";
 import { useChartConfigFilters } from "@/config-utils";
-import { TimeSlider } from "@/configurator/interactive-filters/time-slider";
 export const ChartPieVisualization = (props) => {
     return <ChartDataWrapper {...props} Component={ChartPie}/>;
 };

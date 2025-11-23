@@ -1,4 +1,5 @@
 import { getEmbedParamsFromQuery } from "@/components/embed-params";
+
 import { renderEmbedMarkup } from "../../../../embed-templates/embed-aem-ext";
 import { parseLocaleString } from "../../../../locales/locales";
 /**

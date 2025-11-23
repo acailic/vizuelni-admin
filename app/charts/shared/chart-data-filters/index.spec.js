@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { getInteractiveQueryFilters } from "@/charts/shared/chart-data-filters";
 import { groupPreparedFiltersByDimension, } from "@/charts/shared/chart-data-filters/group-filters";
 describe("getInteractiveQueryFilters", () => {

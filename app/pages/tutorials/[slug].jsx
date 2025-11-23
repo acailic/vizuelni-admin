@@ -2,11 +2,9 @@
  * Dynamic tutorial page for Vizualni Admin tutorials
  * Displays step-by-step tutorials with progress tracking and interactive content
  */
-import { Box, Button, Container, LinearProgress, Paper, Typography, List, ListItem, ListItemButton, ListItemText, Breadcrumbs, Link as MuiLink, } from "@mui/material";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { InteractiveStep } from "@/components/tutorials/InteractiveStep";
+
 import { useTutorialProgress } from "@/hooks/useTutorialProgress";
 import { getTutorialConfig, getAllTutorialIds } from "@/lib/tutorials/config";
 /**

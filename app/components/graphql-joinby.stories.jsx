@@ -1,10 +1,10 @@
-import { alpha, CircularProgress, MenuItem, Select, Stack, Table, TableBody, TableCell, TableHead, TableRow, } from "@mui/material";
+import { alpha, } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { scaleOrdinal } from "d3-scale";
 import { schemeTableau10 } from "d3-scale-chromatic";
 import keyBy from "lodash/keyBy";
 import { useMemo, useState } from "react";
-import { ObjectInspector } from "react-inspector";
+
 import { truthy } from "@/domain/types";
 import { useDataCubesComponentsQuery, useDataCubesObservationsQuery, } from "@/graphql/hooks";
 const combinations = [

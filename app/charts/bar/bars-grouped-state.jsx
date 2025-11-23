@@ -3,14 +3,13 @@ import { scaleBand, scaleLinear, scaleOrdinal, scaleTime, } from "d3-scale";
 import { schemeCategory10 } from "d3-scale-chromatic";
 import orderBy from "lodash/orderBy";
 import { useCallback, useMemo } from "react";
+
 import { useBarsGroupedStateData, useBarsGroupedStateVariables, } from "@/charts/bar/bars-grouped-state-props";
 import { PADDING_INNER, PADDING_OUTER, PADDING_WITHIN, } from "@/charts/bar/constants";
 import { getChartWidth, useAxisLabelSizeVariables, useChartBounds, useChartPadding, } from "@/charts/shared/chart-dimensions";
-import { ChartContext, } from "@/charts/shared/chart-state";
 import { getCenteredTooltipPlacement, MOBILE_TOOLTIP_PLACEMENT, } from "@/charts/shared/interaction/tooltip-box";
 import { DEFAULT_MARGIN_TOP } from "@/charts/shared/margins";
 import { useChartFormatters } from "@/charts/shared/use-chart-formatters";
-import { InteractionProvider } from "@/charts/shared/use-interaction";
 import { useSize } from "@/charts/shared/use-size";
 import { isTemporalDimension } from "@/domain/data";
 import { formatNumberWithUnit, useFormatNumber } from "@/formatters";

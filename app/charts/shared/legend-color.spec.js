@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { getLegendGroups } from "@/charts/shared/legend-color-helpers";
 describe("getLegendGroups", () => {
     const hierarchy = [

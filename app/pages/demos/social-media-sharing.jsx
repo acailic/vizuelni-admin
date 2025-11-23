@@ -3,15 +3,10 @@
  * Social Media Sharing Demo
  * Showcases how to share visualizations on LinkedIn, X.com (Twitter), and Facebook
  */
-import { Alert, Box, Card, CardContent, Divider, Grid, Paper, Typography, } from "@mui/material";
 import { useRouter } from "next/router";
 import { useRef } from "react";
-import { ChartVisualizer } from "@/components/demos/ChartVisualizer";
-import { DemoError, DemoLayout, DemoLoading, } from "@/components/demos/demo-layout";
-import { PublishActions } from "@/components/publish-actions";
-import { SocialMediaShare } from "@/components/social-media-share";
+
 import { useDataGovRs } from "@/hooks/use-data-gov-rs";
-import { Icon } from "@/icons";
 export default function SocialMediaSharingDemo() {
     const router = useRouter();
     const locale = (router.locale || "en");

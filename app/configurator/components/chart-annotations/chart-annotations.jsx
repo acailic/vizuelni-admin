@@ -1,13 +1,8 @@
-import { t, Trans } from "@lingui/macro";
-import { Typography } from "@mui/material";
-import { Markdown } from "@/components/markdown";
+import { t } from "@lingui/macro";
+
 import { supportsAnnotations } from "@/config-types";
 import { getChartConfig } from "@/config-utils";
-import { AddAnnotationButton } from "@/configurator/components/chart-annotations/add-annotation-button";
-import { ControlTab } from "@/configurator/components/chart-controls/control-tab";
-import { ControlSection, ControlSectionContent, SectionTitle, } from "@/configurator/components/chart-controls/section";
 import { isConfiguring, useConfiguratorState, } from "@/configurator/configurator-state";
-import { Icon } from "@/icons";
 import { useLocale } from "@/locales/use-locale";
 import { useEvent } from "@/utils/use-event";
 export const ChartAnnotations = () => {

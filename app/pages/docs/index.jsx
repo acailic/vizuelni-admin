@@ -1,10 +1,9 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { MDXProvider } from "@mdx-js/react";
-import { CssBaseline } from "@mui/material";
-import { AudioSpecimen, Catalog, CodeSpecimen, ColorPaletteSpecimen, ColorSpecimen, DownloadSpecimen, HintSpecimen, HtmlSpecimen, ImageSpecimen, Markdown, Page, TableSpecimen, TypeSpecimen, } from "catalog";
+import { AudioSpecimen, CodeSpecimen, ColorPaletteSpecimen, ColorSpecimen, DownloadSpecimen, HintSpecimen, HtmlSpecimen, ImageSpecimen, Markdown, TableSpecimen, TypeSpecimen, } from "catalog";
 import Slugger from "github-slugger";
 import { useEffect, useMemo, useState } from "react";
-import { i18n, I18nProvider, parseLocaleString } from "@/src";
+
+import { i18n, parseLocaleString } from "@/src";
 const pages = [
     {
         path: "/",

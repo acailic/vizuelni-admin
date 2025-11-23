@@ -2,14 +2,11 @@
  * Dynamic demo page for data.gov.rs visualizations
  * Works with GitHub Pages static export via client-side data fetching
  */
-import { Box, Paper, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tabs, Typography } from '@mui/material';
+import { Paper } from '@mui/material';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { ChartVisualizer } from '@/components/demos/ChartVisualizer';
-import { DemoEmpty, DemoError, DemoLayout, DemoLoading } from '@/components/demos/demo-layout';
-import { ExportControls } from '@/components/demos/ExportControls';
-import { SimpleChart } from '@/components/demos/simple-chart';
+
 import { useDataGovRs } from '@/hooks/use-data-gov-rs';
 import { DEMO_CONFIGS, getDemoConfig } from '@/lib/demos/config';
 // Import enhanced air quality page

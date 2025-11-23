@@ -1,5 +1,3 @@
-import { MDXProvider } from "@mdx-js/react";
-import { ContentLayout, StaticContentLayout } from "@/components/layout";
 import { Actions, Examples, Intro, Tutorial } from "@/homepage";
 const Wrapper = ({ contentId, children, }) => {
     return contentId === "home" ? (<ContentLayout>{children}</ContentLayout>) : (<StaticContentLayout>{children}</StaticContentLayout>);

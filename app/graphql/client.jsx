@@ -1,4 +1,5 @@
 import { createClient, defaultExchanges } from "urql";
+
 import { GRAPHQL_ENDPOINT } from "@/domain/env";
 import { flag } from "@/flags/flag";
 // @ts-ignore - dynamic package import based on NODE_ENV

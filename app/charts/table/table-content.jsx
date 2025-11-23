@@ -1,10 +1,8 @@
-import { Box, TableSortLabel } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 import { createContext, useContext, useMemo } from "react";
+
 import { SORTING_ARROW_WIDTH } from "@/charts/table/constants";
-import { Flex } from "@/components/flex";
-import { OpenMetadataPanelWrapper } from "@/components/metadata-panel";
 const TableContentContext = createContext(undefined);
 export const TableContentProvider = ({ headerGroups, tableColumnsMeta, customSortCount, totalColumnsWidth, children, }) => {
     const value = useMemo(() => {

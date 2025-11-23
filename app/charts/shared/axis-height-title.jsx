@@ -1,6 +1,5 @@
 import { useChartState } from "@/charts/shared/chart-state";
 import { useChartTheme } from "@/charts/shared/use-chart-theme";
-import { OpenMetadataPanelWrapper } from "@/components/metadata-panel";
 export const AxisHeightTitle = () => {
     const { axisLabelFontSize } = useChartTheme();
     const { chartType, yAxisLabel, leftAxisLabelSize, leftAxisLabelOffsetTop } = useChartState();

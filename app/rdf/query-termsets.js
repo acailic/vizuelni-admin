@@ -1,4 +1,5 @@
 import groupBy from "lodash/groupBy";
+
 import { stringifyComponentId } from "@/graphql/make-component-id";
 import { queryCubeUnversionedIri } from "@/rdf/query-cube-unversioned-iri";
 import { buildLocalizedSubQuery } from "@/rdf/query-utils";

@@ -1,6 +1,4 @@
 import { useChartState } from "@/charts/shared/chart-state";
-import { TooltipBox, } from "@/charts/shared/interaction/tooltip-box";
-import { TooltipMultiple, TooltipSingle, } from "@/charts/shared/interaction/tooltip-content";
 import { useInteraction } from "@/charts/shared/use-interaction";
 export const Tooltip = ({ type = "single" }) => {
     const [{ type: interactionType, visible, observation }] = useInteraction();

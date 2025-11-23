@@ -5,11 +5,9 @@ import clsx from "clsx";
 import { selectAll } from "d3-selection";
 import isEqual from "lodash/isEqual";
 import { forwardRef, useCallback, useLayoutEffect, } from "react";
-import { ActionElementsContainer } from "@/components/action-elements-container";
+
 import { CHART_GRID_ROW_COUNT } from "@/components/chart-shared";
-import { BlockMoreButton } from "@/components/dashboard-shared";
-import { DragHandle, useDragOverClasses } from "@/components/drag-handle";
-import { Markdown } from "@/components/markdown";
+import { useDragOverClasses } from "@/components/drag-handle";
 import { ROW_HEIGHT } from "@/components/react-grid";
 import { hasChartConfigs, isLayouting, useConfiguratorState, } from "@/configurator/configurator-state";
 import { useLocale } from "@/locales/use-locale";

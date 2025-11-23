@@ -1,5 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
+
 import { sleep } from "@/utils/sleep";
+
 import { Timeline } from "./observables";
 describe("Timeline", () => {
     const values = [1, 100, 200, 500, 750, 1000];

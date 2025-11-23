@@ -1,4 +1,5 @@
 import ParsingClient from "sparql-http-client/ParsingClient";
+
 import { DEFAULT_DATA_SOURCE } from "@/domain/data-source";
 import { buildLocalizedSubQuery, iriToNode } from "@/rdf/query-utils";
 const sparqlClient = new ParsingClient({

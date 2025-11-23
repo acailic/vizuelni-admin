@@ -1,8 +1,7 @@
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { useEffect } from "react";
+
 import { getMap } from "@/charts/map/ref";
-import { ControlSection, ControlSectionContent, SectionTitle, } from "@/configurator/components/chart-controls/section";
-import { ChartOptionCheckboxField, ChartOptionSwitchField, } from "@/configurator/components/field";
 import { isConfiguring, useConfiguratorState, } from "@/configurator/configurator-state";
 import { useLocale } from "@/locales/use-locale";
 export const BaseLayerField = ({ chartConfig }) => {

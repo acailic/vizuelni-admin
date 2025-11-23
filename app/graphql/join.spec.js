@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { joinDimensions, mergeObservations, mkVersionedJoinBy, } from "@/graphql/join";
 import { stringifyComponentId } from "@/graphql/make-component-id";
 import { ScaleType, TimeUnit, } from "@/graphql/query-hooks";

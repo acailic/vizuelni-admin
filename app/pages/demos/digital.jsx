@@ -2,12 +2,8 @@
  * Serbian Digital Transformation Visualization
  * Tech adoption, internet usage, e-commerce, and digital skills evolution
  */
-import { Alert, Box, Card, CardContent, Chip, Grid, Paper, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
-import { BarChart } from '@/components/demos/charts/BarChart';
-import { ColumnChart } from '@/components/demos/charts/ColumnChart';
-import { LineChart } from '@/components/demos/charts/LineChart';
-import { DemoLayout } from '@/components/demos/demo-layout';
+
 import { digitalDivide, digitalSkillsTrends, eCommerceTrends, eGovernmentTrends, freelancersTrends, internetAdoption, socialMediaUsage, techIndustryGrowth } from '@/data/serbia-digital';
 export default function DigitalDemo() {
     const router = useRouter();

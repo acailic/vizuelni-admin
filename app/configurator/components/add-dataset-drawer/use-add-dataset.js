@@ -1,6 +1,7 @@
 import { useEventCallback } from "@mui/material";
 import { useState } from "react";
 import { useClient } from "urql";
+
 import { getEnabledChartTypes } from "@/charts";
 import { getChartConfig } from "@/config-utils";
 import { addDatasetInConfig, isConfiguring, useConfiguratorState, } from "@/configurator/configurator-state";

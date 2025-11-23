@@ -2,12 +2,8 @@
  * Serbian Economy Visualization
  * Economic indicators showing Serbia's economic journey
  */
-import { Alert, Box, Card, CardContent, Chip, Grid, Paper, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
-import { ColumnChart } from '@/components/demos/charts/ColumnChart';
-import { LineChart } from '@/components/demos/charts/LineChart';
-import { PieChart } from '@/components/demos/charts/PieChart';
-import { DemoLayout } from '@/components/demos/demo-layout';
+
 import { economicIndicators, economicStats, fdiInflows, sectorComposition, tradeBalance } from '@/data/serbia-economy';
 export default function EconomyDemo() {
     const router = useRouter();

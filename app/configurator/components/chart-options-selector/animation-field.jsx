@@ -1,10 +1,5 @@
-import { t, Trans } from "@lingui/macro";
-import { Box, Tooltip, Typography } from "@mui/material";
-import { Flex } from "@/components/flex";
-import { RadioGroup } from "@/components/form";
-import { ControlSection, ControlSectionContent, SectionTitle, } from "@/configurator/components/chart-controls/section";
-import { ChartOptionRadioField, ChartOptionSwitchField, } from "@/configurator/components/field";
-import SvgIcInfoCircle from "@/icons/components/IcInfoCircle";
+import { t } from "@lingui/macro";
+
 export const AnimationField = ({ field }) => {
     return (<ControlSection collapse>
       <SectionTitle iconName="animation">

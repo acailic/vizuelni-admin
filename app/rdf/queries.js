@@ -3,6 +3,7 @@ import keyBy from "lodash/keyBy";
 import mapKeys from "lodash/mapKeys";
 import { LookupSource, View } from "rdf-cube-view-query";
 import rdf from "rdf-ext";
+
 import { parseObservationValue, shouldLoadMinMaxValues, } from "@/domain/data";
 import { isMostRecentValue } from "@/domain/most-recent-value";
 import { parseComponentId, stringifyComponentId, } from "@/graphql/make-component-id";

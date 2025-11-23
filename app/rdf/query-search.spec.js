@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
+
 import { computeScores, exactMatchPoints, fields, } from "./query-search-score-utils";
 vi.mock("@tpluscode/sparql-builder", () => ({}));
 describe("compute scores", () => {

@@ -1,4 +1,5 @@
 import { useMediaQuery } from "@mui/material";
+
 import { useTheme } from "../../themes";
 export const TICK_FONT_SIZE = 12;
 const AXIS_LABEL_FONT_SIZE_XXS = 12;

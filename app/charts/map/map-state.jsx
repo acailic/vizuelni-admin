@@ -4,13 +4,12 @@ import keyBy from "lodash/keyBy";
 import mapValues from "lodash/mapValues";
 import { useCallback, useMemo } from "react";
 import { ckmeans } from "simple-statistics";
+
 import { getBBox } from "@/charts/map/helpers";
 import { useMapStateData, useMapStateVariables, } from "@/charts/map/map-state-props";
-import { MapTooltipProvider } from "@/charts/map/map-tooltip";
 import { useOptionalNumericVariable, useStringVariable, } from "@/charts/shared/chart-helpers";
-import { ChartContext, useNumericalYErrorVariables, } from "@/charts/shared/chart-state";
+import { useNumericalYErrorVariables, } from "@/charts/shared/chart-state";
 import { colorToRgbArray } from "@/charts/shared/colors";
-import { InteractionProvider } from "@/charts/shared/use-interaction";
 import { useSize } from "@/charts/shared/use-size";
 import { isGeoShapesDimension, } from "@/domain/data";
 import { truthy } from "@/domain/types";

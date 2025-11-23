@@ -1,4 +1,5 @@
 import { groups } from "d3-array";
+
 import { executeWithCache } from "./query-cache";
 const BATCH_SIZE = 500;
 export const batchLoad = async ({ ids, sparqlClient, cache, buildQuery, batchSize = BATCH_SIZE, }) => {

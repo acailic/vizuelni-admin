@@ -1,7 +1,5 @@
-import { ContentCopy, CheckCircle, Lightbulb, Warning } from '@mui/icons-material';
-import { Box, Typography, Paper, Button, Alert, TextField, RadioGroup, FormControlLabel, Radio, IconButton, Chip, Divider, } from '@mui/material';
-import React, { useState } from 'react';
-import { SimpleChart } from '../demos/simple-chart';
+import { useState } from 'react';
+
 export function InteractiveStep({ step, onComplete }) {
     const [exerciseInput, setExerciseInput] = useState('');
     const [quizAnswer, setQuizAnswer] = useState(null);

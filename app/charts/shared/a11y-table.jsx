@@ -1,6 +1,5 @@
-import { Box } from "@mui/material";
 import { memo, useMemo } from "react";
-import { VisuallyHidden } from "@/components/visually-hidden";
+
 export const A11yTable = memo(({ title, dimensions, measures, observations, }) => {
     const headers = useMemo(() => {
         const obsKeys = new Set(Object.keys(observations[0]));

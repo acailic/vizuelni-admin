@@ -1,8 +1,8 @@
-import { Box, Slider, sliderClasses, useEventCallback, } from "@mui/material";
+import { sliderClasses, useEventCallback, } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import uniq from "lodash/uniq";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { DataFilterGenericDimension, DataFilterHierarchyDimension, DataFilterTemporalDimension, } from "@/charts/shared/chart-data-filters";
+
 import { groupPreparedFiltersByDimension, } from "@/charts/shared/chart-data-filters/group-filters";
 import { useCombinedTemporalDimension } from "@/charts/shared/use-combined-temporal-dimension";
 import { getFiltersByMappingStatus, hasChartConfigs, isLayouting, useConfiguratorState, } from "@/configurator";

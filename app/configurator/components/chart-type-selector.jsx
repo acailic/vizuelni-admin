@@ -1,14 +1,8 @@
-import { t, Trans } from "@lingui/macro";
-import { Box, Divider, Typography } from "@mui/material";
+import { t } from "@lingui/macro";
 import { useCallback } from "react";
+
 import { comboChartTypes, getEnabledChartTypes, regularChartTypes, } from "@/charts";
-import { Flex } from "@/components/flex";
-import { HintError } from "@/components/hint";
-import { InfoIconTooltip } from "@/components/info-icon-tooltip";
-import { MaybeTooltip } from "@/components/maybe-tooltip";
 import { getChartConfig } from "@/config-utils";
-import { ControlSectionSkeleton } from "@/configurator/components/chart-controls/section";
-import { IconButton } from "@/configurator/components/icon-button";
 import { useAddOrEditChartType } from "@/configurator/config-form";
 import { useDataCubesComponentsQuery } from "@/graphql/hooks";
 import { useLocale } from "@/locales/use-locale";

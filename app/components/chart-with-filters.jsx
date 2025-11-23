@@ -1,8 +1,8 @@
 import { makeStyles } from "@mui/styles";
 import dynamic from "next/dynamic";
 import { forwardRef } from "react";
+
 import { useQueryFilters } from "@/charts/shared/chart-helpers";
-import { Observer } from "@/charts/shared/use-size";
 import { useSyncInteractiveFilters } from "@/charts/shared/use-sync-interactive-filters";
 const ChartAreasVisualization = dynamic(import("@/charts/area/chart-area").then((mod) => mod.ChartAreasVisualization, () => null));
 const ChartColumnsVisualization = dynamic(import("@/charts/column/chart-column").then((mod) => mod.ChartColumnsVisualization, () => null));

@@ -1,12 +1,10 @@
-import { Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 import { forwardRef } from "react";
+
 import { ChartPanelLayoutCanvas, chartPanelLayoutGridClasses, } from "@/components/chart-panel-layout-grid";
 import { ChartPanelLayoutTall } from "@/components/chart-panel-layout-tall";
 import { ChartPanelLayoutVertical } from "@/components/chart-panel-layout-vertical";
-import { ChartSelectionTabs } from "@/components/chart-selection-tabs";
-import { DashboardInteractiveFilters } from "@/components/dashboard-interactive-filters";
 import { useSyncTextBlockHeight } from "@/components/text-block";
 import { hasChartConfigs } from "@/configurator";
 import { useConfiguratorState } from "@/src";

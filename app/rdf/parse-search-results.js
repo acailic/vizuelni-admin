@@ -1,4 +1,5 @@
 import { group } from "d3-array";
+
 import { stringifyComponentId } from "@/graphql/make-component-id";
 import { DataCubePublicationStatus } from "@/graphql/resolver-types";
 import * as ns from "@/rdf/namespace";

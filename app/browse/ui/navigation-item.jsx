@@ -1,14 +1,11 @@
-import { ButtonBase, Link } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import pickBy from "lodash/pickBy";
 import { stringify } from "qs";
 import { useMemo } from "react";
+
 import { encodeFilter } from "@/browse/lib/filters";
 import { useBrowseContext } from "@/browse/model/context";
-import { NavigationChip } from "@/browse/ui/navigation-chip";
-import { MaybeLink } from "@/components/maybe-link";
-import { accordionPresenceProps, MotionBox } from "@/components/presence";
-import SvgIcClose from "@/icons/components/IcClose";
+import { accordionPresenceProps } from "@/components/presence";
 export const NavigationItem = ({ children, filters, next, count, active, level = 1, disableLink, countBg, }) => {
     const { includeDrafts, search, setFilters } = useBrowseContext();
     const classes = useStyles({ level });

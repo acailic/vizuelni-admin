@@ -1,4 +1,4 @@
-import { ImageSpecimen, markdown, TableSpecimen } from "catalog";
+import { markdown } from "catalog";
 const Doc = () => markdown `
 
 ## Content

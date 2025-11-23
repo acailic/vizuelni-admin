@@ -1,16 +1,15 @@
-import { t, Trans } from "@lingui/macro";
-import { Button, CircularProgress, ListSubheader, MenuItem, Typography, useEventCallback, } from "@mui/material";
+import { t } from "@lingui/macro";
+import { useEventCallback, } from "@mui/material";
 import { ascending } from "d3-array";
 import { Workbook } from "exceljs";
 import { saveAs } from "file-saver";
 import keyBy from "lodash/keyBy";
 import { createContext, memo, useCallback, useContext, useState, } from "react";
 import { useClient } from "urql";
-import { ArrowMenuBottomTop } from "@/components/arrow-menu";
+
 import { getSortedComponents } from "@/domain/get-sorted-components";
 import { dateFormatterFromDimension, formatIdentity, getFormatFullDateAuto, getFormattersForLocale, } from "@/formatters";
 import { executeDataCubesComponentsQuery, executeDataCubesObservationsQuery, } from "@/graphql/hooks";
-import { Icon } from "@/icons";
 import { useLocale } from "@/locales/use-locale";
 import { makeDimensionValueSorters } from "@/utils/sorting-values";
 import { useI18n } from "@/utils/use-i18n";

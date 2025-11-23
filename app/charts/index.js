@@ -4,6 +4,7 @@ import produce from "immer";
 import get from "lodash/get";
 import mapValues from "lodash/mapValues";
 import sortBy from "lodash/sortBy";
+
 import { AREA_SEGMENT_SORTING, COLUMN_SEGMENT_SORTING, disableStacked, PIE_SEGMENT_SORTING, } from "@/charts/chart-config-ui-options";
 import { DEFAULT_FIXED_COLOR_FIELD, getDefaultCategoricalColorField, getDefaultNumericalColorField, } from "@/charts/map/constants";
 import { canBeNormalized, isColorInConfig, isSegmentInConfig, } from "@/config-types";

@@ -1,6 +1,3 @@
-import { Box, Link, Typography } from "@mui/material";
-import NextLink from "next/link";
-import { ContentLayout } from "@/components/layout";
 const Page = () => {
     // In static export mode, show message that this requires a backend
     return (<ContentLayout>

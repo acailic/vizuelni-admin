@@ -2,13 +2,11 @@ import { $createLinkNode, $isLinkNode } from "@lexical/link";
 import { t } from "@lingui/macro";
 import { activeEditor$, addComposerChild$, createActiveEditorSubscription$, currentSelection$, editorRootElementRef$, getSelectedNode, getSelectionRectangle, IS_APPLE, readOnly$, realmPlugin, } from "@mdxeditor/editor";
 import { Action, Cell, filter, map, Signal, useCellValues, usePublisher, withLatestFrom, } from "@mdxeditor/gurx";
-import { Button, ClickAwayListener, Fade, Input, Link, Paper, Popper, Typography, } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { $createTextNode, $getSelection, $insertNodes, $isRangeSelection, COMMAND_PRIORITY_HIGH, COMMAND_PRIORITY_LOW, KEY_ESCAPE_COMMAND, KEY_MODIFIER_COMMAND, } from "lexical";
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { ToolbarIconButton } from "@/components/mdx-editor/common";
-import { Icon } from "@/icons";
+
 import { useTimedPrevious } from "@/utils/use-timed-previous";
 const getLinkNodeInSelection = (selection) => {
     if (!selection) {

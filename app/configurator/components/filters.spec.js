@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { getHasColorMapping, sortFilterValues } from "@/configurator/components/filters";
 import { TimeUnit } from "@/graphql/resolver-types";
 import { getD3TimeFormatLocale } from "@/locales/locales";

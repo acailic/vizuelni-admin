@@ -1,10 +1,5 @@
-import { Draggable, Droppable } from "@hello-pangea/dnd";
-import { Trans } from "@lingui/macro";
-import { Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { MoveDragButton } from "@/components/move-drag-button";
-import { DraggableTab } from "@/configurator/components/chart-controls/control-tab";
-import { ControlSection, ControlSectionContent, SectionTitle, } from "@/configurator/components/chart-controls/section";
+
 import { getIconName } from "@/configurator/components/ui-helpers";
 import { useActiveChartField } from "@/configurator/config-form";
 const useStyles = makeStyles((theme) => ({

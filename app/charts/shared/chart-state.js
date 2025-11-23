@@ -4,6 +4,7 @@ import overEvery from "lodash/overEvery";
 import uniq from "lodash/uniq";
 import uniqBy from "lodash/uniqBy";
 import { createContext, useCallback, useContext, useMemo } from "react";
+
 import { getLabelWithUnit, useDimensionWithAbbreviations, useOptionalNumericVariable, useStringVariable, useTemporalEntityVariable, useTemporalVariable, } from "@/charts/shared/chart-helpers";
 import { getAnimationField, hasChartConfigs, useConfiguratorState, } from "@/configurator";
 import { parseDate, useErrorMeasure, useErrorRange, useErrorVariable, } from "@/configurator/components/ui-helpers";

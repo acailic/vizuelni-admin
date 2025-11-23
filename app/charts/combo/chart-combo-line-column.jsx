@@ -1,15 +1,6 @@
 import { memo } from "react";
-import { ChartDataWrapper } from "@/charts/chart-data-wrapper";
-import { AxisHeightLinearDual } from "@/charts/combo/axis-height-linear-dual";
-import { ComboLineColumn } from "@/charts/combo/combo-line-column";
-import { ComboLineColumnChart } from "@/charts/combo/combo-line-column-state";
-import { InteractionTemporalColumns } from "@/charts/combo/overlay-temporal-columns";
-import { AxisWidthBand } from "@/charts/shared/axis-width-band";
-import { BrushTime, shouldShowBrush } from "@/charts/shared/brush";
-import { ChartContainer, ChartSvg } from "@/charts/shared/containers";
-import { HoverDotMultiple } from "@/charts/shared/interaction/hover-dots-multiple";
-import { Ruler } from "@/charts/shared/interaction/ruler";
-import { Tooltip } from "@/charts/shared/interaction/tooltip";
+
+import { shouldShowBrush } from "@/charts/shared/brush";
 import { hasChartConfigs } from "@/configurator";
 import { useConfiguratorState } from "@/src";
 export const ChartComboLineColumnVisualization = (props) => {

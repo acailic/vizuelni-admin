@@ -1,15 +1,11 @@
-import { Trans } from "@lingui/macro";
-import MUITreeItem, { useTreeItem, } from "@mui/lab/TreeItem";
-import TreeView from "@mui/lab/TreeView";
-import { Box, Chip, Collapse, IconButton, Input, Popover, Select, Typography, useControlled, useEventCallback, } from "@mui/material";
+import { useTreeItem, } from "@mui/lab/TreeItem";
+import { Collapse, useControlled, useEventCallback, } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 import { forwardRef, useCallback, useEffect, useMemo, useRef, useState, } from "react";
-import { Flex } from "@/components/flex";
-import { Label, selectSizeToTypography } from "@/components/form";
+
+import { selectSizeToTypography } from "@/components/form";
 import { FIELD_VALUE_NONE } from "@/configurator/constants";
-import { Icon } from "@/icons";
-import SvgIcChevronRight from "@/icons/components/IcChevronRight";
 import { flattenTree, pruneTree } from "@/rdf/tree-utils";
 import { useEvent } from "@/utils/use-event";
 const useTreeItemStyles = makeStyles({

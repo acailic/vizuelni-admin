@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 const meta = {
     title: "components / Typography",
     component: Typography,

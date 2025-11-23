@@ -1,5 +1,5 @@
 import { photovoltaikChartStateMock } from "@/configurator/components/add-dataset-drawer.mock";
-import { ConfiguratorStateProvider } from "@/src";
+
 import { AddDatasetDrawer as AddDatasetDrawer_ } from "./add-dataset-drawer";
 export const AddDatasetDrawer = () => {
     return (<ConfiguratorStateProvider chartId="testing" initialState={photovoltaikChartStateMock}>

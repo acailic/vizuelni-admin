@@ -1,5 +1,6 @@
-import { useMemo } from 'react';
 import { useRouter } from 'next/router';
+import { useMemo } from 'react';
+
 import { DEFAULT_DEMO_LOCALE, isDemoLocale } from '@/types/demos';
 export function useDemoLocale(options) {
     const { locale } = useRouter();

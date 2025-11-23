@@ -1,11 +1,7 @@
-import { Autocomplete, Box, CircularProgress, ClickAwayListener, Typography, } from "@mui/material";
 import flatten from "lodash/flatten";
 import { useCallback, useMemo, useRef, useState } from "react";
-import { getSelectOptions, Label, selectSizeToTypography, } from "@/components/form";
-import { MultiSelectInput } from "@/components/multi-select/input";
-import { MultiSelectOption } from "@/components/multi-select/option";
-import { MultiSelectTags } from "@/components/multi-select/tags";
-import { TransitionPopper } from "@/components/multi-select/transition-popper";
+
+import { getSelectOptions, selectSizeToTypography, } from "@/components/form";
 import { truthy } from "@/domain/types";
 import { useLocale } from "@/locales/use-locale";
 import { useEvent } from "@/utils/use-event";

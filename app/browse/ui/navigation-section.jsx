@@ -1,13 +1,8 @@
-import { Trans } from "@lingui/macro";
-import { Button } from "@mui/material";
-import { Reorder } from "framer-motion";
 import orderBy from "lodash/orderBy";
 import sortBy from "lodash/sortBy";
 import { useMemo } from "react";
-import { NavigationItem } from "@/browse/ui/navigation-item";
-import { NavigationSectionTitle } from "@/browse/ui/navigation-section-title";
+
 import { useDisclosure } from "@/components/use-disclosure";
-import { Icon } from "@/icons";
 export const NavigationSection = ({ label, items, backgroundColor, currentFilter, filters, counts, extra, disableLinks, }) => {
     const { isOpen, open, close } = useDisclosure(!!currentFilter);
     const topItems = useMemo(() => {

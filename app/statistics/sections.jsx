@@ -1,4 +1,3 @@
-import { Box, Typography } from "@mui/material";
 export const SectionTitleWrapper = ({ children }) => {
     return (<Box sx={{
             width: "100%",

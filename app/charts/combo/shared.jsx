@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import { useChartTheme } from "@/charts/shared/use-chart-theme";
 import { getTextSize } from "@/utils/get-text-size";
 export const TITLE_V_PADDING = 4;

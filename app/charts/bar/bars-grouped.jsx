@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
+
 import { renderBars } from "@/charts/bar/rendering-utils";
 import { useChartState } from "@/charts/shared/chart-state";
 import { renderContainer, renderHorizontalWhisker, } from "@/charts/shared/rendering-utils";

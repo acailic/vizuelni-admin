@@ -1,5 +1,3 @@
-import { Trans } from "@lingui/macro";
-import { ConfiguratorAddButton } from "@/components/add-button";
 import { getChartConfig } from "@/config-utils";
 import { getDefaultHighlightAnnotation } from "@/configurator/components/chart-annotations/utils";
 import { isConfiguring, useConfiguratorState, } from "@/configurator/configurator-state";

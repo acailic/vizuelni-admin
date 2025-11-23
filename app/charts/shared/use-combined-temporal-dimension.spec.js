@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { getCombinedTemporalDimension } from "@/charts/shared/use-combined-temporal-dimension";
 import { stringifyComponentId } from "@/graphql/make-component-id";
 import { getD3TimeFormatLocale } from "@/locales/locales";

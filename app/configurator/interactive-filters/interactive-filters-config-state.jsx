@@ -1,6 +1,7 @@
 import produce from "immer";
 import get from "lodash/get";
 import { useEffect } from "react";
+
 import { getChartConfig, useChartConfigFilters } from "@/config-utils";
 import { isConfiguring, useConfiguratorState, } from "@/configurator/configurator-state";
 import { useEvent } from "@/utils/use-event";

@@ -1,5 +1,3 @@
-import { DatasetResult } from "@/browse/ui/dataset-result";
-import { ConfiguratorStateProvider } from "@/configurator";
 import { waldDatacubeResult } from "@/docs/dataset-result.mock";
 import { states } from "@/docs/fixtures";
 const meta = {

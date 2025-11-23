@@ -1,4 +1,3 @@
-import * as React from "react";
 function SvgIcOrganisations(props) {
     return (<svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path fillRule="evenodd" clipRule="evenodd" d="M5 20.583V4h13.519v16.583H5zm8.26-.75h4.509V4.75H5.75v15.083h4.51v-1.58h3v1.58z" fill="currentColor"/>

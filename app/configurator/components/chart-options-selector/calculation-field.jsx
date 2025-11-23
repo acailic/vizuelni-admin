@@ -1,8 +1,3 @@
-import { Trans } from "@lingui/macro";
-import { RadioGroup } from "@/components/form";
-import { MaybeTooltip } from "@/components/maybe-tooltip";
-import { ControlSection, ControlSectionContent, SectionTitle, } from "@/configurator/components/chart-controls/section";
-import { ChartOptionRadioField, ChartOptionSwitchField, } from "@/configurator/components/field";
 import { getFieldLabel } from "@/configurator/components/field-i18n";
 export const CalculationField = ({ disabled, warnMessage, }) => {
     return (<ControlSection collapse>

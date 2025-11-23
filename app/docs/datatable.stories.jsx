@@ -1,9 +1,6 @@
 import keyBy from "lodash/keyBy";
-import { ChartContainer } from "@/charts/shared/containers";
-import { Table } from "@/charts/table/table";
-import { TableChart } from "@/charts/table/table-state";
+
 import { tableConfig, tableDimensions, tableMeasures, tableObservations, } from "@/docs/fixtures";
-import { InteractiveFiltersChartProvider, InteractiveFiltersProvider, } from "@/stores/interactive-filters";
 const meta = {
     title: "Charts / Charts / Data Table",
 };

@@ -1,4 +1,5 @@
 import { topology } from "topojson-server";
+
 import { SQL_ENDPOINT } from "@/domain/env";
 import { DataCubePublicationStatus, } from "@/graphql/resolver-types";
 const fetchSQL = ({ path, pathParams, method = "GET", body, }) => fetch(`${SQL_ENDPOINT}${path}${pathParams ? `?${new URLSearchParams(pathParams)}` : ``}`, { method, body });

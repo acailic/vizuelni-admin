@@ -1,14 +1,8 @@
-import { Trans } from "@lingui/macro";
-import { Box, Button, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { Flex } from "@/components/flex";
-import { MaybeTooltip } from "@/components/maybe-tooltip";
+
 import { isComboChartConfig, overrideChecked, } from "@/configurator";
 import { getFieldLabel } from "@/configurator/components/field-i18n";
 import { getComponentLabel, getIconName, } from "@/configurator/components/ui-helpers";
-import { Icon } from "@/icons";
-import SvgIcPen from "@/icons/components/IcPen";
-import SvgIcWarningCircle from "@/icons/components/IcWarningCircle";
 import { useEvent } from "@/utils/use-event";
 export const ControlTabFieldInner = ({ chartConfig, fieldComponents, value, onClick, checked, labelId, disabled, warnMessage, }) => {
     const handleClick = useEvent(() => onClick(value));

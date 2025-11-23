@@ -1,11 +1,8 @@
-import { Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { hcl } from "d3-color";
+
 import { useChartState } from "@/charts/shared/chart-state";
 import { BAR_CELL_PADDING } from "@/charts/table/constants";
-import { LinkedCellWrapper } from "@/charts/table/linked-cell-wrapper";
-import { Tag } from "@/charts/table/tag";
-import { Flex } from "@/components/flex";
 const useStyles = makeStyles((theme) => ({
     heatmapCell: {
         alignItems: "center",

@@ -1,8 +1,5 @@
-import { t, Trans } from "@lingui/macro";
-import { Stack, Typography } from "@mui/material";
-import { RadioGroup } from "@/components/form";
-import { ControlSection, ControlSectionContent, SectionTitle, } from "@/configurator/components/chart-controls/section";
-import { ChartOptionRadioField, ChartOptionSwitchField, } from "@/configurator/components/field";
+import { t } from "@lingui/macro";
+
 import { isConfiguring, useConfiguratorState, } from "@/configurator/configurator-state";
 import { useLocale } from "@/locales/use-locale";
 export const ShowDotsField = ({ fields, field, }) => {

@@ -1,4 +1,5 @@
 import sortBy from "lodash/sortBy";
+
 import { sortFilterValue } from "@/configurator/components/filters";
 import { bfs } from "@/utils/bfs";
 export const mapTree = (tree, cb) => {

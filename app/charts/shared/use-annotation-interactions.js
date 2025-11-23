@@ -1,4 +1,5 @@
 import isEqual from "lodash/isEqual";
+
 import { getAnnotationTargetsFromObservation, useIsEditingAnnotation, } from "@/charts/shared/annotation-utils";
 import { useInteraction } from "@/charts/shared/use-interaction";
 import { getChartConfig, useDefinitiveFilters } from "@/config-utils";

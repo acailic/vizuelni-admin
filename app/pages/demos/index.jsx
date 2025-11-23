@@ -1,8 +1,6 @@
 import { defineMessage } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
-import { Box, Button, Card, CardActionArea, CardContent, Chip, Grid, Typography, } from "@mui/material";
-import Link from "next/link";
-import { DemoLayout } from "@/components/demos/demo-layout";
+
 import { DEMO_CONFIGS } from "@/lib/demos/config";
 export default function DemosIndex() {
     var _a;

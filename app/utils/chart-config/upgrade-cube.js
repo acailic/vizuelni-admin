@@ -1,4 +1,5 @@
 import ParsingClient from "sparql-http-client/ParsingClient";
+
 import { hasChartConfigs } from "@/configurator";
 import { getMaybeCachedSparqlUrl } from "@/graphql/caching-utils";
 import { DataCubeLatestIriDocument, DataCubeUnversionedIriDocument, } from "@/graphql/query-hooks";

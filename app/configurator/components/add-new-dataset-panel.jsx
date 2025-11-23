@@ -2,10 +2,8 @@ import { useEventCallback } from "@mui/material";
 import { useState } from "react";
 import { useClient } from "urql";
 import createStore from "zustand";
-import { SelectDatasetStep } from "@/browse/ui/select-dataset-step";
-import { DialogCloseButton } from "@/components/dialog-close-button";
-import { RightDrawer } from "@/configurator/components/drawers";
-import { ConfiguratorStateProvider, initChartStateFromCube, useConfiguratorState, } from "@/configurator/configurator-state";
+
+import { initChartStateFromCube, useConfiguratorState, } from "@/configurator/configurator-state";
 import { useLocale } from "@/locales/use-locale";
 import { useDataSourceStore } from "@/stores/data-source";
 import { assert } from "@/utils/assert";

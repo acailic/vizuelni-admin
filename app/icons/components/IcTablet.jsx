@@ -1,4 +1,3 @@
-import * as React from "react";
 function SvgIcTablet(props) {
     return (<svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path d="M9.766 5.227h3.993v.75H9.766v-.75z" fill="currentColor"/>

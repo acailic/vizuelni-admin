@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 import { useCallback } from "react";
-import { Switch } from "@/components/form";
+
 import { useChartInteractiveFilters } from "@/stores/interactive-filters";
 export const CalculationToggle = () => {
     const calculation = useChartInteractiveFilters((d) => d.calculation);

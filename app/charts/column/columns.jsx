@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
+
 import { renderColumns, } from "@/charts/column/rendering-utils";
 import { useColumnValueLabelsData } from "@/charts/column/show-values-utils";
 import { useGetAnnotationRenderState } from "@/charts/shared/annotation-utils";

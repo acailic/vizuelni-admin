@@ -1,4 +1,5 @@
 import { getServerSession } from "next-auth";
+
 import { createPaletteForUser, deletePaletteForUser, getPalettesForUser, updatePaletteForUser, } from "@/db/palettes";
 import { nextAuthOptions } from "@/pages/api/auth/[...nextauth]";
 import { controller } from "@/server/nextkit";

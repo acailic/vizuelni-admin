@@ -1,8 +1,6 @@
-import { t, Trans } from "@lingui/macro";
-import { Typography } from "@mui/material";
+import { t } from "@lingui/macro";
 import { useMemo } from "react";
-import { Flex } from "@/components/flex";
-import { Select } from "@/components/form";
+
 import { SearchCubeResultOrder } from "@/graphql/query-hooks";
 export const SearchDatasetSortControl = ({ value, onChange, disableScore, }) => {
     const options = useMemo(() => {

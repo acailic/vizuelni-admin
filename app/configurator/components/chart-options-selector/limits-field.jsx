@@ -1,13 +1,9 @@
-import { t, Trans } from "@lingui/macro";
-import { Box, Typography } from "@mui/material";
+import { t } from "@lingui/macro";
 import get from "lodash/get";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
-import { LegendItem } from "@/charts/shared/legend-color";
-import { Flex } from "@/components/flex";
-import { Radio, RadioGroup, Switch } from "@/components/form";
+
 import { getAxisDimension, getMaybeValidChartConfigLimit, getSupportsLimitSymbols, useChartConfigFilters, } from "@/config-utils";
-import { ControlSection, ControlSectionContent, SectionTitle, } from "@/configurator/components/chart-controls/section";
 import { isConfiguring, useConfiguratorState, } from "@/configurator/configurator-state";
 import { truthy } from "@/domain/types";
 import { getPalette } from "@/palettes";

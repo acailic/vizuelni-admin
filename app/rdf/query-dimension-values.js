@@ -3,6 +3,7 @@ import { SELECT } from "@tpluscode/sparql-builder";
 import keyBy from "lodash/keyBy";
 import pickBy from "lodash/pickBy";
 import sortBy from "lodash/sortBy";
+
 import { FIELD_VALUE_NONE } from "@/configurator/constants";
 import { parseObservationValue } from "@/domain/data";
 import { isMostRecentValue } from "@/domain/most-recent-value";

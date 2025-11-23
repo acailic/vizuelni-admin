@@ -1,4 +1,5 @@
 import { makeStyles } from "@mui/styles";
+
 import { useChartState } from "@/charts/shared/chart-state";
 import { useInteraction } from "@/charts/shared/use-interaction";
 import { useIsMobile } from "@/utils/use-is-mobile";

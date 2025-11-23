@@ -4,12 +4,11 @@ import { schemeCategory10 } from "d3-scale-chromatic";
 import { arc, pie } from "d3-shape";
 import orderBy from "lodash/orderBy";
 import { useCallback, useMemo } from "react";
+
 import { usePieStateData, usePieStateVariables, } from "@/charts/pie/pie-state-props";
 import { useShowPieValueLabelsVariables, } from "@/charts/pie/show-values-utils";
 import { getChartWidth, useAxisLabelSizeVariables, useChartBounds, } from "@/charts/shared/chart-dimensions";
-import { ChartContext, } from "@/charts/shared/chart-state";
 import { useChartFormatters } from "@/charts/shared/use-chart-formatters";
-import { InteractionProvider } from "@/charts/shared/use-interaction";
 import { useSize } from "@/charts/shared/use-size";
 import { formatNumberWithUnit, useFormatNumber } from "@/formatters";
 import { getPalette } from "@/palettes";

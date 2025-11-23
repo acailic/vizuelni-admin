@@ -1,13 +1,12 @@
 // @ts-nocheck
-import { Box, Card as MUICard, CircularProgress, FormControlLabel, lighten, Switch, Typography, } from "@mui/material";
+import { Card as MUICard, lighten, } from "@mui/material";
 import { makeStyles, styled } from "@mui/styles";
 import clsx from "clsx";
 import groupBy from "lodash/groupBy";
 import mapValues from "lodash/mapValues";
 import { useEffect, useMemo, useState } from "react";
-import { Inspector } from "react-inspector";
 import { useExpanded, useSortBy, useTable } from "react-table";
-import { Loading } from "@/components/hint";
+
 import { useDataCubesComponentsQuery, useDataCubesObservationsQuery, } from "@/graphql/hooks";
 import { visitHierarchy } from "@/rdf/tree-utils";
 import { useEvent } from "@/utils/use-event";

@@ -1,10 +1,7 @@
-import { Box } from "@mui/material";
 import { hexToHsva, hsvaToHex } from "@uiw/react-color";
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import { Checkbox, Input, Radio, Select } from "@/components/form";
-import { OnOffControlTab as OnOffControlTabComponent } from "@/configurator/components/chart-controls/control-tab";
-import { ControlSection, SectionTitle, } from "@/configurator/components/chart-controls/section";
+
 import { IconButton } from "@/configurator/components/icon-button";
 import { createColorId } from "@/utils/color-palette-utils";
 // Have to import dynamically to avoid @uiw/react-color dependency issues with the server

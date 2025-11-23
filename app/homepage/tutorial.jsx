@@ -1,10 +1,4 @@
-import { Card, Typography } from "@mui/material";
-import { ContentWrapper } from "@/components/content-wrapper";
-import { Flex } from "@/components/flex";
-import { HomepageSectionTitle } from "@/homepage/generic";
-import { Step1 } from "@/homepage/step1";
-import { Step2 } from "@/homepage/step2";
-import { Step3 } from "@/homepage/step3";
+
 export const Tutorial = ({ headline, step1, step2, step3, }) => {
     return (<ContentWrapper sx={{ py: 20 }}>
       <div style={{ width: "100%" }}>

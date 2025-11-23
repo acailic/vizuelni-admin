@@ -3,6 +3,7 @@ import groupBy from "lodash/groupBy";
 import omit from "lodash/omit";
 import uniq from "lodash/uniq";
 import uniqBy from "lodash/uniqBy";
+
 import { isJoinByComponent, } from "@/domain/data";
 import { assert } from "@/utils/assert";
 const JOIN_BY_CUBE_IRI = "joinBy";

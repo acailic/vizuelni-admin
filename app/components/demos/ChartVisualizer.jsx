@@ -2,9 +2,8 @@
  * Smart Chart Visualizer
  * Automatically selects appropriate visualization based on data and chart type
  */
-import { Alert, Box, Typography } from '@mui/material';
 import { useMemo } from 'react';
-import { BarChart, ColumnChart, LineChart, PieChart } from './charts';
+
 /**
  * Automatically detect the best columns to visualize
  */

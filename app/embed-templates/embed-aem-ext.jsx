@@ -1,5 +1,5 @@
-import Head from "next/head";
 import { renderToStaticMarkup } from "react-dom/server";
+
 import { getEmbedParamsQueryString, } from "@/components/embed-params";
 import { PUBLIC_URL } from "@/domain/env";
 const EmbedHTML = ({ locale, chartId, embedQueryParams }) => (<html lang={locale}>

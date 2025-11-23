@@ -1,9 +1,5 @@
-import { Trans } from "@lingui/macro";
 import { interpolatePurples, interpolateRdYlGn } from "d3-scale-chromatic";
-import { Flex } from "@/components/flex";
-import { Label } from "@/components/form";
-import { ColorSquare } from "@/configurator/components/chart-controls/color-palette";
-import { ColorRamp } from "@/configurator/components/chart-controls/color-ramp";
+
 const categoricalExamplePalette = [
     "#663778",
     "#FF9900",

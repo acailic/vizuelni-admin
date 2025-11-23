@@ -1,8 +1,6 @@
 import { styled } from "@mui/material";
-import { MaterialDesignContent, SnackbarProvider as NotistackSnackbarProvider, } from "notistack";
-import SvgIcCheckmarkCircle from "@/icons/components/IcCheckmarkCircle";
-import SvgIcClear from "@/icons/components/IcClear";
-import SvgIcInfoCircle from "@/icons/components/IcInfoCircle";
+import { MaterialDesignContent, } from "notistack";
+
 const StyledMaterialDesignContent = styled(MaterialDesignContent)(({ theme }) => ({
     "&.notistack-MuiContent-success": {
         color: theme.palette.text.primary,

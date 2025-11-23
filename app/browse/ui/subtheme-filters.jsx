@@ -1,4 +1,3 @@
-import { NavigationItem } from "@/browse/ui/navigation-item";
 export const SubthemeFilters = ({ subthemes, filters, counts, disableLinks, countBg, }) => {
     return (<>
       {subthemes.map((d) => {

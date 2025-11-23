@@ -1,6 +1,7 @@
 import { getContrastingColor } from "@uiw/react-color";
 import { select } from "d3-selection";
 import { useCallback } from "react";
+
 import { hasSegmentAnnotation } from "@/charts/shared/annotation-utils";
 import { useChartState } from "@/charts/shared/chart-state";
 import { setSegmentValueLabelProps, setSegmentWrapperValueLabelProps, } from "@/charts/shared/render-value-labels";

@@ -1,13 +1,9 @@
-import { I18nProvider } from "@lingui/react";
-import { ThemeProvider } from "@mui/material";
 import { useEffect } from "react";
 import create, { useStore } from "zustand";
-import { ChartPublished } from "@/components/chart-published";
+
 import { decodeConfiguratorState, } from "@/config-types";
-import { ConfiguratorStateProvider } from "@/configurator/configurator-state";
-import { GraphqlProvider } from "@/graphql/graphql-provider";
 import { i18n } from "@/locales/locales";
-import { LocaleProvider, useLocale } from "@/locales/use-locale";
+import { useLocale } from "@/locales/use-locale";
 import * as federalTheme from "@/themes/theme";
 import { migrateConfiguratorState } from "@/utils/chart-config/versioning";
 import { hashStringToObject } from "@/utils/hash-utils";

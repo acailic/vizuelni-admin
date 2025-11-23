@@ -1,20 +1,14 @@
-import { t, Trans } from "@lingui/macro";
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { t } from "@lingui/macro";
 import { makeStyles } from "@mui/styles";
 import get from "lodash/get";
 import orderBy from "lodash/orderBy";
 import pick from "lodash/pick";
 import dynamic from "next/dynamic";
 import { useCallback, useMemo, useState, } from "react";
-import { LegendItem } from "@/charts/shared/legend-color";
-import { Flex } from "@/components/flex";
-import { Checkbox, Input, MarkdownInput, Radio, Select, Slider, Switch, } from "@/components/form";
-import { SelectTree } from "@/components/select-tree";
+
 import { useDisclosure } from "@/components/use-disclosure";
 import { isColorInConfig, } from "@/config-types";
 import { getChartConfig, useChartConfigFilters } from "@/config-utils";
-import { ControlTab, ControlTabFieldInner, OnOffControlTab, } from "@/configurator/components/chart-controls/control-tab";
-import { DatePickerField, } from "@/configurator/components/field-date-picker";
 import { getFieldLabel } from "@/configurator/components/field-i18n";
 import { isMultiFilterFieldChecked, useActiveChartField, useActiveLayoutField, useChartFieldField, useChartOptionBooleanField, useChartOptionRadioField, useChartOptionSelectField, useChartOptionSliderField, useMetaField, useMultiFilterContext, useSingleFilterField, useSingleFilterSelect, } from "@/configurator/config-form";
 import { isConfiguring, isLayouting, useConfiguratorState, } from "@/configurator/configurator-state";

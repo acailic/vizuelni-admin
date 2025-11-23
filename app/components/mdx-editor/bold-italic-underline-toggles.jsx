@@ -1,7 +1,6 @@
 import { applyFormat$, currentFormat$, iconComponentFor$, IS_BOLD, IS_ITALIC, IS_UNDERLINE, } from "@mdxeditor/editor";
 import { useCellValues, usePublisher } from "@mdxeditor/gurx";
-import { ToolbarIconButton } from "@/components/mdx-editor/common";
-import { Icon } from "@/icons";
+
 const FormatButton = ({ format, iconName, formatName, }) => {
     const [currentFormat] = useCellValues(currentFormat$, iconComponentFor$);
     const applyFormat = usePublisher(applyFormat$);

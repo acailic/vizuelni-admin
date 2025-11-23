@@ -1,6 +1,7 @@
 import produce, { createDraft, current } from "immer";
 import get from "lodash/get";
 import { afterEach, describe, expect, it, vi } from "vitest";
+
 import { getChartConfigAdjustedToChartType } from "@/charts";
 import { getChartConfig } from "@/config-utils";
 import { getNewChartConfig } from "@/configurator/config-form";

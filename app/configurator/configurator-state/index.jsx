@@ -2,6 +2,7 @@ import produce, { current } from "immer";
 import get from "lodash/get";
 import pickBy from "lodash/pickBy";
 import set from "lodash/set";
+
 import { getEnabledChartTypes, getInitialConfig } from "@/charts";
 import { getChartSpec } from "@/charts/chart-config-ui-options";
 import { enableLayouting, isColorFieldInConfig, } from "@/config-types";

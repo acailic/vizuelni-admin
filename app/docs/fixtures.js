@@ -1,8 +1,10 @@
 import mapKeys from "lodash/mapKeys";
+
 import { DEFAULT_DATA_SOURCE } from "@/domain/data-source";
 import { stringifyComponentId } from "@/graphql/make-component-id";
 import { createMeta } from "@/locales/localized-string";
 import { CONFIGURATOR_STATE_VERSION } from "@/utils/chart-config/constants";
+
 import { TimeUnit } from "../graphql/query-hooks";
 export const states = [
     {

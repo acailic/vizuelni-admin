@@ -1,8 +1,6 @@
 import { defineMessage } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
-import { Box, Card, CardContent, Chip, Grid, Stack, Typography } from "@mui/material";
-import { ColumnChart, LineChart, PieChart } from "@/components/demos/charts";
-import { DemoLayout } from "@/components/demos/demo-layout";
+
 import { showcaseDigitalSkills, showcaseEnergyMix, showcaseRegionalGrowth, showcaseRidershipTrend, } from "@/data/demo-showcase";
 export default function DemoShowcasePage() {
     const { i18n } = useLingui();

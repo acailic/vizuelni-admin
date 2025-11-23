@@ -1,17 +1,16 @@
-import { Box, Button, sliderClasses, Typography } from "@mui/material";
+import { sliderClasses } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 import orderBy from "lodash/orderBy";
 import { createContext, useContext, useEffect, useMemo, } from "react";
 import { useSyncExternalStore } from "use-sync-external-store/shim";
+
 import { useChartState } from "@/charts/shared/chart-state";
-import { Slider as GenericSlider } from "@/components/form";
 import { parseDate } from "@/configurator/components/ui-helpers";
 import { hasChartConfigs } from "@/configurator/configurator-state";
 import { isTemporalDimension, isTemporalEntityDimension, isTemporalOrdinalDimension, } from "@/domain/data";
 import { truthy } from "@/domain/types";
 import { useTimeFormatUnit } from "@/formatters";
-import { Icon } from "@/icons";
 import { useConfiguratorState } from "@/src";
 import { useChartInteractiveFilters } from "@/stores/interactive-filters";
 import { Timeline } from "@/utils/observables";

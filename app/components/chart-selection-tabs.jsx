@@ -1,23 +1,14 @@
-import { DragDropContext as BeautifulDragDropContext, Draggable, Droppable as BeautifulDroppable, } from "@hello-pangea/dnd";
-import { t, Trans } from "@lingui/macro";
-import { TabContext } from "@mui/lab";
-import { Button, Divider, Stack, tabClasses, Typography, } from "@mui/material";
+import { DragDropContext as BeautifulDragDropContext, Droppable as BeautifulDroppable, } from "@hello-pangea/dnd";
+import { t } from "@lingui/macro";
+import { tabClasses, } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 import { createContext, useContext, useEffect, useState, } from "react";
-import { AddButton } from "@/components/add-button";
-import { ArrowMenuTopCenter } from "@/components/arrow-menu";
-import { DuplicateChartMenuActionItem } from "@/components/chart-shared";
-import { DragHandle } from "@/components/drag-handle";
-import { Flex } from "@/components/flex";
-import { MenuActionItem } from "@/components/menu-action-item";
-import { VisualizeTab, VisualizeTabList } from "@/components/tabs";
+
 import { getChartConfig } from "@/config-utils";
 import { hasChartConfigs, isConfiguring, isLayouting, isPublished, isPublishing, useConfiguratorState, } from "@/configurator";
 import { useSearchDatasetPanelStore } from "@/configurator/components/add-new-dataset-panel";
-import { ChartTypeSelector } from "@/configurator/components/chart-type-selector";
 import { getIconName } from "@/configurator/components/ui-helpers";
-import { Icon } from "@/icons";
 import { useLocale } from "@/locales";
 import { useEvent } from "@/utils/use-event";
 const TABS_STATE = {

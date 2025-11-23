@@ -2,6 +2,7 @@ import { select } from "d3-selection";
 import { toPng, toSvg } from "html-to-image";
 import { addMetadata } from "meta-png";
 import { useCallback, useState } from "react";
+
 import { CHART_SVG_ID } from "@/charts/shared/containers";
 import { TABLE_PREVIEW_WRAPPER_CLASS_NAME } from "@/components/chart-table-preview";
 import { animationFrame } from "@/utils/animation-frame";

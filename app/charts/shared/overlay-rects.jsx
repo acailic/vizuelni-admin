@@ -1,5 +1,6 @@
 import { sum } from "d3-array";
 import { useCallback, useMemo } from "react";
+
 import { useGetAnnotationRenderState } from "@/charts/shared/annotation-utils";
 import { ANNOTATION_FOCUS_COLOR, ANNOTATION_FOCUS_WIDTH, } from "@/charts/shared/rendering-utils";
 import { useInteraction } from "@/charts/shared/use-interaction";

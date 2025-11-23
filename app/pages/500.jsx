@@ -1,6 +1,4 @@
-import { Box, Typography } from "@mui/material";
-import { Actions, ErrorPageHint, HomeLink, ReloadButton, } from "@/components/error-pages-components";
-import { ContentLayout } from "@/components/layout";
+
 const Page = () => {
     return (<ContentLayout>
       <Box sx={{ backgroundColor: "muted.main", my: "auto" }}>

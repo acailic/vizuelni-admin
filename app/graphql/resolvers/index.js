@@ -1,4 +1,5 @@
 import { GraphQLError, GraphQLScalarType, Kind } from "graphql";
+
 import { isDataSourceUrlAllowed } from "@/domain/data-source";
 import { setupFlamegraph } from "@/gql-flamegraph/resolvers";
 import { TimeUnit, } from "@/graphql/resolver-types";

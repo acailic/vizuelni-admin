@@ -1,15 +1,9 @@
-import { Trans } from "@lingui/macro";
-import { Stack } from "@mui/material";
-import { AnimatePresence } from "framer-motion";
 import keyBy from "lodash/keyBy";
 import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
 import { useMemo } from "react";
+
 import { useBrowseContext } from "@/browse/model/context";
-import { NavigationSection } from "@/browse/ui/navigation-section";
-import { SubthemeFilters } from "@/browse/ui/subtheme-filters";
-import { Flex } from "@/components/flex";
-import { InfoIconTooltip } from "@/components/info-icon-tooltip";
 import { truthy } from "@/domain/types";
 const navigationOrder = {
     DataCubeTheme: 1,

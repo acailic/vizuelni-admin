@@ -1,7 +1,6 @@
-import { Box, Card, Tooltip, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { max, sum } from "d3-array";
-import { motion } from "framer-motion";
+
 import { useFlag } from "@/flags/use-flag";
 import { formatInteger } from "@/statistics/formatters";
 export const BaseStatsCard = ({ title, subtitle, data, columnName = "Date", trend, showPercentage = false, }) => {

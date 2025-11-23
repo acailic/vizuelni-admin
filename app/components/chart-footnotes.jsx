@@ -1,13 +1,9 @@
-import { t, Trans } from "@lingui/macro";
-import { Box, Link, Typography } from "@mui/material";
+import { t } from "@lingui/macro";
 import { makeStyles } from "@mui/styles";
 import uniqBy from "lodash/uniqBy";
 import { useMemo } from "react";
+
 import { extractChartConfigUsedComponents } from "@/charts/shared/chart-helpers";
-import { LegendItem } from "@/charts/shared/legend-color";
-import { ChartFiltersList } from "@/components/chart-filters-list";
-import { Flex } from "@/components/flex";
-import { MetadataPanel, OpenMetadataPanelWrapper, } from "@/components/metadata-panel";
 import { isComboChartConfig, } from "@/configurator";
 import { useTimeFormatLocale } from "@/formatters";
 import { useDataCubesMetadataQuery } from "@/graphql/hooks";

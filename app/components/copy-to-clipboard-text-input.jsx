@@ -1,10 +1,7 @@
-import { Trans } from "@lingui/macro";
-import { Button, Input } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import * as clipboard from "clipboard-polyfill/text";
 import { useState } from "react";
-import { Flex } from "@/components/flex";
-import { Icon } from "@/icons";
+
 const useActionTooltipStyles = makeStyles((theme) => ({
     actionTooltip: {
         position: "absolute",

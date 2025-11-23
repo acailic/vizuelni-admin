@@ -1,4 +1,5 @@
 import { timeDay, timeHour, timeMinute, timeMonth, timeSecond, timeWeek, timeYear, } from "d3-time";
+
 import { TimeUnit } from "@/graphql/query-hooks";
 const timeIntervals = new Map([
     [TimeUnit.Year, timeYear],

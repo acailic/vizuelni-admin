@@ -1,11 +1,10 @@
-import { Box } from "@mui/material";
-import { Actions, Examples, Intro, Tutorial } from "@/homepage";
 import { bugReportTemplates } from "@/templates/email/bug-report";
 import { OWNER_ORGANIZATION_EMAIL, SUPPORT_EMAIL, } from "@/templates/email/config";
 import { featureRequestTemplates } from "@/templates/email/feature-request";
 import { newsletterTemplates } from "@/templates/email/newsletter";
+
 import { createMailtoLink } from "../../app/templates/email";
-import { ReactSpecimen } from "./catalog";
+
 const meta = {
     title: "page / Homepage",
 };

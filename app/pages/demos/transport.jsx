@@ -3,11 +3,8 @@
  * Traffic Safety Crisis Visualization
  * Alarming data about road fatalities, preventable accidents, and poor infrastructure
  */
-import { Alert, Box, Card, CardContent, Chip, Grid, LinearProgress, Paper, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
-import { BarChart } from '@/components/demos/charts/BarChart';
-import { LineChart } from '@/components/demos/charts/LineChart';
-import { DemoLayout } from '@/components/demos/demo-layout';
+
 import { accidentCauses, comparativeData, roadInfrastructure, trafficFatalities, trafficStats } from '@/data/serbia-traffic-safety';
 export default function TransportDemo() {
     const router = useRouter();

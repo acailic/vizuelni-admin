@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+
 import { createColorId, getFittingColorInterpolator, hasEnoughContrast, } from "./color-palette-utils";
 vi.mock("nanoid", () => ({
     nanoid: (length) => "test".slice(0, length),

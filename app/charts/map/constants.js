@@ -1,4 +1,5 @@
 import { schemeCategory10 } from "d3-scale-chromatic";
+
 import { mapValueIrisToColor } from "@/configurator/components/ui-helpers";
 export const DEFAULT_FIXED_COLOR_FIELD_OPACITY = 80;
 export const DEFAULT_OTHER_COLOR_FIELD_OPACITY = 100;

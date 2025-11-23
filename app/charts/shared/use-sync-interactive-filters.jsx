@@ -1,5 +1,6 @@
 import isEqual from "lodash/isEqual";
 import { useEffect, useMemo, useRef } from "react";
+
 import { isSegmentInConfig, } from "@/config-types";
 import { useChartConfigFilters } from "@/config-utils";
 import { parseDate } from "@/configurator/components/ui-helpers";

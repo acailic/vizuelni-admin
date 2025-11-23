@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { buildLocalizedSubQuery } from "./query-utils";
 describe("buildLocalizedSubQuery", () => {
     it("should build a subquery with the given locale", () => {

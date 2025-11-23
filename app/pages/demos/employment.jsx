@@ -3,10 +3,8 @@
  * Employment Crisis Visualization
  * Alarming data about youth unemployment, brain drain, and wage gaps
  */
-import { Alert, Box, Card, CardContent, Grid, Paper, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
-import { LineChart } from '@/components/demos/charts/LineChart';
-import { DemoLayout } from '@/components/demos/demo-layout';
+
 import { brainDrainData, employmentStats, skillsMismatch, unemploymentTrends, wageComparison } from '@/data/serbia-employment';
 export default function EmploymentDemo() {
     const router = useRouter();

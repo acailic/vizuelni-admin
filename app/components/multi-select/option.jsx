@@ -1,8 +1,6 @@
 import { t } from "@lingui/macro";
-import { ListSubheader, MenuItem, Typography, } from "@mui/material";
-import { Flex } from "@/components/flex";
-import { DisabledMessageIcon, selectSizeToTypography, } from "@/components/form";
-import { Icon } from "@/icons";
+
+import { selectSizeToTypography, } from "@/components/form";
 export const MultiSelectOption = ({ props, option: { isGroupHeader, isNoneValue, value, label, disabled, disabledMessage, }, state, size, width, }) => {
     if (!value && !isGroupHeader) {
         return null;

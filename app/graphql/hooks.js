@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useClient } from "urql";
+
 import { hasChartConfigs, } from "@/configurator";
 import { truthy } from "@/domain/types";
 import { createLocalizedString } from "@/locales/localized-string";
 import { assert } from "@/utils/assert";
+
 import { joinDimensions, mergeObservations } from "./join";
 import { DataCubeComponentsDocument, DataCubeComponentTermsetsDocument, DataCubeMetadataDocument, DataCubeObservationsDocument, } from "./query-hooks";
 const queryResultsCache = new Map();

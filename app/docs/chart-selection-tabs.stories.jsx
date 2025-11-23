@@ -1,5 +1,4 @@
 import { ChartSelectionTabs } from "@/components/chart-selection-tabs";
-import { ConfiguratorStateProvider } from "@/configurator";
 import palmerPenguinsFixture from "@/test/__fixtures/config/int/scatterplot-palmer-penguins.json";
 const meta = {
     component: ChartSelectionTabs,

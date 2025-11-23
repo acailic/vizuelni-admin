@@ -1,6 +1,7 @@
 import { _WMSLayer as DeckGLWMSLayer } from "@deck.gl/geo-layers";
 import { XMLParser } from "fast-xml-parser";
 import uniq from "lodash/uniq";
+
 import { isRemoteLayerCRSSupported } from "@/charts/map/wms-wmts-endpoint-utils";
 import { maybeArray, parseCrs } from "@/charts/map/wms-wmts-parse-utils";
 const parseWMSLayer = (layer, parentAttributes, parentPath = "") => {

@@ -1,4 +1,5 @@
 import { rollup } from "d3-array";
+
 import { MAX_BATCH_SIZE } from "@/graphql/context";
 import { iriToNode } from "@/rdf/query-utils";
 /**

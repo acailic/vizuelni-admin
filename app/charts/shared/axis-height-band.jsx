@@ -1,9 +1,9 @@
 import { axisLeft } from "d3-axis";
 import { useEffect, useRef } from "react";
+
 import { useChartState } from "@/charts/shared/chart-state";
 import { maybeTransition, renderContainer, } from "@/charts/shared/rendering-utils";
 import { useChartTheme } from "@/charts/shared/use-chart-theme";
-import { OpenMetadataPanelWrapper } from "@/components/metadata-panel";
 import { useTimeFormatUnit } from "@/formatters";
 import { useTransitionStore } from "@/stores/transition";
 export const AxisHeightBand = () => {

@@ -1,7 +1,7 @@
-import { Box } from "@mui/material";
 import throttle from "lodash/throttle";
 import { useEffect, useMemo, useRef, useState } from "react";
 import ReactDOM from "react-dom";
+
 import { getChartWidth } from "@/charts/shared/chart-dimensions";
 import { useSize } from "@/charts/shared/use-size";
 import { useIsMobile } from "@/utils/use-is-mobile";

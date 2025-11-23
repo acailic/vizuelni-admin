@@ -1,6 +1,3 @@
-import { Box, Link, Typography } from "@mui/material";
-import NextLink from "next/link";
-import { AppLayout } from "@/components/layout";
 export const getStaticProps = async () => {
     return {
         props: {},

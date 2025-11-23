@@ -1,5 +1,6 @@
-import { Box, useMediaQuery } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 import { useMemo } from "react";
+
 import classes from "@/components/chart-panel-layout-tall.module.css";
 import { useTheme } from "@/themes";
 export const ChartPanelLayoutTall = ({ blocks, renderBlock, }) => {

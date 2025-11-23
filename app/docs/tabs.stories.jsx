@@ -1,7 +1,6 @@
-import { TabContext, TabList } from "@mui/lab";
-import { Tab } from "@mui/material";
 import { useState } from "react";
-import { VisualizeTab, VisualizeTabList } from "@/components/tabs";
+
+import { VisualizeTab } from "@/components/tabs";
 const meta = {
     default: VisualizeTab,
     title: "components / Tabs",

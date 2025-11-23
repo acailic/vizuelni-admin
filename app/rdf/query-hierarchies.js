@@ -2,6 +2,7 @@ import { getHierarchy, } from "@zazuko/cube-hierarchy-query/index";
 import orderBy from "lodash/orderBy";
 import uniqBy from "lodash/uniqBy";
 import rdf from "rdf-ext";
+
 import { parseTerm } from "@/domain/data";
 import { truthy } from "@/domain/types";
 import * as ns from "@/rdf/namespace";

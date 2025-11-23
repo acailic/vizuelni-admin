@@ -1,16 +1,10 @@
-import { Trans } from "@lingui/macro";
-import { Box, Stack, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 import sortBy from "lodash/sortBy";
-import NextLink from "next/link";
 import { useRouter } from "next/router";
+
 import { getBrowseParamsFromQuery } from "@/browse/lib/params";
-import { DateFormat } from "@/browse/ui/date-format";
-import { Flex } from "@/components/flex";
-import { MaybeTooltip } from "@/components/maybe-tooltip";
-import { MotionCard, smoothPresenceProps } from "@/components/presence";
-import { Tag } from "@/components/tag";
+import { smoothPresenceProps } from "@/components/presence";
 import { DataCubePublicationStatus } from "@/graphql/query-hooks";
 import { useEvent } from "@/utils/use-event";
 export const DatasetResult = ({ dataCube: { iri, publicationStatus, title, description, themes, datePublished, creator, dimensions, }, highlightedTitle, highlightedDescription, showTags = true, disableTitleLink, showDimensions, onClickTitle, ...cardProps }) => {

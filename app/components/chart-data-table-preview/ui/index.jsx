@@ -1,7 +1,4 @@
-import { Box } from "@mui/material";
-import { DataTablePreview } from "@/browse/ui/data-table-preview";
 import { extractChartConfigComponentIds, useQueryFilters, } from "@/charts/shared/chart-helpers";
-import { Loading } from "@/components/hint";
 import { useDataCubesComponentsQuery, useDataCubesMetadataQuery, useDataCubesObservationsQuery, } from "@/graphql/hooks";
 import { useLocale } from "@/locales/use-locale";
 export const ChartDataTablePreview = ({ dataSource, chartConfig, dashboardFilters, sx, }) => {

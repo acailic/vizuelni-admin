@@ -1,9 +1,8 @@
-import { Box, Typography } from "@mui/material";
 import { hcl } from "d3-color";
 import { createContext, useContext, useMemo, useState, } from "react";
+
 import { useChartState } from "@/charts/shared/chart-state";
 import { rgbArrayToHex } from "@/charts/shared/colors";
-import { TooltipBox } from "@/charts/shared/interaction/tooltip-box";
 import { useChartFormatters } from "@/charts/shared/use-chart-formatters";
 import { useInteraction } from "@/charts/shared/use-interaction";
 import { truthy } from "@/domain/types";

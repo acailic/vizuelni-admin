@@ -1,5 +1,4 @@
-import { Box, Typography } from "@mui/material";
-import { LegendItem } from "@/charts/shared/legend-color";
+
 // Generic
 export const TooltipSingle = ({ xValue, segment, yValue, yError, }) => {
     return (<div>

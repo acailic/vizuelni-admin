@@ -1,5 +1,6 @@
 import rdf from "rdf-ext";
 import { describe, expect, it, vi } from "vitest";
+
 import * as ns from "@/rdf/namespace";
 import { getFiltersList, getQueryFilters, loadDimensionValuesWithMetadata, } from "@/rdf/query-dimension-values";
 vi.mock("./extended-cube", () => ({}));

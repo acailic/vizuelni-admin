@@ -1,50 +1,35 @@
-import { t, Trans } from "@lingui/macro";
-import { Box, Grow, Link, Tooltip, Typography, useEventCallback, } from "@mui/material";
-import Button from "@mui/material/Button";
+import { t } from "@lingui/macro";
+import { useEventCallback, } from "@mui/material";
 import * as clipboard from "clipboard-polyfill/text";
-import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { enqueueSnackbar } from "notistack";
 import { useCallback, useEffect, useMemo, useRef, } from "react";
 import { useClient } from "urql";
 import { useDebounce } from "use-debounce";
-import { SelectDatasetStep } from "@/browse/ui/select-dataset-step";
+
 import { extractChartConfigComponentIds } from "@/charts/shared/chart-helpers";
-import { ChartPreview } from "@/components/chart-preview";
 import { HEADER_HEIGHT_CSS_VAR } from "@/components/header-constants";
-import { Loading } from "@/components/hint";
-import { createMetadataPanelStore, MetadataPanelStoreContext, } from "@/components/metadata-panel-store";
+import { createMetadataPanelStore, } from "@/components/metadata-panel-store";
 import { useLocalSnack } from "@/components/use-local-snack";
 import { enableLayouting, } from "@/config-types";
 import { getChartConfig } from "@/config-utils";
-import { ChartAnnotatorSelector, LayoutAnnotatorSelector, } from "@/configurator/components/annotator-options";
-import { Description, Title } from "@/configurator/components/annotators";
-import { LayoutBlocksSelector } from "@/configurator/components/block-options-selector";
-import { ChartAnnotationsSelector } from "@/configurator/components/chart-annotations/chart-annotations-selector";
 import { isAnnotationField } from "@/configurator/components/chart-annotations/utils";
-import { ChartConfigurator } from "@/configurator/components/chart-configurator";
-import { ChartOptionsSelector } from "@/configurator/components/chart-options-selector";
-import { ConfiguratorDrawer, DRAWER_WIDTH, } from "@/configurator/components/drawers";
-import { IconButton } from "@/configurator/components/icon-button";
-import { LAYOUT_HEADER_HEIGHT, PanelBodyWrapper, PanelHeaderLayout, PanelHeaderWrapper, PanelLayout, } from "@/configurator/components/layout";
-import { LayoutConfigurator } from "@/configurator/components/layout-configurator";
-import { PreviewBreakpointToggleMenu, PreviewContainer, usePreviewBreakpoint, } from "@/configurator/components/preview-breakpoint";
-import { ShowDrawerButton } from "@/configurator/components/show-drawer-button";
+import { DRAWER_WIDTH, } from "@/configurator/components/drawers";
+import { LAYOUT_HEADER_HEIGHT, } from "@/configurator/components/layout";
+import { usePreviewBreakpoint, } from "@/configurator/components/preview-breakpoint";
 import { hasChartConfigs, initChartStateFromChartEdit, isConfiguring, isLayouting, saveChartLocally, useConfiguratorState, } from "@/configurator/configurator-state";
-import { ChartConfiguratorTable } from "@/configurator/table/table-chart-configurator";
 import { useUserConfig } from "@/domain/user-configs";
 import { useDataCubesComponentsQuery } from "@/graphql/hooks";
-import { Icon } from "@/icons";
 import { useLocale } from "@/locales/use-locale";
 import { useDataSourceStore } from "@/stores/data-source";
-import { InteractiveFiltersChartProvider, InteractiveFiltersProvider, } from "@/stores/interactive-filters";
 import { createConfig, updateConfig } from "@/utils/chart-config/api";
 import { objectToHashString } from "@/utils/hash-utils";
 import { getRouterChartId } from "@/utils/router/helpers";
 import { replaceLinks } from "@/utils/ui-strings";
 import { useEvent } from "@/utils/use-event";
 import { useMutate } from "@/utils/use-fetch-data";
+
 import { PUBLISHED_STATE } from "../../db/prisma-types";
 export const BackButton = ({ size = "xs", children, onClick, ...props }) => {
     return (<Button variant="outlined" size={size} startIcon={<Icon name="arrowLeft" size={20}/>} onClick={onClick} {...props}>

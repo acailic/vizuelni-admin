@@ -1,5 +1,6 @@
 import { t } from "@lingui/macro";
 import groupBy from "lodash/groupBy";
+
 import { isJoinByCube } from "@/graphql/join";
 export const makeGetFieldOptionGroups = ({ cubesMetadata }) => ({ fieldComponents, getOption, }) => {
     const fieldComponentsByCubeIri = groupBy(fieldComponents, (d) => d.cubeIri);

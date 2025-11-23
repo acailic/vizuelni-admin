@@ -2,12 +2,9 @@
  * Layout component for tutorial pages
  * Provides consistent structure for step-by-step tutorials
  */
-import { ChevronLeft, ChevronRight, Menu } from '@mui/icons-material';
-import { Box, Button, Container, LinearProgress, List, ListItem, ListItemButton, ListItemText, Typography, Breadcrumbs, Link as MuiLink, Drawer, useMediaQuery, useTheme, IconButton, } from '@mui/material';
-import Link from 'next/link';
+import { useMediaQuery, useTheme, } from '@mui/material';
 import { useState } from 'react';
-import { Flex } from '@/components/flex';
-import { Header } from '@/components/header';
+
 export function TutorialLayout({ title, breadcrumbs, steps, currentStep, progress, onStepChange, onPrevious, onNext, previousDisabled = false, nextDisabled = false, backToTutorialsHref, }) {
     var _a;
     const theme = useTheme();

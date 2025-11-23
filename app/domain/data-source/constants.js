@@ -1,4 +1,5 @@
 import keyBy from "lodash/keyBy";
+
 import { WHITELISTED_DATA_SOURCES } from "../env";
 // Serbian Open Data Portal endpoints
 export const PROD_DATA_SOURCE_URL = "https://data.gov.rs/sparql";

@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+
 import { useChartState } from "@/charts/shared/chart-state";
 import { maybeTransition, } from "@/charts/shared/rendering-utils";
 import { getIsOverlapping, useValueLabelFormatter, } from "@/charts/shared/show-values-utils";

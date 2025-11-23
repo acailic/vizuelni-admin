@@ -1,6 +1,7 @@
 import { CubeDimension } from "rdf-cube-view-query";
 import rdf from "rdf-ext";
 import { describe, expect, it } from "vitest";
+
 import * as ns from "@/rdf/namespace";
 import { parseDimensionDatatype } from "@/rdf/parse";
 describe("dimension parsing", () => {

@@ -1,4 +1,3 @@
-import { SvgIcon } from "@mui/material";
 export const CheckboxIcon = (props) => (<SvgIcon {...props} viewBox="0 0 16 16" style={{ fontSize: "1rem" }}>
     <path d="M0.5 2C0.5 1.17157 1.17157 0.5 2 0.5H14C14.8284 0.5 15.5 1.17157 15.5 2V14C15.5 14.8284 14.8284 15.5 14 15.5H2C1.17157 15.5 0.5 14.8284 0.5 14V2Z" fill="white" stroke="#6B7280"/>
   </SvgIcon>);

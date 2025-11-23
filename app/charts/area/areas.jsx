@@ -1,5 +1,6 @@
 import { area } from "d3-shape";
 import { useEffect, useMemo, useRef } from "react";
+
 import { renderAreas } from "@/charts/area/rendering-utils";
 import { useChartState } from "@/charts/shared/chart-state";
 import { renderTotalValueLabels } from "@/charts/shared/render-value-labels";

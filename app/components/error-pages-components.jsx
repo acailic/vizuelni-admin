@@ -1,8 +1,6 @@
-import { Link, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import NextLink from "next/link";
 import { useRouter } from "next/router";
-import { Flex } from "@/components/flex";
+
 const useStyles = makeStyles((theme) => ({
     errorPageHint: {
         width: "100%",

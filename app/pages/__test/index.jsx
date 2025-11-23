@@ -1,5 +1,5 @@
 import groupBy from "lodash/groupBy";
-import Link from "next/link";
+
 import { loadFixtureConfigs } from "@/test/utils";
 export const getStaticProps = async ({ locale }) => {
     const configs = await loadFixtureConfigs();

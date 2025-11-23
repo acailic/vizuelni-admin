@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { groupByParents } from "@/configurator/components/use-hierarchy-parents";
 import _hierarchy from "@/test/__fixtures/data/tarrifs-hierarchy.json";
 describe("grouping hierarchy by parents", () => {

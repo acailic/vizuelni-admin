@@ -1,5 +1,6 @@
 import { ascending, descending, group } from "d3-array";
 import { useCallback, useMemo } from "react";
+
 import { getWideData, usePlottableData } from "@/charts/shared/chart-helpers";
 import { useBandXVariables, useBaseVariables, useChartData, useInteractiveFiltersVariables, useNumericalYVariables, useSegmentVariables, } from "@/charts/shared/chart-state";
 import { useRenderingKeyVariable } from "@/charts/shared/rendering-utils";

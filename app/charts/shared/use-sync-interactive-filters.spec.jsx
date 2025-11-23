@@ -1,11 +1,11 @@
 import { cleanup, fireEvent, render } from "@testing-library/react";
 import { useState } from "react";
-import { Client, Provider } from "urql";
+import { Client } from "urql";
 import { afterEach, describe, expect, it, vi } from "vitest";
+
 import { useSyncInteractiveFilters } from "@/charts/shared/use-sync-interactive-filters";
 import { FIELD_VALUE_NONE } from "@/configurator/constants";
-import { ConfiguratorStateProvider } from "@/src";
-import { InteractiveFiltersChartProvider, InteractiveFiltersProvider, useChartInteractiveFilters, } from "@/stores/interactive-filters";
+import { useChartInteractiveFilters, } from "@/stores/interactive-filters";
 import fixture from "@/test/__fixtures/config/test/4YL1p4QTFQS4.json";
 import { migrateChartConfig } from "@/utils/chart-config/versioning";
 vi.mock("next-auth/react", async () => {

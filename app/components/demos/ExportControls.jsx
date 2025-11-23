@@ -2,11 +2,10 @@
  * Export Controls Component
  * Provides functionality to export charts as PNG or SVG
  */
-import { Box, Button, CircularProgress, Stack } from '@mui/material';
 import * as htmlToImage from 'html-to-image';
 import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
-import SvgIcDownload from '@/icons/components/IcDownload';
+
 /**
  * ExportControls Component
  *

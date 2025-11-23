@@ -1,5 +1,6 @@
 import orderBy from "lodash/orderBy";
 import { useMemo } from "react";
+
 import { VISUALIZE_MOST_RECENT_VALUE } from "@/domain/most-recent-value";
 import { makeDimensionValueSorters } from "@/utils/sorting-values";
 export const resolveMostRecentValue = (value, dimension) => {

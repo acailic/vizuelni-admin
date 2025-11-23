@@ -1,9 +1,5 @@
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Box, Button, IconButton, Typography, Chip } from '@mui/material';
-import { Highlight, themes } from 'prism-react-renderer';
-import React, { useState } from 'react';
+import { themes } from 'prism-react-renderer';
+import { useState } from 'react';
 const CodeBlock = ({ code, language, fileName, maxLines = 20, showLineNumbers = true, }) => {
     const [copied, setCopied] = useState(false);
     const [expanded, setExpanded] = useState(false);

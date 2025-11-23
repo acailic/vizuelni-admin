@@ -1,16 +1,9 @@
-import { Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import keyBy from "lodash/keyBy";
-import { ColumnChart } from "@/charts/column/columns-state";
-import { RulerContent } from "@/charts/shared/interaction/ruler";
+
 import { TooltipBox } from "@/charts/shared/interaction/tooltip-box";
-import { TooltipMultiple, TooltipSingle, } from "@/charts/shared/interaction/tooltip-content";
-import { Flex } from "@/components/flex";
-import { InfoIconTooltip as InfoIconTooltipComponent } from "@/components/info-icon-tooltip";
-import { ReactSpecimen } from "@/docs/catalog";
 import { dimensions, fields, margins, measures, observations, } from "@/docs/fixtures";
 import { createMeta } from "@/locales/localized-string";
-import { InteractiveFiltersChartProvider } from "@/stores/interactive-filters";
 import { CHART_CONFIG_VERSION } from "@/utils/chart-config/constants";
 const meta = {
     title: "components / Tooltip",

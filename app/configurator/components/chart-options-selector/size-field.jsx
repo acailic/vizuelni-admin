@@ -1,7 +1,6 @@
 import { t } from "@lingui/macro";
 import { useCallback, useMemo } from "react";
-import { ControlSection, ControlSectionContent, SectionTitle, } from "@/configurator/components/chart-controls/section";
-import { ChartOptionSelectField } from "@/configurator/components/field";
+
 import { getComponentsFilteredByType, } from "@/domain/data";
 export const SizeField = ({ chartConfig, field, componentTypes, dimensions, measures, getFieldOptionGroups, optional, }) => {
     const fieldComponents = useMemo(() => {

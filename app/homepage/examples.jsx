@@ -1,12 +1,7 @@
-import { Box, Card, Skeleton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useClient } from "urql";
-import { ChartPublished } from "@/components/chart-published";
-import { ContentWrapper } from "@/components/content-wrapper";
-import { LoadingDataError } from "@/components/hint";
+
 import { getExampleState1, getExampleState2 } from "@/homepage/constants";
-import { HomepageSectionTitle } from "@/homepage/generic";
-import { ConfiguratorStateProvider } from "@/src";
 import { upgradeConfiguratorState } from "@/utils/chart-config/upgrade-cube";
 import { useFetchData } from "@/utils/use-fetch-data";
 export const Examples = ({ headline, example1Headline, example1Description, example2Headline, example2Description, }) => {

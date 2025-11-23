@@ -1,9 +1,7 @@
 import { memo } from "react";
-import { ChartDataWrapper } from "@/charts/chart-data-wrapper";
-import { BrushTime, shouldShowBrush } from "@/charts/shared/brush";
-import { ChartContainer } from "@/charts/shared/containers";
-import { Table, TABLE_TIME_RANGE_HEIGHT } from "@/charts/table/table";
-import { TableChart } from "@/charts/table/table-state";
+
+import { shouldShowBrush } from "@/charts/shared/brush";
+import { TABLE_TIME_RANGE_HEIGHT } from "@/charts/table/table";
 import { hasChartConfigs, useConfiguratorState } from "@/configurator";
 export const ChartTableVisualization = (props) => {
     const { observationQueryFilters } = props;

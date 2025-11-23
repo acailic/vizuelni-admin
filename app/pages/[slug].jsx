@@ -1,4 +1,3 @@
-import { ContentMDXProvider } from "@/components/content-mdx-provider";
 import { staticPages } from "@/static-pages";
 export default function ContentPage({ staticPage }) {
   var _a;

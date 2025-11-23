@@ -1,9 +1,8 @@
-import { Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { select } from "d3-selection";
 import { useEffect, useRef } from "react";
+
 import { useChartState } from "@/charts/shared/chart-state";
-import { CalculationToggle } from "@/charts/shared/interactive-filter-calculation-toggle";
 import { useObserverRef } from "@/charts/shared/use-size";
 import { useEmbedQueryParams } from "@/components/embed-params";
 import { getChartConfig } from "@/config-utils";

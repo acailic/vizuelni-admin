@@ -1,5 +1,6 @@
 import { bisectCenter } from "d3-array";
 import { useMemo } from "react";
+
 import { getAnimationField, } from "@/config-types";
 import { useConfiguratorState } from "@/configurator/configurator-state";
 import { isTemporalDimensionWithTimeUnit, } from "@/domain/data";

@@ -1,5 +1,6 @@
 import { schemeCategory10 } from "d3-scale-chromatic";
 import stringSimilarity from "string-similarity-js";
+
 import { DEFAULT_OTHER_COLOR_FIELD_OPACITY } from "@/charts/map/constants";
 import { mapValueIrisToColor } from "@/configurator/components/ui-helpers";
 import { FIELD_VALUE_NONE } from "@/configurator/constants";

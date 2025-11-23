@@ -1,4 +1,3 @@
-import * as React from "react";
 function SvgIcShow(props) {
     return (<svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path fillRule="evenodd" clipRule="evenodd" d="M10.464 10.3a2.292 2.292 0 112.547 3.812 2.292 2.292 0 01-2.547-3.812zm.417 3.188a1.541 1.541 0 101.712-2.563 1.541 1.541 0 00-1.712 2.563z" fill="currentColor"/>

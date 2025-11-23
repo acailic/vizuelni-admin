@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { makeOpenDataLink } from "@/utils/opendata";
 describe("makeOpenDataLink", () => {
     it("should create correct link to Serbian Open Data Portal", () => {

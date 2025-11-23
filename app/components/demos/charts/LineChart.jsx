@@ -2,7 +2,6 @@
  * Simple Line Chart component using D3
  * Optimized for data.gov.rs demo visualizations
  */
-import { Box } from "@mui/material";
 import { max, min } from "d3-array";
 import { axisBottom, axisLeft } from "d3-axis";
 import { easeLinear } from "d3-ease";

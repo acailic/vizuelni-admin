@@ -1,4 +1,3 @@
-import { RulerContent } from "@/charts/shared/interaction/ruler";
 import { TooltipBox } from "@/charts/shared/interaction/tooltip-box";
 const meta = {
     title: "components / Ruler",

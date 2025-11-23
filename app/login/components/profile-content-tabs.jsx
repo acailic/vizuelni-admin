@@ -1,13 +1,10 @@
 import { t } from "@lingui/macro";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Box, Tab } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 import groupBy from "lodash/groupBy";
 import { useMemo, useState } from "react";
+
 import { useUserConfigs } from "@/domain/user-configs";
-import { ProfileColorPaletteContent } from "@/login/components/color-palettes/profile-color-palette-content";
-import { ProfileVisualizationsTable } from "@/login/components/profile-tables";
 import { useRootStyles } from "@/login/utils";
 import { useEvent } from "@/utils/use-event";
 const useStyles = makeStyles((theme) => ({

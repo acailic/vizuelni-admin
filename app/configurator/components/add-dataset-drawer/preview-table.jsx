@@ -1,13 +1,8 @@
-import { Trans } from "@lingui/macro";
-import { LoadingButton } from "@mui/lab";
-import { Box, Button, DialogActions, DialogContent, Stack, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography, } from "@mui/material";
 import clsx from "clsx";
 import groupBy from "lodash/groupBy";
 import maxBy from "lodash/maxBy";
 import { useEffect, useMemo, useState } from "react";
-import { FirstTenRowsCaption } from "@/browse/ui/first-ten-rows-caption";
-import { Error as ErrorHint, Loading } from "@/components/hint";
-import { Tag } from "@/components/tag";
+
 import { useStyles } from "@/configurator/components/add-dataset-drawer/use-styles";
 import { isJoinByComponent, isStandardErrorDimension, } from "@/domain/data";
 import { useDataCubesMetadataQuery, useDataCubesObservationsQuery, } from "@/graphql/hooks";

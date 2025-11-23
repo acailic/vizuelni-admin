@@ -1,5 +1,5 @@
-import { lazy, Suspense } from "react";
-import { LoadingSpinner } from "@/components/loading-wrapper";
+import { lazy } from "react";
+
 /**
  * Enhanced lazy load wrapper with customizable fallback
  * Usage: const MyComponent = lazyLoad(() => import('./MyComponent'), { fallback: <Skeleton /> })

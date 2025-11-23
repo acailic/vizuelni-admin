@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { getFiltersFromParams } from "@/browse/lib/filters";
 describe("getFiltersFromParams", () => {
     it("should work only for organization", () => {

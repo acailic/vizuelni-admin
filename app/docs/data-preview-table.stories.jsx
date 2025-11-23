@@ -1,5 +1,4 @@
-import { Paper } from "@mui/material";
-import { DataTablePreview } from "@/browse/ui/data-table-preview";
+
 import { dimensions, measures, observations } from "./data-preview-table.mock";
 const meta = {
     title: "organisms / Data Preview Table",

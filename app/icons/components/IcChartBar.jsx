@@ -1,4 +1,3 @@
-import * as React from "react";
 function SvgIcChartBar(props) {
     return (<svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path d="M4.836 18.385V5.992h-.75v13.143h16.209v-.75H4.835z" fill="currentColor"/>

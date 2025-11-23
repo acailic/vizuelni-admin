@@ -1,20 +1,8 @@
 import keyBy from "lodash/keyBy";
-import { Columns, ErrorWhiskers } from "@/charts/column/columns";
-import { ColumnChart } from "@/charts/column/columns-state";
-import { Scatterplot } from "@/charts/scatterplot/scatterplot";
-import { ScatterplotChart } from "@/charts/scatterplot/scatterplot-state";
-import { AxisHeightLinear, AxisHeightLinearDomain, } from "@/charts/shared/axis-height-linear";
-import { AxisWidthBand, AxisWidthBandDomain, } from "@/charts/shared/axis-width-band";
-import { AxisWidthLinear, AxisWidthLinearDomain, } from "@/charts/shared/axis-width-linear";
-import { ChartContainer, ChartSvg } from "@/charts/shared/containers";
-import { Tooltip } from "@/charts/shared/interaction/tooltip";
-import { LegendColor } from "@/charts/shared/legend-color";
-import { InteractionVoronoi } from "@/charts/shared/overlay-voronoi";
-import { Observer } from "@/charts/shared/use-size";
-import { ConfiguratorStateProvider } from "@/configurator/configurator-state";
+
 import { createMeta } from "@/locales/localized-string";
-import { InteractiveFiltersChartProvider, InteractiveFiltersProvider, } from "@/stores/interactive-filters";
 import { CONFIGURATOR_STATE_VERSION } from "@/utils/chart-config/constants";
+
 import { chartConfig, columnDimensions, columnMeasures, columnObservations, } from "./columns.mock";
 import { chartConfig as scatterplotChartConfig, scatterplotDimensions, scatterplotFields, scatterplotMeasures, scatterplotObservations, } from "./scatterplot.mock";
 const meta = {

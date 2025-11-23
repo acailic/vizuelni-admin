@@ -1,6 +1,5 @@
-import { CircularProgress } from "@mui/material";
 import dynamic from "next/dynamic";
-import { Suspense } from "react";
+
 import { useFlag } from "@/flags";
 const LazyDebugPanel = dynamic(() => import("./debug-panel").then((mod) => mod.DebugPanel), { ssr: false });
 export const DebugPanel = (props) => {

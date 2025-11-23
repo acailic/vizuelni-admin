@@ -1,4 +1,3 @@
-import * as React from "react";
 export const Step1 = () => (<svg width="100%" viewBox="0 0 416 266" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ aspectRatio: "416 / 266" }}>
     <g clipPath="url(#clip0_6751_159831)" filter="url(#filter0_i_6751_159831)">
       <rect width="416" height="265.778" fill="white"/>

@@ -1,7 +1,4 @@
-import { Trans } from "@lingui/macro";
-import { Alert, AlertTitle, Box, Button, Typography } from "@mui/material";
 import * as Sentry from "@sentry/nextjs";
-import { ErrorBoundary } from "react-error-boundary";
 const ErrorFallback = ({ error, resetErrorBoundary }) => {
     return (<Box sx={{
             display: "flex",

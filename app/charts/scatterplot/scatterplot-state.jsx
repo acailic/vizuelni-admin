@@ -3,12 +3,10 @@ import { scaleLinear, scaleOrdinal } from "d3-scale";
 import { schemeCategory10 } from "d3-scale-chromatic";
 import orderBy from "lodash/orderBy";
 import { useCallback, useMemo } from "react";
+
 import { useScatterplotStateData, useScatterplotStateVariables, } from "@/charts/scatterplot//scatterplot-state-props";
 import { getChartWidth, useAxisLabelSizeVariables, useChartBounds, useChartPadding, } from "@/charts/shared/chart-dimensions";
-import { ChartContext, } from "@/charts/shared/chart-state";
-import { TooltipScatterplot } from "@/charts/shared/interaction/tooltip-content";
 import { DEFAULT_MARGIN_TOP } from "@/charts/shared/margins";
-import { InteractionProvider } from "@/charts/shared/use-interaction";
 import { useSize } from "@/charts/shared/use-size";
 import { useFormatNumber } from "@/formatters";
 import { getPalette } from "@/palettes";

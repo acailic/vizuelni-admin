@@ -1,10 +1,9 @@
 import { $createHeadingNode } from "@lexical/rich-text";
 import { activePlugins$, allowedHeadingLevels$, convertSelectionToNode$, currentBlockType$, useCellValue, usePublisher, } from "@mdxeditor/editor";
-import { ListItemText, Menu, MenuItem, Typography, useEventCallback, } from "@mui/material";
+import { useEventCallback, } from "@mui/material";
 import { $createParagraphNode } from "lexical";
 import { useState } from "react";
-import { ToolbarIconButton } from "@/components/mdx-editor/common";
-import { Icon } from "@/icons";
+
 /**
  * Based on https://github.com/mdx-editor/editor/blob/main/src/plugins/toolbar/components/BlockTypeSelect.tsx
  * */

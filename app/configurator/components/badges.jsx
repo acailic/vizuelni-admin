@@ -1,4 +1,3 @@
-import { Badge } from "@mui/material";
 import { getChartConfig, useChartConfigFilters } from "@/config-utils";
 import { useControlSectionContext } from "@/configurator/components/chart-controls/section";
 import { isConfiguring, useConfiguratorState, } from "@/configurator/configurator-state";

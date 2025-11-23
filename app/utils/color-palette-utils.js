@@ -1,5 +1,6 @@
 import { rgb } from "d3-color";
 import { nanoid } from "nanoid";
+
 import { createDivergingInterpolator, createSequentialInterpolator, } from "@/palettes";
 const SRGB_THRESHOLD = 0.03928;
 const SRGB_SCALE_FACTOR = 12.92;

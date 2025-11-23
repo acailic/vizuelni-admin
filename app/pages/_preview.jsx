@@ -1,5 +1,5 @@
-import { Box } from "@mui/material";
 import { useEffect } from "react";
+
 import { useLocale } from "@/locales/use-locale";
 import CONFIGURATOR_STATE_MAP from "@/test/__fixtures/config/prod/map-1.json";
 import { objectToHashString } from "@/utils/hash-utils";

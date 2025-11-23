@@ -1,6 +1,7 @@
 import { descending } from "d3-array";
 import groupBy from "lodash/groupBy";
 import uniqBy from "lodash/uniqBy";
+
 import { truthy } from "@/domain/types";
 import { SearchCubeFilterType } from "@/graphql/query-hooks";
 import { defaultLocale } from "@/locales/locales";

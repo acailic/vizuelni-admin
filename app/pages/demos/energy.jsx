@@ -3,12 +3,8 @@
  * Energy Crisis Visualization
  * Alarming data about coal dependency, renewable energy lag, and aging infrastructure
  */
-import { Alert, Box, Card, CardContent, Chip, Grid, LinearProgress, Paper, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
-import { BarChart } from '@/components/demos/charts/BarChart';
-import { LineChart } from '@/components/demos/charts/LineChart';
-import { PieChart } from '@/components/demos/charts/PieChart';
-import { DemoLayout } from '@/components/demos/demo-layout';
+
 import { energyImports, energyInfrastructure, energyProduction, energyStats, renewableComparison } from '@/data/serbia-energy';
 export default function EnergyDemo() {
     const router = useRouter();

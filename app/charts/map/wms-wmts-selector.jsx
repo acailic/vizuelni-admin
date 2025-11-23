@@ -1,20 +1,13 @@
-import { t, Trans } from "@lingui/macro";
-import { TreeItem, TreeView } from "@mui/lab";
-import { Box, Checkbox, Collapse, IconButton, Input, Popover, Tooltip, Typography, } from "@mui/material";
+import { t } from "@lingui/macro";
+import { Collapse, } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
 import { useCallback, useMemo, useState } from "react";
 import createStore from "zustand";
+
 import { isRemoteLayerCRSSupported, makeKey, useWMTSorWMSLayers, } from "@/charts/map/wms-wmts-endpoint-utils";
-import { ProviderAutocomplete } from "@/charts/map/wms-wmts-providers-autocomplete";
-import { Flex } from "@/components/flex";
-import { HintError, Spinner } from "@/components/hint";
 import { useSelectTree } from "@/components/select-tree";
-import { Icon } from "@/icons";
-import SvgIcChevronRight from "@/icons/components/IcChevronRight";
-import SvgIcClose from "@/icons/components/IcClose";
-import SvgIcInfoCircle from "@/icons/components/IcInfoCircle";
 import { mapTree, visitHierarchy } from "@/rdf/tree-utils";
 const useTreeItemStyles = makeStyles({
     // Necessary to use $content below

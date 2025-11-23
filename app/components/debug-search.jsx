@@ -1,14 +1,5 @@
-import { Box, Chip, FormControlLabel, Stack } from "@mui/material";
-import Accordion from "@mui/material/Accordion";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import CircularProgress from "@mui/material/CircularProgress";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import Switch from "@mui/material/Switch";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
 import { useEffect, useRef, useState } from "react";
+
 import { SearchCubeFilterType, useSearchCubesQuery, } from "@/graphql/query-hooks";
 const territoryTheme = {
     name: "Territory theme",

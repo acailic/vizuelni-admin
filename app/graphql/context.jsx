@@ -3,6 +3,7 @@ import rdf from "rdf-ext";
 import StreamClient from "sparql-http-client";
 import ParsingClient from "sparql-http-client/ParsingClient";
 import { LRUCache } from "typescript-lru-cache";
+
 import { SPARQL_GEO_ENDPOINT } from "@/domain/env";
 import { getMaybeCachedSparqlUrl } from "@/graphql/caching-utils";
 import { createSource, pragmas } from "@/rdf/create-source";

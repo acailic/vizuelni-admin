@@ -1,11 +1,10 @@
 import { mean } from "d3-array";
 import { schemeCategory10 } from "d3-scale-chromatic";
+
 import { useComboLineSingleStateData, useComboLineSingleStateVariables, } from "@/charts/combo/combo-line-single-state-props";
 import { adjustScales, getMargins, useCommonComboState, useYScales, } from "@/charts/combo/combo-state";
 import { getChartWidth, useAxisLabelSizeVariables, useChartBounds, useChartPadding, } from "@/charts/shared/chart-dimensions";
-import { ChartContext, } from "@/charts/shared/chart-state";
 import { getCenteredTooltipPlacement, MOBILE_TOOLTIP_PLACEMENT, } from "@/charts/shared/interaction/tooltip-box";
-import { InteractionProvider } from "@/charts/shared/use-interaction";
 import { truthy } from "@/domain/types";
 import { useIsMobile } from "@/utils/use-is-mobile";
 const useComboLineSingleState = (chartProps, variables, data) => {

@@ -1,4 +1,5 @@
 import { interpolateBrBG, interpolateOranges } from "d3-scale-chromatic";
+
 import { ColorRamp } from "@/configurator/components/chart-controls/color-ramp";
 const meta = {
     component: ColorRamp,

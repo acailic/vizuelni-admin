@@ -1,6 +1,6 @@
 import { axisLeft, axisRight } from "d3-axis";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { AxisHeightTitle } from "@/charts/shared/axis-height-title";
+
 import { useChartState } from "@/charts/shared/chart-state";
 import { maybeTransition, renderContainer, } from "@/charts/shared/rendering-utils";
 import { getTickNumber } from "@/charts/shared/ticks";

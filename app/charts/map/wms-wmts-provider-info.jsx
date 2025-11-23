@@ -1,7 +1,7 @@
-import { t, Trans } from "@lingui/macro";
-import { Alert, alertClasses, Box, Chip, Table, TableBody, TableCell, TableRow, } from "@mui/material";
+import { t } from "@lingui/macro";
+import { alertClasses, } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { Icon } from "@/icons";
+
 const useStyles = makeStyles((theme) => ({
     alert: {
         marginBottom: theme.spacing(2),

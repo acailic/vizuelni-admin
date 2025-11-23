@@ -1,5 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+
 import { isMostRecentValue } from "@/domain/most-recent-value";
+
 import { getQueryFilters } from "./query-possible-filters";
 vi.mock("@/domain/most-recent-value", () => ({
     isMostRecentValue: vi.fn(),

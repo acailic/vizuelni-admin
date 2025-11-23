@@ -1,27 +1,10 @@
 import { memo } from "react";
-import { ChartDataWrapper } from "@/charts/chart-data-wrapper";
-import { Columns, ErrorWhiskers } from "@/charts/column/columns";
-import { ColumnsGrouped, ErrorWhiskers as ErrorWhiskersGrouped, } from "@/charts/column/columns-grouped";
-import { GroupedColumnChart } from "@/charts/column/columns-grouped-state";
-import { ColumnsStacked } from "@/charts/column/columns-stacked";
-import { StackedColumnsChart } from "@/charts/column/columns-stacked-state";
-import { ColumnChart } from "@/charts/column/columns-state";
-import { InteractionColumns, InteractionColumnsStacked, StackedColumnAnnotationHighlight, } from "@/charts/column/overlay-columns";
+
 import { useIsEditingAnnotation } from "@/charts/shared/annotation-utils";
-import { Annotations } from "@/charts/shared/annotations";
-import { AxisHeightLinear } from "@/charts/shared/axis-height-linear";
-import { AxisHideXOverflowRect } from "@/charts/shared/axis-hide-overflow-rect";
-import { AxisWidthBand, AxisWidthBandDomain, } from "@/charts/shared/axis-width-band";
-import { BrushTime, shouldShowBrush } from "@/charts/shared/brush";
-import { ChartContainer, ChartControlsContainer, ChartSvg, } from "@/charts/shared/containers";
-import { HoverAnnotationDot } from "@/charts/shared/interaction/hover-annotation-dot";
-import { Tooltip } from "@/charts/shared/interaction/tooltip";
-import { LegendColor } from "@/charts/shared/legend-color";
-import { VerticalLimits } from "@/charts/shared/limits/vertical";
+import { shouldShowBrush } from "@/charts/shared/brush";
 import { useChartConfigFilters, useLimits } from "@/config-utils";
 import { hasChartConfigs } from "@/configurator";
 import { useConfiguratorState } from "@/configurator/configurator-state";
-import { TimeSlider } from "@/configurator/interactive-filters/time-slider";
 export const ChartColumnsVisualization = (props) => {
     return <ChartDataWrapper {...props} Component={ChartColumns}/>;
 };

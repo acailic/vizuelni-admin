@@ -1,5 +1,3 @@
-import { Box } from "@mui/material";
-import { ChartDataFilter } from "@/charts/shared/chart-data-filters/filter";
 import { useChartInteractiveFilters } from "@/stores/interactive-filters";
 export const ChartDataFiltersList = ({ open, dataSource, chartConfig, loading, groupedPreparedFilters, componentIds, }) => {
     const dataFilters = useChartInteractiveFilters((d) => d.dataFilters);

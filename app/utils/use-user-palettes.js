@@ -1,5 +1,7 @@
 import { useMemo } from "react";
+
 import { useUser } from "@/login/utils";
+
 import { getCustomColorPalettes } from "./chart-config/api";
 import { useFetchData } from "./use-fetch-data";
 export const useUserPalettes = () => {

@@ -7,6 +7,7 @@ import range from "lodash/range";
 import { useEffect, useState } from "react";
 import { Responsive, WidthProvider, } from "react-grid-layout";
 import { match } from "ts-pattern";
+
 import { useStyles as useChartContainerStyles } from "@/charts/shared/containers";
 import { getChartWrapperId } from "@/components/chart-panel";
 import { hasChartConfigs, isLayouting, useConfiguratorState, } from "@/configurator";

@@ -1,10 +1,8 @@
 import { t } from "@lingui/macro";
-import { IconButton, useEventCallback } from "@mui/material";
+import { useEventCallback } from "@mui/material";
 import { useState } from "react";
-import { ArrowMenuTopBottom } from "@/components/arrow-menu";
-import { MenuActionItem } from "@/components/menu-action-item";
+
 import { isLayouting, useConfiguratorState, } from "@/configurator/configurator-state";
-import SvgIcMore from "@/icons/components/IcMore";
 import { createId } from "@/utils/create-id";
 import { DISABLE_SCREENSHOT_ATTR } from "@/utils/use-screenshot";
 export const BlockMoreButton = ({ blockKey }) => {

@@ -1,7 +1,3 @@
-import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Divider, Drawer, Grow, IconButton, Link, Tab, Typography, } from "@mui/material";
-import { Group } from "@visx/group";
-import { Text } from "@visx/text";
 import { scaleLinear } from "d3-scale";
 import { print } from "graphql";
 import maxBy from "lodash/maxBy";
@@ -9,14 +5,12 @@ import minBy from "lodash/minBy";
 import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
 import mitt from "mitt";
-import { Fragment, useEffect, useMemo, useRef, useState, } from "react";
+import { useEffect, useMemo, useRef, useState, } from "react";
 import { pipe, tap } from "wonka";
-import { Switch } from "@/components/form";
-import { MaybeTooltip } from "@/components/maybe-tooltip";
+
 import { useDisclosure } from "@/components/use-disclosure";
 import { flag, useFlag, useFlags } from "@/flags";
 import { FLAGS } from "@/flags/types";
-import { Icon } from "@/icons";
 import { maybeWindow } from "@/utils/maybe-window";
 import { useEvent } from "@/utils/use-event";
 const visit = (t, visit) => {

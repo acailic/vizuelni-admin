@@ -1,8 +1,11 @@
 import * as fs from "fs";
 import path from "path";
+
 import { csvParse } from "d3-dsv";
 import { describe, expect, it } from "vitest";
+
 import { mergeSearchCubes } from "@/rdf/query-search";
+
 import { buildSearchCubes } from "./parse-search-results";
 const parseCSV = async (filepath) => {
     // Read the CSV file

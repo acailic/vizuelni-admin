@@ -1,22 +1,7 @@
 import { memo } from "react";
-import { ChartDataWrapper } from "@/charts/chart-data-wrapper";
-import { ErrorWhiskers, Lines } from "@/charts/line/lines";
-import { LineChart } from "@/charts/line/lines-state";
+
 import { useIsEditingAnnotation } from "@/charts/shared/annotation-utils";
-import { Annotations } from "@/charts/shared/annotations";
-import { AxisHeightLinear } from "@/charts/shared/axis-height-linear";
-import { AxisHideXOverflowRect } from "@/charts/shared/axis-hide-overflow-rect";
-import { AxisTime, AxisTimeDomain } from "@/charts/shared/axis-width-time";
-import { BrushTime, shouldShowBrush } from "@/charts/shared/brush";
-import { ChartContainer, ChartControlsContainer, ChartSvg, } from "@/charts/shared/containers";
-import { HoverAnnotationDot } from "@/charts/shared/interaction/hover-annotation-dot";
-import { HoverDotMultiple } from "@/charts/shared/interaction/hover-dots-multiple";
-import { Ruler } from "@/charts/shared/interaction/ruler";
-import { Tooltip } from "@/charts/shared/interaction/tooltip";
-import { LegendColor } from "@/charts/shared/legend-color";
-import { VerticalLimits } from "@/charts/shared/limits/vertical";
-import { InteractionHorizontal } from "@/charts/shared/overlay-horizontal";
-import { InteractionVoronoi } from "@/charts/shared/overlay-voronoi";
+import { shouldShowBrush } from "@/charts/shared/brush";
 import { useLimits } from "@/config-utils";
 import { hasChartConfigs, useConfiguratorState, } from "@/configurator/configurator-state";
 export const ChartLinesVisualization = (props) => {

@@ -1,4 +1,3 @@
-import * as React from "react";
 function SvgIcCheckmarkCircle(props) {
     return (<svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path d="M10.361 16.669l-3.385-3.385.544-.544 2.841 2.842 6.543-6.543.544.544-7.087 7.086z" fill="currentColor"/>

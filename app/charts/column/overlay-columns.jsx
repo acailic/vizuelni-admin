@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
+
 import { useGetRenderStackedColumnDatum } from "@/charts/column/rendering-utils";
 import { useChartState } from "@/charts/shared/chart-state";
-import { StackedAnnotationHighlight } from "@/charts/shared/overlay-rects";
 import { useAnnotationInteractions } from "@/charts/shared/use-annotation-interactions";
 export const InteractionColumns = ({ disableGaps = true, }) => {
     const chartState = useChartState();

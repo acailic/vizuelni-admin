@@ -4,6 +4,7 @@ import { timeParse } from "d3-time-format";
 import keyBy from "lodash/keyBy";
 import memoize from "lodash/memoize";
 import { useMemo } from "react";
+
 import { parseDate } from "@/configurator/components/ui-helpers";
 import { isNumericalMeasure, isTemporalDimension, } from "@/domain/data";
 import { TimeUnit } from "@/graphql/query-hooks";

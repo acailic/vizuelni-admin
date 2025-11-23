@@ -1,10 +1,7 @@
-import { Trans } from "@lingui/macro";
 import { getFieldComponentId } from "@/charts";
 import { ANIMATION_FIELD_SPEC } from "@/charts/chart-config-ui-options";
 import { isAnimationInConfig, } from "@/config-types";
 import { getChartConfig } from "@/config-utils";
-import { ControlSection, ControlSectionContent, ControlSectionSkeleton, SectionTitle, } from "@/configurator/components/chart-controls/section";
-import { ControlTabField } from "@/configurator/components/field";
 import { useDataCubesComponentsQuery } from "@/graphql/hooks";
 import { useLocale } from "@/locales/use-locale";
 export const InteractiveFiltersConfigurator = ({ state, }) => {

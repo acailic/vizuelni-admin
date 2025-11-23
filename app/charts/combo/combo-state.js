@@ -1,6 +1,7 @@
 import { extent, groups, max, min, sum } from "d3-array";
 import { scaleLinear, scaleOrdinal, scaleTime, } from "d3-scale";
 import { useMemo } from "react";
+
 import { SINGLE_LINE_AXIS_LABEL_HEIGHT, useAxisTitleSize, } from "@/charts/combo/shared";
 import { TICK_PADDING } from "@/charts/shared/axis-height-linear";
 import { useSize } from "@/charts/shared/use-size";

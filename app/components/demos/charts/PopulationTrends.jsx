@@ -2,7 +2,7 @@
  * Population Trends Chart component using D3
  * Shows historical data and future projections
  */
-import { Box, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 import { extent } from "d3-array";
 import { axisBottom, axisLeft } from "d3-axis";
 import { easeLinear } from "d3-ease";

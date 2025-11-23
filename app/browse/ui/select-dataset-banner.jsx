@@ -1,11 +1,7 @@
-import { Trans } from "@lingui/macro";
-import { Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { AnimatePresence } from "framer-motion";
+
 import { useBrowseContext } from "@/browse/model/context";
-import { SearchDatasetInput } from "@/browse/ui/search-dataset-input";
-import { ContentWrapper } from "@/components/content-wrapper";
-import { __BANNER_MARGIN_CSS_VAR, bannerPresenceProps, MotionBox, } from "@/components/presence";
+import { __BANNER_MARGIN_CSS_VAR, bannerPresenceProps, } from "@/components/presence";
 import { useResizeObserver } from "@/utils/use-resize-observer";
 export const SelectDatasetBanner = ({ dataset, variant, }) => {
     const [ref] = useResizeObserver(({ height }) => {

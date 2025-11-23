@@ -1,4 +1,4 @@
-import { Table, TableCell, TableHead, TableRow } from "@mui/material";
+
 import { Icon, Icons } from "../icons";
 const meta = {
     component: Icon,

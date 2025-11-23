@@ -1,13 +1,8 @@
-import { t, Trans } from "@lingui/macro";
-import { Box, Button } from "@mui/material";
+import { t } from "@lingui/macro";
 import { makeStyles } from "@mui/styles";
 import dynamic from "next/dynamic";
 import { useEffect, useRef } from "react";
-import { LegendItem } from "@/charts/shared/legend-color";
-import { Flex } from "@/components/flex";
-import { DisabledMessageIcon, Label } from "@/components/form";
-import { ColorRamp } from "@/configurator/components/chart-controls/color-ramp";
-import { Icon } from "@/icons";
+
 import { createDivergingInterpolator, createSequentialInterpolator, } from "@/palettes";
 import { theme } from "@/themes/theme";
 import { assert } from "@/utils/assert";

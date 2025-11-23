@@ -1,14 +1,7 @@
 import { useEvent } from "@dnd-kit/utilities";
-import { Trans } from "@lingui/macro";
-import { Button, Grid, IconButton, styled, Typography } from "@mui/material";
+import { IconButton, styled } from "@mui/material";
 import { useState } from "react";
-import { Flex } from "@/components/flex";
-import { VisuallyHidden } from "@/components/visually-hidden";
-import { ColorSquare } from "@/configurator/components/chart-controls/color-palette";
-import { ColorRamp } from "@/configurator/components/chart-controls/color-ramp";
-import { Icon } from "@/icons";
-import { ProfileColorPaletteForm } from "@/login/components/color-palettes/profile-color-palette-form";
-import { SectionContent } from "@/login/components/profile-tables";
+
 import { createDivergingInterpolator, createSequentialInterpolator, } from "@/palettes";
 import { deleteCustomColorPalette } from "@/utils/chart-config/api";
 import { useMutate } from "@/utils/use-fetch-data";

@@ -1,6 +1,4 @@
-import { Icon } from "@/icons";
 import { colors } from "@/themes/constants";
-import { CheckboxCheckedIcon, CheckboxIcon, CheckboxIndeterminateIcon, RadioCheckedIcon, RadioIcon, } from "@/themes/custom-icons";
 import { palette } from "@/themes/palette";
 import { shadows } from "@/themes/shadows";
 import { typography } from "@/themes/typography";

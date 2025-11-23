@@ -1,6 +1,8 @@
 import * as fs from "fs";
+
 import { color as d3color } from "d3-color";
 import { schemeCategory10 } from "d3-scale-chromatic";
+
 import { truthy } from "@/domain/types";
 import { isComponentId, parseComponentId, stringifyComponentId, } from "@/graphql/make-component-id";
 // ANSI color control functions

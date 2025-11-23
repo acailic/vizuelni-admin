@@ -1,5 +1,6 @@
 import { group, sum } from "d3-array";
 import { scaleLinear } from "d3-scale";
+
 import { formatNumberWithUnit } from "@/formatters";
 const NORMALIZED_VALUE_DOMAIN = [0, 100];
 export const getStackedYScale = (data, { normalize, getX, getY, getTime, minLimitValue, maxLimitValue, customDomain, }) => {

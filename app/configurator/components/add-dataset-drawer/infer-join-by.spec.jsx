@@ -1,5 +1,6 @@
 import mapValues from "lodash/mapValues";
 import { describe, expect, it } from "vitest";
+
 import { findDimensionForOption, inferJoinBy, } from "@/configurator/components/add-dataset-drawer/infer-join-by";
 import { stringifyComponentId } from "@/graphql/make-component-id";
 import { TimeUnit } from "@/graphql/query-hooks";

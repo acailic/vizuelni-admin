@@ -1,4 +1,5 @@
 import produce from "immer";
+
 import { getOrderedTableColumns } from "../components/ui-helpers";
 export const moveFields = produce((chartConfig, { source, destination, }) => {
     const fieldsArray = getOrderedTableColumns(chartConfig.fields);

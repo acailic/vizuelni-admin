@@ -1,9 +1,6 @@
-import { t, Trans } from "@lingui/macro";
-import { Box, Typography } from "@mui/material";
+import { t } from "@lingui/macro";
 import { useEffect, useState } from "react";
-import { Flex } from "@/components/flex";
-import { Checkbox, Input } from "@/components/form";
-import { ControlSection, ControlSectionContent, SectionTitle, } from "@/configurator/components/chart-controls/section";
+
 import { getFieldLabel } from "@/configurator/components/field-i18n";
 import { isConfiguring, useConfiguratorState, } from "@/configurator/configurator-state";
 import { FIELD_VALUE_NONE } from "@/configurator/constants";

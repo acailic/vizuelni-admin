@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+
 import { createUseBrowseState } from "@/browse/lib/create-use-state";
 const BrowseContext = createContext(undefined);
 const useBrowseState = ({ syncWithUrl }) => {

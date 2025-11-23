@@ -1,7 +1,8 @@
 import clsx from "clsx";
 import { fold } from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
-import { ChartGridLayout, FREE_CANVAS_BREAKPOINTS, } from "@/components/react-grid";
+
+import { FREE_CANVAS_BREAKPOINTS, } from "@/components/react-grid";
 import { hasChartConfigs, ReactGridLayoutsType } from "@/configurator";
 import { useConfiguratorState } from "@/src";
 import { assert } from "@/utils/assert";

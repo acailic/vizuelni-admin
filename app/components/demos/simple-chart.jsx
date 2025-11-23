@@ -2,7 +2,6 @@
  * Premium chart component for data.gov.rs demos
  * Features: Modern gradients, smooth animations, interactive tooltips, professional styling
  */
-import { Alert, Box, Paper, Typography } from '@mui/material';
 import { useMemo, useState } from 'react';
 /**
  * Premium chart component with top 0.01% visual quality

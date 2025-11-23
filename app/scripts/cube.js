@@ -3,6 +3,7 @@ import { build, completionHandler } from "@cozy/cli-tree";
 import { config } from "dotenv";
 import fetch from "node-fetch";
 import { Client } from "urql";
+
 import { GRAPHQL_ENDPOINT } from "../domain/env";
 import { DataCubeComponentsDocument, DataCubeMetadataDocument, DataCubePreviewDocument, } from "../graphql/query-hooks";
 config();

@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
+
 import { VISUALIZE_MOST_RECENT_VALUE } from "@/domain/most-recent-value";
 import * as ns from "@/rdf/namespace";
 import { getCubeDimensions } from "@/rdf/queries";

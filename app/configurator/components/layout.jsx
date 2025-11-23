@@ -1,6 +1,6 @@
-import { Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
+
 import { HEADER_HEIGHT_CSS_VAR } from "@/components/header-constants";
 import { DRAWER_WIDTH } from "@/configurator/components/drawers";
 import { useResizeObserver } from "@/utils/use-resize-observer";

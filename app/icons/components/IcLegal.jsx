@@ -1,4 +1,3 @@
-import * as React from "react";
 function SvgIcLegal(props) {
     return (<svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path fillRule="evenodd" clipRule="evenodd" d="M4 12a8 8 0 018-8 8.009 8.009 0 018 8 8 8 0 11-16 0zm2 0a6 6 0 006 6 6.006 6.006 0 006-6 6 6 0 00-12 0z" fill="currentColor"/>

@@ -1,8 +1,5 @@
-import { Trans } from "@lingui/macro";
 import { useMemo } from "react";
-import { ControlSection, ControlSectionContent, SectionTitle, } from "@/configurator/components/chart-controls/section";
-import { ConfirmButton } from "@/configurator/components/confirm-button";
-import { TextBlockInputField } from "@/configurator/components/field";
+
 import { isLayouting } from "@/configurator/configurator-state";
 import { useOrderedLocales } from "@/locales/use-locale";
 import { useConfiguratorState } from "@/src";

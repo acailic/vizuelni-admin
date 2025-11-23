@@ -2,7 +2,7 @@
  * Population Pyramid Chart component using D3
  * Visualizes age distribution by gender
  */
-import { Box, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 import { max } from "d3-array";
 import { axisBottom, axisLeft } from "d3-axis";
 import { scaleBand, scaleLinear } from "d3-scale";

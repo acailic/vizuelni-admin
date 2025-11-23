@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
-import { AnnotationCircle } from "@/charts/shared/annotation-circle";
-import { AnnotationTooltip } from "@/charts/shared/annotation-tooltip";
+
 import { matchesAnnotationTarget, useIsEditingAnnotation, } from "@/charts/shared/annotation-utils";
 import { useChartState } from "@/charts/shared/chart-state";
 import { getChartConfig } from "@/config-utils";

@@ -1,4 +1,3 @@
-import * as React from "react";
 function SvgIcLogout(props) {
     return (<svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path d="M4.75 6.031h6.729v-.75H4V18.8h7.479v-.75H4.75V6.031z" fill="currentColor"/>

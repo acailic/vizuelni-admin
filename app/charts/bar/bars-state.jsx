@@ -2,17 +2,16 @@ import { extent, max, rollup, sum } from "d3-array";
 import { scaleBand, scaleLinear, scaleOrdinal, scaleTime, } from "d3-scale";
 import orderBy from "lodash/orderBy";
 import { useCallback, useMemo } from "react";
+
 import { useBarsStateData, useBarsStateVariables, } from "@/charts/bar/bars-state-props";
 import { MIN_BAR_HEIGHT, PADDING_INNER, PADDING_OUTER, } from "@/charts/bar/constants";
 import { DEFAULT_ANNOTATION_CIRCLE_COLOR } from "@/charts/shared/annotation-circle";
 import { ANNOTATION_SINGLE_SEGMENT_OFFSET, } from "@/charts/shared/annotations";
 import { getChartWidth, useAxisLabelSizeVariables, useChartBounds, useChartPadding, } from "@/charts/shared/chart-dimensions";
-import { ChartContext, } from "@/charts/shared/chart-state";
 import { getCenteredTooltipPlacement, MOBILE_TOOLTIP_PLACEMENT, } from "@/charts/shared/interaction/tooltip-box";
 import { DEFAULT_MARGIN_TOP } from "@/charts/shared/margins";
 import { useShowBandValueLabelsVariables, } from "@/charts/shared/show-values-utils";
 import { useChartFormatters } from "@/charts/shared/use-chart-formatters";
-import { InteractionProvider } from "@/charts/shared/use-interaction";
 import { useSize } from "@/charts/shared/use-size";
 import { isTemporalDimension } from "@/domain/data";
 import { formatNumberWithUnit, useFormatNumber } from "@/formatters";

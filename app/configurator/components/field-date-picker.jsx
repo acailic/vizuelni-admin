@@ -1,13 +1,9 @@
 import { t } from "@lingui/macro";
-import { DatePicker, PickersDay } from "@mui/lab";
-import { Box, IconButton, TextField } from "@mui/material";
 import { timeFormat } from "d3-time-format";
 import { useCallback } from "react";
-import { Flex } from "@/components/flex";
-import { Label } from "@/components/form";
+
 import { FIELD_VALUE_NONE } from "@/configurator/constants";
 import { TimeUnit } from "@/graphql/resolver-types";
-import { Icon } from "@/icons";
 export const DatePickerField = ({ name, label, value, onChange, disabled, isDateDisabled, sideControls, timeUnit = TimeUnit.Day, dateFormat = timeFormat("%Y-%m-%d"), parseDate, showClearButton, ...rest }) => {
     const handleChange = useCallback((date) => {
         if (!date || isDateDisabled(date)) {

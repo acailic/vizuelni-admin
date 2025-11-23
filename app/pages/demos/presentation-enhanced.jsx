@@ -1,13 +1,6 @@
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { Box, Button, Chip, Container, Fade, Grid, IconButton, LinearProgress, Stack, Typography } from '@mui/material';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ColumnChart } from '@/components/demos/charts/ColumnChart';
-import { LineChart } from '@/components/demos/charts/LineChart';
-import { DemoLayout } from '@/components/demos/demo-layout';
+
 import { internetAdoption, techIndustryGrowth } from '@/data/serbia-digital';
 import { sectorComposition, tradeBalance } from '@/data/serbia-economy';
 import { energyProduction, energyStats } from '@/data/serbia-energy';

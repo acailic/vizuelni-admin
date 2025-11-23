@@ -1,8 +1,8 @@
 import clsx from "clsx";
-import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 import remarkGfm from "remark-gfm";
+
 import classes from "@/components/markdown.module.css";
 import { palette } from "@/themes/palette";
 const components = {

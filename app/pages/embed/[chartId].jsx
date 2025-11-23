@@ -1,10 +1,5 @@
 import "iframe-resizer/js/iframeResizer.contentWindow.js";
-import ErrorPage from "next/error";
-import Head from "next/head";
-import Script from "next/script";
-import { ChartPublished } from "@/components/chart-published";
 import { useEmbedQueryParams } from "@/components/embed-params";
-import { ConfiguratorStateProvider, } from "@/configurator";
 // For static export, we'll return an empty array
 // Charts won't be pre-rendered in demo mode
 export const getStaticPaths = async () => {

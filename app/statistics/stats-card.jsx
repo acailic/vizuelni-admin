@@ -1,7 +1,7 @@
 import { sum } from "d3-array";
 import { useMemo } from "react";
+
 import { useLocale } from "@/locales/use-locale";
-import { BaseStatsCard } from "@/statistics/base-stats-card";
 import { groupByYearMonth } from "@/statistics/utils";
 export const StatsCard = ({ title, subtitle, countByDay, trendAverages, }) => {
     const locale = useLocale();

@@ -1,10 +1,8 @@
-import { Alert, Autocomplete, Box, Button, Card, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, Link, Menu, MenuItem, Radio, RadioGroup, rgbToHex, Select, Stack, Switch, TextField, Tooltip, Typography, useTheme, } from "@mui/material";
+import { rgbToHex, useTheme, } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
-import { DialogCloseButton } from "@/components/dialog-close-button";
+
 import { useDisclosure } from "@/components/use-disclosure";
-import SvgIcChevronLeft from "@/icons/components/IcChevronLeft";
-import SvgIcChevronRight from "@/icons/components/IcChevronRight";
 const meta = {
     title: "Design system / Theme",
 };

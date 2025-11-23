@@ -1,18 +1,13 @@
-import { DragDropContext, Draggable, Droppable, } from "@hello-pangea/dnd";
-import { t, Trans } from "@lingui/macro";
-import { Box, Button, IconButton, Typography, useEventCallback, } from "@mui/material";
+import { t } from "@lingui/macro";
+import { useEventCallback, } from "@mui/material";
 import uniq from "lodash/uniq";
 import { useCallback, useMemo, useState } from "react";
+
 import { getLayerKey, makeKey, useWMTSorWMSLayers, } from "@/charts/map/wms-wmts-endpoint-utils";
-import { WMTSSelector } from "@/charts/map/wms-wmts-selector";
-import { Switch } from "@/components/form";
-import { MoveDragButton } from "@/components/move-drag-button";
 import { getChartConfig } from "@/config-utils";
-import { ControlSection, ControlSectionContent, ControlSectionSkeleton, SectionTitle, useSectionTitleStyles, } from "@/configurator/components/chart-controls/section";
-import { ConfiguratorDrawer } from "@/configurator/components/drawers";
+import { useSectionTitleStyles, } from "@/configurator/components/chart-controls/section";
 import { isConfiguring, useConfiguratorState, } from "@/configurator/configurator-state";
 import { truthy } from "@/domain/types";
-import { Icon } from "@/icons";
 const LeftDrawer = ({ children, open, onClose, onExited, }) => {
     return (<ConfiguratorDrawer anchor="left" open={open} variant="temporary" onClose={onClose} SlideProps={{
             onExited: onExited,

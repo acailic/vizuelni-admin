@@ -3,6 +3,7 @@
  * Works with static export on GitHub Pages via client-side fetching
  */
 import { useState, useEffect } from 'react';
+
 import { dataGovRsClient, getBestVisualizationResource, parseCSVLine } from '@/domain/data-gov-rs';
 /**
  * Hook to fetch and parse datasets from data.gov.rs

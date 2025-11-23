@@ -1,4 +1,5 @@
 import qs from "qs";
+
 import { FlagStore } from "@/flags/store";
 import { FLAGS } from "@/flags/types";
 import { maybeWindow } from "@/utils/maybe-window";

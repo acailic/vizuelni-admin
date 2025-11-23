@@ -1,4 +1,3 @@
-import { DatasetMetadata } from "@/components/dataset-metadata";
 import { useDataCubeMetadataQuery } from "@/graphql/query-hooks";
 import { useLocale } from "@/locales/use-locale";
 export const DatasetMetadataSingleCube = ({ dataSource, datasetIri, }) => {

@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+
 import { updateRouterQuery } from "@/utils/router/helpers";
 import { useEvent } from "@/utils/use-event";
 /**

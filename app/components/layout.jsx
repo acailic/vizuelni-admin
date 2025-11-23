@@ -1,6 +1,3 @@
-import { Flex } from "@/components/flex";
-import { Footer } from "@/components/footer";
-import { Header } from "@/components/header";
 export const AppLayout = ({ children, hideHeader, editing, }) => {
     return (<Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
       {hideHeader ? null : <Header hideLogo={editing} extendTopBar={editing}/>}

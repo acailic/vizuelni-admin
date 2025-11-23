@@ -1,9 +1,6 @@
 import { defineMessage } from '@lingui/macro';
-import { Trans, useLingui } from '@lingui/react';
-import { Box, Button, Container, Typography } from '@mui/material';
-import Link from 'next/link';
-import { Flex } from '@/components/flex';
-import { Header } from '@/components/header';
+import { useLingui } from '@lingui/react';
+
 export function DemoLayout({ children, title, description, datasetInfo, hideBackButton = false }) {
     var _a;
     const { i18n } = useLingui();

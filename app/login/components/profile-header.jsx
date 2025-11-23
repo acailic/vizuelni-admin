@@ -1,11 +1,8 @@
-import { Trans } from "@lingui/macro";
-import { Box, Button, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
-import NextLink from "next/link";
 import { signOut } from "next-auth/react";
+
 import { ADFS_PROFILE_URL } from "@/domain/env";
-import { Icon } from "@/icons";
 import { useRootStyles } from "@/login/utils";
 const useStyles = makeStyles((theme) => ({
     section: {

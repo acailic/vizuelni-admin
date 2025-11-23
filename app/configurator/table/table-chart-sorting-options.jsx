@@ -1,19 +1,14 @@
-import { DragDropContext, Draggable, Droppable, } from "@hello-pangea/dnd";
-import { t, Trans } from "@lingui/macro";
-import { Box, Button, Typography, } from "@mui/material";
+import { t } from "@lingui/macro";
 import { makeStyles } from "@mui/styles";
 import { ascending } from "d3-array";
 import { useCallback } from "react";
-import { Radio, RadioGroup, Select } from "@/components/form";
-import { VisuallyHidden } from "@/components/visually-hidden";
+
 import { getChartConfig } from "@/config-utils";
-import { ControlSection, SectionTitle, } from "@/configurator/components/chart-controls/section";
 import { getFieldLabel } from "@/configurator/components/field-i18n";
 import { useOrderedTableColumns } from "@/configurator/components/ui-helpers";
 import { useConfiguratorState } from "@/configurator/configurator-state";
 import { addSortingOption, changeSortingOption, changeSortingOptionOrder, moveSortingOptions, removeSortingOption, } from "@/configurator/table/table-config-state";
 import { isNumericalMeasure } from "@/domain/data";
-import { Icon } from "@/icons";
 import { useEvent } from "@/utils/use-event";
 const useStyles = makeStyles((theme) => ({
     sortingItemContainer: {

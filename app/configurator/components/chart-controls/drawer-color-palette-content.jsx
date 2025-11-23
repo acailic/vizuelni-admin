@@ -1,17 +1,14 @@
 import { useEvent } from "@dnd-kit/utilities";
-import { t, Trans } from "@lingui/macro";
-import { Box, Button, IconButton, Typography } from "@mui/material";
+import { t } from "@lingui/macro";
 import { makeStyles } from "@mui/styles";
 import { forwardRef, useState } from "react";
-import { Flex } from "@/components/flex";
-import { Input } from "@/components/form";
-import SvgIcClose from "@/icons/components/IcClose";
-import { ColorPaletteCreator } from "@/login/components/color-palettes/color-palette-types";
+
 import { getDefaultColorValues } from "@/palettes";
 import { theme } from "@/themes/theme";
 import { createCustomColorPalette } from "@/utils/chart-config/api";
 import { createColorId } from "@/utils/color-palette-utils";
 import { useMutate } from "@/utils/use-fetch-data";
+
 import { DRAWER_WIDTH } from "../drawers";
 const useStyles = makeStyles({
     autocompleteMenuContent: {

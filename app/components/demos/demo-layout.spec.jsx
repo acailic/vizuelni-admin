@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
 import { describe, expect, it, vi } from "vitest";
-import { DemoError, DemoEmpty, DemoLayout, DemoLoading } from "./demo-layout";
+
 vi.mock("next/link", () => ({
     __esModule: true,
     default: ({ children }) => children,

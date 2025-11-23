@@ -1,11 +1,6 @@
-import { Box } from "@mui/material";
 import { hcl } from "d3-color";
-import * as React from "react";
-import { Fragment } from "react";
+
 import { useChartState } from "@/charts/shared/chart-state";
-import { Tag } from "@/charts/table/tag";
-import { Flex } from "@/components/flex";
-import { Icon } from "@/icons";
 export const GroupHeader = ({ row, groupingLevels, }) => {
     const { tableColumnsMeta } = useChartState();
     const { depth } = row;

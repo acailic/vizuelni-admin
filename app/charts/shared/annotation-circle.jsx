@@ -1,6 +1,6 @@
-import { ButtonBase } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
+
 import { ANNOTATION_FOCUS_COLOR, ANNOTATION_FOCUS_WIDTH, } from "@/charts/shared/rendering-utils";
 export const AnnotationCircle = ({ x, y, color = DEFAULT_ANNOTATION_CIRCLE_COLOR, focused = false, onClick, }) => {
     const classes = useStyles();

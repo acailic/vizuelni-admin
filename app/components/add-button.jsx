@@ -1,5 +1,3 @@
-import { Button } from "@mui/material";
-import { Icon } from "@/icons";
 export const AddButton = (props) => {
     return (<Button size="sm" startIcon={<Icon name="plus" size={20}/>} {...props}/>);
 };

@@ -2,6 +2,7 @@ import { rgbToHex } from "@mui/material";
 import { hsl } from "d3-color";
 import { interpolateRgb } from "d3-interpolate";
 import { interpolateBlues, interpolateBrBG, interpolateGreens, interpolateGreys, interpolateOranges, interpolatePiYG, interpolatePRGn, interpolatePuOr, interpolatePurples, interpolateRdBu, interpolateRdYlBu, interpolateRdYlGn, interpolateReds, schemeAccent, schemeCategory10, schemeDark2, schemePaired, schemePastel1, schemePastel2, schemeSet1, schemeSet2, schemeSet3, schemeTableau10, } from "d3-scale-chromatic";
+
 import { hasDimensionColors } from "./charts/shared/colors";
 import { createColorId } from "./utils/color-palette-utils";
 // Colors

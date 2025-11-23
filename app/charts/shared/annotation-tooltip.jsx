@@ -1,10 +1,8 @@
-import { IconButton, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
+
 import { DEFAULT_ANNOTATION_CIRCLE_COLOR } from "@/charts/shared/annotation-circle";
 import { useChartState } from "@/charts/shared/chart-state";
-import { MarkdownInheritFonts } from "@/components/markdown";
-import { Icon } from "@/icons";
 import { useLocale } from "@/locales/use-locale";
 import { useChartInteractiveFilters } from "@/stores/interactive-filters";
 import { getTextSize } from "@/utils/get-text-size";

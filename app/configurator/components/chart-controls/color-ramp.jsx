@@ -1,12 +1,8 @@
-import { Trans } from "@lingui/macro";
-import { Box, Button, ListSubheader, MenuItem, Select, Typography, } from "@mui/material";
 import get from "lodash/get";
 import { useEffect, useMemo, useRef, useState, } from "react";
-import { Label } from "@/components/form";
+
 import { getChartConfig } from "@/config-utils";
 import { isConfiguring, useConfiguratorState, } from "@/configurator";
-import { ColorPaletteDrawerContent } from "@/configurator/components/chart-controls/drawer-color-palette-content";
-import { ConfiguratorDrawer } from "@/configurator/components/drawers";
 import { useLocale } from "@/locales/use-locale";
 import { useUser } from "@/login/utils";
 import { createDivergingInterpolator, createSequentialInterpolator, divergingPalettes, getColorInterpolator, sequentialPalettes, } from "@/palettes";

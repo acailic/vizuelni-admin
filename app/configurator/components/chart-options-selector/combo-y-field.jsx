@@ -1,12 +1,7 @@
-import { t, Trans } from "@lingui/macro";
-import { Typography } from "@mui/material";
+import { t } from "@lingui/macro";
 import { groups } from "d3-array";
 import { useCallback, useMemo } from "react";
-import { Flex } from "@/components/flex";
-import { Select } from "@/components/form";
-import { ColorPalette } from "@/configurator/components/chart-controls/color-palette";
-import { ControlSection, ControlSectionContent, SectionTitle, } from "@/configurator/components/chart-controls/section";
-import { ColorPickerField } from "@/configurator/components/field";
+
 import { isConfiguring, useConfiguratorState, } from "@/configurator/configurator-state";
 import { FIELD_VALUE_NONE } from "@/configurator/constants";
 import { isNumericalMeasure, } from "@/domain/data";

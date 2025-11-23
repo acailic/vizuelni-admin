@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { findInHierarchy, mapTree, pruneTree, regroupTrees, } from "@/rdf/tree-utils";
 import multipleRootHierarchy from "@/test/__fixtures/data/multiple-root-hierarchy.json";
 // Country > Canton > Municipality

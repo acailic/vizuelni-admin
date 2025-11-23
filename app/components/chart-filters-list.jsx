@@ -1,8 +1,6 @@
-import { Trans } from "@lingui/macro";
-import { Typography } from "@mui/material";
-import { Fragment, useMemo } from "react";
+import { useMemo } from "react";
+
 import { extractChartConfigComponentIds, useQueryFilters, } from "@/charts/shared/chart-helpers";
-import { OpenMetadataPanelWrapper } from "@/components/metadata-panel";
 import { getAnimationField, } from "@/configurator";
 import { isTemporalDimension, isTemporalOrdinalDimension, } from "@/domain/data";
 import { isMostRecentValue } from "@/domain/most-recent-value";

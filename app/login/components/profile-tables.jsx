@@ -1,25 +1,20 @@
-import { t, Trans } from "@lingui/macro";
-import { Box, Button, Link, Skeleton, styled, Table, TableBody, TableCell, tableCellClasses, TableHead, tableHeadClasses, TableRow, tableRowClasses, Typography, } from "@mui/material";
+import { t } from "@lingui/macro";
+import { styled, Table, tableCellClasses, tableHeadClasses, tableRowClasses, } from "@mui/material";
 import sortBy from "lodash/sortBy";
-import NextLink from "next/link";
 import { useMemo, useState } from "react";
-import { InlineMarkdown, Markdown } from "@/components/markdown";
-import { OverflowTooltip } from "@/components/overflow-tooltip";
-import { EmbedContent, ShareContent, TriggeredPopover, } from "@/components/publish-actions";
-import { RenameDialog } from "@/components/rename-dialog";
-import { RowActions } from "@/components/row-actions";
+
 import { useDisclosure } from "@/components/use-disclosure";
 import { CONFIGURATOR_STATE_LAYOUTING } from "@/config-types";
 import { sourceToLabel } from "@/domain/data-source";
 import { truthy } from "@/domain/types";
 import { useUserConfigs } from "@/domain/user-configs";
 import { useDataCubesMetadataQuery } from "@/graphql/hooks";
-import { Icon } from "@/icons";
 import { useLocale } from "@/locales/use-locale";
 import { useRootStyles } from "@/login/utils";
 import { formatInteger } from "@/statistics/formatters";
 import { removeConfig, updateConfig } from "@/utils/chart-config/api";
 import { useMutate } from "@/utils/use-fetch-data";
+
 import { PUBLISHED_STATE } from "../../db/prisma-types";
 const PREVIEW_LIMIT = 3;
 const POPOVER_PADDING = 8;

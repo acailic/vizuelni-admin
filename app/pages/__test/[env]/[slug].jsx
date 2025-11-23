@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { ChartPublished } from "@/components/chart-published";
-import { ConfiguratorStateProvider, } from "@/configurator";
+
 import { migrateConfiguratorState } from "@/utils/chart-config/versioning";
 const Page = () => {
     const router = useRouter();

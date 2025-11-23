@@ -1,19 +1,10 @@
-import { t, Trans } from "@lingui/macro";
-import { Box, Typography } from "@mui/material";
+import { t } from "@lingui/macro";
 import { makeStyles } from "@mui/styles";
 import FlexSearch from "flexsearch";
 import { forwardRef, useCallback, useMemo, useState, } from "react";
 import { useExpanded, useFlexLayout, useGroupBy, useSortBy, useTable, } from "react-table";
-import AutoSizer from "react-virtualized-auto-sizer";
-import { FixedSizeList, VariableSizeList } from "react-window";
+
 import { useChartState } from "@/charts/shared/chart-state";
-import { CellDesktop } from "@/charts/table/cell-desktop";
-import { DDContent } from "@/charts/table/cell-mobile";
-import { GroupHeader } from "@/charts/table/group-header";
-import { TableContent, TableContentProvider, } from "@/charts/table/table-content";
-import { Flex } from "@/components/flex";
-import { Input, Switch } from "@/components/form";
-import { Icon } from "@/icons";
 import { DISABLE_SCREENSHOT_ATTR } from "@/utils/use-screenshot";
 const MOBILE_VIEW_THRESHOLD = 384;
 const TableContentWrapper = forwardRef(({ children, ...props }, ref) => {

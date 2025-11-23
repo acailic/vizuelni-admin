@@ -1,5 +1,5 @@
-import { Box } from "@mui/material";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, } from "react";
+
 import { hasChartConfigs, useConfiguratorState } from "@/configurator";
 const ChartTablePreviewContext = createContext({
     isTable: false,

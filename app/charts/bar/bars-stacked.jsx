@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
+
 import { renderBars, useGetRenderStackedBarDatum, } from "@/charts/bar/rendering-utils";
 import { useChartState } from "@/charts/shared/chart-state";
 import { renderContainer } from "@/charts/shared/rendering-utils";

@@ -1,7 +1,6 @@
 import { applyListType$, currentListType$ } from "@mdxeditor/editor";
 import { useCellValues, usePublisher } from "@mdxeditor/gurx";
-import { ToolbarIconButton } from "@/components/mdx-editor/common";
-import { Icon } from "@/icons";
+
 const ListTypeButton = ({ listType, iconName, }) => {
     const [currentListType] = useCellValues(currentListType$);
     const applyListType = usePublisher(applyListType$);

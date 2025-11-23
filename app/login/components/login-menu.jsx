@@ -1,11 +1,9 @@
-import { t, Trans } from "@lingui/macro";
-import { Button, Menu, Typography } from "@mui/material";
+import { t } from "@lingui/macro";
 import { signIn, signOut } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
-import { MenuActionItem } from "@/components/menu-action-item";
+
 import { ADFS_PROFILE_URL } from "@/domain/env";
 import { isVercelPreviewHost } from "@/flags/flag";
-import { Icon } from "@/icons";
 import { useLocale } from "@/locales/use-locale";
 import { useUser } from "@/login/utils";
 import { createMailtoLink } from "@/templates/email";

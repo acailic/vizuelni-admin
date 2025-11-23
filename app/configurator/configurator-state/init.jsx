@@ -7,8 +7,10 @@ import { DataCubePreviewDocument, PossibleFiltersDocument, } from "@/graphql/que
 import { fetchChartConfig } from "@/utils/chart-config/api";
 import { getLatestCubeIri, upgradeConfiguratorState, } from "@/utils/chart-config/upgrade-cube";
 import { migrateConfiguratorState } from "@/utils/chart-config/versioning";
+
 import { getLocalStorageKey } from "./local-storage";
 import { deriveFiltersFromFields, transitionStepNext } from "./reducer";
+
 import { getFiltersByMappingStatus, getStateWithCurrentDataSource, } from "./index";
 export const initChartStateFromCube = async (client, cubeIri, dataSource, locale) => {
     var _a, _b;

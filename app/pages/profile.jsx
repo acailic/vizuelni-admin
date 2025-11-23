@@ -1,7 +1,3 @@
-import { Box, Link, Typography } from "@mui/material";
-import NextLink from "next/link";
-import { Footer } from "@/components/footer";
-import { AppLayout } from "@/components/layout";
 import { useRootStyles } from "@/login/utils";
 export const getStaticProps = async () => {
     return {

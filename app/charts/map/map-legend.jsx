@@ -1,18 +1,15 @@
-import { Box, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { range } from "d3-array";
 import { axisBottom } from "d3-axis";
 import { scaleLinear, } from "d3-scale";
 import { select } from "d3-selection";
 import { useEffect, useMemo, useRef } from "react";
+
 import { useChartState } from "@/charts/shared/chart-state";
 import { rgbArrayToHex } from "@/charts/shared/colors";
-import { MapLegendColor } from "@/charts/shared/legend-color";
 import { useChartTheme } from "@/charts/shared/use-chart-theme";
 import { useInteraction } from "@/charts/shared/use-interaction";
 import { useSize } from "@/charts/shared/use-size";
-import { Flex } from "@/components/flex";
-import { ColorRamp } from "@/configurator/components/chart-controls/color-ramp";
 import { truthy } from "@/domain/types";
 import { useDimensionFormatters, useFormatInteger, useFormatNumber, } from "@/formatters";
 import { getColorInterpolator } from "@/palettes";

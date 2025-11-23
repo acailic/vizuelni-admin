@@ -2,7 +2,6 @@
  * Simple Bar Chart component using D3
  * Optimized for data.gov.rs demo visualizations
  */
-import { Box } from '@mui/material';
 import { max } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { format } from 'd3-format';

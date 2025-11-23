@@ -1,5 +1,3 @@
-import { Box } from '@mui/material';
-import React from 'react';
 /**
  * DebugView component for displaying raw JSON structure of data
  * Useful for debugging and mapping CSV headers to chart dimensions

@@ -1,5 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+
 import { BASE_VIEW_STATE, shouldRenderMap, useViewState, } from "@/charts/map/helpers";
 const WIDTH = 400;
 const HEIGHT = 200;

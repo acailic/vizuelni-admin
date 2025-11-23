@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+
 import { useChartState } from "@/charts/shared/chart-state";
 import { truthy } from "@/domain/types";
 export const useColumnValueLabelsData = () => {

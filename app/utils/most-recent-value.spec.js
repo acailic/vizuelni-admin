@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { VISUALIZE_MOST_RECENT_VALUE } from "@/domain/most-recent-value";
 import { resolveMostRecentValue } from "@/utils/most-recent-value";
 describe("resolveMostRecentValue", () => {

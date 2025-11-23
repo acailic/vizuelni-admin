@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { imputeTemporalLinearSeries, interpolateTemporalLinearValue, interpolateZerosValue, } from "@/charts/shared/imputation";
 describe("imputation", () => {
     const previousValue = 10;

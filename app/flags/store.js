@@ -1,4 +1,5 @@
 import mitt from "mitt";
+
 import { localStorageAdapter } from "@/flags/local-storage-adapter";
 import { FLAG_NAMES } from "@/flags/types";
 /**

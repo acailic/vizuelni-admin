@@ -1,18 +1,11 @@
-import { t, Trans } from "@lingui/macro";
-import { Box } from "@mui/material";
+import { t } from "@lingui/macro";
 import get from "lodash/get";
 import { useCallback } from "react";
-import { Checkbox } from "@/components/form";
-import { HintError } from "@/components/hint";
+
 import { isTableConfig, } from "@/config-types";
 import { getChartConfig } from "@/config-utils";
-import { ColorPalette } from "@/configurator/components/chart-controls/color-palette";
-import { ControlSection, ControlSectionContent, SectionTitle, } from "@/configurator/components/chart-controls/section";
-import { ChartOptionCheckboxField, ChartOptionSelectField, ColorPickerField, } from "@/configurator/components/field";
-import { DimensionValuesMultiFilter, DimensionValuesSingleFilter, TimeFilter, } from "@/configurator/components/filters";
 import { mapValueIrisToColor } from "@/configurator/components/ui-helpers";
 import { isConfiguring, useConfiguratorState, } from "@/configurator/configurator-state";
-import { TableSortingOptions } from "@/configurator/table/table-chart-sorting-options";
 import { updateIsGroup, updateIsHidden, } from "@/configurator/table/table-config-state";
 import { isDimension, isNumericalMeasure, isTemporalDimension, isTemporalEntityDimension, } from "@/domain/data";
 import { getDefaultCategoricalPalette, getDefaultCategoricalPaletteId, getDefaultDivergingSteppedPalette, } from "@/palettes";

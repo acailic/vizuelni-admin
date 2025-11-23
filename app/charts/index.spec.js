@@ -1,5 +1,6 @@
 import { schemeCategory10 } from "d3-scale-chromatic";
 import { describe, expect, it } from "vitest";
+
 import { getChartConfigAdjustedToChartType, getEnabledChartTypes, getInitialConfig, } from "@/charts";
 import { stringifyComponentId } from "@/graphql/make-component-id";
 import { TimeUnit } from "@/graphql/resolver-types";

@@ -1,11 +1,9 @@
 import { makeStyles } from "@mui/styles";
-import { AnimatePresence } from "framer-motion";
 import keyBy from "lodash/keyBy";
 import { createElement, useEffect, useMemo, } from "react";
-import { A11yTable } from "@/charts/shared/a11y-table";
+
 import { useLoadingState } from "@/charts/shared/chart-loading-state";
-import { Flex } from "@/components/flex";
-import { Loading, LoadingDataError, LoadingOverlay, NoDataHint, } from "@/components/hint";
+import { LoadingOverlay, } from "@/components/hint";
 import { useDataCubesComponentsQuery, useDataCubesMetadataQuery, useDataCubesObservationsQuery, } from "@/graphql/hooks";
 import { useLocale } from "@/locales/use-locale";
 const useStyles = makeStyles(() => ({

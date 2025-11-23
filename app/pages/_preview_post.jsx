@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 const Page = () => {
     return (<Box sx={{ display: "flex", gap: 2, p: 6 }}>
       <form method="post" action="preview_post" target="_blank">

@@ -3,9 +3,10 @@
 import { DatasetBrowser } from "@/pages/browse";
 
 export const getStaticPaths = async () => {
+  const isGitHubPages = process.env.NEXT_PUBLIC_BASE_PATH !== undefined;
   return {
     paths: [],
-    fallback: false,
+    fallback: isGitHubPages ? false : "blocking",
   };
 };
 

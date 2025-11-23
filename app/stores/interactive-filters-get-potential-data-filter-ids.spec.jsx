@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { getPotentialDataFilterIds } from "./interactive-filters";
 describe("getPotentialDataFilterIds", () => {
     describe("non-table chart configurations", () => {

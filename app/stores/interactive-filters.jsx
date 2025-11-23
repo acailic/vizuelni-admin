@@ -2,6 +2,7 @@ import isEqual from "lodash/isEqual";
 import uniq from "lodash/uniq";
 import { createContext, useContext, useMemo, useRef, } from "react";
 import create from "zustand";
+
 import { getChartSpec } from "@/charts/chart-config-ui-options";
 import { canDimensionBeMultiFiltered } from "@/domain/data";
 import { truthy } from "@/domain/types";

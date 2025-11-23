@@ -1,10 +1,10 @@
 import { t } from "@lingui/macro";
-import { Autocomplete, createFilterOptions, TextField, } from "@mui/material";
+import { createFilterOptions, } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import sortBy from "lodash/sortBy";
 import { useMemo } from "react";
+
 import { guessUrlType } from "@/charts/map/wms-wmts-endpoint-utils";
-import { ProviderInfoAlert } from "@/charts/map/wms-wmts-provider-info";
 import wmsWmtsProvidersExtra_ from "@/charts/map/wms-wmts-providers-extra.json";
 import wmsWmtsProviders from "@/charts/map/wms-wmts-providers.json";
 import { useFlag } from "@/flags";

@@ -1,19 +1,13 @@
-import { Trans } from "@lingui/macro";
-import { Box, Button, Divider, MenuItem, Select, Typography, } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import get from "lodash/get";
 import { useMemo, useState } from "react";
+
 import { hasDimensionColors } from "@/charts/shared/colors";
-import { Flex } from "@/components/flex";
 import { selectMenuProps } from "@/components/form";
-import { Label } from "@/components/form";
 import { getChartConfig } from "@/config-utils";
 import { isColorInConfig, isConfiguring, useConfiguratorState, } from "@/configurator";
-import { ColorPaletteDrawerContent } from "@/configurator/components/chart-controls/drawer-color-palette-content";
-import { ConfiguratorDrawer } from "@/configurator/components/drawers";
 import { mapValueIrisToColor } from "@/configurator/components/ui-helpers";
 import { isNumericalMeasure } from "@/domain/data";
-import { Icon } from "@/icons";
 import { useUser } from "@/login/utils";
 import { categoricalPalettes, DEFAULT_CATEGORICAL_PALETTE_ID, divergingSteppedPalettes, getDefaultCategoricalPalette, getPalette, } from "@/palettes";
 import { useEvent } from "@/utils/use-event";

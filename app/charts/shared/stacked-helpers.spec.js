@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { getStackedTooltipValueFormatter, getStackedYScale, } from "@/charts/shared/stacked-helpers";
 const scalesData = [
     { x: "A", y: 1, segment: "Z" },

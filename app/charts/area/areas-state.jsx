@@ -4,16 +4,15 @@ import { schemeCategory10 } from "d3-scale-chromatic";
 import { stack, stackOrderAscending, stackOrderDescending, stackOrderReverse, } from "d3-shape";
 import orderBy from "lodash/orderBy";
 import { useCallback, useMemo } from "react";
+
 import { useAreasStateData, useAreasStateVariables, } from "@/charts/area/areas-state-props";
 import { getChartWidth, useAxisLabelSizeVariables, useChartBounds, useChartPadding, } from "@/charts/shared/chart-dimensions";
 import { getWideData, normalizeData, stackOffsetDivergingPositiveZeros, useGetIdentityY, } from "@/charts/shared/chart-helpers";
-import { ChartContext, } from "@/charts/shared/chart-state";
 import { getCenteredTooltipPlacement, MOBILE_TOOLTIP_PLACEMENT, } from "@/charts/shared/interaction/tooltip-box";
 import { DEFAULT_MARGIN_TOP } from "@/charts/shared/margins";
 import { useShowTemporalValueLabelsVariables, } from "@/charts/shared/show-values-utils";
 import { getStackedPosition, getStackedTooltipValueFormatter, getStackedYScale, } from "@/charts/shared/stacked-helpers";
 import { useChartFormatters } from "@/charts/shared/use-chart-formatters";
-import { InteractionProvider } from "@/charts/shared/use-interaction";
 import { useSize } from "@/charts/shared/use-size";
 import { useFormatNumber, useTimeFormatUnit } from "@/formatters";
 import { getPalette } from "@/palettes";

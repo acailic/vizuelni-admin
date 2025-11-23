@@ -4,6 +4,7 @@ import isEqual from "lodash/isEqual";
 import setWith from "lodash/setWith";
 import sortBy from "lodash/sortBy";
 import unset from "lodash/unset";
+
 import { getChartConfigAdjustedToChartType, getFieldComponentIds, getGroupedFieldIds, getHiddenFieldIds, } from "@/charts";
 import { getChartFieldChangeSideEffect, getChartFieldDeleteSideEffect, getChartFieldOptionChangeSideEffect, } from "@/charts/chart-config-ui-options";
 import { availableHandlesByBlockType, COLS, getInitialTileHeight, getInitialTileWidth, MIN_H, } from "@/components/react-grid";

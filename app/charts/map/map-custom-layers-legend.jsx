@@ -1,11 +1,9 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 import uniq from "lodash/uniq";
-import NextImage from "next/image";
+
 import { DEFAULT_WMS_URL } from "@/charts/map/wms-utils";
 import { getLayerKey, useWMTSorWMSLayers, } from "@/charts/map/wms-wmts-endpoint-utils";
 import { DEFAULT_WMTS_URL, getWMTSLayerValue, } from "@/charts/map/wmts-utils";
-import { Error, InlineLoading } from "@/components/hint";
-import { InfoIconTooltip } from "@/components/info-icon-tooltip";
 import { truthy } from "@/domain/types";
 import { useLocale } from "@/locales/use-locale";
 import { useFetchData } from "@/utils/use-fetch-data";

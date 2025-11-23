@@ -1,7 +1,9 @@
 import { min } from "d3-array";
 import { useCallback } from "react";
+
 import { sortComboData } from "@/charts/combo/combo-state-props";
 import { shouldUseDynamicMinScaleValue, useBaseVariables, useChartData, useInteractiveFiltersVariables, useTemporalXVariables, } from "@/charts/shared/chart-state";
+
 import { usePlottableData } from "../shared/chart-helpers";
 export const useComboLineSingleStateVariables = (props) => {
     const { chartConfig, dimensionsById, measuresById } = props;

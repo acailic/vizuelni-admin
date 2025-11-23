@@ -2,12 +2,8 @@
  * Serbian Climate Impact Visualization
  * Temperature trends, extreme weather events, and environmental data
  */
-import { Alert, Box, Card, CardContent, Chip, Grid, Paper, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
-import { ColumnChart } from '@/components/demos/charts/ColumnChart';
-import { LineChart } from '@/components/demos/charts/LineChart';
-import { PieChart } from '@/components/demos/charts/PieChart';
-import { DemoLayout } from '@/components/demos/demo-layout';
+
 import { airQualityTrends, climateStats, emissionsBySector, extremeWeatherEvents, forestationTrends, precipitationTrends, renewableEnergyTrends, temperatureTrends } from '@/data/serbia-climate';
 export default function ClimateDemo() {
     const router = useRouter();

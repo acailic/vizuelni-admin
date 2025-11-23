@@ -4,8 +4,8 @@ import { schemeCategory10 } from "d3-scale-chromatic";
 import mapKeys from "lodash/mapKeys";
 import mapValues from "lodash/mapValues";
 import { useMemo } from "react";
+
 import { getLabelWithUnit, getSlugifiedId, } from "@/charts/shared/chart-helpers";
-import { ChartContext, } from "@/charts/shared/chart-state";
 import { useSize } from "@/charts/shared/use-size";
 import { BAR_CELL_PADDING, TABLE_HEIGHT } from "@/charts/table/constants";
 import { getTableUIElementsOffset } from "@/charts/table/table";

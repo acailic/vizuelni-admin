@@ -1,5 +1,6 @@
 import { ascending } from "d3-array";
 import { useCallback } from "react";
+
 import { usePlottableData } from "@/charts/shared/chart-helpers";
 import { useBaseVariables, useChartData, useInteractiveFiltersVariables, useLimitsVariables, useNumericalYErrorVariables, useNumericalYVariables, useSegmentVariables, useTemporalXVariables, } from "@/charts/shared/chart-state";
 export const useLinesStateVariables = (props) => {

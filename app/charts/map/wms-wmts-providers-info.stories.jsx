@@ -1,10 +1,9 @@
-import { Box, Checkbox, Link, Table, TableBody, TableCell, TableHead, TableRow, } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useState } from "react";
+
 import { guessUrlType } from "@/charts/map/wms-wmts-endpoint-utils";
 import wmsWmtsProvidersExtra_ from "@/charts/map/wms-wmts-providers-extra.json";
 import wmsWmtsProviders from "@/charts/map/wms-wmts-providers.json";
-import { FormControlLabel } from "@/components/form";
 const wmsWmtsProvidersExtra = wmsWmtsProvidersExtra_;
 const useStyles = makeStyles((theme) => ({
     container: {

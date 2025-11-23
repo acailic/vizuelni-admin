@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { defaultSegmentOnChange } from "@/charts/chart-config-ui-options";
 import { stringifyComponentId } from "@/graphql/make-component-id";
 describe("defaultSegmentOnChange", () => {

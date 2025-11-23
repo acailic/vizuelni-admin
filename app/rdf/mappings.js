@@ -1,4 +1,5 @@
 import { TimeUnit } from "../graphql/resolver-types";
+
 import * as ns from "./namespace";
 export const timeUnits = new Map([
     [ns.time.unitYear.value, TimeUnit.Year],

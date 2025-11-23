@@ -1,10 +1,7 @@
-import { Trans } from "@lingui/macro";
-import { Alert, AlertTitle, alpha, Box, keyframes, Link, Typography, useTheme, } from "@mui/material";
+import { alpha, keyframes, useTheme, } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useEffect, useState } from "react";
-import { Flex } from "@/components/flex";
-import { MotionBox } from "@/components/presence";
-import { Icon } from "@/icons";
+
 export const Error = ({ children }) => {
     return (<Flex sx={{
             justifyContent: "center",

@@ -1,5 +1,6 @@
 import { ascending, descending } from "d3-array";
 import { useCallback } from "react";
+
 import { usePlottableData } from "@/charts/shared/chart-helpers";
 import { useBandYVariables, useBaseVariables, useChartData, useInteractiveFiltersVariables, useLimitsVariables, useNumericalXErrorVariables, useNumericalXVariables, useSegmentVariables, } from "@/charts/shared/chart-state";
 import { useRenderingKeyVariable } from "@/charts/shared/rendering-utils";

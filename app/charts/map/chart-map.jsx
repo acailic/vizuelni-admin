@@ -1,16 +1,7 @@
-import { Box } from "@mui/material";
 import { memo, useCallback, useMemo } from "react";
-import { ChartDataWrapper } from "@/charts/chart-data-wrapper";
+
 import { shouldRenderMap } from "@/charts/map/helpers";
-import { MapComponent } from "@/charts/map/map";
-import { MapCustomLayersLegend } from "@/charts/map/map-custom-layers-legend";
-import { MapLegend } from "@/charts/map/map-legend";
-import { MapChart } from "@/charts/map/map-state";
-import { MapTooltip } from "@/charts/map/map-tooltip";
-import { ChartContainer, ChartControlsContainer, } from "@/charts/shared/containers";
-import { NoGeometriesHint } from "@/components/hint";
 import { useChartConfigFilters, useDefinitiveTemporalFilterValue, useLimits, } from "@/config-utils";
-import { TimeSlider } from "@/configurator/interactive-filters/time-slider";
 import { dimensionValuesToGeoCoordinates, } from "@/domain/data";
 import { useDataCubesComponentsQuery } from "@/graphql/hooks";
 import { getResolvedJoinById, isJoinById } from "@/graphql/join";

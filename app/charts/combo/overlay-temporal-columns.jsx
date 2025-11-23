@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+
 import { useChartState } from "@/charts/shared/chart-state";
 import { useAnnotationInteractions } from "@/charts/shared/use-annotation-interactions";
 export const InteractionTemporalColumns = () => {

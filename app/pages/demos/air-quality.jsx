@@ -3,10 +3,9 @@
  * Showcases the shocking air pollution levels in Serbian cities
  * with multiple visualizations and health warnings
  */
-import { Alert, Box, Card, CardContent, Grid, Paper, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
-import { DemoEmpty, DemoError, DemoLayout, DemoLoading } from '@/components/demos/demo-layout';
+
 import { useDataGovRs } from '@/hooks/use-data-gov-rs';
 // WHO Air Quality Guidelines (μg/m³)
 const WHO_LIMITS = {

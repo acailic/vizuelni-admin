@@ -1,16 +1,15 @@
 import { max, mean, min } from "d3-array";
 import { scaleBand, scaleLinear, } from "d3-scale";
 import { schemeCategory10 } from "d3-scale-chromatic";
+
 import { PADDING_INNER, PADDING_OUTER } from "@/charts/column/constants";
 import { useComboLineColumnStateData, useComboLineColumnStateVariables, } from "@/charts/combo/combo-line-column-state-props";
 import { adjustScales, useCommonComboState, useDualAxisMargins, useYScales, } from "@/charts/combo/combo-state";
 import { TICK_PADDING } from "@/charts/shared/axis-height-linear";
 import { getChartWidth, useAxisLabelSizeVariables, useChartBounds, useChartPadding, } from "@/charts/shared/chart-dimensions";
-import { ChartContext, } from "@/charts/shared/chart-state";
 import { getCenteredTooltipPlacement, MOBILE_TOOLTIP_PLACEMENT, } from "@/charts/shared/interaction/tooltip-box";
 import { getTickNumber } from "@/charts/shared/ticks";
 import { TICK_FONT_SIZE } from "@/charts/shared/use-chart-theme";
-import { InteractionProvider } from "@/charts/shared/use-interaction";
 import { truthy } from "@/domain/types";
 import { getTimeInterval } from "@/intervals";
 import { getTextWidth } from "@/utils/get-text-width";

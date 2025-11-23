@@ -1,4 +1,3 @@
-import { AnnotationCircle } from "@/charts/shared/annotation-circle";
 import { useChartState } from "@/charts/shared/chart-state";
 import { useInteraction } from "@/charts/shared/use-interaction";
 export const HoverAnnotationDot = () => {

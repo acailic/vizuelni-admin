@@ -1,22 +1,16 @@
-import { t, Trans } from "@lingui/macro";
-import { Box, Button, IconButton, tooltipClasses, Typography, } from "@mui/material";
+import { t } from "@lingui/macro";
+import { tooltipClasses, } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 import uniqBy from "lodash/uniqBy";
 import { useMemo, useState } from "react";
 import { useClient } from "urql";
-import { Flex } from "@/components/flex";
-import { MaybeTooltip } from "@/components/maybe-tooltip";
+
 import { useMetadataPanelStoreActions } from "@/components/metadata-panel-store";
 import { useDisclosure } from "@/components/use-disclosure";
 import { getChartConfig } from "@/config-utils";
-import { AddDatasetDrawer } from "@/configurator/components/add-dataset-drawer/add-dataset-drawer";
-import { DatasetsBadge } from "@/configurator/components/badges";
-import { ControlSection, ControlSectionContent, SectionTitle, } from "@/configurator/components/chart-controls/section";
 import { isConfiguring, useConfiguratorState, } from "@/configurator/configurator-state";
 import { executeDataCubesComponentsQuery, useDataCubesMetadataQuery, } from "@/graphql/hooks";
-import { Icon } from "@/icons";
-import SvgIcTrash from "@/icons/components/IcTrash";
 import { useLocale } from "@/locales/use-locale";
 import { useEventEmitter } from "@/utils/event-emitter";
 const useStyles = makeStyles((theme) => ({

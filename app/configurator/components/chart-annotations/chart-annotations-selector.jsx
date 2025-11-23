@@ -1,23 +1,16 @@
-import { t, Trans } from "@lingui/macro";
-import { Button, Typography } from "@mui/material";
+import { t } from "@lingui/macro";
 import isEqual from "lodash/isEqual";
 import omit from "lodash/omit";
 import { useMemo } from "react";
-import { Checkbox, MarkdownInput, Radio, RadioGroup } from "@/components/form";
-import { Markdown } from "@/components/markdown";
+
 import { useDisclosure } from "@/components/use-disclosure";
 import { isSegmentInConfig } from "@/config-types";
 import { getChartConfig } from "@/config-utils";
 import { getDefaultHighlightAnnotation } from "@/configurator/components/chart-annotations/utils";
-import { ControlTab } from "@/configurator/components/chart-controls/control-tab";
-import { ControlSection, ControlSectionContent, SectionTitle, } from "@/configurator/components/chart-controls/section";
-import { ConfiguratorDrawer } from "@/configurator/components/drawers";
-import { ColorPicker } from "@/configurator/components/field";
 import { getFieldLabel } from "@/configurator/components/field-i18n";
 import { useConfiguratorState } from "@/configurator/configurator-state";
 import { isConfiguring } from "@/configurator/configurator-state";
 import { useDataCubesComponentsQuery } from "@/graphql/hooks";
-import { Icon } from "@/icons";
 import { useLocale, useOrderedLocales } from "@/locales/use-locale";
 import { PRIMARY_COLOR } from "@/themes/palette";
 import { useEvent } from "@/utils/use-event";

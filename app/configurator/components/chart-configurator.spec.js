@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { getFilterReorderCubeFilters } from "@/configurator/components/chart-configurator";
 describe("getFilterReorderCubeFilters", () => {
     it("should load dimension values", () => {

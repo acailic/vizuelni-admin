@@ -1,5 +1,6 @@
 import { rollups, sum } from "d3-array";
 import uniq from "lodash/uniq";
+
 import { formatYearMonth } from "@/statistics/formatters";
 export const groupByYearMonth = (countByDay, { locale }) => {
     const countByDate = rollups(countByDay, (v) => ({

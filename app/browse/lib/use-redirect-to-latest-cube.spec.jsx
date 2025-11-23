@@ -1,6 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import { useRouter } from "next/router";
 import { describe, expect, it, vi } from "vitest";
+
 import { useRedirectToLatestCube } from "@/browse/lib/use-redirect-to-latest-cube";
 import { useLocale } from "@/locales/use-locale";
 import { queryLatestCubeIri } from "@/rdf/query-latest-cube-iri";

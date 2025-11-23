@@ -1,8 +1,7 @@
 import { useEffect, useMemo } from "react";
-import { DataFilterGenericDimension, DataFilterHierarchyDimension, DataFilterTemporalDimension, getInteractiveQueryFilters, } from "@/charts/shared/chart-data-filters";
+
+import { getInteractiveQueryFilters, } from "@/charts/shared/chart-data-filters";
 import { useLoadingState } from "@/charts/shared/chart-loading-state";
-import { Flex } from "@/components/flex";
-import { Loading } from "@/components/hint";
 import { getChartConfigFilters } from "@/config-utils";
 import { FIELD_VALUE_NONE } from "@/configurator/constants";
 import { isTemporalDimension } from "@/domain/data";

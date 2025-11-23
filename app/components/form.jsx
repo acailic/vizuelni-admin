@@ -1,23 +1,16 @@
 import { i18n } from "@lingui/core";
-import { defineMessage, Trans } from "@lingui/macro";
-import { headingsPlugin, linkPlugin, listsPlugin, markdownShortcutPlugin, MDXEditor, quotePlugin, thematicBreakPlugin, toolbarPlugin, } from "@mdxeditor/editor";
-import { Box, ButtonBase, Checkbox as MUICheckbox, CircularProgress, Divider, FormControlLabel as MUIFormControlLabel, Input as MUIInput, ListSubheader, MenuItem, Radio as MUIRadio, Select as MUISelect, Slider as MUISlider, sliderClasses, Stack, Switch as MUISwitch, Tooltip, Typography, } from "@mui/material";
+import { defineMessage } from "@lingui/macro";
+import { headingsPlugin, linkPlugin, listsPlugin, markdownShortcutPlugin, quotePlugin, thematicBreakPlugin, toolbarPlugin, } from "@mdxeditor/editor";
+import { sliderClasses, } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useId } from "@reach/auto-id";
 import clsx from "clsx";
 import flatten from "lodash/flatten";
 import { useCallback, useMemo, useRef, useState, } from "react";
+
 import { useBrowseContext } from "@/browse/model/context";
-import { Flex } from "@/components/flex";
-import { MaybeTooltip } from "@/components/maybe-tooltip";
-import { BlockTypeMenu } from "@/components/mdx-editor/block-type-menu";
-import { BoldItalicUnderlineToggles } from "@/components/mdx-editor/bold-italic-underline-toggles";
 import { linkDialogPlugin } from "@/components/mdx-editor/link-dialog";
-import { LinkDialogToggle } from "@/components/mdx-editor/link-dialog-toggle";
-import { ListToggles } from "@/components/mdx-editor/list-toggles";
 import { maxLengthPlugin } from "@/components/mdx-editor/max-length-plugin";
-import { VisuallyHidden } from "@/components/visually-hidden";
-import { Icon } from "@/icons";
 import { useLocale } from "@/locales/use-locale";
 import { valueComparator } from "@/utils/sorting-values";
 import { useEvent } from "@/utils/use-event";

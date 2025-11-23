@@ -1,5 +1,5 @@
-import { Chip, chipClasses } from "@mui/material";
-import SvgIcJoint from "@/icons/components/IcJoint";
+import { chipClasses } from "@mui/material";
+
 export const JoinByChip = ({ children, ...props }) => {
     return (<Chip {...props} label={<>
           <SvgIcJoint />

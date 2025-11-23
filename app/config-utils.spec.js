@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { extractSingleFilters, getChartConfigFilters, makeMultiFilter, } from "@/config-utils";
 describe("Config Utils", () => {
     describe("makeMultiFilter", () => {

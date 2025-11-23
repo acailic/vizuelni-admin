@@ -1,10 +1,8 @@
-import { Input } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { hexToHsva, hsvaToHex, Hue, Saturation, } from "@uiw/react-color";
+import { hexToHsva, hsvaToHex, } from "@uiw/react-color";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useState } from "react";
-import { Flex } from "@/components/flex";
-import { Swatch } from "@/configurator/components/chart-controls/color-picker";
+
 import { createColorId } from "@/utils/color-palette-utils";
 const ChromePicker = dynamic(() => import("@uiw/react-color").then((mod) => ({ default: mod.Chrome })), { ssr: false });
 const useColorPickerStyles = makeStyles({

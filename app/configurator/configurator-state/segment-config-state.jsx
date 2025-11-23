@@ -1,4 +1,5 @@
 import get from "lodash/get";
+
 import { isSegmentInConfig } from "@/config-types";
 import { getChartConfig } from "@/config-utils";
 import { isConfiguring } from "@/configurator/configurator-state";

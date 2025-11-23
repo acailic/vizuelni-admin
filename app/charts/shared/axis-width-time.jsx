@@ -1,10 +1,10 @@
 import { axisBottom } from "d3-axis";
 import { useEffect, useRef } from "react";
+
 import { useXAxisTitleOffset } from "@/charts/shared/chart-dimensions";
 import { useChartState } from "@/charts/shared/chart-state";
 import { maybeTransition, renderContainer, } from "@/charts/shared/rendering-utils";
 import { useChartTheme } from "@/charts/shared/use-chart-theme";
-import { OpenMetadataPanelWrapper } from "@/components/metadata-panel";
 import { useFormatShortDateAuto } from "@/formatters";
 import { useTransitionStore } from "@/stores/transition";
 // Approximate the longest date format we're using for.

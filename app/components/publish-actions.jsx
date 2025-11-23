@@ -1,13 +1,9 @@
-import { t, Trans } from "@lingui/macro";
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, FormControlLabel, IconButton, Popover, Stack, Switch, Tooltip, Typography, } from "@mui/material";
+import { t } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+
 import { CHART_RESIZE_EVENT_TYPE } from "@/charts/shared/use-size";
-import { CopyToClipboardTextInput } from "@/components/copy-to-clipboard-text-input";
 import { isEmbedQueryParam, useEmbedQueryParams, } from "@/components/embed-params";
-import { Flex } from "@/components/flex";
-import { Radio } from "@/components/form";
-import { Icon } from "@/icons";
 import { useEvent } from "@/utils/use-event";
 import { useI18n } from "@/utils/use-i18n";
 import { useResizeObserver } from "@/utils/use-resize-observer";

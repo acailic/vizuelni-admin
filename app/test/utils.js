@@ -1,4 +1,5 @@
 import flatten from "lodash/flatten";
+
 import { configs as intTestConfigs } from "./__fixtures/config/int/configs";
 import { configs as prodTestConfigs } from "./__fixtures/config/prod/configs";
 const configsPerEnv = {

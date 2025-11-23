@@ -1,12 +1,5 @@
-import { Box, IconButton } from "@mui/material";
-import Link from "next/link";
-import { DataSourceMenu } from "@/components/data-source-menu";
-import { Flex } from "@/components/flex";
 import { __HEADER_HEIGHT_CSS_VAR } from "@/components/header-constants";
-import { LanguagePicker } from "@/components/language-picker";
-import { SimpleHeader } from "@/components/simple-header";
 import { SOURCE_OPTIONS } from "@/domain/data-source/constants";
-import { LoginMenu } from "@/login/components/login-menu";
 import { useResizeObserver } from "@/utils/use-resize-observer";
 export const Header = ({ hideLogo, extendTopBar, }) => {
     const [ref] = useResizeObserver(({ height }) => {
