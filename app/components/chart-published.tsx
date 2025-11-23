@@ -408,7 +408,7 @@ const ChartPublishedInnerImpl = ({
               </HintError>
             </Box>
           )}
-          {!isTrustedDataSource && (
+          {/* {!isTrustedDataSource && (
             <Box sx={{ mb: 4 }}>
               <HintWarning>
                 <Trans id="data.source.notTrusted">
@@ -416,7 +416,7 @@ const ChartPublishedInnerImpl = ({
                 </Trans>
               </HintWarning>
             </Box>
-          )}
+          )} */}
           {isUsingImputation(chartConfig) && (
             <Box sx={{ mb: 4 }}>
               <HintInfo>

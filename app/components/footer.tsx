@@ -2,9 +2,7 @@ import { t } from "@lingui/macro";
 import { Box, Link, SxProps, Typography } from "@mui/material";
 import NextLink from "next/link";
 
-import {
-  Footer as FooterComponent,
-} from "@/components/footer-components";
+import { Footer as FooterComponent } from "@/components/footer-components";
 import contentRoutes from "@/content-routes.json";
 import { BUILD_COMMIT, BUILD_GITHUB_REPO, BUILD_VERSION } from "@/domain/env";
 import { useLocale } from "@/locales/use-locale";
@@ -13,16 +11,16 @@ const mkVersionLink = () => {
   let commitLink = "";
   let href = "";
 
-  if (BUILD_COMMIT) {
+  if (BUILD_COMMIT && BUILD_COMMIT !== "undefined") {
     commitLink = `(${BUILD_COMMIT.substr(0, 7)})`;
   }
 
-  if (BUILD_GITHUB_REPO) {
+  if (BUILD_GITHUB_REPO && BUILD_COMMIT && BUILD_COMMIT !== "undefined") {
     href = `${BUILD_GITHUB_REPO}/commit/${BUILD_COMMIT}`;
   }
 
   return {
-    title: `${BUILD_VERSION} ${commitLink}`,
+    title: `${BUILD_VERSION || ""} ${commitLink}`.trim(),
     href,
     external: true,
   };
@@ -31,7 +29,11 @@ const mkVersionLink = () => {
 export const Footer = ({ sx }: { sx?: SxProps }) => {
   const locale = useLocale();
 
-  const getLocalizedRoute = <T extends Record<string, { title: string; path: string }>>(routes: T) => {
+  const getLocalizedRoute = <
+    T extends Record<string, { title: string; path: string }>,
+  >(
+    routes: T
+  ) => {
     const key = (locale in routes ? locale : "en") as keyof T;
     return routes[key];
   };

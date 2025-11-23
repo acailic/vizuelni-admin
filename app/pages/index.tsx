@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { GetStaticProps } from "next";
 import Link from "next/link";
+import { t, Trans } from "@lingui/macro";
 
 import { ContentMDXProvider } from "@/components/content-mdx-provider";
 import { staticPages } from "@/static-pages";
@@ -27,41 +28,47 @@ interface ContentPageProps {
   staticPage: string;
 }
 
-const TutorialsSection = ({ locale }: { locale: "sr" | "en" }) => {
+const TutorialsSection = () => {
   const tutorials = [
     {
-      title: locale === "sr" ? "Početak" : "Getting Started",
-      description:
-        locale === "sr"
-          ? "Naučite osnove korišćenja Vizualni Admin"
-          : "Learn the basics of using Vizualni Admin",
+      title: t({
+        id: "home.tutorials.gettingStarted.title",
+        message: "Getting Started",
+      }),
+      description: t({
+        id: "home.tutorials.gettingStarted.description",
+        message: "Learn the basics of using Vizualni Admin",
+      }),
       link: "/docs/getting-started",
       icon: "🚀",
     },
     {
-      title: locale === "sr" ? "Tipovi Grafikona" : "Chart Types",
-      description:
-        locale === "sr"
-          ? "Istražite različite tipove grafikona"
-          : "Explore different chart types",
+      title: t({
+        id: "home.tutorials.chartTypes.title",
+        message: "Chart Types",
+      }),
+      description: t({
+        id: "home.tutorials.chartTypes.description",
+        message: "Explore different chart types",
+      }),
       link: "/docs/chart-types-guide",
       icon: "📊",
     },
     {
-      title: locale === "sr" ? "Ugrađivanje" : "Embedding",
-      description:
-        locale === "sr"
-          ? "Kako ugraditi vizualizacije na vaš sajt"
-          : "How to embed visualizations on your site",
+      title: t({ id: "home.tutorials.embedding.title", message: "Embedding" }),
+      description: t({
+        id: "home.tutorials.embedding.description",
+        message: "How to embed visualizations on your site",
+      }),
       link: "/docs/embedding-guide",
       icon: "🔗",
     },
     {
-      title: locale === "sr" ? "API Vodič" : "API Guide",
-      description:
-        locale === "sr"
-          ? "Korišćenje data.gov.rs API-ja"
-          : "Using the data.gov.rs API",
+      title: t({ id: "home.tutorials.apiGuide.title", message: "API Guide" }),
+      description: t({
+        id: "home.tutorials.apiGuide.description",
+        message: "Using the data.gov.rs API",
+      }),
       link: "/docs/data-gov-rs-guide",
       icon: "📡",
     },
@@ -70,12 +77,12 @@ const TutorialsSection = ({ locale }: { locale: "sr" | "en" }) => {
   return (
     <Box sx={{ py: 8, px: 2, backgroundColor: "background.paper" }}>
       <Typography variant="h4" align="center" gutterBottom>
-        {locale === "sr" ? "Naučite i Istražite" : "Learn and Explore"}
+        <Trans id="home.tutorials.title">Learn and Explore</Trans>
       </Typography>
       <Typography variant="body1" align="center" sx={{ mb: 4 }}>
-        {locale === "sr"
-          ? "Otkrijte naše tutorijale i vodiče za kreiranje sjajnih vizualizacija"
-          : "Discover our tutorials and guides for creating amazing visualizations"}
+        <Trans id="home.tutorials.subtitle">
+          Discover our tutorials and guides for creating amazing visualizations
+        </Trans>
       </Typography>
       <Grid container spacing={4}>
         {tutorials.map((tutorial, index) => (
@@ -96,7 +103,7 @@ const TutorialsSection = ({ locale }: { locale: "sr" | "en" }) => {
               </CardContent>
               <CardActions sx={{ justifyContent: "center" }}>
                 <Button size="small" component={Link} href={tutorial.link}>
-                  {locale === "sr" ? "Saznaj više" : "Learn More"}
+                  <Trans id="home.tutorials.learnMore">Learn More</Trans>
                 </Button>
               </CardActions>
             </Card>
@@ -107,7 +114,7 @@ const TutorialsSection = ({ locale }: { locale: "sr" | "en" }) => {
   );
 };
 
-const HeroSection = ({ locale }: { locale: "sr" | "en" }) => {
+const HeroSection = () => {
   return (
     <Box
       sx={{
@@ -124,17 +131,18 @@ const HeroSection = ({ locale }: { locale: "sr" | "en" }) => {
     >
       <Box sx={{ maxWidth: 720 }}>
         <Typography variant="overline" sx={{ letterSpacing: 2 }}>
-          {locale === "sr" ? "Vizualizujte podatke" : "Visualize open data"}
+          <Trans id="home.hero.overline">Visualize open data</Trans>
         </Typography>
         <Typography variant="h3" sx={{ fontWeight: 800, mt: 2, mb: 2 }}>
-          {locale === "sr"
-            ? "Brže do priče iz otvorenih podataka Srbije"
-            : "Get to insights from Serbian open data faster"}
+          <Trans id="home.hero.title">
+            Get to insights from Serbian open data faster
+          </Trans>
         </Typography>
         <Typography variant="body1" sx={{ opacity: 0.9, mb: 4 }}>
-          {locale === "sr"
-            ? "Pregledajte data.gov.rs, izaberite dataset i kreirajte vizualizacije koje možete odmah deliti ili ugraditi."
-            : "Browse data.gov.rs, pick a dataset, and craft visualizations you can share or embed instantly."}
+          <Trans id="home.hero.description">
+            Browse data.gov.rs, pick a dataset, and craft visualizations you can
+            share or embed instantly.
+          </Trans>
         </Typography>
         <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
           <Button
@@ -144,7 +152,7 @@ const HeroSection = ({ locale }: { locale: "sr" | "en" }) => {
             href="/browse"
             sx={{ minWidth: 160 }}
           >
-            {locale === "sr" ? "Pregledaj datasete" : "Browse datasets"}
+            <Trans id="home.hero.browseButton">Browse datasets</Trans>
           </Button>
           <Button
             variant="outlined"
@@ -157,7 +165,7 @@ const HeroSection = ({ locale }: { locale: "sr" | "en" }) => {
               color: "white",
             }}
           >
-            {locale === "sr" ? "Vodič za početak" : "Start guide"}
+            <Trans id="home.hero.guideButton">Start guide</Trans>
           </Button>
         </Stack>
       </Box>
@@ -168,13 +176,12 @@ const HeroSection = ({ locale }: { locale: "sr" | "en" }) => {
 export default function ContentPage({ staticPage }: ContentPageProps) {
   const Component = staticPages[staticPage]?.component;
   const isHomePage = staticPage === "/sr/index" || staticPage === "/en/index";
-  const locale = staticPage.startsWith("/sr") ? "sr" : "en";
 
   return (
     <ContentMDXProvider>
-      {isHomePage && <HeroSection locale={locale} />}
+      {isHomePage && <HeroSection />}
       {Component ? <Component /> : "NOT FOUND"}
-      {isHomePage && <TutorialsSection locale={locale} />}
+      {isHomePage && <TutorialsSection />}
     </ContentMDXProvider>
   );
 }

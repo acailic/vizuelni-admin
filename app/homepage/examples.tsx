@@ -109,9 +109,22 @@ const Example = ({
       </ExampleCard>
     </ConfiguratorStateProvider>
   ) : error ? (
-    <Box sx={{ mb: 6 }}>
-      <LoadingDataError />
-    </Box>
+    <ExampleCard headline={headline} description={description}>
+      <Box
+        sx={{
+          height: 400,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          bgcolor: "grey.100",
+          borderRadius: 1,
+        }}
+      >
+        <Typography color="textSecondary">
+          Demo temporarily unavailable
+        </Typography>
+      </Box>
+    </ExampleCard>
   ) : (
     <Skeleton variant="rectangular" height={400} />
   );
