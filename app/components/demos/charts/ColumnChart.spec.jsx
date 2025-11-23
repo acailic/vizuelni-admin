@@ -1,4 +1,6 @@
 import { act, render } from "@testing-library/react";
+import "@testing-library/jest-dom/vitest";
+import { describe, expect, it } from "vitest";
 import { ColumnChart } from "./ColumnChart";
 const sampleData = [
     { category: "A", value: 10 },

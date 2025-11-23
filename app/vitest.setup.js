@@ -98,3 +98,4 @@ vi.mock("next/router", () => {
         useRouter: () => router,
     };
 });
+import "@testing-library/jest-dom/vitest";

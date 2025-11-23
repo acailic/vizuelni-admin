@@ -2,22 +2,7 @@
  * Demo configurations for data.gov.rs visualizations
  */
 
-export interface DemoConfig {
-  id: string;
-  title: {
-    sr: string;
-    en: string;
-  };
-  description: {
-    sr: string;
-    en: string;
-  };
-  searchQuery: string;
-  chartType: 'line' | 'bar' | 'column' | 'area' | 'pie' | 'map' | 'scatterplot';
-  defaultDatasetId?: string;
-  tags?: string[];
-  icon: string;
-}
+import type { DemoConfig } from '@/types/demos';
 
 export const DEMO_CONFIGS: Record<string, DemoConfig> = {
   'air-quality': {

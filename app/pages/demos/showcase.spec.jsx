@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import { vi } from "vitest";
+import "@testing-library/jest-dom/vitest";
+import { describe, expect, it, vi } from "vitest";
 import DemoShowcasePage from "./showcase";
 vi.mock("next/router", () => ({
     useRouter: () => ({ locale: "sr" }),

@@ -1,4 +1,6 @@
 import { act, render } from "@testing-library/react";
+import "@testing-library/jest-dom/vitest";
+import { describe, expect, it } from "vitest";
 import { PieChart } from "./PieChart";
 const data = [
     { source: "A", share: 50 },

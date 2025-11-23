@@ -232,7 +232,7 @@ export default function ClimateDemo() {
             year: d.year.toString(),
             'Precipitation': d.annual,
             'Drought Months': d.droughtMonths * 40, // Scale for visibility
-        }))} xKey="year" yKey="value" width={950} height={450}/>
+        }))} xKey="year" yKey={['Precipitation', 'Drought Months']} width={950} height={450} multiSeries/>
           </Box>
         </Paper>
 

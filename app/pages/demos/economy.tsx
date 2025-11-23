@@ -333,10 +333,11 @@ export default function EconomyDemo() {
                 'Imports': d.imports,
               }))}
               xKey="year"
-              yKey="value"
+              yKey={['Exports', 'Imports']}
               width={950}
               height={500}
               stacked={false}
+              multiSeries
             />
           </Box>
         </Paper>

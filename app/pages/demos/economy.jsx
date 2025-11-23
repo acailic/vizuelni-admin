@@ -244,7 +244,7 @@ export default function EconomyDemo() {
             year: d.year.toString(),
             'Exports': d.exports,
             'Imports': d.imports,
-        }))} xKey="year" yKey="value" width={950} height={500} stacked={false}/>
+        }))} xKey="year" yKey={['Exports', 'Imports']} width={950} height={500} stacked={false} multiSeries/>
           </Box>
         </Paper>
 

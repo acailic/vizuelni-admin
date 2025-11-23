@@ -1,12 +1,21 @@
-/**
- * Layout component for demo pages
- * Provides consistent structure for data.gov.rs visualizations
- */
+import { t, Trans } from '@lingui/macro';
+import { useLingui } from '@lingui/react';
 import { Box, Button, Container, Typography } from '@mui/material';
 import Link from 'next/link';
 import { Flex } from '@/components/flex';
 import { Header } from '@/components/header';
 export function DemoLayout({ children, title, description, datasetInfo, hideBackButton = false }) {
+    var _a;
+    const { i18n } = useLingui();
+    const locale = ((_a = i18n.locale) === null || _a === void 0 ? void 0 : _a.startsWith('sr')) ? 'sr' : 'en';
+    const dateLocale = locale === 'sr' ? 'sr-RS' : 'en-US';
+    const formattedUpdatedAt = (datasetInfo === null || datasetInfo === void 0 ? void 0 : datasetInfo.updatedAt)
+        ? new Date(datasetInfo.updatedAt).toLocaleDateString(dateLocale, {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        })
+        : undefined;
     return (<Flex sx={{ minHeight: '100vh', flexDirection: 'column' }}>
       <Header />
 
@@ -16,16 +25,14 @@ export function DemoLayout({ children, title, description, datasetInfo, hideBack
             py: 4
         }}>
         <Container maxWidth="xl">
-          {/* Navigation */}
           {!hideBackButton && (<Box sx={{ mb: 3 }}>
               <Link href="/demos" passHref legacyBehavior>
                 <Button component="a" sx={{ textTransform: 'none' }}>
-                  ← Nazad na demo galeriju
+                  <Trans id="demos.layout.back">← Back to demo gallery</Trans>
                 </Button>
               </Link>
             </Box>)}
 
-          {/* Header */}
           <Box sx={{ mb: 4 }}>
             <Typography variant="h3" component="h1" sx={{
             fontWeight: 600,
@@ -50,25 +57,18 @@ export function DemoLayout({ children, title, description, datasetInfo, hideBack
                 flexWrap: 'wrap'
             }}>
                 {datasetInfo.organization && (<Typography variant="body2" color="text.secondary">
-                    <strong>Organizacija:</strong> {datasetInfo.organization}
+                    <strong>{i18n._(t({ id: 'demos.layout.organization', message: 'Organization' }))}:</strong> {datasetInfo.organization}
                   </Typography>)}
-                {datasetInfo.updatedAt && (<Typography variant="body2" color="text.secondary">
-                    <strong>Ažurirano:</strong>{' '}
-                    {new Date(datasetInfo.updatedAt).toLocaleDateString('sr-RS', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                })}
+                {formattedUpdatedAt && (<Typography variant="body2" color="text.secondary">
+                    <strong>{i18n._(t({ id: 'demos.layout.updated', message: 'Updated' }))}:</strong> {formattedUpdatedAt}
                   </Typography>)}
               </Box>)}
           </Box>
 
-          {/* Content */}
           <Box sx={{ minHeight: 400 }}>
             {children}
           </Box>
 
-          {/* Footer */}
           <Box sx={{
             mt: 6,
             pt: 4,
@@ -77,7 +77,7 @@ export function DemoLayout({ children, title, description, datasetInfo, hideBack
             textAlign: 'center'
         }}>
             <Typography variant="body2" color="text.secondary">
-              Izvor podataka:{' '}
+              {i18n._(t({ id: 'demos.layout.source', message: 'Data source' }))}:{' '}
               <Link href="https://data.gov.rs" passHref legacyBehavior>
                 <a target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>
                   data.gov.rs
@@ -89,10 +89,8 @@ export function DemoLayout({ children, title, description, datasetInfo, hideBack
       </Box>
     </Flex>);
 }
-/**
- * Loading state component for demos
- */
 export function DemoLoading({ message }) {
+    const { i18n } = useLingui();
     return (<Box sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -115,14 +113,16 @@ export function DemoLoading({ message }) {
             }
         }}/>
       <Typography variant="body1" color="text.secondary">
-        {message || 'Učitavanje podataka sa data.gov.rs...'}
+        {message ||
+            i18n._(t({
+                id: 'demos.layout.loading',
+                message: 'Loading data from data.gov.rs...'
+            }))}
       </Typography>
     </Box>);
 }
-/**
- * Error state component for demos
- */
 export function DemoError({ error, onRetry }) {
+    const { i18n } = useLingui();
     const errorMessage = typeof error === 'string' ? error : error.message;
     return (<Box sx={{
             backgroundColor: 'error.lighter',
@@ -133,26 +133,28 @@ export function DemoError({ error, onRetry }) {
             textAlign: 'center'
         }}>
       <Typography variant="h6" color="error.main" sx={{ mb: 2 }}>
-        Greška pri učitavanju podataka
+        <Trans id="demos.layout.error-title">Error loading data</Trans>
       </Typography>
       <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
         {errorMessage}
       </Typography>
       {onRetry && (<Button variant="contained" color="primary" onClick={onRetry} sx={{ textTransform: 'none' }}>
-          Pokušaj ponovo
+          {i18n._(t({ id: 'demos.layout.retry', message: 'Try again' }))}
         </Button>)}
     </Box>);
 }
-/**
- * Empty state component for demos
- */
 export function DemoEmpty({ message }) {
+    const { i18n } = useLingui();
     return (<Box sx={{
             textAlign: 'center',
             py: 8
         }}>
       <Typography variant="h6" color="text.secondary">
-        {message || 'Nema dostupnih podataka'}
+        {message ||
+            i18n._(t({
+                id: 'demos.layout.empty',
+                message: 'No data available'
+            }))}
       </Typography>
     </Box>);
 }

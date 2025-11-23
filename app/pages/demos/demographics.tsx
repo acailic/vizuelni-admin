@@ -1,202 +1,262 @@
-/**
- * Serbian Demographics Visualization
- * Population pyramid and trends showing demographic challenges
- */
+import { t, Trans } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
+import {
+  Alert,
+  Box,
+  Card,
+  CardContent,
+  Chip,
+  Grid,
+  Paper,
+  Typography,
+} from "@mui/material";
 
-import { Alert, Box, Card, CardContent, Chip, Grid, Paper, Typography } from '@mui/material';
-import { useRouter } from 'next/router';
-
-import { PopulationPyramid } from '@/components/demos/charts/PopulationPyramid';
-import { PopulationTrends } from '@/components/demos/charts/PopulationTrends';
-import { DemoLayout } from '@/components/demos/demo-layout';
+import { PopulationPyramid } from "@/components/demos/charts/PopulationPyramid";
+import { PopulationTrends } from "@/components/demos/charts/PopulationTrends";
+import { DemoLayout } from "@/components/demos/demo-layout";
 import {
   agePopulationData,
   demographicStats,
   dependencyRatios,
   populationTrends,
-  regionalPopulation
-} from '@/data/serbia-demographics';
+  regionalPopulation,
+} from "@/data/serbia-demographics";
 
 export default function DemographicsDemo() {
-  const router = useRouter();
-  const locale = (router.locale || 'sr') as 'sr' | 'en';
+  const { i18n } = useLingui();
+  const locale = i18n.locale?.startsWith('sr') ? 'sr' : 'en';
 
-  // Calculate total population from age pyramid
   const totalMale = agePopulationData.reduce((sum, age) => sum + age.male, 0);
-  const totalFemale = agePopulationData.reduce((sum, age) => sum + age.female, 0);
-  const totalPopulation = (totalMale + totalFemale) * 1000; // Convert from thousands
+  const totalFemale = agePopulationData.reduce(
+    (sum, age) => sum + age.female,
+    0
+  );
+  const totalPopulation = (totalMale + totalFemale) * 1000;
 
-  // Calculate demographic indicators
-  const population2024 = populationTrends[14]; // 2024 is at index 14
-  const populationChange2024to2050 = populationTrends[populationTrends.length - 1].total -
-                                     population2024.total;
-  const percentageChange = ((populationChange2024to2050 /
-                            population2024.total) * 100).toFixed(1);
+  const population2024 = populationTrends[14];
+  const populationChange2024to2050 =
+    populationTrends[populationTrends.length - 1].total - population2024.total;
+  const percentageChange = (
+    (populationChange2024to2050 / population2024.total) *
+    100
+  ).toFixed(1);
 
-  const title = locale === 'sr'
-    ? '👥 Demografija Srbije - Piramida starosti i trendovi'
-    : '👥 Serbia Demographics - Age Pyramid and Trends';
-
-  const description = locale === 'sr'
-    ? 'Analiza strukture stanovništva Srbije po starosti i polu, sa projekcijama do 2050. godine'
-    : 'Analysis of Serbia&apos;s population structure by age and gender, with projections to 2050';
+  const title = i18n._(
+    t({
+      id: "demos.demographics.title",
+      message: "👥 Serbia Demographics - Age Pyramid and Trends",
+    })
+  );
+  const description = i18n._(
+    t({
+      id: "demos.demographics.description",
+      message:
+        "Analysis of Serbia's population structure by age and gender, with projections to 2050",
+    })
+  );
 
   return (
     <DemoLayout
       title={title}
       description={description}
       datasetInfo={{
-        title: locale === 'sr'
-          ? 'Statistika stanovništva Republike Srbije'
-          : 'Population Statistics of the Republic of Serbia',
-        organization: locale === 'sr'
-          ? 'Republički zavod za statistiku'
-          : 'Statistical Office of the Republic of Serbia',
-        updatedAt: '2024'
+        title: i18n._(
+          t({
+            id: "demos.demographics.dataset.title",
+            message: "Population Statistics of the Republic of Serbia",
+          })
+        ),
+        organization: i18n._(
+          t({
+            id: "demos.demographics.dataset.organization",
+            message: "Statistical Office of the Republic of Serbia",
+          })
+        ),
+        updatedAt: "2024",
       }}
     >
       <Box>
-        {/* Critical Demographic Warning */}
         <Alert
           severity="warning"
-          sx={{ mb: 4, fontSize: '1.1rem', fontWeight: 500 }}
+          sx={{ mb: 4, fontSize: "1.1rem", fontWeight: 500 }}
         >
-          {locale === 'sr' ? (
-            <>
-              <strong>⚠️ DEMOGRAFSKO UPOZORENJE:</strong> Stanovništvo Srbije se smanjuje.
-              Projekcije pokazuju pad od <strong>{Math.abs(parseFloat(percentageChange))}%</strong> do 2050. godine
-              (sa {population2024.total.toFixed(2)}M na{' '}
-              {populationTrends[populationTrends.length - 1].total.toFixed(2)}M).
-              Medijana starosti je <strong>{demographicStats.medianAge} godina</strong>.
-            </>
-          ) : (
-            <>
-              <strong>⚠️ DEMOGRAPHIC WARNING:</strong> Serbia&apos;s population is declining.
-              Projections show a decrease of <strong>{Math.abs(parseFloat(percentageChange))}%</strong> by 2050
-              (from {population2024.total.toFixed(2)}M to{' '}
-              {populationTrends[populationTrends.length - 1].total.toFixed(2)}M).
-              Median age is <strong>{demographicStats.medianAge} years</strong>.
-            </>
-          )}
+          <Trans
+            id="demos.demographics.alert.detail"
+            values={{
+              percent: Math.abs(parseFloat(percentageChange)),
+              from: population2024.total.toFixed(2),
+              to: populationTrends[populationTrends.length - 1].total.toFixed(
+                2
+              ),
+              median: demographicStats.medianAge,
+            }}
+          >
+            ⚠️ DEMOGRAPHIC WARNING: Serbia's population is declining.
+            Projections show a decrease of{" "}
+            <strong>{Math.abs(parseFloat(percentageChange))}%</strong> by 2050
+            (from {population2024.total.toFixed(2)}M to{" "}
+            {populationTrends[populationTrends.length - 1].total.toFixed(2)}M).
+            Median age is <strong>{demographicStats.medianAge} years</strong>.
+          </Trans>
         </Alert>
 
-        {/* Key Statistics Cards */}
         <Grid container spacing={3} sx={{ mb: 4 }}>
-          {/* Total Population */}
           <Grid item xs={12} md={6} lg={3}>
             <Card
               sx={{
-                height: '100%',
+                height: "100%",
                 borderLeft: 4,
-                borderColor: 'primary.main'
+                borderColor: "primary.main",
               }}
             >
               <CardContent>
                 <Typography variant="caption" color="text.secondary">
-                  {locale === 'sr' ? 'Ukupno stanovništvo (2024)' : 'Total Population (2024)'}
+                  {i18n._(
+                    t({
+                      id: "demos.demographics.cards.total.title",
+                      message: "Total Population (2024)",
+                    })
+                  )}
                 </Typography>
                 <Typography variant="h4" sx={{ fontWeight: 700, my: 1 }}>
                   {(totalPopulation / 1000000).toFixed(2)}M
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {locale === 'sr'
-                    ? `Muški: ${((totalMale * 1000 / totalPopulation) * 100).toFixed(1)}% • Ženski: ${((totalFemale * 1000 / totalPopulation) * 100).toFixed(1)}%`
-                    : `Male: ${((totalMale * 1000 / totalPopulation) * 100).toFixed(1)}% • Female: ${((totalFemale * 1000 / totalPopulation) * 100).toFixed(1)}%`
-                  }
+                  {i18n._(
+                    t(
+                      {
+                        id: "demos.demographics.cards.total.detail",
+                        message: "Male: {male}% • Female: {female}%",
+                      },
+                      {
+                        male: (
+                          ((totalMale * 1000) / totalPopulation) *
+                          100
+                        ).toFixed(1),
+                        female: (
+                          ((totalFemale * 1000) / totalPopulation) *
+                          100
+                        ).toFixed(1),
+                      }
+                    )
+                  )}
                 </Typography>
               </CardContent>
             </Card>
           </Grid>
 
-          {/* Population Change */}
           <Grid item xs={12} md={6} lg={3}>
             <Card
-              sx={{
-                height: '100%',
-                borderLeft: 4,
-                borderColor: 'error.main'
-              }}
+              sx={{ height: "100%", borderLeft: 4, borderColor: "error.main" }}
             >
               <CardContent>
                 <Typography variant="caption" color="text.secondary">
-                  {locale === 'sr' ? 'Promena do 2050' : 'Change by 2050'}
+                  {i18n._(
+                    t({
+                      id: "demos.demographics.cards.change.title",
+                      message: "Change by 2050",
+                    })
+                  )}
                 </Typography>
-                <Typography variant="h4" sx={{ fontWeight: 700, my: 1, color: 'error.main' }}>
+                <Typography
+                  variant="h4"
+                  sx={{ fontWeight: 700, my: 1, color: "error.main" }}
+                >
                   {percentageChange}%
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {locale === 'sr'
-                    ? `Pad od ~${Math.abs(populationChange2024to2050).toFixed(2)}M ljudi`
-                    : `Decrease of ~${Math.abs(populationChange2024to2050).toFixed(2)}M people`
-                  }
+                  {i18n._(
+                    t(
+                      {
+                        id: "demos.demographics.cards.change.detail",
+                        message: "Decrease of ~{value}M people",
+                      },
+                      { value: Math.abs(populationChange2024to2050).toFixed(2) }
+                    )
+                  )}
                 </Typography>
               </CardContent>
             </Card>
           </Grid>
 
-          {/* Median Age */}
           <Grid item xs={12} md={6} lg={3}>
             <Card
               sx={{
-                height: '100%',
+                height: "100%",
                 borderLeft: 4,
-                borderColor: 'warning.main'
+                borderColor: "warning.main",
               }}
             >
               <CardContent>
                 <Typography variant="caption" color="text.secondary">
-                  {locale === 'sr' ? 'Medijana starosti' : 'Median Age'}
+                  {i18n._(
+                    t({
+                      id: "demos.demographics.cards.median.title",
+                      message: "Median Age",
+                    })
+                  )}
                 </Typography>
                 <Typography variant="h4" sx={{ fontWeight: 700, my: 1 }}>
                   {demographicStats.medianAge}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {locale === 'sr' ? 'godina' : 'years'}
+                  {i18n._(
+                    t({
+                      id: "demos.demographics.cards.median.detail",
+                      message: "years",
+                    })
+                  )}
                 </Typography>
               </CardContent>
             </Card>
           </Grid>
 
-          {/* Dependency Ratio */}
           <Grid item xs={12} md={6} lg={3}>
             <Card
-              sx={{
-                height: '100%',
-                borderLeft: 4,
-                borderColor: 'info.main'
-              }}
+              sx={{ height: "100%", borderLeft: 4, borderColor: "info.main" }}
             >
               <CardContent>
                 <Typography variant="caption" color="text.secondary">
-                  {locale === 'sr' ? 'Racio zavisnosti starih' : 'Elderly Dependency Ratio'}
+                  {i18n._(
+                    t({
+                      id: "demos.demographics.cards.dependency.title",
+                      message: "Elderly Dependency Ratio",
+                    })
+                  )}
                 </Typography>
                 <Typography variant="h4" sx={{ fontWeight: 700, my: 1 }}>
                   {dependencyRatios.elderly}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {locale === 'sr'
-                    ? '65+ na 100 radno-sposobnih'
-                    : '65+ per 100 working-age'
-                  }
+                  {i18n._(
+                    t({
+                      id: "demos.demographics.cards.dependency.detail",
+                      message: "65+ per 100 working-age",
+                    })
+                  )}
                 </Typography>
               </CardContent>
             </Card>
           </Grid>
         </Grid>
 
-        {/* Population Pyramid */}
         <Paper elevation={2} sx={{ p: 3, mb: 4 }}>
           <Typography variant="h5" sx={{ mb: 3, fontWeight: 600 }}>
-            {locale === 'sr'
-              ? 'Piramida starosti stanovništva (2024)'
-              : 'Population Age Pyramid (2024)'
-            }
+            {i18n._(
+              t({
+                id: "demos.demographics.pyramid.title",
+                message: "Population Age Pyramid (2024)",
+              })
+            )}
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-            {locale === 'sr'
-              ? 'Distribucija stanovništva po starosti i polu pokazuje starenje populacije sa značajno manje mladih u odnosu na starije generacije.'
-              : 'Population distribution by age and gender shows an aging population with significantly fewer young people compared to older generations.'
-            }
+            {i18n._(
+              t({
+                id: "demos.demographics.pyramid.description",
+                message:
+                  "Population distribution by age and gender shows an aging population with significantly fewer young people compared to older generations.",
+              })
+            )}
           </Typography>
           <PopulationPyramid
             data={agePopulationData}
@@ -206,19 +266,23 @@ export default function DemographicsDemo() {
           />
         </Paper>
 
-        {/* Population Trends */}
         <Paper elevation={2} sx={{ p: 3, mb: 4 }}>
           <Typography variant="h5" sx={{ mb: 3, fontWeight: 600 }}>
-            {locale === 'sr'
-              ? 'Trendovi stanovništva (1950-2050)'
-              : 'Population Trends (1950-2050)'
-            }
+            {i18n._(
+              t({
+                id: "demos.demographics.trends.title",
+                message: "Population Trends (1950-2050)",
+              })
+            )}
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-            {locale === 'sr'
-              ? 'Istorijski podaci pokazuju konstantan rast do 2000-ih godina, nakon čega sledi period stagnacije i pada. Projekcije ukazuju na nastavak negativnog trenda.'
-              : 'Historical data shows constant growth until the 2000s, followed by a period of stagnation and decline. Projections indicate continuation of the negative trend.'
-            }
+            {i18n._(
+              t({
+                id: "demos.demographics.trends.description",
+                message:
+                  "Historical data shows constant growth until the 2000s, followed by a period of stagnation and decline. Projections indicate continuation of the negative trend.",
+              })
+            )}
           </Typography>
           <PopulationTrends
             data={populationTrends}
@@ -228,13 +292,14 @@ export default function DemographicsDemo() {
           />
         </Paper>
 
-        {/* Regional Distribution */}
         <Paper elevation={2} sx={{ p: 3, mb: 4 }}>
           <Typography variant="h5" sx={{ mb: 3, fontWeight: 600 }}>
-            {locale === 'sr'
-              ? 'Regionalna distribucija stanovništva (2024)'
-              : 'Regional Population Distribution (2024)'
-            }
+            {i18n._(
+              t({
+                id: "demos.demographics.regional.title",
+                message: "Regional Population Distribution (2024)",
+              })
+            )}
           </Typography>
           <Grid container spacing={2}>
             {regionalPopulation.map((region) => (
@@ -244,11 +309,28 @@ export default function DemographicsDemo() {
                     <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
                       {locale === 'sr' ? region.region : region.regionEn}
                     </Typography>
-                    <Typography variant="h5" color="primary.main" sx={{ fontWeight: 700 }}>
+                    <Typography
+                      variant="h5"
+                      color="primary.main"
+                      sx={{ fontWeight: 700 }}
+                    >
                       {(region.population / 1000).toFixed(2)}M
                     </Typography>
                     <Typography variant="caption" color="text.secondary">
-                      {((region.population / (totalPopulation / 1000)) * 100).toFixed(1)}% {locale === 'sr' ? 'ukupnog stanovništva' : 'of total population'}
+                      {i18n._(
+                        t(
+                          {
+                            id: "demos.demographics.regional.share",
+                            message: "{share}% of total population",
+                          },
+                          {
+                            share: (
+                              (region.population / (totalPopulation / 1000)) *
+                              100
+                            ).toFixed(1),
+                          }
+                        )
+                      )}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -257,94 +339,159 @@ export default function DemographicsDemo() {
           </Grid>
         </Paper>
 
-        {/* Demographic Challenges */}
         <Paper elevation={2} sx={{ p: 3 }}>
           <Typography variant="h5" sx={{ mb: 3, fontWeight: 600 }}>
-            {locale === 'sr'
-              ? 'Ključni demografski izazovi'
-              : 'Key Demographic Challenges'
-            }
+            {i18n._(
+              t({
+                id: "demos.demographics.challenges.title",
+                message: "Key Demographic Challenges",
+              })
+            )}
           </Typography>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <Box sx={{ mb: 2 }}>
                 <Chip
-                  label={locale === 'sr' ? 'Negativna stopa rasta' : 'Negative growth rate'}
+                  label={i18n._(
+                    t({
+                      id: "demos.demographics.challenges.negative-growth",
+                      message: "Negative growth rate",
+                    })
+                  )}
                   color="error"
                   sx={{ mr: 1, mb: 1 }}
                 />
                 <Typography variant="body2" sx={{ mt: 1 }}>
-                  {locale === 'sr'
-                    ? `Stopa rasta: ${demographicStats.populationGrowthRate}% godišnje`
-                    : `Growth rate: ${demographicStats.populationGrowthRate}% annually`
-                  }
+                  {i18n._(
+                    t(
+                      {
+                        id: "demos.demographics.challenges.growth-rate",
+                        message: "Growth rate: {rate}% annually",
+                      },
+                      { rate: demographicStats.populationGrowthRate }
+                    )
+                  )}
                 </Typography>
               </Box>
               <Box sx={{ mb: 2 }}>
                 <Chip
-                  label={locale === 'sr' ? 'Niska stopa nataliteta' : 'Low birth rate'}
+                  label={i18n._(
+                    t({
+                      id: "demos.demographics.challenges.low-birth",
+                      message: "Low birth rate",
+                    })
+                  )}
                   color="error"
                   sx={{ mr: 1, mb: 1 }}
                 />
                 <Typography variant="body2" sx={{ mt: 1 }}>
-                  {locale === 'sr'
-                    ? `Natalitet: ${demographicStats.birthRate} na 1,000 stanovnika`
-                    : `Birth rate: ${demographicStats.birthRate} per 1,000 population`
-                  }
+                  {i18n._(
+                    t(
+                      {
+                        id: "demos.demographics.challenges.birth-rate",
+                        message: "Birth rate: {rate} per 1,000 population",
+                      },
+                      { rate: demographicStats.birthRate }
+                    )
+                  )}
                 </Typography>
               </Box>
               <Box sx={{ mb: 2 }}>
                 <Chip
-                  label={locale === 'sr' ? 'Visoka stopa mortaliteta' : 'High death rate'}
+                  label={i18n._(
+                    t({
+                      id: "demos.demographics.challenges.high-death",
+                      message: "High death rate",
+                    })
+                  )}
                   color="warning"
                   sx={{ mr: 1, mb: 1 }}
                 />
                 <Typography variant="body2" sx={{ mt: 1 }}>
-                  {locale === 'sr'
-                    ? `Mortalitet: ${demographicStats.deathRate} na 1,000 stanovnika`
-                    : `Death rate: ${demographicStats.deathRate} per 1,000 population`
-                  }
+                  {i18n._(
+                    t(
+                      {
+                        id: "demos.demographics.challenges.death-rate",
+                        message: "Death rate: {rate} per 1,000 population",
+                      },
+                      { rate: demographicStats.deathRate }
+                    )
+                  )}
                 </Typography>
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
               <Box sx={{ mb: 2 }}>
                 <Chip
-                  label={locale === 'sr' ? 'Starenje stanovništva' : 'Aging population'}
+                  label={i18n._(
+                    t({
+                      id: "demos.demographics.challenges.aging",
+                      message: "Aging population",
+                    })
+                  )}
                   color="warning"
                   sx={{ mr: 1, mb: 1 }}
                 />
                 <Typography variant="body2" sx={{ mt: 1 }}>
-                  {locale === 'sr'
-                    ? `Visok racio starih: ${dependencyRatios.elderly} (65+ na 100 radno-sposobnih)`
-                    : `High elderly ratio: ${dependencyRatios.elderly} (65+ per 100 working-age)`
-                  }
+                  {i18n._(
+                    t(
+                      {
+                        id: "demos.demographics.challenges.elderly-ratio",
+                        message:
+                          "High elderly ratio: {ratio} (65+ per 100 working-age)",
+                      },
+                      { ratio: dependencyRatios.elderly }
+                    )
+                  )}
                 </Typography>
               </Box>
               <Box sx={{ mb: 2 }}>
                 <Chip
-                  label={locale === 'sr' ? 'Očekivani životni vek' : 'Life expectancy'}
+                  label={i18n._(
+                    t({
+                      id: "demos.demographics.challenges.life-expectancy",
+                      message: "Life expectancy",
+                    })
+                  )}
                   color="info"
                   sx={{ mr: 1, mb: 1 }}
                 />
                 <Typography variant="body2" sx={{ mt: 1 }}>
-                  {locale === 'sr'
-                    ? `Muškarci: ${demographicStats.lifeExpectancyMale} god. • Žene: ${demographicStats.lifeExpectancyFemale} god.`
-                    : `Males: ${demographicStats.lifeExpectancyMale} yrs • Females: ${demographicStats.lifeExpectancyFemale} yrs`
-                  }
+                  {i18n._(
+                    t(
+                      {
+                        id: "demos.demographics.challenges.life-expectancy.detail",
+                        message: "Males: {male} yrs • Females: {female} yrs",
+                      },
+                      {
+                        male: demographicStats.lifeExpectancyMale,
+                        female: demographicStats.lifeExpectancyFemale,
+                      }
+                    )
+                  )}
                 </Typography>
               </Box>
               <Box sx={{ mb: 2 }}>
                 <Chip
-                  label={locale === 'sr' ? 'Urbanizacija' : 'Urbanization'}
+                  label={i18n._(
+                    t({
+                      id: "demos.demographics.challenges.urbanization",
+                      message: "Urbanization",
+                    })
+                  )}
                   color="default"
                   sx={{ mr: 1, mb: 1 }}
                 />
                 <Typography variant="body2" sx={{ mt: 1 }}>
-                  {locale === 'sr'
-                    ? `${demographicStats.urbanPopulation}% stanovništva živi u gradovima`
-                    : `${demographicStats.urbanPopulation}% of population lives in urban areas`
-                  }
+                  {i18n._(
+                    t(
+                      {
+                        id: "demos.demographics.challenges.urbanization.detail",
+                        message: "{share}% of population lives in urban areas",
+                      },
+                      { share: demographicStats.urbanPopulation }
+                    )
+                  )}
                 </Typography>
               </Box>
             </Grid>

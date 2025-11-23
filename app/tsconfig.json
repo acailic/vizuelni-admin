@@ -28,6 +28,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "incremental": true,
+    "outDir": ".next/tsbuild",
+    "types": ["vitest/globals", "@testing-library/jest-dom"],
     "tsBuildInfoFile": ".next/cache/tsconfig.tsbuildinfo",
     "plugins": [
       {

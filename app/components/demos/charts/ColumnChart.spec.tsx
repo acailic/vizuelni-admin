@@ -1,14 +1,15 @@
 import { act, render } from "@testing-library/react";
+import "@testing-library/jest-dom/vitest";
 import { describe, expect, it } from "vitest";
 
 import { ColumnChart } from "./ColumnChart";
 
-const sampleData = [
+const sampleData: Array<{ category: string; value: number }> = [
   { category: "A", value: 10 },
   { category: "B", value: 20 },
 ];
 
-const multiSeriesData = [
+const multiSeriesData: Array<{ category: string; apples: number; oranges: number }> = [
   { category: "A", apples: 5, oranges: 3 },
   { category: "B", apples: 2, oranges: 4 },
 ];
