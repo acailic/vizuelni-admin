@@ -6,6 +6,7 @@ import { SearchDatasetResultsCount } from "@/browse/ui/search-dataset-results-co
 import { SearchDatasetSortControl } from "@/browse/ui/search-dataset-sort-control";
 import { Flex } from "@/components/flex";
 import { SearchCubeResult, SearchCubeResultOrder } from "@/graphql/query-hooks";
+import { Icon } from "@/icons";
 import { sleep } from "@/utils/sleep";
 import { useEvent } from "@/utils/use-event";
 
@@ -24,6 +25,19 @@ export const SearchDatasetControls = ({
   browseState: BrowseState;
   cubes: SearchCubeResult[];
 }) => {
+  const prefillEducation = useEvent(() => {
+    const educationTerms = [
+      "obrazovanje",
+      "ucenici",
+      "studenti",
+      "skola",
+      "nastava",
+      "osnovno obrazovanje",
+      "srednje obrazovanje",
+      "visoko obrazovanje",
+    ];
+    onSubmitSearch(educationTerms.join(" OR "));
+  });
   const isSearching = search !== "" && search !== undefined;
 
   const onToggleIncludeDrafts = useEvent(async () => {
@@ -41,6 +55,24 @@ export const SearchDatasetControls = ({
     <Flex sx={{ justifyContent: "space-between", alignItems: "center", mb: 2 }}>
       <SearchDatasetResultsCount cubes={cubes} />
       <Flex sx={{ alignItems: "center", gap: 5 }}>
+        <Icon
+          name="search"
+          size={20}
+          role="button"
+          tabIndex={0}
+          aria-label="Pretraži obrazovanje"
+          onClick={prefillEducation}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              prefillEducation();
+            }
+          }}
+          sx={{
+            cursor: "pointer",
+            color: isSearching ? "primary.main" : "monochrome.700",
+          }}
+        />
         <SearchDatasetDraftsControl
           checked={includeDrafts}
           onChange={onToggleIncludeDrafts}
