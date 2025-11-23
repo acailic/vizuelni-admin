@@ -30,7 +30,8 @@ export const DEMO_CONFIGS: Record<string, DemoConfig> = {
       sr: 'Interaktivna vizualizacija državnog budžeta i javnih finansija',
       en: 'Interactive visualization of state budget and public finances'
     },
-    searchQuery: 'budzet',
+    // Use accented query to better match data.gov.rs dataset naming
+    searchQuery: 'budžet',
     chartType: 'column',
     tags: ['finansije', 'javne-finansije', 'budzet'],
     icon: '💰'
