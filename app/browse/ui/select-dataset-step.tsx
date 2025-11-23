@@ -12,8 +12,8 @@ import { useDebounce } from "use-debounce";
 
 import { BrowseFilter, DataCubeAbout } from "@/browse/lib/filters";
 import { buildURLFromBrowseParams, isOdsIframe } from "@/browse/lib/params";
-import { useRedirectToLatestCube } from "@/browse/lib/use-redirect-to-latest-cube";
 import { useDataGovSearch } from "@/browse/lib/use-data-gov-search";
+import { useRedirectToLatestCube } from "@/browse/lib/use-redirect-to-latest-cube";
 import { BrowseStateProvider, useBrowseContext } from "@/browse/model/context";
 import { DataGovDatasetResults } from "@/browse/ui/data-gov-dataset-results";
 import { DatasetMetadataSingleCube } from "@/browse/ui/dataset-metadata-single-cube";
@@ -44,6 +44,7 @@ import {
   PanelLayout,
 } from "@/configurator/components/layout";
 import { sourceToLabel } from "@/domain/data-source";
+import { GRAPHQL_ENDPOINT } from "@/domain/env";
 import { truthy } from "@/domain/types";
 import {
   DataCubeOrganization,
@@ -54,10 +55,9 @@ import {
   useSearchCubesQuery,
 } from "@/graphql/query-hooks";
 import { Icon } from "@/icons";
-import { GRAPHQL_ENDPOINT } from "@/domain/env";
 import { useConfiguratorState, useLocale } from "@/src";
-import { softJSONParse } from "@/utils/soft-json-parse";
 import { maybeWindow } from "@/utils/maybe-window";
+import { softJSONParse } from "@/utils/soft-json-parse";
 import { useResizeObserver } from "@/utils/use-resize-observer";
 
 export const SelectDatasetStep = (
