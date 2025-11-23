@@ -30,7 +30,7 @@ export const Header = ({ hideLogo, extendTopBar, }) => {
                 backgroundColor: "rgba(255,255,255,0.12)",
             },
         }}>
-              Demo Showcase
+              Demo Gallery
             </Box>
           </Link>
           <Box component="a" href="https://github.com/acailic/vizualni-admin" target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository" sx={{

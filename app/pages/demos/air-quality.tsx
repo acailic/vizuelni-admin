@@ -64,7 +64,7 @@ export default function AirQualityDemo() {
 
   // Fetch air quality data
   const { dataset, resource, data, loading, error, refetch } = useDataGovRs({
-    searchQuery: 'kvalitet vazduha',
+    datasetId: '6616cc69e9cf23a1ec8096b5', // Emisije u vazduh (NRIZ) dataset with PM pollutants
     autoFetch: true
   });
 
@@ -76,34 +76,38 @@ export default function AirQualityDemo() {
 
     const readings = data as PollutionReading[];
 
-    // Find PM2.5, PM10, and other pollutant columns
-    const sampleRow = readings[0];
-    const keys = Object.keys(sampleRow);
-
-    // Auto-detect pollutant columns
-    const pm25Key = keys.find(k =>
-      k.toLowerCase().includes('pm2.5') ||
-      k.toLowerCase().includes('pm25') ||
-      k.toLowerCase().includes('pm_25')
+    // Detect pollutant and quantity columns (NRIZ dataset)
+    const keys = Object.keys(readings[0]);
+    const pollutantKey = keys.find(k =>
+      k.toLowerCase().includes('zagad') || k.toLowerCase().includes('pollut')
     );
-    const pm10Key = keys.find(k =>
-      k.toLowerCase().includes('pm10') ||
-      k.toLowerCase().includes('pm_10')
+    const quantityKey = keys.find(k =>
+      k.toLowerCase().includes('kolicina') || k.toLowerCase().includes('quantity')
     );
-    const no2Key = keys.find(k => k.toLowerCase().includes('no2'));
-    const so2Key = keys.find(k => k.toLowerCase().includes('so2'));
-    const o3Key = keys.find(k => k.toLowerCase().includes('o3'));
 
-    // Extract numeric values
-    const getNumericValue = (row: any, key: string | undefined): number | null => {
-      if (!key || !row[key]) return null;
-      const val = parseFloat(row[key]);
-      return isNaN(val) ? null : val;
+    const extractValue = (row: any, key: string | undefined) => {
+      if (!key || row[key] === undefined || row[key] === null) return null;
+      const num = parseFloat(String(row[key]));
+      return Number.isFinite(num) ? num : null;
     };
 
-    // Calculate statistics
-    const pm25Values = readings.map(r => getNumericValue(r, pm25Key)).filter(v => v !== null) as number[];
-    const pm10Values = readings.map(r => getNumericValue(r, pm10Key)).filter(v => v !== null) as number[];
+    const pm10Values =
+      pollutantKey && quantityKey
+        ? readings
+            .filter((r) => String(r[pollutantKey]).toLowerCase().includes('pm10'))
+            .map((r) => extractValue(r, quantityKey))
+            .filter((v): v is number => v !== null)
+        : [];
+    const pm25Values =
+      pollutantKey && quantityKey
+        ? readings
+            .filter((r) =>
+              String(r[pollutantKey]).toLowerCase().includes('pm2.5') ||
+              String(r[pollutantKey]).toLowerCase().includes('pm25')
+            )
+            .map((r) => extractValue(r, quantityKey))
+            .filter((v): v is number => v !== null)
+        : [];
 
     const avgPM25 = pm25Values.length > 0
       ? pm25Values.reduce((a, b) => a + b, 0) / pm25Values.length
@@ -118,16 +122,12 @@ export default function AirQualityDemo() {
     const pm25Exceedance = avgPM25 ? ((avgPM25 / WHO_LIMITS.PM25.daily) * 100).toFixed(0) : null;
     const pm10Exceedance = avgPM10 ? ((avgPM10 / WHO_LIMITS.PM10.daily) * 100).toFixed(0) : null;
 
-    // Days above limit
     const daysAboveLimitPM25 = pm25Values.filter(v => v > WHO_LIMITS.PM25.daily).length;
     const daysAboveLimitPM10 = pm10Values.filter(v => v > WHO_LIMITS.PM10.daily).length;
 
     return {
-      pm25Key,
-      pm10Key,
-      no2Key,
-      so2Key,
-      o3Key,
+      pm25Key: pm25Values.length > 0 ? 'PM2.5' : null,
+      pm10Key: pm10Values.length > 0 ? 'PM10' : null,
       avgPM25,
       avgPM10,
       maxPM25,

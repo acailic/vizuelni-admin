@@ -54,7 +54,7 @@ export const Header = ({
                 },
               }}
             >
-              Demo Showcase
+              Demo Gallery
             </Box>
           </Link>
           <Box

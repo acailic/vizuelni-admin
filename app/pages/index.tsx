@@ -11,7 +11,8 @@ import {
 } from "@mui/material";
 import { GetStaticProps } from "next";
 import Link from "next/link";
-import { type ReactNode } from "react";
+import { useRouter } from "next/router";
+import { type ReactNode, useMemo } from "react";
 
 import { ContentMDXProvider } from "@/components/content-mdx-provider";
 import { staticPages } from "@/static-pages";
@@ -20,7 +21,7 @@ interface ContentPageProps {
   staticPage: string;
 }
 
-type Locale = "sr" | "en";
+type Locale = "sr" | "sr-Cyrl" | "en";
 
 const heroCopy: Record<Locale, { overline: string; title: string; body: string; primary: string; secondary: string; badge: string; trusted: string; embeds: string }> = {
   en: {
@@ -42,6 +43,16 @@ const heroCopy: Record<Locale, { overline: string; title: string; body: string; 
     badge: "Otvoreni podaci",
     trusted: "Podaci iz proverenih izvora",
     embeds: "Prilagođene vizualizacije i embed",
+  },
+  "sr-Cyrl": {
+    overline: "Визуализујте отворене податке",
+    title: "Брже до увида из отворених података Србије",
+    body: "Прегледајте data.gov.rs, изаберите датасет и креирајте визуализације које можете одмах делити или уградити.",
+    primary: "Прегледај датасете",
+    secondary: "Водич за почетак",
+    badge: "Отворени подаци",
+    trusted: "Подаци из проверених извора",
+    embeds: "Прилагођене визуализације и embed",
   },
 };
 
@@ -105,6 +116,38 @@ const tutorialsCopy: Record<Locale, { heading: string; subheading: string; label
       {
         title: "API vodič",
         description: "Korišćenje data.gov.rs API-ja",
+        link: "/docs/data-gov-rs-guide",
+        icon: "📡",
+      },
+    ],
+  },
+  "sr-Cyrl": {
+    heading: "Научите и истражите",
+    subheading: "Откријте туторијале и водиче за креирање врхунских визуализација",
+    label: "Знање",
+    learnMore: "Сазнај више",
+    cards: [
+      {
+        title: "Почетак",
+        description: "Упознајте основе рада у Визуелни Админ",
+        link: "/docs/getting-started",
+        icon: "🚀",
+      },
+      {
+        title: "Типови графикона",
+        description: "Истражите различите типове графикона",
+        link: "/docs/chart-types-guide",
+        icon: "📊",
+      },
+      {
+        title: "Уграђивање",
+        description: "Како уградити визуализације на ваш сајт",
+        link: "/docs/embedding-guide",
+        icon: "🔗",
+      },
+      {
+        title: "API водич",
+        description: "Коришћење data.gov.rs API-ја",
         link: "/docs/data-gov-rs-guide",
         icon: "📡",
       },
@@ -416,7 +459,16 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
 export default function ContentPage({ staticPage }: ContentPageProps) {
   const Component = staticPages[staticPage]?.component;
   const isHomePage = staticPage === "/sr/index" || staticPage === "/en/index";
-  const locale: Locale = staticPage.startsWith("/sr") ? "sr" : "en";
+  const router = useRouter();
+  const locale: Locale = useMemo(() => {
+    if (router.locale?.startsWith("sr")) {
+      return router.locale === "sr-Cyrl" ? "sr-Cyrl" : "sr";
+    }
+    if (staticPage.startsWith("/sr")) {
+      return "sr";
+    }
+    return "en";
+  }, [router.locale, staticPage]);
 
   return (
     <ContentMDXProvider>
