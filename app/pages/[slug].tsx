@@ -27,10 +27,19 @@ export default function ContentPage({ staticPage }: ContentPageProps) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = Object.keys(staticPages)
+    .filter((path) => !path.endsWith("/index"))
+    .map((path) => {
+      const [, locale, slug] = path.split("/");
+      return {
+        params: { slug },
+        locale,
+      };
+    });
+
   return {
-    paths: [],
-    // TODO: change to false once https://github.com/vercel/next.js/issues/19934 is fixed
-    fallback: "blocking",
+    paths,
+    fallback: false,
   };
 };
 

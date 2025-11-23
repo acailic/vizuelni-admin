@@ -29,7 +29,7 @@ if (isVercelPreview) {
 }
 
 // Only log in development mode
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === "development") {
   console.log("NEXTAUTH_URL:", process.env.NEXTAUTH_URL);
   console.log("Version", process.env.NEXT_PUBLIC_VERSION);
   console.log("Commit", process.env.NEXT_PUBLIC_COMMIT);
@@ -40,7 +40,14 @@ if (process.env.NODE_ENV === 'development') {
 
 // GitHub Pages configuration
 const isGitHubPages = process.env.NEXT_PUBLIC_BASE_PATH !== undefined;
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+if (
+  isGitHubPages &&
+  (process.env.NODE_ENV === "development" ||
+    process.env.NEXT_PUBLIC_DEBUG === "true")
+) {
+  console.log("Building for GitHub Pages with static export mode");
+}
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const enableSentryUpload =
   Boolean(process.env.SENTRY_AUTH_TOKEN) &&
   process.env.SENTRY_UPLOAD !== "false";
@@ -54,10 +61,12 @@ const nextConfig = withPreconstruct(
       images: {
         unoptimized: isGitHubPages,
       },
-      i18n: isGitHubPages ? undefined : {
-        locales,
-        defaultLocale,
-      },
+      i18n: isGitHubPages
+        ? undefined
+        : {
+            locales,
+            defaultLocale,
+          },
 
       // Headers only work with server/standalone builds, not with static export
       ...(!isGitHubPages && {
@@ -91,7 +100,9 @@ const nextConfig = withPreconstruct(
           });
 
           // See https://content-security-policy.com/ & https://developers.google.com/tag-platform/security/guides/csp
-          if (!(process.env.DISABLE_CSP && process.env.DISABLE_CSP === "true")) {
+          if (
+            !(process.env.DISABLE_CSP && process.env.DISABLE_CSP === "true")
+          ) {
             headers[0].headers.push({
               key: "Content-Security-Policy",
               value: [
@@ -138,47 +149,56 @@ const nextConfig = withPreconstruct(
       // Compiler optimizations
       compiler: {
         // Remove console.log in production (keeps console.error/warn)
-        removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error', 'warn'] } : false,
+        removeConsole:
+          process.env.NODE_ENV === "production"
+            ? { exclude: ["error", "warn"] }
+            : false,
       },
 
       // Experimental optimizations for faster builds
       experimental: {
         // Optimize package imports to reduce bundle size
         optimizePackageImports: [
-          '@mui/material',
-          '@mui/icons-material',
-          '@mui/lab',
-          'date-fns',
-          'lodash',
-          'd3-array',
-          'd3-scale',
-          'd3-shape',
-          'd3-format',
-          'd3-time-format',
-          'framer-motion',
-          '@emotion/react',
-          '@emotion/styled',
+          "@mui/material",
+          "@mui/icons-material",
+          "@mui/lab",
+          "date-fns",
+          "lodash",
+          "d3-array",
+          "d3-scale",
+          "d3-shape",
+          "d3-format",
+          "d3-time-format",
+          "framer-motion",
+          "@emotion/react",
+          "@emotion/styled",
         ],
         // Enable parallel compilation
-        cpus: require('os').cpus().length - 1 || 1,
+        cpus: require("os").cpus().length - 1 || 1,
+        // Enable verbose logging for fetches to aid debugging
+        logging: {
+          fetches: {
+            fullUrl: true,
+          },
+        },
       },
 
       // Modularize imports for better tree-shaking
       modularizeImports: {
-        '@mui/icons-material': {
-          transform: '@mui/icons-material/{{member}}',
+        "@mui/icons-material": {
+          transform: "@mui/icons-material/{{member}}",
         },
-        'lodash': {
-          transform: 'lodash/{{member}}',
+        lodash: {
+          transform: "lodash/{{member}}",
         },
-        'date-fns': {
-          transform: 'date-fns/{{member}}',
+        "date-fns": {
+          transform: "date-fns/{{member}}",
         },
       },
 
-      // Configure logging to show only errors
+      // Configure logging to show info for debugging when enabled
       logging: {
-        level: 'error',
+        level: process.env.NEXT_PUBLIC_DEBUG === "true" ? "info" : "error",
       },
 
       eslint: {
