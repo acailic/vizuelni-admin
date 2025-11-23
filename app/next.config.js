@@ -57,9 +57,6 @@ const nextConfig = withPreconstruct(
     withMDX({
       output: isGitHubPages ? "export" : "standalone",
       trailingSlash: true,
-      turbo: {
-        resolveAlias: {},
-      },
       basePath: basePath,
       assetPrefix: basePath,
       images: {

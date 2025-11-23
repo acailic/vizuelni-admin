@@ -33,32 +33,35 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const isGitHubPages = process.env.NEXT_PUBLIC_BASE_PATH !== undefined;
   const paths = Object.keys(staticPages)
     .filter((path) => !path.endsWith("/index"))
-    .filter((path) => {
-      const [, locale] = path.split("/");
-      return !locale || locales.includes(locale);
-    })
-    .filter((path) => {
-      if (!isGitHubPages) {
-        return true;
-      }
-      // For GitHub Pages (static export), we only generate pages for the default locale
-      // because i18n routing is disabled.
-      const [, locale] = path.split("/");
-      return locale === defaultLocale;
-    })
     .map((path) => {
-      const [, locale, slug] = path.split("/");
-      // When i18n is disabled (GitHub Pages), don't include locale in paths
+      const [, rawLocale, ...slugParts] = path.split("/");
+      const normalizedLocale = rawLocale === "sr" ? defaultLocale : rawLocale;
+      const slug = slugParts.join("/");
+
+      if (!normalizedLocale || !locales.includes(normalizedLocale)) {
+        return null;
+      }
+
       if (isGitHubPages) {
+        // In static export mode we only build the default locale and omit locale
+        if (normalizedLocale !== defaultLocale) {
+          return null;
+        }
+
         return {
           params: { slug },
         };
       }
+
       return {
         params: { slug },
-        locale,
+        locale: normalizedLocale,
       };
-    });
+    })
+    .filter(
+      (value): value is { params: { slug: string }; locale?: string } =>
+        value !== null
+    );
 
   return {
     paths,
