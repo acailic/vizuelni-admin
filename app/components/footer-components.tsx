@@ -147,6 +147,7 @@ export const FooterSectionSocialMediaButton = ({
       target="_blank"
       rel="noopener noreferrer"
       size="small"
+      aria-label={type}
     >
       <Icon name={getIcon() as any} />
     </IconButton>

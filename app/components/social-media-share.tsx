@@ -125,6 +125,12 @@ export const SocialMediaShare = ({
             >
               <IconButton
                 onClick={shareOnLinkedIn}
+                aria-label={i18n._(
+                  t({
+                    id: "social.share.linkedin",
+                    message: "Share on LinkedIn",
+                  })
+                )}
                 sx={{
                   border: 1,
                   borderColor: "divider",
@@ -144,6 +150,12 @@ export const SocialMediaShare = ({
             >
               <IconButton
                 onClick={shareOnX}
+                aria-label={i18n._(
+                  t({
+                    id: "social.share.x",
+                    message: "Share on X (Twitter)",
+                  })
+                )}
                 sx={{
                   border: 1,
                   borderColor: "divider",
@@ -163,6 +175,12 @@ export const SocialMediaShare = ({
             >
               <IconButton
                 onClick={shareOnFacebook}
+                aria-label={i18n._(
+                  t({
+                    id: "social.share.facebook",
+                    message: "Share on Facebook",
+                  })
+                )}
                 sx={{
                   border: 1,
                   borderColor: "divider",
@@ -182,6 +200,12 @@ export const SocialMediaShare = ({
             >
               <IconButton
                 onClick={shareViaEmail}
+                aria-label={i18n._(
+                  t({
+                    id: "social.share.email",
+                    message: "Share via email",
+                  })
+                )}
                 sx={{
                   border: 1,
                   borderColor: "divider",

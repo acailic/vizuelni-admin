@@ -35,7 +35,7 @@ import { ChartWithFilters } from "@/components/chart-with-filters";
 import { DashboardInteractiveFilters } from "@/components/dashboard-interactive-filters";
 import { EmbedQueryParams } from "@/components/embed-params";
 import { Flex } from "@/components/flex";
-import { HintError, HintInfo, HintWarning } from "@/components/hint";
+import { HintError, HintInfo } from "@/components/hint";
 import {
   createMetadataPanelStore,
   MetadataPanelStoreContext,
@@ -52,10 +52,7 @@ import {
 } from "@/configurator";
 import { Description, Title } from "@/configurator/components/annotators";
 import { DRAWER_WIDTH } from "@/configurator/components/drawers";
-import {
-  DEFAULT_DATA_SOURCE,
-  useIsTrustedDataSource,
-} from "@/domain/data-source";
+import { DEFAULT_DATA_SOURCE } from "@/domain/data-source";
 import {
   useDataCubesComponentsQuery,
   useDataCubesMetadataQuery,
@@ -333,7 +330,6 @@ const ChartPublishedInnerImpl = ({
     optimizeSpace: embedParams?.optimizeSpace,
   });
   const locale = useLocale();
-  const isTrustedDataSource = useIsTrustedDataSource(dataSource);
   const commonQueryVariables = {
     sourceType: dataSource.type,
     sourceUrl: dataSource.url,

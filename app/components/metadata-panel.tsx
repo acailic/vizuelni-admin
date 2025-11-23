@@ -418,7 +418,14 @@ const Header = ({ onClose }: { onClose: () => void }) => {
       <Typography variant="h6" component="p" sx={{ fontWeight: "bold" }}>
         <Trans id="controls.metadata-panel.metadata">Details</Trans>
       </Typography>
-      <IconButton size="small" onClick={onClose}>
+      <IconButton
+        size="small"
+        onClick={onClose}
+        aria-label={t({
+          id: "controls.metadata-panel.close",
+          message: "Close metadata panel",
+        })}
+      >
         <SvgIcClose />
       </IconButton>
     </div>

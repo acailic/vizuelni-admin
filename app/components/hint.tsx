@@ -7,7 +7,6 @@ import {
   Box,
   BoxProps,
   keyframes,
-  Link,
   Theme,
   Typography,
   useTheme,

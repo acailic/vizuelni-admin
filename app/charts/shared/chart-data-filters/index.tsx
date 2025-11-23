@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Button, SelectChangeEvent, Typography } from "@mui/material";
+import { Alert, Button, SelectChangeEvent, Typography } from "@mui/material";
 import isEmpty from "lodash/isEmpty";
 import isEqual from "lodash/isEqual";
 import mapValues from "lodash/mapValues";
@@ -199,12 +199,17 @@ export const ChartDataFiltersToggle = ({
   componentIds,
 }: ReturnType<typeof useChartDataFiltersState>) => {
   return error ? (
-    <Typography variant="body2" color="error">
-      <Trans id="controls.section.data.filters.possible-filters-error">
-        An error happened while fetching possible filters, please retry later or
-        reload the page.
-      </Trans>
-    </Typography>
+    <Alert
+      severity="error"
+      role="alert"
+      sx={{ alignItems: "center", borderRadius: 2, py: 1.5, px: 2 }}
+    >
+      <Typography variant="body2" sx={{ color: "inherit" }}>
+        <Trans id="controls.section.data.filters.possible-filters-error">
+          An error happened while fetching possible filters, please retry later or reload the page.
+        </Trans>
+      </Typography>
+    </Alert>
   ) : defaultOpen ? null : (
     <Flex sx={{ flexDirection: "column", width: "100%" }}>
       <Flex
