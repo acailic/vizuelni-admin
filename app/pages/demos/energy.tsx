@@ -4,8 +4,8 @@
  * Alarming data about coal dependency, renewable energy lag, and aging infrastructure
  */
 
+import { useLingui } from '@lingui/react';
 import { Alert, Box, Card, CardContent, Chip, Grid, LinearProgress, Paper, Typography } from '@mui/material';
-import { useRouter } from 'next/router';
 
 import { BarChart } from '@/components/demos/charts/BarChart';
 import { LineChart } from '@/components/demos/charts/LineChart';
@@ -20,8 +20,8 @@ import {
 } from '@/data/serbia-energy';
 
 export default function EnergyDemo() {
-  const router = useRouter();
-  const locale = (router.locale || 'sr') as 'sr' | 'en';
+  const { i18n } = useLingui();
+  const locale = i18n.locale?.startsWith('sr') ? 'sr' : 'en';
 
   const title = locale === 'sr'
     ? '🚨 Energetska kriza - Zavisnost od uglja i fosilnih goriva'

@@ -3,6 +3,7 @@
  * Works with GitHub Pages static export via client-side data fetching
  */
 
+import { useLingui } from '@lingui/react';
 import { Box, Paper, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tabs, Typography } from '@mui/material';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -39,12 +40,13 @@ export default function DemoPage() {
   const router = useRouter();
   const { category } = router.query;
   const [activeTab, setActiveTab] = useState(0);
+  const { i18n } = useLingui();
 
   // Get demo configuration
   const config = category ? getDemoConfig(category as string) : null;
 
-  // Determine locale (default to Serbian)
-  const locale = (router.locale || 'sr') as 'sr' | 'en';
+  // Determine locale (default to Serbian) - use useLingui for GitHub Pages compatibility
+  const locale = i18n.locale?.startsWith('sr') ? 'sr' : 'en';
 
   // Fetch data using custom hook (only if config exists)
   // MUST be called before any conditional returns (Rules of Hooks)

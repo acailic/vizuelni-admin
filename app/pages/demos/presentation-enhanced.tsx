@@ -1,9 +1,9 @@
+import { useLingui } from '@lingui/react';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Box, Button, Chip, Container, Fade, Grid, IconButton, LinearProgress, Stack, Typography } from '@mui/material';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ColumnChart } from '@/components/demos/charts/ColumnChart';
@@ -16,8 +16,8 @@ import { energyProduction, energyStats } from '@/data/serbia-energy';
 const sectionOrder = ['hero', 'agenda', 'highlights', 'stories', 'cta'] as const;
 
 export default function PresentationEnhanced() {
-  const router = useRouter();
-  const locale = (router.locale || 'sr') as 'sr' | 'en';
+  const { i18n } = useLingui();
+  const locale = i18n.locale?.startsWith('sr') ? 'sr' : 'en';
   const [activeSection, setActiveSection] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set(['hero']));

@@ -3,8 +3,8 @@
  * Tech adoption, internet usage, e-commerce, and digital skills evolution
  */
 
+import { useLingui } from '@lingui/react';
 import { Alert, Box, Card, CardContent, Chip, Grid, Paper, Typography } from '@mui/material';
-import { useRouter } from 'next/router';
 
 import { BarChart } from '@/components/demos/charts/BarChart';
 import { ColumnChart } from '@/components/demos/charts/ColumnChart';
@@ -22,8 +22,8 @@ import {
 } from '@/data/serbia-digital';
 
 export default function DigitalDemo() {
-  const router = useRouter();
-  const locale = (router.locale || 'sr') as 'sr' | 'en';
+  const { i18n } = useLingui();
+  const locale = i18n.locale?.startsWith('sr') ? 'sr' : 'en';
 
   // Calculate statistics
   const latestInternet = internetAdoption[internetAdoption.length - 1];

@@ -1,6 +1,6 @@
+import { useLingui } from '@lingui/react';
 import { Box, Button, Chip, Container, Grid, Stack, Typography } from '@mui/material';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 
 import { ColumnChart } from '@/components/demos/charts/ColumnChart';
@@ -13,8 +13,8 @@ import { energyProduction, energyStats } from '@/data/serbia-energy';
 const sectionOrder = ['hero', 'agenda', 'highlights', 'stories', 'cta'] as const;
 
 export default function PresentationDemo() {
-  const router = useRouter();
-  const locale = (router.locale || 'sr') as 'sr' | 'en';
+  const { i18n } = useLingui();
+  const locale = i18n.locale?.startsWith('sr') ? 'sr' : 'en';
 
   const titles = {
     hero: locale === 'sr' ? 'Vizuelni Demo za Prezentacije' : 'Presentation-Ready Demo',

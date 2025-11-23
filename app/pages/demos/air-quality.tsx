@@ -4,8 +4,8 @@
  * with multiple visualizations and health warnings
  */
 
+import { useLingui } from '@lingui/react';
 import { Alert, Box, Card, CardContent, Grid, Paper, Typography } from '@mui/material';
-import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 
 import { DemoEmpty, DemoError, DemoLayout, DemoLoading } from '@/components/demos/demo-layout';
@@ -59,8 +59,8 @@ interface PollutionReading {
 }
 
 export default function AirQualityDemo() {
-  const router = useRouter();
-  const locale = (router.locale || 'sr') as 'sr' | 'en';
+  const { i18n } = useLingui();
+  const locale = i18n.locale?.startsWith('sr') ? 'sr' : 'en';
 
   // Fetch air quality data
   const { dataset, resource, data, loading, error, refetch } = useDataGovRs({

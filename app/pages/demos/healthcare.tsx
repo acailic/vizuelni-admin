@@ -4,8 +4,8 @@
  * Alarming data about waiting lists, capacity issues, and healthcare worker exodus
  */
 
+import { useLingui } from '@lingui/react';
 import { Alert, Box, Card, CardContent, Chip, Grid, LinearProgress, Paper, Typography } from '@mui/material';
-import { useRouter } from 'next/router';
 
 import { LineChart } from '@/components/demos/charts/LineChart';
 import { DemoLayout } from '@/components/demos/demo-layout';
@@ -18,8 +18,8 @@ import {
 } from '@/data/serbia-healthcare';
 
 export default function HealthcareDemo() {
-  const router = useRouter();
-  const locale = (router.locale || 'sr') as 'sr' | 'en';
+  const { i18n } = useLingui();
+  const locale = i18n.locale?.startsWith('sr') ? 'sr' : 'en';
 
   const title = locale === 'sr'
     ? '🚨 Zdravstvena kriza u Srbiji'

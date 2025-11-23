@@ -3,8 +3,8 @@
  * Temperature trends, extreme weather events, and environmental data
  */
 
+import { useLingui } from '@lingui/react';
 import { Alert, Box, Card, CardContent, Chip, Grid, Paper, Typography } from '@mui/material';
-import { useRouter } from 'next/router';
 
 import { ColumnChart } from '@/components/demos/charts/ColumnChart';
 import { LineChart } from '@/components/demos/charts/LineChart';
@@ -22,8 +22,8 @@ import {
 } from '@/data/serbia-climate';
 
 export default function ClimateDemo() {
-  const router = useRouter();
-  const locale = (router.locale || 'sr') as 'sr' | 'en';
+  const { i18n } = useLingui();
+  const locale = i18n.locale?.startsWith('sr') ? 'sr' : 'en';
 
   // Calculate statistics
   const latestTemp = temperatureTrends[temperatureTrends.length - 1];

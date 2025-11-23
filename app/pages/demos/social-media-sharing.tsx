@@ -4,6 +4,7 @@
  * Showcases how to share visualizations on LinkedIn, X.com (Twitter), and Facebook
  */
 
+import { useLingui } from "@lingui/react";
 import {
   Alert,
   Box,
@@ -14,7 +15,6 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { useRouter } from "next/router";
 import { useRef } from "react";
 
 import { ChartVisualizer } from "@/components/demos/ChartVisualizer";
@@ -29,8 +29,8 @@ import { useDataGovRs } from "@/hooks/use-data-gov-rs";
 import { Icon } from "@/icons";
 
 export default function SocialMediaSharingDemo() {
-  const router = useRouter();
-  const locale = (router.locale || "en") as "en" | "sr";
+  const { i18n } = useLingui();
+  const locale = i18n.locale?.startsWith("sr") ? "sr" : "en";
   const chartWrapperRef = useRef<HTMLDivElement>(null);
 
   // Fetch sample data for demonstration

@@ -3,8 +3,8 @@
  * Economic indicators showing Serbia's economic journey
  */
 
+import { useLingui } from '@lingui/react';
 import { Alert, Box, Card, CardContent, Chip, Grid, Paper, Typography } from '@mui/material';
-import { useRouter } from 'next/router';
 
 import { ColumnChart } from '@/components/demos/charts/ColumnChart';
 import { LineChart } from '@/components/demos/charts/LineChart';
@@ -19,8 +19,8 @@ import {
 } from '@/data/serbia-economy';
 
 export default function EconomyDemo() {
-  const router = useRouter();
-  const locale = (router.locale || 'sr') as 'sr' | 'en';
+  const { i18n } = useLingui();
+  const locale = i18n.locale?.startsWith('sr') ? 'sr' : 'en';
 
   // Calculate recent trends
   const latestYear = economicIndicators[economicIndicators.length - 1];
