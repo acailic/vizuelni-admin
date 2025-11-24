@@ -3,41 +3,58 @@
  * Works with GitHub Pages static export via client-side data fetching
  */
 
-import { useLingui } from '@lingui/react';
-import { Box, Paper, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tabs, Typography } from '@mui/material';
-import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useLingui } from "@lingui/react";
+import {
+  Box,
+  Paper,
+  Tab,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Tabs,
+  Typography,
+} from "@mui/material";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
-import { ChartVisualizer } from '@/components/demos/ChartVisualizer';
-import { DemoEmpty, DemoError, DemoLayout, DemoLoading } from '@/components/demos/demo-layout';
-import { DemoErrorBoundary } from '@/components/demos/DemoErrorBoundary';
-import { ExportControls } from '@/components/demos/ExportControls';
-import { SimpleChart } from '@/components/demos/simple-chart';
-import type { DatasetMetadata } from '@/domain/data-gov-rs/types';
-import { useDataGovRs } from '@/hooks/use-data-gov-rs';
-import { DEMO_CONFIGS, getDemoConfig } from '@/lib/demos/config';
-import { DEMO_FALLBACKS } from '@/lib/demos/fallbacks';
-import localesConfig from '@/locales/locales.json';
+import { ChartVisualizer } from "@/components/demos/ChartVisualizer";
+import {
+  DemoEmpty,
+  DemoError,
+  DemoLayout,
+  DemoLoading,
+} from "@/components/demos/demo-layout";
+import { DemoErrorBoundary } from "@/components/demos/DemoErrorBoundary";
+import { ExportControls } from "@/components/demos/ExportControls";
+import { SimpleChart } from "@/components/demos/simple-chart";
+import type { DatasetMetadata } from "@/domain/data-gov-rs/types";
+import { useDataGovRs } from "@/hooks/use-data-gov-rs";
+import { DEMO_CONFIGS, getDemoConfig } from "@/lib/demos/config";
+import { DEMO_FALLBACKS } from "@/lib/demos/fallbacks";
+import localesConfig from "@/locales/locales.json";
 
 const DEDICATED_DEMO_PAGES = new Set([
-  'air-quality',
-  'climate',
-  'demographics',
-  'digital',
-  'economy',
-  'employment',
-  'energy',
-  'healthcare',
-  'presentation',
-  'presentation-enhanced',
-  'showcase',
-  'social-media-sharing',
-  'transport'
+  "air-quality",
+  "climate",
+  "demographics",
+  "digital",
+  "economy",
+  "employment",
+  "energy",
+  "healthcare",
+  "presentation",
+  "presentation-enhanced",
+  "showcase",
+  "social-media-sharing",
+  "transport",
 ]);
 
 // Import enhanced air quality page
-const AirQualityDemo = dynamic(() => import('./air-quality'), { ssr: true });
+const AirQualityDemo = dynamic(() => import("./air-quality"), { ssr: true });
 
 export default function DemoPage() {
   const router = useRouter();
@@ -49,7 +66,19 @@ export default function DemoPage() {
   const config = category ? getDemoConfig(category as string) : null;
 
   // Determine locale (default to Serbian) - use useLingui for GitHub Pages compatibility
-  const locale = i18n.locale?.startsWith('sr') ? 'sr' : 'en';
+  const locale = i18n.locale?.startsWith("sr") ? "sr" : "en";
+
+  // Defensive checks and debug logging for fallback data
+  console.log("Category:", category);
+  console.log("Config ID:", config?.id);
+  const fallbackExists = config && DEMO_FALLBACKS[config.id];
+  console.log("DEMO_FALLBACKS[config.id] exists:", !!fallbackExists);
+  if (fallbackExists) {
+    console.log(
+      "Fallback data length:",
+      fallbackExists.fallbackData?.length || 0
+    );
+  }
 
   // Fetch data using custom hook (only if config exists)
   // MUST be called before any conditional returns (Rules of Hooks)
@@ -58,30 +87,41 @@ export default function DemoPage() {
       ? {
           title: DEMO_FALLBACKS[config.id]!.fallbackDatasetInfo!.title,
           organization: {
-            id: 'demo-org',
+            id: "demo-org",
             name:
               DEMO_FALLBACKS[config.id]!.fallbackDatasetInfo!.organization ||
-              'Demo data.gov.rs',
+              "Demo data.gov.rs",
             title:
               DEMO_FALLBACKS[config.id]!.fallbackDatasetInfo!.organization ||
-              'Demo data.gov.rs'
-          }
+              "Demo data.gov.rs",
+          },
         }
       : undefined;
 
   const { dataset, resource, data, loading, error, refetch } = useDataGovRs({
     searchQuery:
-      (config && DEMO_FALLBACKS[config.id]?.searchQueries) || config?.searchQuery,
-    fallbackData: config ? DEMO_FALLBACKS[config.id]?.fallbackData : undefined,
+      (config && DEMO_FALLBACKS[config.id]?.searchQueries) ||
+      config?.searchQuery,
+    fallbackData:
+      config && DEMO_FALLBACKS[config.id]?.fallbackData
+        ? DEMO_FALLBACKS[config.id].fallbackData
+        : undefined,
     fallbackDatasetInfo,
     preferredDatasetIds: config?.preferredDatasetIds,
     preferredTags: config?.preferredTags,
     slugKeywords: config?.slugKeywords,
-    autoFetch: !!config && category !== 'air-quality'
+    autoFetch:
+      !!config &&
+      category !== "air-quality" &&
+      !(
+        process.env.NEXT_PUBLIC_BASE_PATH &&
+        config &&
+        DEMO_FALLBACKS[config.id]?.fallbackData
+      ),
   });
 
   // Use enhanced air quality visualization
-  if (category === 'air-quality') {
+  if (category === "air-quality") {
     return <AirQualityDemo />;
   }
 
@@ -108,9 +148,14 @@ export default function DemoPage() {
         dataset
           ? {
               title: dataset.title,
-              organization: dataset.organization.title || dataset.organization.name,
+              organization:
+                dataset.organization.title || dataset.organization.name,
               updatedAt: dataset.updated_at,
-              datasetUrl: dataset.page || (dataset.id?.startsWith('demo-') ? undefined : `https://data.gov.rs/sr/datasets/${dataset.id}`)
+              datasetUrl:
+                dataset.page ||
+                (dataset.id?.startsWith("demo-")
+                  ? undefined
+                  : `https://data.gov.rs/sr/datasets/${dataset.id}`),
             }
           : undefined
       }
@@ -126,34 +171,37 @@ export default function DemoPage() {
         {!loading && !error && dataset && data && (
           <Box>
             {/* Dataset Info Card */}
-            <Paper sx={{ p: 3, mb: 4, backgroundColor: 'white' }}>
+            <Paper sx={{ p: 3, mb: 4, backgroundColor: "white" }}>
               <Typography variant="h5" sx={{ mb: 2, fontWeight: 500 }}>
                 {dataset.title}
               </Typography>
 
               {dataset.description && (
-                <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+                <Typography
+                  variant="body1"
+                  color="text.secondary"
+                  sx={{ mb: 2 }}
+                >
                   {dataset.description}
                 </Typography>
               )}
 
-              <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+              <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
                 {dataset.tags && dataset.tags.length > 0 && (
                   <Typography variant="body2" color="text.secondary">
-                    <strong>Tagovi:</strong> {dataset.tags.join(', ')}
+                    <strong>Tagovi:</strong> {dataset.tags.join(", ")}
                   </Typography>
                 )}
                 {resource && (
                   <Typography variant="body2" color="text.secondary">
                     <strong>Format:</strong> {resource.format}
                   </Typography>
-                )} 
+                )}
                 {Array.isArray(data) && (
                   <Typography variant="body2" color="text.secondary">
                     <strong>Broj redova:</strong> {data.length}
                   </Typography>
                 )}
- 
               </Box>
             </Paper>
 
@@ -168,7 +216,10 @@ export default function DemoPage() {
             )}
 
             {/* Chart Visualization */}
-            <Paper id="main-chart-container" sx={{ p: 4, mb: 4, backgroundColor: 'white' }}>
+            <Paper
+              id="main-chart-container"
+              sx={{ p: 4, mb: 4, backgroundColor: "white" }}
+            >
               <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>
                 📊 Vizualizacija podataka
               </Typography>
@@ -177,7 +228,12 @@ export default function DemoPage() {
                 <SimpleChart
                   data={data}
                   chartType={config.chartType}
-                  width={Math.min(1000, typeof window !== 'undefined' ? window.innerWidth - 100 : 1000)}
+                  width={Math.min(
+                    1000,
+                    typeof window !== "undefined"
+                      ? window.innerWidth - 100
+                      : 1000
+                  )}
                   height={450}
                 />
               ) : (
@@ -188,7 +244,7 @@ export default function DemoPage() {
             </Paper>
 
             {/* Tabs for different views */}
-            <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider", mb: 3 }}>
               <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)}>
                 <Tab label="📊 Vizualizacija" />
                 <Tab label="📋 Tabela podataka" />
@@ -204,7 +260,10 @@ export default function DemoPage() {
                     fileNamePrefix={`${category}-detailed-chart`}
                   />
                 </Box>
-                <Paper id="detailed-chart-container" sx={{ p: 4, mb: 4, backgroundColor: 'white' }}>
+                <Paper
+                  id="detailed-chart-container"
+                  sx={{ p: 4, mb: 4, backgroundColor: "white" }}
+                >
                   <ChartVisualizer
                     data={data}
                     chartType={config.chartType}
@@ -227,7 +286,13 @@ export default function DemoPage() {
                       <TableHead>
                         <TableRow>
                           {Object.keys(data[0]).map((key) => (
-                            <TableCell key={key} sx={{ fontWeight: 600, backgroundColor: 'grey.100' }}>
+                            <TableCell
+                              key={key}
+                              sx={{
+                                fontWeight: 600,
+                                backgroundColor: "grey.100",
+                              }}
+                            >
                               {key}
                             </TableCell>
                           ))}
@@ -240,7 +305,7 @@ export default function DemoPage() {
                               <TableCell key={j}>
                                 {value !== null && value !== undefined
                                   ? String(value)
-                                  : '-'}
+                                  : "-"}
                               </TableCell>
                             ))}
                           </TableRow>
@@ -249,7 +314,7 @@ export default function DemoPage() {
                     </Table>
                   </TableContainer>
                 ) : (
-                  <Paper sx={{ p: 3, textAlign: 'center' }}>
+                  <Paper sx={{ p: 3, textAlign: "center" }}>
                     <Typography color="text.secondary">
                       Podaci nisu dostupni u tabelarnom formatu
                     </Typography>
@@ -257,7 +322,11 @@ export default function DemoPage() {
                 )}
 
                 {Array.isArray(data) && data.length > 50 && (
-                  <Typography variant="body2" color="text.secondary" sx={{ mt: 2, textAlign: 'center' }}>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mt: 2, textAlign: "center" }}
+                  >
                     Prikazano prvih 50 od {data.length} redova
                   </Typography>
                 )}
@@ -289,22 +358,22 @@ export async function getStaticPaths() {
   if (isGitHubPages) {
     return {
       paths: categories.map((category) => ({
-        params: { category }
+        params: { category },
       })),
-      fallback: false
+      fallback: false,
     };
   }
 
-  const locales = localesConfig.locales || ['sr-Latn', 'sr-Cyrl', 'en'];
+  const locales = localesConfig.locales || ["sr-Latn", "sr-Cyrl", "en"];
 
   return {
     paths: locales.flatMap((locale) =>
       categories.map((category) => ({
         params: { category },
-        locale
+        locale,
       }))
     ),
-    fallback: false // Don't generate unknown routes on-demand
+    fallback: false, // Don't generate unknown routes on-demand
   };
 }
 
@@ -312,10 +381,14 @@ export async function getStaticPaths() {
  * CRITICAL: Use getStaticProps (not getServerSideProps) for static export
  * Data fetching happens client-side, so we just pass the category
  */
-export async function getStaticProps({ params }: { params: { category: string } }) {
+export async function getStaticProps({
+  params,
+}: {
+  params: { category: string };
+}) {
   return {
     props: {
-      category: params.category
-    }
+      category: params.category,
+    },
   };
 }

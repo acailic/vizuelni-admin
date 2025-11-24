@@ -3,11 +3,16 @@
  * Works with static export on GitHub Pages via client-side fetching
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-import { dataGovRsClient, getBestVisualizationResource, isSupportedFormat, parseCSVLine } from '@/domain/data-gov-rs';
-import type { DatasetMetadata, Resource } from '@/domain/data-gov-rs/types';
-import type { DemoDatasetInfo } from '@/types/demos';
+import {
+  dataGovRsClient,
+  getBestVisualizationResource,
+  isSupportedFormat,
+  parseCSVLine,
+} from "@/domain/data-gov-rs";
+import type { DatasetMetadata, Resource } from "@/domain/data-gov-rs/types";
+import type { DemoDatasetInfo } from "@/types/demos";
 
 interface UseDataGovRsOptions {
   /**
@@ -111,7 +116,7 @@ export function useDataGovRs(options: UseDataGovRsOptions): UseDataGovRsReturn {
     autoFetch = true,
     parseCSV = true,
     fallbackDatasetInfo,
-    fallbackData
+    fallbackData,
   } = options;
 
   const [dataset, setDataset] = useState<DatasetMetadata | null>(null);
@@ -120,33 +125,50 @@ export function useDataGovRs(options: UseDataGovRsOptions): UseDataGovRsReturn {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
-  const getFallbackDataset = (fallbackInfo: Partial<DatasetMetadata> | DemoDatasetInfo | undefined): DatasetMetadata => {
-    const organizationValue = (fallbackInfo as DemoDatasetInfo | undefined)?.organization;
+  const getFallbackDataset = (
+    fallbackInfo: Partial<DatasetMetadata> | DemoDatasetInfo | undefined
+  ): DatasetMetadata => {
+    const organizationValue = (fallbackInfo as DemoDatasetInfo | undefined)
+      ?.organization;
     const organization =
-      typeof organizationValue === 'string'
-        ? { id: 'demo-org', name: organizationValue, title: organizationValue }
-        : (fallbackInfo as Partial<DatasetMetadata> | undefined)?.organization ?? {
-            id: 'demo-org',
-            name: 'Demo data.gov.rs',
-            title: 'Demo data.gov.rs'
-          };
+      typeof organizationValue === "string"
+        ? { id: "demo-org", name: organizationValue, title: organizationValue }
+        : ((fallbackInfo as Partial<DatasetMetadata> | undefined)
+            ?.organization ?? {
+            id: "demo-org",
+            name: "Demo data.gov.rs",
+            title: "Demo data.gov.rs",
+          });
 
     return {
-      id: (fallbackInfo as Partial<DatasetMetadata> | undefined)?.id ?? 'demo-fallback',
-      title: fallbackInfo?.title ?? 'Demo fallback data',
-      description: (fallbackInfo as Partial<DatasetMetadata> | undefined)?.description ?? '',
+      id:
+        (fallbackInfo as Partial<DatasetMetadata> | undefined)?.id ??
+        "demo-fallback",
+      title: fallbackInfo?.title ?? "Demo fallback data",
+      description:
+        (fallbackInfo as Partial<DatasetMetadata> | undefined)?.description ??
+        "",
       organization,
-      resources: (fallbackInfo as Partial<DatasetMetadata> | undefined)?.resources ?? [],
+      resources:
+        (fallbackInfo as Partial<DatasetMetadata> | undefined)?.resources ?? [],
       tags: (fallbackInfo as Partial<DatasetMetadata> | undefined)?.tags ?? [],
-      created_at: (fallbackInfo as Partial<DatasetMetadata> | undefined)?.created_at ?? '',
-      updated_at: (fallbackInfo as Partial<DatasetMetadata> | undefined)?.updated_at ?? '',
+      created_at:
+        (fallbackInfo as Partial<DatasetMetadata> | undefined)?.created_at ??
+        "",
+      updated_at:
+        (fallbackInfo as Partial<DatasetMetadata> | undefined)?.updated_at ??
+        "",
       page: (fallbackInfo as Partial<DatasetMetadata> | undefined)?.page,
-      frequency: (fallbackInfo as Partial<DatasetMetadata> | undefined)?.frequency,
+      frequency: (fallbackInfo as Partial<DatasetMetadata> | undefined)
+        ?.frequency,
       spatial: (fallbackInfo as Partial<DatasetMetadata> | undefined)?.spatial,
-      temporal_start: (fallbackInfo as Partial<DatasetMetadata> | undefined)?.temporal_start,
-      temporal_end: (fallbackInfo as Partial<DatasetMetadata> | undefined)?.temporal_end,
+      temporal_start: (fallbackInfo as Partial<DatasetMetadata> | undefined)
+        ?.temporal_start,
+      temporal_end: (fallbackInfo as Partial<DatasetMetadata> | undefined)
+        ?.temporal_end,
       license: (fallbackInfo as Partial<DatasetMetadata> | undefined)?.license,
-      license_url: (fallbackInfo as Partial<DatasetMetadata> | undefined)?.license_url
+      license_url: (fallbackInfo as Partial<DatasetMetadata> | undefined)
+        ?.license_url,
     };
   };
 
@@ -164,6 +186,23 @@ export function useDataGovRs(options: UseDataGovRsOptions): UseDataGovRsReturn {
       setLoading(true);
       setError(null);
 
+      // Defensive check for fallbackData availability and GitHub Pages detection
+      console.log(
+        "useDataGovRs: fallbackData available:",
+        fallbackData ? fallbackData.length : "none"
+      );
+      if (
+        process.env.NEXT_PUBLIC_BASE_PATH &&
+        fallbackData &&
+        fallbackData.length > 0
+      ) {
+        console.log(
+          "useDataGovRs: Running on GitHub Pages, using fallback data directly"
+        );
+        applyFallback(fallbackDatasetInfo, fallbackData);
+        return;
+      }
+
       let fetchedDataset: DatasetMetadata;
 
       const idsToTry = [
@@ -180,22 +219,29 @@ export function useDataGovRs(options: UseDataGovRsOptions): UseDataGovRsReturn {
             if (bestResource) {
               fetchedDataset = ds;
               setDataset(fetchedDataset);
-              const resourceData = await loadResourceData(bestResource, parseCSV);
+              const resourceData = await loadResourceData(
+                bestResource,
+                parseCSV
+              );
               setResource(bestResource);
               setData(resourceData);
               return;
             }
             // Unsupported resources in this dataset; try next strategy
-            console.warn('No visualizable resource in dataset', id);
+            console.warn("No visualizable resource in dataset", id);
           }
         } catch (idErr) {
           // Continue to other strategies
-          console.warn('Dataset ID lookup failed', id, idErr);
+          console.warn("Dataset ID lookup failed", id, idErr);
         }
       }
 
       if (searchQuery || preferredTags || slugKeywords) {
-        const queries = Array.isArray(searchQuery) ? searchQuery : searchQuery ? [searchQuery] : [];
+        const queries = Array.isArray(searchQuery)
+          ? searchQuery
+          : searchQuery
+            ? [searchQuery]
+            : [];
         const keywords = slugKeywords ?? [];
 
         const foundDataset = await discoverDataset({
@@ -203,15 +249,22 @@ export function useDataGovRs(options: UseDataGovRsOptions): UseDataGovRsReturn {
           tags: preferredTags ?? [],
           keywords,
           organizationSlugs: options.organizationSlugs ?? [],
-          triedIds: idsToTry
+          triedIds: idsToTry,
         });
 
         if (!foundDataset) {
+          console.log(
+            "useDataGovRs: No dataset found, checking fallbackData:",
+            fallbackData ? fallbackData.length : "none"
+          );
           if (fallbackData && fallbackData.length > 0) {
+            console.log("useDataGovRs: Applying fallback data");
             applyFallback(fallbackDatasetInfo, fallbackData);
             return;
           }
-
+          console.log(
+            "useDataGovRs: No fallback data available, throwing error"
+          );
           throw new Error(
             `No datasets found for queries/tags: ${[
               ...queries,
@@ -226,7 +279,7 @@ export function useDataGovRs(options: UseDataGovRsOptions): UseDataGovRsReturn {
 
         fetchedDataset = foundDataset;
       } else {
-        throw new Error('Either datasetId or searchQuery must be provided');
+        throw new Error("Either datasetId or searchQuery must be provided");
       }
 
       setDataset(fetchedDataset);
@@ -240,22 +293,32 @@ export function useDataGovRs(options: UseDataGovRsOptions): UseDataGovRsReturn {
           setData(fallbackData);
           return;
         }
-        throw new Error('No suitable resource found for visualization');
+        throw new Error("No suitable resource found for visualization");
       }
 
       setResource(bestResource);
       const resourceData = await loadResourceData(bestResource, parseCSV);
       setData(resourceData);
-
     } catch (err) {
-      const errorMessage = err instanceof Error ? err : new Error('Unknown error occurred');
+      const errorMessage =
+        err instanceof Error ? err : new Error("Unknown error occurred");
+      console.log("useDataGovRs: Error occurred:", errorMessage.message);
+      console.log(
+        "useDataGovRs: Checking fallbackData in catch:",
+        fallbackData ? fallbackData.length : "none"
+      );
       if (fallbackData && fallbackData.length > 0) {
+        console.log("useDataGovRs: Applying fallback data in catch");
         applyFallback(fallbackDatasetInfo, fallbackData);
         setError(null);
-        console.warn('useDataGovRs: using fallback demo data due to error:', errorMessage);
+        console.warn(
+          "useDataGovRs: using fallback demo data due to error:",
+          errorMessage
+        );
       } else {
+        console.log("useDataGovRs: No fallback data, setting error");
         setError(errorMessage);
-        console.error('useDataGovRs error:', errorMessage);
+        console.error("useDataGovRs error:", errorMessage);
       }
     } finally {
       setLoading(false);
@@ -274,7 +337,7 @@ export function useDataGovRs(options: UseDataGovRsOptions): UseDataGovRsReturn {
     data,
     loading,
     error,
-    refetch: fetchData
+    refetch: fetchData,
   };
 }
 
@@ -283,10 +346,10 @@ export function useDataGovRs(options: UseDataGovRsOptions): UseDataGovRsReturn {
  * Handles quoted fields, different line endings, and empty rows
  */
 async function loadResourceData(bestResource: Resource, parseCSV: boolean) {
-  if (bestResource.format.toUpperCase() === 'JSON') {
+  if (bestResource.format.toUpperCase() === "JSON") {
     return dataGovRsClient.getResourceJSON(bestResource);
   }
-  if (bestResource.format.toUpperCase() === 'CSV' && parseCSV) {
+  if (bestResource.format.toUpperCase() === "CSV" && parseCSV) {
     const csvText = await dataGovRsClient.getResourceData(bestResource);
     return parseCSVData(csvText);
   }
@@ -295,10 +358,10 @@ async function loadResourceData(bestResource: Resource, parseCSV: boolean) {
 
 function parseCSVData(csv: string): any[] {
   // Normalize line endings to \n (handles \r\n, \r, and \n)
-  const normalizedCsv = csv.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  const normalizedCsv = csv.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
 
   // Split into lines and filter out empty rows
-  const lines = normalizedCsv.split('\n').filter(line => line.trim());
+  const lines = normalizedCsv.split("\n").filter((line) => line.trim());
 
   if (lines.length === 0) {
     return [];
@@ -308,12 +371,12 @@ function parseCSVData(csv: string): any[] {
   const headers = parseCSVLine(lines[0]);
 
   // Parse rows
-  const rows = lines.slice(1).map(line => {
+  const rows = lines.slice(1).map((line) => {
     const values = parseCSVLine(line);
     const obj: Record<string, any> = {};
 
     headers.forEach((header, index) => {
-      const value = values[index] || '';
+      const value = values[index] || "";
       // Try to parse numbers
       const numValue = parseFloat(value);
       obj[header] = isNaN(numValue) ? value : numValue;
@@ -333,7 +396,7 @@ async function discoverDataset({
   keywords,
   queries,
   organizationSlugs,
-  triedIds
+  triedIds,
 }: {
   tags: string[];
   keywords: string[];
@@ -344,7 +407,9 @@ async function discoverDataset({
   const seen = new Set<string>(triedIds);
 
   const pickDataset = (candidates: DatasetMetadata[]) =>
-    candidates.find((d) => !seen.has(d.id) && d.resources.some((r) => isSupportedFormat(r))) || null;
+    candidates.find(
+      (d) => !seen.has(d.id) && d.resources.some((r) => isSupportedFormat(r))
+    ) || null;
 
   // 1) tag search first
   for (const tag of tags) {
@@ -378,7 +443,10 @@ async function discoverDataset({
 
   // 4) organization filter as last resort
   for (const org of organizationSlugs) {
-    const res = await dataGovRsClient.searchDatasets({ organization: org, page_size: 20 });
+    const res = await dataGovRsClient.searchDatasets({
+      organization: org,
+      page_size: 20,
+    });
     const candidate = pickDataset(res.data);
     if (candidate) return candidate;
     res.data.forEach((d) => seen.add(d.id));
@@ -404,7 +472,11 @@ export function useDataGovRsSearch() {
   const [error, setError] = useState<Error | null>(null);
   const [total, setTotal] = useState(0);
 
-  const search = async (query: string, page: number = 1, pageSize: number = 20) => {
+  const search = async (
+    query: string,
+    page: number = 1,
+    pageSize: number = 20
+  ) => {
     try {
       setLoading(true);
       setError(null);
@@ -412,16 +484,16 @@ export function useDataGovRsSearch() {
       const results = await dataGovRsClient.searchDatasets({
         q: query,
         page,
-        page_size: pageSize
+        page_size: pageSize,
       });
 
       setDatasets(results.data);
       setTotal(results.total);
-
     } catch (err) {
-      const errorMessage = err instanceof Error ? err : new Error('Search failed');
+      const errorMessage =
+        err instanceof Error ? err : new Error("Search failed");
       setError(errorMessage);
-      console.error('useDataGovRsSearch error:', errorMessage);
+      console.error("useDataGovRsSearch error:", errorMessage);
     } finally {
       setLoading(false);
     }
@@ -432,6 +504,6 @@ export function useDataGovRsSearch() {
     total,
     loading,
     error,
-    search
+    search,
   };
 }

@@ -54,7 +54,11 @@ export const DEMO_FALLBACKS: Record<string, DemoFallback> = {
     ],
   },
   education: {
-    searchQueries: ["obrazovanje učenici studenti", "broj učenika", "obrazovanje"],
+    searchQueries: [
+      "obrazovanje učenici studenti",
+      "broj učenika",
+      "obrazovanje",
+    ],
     fallbackDatasetInfo: {
       title: "Upis učenika i studenata (primer podaci)",
       organization: "Demo data.gov.rs",
@@ -89,11 +93,36 @@ export const DEMO_FALLBACKS: Record<string, DemoFallback> = {
       organization: "Demo data.gov.rs",
     },
     fallbackData: [
-      { Godina: 2019, PacijentiNaCekanju: 42000, Lekari: 28000, BolnickiKreveti: 19000 },
-      { Godina: 2020, PacijentiNaCekanju: 53000, Lekari: 27500, BolnickiKreveti: 18800 },
-      { Godina: 2021, PacijentiNaCekanju: 50000, Lekari: 27300, BolnickiKreveti: 18750 },
-      { Godina: 2022, PacijentiNaCekanju: 48000, Lekari: 27000, BolnickiKreveti: 18600 },
-      { Godina: 2023, PacijentiNaCekanju: 50500, Lekari: 26800, BolnickiKreveti: 18500 },
+      {
+        Godina: 2019,
+        PacijentiNaCekanju: 42000,
+        Lekari: 28000,
+        BolnickiKreveti: 19000,
+      },
+      {
+        Godina: 2020,
+        PacijentiNaCekanju: 53000,
+        Lekari: 27500,
+        BolnickiKreveti: 18800,
+      },
+      {
+        Godina: 2021,
+        PacijentiNaCekanju: 50000,
+        Lekari: 27300,
+        BolnickiKreveti: 18750,
+      },
+      {
+        Godina: 2022,
+        PacijentiNaCekanju: 48000,
+        Lekari: 27000,
+        BolnickiKreveti: 18600,
+      },
+      {
+        Godina: 2023,
+        PacijentiNaCekanju: 50500,
+        Lekari: 26800,
+        BolnickiKreveti: 18500,
+      },
     ],
   },
   health: {
@@ -103,10 +132,30 @@ export const DEMO_FALLBACKS: Record<string, DemoFallback> = {
       organization: "Demo data.gov.rs",
     },
     fallbackData: [
-      { Godina: 2019, Posete: 5200000, HirurskeIntervencije: 185000, AmbulantnePosete: 3100000 },
-      { Godina: 2020, Posete: 4800000, HirurskeIntervencije: 178000, AmbulantnePosete: 2950000 },
-      { Godina: 2021, Posete: 5000000, HirurskeIntervencije: 182000, AmbulantnePosete: 3000000 },
-      { Godina: 2022, Posete: 5150000, HirurskeIntervencije: 184500, AmbulantnePosete: 3050000 },
+      {
+        Godina: 2019,
+        Posete: 5200000,
+        HirurskeIntervencije: 185000,
+        AmbulantnePosete: 3100000,
+      },
+      {
+        Godina: 2020,
+        Posete: 4800000,
+        HirurskeIntervencije: 178000,
+        AmbulantnePosete: 2950000,
+      },
+      {
+        Godina: 2021,
+        Posete: 5000000,
+        HirurskeIntervencije: 182000,
+        AmbulantnePosete: 3000000,
+      },
+      {
+        Godina: 2022,
+        Posete: 5150000,
+        HirurskeIntervencije: 184500,
+        AmbulantnePosete: 3050000,
+      },
     ],
   },
   employment: {
@@ -116,16 +165,51 @@ export const DEMO_FALLBACKS: Record<string, DemoFallback> = {
       organization: "Demo data.gov.rs",
     },
     fallbackData: [
-      { Godina: 2018, Nezaposlenost: 13.5, NezaposlenostMladi: 27.0, Emigracije: 62000 },
-      { Godina: 2019, Nezaposlenost: 12.0, NezaposlenostMladi: 25.0, Emigracije: 65000 },
-      { Godina: 2020, Nezaposlenost: 11.2, NezaposlenostMladi: 24.5, Emigracije: 70000 },
-      { Godina: 2021, Nezaposlenost: 10.5, NezaposlenostMladi: 23.0, Emigracije: 74000 },
-      { Godina: 2022, Nezaposlenost: 9.8, NezaposlenostMladi: 22.5, Emigracije: 75900 },
-      { Godina: 2023, Nezaposlenost: 9.5, NezaposlenostMladi: 21.5, Emigracije: 75900 },
+      {
+        Godina: 2018,
+        Nezaposlenost: 13.5,
+        NezaposlenostMladi: 27.0,
+        Emigracije: 62000,
+      },
+      {
+        Godina: 2019,
+        Nezaposlenost: 12.0,
+        NezaposlenostMladi: 25.0,
+        Emigracije: 65000,
+      },
+      {
+        Godina: 2020,
+        Nezaposlenost: 11.2,
+        NezaposlenostMladi: 24.5,
+        Emigracije: 70000,
+      },
+      {
+        Godina: 2021,
+        Nezaposlenost: 10.5,
+        NezaposlenostMladi: 23.0,
+        Emigracije: 74000,
+      },
+      {
+        Godina: 2022,
+        Nezaposlenost: 9.8,
+        NezaposlenostMladi: 22.5,
+        Emigracije: 75900,
+      },
+      {
+        Godina: 2023,
+        Nezaposlenost: 9.5,
+        NezaposlenostMladi: 21.5,
+        Emigracije: 75900,
+      },
     ],
   },
   energy: {
-    searchQueries: ["energija", "elektricna energija", "ugalj", "obnovljivi izvori"],
+    searchQueries: [
+      "energija",
+      "elektricna energija",
+      "ugalj",
+      "obnovljivi izvori",
+    ],
     fallbackDatasetInfo: {
       title: "Proizvodnja i uvoz energije (primer podaci)",
       organization: "Demo data.gov.rs",
@@ -188,11 +272,36 @@ export const DEMO_FALLBACKS: Record<string, DemoFallback> = {
       organization: "Demo data.gov.rs",
     },
     fallbackData: [
-      { Godina: 2019, NoviPuteviKm: 120, RekonstrukcijaKm: 350, InvesticijeMEUR: 820 },
-      { Godina: 2020, NoviPuteviKm: 90, RekonstrukcijaKm: 300, InvesticijeMEUR: 780 },
-      { Godina: 2021, NoviPuteviKm: 140, RekonstrukcijaKm: 360, InvesticijeMEUR: 890 },
-      { Godina: 2022, NoviPuteviKm: 160, RekonstrukcijaKm: 380, InvesticijeMEUR: 940 },
-      { Godina: 2023, NoviPuteviKm: 170, RekonstrukcijaKm: 400, InvesticijeMEUR: 980 },
+      {
+        Godina: 2019,
+        NoviPuteviKm: 120,
+        RekonstrukcijaKm: 350,
+        InvesticijeMEUR: 820,
+      },
+      {
+        Godina: 2020,
+        NoviPuteviKm: 90,
+        RekonstrukcijaKm: 300,
+        InvesticijeMEUR: 780,
+      },
+      {
+        Godina: 2021,
+        NoviPuteviKm: 140,
+        RekonstrukcijaKm: 360,
+        InvesticijeMEUR: 890,
+      },
+      {
+        Godina: 2022,
+        NoviPuteviKm: 160,
+        RekonstrukcijaKm: 380,
+        InvesticijeMEUR: 940,
+      },
+      {
+        Godina: 2023,
+        NoviPuteviKm: 170,
+        RekonstrukcijaKm: 400,
+        InvesticijeMEUR: 980,
+      },
     ],
   },
   economy: {
@@ -239,3 +348,44 @@ export const DEMO_FALLBACKS: Record<string, DemoFallback> = {
     ],
   },
 };
+
+/**
+ * Validates the structure of fallback data for all demos.
+ * Ensures each fallbackData array contains objects with at least one string key and one numeric key.
+ */
+function validateFallbackData() {
+  for (const [demoId, fallback] of Object.entries(DEMO_FALLBACKS)) {
+    if (fallback.fallbackData) {
+      if (!Array.isArray(fallback.fallbackData)) {
+        console.warn(`Fallback data for ${demoId} is not an array.`);
+        continue;
+      }
+      if (fallback.fallbackData.length === 0) {
+        console.warn(`Fallback data for ${demoId} is empty.`);
+        continue;
+      }
+      for (const item of fallback.fallbackData) {
+        if (typeof item !== "object" || item === null) {
+          console.warn(
+            `Invalid item in fallback data for ${demoId}: not an object.`
+          );
+          continue;
+        }
+        const keys = Object.keys(item);
+        const hasStringKey = keys.some((key) => typeof item[key] === "string");
+        const hasNumericKey = keys.some(
+          (key) => typeof item[key] === "number" && !isNaN(item[key])
+        );
+        if (!hasStringKey || !hasNumericKey) {
+          console.warn(
+            `Fallback data item for ${demoId} lacks required structure: needs at least one string and one numeric key. Item:`,
+            item
+          );
+        }
+      }
+    }
+  }
+}
+
+// Run validation on module load
+validateFallbackData();

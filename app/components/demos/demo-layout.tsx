@@ -119,6 +119,14 @@ export function DemoLayout({
                   width: "fit-content",
                 }}
               >
+                {!datasetInfo.datasetUrl && (
+                  <Typography
+                    variant="body2"
+                    sx={{ color: "warning.main", fontWeight: 600, mb: 1 }}
+                  >
+                    <Trans id="demos.layout.demo-data">Demo Data</Trans>
+                  </Typography>
+                )}
                 {datasetInfo.organization && (
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                     <Typography
@@ -288,6 +296,7 @@ export function DemoError({
 }) {
   const { i18n } = useLingui();
   const errorMessage = typeof error === "string" ? error : error.message;
+  const isNoDatasetsError = errorMessage.includes("No datasets found");
 
   return (
     <Box
@@ -307,10 +316,17 @@ export function DemoError({
         {errorMessage}
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        <Trans id="demos.layout.error-suggestions">
-          Suggestions: try again, check internet connection, or open a different
-          dataset from data.gov.rs.
-        </Trans>
+        {isNoDatasetsError ? (
+          <Trans id="demos.layout.error-suggestions-no-datasets">
+            This demo should display fallback data. Check the browser console
+            for more details.
+          </Trans>
+        ) : (
+          <Trans id="demos.layout.error-suggestions">
+            Suggestions: try again, check internet connection, or open a
+            different dataset from data.gov.rs.
+          </Trans>
+        )}
       </Typography>
       {onRetry && (
         <Button
