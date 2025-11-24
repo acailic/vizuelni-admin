@@ -11,6 +11,7 @@ export interface DatasetMetadata {
   tags: string[];
   created_at: string;
   updated_at: string;
+  slug?: string;
   page?: string;
   frequency?: string;
   spatial?: string;
