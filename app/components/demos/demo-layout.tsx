@@ -107,6 +107,19 @@ export function DemoLayout({
                     <strong>{i18n._(defineMessage({ id: 'demos.layout.updated', message: 'Updated' }))}:</strong> {formattedUpdatedAt}
                   </Typography>
                 )}
+                {datasetInfo.datasetUrl && (
+                  <Typography variant="body2" color="text.secondary">
+                    <Link href={datasetInfo.datasetUrl} passHref legacyBehavior>
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: 'inherit', textDecoration: 'underline' }}
+                      >
+                        {i18n._(defineMessage({ id: 'demos.layout.view-dataset', message: 'View on data.gov.rs' }))}
+                      </a>
+                    </Link>
+                  </Typography>
+                )}
               </Box>
             )}
           </Box>

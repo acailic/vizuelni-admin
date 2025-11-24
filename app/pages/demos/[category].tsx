@@ -109,7 +109,8 @@ export default function DemoPage() {
           ? {
               title: dataset.title,
               organization: dataset.organization.title || dataset.organization.name,
-              updatedAt: dataset.updated_at
+              updatedAt: dataset.updated_at,
+              datasetUrl: dataset.page || `https://data.gov.rs/sr/datasets/${dataset.id}`
             }
           : undefined
       }

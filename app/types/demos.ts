@@ -28,6 +28,7 @@ export interface DemoDatasetInfo {
   title?: string;
   organization?: string;
   updatedAt?: string;
+  datasetUrl?: string;
 }
 
 export interface DemoConfig {
