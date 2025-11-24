@@ -1780,7 +1780,7 @@ msgstr ""
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.transport.ylabel"
-msgstr ""
+msgstr "Милиони путовања"
 
 #: app/configurator/components/chart-options-selector/scale-domain.jsx
 #: app/configurator/components/chart-options-selector/scale-domain.tsx
@@ -3115,7 +3115,7 @@ msgstr ""
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.transport.description"
-msgstr ""
+msgstr "Милиони путовања – пад 2020, затим постепени опоравак."
 
 #: app/components/app-error-boundary.jsx
 #: app/components/app-error-boundary.tsx
