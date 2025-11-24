@@ -926,6 +926,17 @@ msgstr ""
 msgid "browse.dataset.create-visualization-visualize"
 msgstr ""
 
+#: app/browse/ui/select-dataset-step.tsx
+msgid "browse.dataset.find"
+msgstr "Пронађите датасет са data.gov.rs"
+
+#: app/browse/ui/select-dataset-step.tsx
+msgid "browse.dataset.find.details"
+msgstr ""
+"Овај статички приказ користи директан data.gov.rs API зато што GitHub Pages "
+"не хостује /api/graphql. Претрага подржава кључне речи, а избор датасета води "
+"директно на портал."
+
 #: app/pages/v/[chartId].jsx
 #: app/pages/v/[chartId].tsx
 msgid "hint.create.your.own.chart"
