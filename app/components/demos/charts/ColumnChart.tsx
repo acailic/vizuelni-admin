@@ -31,6 +31,9 @@ export interface ColumnChartProps {
   multiSeries?: boolean;
   stacked?: boolean;
   showZeroLine?: boolean;
+  showTooltip?: boolean;
+  showValueLabels?: boolean;
+  animationDuration?: number;
 }
 
 const defaultColumnConfig = chartDefaults.column;

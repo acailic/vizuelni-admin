@@ -28,6 +28,7 @@ export interface LineChartProps {
   title?: string;
   description?: string;
   multiSeries?: boolean;
+  seriesKeys?: string[];
   showZeroLine?: boolean;
   showArea?: boolean;
   showTooltip?: boolean;
