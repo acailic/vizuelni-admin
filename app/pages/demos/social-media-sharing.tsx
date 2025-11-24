@@ -34,16 +34,12 @@ export default function SocialMediaSharingDemo() {
   const locale = i18n.locale?.startsWith("sr") ? "sr" : "en";
   const chartWrapperRef = useRef<HTMLDivElement>(null);
 
-  // Fetch sample data for demonstration
-  const { data, loading, error } = useDataGovRs({
-    searchQuery: "population",
-    autoFetch: true,
-  });
+  const fallbackDatasetInfo = {
+    title: "Demonstration population sample",
+    organization: "Demo data.gov.rs",
+  };
 
-  if (loading) return <DemoLoading />;
-  if (error) return <DemoError error={error} />;
-
-  const sampleData = data?.slice(0, 10) || [
+  const fallbackData = [
     { month: "Jan", value: 120 },
     { month: "Feb", value: 150 },
     { month: "Mar", value: 180 },
@@ -52,10 +48,35 @@ export default function SocialMediaSharingDemo() {
     { month: "Jun", value: 220 },
   ];
 
+  // Fetch sample data for demonstration
+  const { data, dataset, loading, error } = useDataGovRs({
+    searchQuery: ["stanovnistvo", "population"],
+    preferredTags: ["stanovnistvo", "demografija"],
+    slugKeywords: ["stanovnistvo", "population"],
+    fallbackData,
+    fallbackDatasetInfo,
+    autoFetch: true,
+  });
+
+  if (loading) return <DemoLoading />;
+  if (error) return <DemoError error={error} />;
+
+  const sampleData = data?.slice(0, 10) || fallbackData;
+
   return (
     <DemoLayout
       title="Social Media Sharing for Visualizations"
       description="Learn how to share your data visualizations on LinkedIn, X.com (Twitter), Facebook, and other social media platforms"
+      datasetInfo={
+        dataset
+          ? {
+              title: dataset.title,
+              organization: dataset.organization.title || dataset.organization.name,
+              updatedAt: dataset.updated_at,
+              datasetUrl: dataset.page || (dataset.id?.startsWith("demo-") ? undefined : `https://data.gov.rs/sr/datasets/${dataset.id}`),
+            }
+          : fallbackDatasetInfo
+      }
     >
       <DemoErrorBoundary>
         <Grid container spacing={4}>

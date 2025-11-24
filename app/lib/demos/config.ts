@@ -8,19 +8,19 @@ export const DEMO_CONFIGS: Record<string, DemoConfig> = {
   'air-quality': {
     id: 'air-quality',
     title: {
-      sr: '🚨 Kvalitet vazduha - Detaljno',
-      en: '🚨 Air Quality - Detailed'
+      sr: 'Kvalitet vazduha',
+      en: 'Air quality'
     },
     description: {
-      sr: 'Šokantni podaci o zagađenju vazduha sa WHO upozorenjima i zdravstvenim rizicima',
-      en: 'Shocking air pollution data with WHO warnings and health risks'
+      sr: 'Koncentracije PM čestica i drugih zagađivača u odnosu na smernice Svetske zdravstvene organizacije.',
+      en: 'PM concentrations and other pollutants compared with World Health Organization guidelines.'
     },
     searchQuery: ['kvalitet vazduha', 'pm10', 'pm2.5'],
     preferredDatasetIds: ['6616cc69e9cf23a1ec8096b5'],
     preferredTags: ['kvalitet-vazdukha', 'zivotna-sredina', 'vazduh'],
     slugKeywords: ['pm10', 'pm2.5', 'vazduh', 'zagađenje'],
     chartType: 'line',
-    tags: ['zivotna-sredina', 'zdravlje', 'kritično'],
+    tags: ['Životna sredina', 'Zdravlje'],
     icon: '🚨'
   },
   budget: {
@@ -30,8 +30,8 @@ export const DEMO_CONFIGS: Record<string, DemoConfig> = {
       en: 'Republic of Serbia Budget'
     },
     description: {
-      sr: 'Interaktivna vizualizacija državnog budžeta i javnih finansija',
-      en: 'Interactive visualization of state budget and public finances'
+      sr: 'Prihodi, rashodi i izdaci javnih finansija sa preglednim raspodelama po kategorijama.',
+      en: 'Revenues, expenditures, and public spending broken down by category.'
     },
     // Use accented query to better match data.gov.rs dataset naming
     searchQuery: ['budžet', 'budzet', 'javne finansije'],
@@ -44,36 +44,36 @@ export const DEMO_CONFIGS: Record<string, DemoConfig> = {
   environment: {
     id: 'environment',
     title: {
-      sr: 'Kvalitet vazduha',
-      en: 'Air Quality'
+      sr: 'Životna sredina',
+      en: 'Environment'
     },
     description: {
-      sr: 'Praćenje kvaliteta vazduha i zagađenja u gradovima Srbije',
-      en: 'Monitor air quality and pollution in Serbian cities'
+      sr: 'Praćenje kvaliteta vazduha, vode i zemljišta u gradovima Srbije.',
+      en: 'Monitor air, water, and soil quality across Serbian cities.'
     },
     searchQuery: ['kvalitet vazduha', 'pm10'],
     preferredDatasetIds: ['6616cc69e9cf23a1ec8096b5'],
     preferredTags: ['kvalitet-vazdukha', 'zivotna-sredina', 'vazduh'],
     slugKeywords: ['vazduh', 'pm10', 'pm2.5'],
     chartType: 'line',
-    tags: ['zivotna-sredina', 'ekologija', 'vazduh'],
+    tags: ['Životna sredina', 'Ekologija'],
     icon: '🌍'
   },
   demographics: {
     id: 'demographics',
     title: {
-      sr: '⚠️ Demografska kriza',
-      en: '⚠️ Demographic Crisis'
+      sr: 'Demografski trendovi',
+      en: 'Demographic trends'
     },
     description: {
-      sr: 'Alarmantno: Stanovništvo pada za 15% do 2050. godine, medijana starosti 43.5 godina, stopa rasta -0.4%',
-      en: 'Alarming: Population declining 15% by 2050, median age 43.5 years, growth rate -0.4%'
+      sr: 'Starosna struktura, projekcije do 2050. godine, medijana starosti i stopa rasta populacije.',
+      en: 'Age structure, projections through 2050, median age, and population growth rate.'
     },
     searchQuery: ['stanovnistvo', 'stanovništvo', 'demografija'],
     preferredTags: ['stanovnistvo', 'demografija'],
     slugKeywords: ['popis', 'demografija', 'stanovništvo'],
     chartType: 'bar',
-    tags: ['stanovnistvo', 'statistika', 'demografija', 'kritično'],
+    tags: ['Stanovništvo', 'Demografija'],
     icon: '⚠️'
   },
   education: {
@@ -83,8 +83,8 @@ export const DEMO_CONFIGS: Record<string, DemoConfig> = {
       en: '🎓 Education Statistics'
     },
     description: {
-      sr: 'Pregled broja učenika i studenata po nivoima obrazovanja - osnovno, srednje i visoko obrazovanje kroz godine',
-      en: 'Overview of student enrollment by education level - elementary, secondary, and higher education over the years'
+      sr: 'Upis učenika i studenata kroz vreme po nivoima obrazovanja: osnovno, srednje i visoko.',
+      en: 'Enrollment over time by education level: primary, secondary, and higher education.'
     },
     searchQuery: ['obrazovanje učenici studenti', 'obrazovanje', 'učenici', 'studenti'],
     preferredDatasetIds: [
@@ -102,35 +102,35 @@ export const DEMO_CONFIGS: Record<string, DemoConfig> = {
   transport: {
     id: 'transport',
     title: {
-      sr: '🚨 Saobraćajna katastrofa',
-      en: '🚨 Traffic Catastrophe'
+      sr: 'Bezbednost u saobraćaju',
+      en: 'Road safety'
     },
     description: {
-      sr: 'Preventabilne smrti na putevima - 482 života izgubljeno 2024, 1.3 smrti DNEVNO, 98% nesreća preventabilno',
-      en: 'Preventable road deaths - 482 lives lost in 2024, 1.3 deaths DAILY, 98% of accidents preventable'
+      sr: 'Saobraćajne nezgode, povređeni i poginuli, sa fokusom na prevenciju i bezbednost na putevima.',
+      en: 'Traffic incidents, injuries, and fatalities with a focus on prevention and road safety.'
     },
     searchQuery: ['saobraćaj', 'saobracaj', 'nezgode', 'saobraćajne nesreće'],
     preferredTags: ['saobracaj', 'nezgode', 'saobraćaj'],
     slugKeywords: ['saobraćaj', 'nezgode', 'saobracaj'],
     chartType: 'column',
-    tags: ['saobracaj', 'bezbednost', 'nezgode', 'kritično'],
+    tags: ['Saobraćaj', 'Bezbednost'],
     icon: '🚨'
   },
   healthcare: {
     id: 'healthcare',
     title: {
-      sr: '🚨 Zdravstvena kriza',
-      en: '🚨 Healthcare Crisis'
+      sr: 'Zdravstveni sistem',
+      en: 'Healthcare system'
     },
     description: {
-      sr: 'Alarmantni podaci o listama čekanja, odlivu lekara i kapacitetima bolnica - preko 50,000 pacijenata čeka na procedure',
-      en: 'Alarming data on waiting lists, doctor exodus, and hospital capacity - over 50,000 patients waiting for procedures'
+      sr: 'Liste čekanja, kapaciteti bolnica, zdravstveni kadar i dostupnost usluga.',
+      en: 'Waiting lists, hospital capacity, medical workforce, and service availability.'
     },
     searchQuery: ['zdravstvo', 'bolnice', 'liste čekanja'],
     preferredTags: ['zdravstvo', 'bolnica', 'bolnice'],
     slugKeywords: ['zdravstvo', 'bolnica', 'bolnice'],
     chartType: 'bar',
-    tags: ['zdravstvo', 'bolnice', 'kritično', 'liste-čekanja'],
+    tags: ['Zdravstvo', 'Bolnice'],
     icon: '🚨'
   },
   health: {
@@ -140,48 +140,48 @@ export const DEMO_CONFIGS: Record<string, DemoConfig> = {
       en: 'Healthcare'
     },
     description: {
-      sr: 'Zdravstveni podaci - bolnice, pacijenti, zdravstvene usluge',
-      en: 'Healthcare data - hospitals, patients, medical services'
+      sr: 'Bolnice, pacijenti i zdravstvene usluge sa pokazateljima dostupnosti i kvaliteta.',
+      en: 'Hospitals, patients, and medical services with availability and quality indicators.'
     },
     searchQuery: ['zdravstvo', 'bolnice', 'zdravstvene usluge'],
     preferredTags: ['zdravstvo', 'bolnica', 'bolnice'],
     slugKeywords: ['zdravstvo', 'bolnica', 'bolnice'],
     chartType: 'bar',
-    tags: ['zdravstvo', 'medicina', 'bolnice'],
+    tags: ['Zdravstvo', 'Medicina'],
     icon: '🏥'
   },
   employment: {
     id: 'employment',
     title: {
-      sr: '🚨 Odliv mladih - Brain Drain',
-      en: '🚨 Youth Exodus - Brain Drain'
+      sr: 'Tržište rada i migracije',
+      en: 'Labor market and migration'
     },
     description: {
-      sr: 'Šokantni podaci o emigraciji mladih - 75,900 ljudi napustilo zemlju 2024, nezaposlenost mladih 25%, plate 75% niže od EU',
-      en: 'Shocking emigration data - 75,900 people left in 2024, youth unemployment 25%, wages 75% lower than EU'
+      sr: 'Stopa zaposlenosti i nezaposlenosti, kretanje stanovništva i trendovi zarada.',
+      en: 'Employment and unemployment rates, population movement, and wage trends.'
     },
     searchQuery: ['zaposlenost', 'nezaposlenost', 'tržište rada'],
     preferredTags: ['zaposlenost', 'nezaposlenost', 'trziste-rada'],
     slugKeywords: ['zaposlenost', 'nezaposlenost', 'tržište rada'],
     chartType: 'line',
-    tags: ['zaposlenost', 'emigracija', 'brain-drain', 'kritično'],
+    tags: ['Zaposlenost', 'Migracije'],
     icon: '🚨'
   },
   energy: {
     id: 'energy',
     title: {
-      sr: '🚨 Energetska kriza - Zavisnost od uglja',
-      en: '🚨 Energy Crisis - Coal Dependency'
+      sr: 'Energetski miks i tranzicija',
+      en: 'Energy mix and transition'
     },
     description: {
-      sr: 'Alarmantno: 68.5% energije iz UGLJA, obnovljivi izvori samo 2%, termoelektrane stare 45+ godina, uvoz porastao za €465M',
-      en: 'Alarming: 68.5% energy from COAL, renewables only 2%, plants 45+ years old, imports up €465M'
+      sr: 'Izvori proizvodnje električne energije, uloga uglja i uvoz/izvoz, uz trendove obnovljivih izvora.',
+      en: 'Electricity generation sources, coal dependency, imports/exports, and renewable energy trends.'
     },
     searchQuery: ['energija', 'ugalj', 'struja'],
     preferredTags: ['energija', 'ugalj', 'struja'],
     slugKeywords: ['energija', 'ugalj', 'struja'],
     chartType: 'column',
-    tags: ['energija', 'ugalj', 'zagađenje', 'kritično'],
+    tags: ['Energija', 'Energetska tranzicija'],
     icon: '🚨'
   },
   agriculture: {
@@ -191,14 +191,14 @@ export const DEMO_CONFIGS: Record<string, DemoConfig> = {
       en: 'Agriculture'
     },
     description: {
-      sr: 'Poljoprivredni podaci - proizvodnja, usevi, stočarstvo',
-      en: 'Agricultural data - production, crops, livestock'
+      sr: 'Proizvodnja, usevi i stočarstvo sa pokazateljima prinosa i izvoza.',
+      en: 'Production, crops, and livestock with yield and export indicators.'
     },
     searchQuery: ['poljoprivreda', 'usevi'],
     preferredTags: ['poljoprivreda', 'poljoprivredna-proizvodnja'],
     slugKeywords: ['poljoprivreda', 'usevi'],
     chartType: 'bar',
-    tags: ['poljoprivreda', 'prehrambena-industrija', 'ruralni-razvoj'],
+    tags: ['Poljoprivreda', 'Ruralni razvoj'],
     icon: '🌾'
   },
   tourism: {
@@ -208,14 +208,14 @@ export const DEMO_CONFIGS: Record<string, DemoConfig> = {
       en: 'Tourism'
     },
     description: {
-      sr: 'Turističke statistike - dolasci, noćenja, turistička potrošnja',
-      en: 'Tourism statistics - arrivals, overnight stays, tourism spending'
+      sr: 'Dolasci i noćenja turista, prihodi i sezonski obrasci.',
+      en: 'Tourist arrivals, overnight stays, revenues, and seasonal patterns.'
     },
     searchQuery: ['turizam', 'noćenja', 'nocenja', 'dolasci'],
     preferredTags: ['turizam', 'turistički promet'],
     slugKeywords: ['turizam', 'nocenja', 'dolasci'],
     chartType: 'line',
-    tags: ['turizam', 'ugostiteljstvo', 'kultura'],
+    tags: ['Turizam', 'Ugostiteljstvo'],
     icon: '✈️'
   },
   culture: {
@@ -225,8 +225,8 @@ export const DEMO_CONFIGS: Record<string, DemoConfig> = {
       en: 'Culture and Arts'
     },
     description: {
-      sr: 'Podaci o kulturnim ustanovama, događajima i kulturnoj baštini',
-      en: 'Data on cultural institutions, events, and cultural heritage'
+      sr: 'Kulturne ustanove, događaji i baština sa naglaskom na dostupnost i posećenost.',
+      en: 'Cultural institutions, events, and heritage with a focus on access and attendance.'
     },
     searchQuery: ['kultura', 'kulturne institucije'],
     preferredTags: ['kultura'],
@@ -242,8 +242,8 @@ export const DEMO_CONFIGS: Record<string, DemoConfig> = {
       en: 'Infrastructure'
     },
     description: {
-      sr: 'Javna infrastruktura - putevi, vodovod, kanalizacija',
-      en: 'Public infrastructure - roads, water supply, sewerage'
+      sr: 'Putevi, vodovod, kanalizacija i drugi javni sistemi koji oblikuju kvalitet života.',
+      en: 'Roads, water supply, sewage, and other public systems that shape quality of life.'
     },
     searchQuery: 'infrastruktura',
     chartType: 'column',
@@ -253,12 +253,12 @@ export const DEMO_CONFIGS: Record<string, DemoConfig> = {
   economy: {
     id: 'economy',
     title: {
-      sr: 'Ekonomija i rast - Detaljno',
-      en: 'Economy and Growth - Detailed'
+      sr: 'Ekonomski pokazatelji',
+      en: 'Economic indicators'
     },
     description: {
-      sr: 'Ekonomska transformacija Srbije: BDP, inflacija, nezaposlenost, spoljna trgovina i strane investicije sa ključnim ekonomskim događajima',
-      en: 'Serbia\'s economic transformation: GDP, inflation, unemployment, foreign trade and investment with key economic events'
+      sr: 'BDP, inflacija, zaposlenost, spoljna trgovina i investicije kroz vreme.',
+      en: 'GDP, inflation, employment, foreign trade, and investment over time.'
     },
     searchQuery: 'ekonomija bdp',
     chartType: 'line',
@@ -268,27 +268,27 @@ export const DEMO_CONFIGS: Record<string, DemoConfig> = {
   climate: {
     id: 'climate',
     title: {
-      sr: 'Klimatske promene - Detaljno',
-      en: 'Climate Change - Detailed'
+      sr: 'Klimatske promene',
+      en: 'Climate change'
     },
     description: {
-      sr: 'Alarmantni podaci o klimatskim promenama: porast temperature, ekstremni vremenski događaji, zagađenje i prelazak na obnovljive izvore energije',
-      en: 'Alarming climate change data: temperature rise, extreme weather events, pollution and renewable energy transition'
+      sr: 'Porast temperature, ekstremni vremenski događaji, zagađenje i prelazak na obnovljive izvore energije.',
+      en: 'Temperature rise, extreme weather events, pollution, and the shift to renewable energy.'
     },
     searchQuery: 'klima temperatura zivotna sredina',
     chartType: 'line',
-    tags: ['klima', 'zivotna-sredina', 'temperatura', 'energija', 'kriticno'],
+    tags: ['Klima', 'Životna sredina', 'Energija'],
     icon: '🌍'
   },
   digital: {
     id: 'digital',
     title: {
-      sr: 'Digitalna transformacija - Detaljno',
-      en: 'Digital Transformation - Detailed'
+      sr: 'Digitalna transformacija',
+      en: 'Digital transformation'
     },
     description: {
-      sr: 'Priča uspeha: eksplozivan rast IT industrije, internet penetracije, e-trgovine, digitalnih veština i 5 tech unicorna',
-      en: 'Success story: explosive growth of IT industry, internet penetration, e-commerce, digital skills and 5 tech unicorns'
+      sr: 'IT sektor, pristup internetu, e-trgovina i digitalne veštine kao pokazatelji digitalnog napretka.',
+      en: 'IT sector growth, internet access, e-commerce, and digital skills as indicators of digital progress.'
     },
     searchQuery: 'digitalizacija internet tehnologija',
     chartType: 'line',
@@ -302,8 +302,8 @@ export const DEMO_CONFIGS: Record<string, DemoConfig> = {
       en: '🎬 Presentation Mode'
     },
     description: {
-      sr: 'Kurirana scena sa interaktivnim vizualizacijama, agendom, pričama iz podataka i CTA koracima',
-      en: 'Curated stage with interactive visuals, agenda, data stories, and CTA steps'
+      sr: 'Kurirana kolekcija interaktivnih vizualizacija sa agendom, pričama iz podataka i jasnim koracima.',
+      en: 'Curated set of interactive visualizations with an agenda, data stories, and clear next steps.'
     },
     searchQuery: 'vizualizacije prezentacija',
     chartType: 'line',

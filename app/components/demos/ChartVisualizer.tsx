@@ -17,6 +17,11 @@ export interface ChartVisualizerProps {
   description?: string;
 }
 
+const unsupportedChartTypes = new Set<ChartVisualizerProps['chartType']>(['area', 'map', 'scatterplot']);
+
+const isSupportedChartType = (type: ChartVisualizerProps['chartType']): type is ChartKind =>
+  Boolean(type && !unsupportedChartTypes.has(type));
+
 /**
  * Automatically detect the best columns to visualize
  */
@@ -59,10 +64,9 @@ export const ChartVisualizer = ({ data, chartType, title, description }: ChartVi
     const columns = detectVisualizationColumns(data);
     const preparedData = prepareDataForVisualization(data, 25);
     const profile = profileData(data);
-    const resolvedChartType: ChartKind =
-      chartType && chartType !== 'area' && chartType !== 'map' && chartType !== 'scatterplot'
-        ? chartType
-        : suggestChartType(profile);
+    const resolvedChartType: ChartKind = isSupportedChartType(chartType)
+      ? chartType
+      : suggestChartType(profile);
 
     return {
       columns,
@@ -70,6 +74,8 @@ export const ChartVisualizer = ({ data, chartType, title, description }: ChartVi
       resolvedChartType
     };
   }, [data, chartType]);
+
+  const placeholderType = chartType && unsupportedChartTypes.has(chartType) ? chartType : null;
 
   if (!data || data.length === 0) {
     return (
@@ -118,7 +124,7 @@ export const ChartVisualizer = ({ data, chartType, title, description }: ChartVi
       </Box>
 
       <Box sx={{ minHeight: 400 }}>
-        {resolvedChartType === 'line' && (
+        {!placeholderType && resolvedChartType === 'line' && (
           <LineChart
             data={preparedData}
             {...commonProps}
@@ -126,7 +132,7 @@ export const ChartVisualizer = ({ data, chartType, title, description }: ChartVi
           />
         )}
 
-        {resolvedChartType === 'bar' && (
+        {!placeholderType && resolvedChartType === 'bar' && (
           <BarChart
             data={preparedData}
             {...commonProps}
@@ -134,14 +140,14 @@ export const ChartVisualizer = ({ data, chartType, title, description }: ChartVi
           />
         )}
 
-        {resolvedChartType === 'column' && (
+        {!placeholderType && resolvedChartType === 'column' && (
           <ColumnChart
             data={preparedData}
             {...commonProps}
           />
         )}
 
-        {resolvedChartType === 'pie' && (
+        {!placeholderType && resolvedChartType === 'pie' && (
           <PieChart
             data={preparedData.slice(0, 10)} // Limit pie chart to 10 slices
             labelKey={columns.categoryColumn}
@@ -151,10 +157,10 @@ export const ChartVisualizer = ({ data, chartType, title, description }: ChartVi
           />
         )}
 
-        {(resolvedChartType === 'area' || resolvedChartType === 'map' || resolvedChartType === 'scatterplot') && (
+        {placeholderType && (
           <Box sx={{ p: 4, textAlign: 'center', backgroundColor: 'grey.50', borderRadius: 1 }}>
             <Typography variant="h6" color="text.secondary" gutterBottom>
-              📊 {resolvedChartType === 'map' ? 'Mapa' : resolvedChartType === 'area' ? 'Area grafik' : 'Scatterplot'}
+              📊 {placeholderType === 'map' ? 'Mapa' : placeholderType === 'area' ? 'Area grafik' : 'Scatterplot'}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Ovaj tip vizualizacije je u razvoju.
