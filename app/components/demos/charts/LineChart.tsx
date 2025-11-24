@@ -357,7 +357,6 @@ export const LineChart = memo(
 
             // Update tooltip state
             if (showTooltip && containerRef.current) {
-              const rect = containerRef.current.getBoundingClientRect();
               setTooltip({
                 x: xPosSnapped + margin.left + 15,
                 y: Math.min(
