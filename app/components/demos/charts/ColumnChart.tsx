@@ -57,6 +57,7 @@ function ColumnChartComponent({
   showZeroLine = false,
 }: ColumnChartProps) {
   const svgRef = useRef<SVGSVGElement>(null);
+  // Guarantee sufficient horizontal space for every category label
   const computedWidth = useMemo(() => {
     const dataLength = Array.isArray(data) ? data.length : 0;
     const minWidth =

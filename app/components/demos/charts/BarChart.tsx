@@ -3,15 +3,13 @@
  * Optimized for data.gov.rs demo visualizations
  */
 
-import { Box } from '@mui/material';
-import { max } from 'd3-array';
-import { axisBottom, axisLeft } from 'd3-axis';
-import { format } from 'd3-format';
-import { scaleBand, scaleLinear } from 'd3-scale';
-import * as d3 from 'd3-selection';
-import { useEffect, useRef } from 'react';
- 
- 
+import { Box } from "@mui/material";
+import { max } from "d3-array";
+import { axisBottom, axisLeft } from "d3-axis";
+import { format } from "d3-format";
+import { scaleBand, scaleLinear } from "d3-scale";
+import * as d3 from "d3-selection";
+import { useEffect, useMemo, useRef } from "react";
 
 export interface BarChartProps {
   data: Array<Record<string, any>>;
@@ -27,6 +25,11 @@ export interface BarChartProps {
   description?: string;
 }
 
+const axisColor = "#d1d5db";
+const tickColor = "#6b7280";
+const gridColor = "#e5e7eb";
+const MIN_CATEGORY_WIDTH = 56;
+
 export const BarChart = ({
   data,
   xKey,
@@ -34,36 +37,48 @@ export const BarChart = ({
   width = 800,
   height = 400,
   margin = { top: 20, right: 30, bottom: 60, left: 80 },
-  color = '#2196f3',
-  xLabel = '',
-  yLabel = ''
+  color = "#2196f3",
+  xLabel = "",
+  yLabel = "",
 }: BarChartProps) => {
   const svgRef = useRef<SVGSVGElement>(null);
+  // Expand chart width when there are many categories to keep labels legible
+  const computedWidth = useMemo(() => {
+    const dataLength = Array.isArray(data) ? data.length : 0;
+    const minWidth =
+      dataLength > 0
+        ? dataLength * MIN_CATEGORY_WIDTH + margin.left + margin.right
+        : 0;
+    return Math.max(width, minWidth || width);
+  }, [data, margin.left, margin.right, width]);
 
   useEffect(() => {
     if (!svgRef.current || !data || data.length === 0) return;
 
     // Clear previous chart
-    d3.select(svgRef.current).selectAll('*').remove();
+    d3.select(svgRef.current).selectAll("*").remove();
 
-    const svg = d3.select(svgRef.current);
-    const innerWidth = width - margin.left - margin.right;
+    const svg = d3
+      .select(svgRef.current)
+      .attr("width", computedWidth)
+      .attr("height", height);
+    const innerWidth = computedWidth - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
 
     // Create chart group
     const g = svg
-      .append('g')
-      .attr('transform', `translate(${margin.left},${margin.top})`);
+      .append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
 
     // Extract values
-    const xValues = data.map(d => String(d[xKey]));
-    const yValues = data.map(d => Number(d[yKey]) || 0);
+    const xValues = data.map((d) => String(d[xKey]));
+    const yValues = data.map((d) => Number(d[yKey]) || 0);
 
     // Create scales
     const xScale = scaleBand()
       .domain(xValues)
       .range([0, innerWidth])
-      .padding(0.2);
+      .padding(0.35);
 
     const yScale = scaleLinear()
       .domain([0, max(yValues) || 0])
@@ -71,94 +86,140 @@ export const BarChart = ({
       .nice();
 
     // Add X axis
-    g.append('g')
-      .attr('transform', `translate(0,${innerHeight})`)
-      .call(axisBottom(xScale))
-      .selectAll('text')
-      .attr('transform', 'rotate(-45)')
-      .style('text-anchor', 'end')
-      .style('font-size', '11px');
+    const xAxis = g
+      .append("g")
+      .attr("class", "x-axis")
+      .attr("transform", `translate(0,${innerHeight})`)
+      .call(axisBottom(xScale));
+
+    xAxis
+      .selectAll("text")
+      .attr("transform", "rotate(-45)")
+      .attr("dx", "-0.8em")
+      .attr("dy", "0.15em")
+      .style("text-anchor", "end")
+      .style("font-size", "11px")
+      .style("font-weight", "500")
+      .style("fill", tickColor);
+
+    xAxis.select(".domain").style("stroke", axisColor);
+    xAxis.selectAll("line").style("stroke", axisColor);
 
     // Add Y axis
-    g.append('g')
-      .call(axisLeft(yScale))
-      .style('font-size', '11px');
+    const yAxis = g
+      .append("g")
+      .attr("class", "y-axis")
+      .call(axisLeft(yScale).ticks(6));
+
+    yAxis
+      .selectAll("text")
+      .style("font-size", "11px")
+      .style("font-weight", "500")
+      .style("fill", tickColor);
+
+    yAxis.select(".domain").style("stroke", axisColor);
+    yAxis.selectAll("line").style("stroke", axisColor);
+
+    // Add grid
+    const gridGroup = g
+      .append("g")
+      .attr("class", "grid")
+      .call(
+        axisLeft(yScale)
+          .tickSize(-innerWidth)
+          .tickFormat(() => "")
+      )
+      .style("stroke", gridColor)
+      .style("stroke-opacity", 0.7);
+
+    gridGroup.selectAll("line").style("stroke-dasharray", "3,3");
+    gridGroup.select(".domain").remove();
 
     // Add bars with animation
-    g.selectAll('rect')
+    g.selectAll("rect")
       .data(data)
       .enter()
-      .append('rect')
-      .attr('x', (d) => xScale(String(d[xKey])) || 0)
-      .attr('y', innerHeight)
-      .attr('width', xScale.bandwidth())
-      .attr('height', 0)
-      .attr('fill', color)
-      .attr('opacity', 0.8)
-      .on('mouseover', function() {
-        d3.select(this).attr('opacity', 1);
+      .append("rect")
+      .attr("x", (d) => xScale(String(d[xKey])) || 0)
+      .attr("y", innerHeight)
+      .attr("width", xScale.bandwidth())
+      .attr("height", 0)
+      .attr("fill", color)
+      .attr("opacity", 0.85)
+      .attr("rx", 6)
+      .attr("ry", 6)
+      .on("mouseover", function () {
+        d3.select(this).attr("opacity", 1);
       })
-      .on('mouseout', function() {
-        d3.select(this).attr('opacity', 0.8);
+      .on("mouseout", function () {
+        d3.select(this).attr("opacity", 0.8);
       })
       .transition()
       .duration(800)
-      .attr('y', (d) => yScale(Number(d[yKey]) || 0))
-      .attr('height', (d) => innerHeight - yScale(Number(d[yKey]) || 0));
+      .attr("y", (d) => yScale(Number(d[yKey]) || 0))
+      .attr("height", (d) => innerHeight - yScale(Number(d[yKey]) || 0));
 
     // Add X axis label
     if (xLabel) {
-      g.append('text')
-        .attr('x', innerWidth / 2)
-        .attr('y', innerHeight + margin.bottom - 5)
-        .attr('text-anchor', 'middle')
-        .style('font-size', '12px')
-        .style('font-weight', '600')
+      g.append("text")
+        .attr("x", innerWidth / 2)
+        .attr("y", innerHeight + margin.bottom - 5)
+        .attr("text-anchor", "middle")
+        .style("font-size", "12px")
+        .style("font-weight", "600")
         .text(xLabel);
     }
 
     // Add Y axis label
     if (yLabel) {
-      g.append('text')
-        .attr('transform', 'rotate(-90)')
-        .attr('x', -innerHeight / 2)
-        .attr('y', -margin.left + 15)
-        .attr('text-anchor', 'middle')
-        .style('font-size', '12px')
-        .style('font-weight', '600')
+      g.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("x", -innerHeight / 2)
+        .attr("y", -margin.left + 15)
+        .attr("text-anchor", "middle")
+        .style("font-size", "12px")
+        .style("font-weight", "600")
         .text(yLabel);
     }
 
     // Add value labels on bars
-    g.selectAll('.bar-label')
+    g.selectAll(".bar-label")
       .data(data)
       .enter()
-      .append('text')
-      .attr('class', 'bar-label')
-      .attr('x', (d) => (xScale(String(d[xKey])) || 0) + xScale.bandwidth() / 2)
-      .attr('y', (d) => yScale(Number(d[yKey]) || 0) - 5)
-      .attr('text-anchor', 'middle')
-      .style('font-size', '10px')
-      .style('fill', '#666')
+      .append("text")
+      .attr("class", "bar-label")
+      .attr("x", (d) => (xScale(String(d[xKey])) || 0) + xScale.bandwidth() / 2)
+      .attr("y", (d) => yScale(Number(d[yKey]) || 0) - 5)
+      .attr("text-anchor", "middle")
+      .style("font-size", "10px")
+      .style("fill", "#666")
       .text((d) => {
         const value = Number(d[yKey]);
-        return value > 0 ? format('.2s')(value) : '';
+        return value > 0 ? format(".2s")(value) : "";
       })
-      .style('opacity', 0)
+      .style("opacity", 0)
       .transition()
       .delay(800)
       .duration(400)
-      .style('opacity', 1);
-
-  }, [data, xKey, yKey, width, height, margin, color, xLabel, yLabel]);
+      .style("opacity", 1);
+  }, [color, computedWidth, data, height, margin, xKey, xLabel, yKey, yLabel]);
 
   return (
-    <Box sx={{ width: '100%', overflow: 'auto' }}>
+    <Box
+      sx={{
+        width: "100%",
+        overflowX: "auto",
+        backgroundColor: "background.paper",
+        borderRadius: 2,
+        boxShadow: 1,
+        p: 2,
+      }}
+    >
       <svg
         ref={svgRef}
-        width={width}
+        width={computedWidth}
         height={height}
-        style={{ maxWidth: '100%', height: 'auto' }}
+        style={{ maxWidth: "100%", height: "auto" }}
       />
     </Box>
   );
