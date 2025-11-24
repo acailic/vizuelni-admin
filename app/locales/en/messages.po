@@ -926,6 +926,17 @@ msgstr "create one"
 msgid "browse.dataset.create-visualization-visualize"
 msgstr "Create a visualization"
 
+#: app/browse/ui/select-dataset-step.tsx
+msgid "browse.dataset.find"
+msgstr "Find datasets from data.gov.rs"
+
+#: app/browse/ui/select-dataset-step.tsx
+msgid "browse.dataset.find.details"
+msgstr ""
+"This static view uses the data.gov.rs API directly because GitHub Pages "
+"doesn't host /api/graphql. Search supports keywords, and choosing a dataset "
+"takes you straight to the portal."
+
 #: app/pages/v/[chartId].jsx
 #: app/pages/v/[chartId].tsx
 msgid "hint.create.your.own.chart"

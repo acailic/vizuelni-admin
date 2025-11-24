@@ -188,20 +188,46 @@ export default function DemoShowcasePage() {
     >
       <Card
         sx={{
-          mb: 4,
-          p: { xs: 3, md: 4 },
+          mb: 6,
+          p: { xs: 3, md: 6 },
           borderRadius: 4,
           background:
-            "linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #22d3ee 100%)",
+            "linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0ea5e9 100%)",
           color: "white",
-          boxShadow: "0 24px 60px rgba(15, 23, 42, 0.4)",
+          boxShadow: "0 24px 48px -12px rgba(15, 23, 42, 0.6)",
+          position: "relative",
+          overflow: "hidden",
         }}
       >
-        <Grid container spacing={3} alignItems="center">
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background:
+              "radial-gradient(circle at top right, rgba(255,255,255,0.1) 0%, transparent 60%)",
+            pointerEvents: "none",
+          }}
+        />
+        <Grid
+          container
+          spacing={4}
+          alignItems="center"
+          sx={{ position: "relative", zIndex: 1 }}
+        >
           <Grid item xs={12} md={7}>
             <Typography
-              variant="h4"
-              sx={{ fontWeight: 800, mb: 2, lineHeight: 1.2 }}
+              variant="h3"
+              component="h1"
+              sx={{
+                fontWeight: 800,
+                mb: 3,
+                lineHeight: 1.1,
+                letterSpacing: "-0.02em",
+                textShadow: "0 2px 4px rgba(0,0,0,0.1)",
+              }}
             >
               {text.hero}
             </Typography>
@@ -209,23 +235,54 @@ export default function DemoShowcasePage() {
               direction="row"
               spacing={1.5}
               flexWrap="wrap"
-              sx={{ mb: 3, gap: 1.5 }}
+              sx={{ mb: 4, gap: 1.5 }}
             >
-              <Chip label={text.chips.economy} color="primary" />
+              <Chip
+                label={text.chips.economy}
+                sx={{
+                  bgcolor: "white",
+                  color: "#0f172a",
+                  fontWeight: 600,
+                  "&:hover": { bgcolor: "rgba(255,255,255,0.9)" },
+                }}
+              />
               <Chip
                 label={text.chips.mobility}
-                sx={{ background: "rgba(255,255,255,0.15)", color: "white" }}
+                sx={{
+                  background: "rgba(255,255,255,0.15)",
+                  color: "white",
+                  backdropFilter: "blur(4px)",
+                  border: "1px solid rgba(255,255,255,0.2)",
+                }}
               />
               <Chip
                 label={text.chips.energy}
-                sx={{ background: "rgba(255,255,255,0.15)", color: "white" }}
+                sx={{
+                  background: "rgba(255,255,255,0.15)",
+                  color: "white",
+                  backdropFilter: "blur(4px)",
+                  border: "1px solid rgba(255,255,255,0.2)",
+                }}
               />
               <Chip
                 label={text.chips.digital}
-                sx={{ background: "rgba(255,255,255,0.15)", color: "white" }}
+                sx={{
+                  background: "rgba(255,255,255,0.15)",
+                  color: "white",
+                  backdropFilter: "blur(4px)",
+                  border: "1px solid rgba(255,255,255,0.2)",
+                }}
               />
             </Stack>
-            <Typography variant="body1" sx={{ opacity: 0.92, maxWidth: 640 }}>
+            <Typography
+              variant="h6"
+              sx={{
+                opacity: 0.9,
+                maxWidth: 640,
+                fontWeight: 400,
+                lineHeight: 1.6,
+              }}
+            >
               {i18n._(
                 defineMessage({
                   id: "demos.showcase.hero.body",
@@ -243,14 +300,20 @@ export default function DemoShowcasePage() {
                     elevation={0}
                     sx={{
                       height: "100%",
-                      p: 2,
-                      background: "rgba(255,255,255,0.12)",
+                      p: 2.5,
+                      background: "rgba(255,255,255,0.1)",
                       color: "white",
-                      border: "1px solid rgba(255,255,255,0.15)",
-                      backdropFilter: "blur(6px)",
+                      border: "1px solid rgba(255,255,255,0.2)",
+                      backdropFilter: "blur(12px)",
+                      borderRadius: 3,
+                      transition: "transform 0.2s",
+                      "&:hover": {
+                        transform: "translateY(-2px)",
+                        background: "rgba(255,255,255,0.15)",
+                      },
                     }}
                   >
-                    <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                    <Typography variant="h6" sx={{ fontWeight: 700, mb: 0.5 }}>
                       {item.label}
                     </Typography>
                     <Typography variant="body2" sx={{ opacity: 0.8 }}>
@@ -264,20 +327,29 @@ export default function DemoShowcasePage() {
         </Grid>
       </Card>
 
-      <Grid container spacing={3}>
+      <Grid container spacing={4}>
         <Grid item xs={12} md={6}>
           <Card
             sx={{
               height: "100%",
-              borderRadius: 3,
-              boxShadow: "0 14px 40px rgba(0,0,0,0.08)",
+              borderRadius: 4,
+              boxShadow:
+                "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+              transition: "all 0.3s ease",
+              border: "1px solid",
+              borderColor: "divider",
+              "&:hover": {
+                transform: "translateY(-4px)",
+                boxShadow:
+                  "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+              },
             }}
           >
-            <CardContent>
-              <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
+            <CardContent sx={{ p: 4 }}>
+              <Typography variant="h5" sx={{ fontWeight: 700, mb: 1 }}>
                 {text.economyTitle}
               </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
                 {text.economyDesc}
               </Typography>
               <Box sx={{ overflowX: "auto", pb: 1 }}>
@@ -309,15 +381,24 @@ export default function DemoShowcasePage() {
           <Card
             sx={{
               height: "100%",
-              borderRadius: 3,
-              boxShadow: "0 14px 40px rgba(0,0,0,0.08)",
+              borderRadius: 4,
+              boxShadow:
+                "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+              transition: "all 0.3s ease",
+              border: "1px solid",
+              borderColor: "divider",
+              "&:hover": {
+                transform: "translateY(-4px)",
+                boxShadow:
+                  "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+              },
             }}
           >
-            <CardContent>
-              <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
+            <CardContent sx={{ p: 4 }}>
+              <Typography variant="h5" sx={{ fontWeight: 700, mb: 1 }}>
                 {text.transportTitle}
               </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
                 {text.transportDesc}
               </Typography>
               <Box sx={{ overflowX: "auto", pb: 1 }}>
@@ -350,15 +431,24 @@ export default function DemoShowcasePage() {
           <Card
             sx={{
               height: "100%",
-              borderRadius: 3,
-              boxShadow: "0 14px 40px rgba(0,0,0,0.08)",
+              borderRadius: 4,
+              boxShadow:
+                "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+              transition: "all 0.3s ease",
+              border: "1px solid",
+              borderColor: "divider",
+              "&:hover": {
+                transform: "translateY(-4px)",
+                boxShadow:
+                  "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+              },
             }}
           >
-            <CardContent>
-              <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
+            <CardContent sx={{ p: 4 }}>
+              <Typography variant="h5" sx={{ fontWeight: 700, mb: 1 }}>
                 {text.energyTitle}
               </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
                 {text.energyDesc}
               </Typography>
               <Box sx={{ overflowX: "auto", pb: 1 }}>
@@ -378,15 +468,24 @@ export default function DemoShowcasePage() {
           <Card
             sx={{
               height: "100%",
-              borderRadius: 3,
-              boxShadow: "0 14px 40px rgba(0,0,0,0.08)",
+              borderRadius: 4,
+              boxShadow:
+                "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+              transition: "all 0.3s ease",
+              border: "1px solid",
+              borderColor: "divider",
+              "&:hover": {
+                transform: "translateY(-4px)",
+                boxShadow:
+                  "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+              },
             }}
           >
-            <CardContent>
-              <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
+            <CardContent sx={{ p: 4 }}>
+              <Typography variant="h5" sx={{ fontWeight: 700, mb: 1 }}>
                 {text.digitalTitle}
               </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
                 {text.digitalDesc}
               </Typography>
               <Box sx={{ overflowX: "auto", pb: 1 }}>
@@ -418,23 +517,24 @@ export default function DemoShowcasePage() {
 
       <Card
         sx={{
-          mt: 4,
-          p: { xs: 3, md: 4 },
-          borderRadius: 3,
+          mt: 6,
+          p: { xs: 3, md: 5 },
+          borderRadius: 4,
           border: "1px solid",
           borderColor: "divider",
           background:
-            "linear-gradient(105deg, rgba(14,165,233,0.1), rgba(34,197,94,0.08))",
+            "linear-gradient(105deg, rgba(14,165,233,0.05), rgba(34,197,94,0.05))",
+          boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.05)",
         }}
       >
         <Stack
           direction={{ xs: "column", sm: "row" }}
           alignItems="center"
-          spacing={2}
+          spacing={3}
           justifyContent="space-between"
         >
           <Box>
-            <Typography variant="h6" sx={{ fontWeight: 700 }}>
+            <Typography variant="h5" sx={{ fontWeight: 700, mb: 1 }}>
               {i18n._(
                 defineMessage({
                   id: "demos.showcase.cta.title",
@@ -442,7 +542,7 @@ export default function DemoShowcasePage() {
                 })
               )}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body1" color="text.secondary">
               {i18n._(
                 defineMessage({
                   id: "demos.showcase.cta.body",
@@ -455,13 +555,20 @@ export default function DemoShowcasePage() {
           <Box
             component="a"
             href="/vizualni-admin/demos"
-            style={{
+            sx={{
               textDecoration: "none",
-              padding: "10px 16px",
+              padding: "12px 24px",
               borderRadius: "12px",
-              border: "1px solid #0ea5e9",
-              color: "#0e7490",
+              background: "#0ea5e9",
+              color: "white",
               fontWeight: 600,
+              boxShadow: "0 4px 6px -1px rgba(14, 165, 233, 0.3)",
+              transition: "all 0.2s",
+              "&:hover": {
+                background: "#0284c7",
+                transform: "translateY(-1px)",
+                boxShadow: "0 6px 8px -1px rgba(14, 165, 233, 0.4)",
+              },
             }}
           >
             {text.cta}
