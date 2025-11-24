@@ -1,12 +1,12 @@
-import { defineMessage } from '@lingui/macro';
-import { Trans, useLingui } from '@lingui/react';
-import { Box, Button, Container, Typography } from '@mui/material';
-import Link from 'next/link';
-import { ReactNode } from 'react';
+import { defineMessage } from "@lingui/macro";
+import { Trans, useLingui } from "@lingui/react";
+import { Box, Button, Container, Typography } from "@mui/material";
+import Link from "next/link";
+import { ReactNode } from "react";
 
-import { Flex } from '@/components/flex';
-import { Header } from '@/components/header';
-import type { DemoDatasetInfo } from '@/types/demos';
+import { Flex } from "@/components/flex";
+import { Header } from "@/components/header";
+import type { DemoDatasetInfo } from "@/types/demos";
 
 interface DemoLayoutProps {
   children: ReactNode;
@@ -21,54 +21,67 @@ export function DemoLayout({
   title,
   description,
   datasetInfo,
-  hideBackButton = false
+  hideBackButton = false,
 }: DemoLayoutProps) {
   const { i18n } = useLingui();
-  const locale = i18n.locale?.startsWith('sr') ? 'sr' : 'en';
-  const dateLocale = locale === 'sr' ? 'sr-RS' : 'en-US';
+  const locale = i18n.locale?.startsWith("sr") ? "sr" : "en";
+  const dateLocale = locale === "sr" ? "sr-RS" : "en-US";
 
   const formattedUpdatedAt = datasetInfo?.updatedAt
     ? new Date(datasetInfo.updatedAt).toLocaleDateString(dateLocale, {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
+        year: "numeric",
+        month: "long",
+        day: "numeric",
       })
     : undefined;
 
   return (
-    <Flex sx={{ minHeight: '100vh', flexDirection: 'column' }}>
+    <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
       <Header />
 
       <Box
         component="main"
         sx={{
           flex: 1,
-          backgroundColor: 'monochrome.100',
-          py: 4
+          backgroundColor: "monochrome.100",
+          py: 4,
         }}
       >
         <Container maxWidth="xl">
           {!hideBackButton && (
-            <Box sx={{ mb: 3 }}>
+            <Box sx={{ mb: 4 }}>
               <Link href="/demos" passHref legacyBehavior>
                 <Button
                   component="a"
-                  sx={{ textTransform: 'none' }}
+                  startIcon={<span>←</span>}
+                  sx={{
+                    textTransform: "none",
+                    fontWeight: 600,
+                    color: "text.secondary",
+                    "&:hover": {
+                      color: "primary.main",
+                      backgroundColor: "transparent",
+                      transform: "translateX(-4px)",
+                    },
+                    transition: "all 0.2s",
+                    pl: 0,
+                  }}
                 >
-                  <Trans id="demos.layout.back">← Back to demo gallery</Trans>
+                  <Trans id="demos.layout.back">Back to demo gallery</Trans>
                 </Button>
               </Link>
             </Box>
           )}
 
-          <Box sx={{ mb: 4 }}>
+          <Box sx={{ mb: 6 }}>
             <Typography
               variant="h3"
               component="h1"
               sx={{
-                fontWeight: 600,
+                fontWeight: 800,
                 mb: 2,
-                color: 'grey.900'
+                color: "grey.900",
+                letterSpacing: "-0.02em",
               }}
             >
               {title}
@@ -79,9 +92,11 @@ export function DemoLayout({
                 variant="h6"
                 component="p"
                 sx={{
-                  color: 'grey.700',
+                  color: "text.secondary",
                   fontWeight: 400,
-                  mb: 2
+                  mb: 3,
+                  maxWidth: "800px",
+                  lineHeight: 1.6,
                 }}
               >
                 {description}
@@ -91,59 +106,125 @@ export function DemoLayout({
             {datasetInfo && (
               <Box
                 sx={{
-                  display: 'flex',
+                  display: "flex",
                   gap: 3,
-                  mt: 2,
-                  flexWrap: 'wrap'
+                  mt: 3,
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  p: 2,
+                  backgroundColor: "background.paper",
+                  borderRadius: 2,
+                  border: "1px solid",
+                  borderColor: "divider",
+                  width: "fit-content",
                 }}
               >
                 {datasetInfo.organization && (
-                  <Typography variant="body2" color="text.secondary">
-                    <strong>{i18n._(defineMessage({ id: 'demos.layout.organization', message: 'Organization' }))}:</strong> {datasetInfo.organization}
-                  </Typography>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      fontWeight={600}
+                    >
+                      {i18n._(
+                        defineMessage({
+                          id: "demos.layout.organization",
+                          message: "Organization",
+                        })
+                      )}
+                      :
+                    </Typography>
+                    <Typography variant="body2" color="text.primary">
+                      {datasetInfo.organization}
+                    </Typography>
+                  </Box>
                 )}
+
+                {datasetInfo.organization && formattedUpdatedAt && (
+                  <Box
+                    sx={{ width: 1, height: 16, backgroundColor: "divider" }}
+                  />
+                )}
+
                 {formattedUpdatedAt && (
-                  <Typography variant="body2" color="text.secondary">
-                    <strong>{i18n._(defineMessage({ id: 'demos.layout.updated', message: 'Updated' }))}:</strong> {formattedUpdatedAt}
-                  </Typography>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      fontWeight={600}
+                    >
+                      {i18n._(
+                        defineMessage({
+                          id: "demos.layout.updated",
+                          message: "Updated",
+                        })
+                      )}
+                      :
+                    </Typography>
+                    <Typography variant="body2" color="text.primary">
+                      {formattedUpdatedAt}
+                    </Typography>
+                  </Box>
                 )}
+
                 {datasetInfo.datasetUrl && (
-                  <Typography variant="body2" color="text.secondary">
+                  <>
+                    <Box
+                      sx={{ width: 1, height: 16, backgroundColor: "divider" }}
+                    />
                     <Link href={datasetInfo.datasetUrl} passHref legacyBehavior>
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
-                        style={{ color: 'inherit', textDecoration: 'underline' }}
+                        style={{
+                          color: "#0ea5e9",
+                          textDecoration: "none",
+                          fontWeight: 600,
+                          fontSize: "0.875rem",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "4px",
+                        }}
                       >
-                        {i18n._(defineMessage({ id: 'demos.layout.view-dataset', message: 'View on data.gov.rs' }))}
+                        {i18n._(
+                          defineMessage({
+                            id: "demos.layout.view-dataset",
+                            message: "View on data.gov.rs",
+                          })
+                        )}{" "}
+                        ↗
                       </a>
                     </Link>
-                  </Typography>
+                  </>
                 )}
               </Box>
             )}
           </Box>
 
-          <Box sx={{ minHeight: 400 }}>
-            {children}
-          </Box>
+          <Box sx={{ minHeight: 400 }}>{children}</Box>
 
           <Box
             sx={{
               mt: 6,
               pt: 4,
               borderTop: 1,
-              borderColor: 'divider',
-              textAlign: 'center'
+              borderColor: "divider",
+              textAlign: "center",
             }}
           >
             <Typography variant="body2" color="text.secondary">
-              {i18n._(defineMessage({ id: 'demos.layout.source', message: 'Data source' }))}:{' '}
+              {i18n._(
+                defineMessage({
+                  id: "demos.layout.source",
+                  message: "Data source",
+                })
+              )}
+              :{" "}
               <Link href="https://data.gov.rs" passHref legacyBehavior>
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ color: 'inherit', textDecoration: 'underline' }}
+                  style={{ color: "inherit", textDecoration: "underline" }}
                 >
                   data.gov.rs
                 </a>
@@ -162,35 +243,35 @@ export function DemoLoading({ message }: { message?: string }) {
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        py: 8
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        py: 8,
       }}
     >
       <Box
         sx={{
           width: 40,
           height: 40,
-          border: '4px solid',
-          borderColor: 'primary.light',
-          borderTopColor: 'primary.main',
-          borderRadius: '50%',
-          animation: 'spin 1s linear infinite',
+          border: "4px solid",
+          borderColor: "primary.light",
+          borderTopColor: "primary.main",
+          borderRadius: "50%",
+          animation: "spin 1s linear infinite",
           mb: 2,
-          '@keyframes spin': {
-            '0%': { transform: 'rotate(0deg)' },
-            '100%': { transform: 'rotate(360deg)' }
-          }
+          "@keyframes spin": {
+            "0%": { transform: "rotate(0deg)" },
+            "100%": { transform: "rotate(360deg)" },
+          },
         }}
       />
       <Typography variant="body1" color="text.secondary">
         {message ||
           i18n._(
             defineMessage({
-              id: 'demos.layout.loading',
-              message: 'Loading data from data.gov.rs...'
+              id: "demos.layout.loading",
+              message: "Loading data from data.gov.rs...",
             })
           )}
       </Typography>
@@ -200,23 +281,23 @@ export function DemoLoading({ message }: { message?: string }) {
 
 export function DemoError({
   error,
-  onRetry
+  onRetry,
 }: {
   error: Error | string;
   onRetry?: () => void;
 }) {
   const { i18n } = useLingui();
-  const errorMessage = typeof error === 'string' ? error : error.message;
+  const errorMessage = typeof error === "string" ? error : error.message;
 
   return (
     <Box
       sx={{
-        backgroundColor: 'error.lighter',
+        backgroundColor: "error.lighter",
         border: 1,
-        borderColor: 'error.light',
+        borderColor: "error.light",
         borderRadius: 2,
         p: 4,
-        textAlign: 'center'
+        textAlign: "center",
       }}
     >
       <Typography variant="h6" color="error.main" sx={{ mb: 2 }}>
@@ -227,7 +308,8 @@ export function DemoError({
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
         <Trans id="demos.layout.error-suggestions">
-          Suggestions: try again, check internet connection, or open a different dataset from data.gov.rs.
+          Suggestions: try again, check internet connection, or open a different
+          dataset from data.gov.rs.
         </Trans>
       </Typography>
       {onRetry && (
@@ -235,9 +317,11 @@ export function DemoError({
           variant="contained"
           color="primary"
           onClick={onRetry}
-          sx={{ textTransform: 'none' }}
+          sx={{ textTransform: "none" }}
         >
-          {i18n._(defineMessage({ id: 'demos.layout.retry', message: 'Try again' }))}
+          {i18n._(
+            defineMessage({ id: "demos.layout.retry", message: "Try again" })
+          )}
         </Button>
       )}
     </Box>
@@ -250,16 +334,16 @@ export function DemoEmpty({ message }: { message?: string }) {
   return (
     <Box
       sx={{
-        textAlign: 'center',
-        py: 8
+        textAlign: "center",
+        py: 8,
       }}
     >
       <Typography variant="h6" color="text.secondary">
         {message ||
           i18n._(
             defineMessage({
-              id: 'demos.layout.empty',
-              message: 'No data available'
+              id: "demos.layout.empty",
+              message: "No data available",
             })
           )}
       </Typography>
