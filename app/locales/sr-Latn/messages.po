@@ -212,7 +212,7 @@ msgstr ""
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.hero"
-msgstr ""
+msgstr "Svež paket ključnih pokazatelja ekonomije, mobilnosti, energetike i digitalizacije."
 
 #: app/pages/demos/index.tsx
 msgid "demos.index.showcase.description"
@@ -220,11 +220,11 @@ msgstr ""
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.description"
-msgstr ""
+msgstr "Brzi pregled više tipova grafikona sa reprezentativnim skupovima podataka."
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.hero.body"
-msgstr ""
+msgstr "Koherentan set grafikona koji naglašava zamah, padove, miks izvora i jaz u veštinama."
 
 #: app/components/footer.jsx
 #: app/components/footer.tsx
@@ -610,7 +610,7 @@ msgstr ""
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.cta"
-msgstr ""
+msgstr "Pregledaj sve demoe"
 
 #: app/charts/map/wms-wmts-provider-info.jsx
 #: app/charts/map/wms-wmts-provider-info.tsx
@@ -1088,7 +1088,7 @@ msgstr ""
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.title"
-msgstr ""
+msgstr "Galerija demo vizualizacija"
 
 #: app/pages/demos/index.tsx
 msgid "demos.index.title"
@@ -1274,11 +1274,11 @@ msgstr ""
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.chip.energy"
-msgstr ""
+msgstr "Energetika"
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.energy.title"
-msgstr ""
+msgstr "Struktura energetskog miksa"
 
 #: app/components/rename-dialog.jsx
 #: app/components/rename-dialog.tsx
@@ -1444,7 +1444,7 @@ msgstr ""
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.economy.ylabel"
-msgstr ""
+msgstr "Rast (%)"
 
 #: app/pages/demos/demographics.jsx
 #: app/pages/demos/demographics.tsx
@@ -1780,7 +1780,7 @@ msgstr ""
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.transport.ylabel"
-msgstr ""
+msgstr "Milioni putovanja"
 
 #: app/configurator/components/chart-options-selector/scale-domain.jsx
 #: app/configurator/components/chart-options-selector/scale-domain.tsx
@@ -2203,7 +2203,7 @@ msgstr ""
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.transport.title"
-msgstr ""
+msgstr "Momentum javnog prevoza"
 
 #: app/configurator/components/configurator.jsx
 #: app/configurator/components/configurator.tsx
@@ -2222,11 +2222,11 @@ msgstr ""
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.economy.xlabel"
-msgstr ""
+msgstr "Region"
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.economy.title"
-msgstr ""
+msgstr "Regionalni rast BDP-a"
 
 #: app/pages/demos/demographics.jsx
 #: app/pages/demos/demographics.tsx
@@ -2329,7 +2329,7 @@ msgstr ""
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.dataset.organization"
-msgstr ""
+msgstr "Primer skupa podataka"
 
 #: app/login/components/color-palettes/profile-color-palette-content.jsx
 #: app/login/components/color-palettes/profile-color-palette-content.tsx
@@ -2574,7 +2574,7 @@ msgstr ""
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.energy.description"
-msgstr ""
+msgstr "Udeo izvora u proizvodnji električne energije."
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.digital.description"
@@ -2734,7 +2734,7 @@ msgstr ""
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.dataset.title"
-msgstr ""
+msgstr "Indikatori za prikaz"
 
 #: app/browse/ui/first-ten-rows-caption.jsx
 #: app/browse/ui/first-ten-rows-caption.tsx
@@ -3115,7 +3115,7 @@ msgstr ""
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.transport.description"
-msgstr ""
+msgstr "Milioni putovanja – pad 2020, zatim postepeni oporavak."
 
 #: app/components/app-error-boundary.jsx
 #: app/components/app-error-boundary.tsx
@@ -3255,7 +3255,7 @@ msgstr ""
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.cta.body"
-msgstr ""
+msgstr "Posetite kompletnu galeriju za više kategorija i aktuelne podatke."
 
 #: app/configurator/components/chart-controls/color-palette.jsx
 #: app/configurator/components/chart-controls/color-palette.tsx
@@ -3271,7 +3271,7 @@ msgstr ""
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.cta.title"
-msgstr ""
+msgstr "Želite još?"
 
 #: app/configurator/components/ui-helpers.js
 #: app/configurator/components/ui-helpers.ts
@@ -3304,7 +3304,7 @@ msgstr ""
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.transport.xlabel"
-msgstr ""
+msgstr "Godina"
 
 #: app/configurator/components/ui-helpers.js
 #: app/configurator/components/ui-helpers.ts
@@ -3313,7 +3313,7 @@ msgstr ""
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.economy.description"
-msgstr ""
+msgstr "Godišnji rast BDP-a po regionima."
 
 #: app/pages/demos/demographics.jsx
 #: app/pages/demos/demographics.tsx

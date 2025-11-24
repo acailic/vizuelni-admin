@@ -1,17 +1,18 @@
 /**
- * Simple Line Chart component using D3
+ * Professional Line Chart component using D3
+ * Features: Interactive tooltips, multi-series, area gradients, crosshair
  * Optimized for data.gov.rs demo visualizations
  */
 
-import { Box } from "@mui/material";
-import { max, min } from "d3-array";
+import { Box, Paper, Typography } from "@mui/material";
+import { bisector, max, min } from "d3-array";
 import { axisBottom, axisLeft } from "d3-axis";
-import { easeLinear } from "d3-ease";
+import { easeCubicOut } from "d3-ease";
 import { scaleLinear, scalePoint } from "d3-scale";
-import { select } from "d3-selection";
+import { pointer, select } from "d3-selection";
 import "d3-transition";
-import { curveMonotoneX, line } from "d3-shape";
-import { memo, useEffect, useRef } from "react";
+import { area, curveMonotoneX, line } from "d3-shape";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 
 export interface LineChartProps {
   data: Array<Record<string, any>>;
@@ -28,7 +29,30 @@ export interface LineChartProps {
   description?: string;
   multiSeries?: boolean;
   showZeroLine?: boolean;
+  showArea?: boolean;
+  showTooltip?: boolean;
+  showCrosshair?: boolean;
+  animationDuration?: number;
 }
+
+interface TooltipData {
+  x: number;
+  y: number;
+  xValue: string;
+  values: Array<{ key: string; value: number; color: string }>;
+}
+
+// Professional color palette
+const professionalColors = [
+  "#6366f1", // Indigo
+  "#10b981", // Emerald
+  "#f59e0b", // Amber
+  "#ef4444", // Red
+  "#8b5cf6", // Violet
+  "#06b6d4", // Cyan
+  "#ec4899", // Pink
+  "#84cc16", // Lime
+];
 
 export const LineChart = memo(
   ({
@@ -38,14 +62,31 @@ export const LineChart = memo(
     width = 800,
     height = 400,
     margin = { top: 20, right: 30, bottom: 60, left: 80 },
-    color = "#4caf50",
-    colors = ["#4caf50", "#2196f3", "#ff9800", "#f44336", "#9c27b0", "#00bcd4"],
+    color = "#6366f1",
+    colors = professionalColors,
     xLabel = "",
     yLabel = "",
     multiSeries = false,
     showZeroLine = false,
+    showArea = true,
+    showTooltip = true,
+    showCrosshair = true,
+    animationDuration = 1200,
   }: LineChartProps) => {
     const svgRef = useRef<SVGSVGElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [tooltip, setTooltip] = useState<TooltipData | null>(null);
+
+    const innerWidth = width - margin.left - margin.right;
+    const innerHeight = height - margin.top - margin.bottom;
+
+    // Determine series keys
+    const seriesKeys = useCallback(() => {
+      if (multiSeries) {
+        return Object.keys(data[0] || {}).filter((key) => key !== xKey);
+      }
+      return Array.isArray(yKey) ? yKey : [yKey];
+    }, [data, xKey, yKey, multiSeries])();
 
     useEffect(() => {
       if (!svgRef.current || !data || data.length === 0) return;
@@ -54,22 +95,14 @@ export const LineChart = memo(
       select(svgRef.current).selectAll("*").remove();
 
       const svg = select(svgRef.current);
-      const innerWidth = width - margin.left - margin.right;
-      const innerHeight = height - margin.top - margin.bottom;
+
+      // Create defs for gradients
+      const defs = svg.append("defs");
 
       // Create chart group
       const g = svg
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
-
-      // Determine series keys
-      let seriesKeys: string[];
-      if (multiSeries) {
-        // Auto-detect series keys (all keys except xKey)
-        seriesKeys = Object.keys(data[0] || {}).filter((key) => key !== xKey);
-      } else {
-        seriesKeys = [typeof yKey === "string" ? yKey : yKey[0]];
-      }
 
       // Extract values for scaling
       const xValues = data.map((d) => String(d[xKey]));
@@ -85,24 +118,13 @@ export const LineChart = memo(
 
       const yMin = min(allYValues) || 0;
       const yMax = max(allYValues) || 0;
+      const yPadding = (yMax - Math.min(0, yMin)) * 0.1;
       const yScale = scaleLinear()
-        .domain([Math.min(0, yMin), yMax])
+        .domain([Math.min(0, yMin), yMax + yPadding])
         .range([innerHeight, 0])
         .nice();
 
-      // Add X axis
-      g.append("g")
-        .attr("transform", `translate(0,${innerHeight})`)
-        .call(axisBottom(xScale))
-        .selectAll("text")
-        .attr("transform", "rotate(-45)")
-        .style("text-anchor", "end")
-        .style("font-size", "11px");
-
-      // Add Y axis
-      g.append("g").call(axisLeft(yScale)).style("font-size", "11px");
-
-      // Add grid lines
+      // Add subtle grid lines
       g.append("g")
         .attr("class", "grid")
         .call(
@@ -110,8 +132,46 @@ export const LineChart = memo(
             .tickSize(-innerWidth)
             .tickFormat(() => "")
         )
-        .style("stroke", "#e0e0e0")
-        .style("stroke-opacity", 0.5);
+        .style("stroke", "#e5e7eb")
+        .style("stroke-opacity", 0.7)
+        .selectAll("line")
+        .style("stroke-dasharray", "3,3");
+
+      // Remove grid domain line
+      g.select(".grid .domain").remove();
+
+      // Add X axis with improved styling
+      const xAxis = g
+        .append("g")
+        .attr("class", "x-axis")
+        .attr("transform", `translate(0,${innerHeight})`)
+        .call(axisBottom(xScale));
+
+      xAxis
+        .selectAll("text")
+        .attr("transform", "rotate(-45)")
+        .style("text-anchor", "end")
+        .style("font-size", "11px")
+        .style("font-weight", "500")
+        .style("fill", "#6b7280");
+
+      xAxis.select(".domain").style("stroke", "#d1d5db");
+      xAxis.selectAll("line").style("stroke", "#d1d5db");
+
+      // Add Y axis with improved styling
+      const yAxis = g
+        .append("g")
+        .attr("class", "y-axis")
+        .call(axisLeft(yScale).ticks(6));
+
+      yAxis
+        .selectAll("text")
+        .style("font-size", "11px")
+        .style("font-weight", "500")
+        .style("fill", "#6b7280");
+
+      yAxis.select(".domain").style("stroke", "#d1d5db");
+      yAxis.selectAll("line").style("stroke", "#d1d5db");
 
       // Add zero line if requested
       if (showZeroLine && yMin < 0) {
@@ -120,15 +180,59 @@ export const LineChart = memo(
           .attr("x2", innerWidth)
           .attr("y1", yScale(0))
           .attr("y2", yScale(0))
-          .attr("stroke", "#666")
+          .attr("stroke", "#9ca3af")
           .attr("stroke-width", 1.5)
-          .attr("stroke-dasharray", "4,4")
-          .attr("opacity", 0.6);
+          .attr("stroke-dasharray", "6,4")
+          .attr("opacity", 0.8);
       }
 
-      // Draw lines for each series
+      // Draw area and lines for each series
       seriesKeys.forEach((key, index) => {
-        const seriesColor = multiSeries ? colors[index % colors.length] : color;
+        const seriesColor = seriesKeys.length > 1 ? colors[index % colors.length] : color;
+        const gradientId = `area-gradient-${index}`;
+
+        // Create gradient for area fill
+        if (showArea) {
+          const gradient = defs
+            .append("linearGradient")
+            .attr("id", gradientId)
+            .attr("gradientUnits", "userSpaceOnUse")
+            .attr("x1", 0)
+            .attr("y1", yScale(yMax))
+            .attr("x2", 0)
+            .attr("y2", yScale(0));
+
+          gradient
+            .append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", seriesColor)
+            .attr("stop-opacity", 0.3);
+
+          gradient
+            .append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", seriesColor)
+            .attr("stop-opacity", 0.02);
+
+          // Create area generator
+          const areaGenerator = area<any>()
+            .x((d) => xScale(String(d[xKey])) || 0)
+            .y0(innerHeight)
+            .y1((d) => yScale(Number(d[key]) || 0))
+            .curve(curveMonotoneX);
+
+          // Add area path with animation
+          g.append("path")
+            .datum(data)
+            .attr("class", `area-${index}`)
+            .attr("fill", `url(#${gradientId})`)
+            .attr("d", areaGenerator)
+            .style("opacity", 0)
+            .transition()
+            .duration(animationDuration)
+            .ease(easeCubicOut)
+            .style("opacity", 1);
+        }
 
         // Create line generator
         const lineGenerator = line<any>()
@@ -136,87 +240,206 @@ export const LineChart = memo(
           .y((d) => yScale(Number(d[key]) || 0))
           .curve(curveMonotoneX);
 
-        // Add the line path
+        // Add the line path with animation
         const path = g
           .append("path")
           .datum(data)
+          .attr("class", `line-${index}`)
           .attr("fill", "none")
           .attr("stroke", seriesColor)
-          .attr("stroke-width", 2.5)
+          .attr("stroke-width", 3)
+          .attr("stroke-linecap", "round")
+          .attr("stroke-linejoin", "round")
           .attr("d", lineGenerator);
 
-        // Animate the line
+        // Animate the line drawing
         const totalLength = path.node()?.getTotalLength() || 0;
         path
           .attr("stroke-dasharray", `${totalLength} ${totalLength}`)
           .attr("stroke-dashoffset", totalLength)
           .transition()
-          .duration(1500)
-          .ease(easeLinear)
+          .duration(animationDuration)
+          .ease(easeCubicOut)
           .attr("stroke-dashoffset", 0);
 
-        // Add dots
-        g.selectAll(`.circle-${index}`)
+        // Add dots with staggered animation
+        g.selectAll(`.dot-${index}`)
           .data(data)
           .enter()
           .append("circle")
-          .attr("class", `circle-${index}`)
+          .attr("class", `dot-${index}`)
           .attr("cx", (d) => xScale(String(d[xKey])) || 0)
           .attr("cy", (d) => yScale(Number(d[key]) || 0))
           .attr("r", 0)
           .attr("fill", seriesColor)
           .attr("stroke", "#fff")
           .attr("stroke-width", 2)
-          .on("mouseover", function (_event, _d) {
-            select(this).transition().duration(200).attr("r", 7);
-          })
-          .on("mouseout", function () {
-            select(this).transition().duration(200).attr("r", 4);
-          })
+          .style("filter", "drop-shadow(0 1px 2px rgba(0,0,0,0.1))")
           .transition()
-          .delay((_, i) => i * 50)
-          .duration(500)
-          .attr("r", 4);
+          .delay((_, i) => animationDuration * 0.7 + i * 30)
+          .duration(400)
+          .ease(easeCubicOut)
+          .attr("r", 5);
       });
 
+      // Add crosshair and tooltip interaction
+      if (showTooltip || showCrosshair) {
+        // Create crosshair group
+        const crosshair = g.append("g").attr("class", "crosshair").style("display", "none");
+
+        if (showCrosshair) {
+          crosshair
+            .append("line")
+            .attr("class", "crosshair-line")
+            .attr("y1", 0)
+            .attr("y2", innerHeight)
+            .attr("stroke", "#6366f1")
+            .attr("stroke-width", 1)
+            .attr("stroke-dasharray", "4,4")
+            .attr("opacity", 0.6);
+        }
+
+        // Create hover circles for each series
+        seriesKeys.forEach((_, index) => {
+          const seriesColor = seriesKeys.length > 1 ? colors[index % colors.length] : color;
+          crosshair
+            .append("circle")
+            .attr("class", `hover-dot-${index}`)
+            .attr("r", 7)
+            .attr("fill", seriesColor)
+            .attr("stroke", "#fff")
+            .attr("stroke-width", 3)
+            .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.2))");
+        });
+
+        // Add invisible overlay for mouse tracking
+        const bisect = bisector((d: any) => String(d[xKey])).center;
+
+        g.append("rect")
+          .attr("class", "overlay")
+          .attr("width", innerWidth)
+          .attr("height", innerHeight)
+          .attr("fill", "transparent")
+          .style("cursor", "crosshair")
+          .on("mousemove", function (event) {
+            const [mouseX] = pointer(event, this);
+
+            // Find closest data point
+            const xPos = mouseX;
+            let closestIndex = 0;
+            let minDistance = Infinity;
+
+            xValues.forEach((val, i) => {
+              const distance = Math.abs((xScale(val) || 0) - xPos);
+              if (distance < minDistance) {
+                minDistance = distance;
+                closestIndex = i;
+              }
+            });
+
+            const d = data[closestIndex];
+            const xPosSnapped = xScale(String(d[xKey])) || 0;
+
+            // Update crosshair position
+            crosshair.style("display", null);
+            crosshair.select(".crosshair-line").attr("x1", xPosSnapped).attr("x2", xPosSnapped);
+
+            // Update hover dots and collect tooltip data
+            const tooltipValues: Array<{ key: string; value: number; color: string }> = [];
+            seriesKeys.forEach((key, index) => {
+              const value = Number(d[key]) || 0;
+              const seriesColor = seriesKeys.length > 1 ? colors[index % colors.length] : color;
+              crosshair
+                .select(`.hover-dot-${index}`)
+                .attr("cx", xPosSnapped)
+                .attr("cy", yScale(value));
+              tooltipValues.push({ key, value, color: seriesColor });
+            });
+
+            // Update tooltip state
+            if (showTooltip && containerRef.current) {
+              const rect = containerRef.current.getBoundingClientRect();
+              setTooltip({
+                x: xPosSnapped + margin.left + 15,
+                y: Math.min(
+                  yScale(Number(d[seriesKeys[0]]) || 0) + margin.top,
+                  innerHeight / 2 + margin.top
+                ),
+                xValue: String(d[xKey]),
+                values: tooltipValues,
+              });
+            }
+          })
+          .on("mouseleave", function () {
+            crosshair.style("display", "none");
+            setTooltip(null);
+          });
+      }
+
       // Add legend for multi-series
-      if (multiSeries && seriesKeys.length > 1) {
+      if (seriesKeys.length > 1) {
         const legend = g
           .append("g")
-          .attr("transform", `translate(${innerWidth - 150}, 10)`);
+          .attr("class", "legend")
+          .attr("transform", `translate(${innerWidth - 140}, 0)`);
 
+        const legendBg = legend
+          .append("rect")
+          .attr("x", -12)
+          .attr("y", -8)
+          .attr("rx", 8)
+          .attr("fill", "white")
+          .attr("stroke", "#e5e7eb")
+          .attr("stroke-width", 1)
+          .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.05))");
+
+        let legendHeight = 16;
         seriesKeys.forEach((key, i) => {
           const legendRow = legend
             .append("g")
-            .attr("transform", `translate(0, ${i * 20})`);
+            .attr("transform", `translate(0, ${i * 24})`);
 
           legendRow
             .append("line")
             .attr("x1", 0)
-            .attr("x2", 30)
+            .attr("x2", 24)
             .attr("y1", 0)
             .attr("y2", 0)
             .attr("stroke", colors[i % colors.length])
-            .attr("stroke-width", 2.5);
+            .attr("stroke-width", 3)
+            .attr("stroke-linecap", "round");
+
+          legendRow
+            .append("circle")
+            .attr("cx", 12)
+            .attr("cy", 0)
+            .attr("r", 4)
+            .attr("fill", colors[i % colors.length]);
 
           legendRow
             .append("text")
-            .attr("x", 35)
+            .attr("x", 32)
             .attr("y", 4)
-            .style("font-size", "11px")
-            .style("fill", "#333")
+            .style("font-size", "12px")
+            .style("font-weight", "500")
+            .style("fill", "#374151")
             .text(key);
+
+          legendHeight = (i + 1) * 24 + 16;
         });
+
+        legendBg.attr("width", 152).attr("height", legendHeight);
       }
 
       // Add X axis label
       if (xLabel) {
         g.append("text")
           .attr("x", innerWidth / 2)
-          .attr("y", innerHeight + margin.bottom - 5)
+          .attr("y", innerHeight + margin.bottom - 8)
           .attr("text-anchor", "middle")
           .style("font-size", "12px")
           .style("font-weight", "600")
+          .style("fill", "#4b5563")
           .text(xLabel);
       }
 
@@ -225,16 +448,17 @@ export const LineChart = memo(
         g.append("text")
           .attr("transform", "rotate(-90)")
           .attr("x", -innerHeight / 2)
-          .attr("y", -margin.left + 15)
+          .attr("y", -margin.left + 18)
           .attr("text-anchor", "middle")
           .style("font-size", "12px")
           .style("font-weight", "600")
+          .style("fill", "#4b5563")
           .text(yLabel);
       }
     }, [
       data,
       xKey,
-      yKey,
+      seriesKeys,
       width,
       height,
       margin,
@@ -242,18 +466,75 @@ export const LineChart = memo(
       colors,
       xLabel,
       yLabel,
-      multiSeries,
       showZeroLine,
+      showArea,
+      showTooltip,
+      showCrosshair,
+      animationDuration,
+      innerWidth,
+      innerHeight,
     ]);
 
     return (
-      <Box sx={{ width: "100%", overflow: "auto" }}>
+      <Box ref={containerRef} sx={{ width: "100%", overflow: "visible", position: "relative" }}>
         <svg
           ref={svgRef}
           width={width}
           height={height}
-          style={{ maxWidth: "100%", height: "auto" }}
+          style={{ maxWidth: "100%", height: "auto", overflow: "visible" }}
         />
+        {/* Custom Tooltip */}
+        {tooltip && showTooltip && (
+          <Paper
+            elevation={4}
+            sx={{
+              position: "absolute",
+              left: tooltip.x,
+              top: tooltip.y,
+              transform: "translateY(-50%)",
+              px: 2,
+              py: 1.5,
+              borderRadius: 2,
+              pointerEvents: "none",
+              zIndex: 100,
+              minWidth: 120,
+              background: "rgba(255, 255, 255, 0.98)",
+              backdropFilter: "blur(8px)",
+              border: "1px solid rgba(0,0,0,0.08)",
+            }}
+          >
+            <Typography
+              variant="caption"
+              sx={{
+                fontWeight: 700,
+                color: "#1f2937",
+                display: "block",
+                mb: 0.5,
+                fontSize: "13px",
+              }}
+            >
+              {tooltip.xValue}
+            </Typography>
+            {tooltip.values.map(({ key, value, color }) => (
+              <Box key={key} sx={{ display: "flex", alignItems: "center", gap: 1, mt: 0.5 }}>
+                <Box
+                  sx={{
+                    width: 10,
+                    height: 10,
+                    borderRadius: "50%",
+                    backgroundColor: color,
+                  }}
+                />
+                <Typography variant="body2" sx={{ color: "#4b5563", fontSize: "12px" }}>
+                  {key}:{" "}
+                  <Box component="span" sx={{ fontWeight: 700, color: "#1f2937" }}>
+                    {value.toLocaleString()}
+                  </Box>
+                </Typography>
+              </Box>
+            ))}
+          </Paper>
+        )}
       </Box>
     );
   }

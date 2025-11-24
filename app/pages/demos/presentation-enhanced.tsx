@@ -18,6 +18,7 @@ const sectionOrder = ['hero', 'agenda', 'highlights', 'stories', 'cta'] as const
 export default function PresentationEnhanced() {
   const { i18n } = useLingui();
   const locale = i18n.locale?.startsWith('sr') ? 'sr' : 'en';
+  const demoGalleryHref = '/demos/showcase?dataSource=Prod';
   const [activeSection, setActiveSection] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set(['hero']));

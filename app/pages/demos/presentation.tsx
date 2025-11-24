@@ -15,6 +15,7 @@ const sectionOrder = ['hero', 'agenda', 'highlights', 'stories', 'cta'] as const
 export default function PresentationDemo() {
   const { i18n } = useLingui();
   const locale = i18n.locale?.startsWith('sr') ? 'sr' : 'en';
+  const demoGalleryHref = '/demos/showcase?dataSource=Prod';
 
   const titles = {
     hero: locale === 'sr' ? 'Vizuelni Demo za Prezentacije' : 'Presentation-Ready Demo',
@@ -70,7 +71,7 @@ export default function PresentationDemo() {
   const nextStepButtons = [
     {
       label: locale === 'sr' ? 'Pregledaj sve demo vizuale' : 'Browse all demos',
-      href: '/demos'
+      href: demoGalleryHref
     },
     {
       label: locale === 'sr' ? 'Kreiraj novu vizualizaciju' : 'Create a visualization',
@@ -270,7 +271,12 @@ export default function PresentationDemo() {
                 yLabel="%"
                 width={900}
                 height={380}
-                color="#4f46e5"
+                color="#6366f1"
+                multiSeries
+                seriesKeys={['Individuals', 'Households']}
+                showArea
+                showTooltip
+                showCrosshair
               />
             </Box>
           </Box>
@@ -370,7 +376,7 @@ export default function PresentationDemo() {
               <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                 {nextStepButtons.map((btn) => (
                   <Link key={btn.href} href={btn.href} passHref legacyBehavior>
-                    <Button component="a" variant={btn.href === '/demos' ? 'contained' : 'outlined'} color="secondary" sx={{ fontWeight: 700 }}>
+                    <Button component="a" variant={btn.href === demoGalleryHref ? 'contained' : 'outlined'} color="secondary" sx={{ fontWeight: 700 }}>
                       {btn.label}
                     </Button>
                   </Link>
