@@ -23,6 +23,7 @@ import {
   DemoLayout,
   DemoLoading,
 } from "@/components/demos/demo-layout";
+import { DemoErrorBoundary } from "@/components/demos/DemoErrorBoundary";
 import { PublishActions } from "@/components/publish-actions";
 import { SocialMediaShare } from "@/components/social-media-share";
 import { useDataGovRs } from "@/hooks/use-data-gov-rs";
@@ -56,7 +57,8 @@ export default function SocialMediaSharingDemo() {
       title="Social Media Sharing for Visualizations"
       description="Learn how to share your data visualizations on LinkedIn, X.com (Twitter), Facebook, and other social media platforms"
     >
-      <Grid container spacing={4}>
+      <DemoErrorBoundary>
+        <Grid container spacing={4}>
         {/* Introduction */}
         <Grid item xs={12}>
           <Alert severity="info" icon={<Icon name="share" />}>
@@ -309,6 +311,7 @@ export default function SocialMediaSharingDemo() {
           </Alert>
         </Grid>
       </Grid>
+      </DemoErrorBoundary>
     </DemoLayout>
   );
 }

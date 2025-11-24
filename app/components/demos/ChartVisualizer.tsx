@@ -6,11 +6,13 @@
 import { Alert, Box, Typography } from '@mui/material';
 import { useMemo } from 'react';
 
+import { profileData, selectColumns, suggestChartType, type ChartKind } from '@/lib/demos/schema-profiler';
+
 import { BarChart, ColumnChart, LineChart, PieChart } from './charts';
 
 export interface ChartVisualizerProps {
   data: any[];
-  chartType: 'line' | 'bar' | 'column' | 'area' | 'pie' | 'map' | 'scatterplot';
+  chartType?: 'line' | 'bar' | 'column' | 'area' | 'pie' | 'map' | 'scatterplot';
   title?: string;
   description?: string;
 }
@@ -28,37 +30,14 @@ function detectVisualizationColumns(data: any[]): {
     return { categoryColumn: null, valueColumn: null, allNumericColumns: [], allTextColumns: [] };
   }
 
-  const firstRow = data[0];
-  const columns = Object.keys(firstRow);
-
-  const numericColumns: string[] = [];
-  const textColumns: string[] = [];
-
-  // Classify columns
-  columns.forEach(col => {
-    const sampleValues = data.slice(0, 10).map(row => row[col]);
-    const numericCount = sampleValues.filter(val =>
-      val !== null && val !== undefined && !isNaN(Number(val))
-    ).length;
-
-    if (numericCount > sampleValues.length * 0.7) {
-      numericColumns.push(col);
-    } else {
-      textColumns.push(col);
-    }
-  });
-
-  // Select category column (first text column or first column)
-  const categoryColumn = textColumns[0] || columns[0];
-
-  // Select value column (first numeric column)
-  const valueColumn = numericColumns[0] || columns[1] || columns[0];
+  const profile = profileData(data);
+  const selected = selectColumns(profile);
 
   return {
-    categoryColumn,
-    valueColumn,
-    allNumericColumns: numericColumns,
-    allTextColumns: textColumns
+    categoryColumn: selected.category,
+    valueColumn: selected.value,
+    allNumericColumns: profile.numericColumns,
+    allTextColumns: profile.textColumns
   };
 }
 
@@ -76,15 +55,21 @@ function prepareDataForVisualization(data: any[], maxRows: number = 20): any[] {
 }
 
 export const ChartVisualizer = ({ data, chartType, title, description }: ChartVisualizerProps) => {
-  const { columns, preparedData } = useMemo(() => {
+  const { columns, preparedData, resolvedChartType } = useMemo(() => {
     const columns = detectVisualizationColumns(data);
     const preparedData = prepareDataForVisualization(data, 25);
+    const profile = profileData(data);
+    const resolvedChartType: ChartKind =
+      chartType && chartType !== 'area' && chartType !== 'map' && chartType !== 'scatterplot'
+        ? chartType
+        : suggestChartType(profile);
 
     return {
       columns,
-      preparedData
+      preparedData,
+      resolvedChartType
     };
-  }, [data]);
+  }, [data, chartType]);
 
   if (!data || data.length === 0) {
     return (
@@ -133,7 +118,7 @@ export const ChartVisualizer = ({ data, chartType, title, description }: ChartVi
       </Box>
 
       <Box sx={{ minHeight: 400 }}>
-        {chartType === 'line' && (
+        {resolvedChartType === 'line' && (
           <LineChart
             data={preparedData}
             {...commonProps}
@@ -141,7 +126,7 @@ export const ChartVisualizer = ({ data, chartType, title, description }: ChartVi
           />
         )}
 
-        {chartType === 'bar' && (
+        {resolvedChartType === 'bar' && (
           <BarChart
             data={preparedData}
             {...commonProps}
@@ -149,14 +134,14 @@ export const ChartVisualizer = ({ data, chartType, title, description }: ChartVi
           />
         )}
 
-        {chartType === 'column' && (
+        {resolvedChartType === 'column' && (
           <ColumnChart
             data={preparedData}
             {...commonProps}
           />
         )}
 
-        {chartType === 'pie' && (
+        {resolvedChartType === 'pie' && (
           <PieChart
             data={preparedData.slice(0, 10)} // Limit pie chart to 10 slices
             labelKey={columns.categoryColumn}
@@ -166,10 +151,10 @@ export const ChartVisualizer = ({ data, chartType, title, description }: ChartVi
           />
         )}
 
-        {(chartType === 'area' || chartType === 'map' || chartType === 'scatterplot') && (
+        {(resolvedChartType === 'area' || resolvedChartType === 'map' || resolvedChartType === 'scatterplot') && (
           <Box sx={{ p: 4, textAlign: 'center', backgroundColor: 'grey.50', borderRadius: 1 }}>
             <Typography variant="h6" color="text.secondary" gutterBottom>
-              📊 {chartType === 'map' ? 'Mapa' : chartType === 'area' ? 'Area grafik' : 'Scatterplot'}
+              📊 {resolvedChartType === 'map' ? 'Mapa' : resolvedChartType === 'area' ? 'Area grafik' : 'Scatterplot'}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Ovaj tip vizualizacije je u razvoju.

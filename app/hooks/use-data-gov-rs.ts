@@ -5,7 +5,7 @@
 
 import { useState, useEffect } from 'react';
 
-import { dataGovRsClient, getBestVisualizationResource, parseCSVLine } from '@/domain/data-gov-rs';
+import { dataGovRsClient, getBestVisualizationResource, isSupportedFormat, parseCSVLine } from '@/domain/data-gov-rs';
 import type { DatasetMetadata, Resource } from '@/domain/data-gov-rs/types';
 
 interface UseDataGovRsOptions {
@@ -51,6 +51,10 @@ interface UseDataGovRsOptions {
    */
   fallbackDatasetInfo?: Partial<DatasetMetadata>;
   fallbackData?: any[];
+  /**
+   * Limit search to specific organizations.
+   */
+  organizationSlugs?: string[];
 }
 
 interface UseDataGovRsReturn {
@@ -149,20 +153,17 @@ export function useDataGovRs(options: UseDataGovRsOptions): UseDataGovRsReturn {
         try {
           const ds = await dataGovRsClient.getDataset(id);
           if (ds) {
-            fetchedDataset = ds;
-            setDataset(fetchedDataset);
-            const bestResource = getBestVisualizationResource(fetchedDataset);
+            const bestResource = getBestVisualizationResource(ds);
             if (bestResource) {
+              fetchedDataset = ds;
+              setDataset(fetchedDataset);
               const resourceData = await loadResourceData(bestResource, parseCSV);
               setResource(bestResource);
               setData(resourceData);
-            } else if (fallbackData && fallbackData.length > 0) {
-              setResource(null);
-              setData(fallbackData);
-            } else {
-              throw new Error('No suitable resource found for visualization');
+              return;
             }
-            return;
+            // Unsupported resources in this dataset; try next strategy
+            console.warn('No visualizable resource in dataset', id);
           }
         } catch (idErr) {
           // Continue to other strategies
@@ -173,51 +174,14 @@ export function useDataGovRs(options: UseDataGovRsOptions): UseDataGovRsReturn {
       if (searchQuery || preferredTags || slugKeywords) {
         const queries = Array.isArray(searchQuery) ? searchQuery : searchQuery ? [searchQuery] : [];
         const keywords = slugKeywords ?? [];
-        let foundDataset: DatasetMetadata | null = null;
 
-        // Try tag searches first
-        if (preferredTags && preferredTags.length > 0) {
-          for (const tag of preferredTags) {
-            const tagResults = await dataGovRsClient.searchDatasets({
-              tag,
-              page_size: 5
-            });
-            if (tagResults.data.length > 0) {
-              foundDataset = tagResults.data[0];
-              break;
-            }
-          }
-        }
-
-        // Try explicit queries
-        if (!foundDataset && queries.length > 0) {
-          for (const q of queries) {
-            const results = await dataGovRsClient.searchDatasets({
-              q,
-              page_size: 5
-            });
-
-            if (results.data.length > 0) {
-              foundDataset = results.data[0];
-              break;
-            }
-          }
-        }
-
-        // Try keyword search if still not found
-        if (!foundDataset && keywords.length > 0) {
-          for (const kw of keywords) {
-            const results = await dataGovRsClient.searchDatasets({
-              q: kw,
-              page_size: 5
-            });
-
-            if (results.data.length > 0) {
-              foundDataset = results.data[0];
-              break;
-            }
-          }
-        }
+        const foundDataset = await discoverDataset({
+          queries,
+          tags: preferredTags ?? [],
+          keywords,
+          organizationSlugs: options.organizationSlugs ?? [],
+          triedIds: idsToTry
+        });
 
         if (!foundDataset) {
           if (fallbackData && fallbackData.length > 0) {
@@ -336,6 +300,68 @@ function parseCSVData(csv: string): any[] {
   });
 
   return rows;
+}
+
+/**
+ * Discover a dataset using the preferred priority: tag -> slug keyword -> full-text query.
+ */
+async function discoverDataset({
+  tags,
+  keywords,
+  queries,
+  organizationSlugs,
+  triedIds
+}: {
+  tags: string[];
+  keywords: string[];
+  queries: string[];
+  organizationSlugs: string[];
+  triedIds: string[];
+}): Promise<DatasetMetadata | null> {
+  const seen = new Set<string>(triedIds);
+
+  const pickDataset = (candidates: DatasetMetadata[]) =>
+    candidates.find((d) => !seen.has(d.id) && d.resources.some((r) => isSupportedFormat(r))) || null;
+
+  // 1) tag search first
+  for (const tag of tags) {
+    const res = await dataGovRsClient.searchDatasets({ tag, page_size: 20 });
+    const candidate = pickDataset(res.data);
+    if (candidate) return candidate;
+    res.data.forEach((d) => seen.add(d.id));
+  }
+
+  // 2) keyword in slug/title (full-text search)
+  for (const kw of keywords) {
+    const res = await dataGovRsClient.searchDatasets({ q: kw, page_size: 20 });
+    const filtered = res.data.filter(
+      (d) =>
+        d.slug?.includes(kw) ||
+        d.title.toLowerCase().includes(kw.toLowerCase()) ||
+        (d.tags || []).some((t) => t.includes(kw))
+    );
+    const candidate = pickDataset(filtered.length > 0 ? filtered : res.data);
+    if (candidate) return candidate;
+    res.data.forEach((d) => seen.add(d.id));
+  }
+
+  // 3) generic queries
+  for (const q of queries) {
+    const res = await dataGovRsClient.searchDatasets({ q, page_size: 20 });
+    const candidate = pickDataset(res.data);
+    if (candidate) return candidate;
+    res.data.forEach((d) => seen.add(d.id));
+  }
+
+  // 4) organization filter as last resort
+  for (const org of organizationSlugs) {
+    const res = await dataGovRsClient.searchDatasets({ organization: org, page_size: 20 });
+    const candidate = pickDataset(res.data);
+    if (candidate) return candidate;
+    res.data.forEach((d) => seen.add(d.id));
+  }
+
+  return null;
 }
 
 /**

@@ -11,6 +11,7 @@ import { useState } from 'react';
 
 import { ChartVisualizer } from '@/components/demos/ChartVisualizer';
 import { DemoEmpty, DemoError, DemoLayout, DemoLoading } from '@/components/demos/demo-layout';
+import { DemoErrorBoundary } from '@/components/demos/DemoErrorBoundary';
 import { ExportControls } from '@/components/demos/ExportControls';
 import { SimpleChart } from '@/components/demos/simple-chart';
 import type { DatasetMetadata } from '@/domain/data-gov-rs/types';
@@ -113,160 +114,162 @@ export default function DemoPage() {
           : undefined
       }
     >
-      {/* Loading State */}
-      {loading && <DemoLoading />}
+      <DemoErrorBoundary onRetry={refetch}>
+        {/* Loading State */}
+        {loading && <DemoLoading />}
 
-      {/* Error State */}
-      {error && <DemoError error={error} onRetry={refetch} />}
+        {/* Error State */}
+        {error && <DemoError error={error} onRetry={refetch} />}
 
-      {/* Data Visualization */}
-      {!loading && !error && dataset && data && (
-        <Box>
-          {/* Dataset Info Card */}
-          <Paper sx={{ p: 3, mb: 4, backgroundColor: 'white' }}>
-            <Typography variant="h5" sx={{ mb: 2, fontWeight: 500 }}>
-              {dataset.title}
-            </Typography>
-
-            {dataset.description && (
-              <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
-                {dataset.description}
+        {/* Data Visualization */}
+        {!loading && !error && dataset && data && (
+          <Box>
+            {/* Dataset Info Card */}
+            <Paper sx={{ p: 3, mb: 4, backgroundColor: 'white' }}>
+              <Typography variant="h5" sx={{ mb: 2, fontWeight: 500 }}>
+                {dataset.title}
               </Typography>
-            )}
 
-            <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-              {dataset.tags && dataset.tags.length > 0 && (
-                <Typography variant="body2" color="text.secondary">
-                  <strong>Tagovi:</strong> {dataset.tags.join(', ')}
+              {dataset.description && (
+                <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+                  {dataset.description}
                 </Typography>
               )}
-              {resource && (
-                <Typography variant="body2" color="text.secondary">
-                  <strong>Format:</strong> {resource.format}
-                </Typography>
-              )} 
-              {Array.isArray(data) && (
-                <Typography variant="body2" color="text.secondary">
-                  <strong>Broj redova:</strong> {data.length}
-                </Typography>
-              )}
+
+              <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+                {dataset.tags && dataset.tags.length > 0 && (
+                  <Typography variant="body2" color="text.secondary">
+                    <strong>Tagovi:</strong> {dataset.tags.join(', ')}
+                  </Typography>
+                )}
+                {resource && (
+                  <Typography variant="body2" color="text.secondary">
+                    <strong>Format:</strong> {resource.format}
+                  </Typography>
+                )} 
+                {Array.isArray(data) && (
+                  <Typography variant="body2" color="text.secondary">
+                    <strong>Broj redova:</strong> {data.length}
+                  </Typography>
+                )}
  
-            </Box>
-          </Paper>
+              </Box>
+            </Paper>
 
-          {/* Export Controls */}
-          {Array.isArray(data) && data.length > 0 && (
-            <Box sx={{ mb: 3 }}>
-              <ExportControls
-                targetElementId="main-chart-container"
-                fileNamePrefix={`${category}-chart`}
-              />
-            </Box>
-          )}
-
-          {/* Chart Visualization */}
-          <Paper id="main-chart-container" sx={{ p: 4, mb: 4, backgroundColor: 'white' }}>
-            <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>
-              📊 Vizualizacija podataka
-            </Typography>
-
-            {Array.isArray(data) && data.length > 0 ? (
-              <SimpleChart
-                data={data}
-                chartType={config.chartType}
-                width={Math.min(1000, typeof window !== 'undefined' ? window.innerWidth - 100 : 1000)}
-                height={450}
-              />
-            ) : (
-              <Typography variant="body2" color="text.secondary">
-                Podaci nisu dostupni u formatu pogodnom za vizualizaciju.
-              </Typography>
-            )}
-          </Paper>
-
-          {/* Tabs for different views */}
-          <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
-            <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)}>
-              <Tab label="📊 Vizualizacija" />
-              <Tab label="📋 Tabela podataka" />
-            </Tabs>
-          </Box>
-
-          {/* Chart View */}
-          {activeTab === 0 && Array.isArray(data) && data.length > 0 && (
-            <>
+            {/* Export Controls */}
+            {Array.isArray(data) && data.length > 0 && (
               <Box sx={{ mb: 3 }}>
                 <ExportControls
-                  targetElementId="detailed-chart-container"
-                  fileNamePrefix={`${category}-detailed-chart`}
+                  targetElementId="main-chart-container"
+                  fileNamePrefix={`${category}-chart`}
                 />
               </Box>
-              <Paper id="detailed-chart-container" sx={{ p: 4, mb: 4, backgroundColor: 'white' }}>
-                <ChartVisualizer
-                  data={data}
-                  chartType={config.chartType}
-                  title={`${config.chartType.charAt(0).toUpperCase() + config.chartType.slice(1)} vizualizacija`}
-                />
-              </Paper>
-            </>
-          )}
+            )}
 
-          {/* Data Table View */}
-          {activeTab === 1 && (
-            <Box>
-              <Typography variant="h6" sx={{ mb: 2 }}>
-                Pregled podataka
+            {/* Chart Visualization */}
+            <Paper id="main-chart-container" sx={{ p: 4, mb: 4, backgroundColor: 'white' }}>
+              <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>
+                📊 Vizualizacija podataka
               </Typography>
 
               {Array.isArray(data) && data.length > 0 ? (
-                <TableContainer component={Paper} sx={{ maxHeight: 600 }}>
-                  <Table stickyHeader size="small">
-                    <TableHead>
-                      <TableRow>
-                        {Object.keys(data[0]).map((key) => (
-                          <TableCell key={key} sx={{ fontWeight: 600, backgroundColor: 'grey.100' }}>
-                            {key}
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {data.slice(0, 50).map((row: any, i: number) => (
-                        <TableRow key={i} hover>
-                          {Object.values(row).map((value: any, j: number) => (
-                            <TableCell key={j}>
-                              {value !== null && value !== undefined
-                                ? String(value)
-                                : '-'}
+                <SimpleChart
+                  data={data}
+                  chartType={config.chartType}
+                  width={Math.min(1000, typeof window !== 'undefined' ? window.innerWidth - 100 : 1000)}
+                  height={450}
+                />
+              ) : (
+                <Typography variant="body2" color="text.secondary">
+                  Podaci nisu dostupni u formatu pogodnom za vizualizaciju.
+                </Typography>
+              )}
+            </Paper>
+
+            {/* Tabs for different views */}
+            <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
+              <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)}>
+                <Tab label="📊 Vizualizacija" />
+                <Tab label="📋 Tabela podataka" />
+              </Tabs>
+            </Box>
+
+            {/* Chart View */}
+            {activeTab === 0 && Array.isArray(data) && data.length > 0 && (
+              <>
+                <Box sx={{ mb: 3 }}>
+                  <ExportControls
+                    targetElementId="detailed-chart-container"
+                    fileNamePrefix={`${category}-detailed-chart`}
+                  />
+                </Box>
+                <Paper id="detailed-chart-container" sx={{ p: 4, mb: 4, backgroundColor: 'white' }}>
+                  <ChartVisualizer
+                    data={data}
+                    chartType={config.chartType}
+                    title={`${config.chartType.charAt(0).toUpperCase() + config.chartType.slice(1)} vizualizacija`}
+                  />
+                </Paper>
+              </>
+            )}
+
+            {/* Data Table View */}
+            {activeTab === 1 && (
+              <Box>
+                <Typography variant="h6" sx={{ mb: 2 }}>
+                  Pregled podataka
+                </Typography>
+
+                {Array.isArray(data) && data.length > 0 ? (
+                  <TableContainer component={Paper} sx={{ maxHeight: 600 }}>
+                    <Table stickyHeader size="small">
+                      <TableHead>
+                        <TableRow>
+                          {Object.keys(data[0]).map((key) => (
+                            <TableCell key={key} sx={{ fontWeight: 600, backgroundColor: 'grey.100' }}>
+                              {key}
                             </TableCell>
                           ))}
                         </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              ) : (
-                <Paper sx={{ p: 3, textAlign: 'center' }}>
-                  <Typography color="text.secondary">
-                    Podaci nisu dostupni u tabelarnom formatu
+                      </TableHead>
+                      <TableBody>
+                        {data.slice(0, 50).map((row: any, i: number) => (
+                          <TableRow key={i} hover>
+                            {Object.values(row).map((value: any, j: number) => (
+                              <TableCell key={j}>
+                                {value !== null && value !== undefined
+                                  ? String(value)
+                                  : '-'}
+                              </TableCell>
+                            ))}
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                ) : (
+                  <Paper sx={{ p: 3, textAlign: 'center' }}>
+                    <Typography color="text.secondary">
+                      Podaci nisu dostupni u tabelarnom formatu
+                    </Typography>
+                  </Paper>
+                )}
+
+                {Array.isArray(data) && data.length > 50 && (
+                  <Typography variant="body2" color="text.secondary" sx={{ mt: 2, textAlign: 'center' }}>
+                    Prikazano prvih 50 od {data.length} redova
                   </Typography>
-                </Paper>
-              )}
+                )}
+              </Box>
+            )}
+          </Box>
+        )}
 
-              {Array.isArray(data) && data.length > 50 && (
-                <Typography variant="body2" color="text.secondary" sx={{ mt: 2, textAlign: 'center' }}>
-                  Prikazano prvih 50 od {data.length} redova
-                </Typography>
-              )}
-            </Box>
-          )}
-        </Box>
-      )}
-
-      {/* Empty State */}
-      {!loading && !error && !dataset && (
-        <DemoEmpty message="Podaci nisu pronađeni. Pokušajte kasnije." />
-      )}
+        {/* Empty State */}
+        {!loading && !error && !dataset && (
+          <DemoEmpty message="Podaci nisu pronađeni. Pokušajte kasnije." />
+        )}
+      </DemoErrorBoundary>
     </DemoLayout>
   );
 }
