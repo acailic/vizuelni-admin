@@ -2,6 +2,9 @@ import Document, { Head, Html, Main, NextScript } from "next/document";
 
 import { GA_TRACKING_ID } from "@/domain/env";
 
+// Detect static export mode (GitHub Pages) - /api routes don't exist
+const isStaticExport = !!process.env.NEXT_PUBLIC_BASE_PATH;
+
 class MyDocument extends Document {
   render() {
     return (
@@ -9,8 +12,9 @@ class MyDocument extends Document {
         <Head>
           <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
           <link rel="alternate icon" href="/favicon.ico" />
+          {/* Only load client-env from API in non-static builds */}
           {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-          <script src="/api/client-env"></script>
+          {!isStaticExport && <script src="/api/client-env"></script>}
           {GA_TRACKING_ID && (
             <>
               <script

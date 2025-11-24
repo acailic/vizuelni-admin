@@ -23,7 +23,19 @@ interface ContentPageProps {
 
 type Locale = "sr" | "sr-Cyrl" | "en";
 
-const heroCopy: Record<Locale, { overline: string; title: string; body: string; primary: string; secondary: string; badge: string; trusted: string; embeds: string }> = {
+const heroCopy: Record<
+  Locale,
+  {
+    overline: string;
+    title: string;
+    body: string;
+    primary: string;
+    secondary: string;
+    badge: string;
+    trusted: string;
+    embeds: string;
+  }
+> = {
   en: {
     overline: "Visualize open data",
     title: "Get to insights from Serbian open data faster",

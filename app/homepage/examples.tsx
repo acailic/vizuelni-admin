@@ -1,4 +1,5 @@
-import { Box, Card, Skeleton, Typography } from "@mui/material";
+import { Box, Button, Card, Skeleton, Typography } from "@mui/material";
+import Link from "next/link";
 import { ReactNode, useEffect, useState } from "react";
 import { useClient } from "urql";
 
@@ -6,11 +7,26 @@ import { ChartPublished } from "@/components/chart-published";
 import { ContentWrapper } from "@/components/content-wrapper";
 import { EmbedQueryParams } from "@/components/embed-params";
 import { ConfiguratorState } from "@/configurator";
+import { GRAPHQL_ENDPOINT } from "@/domain/env";
 import { getExampleState1, getExampleState2 } from "@/homepage/constants";
 import { HomepageSectionTitle } from "@/homepage/generic";
 import { ConfiguratorStateProvider } from "@/src";
 import { upgradeConfiguratorState } from "@/utils/chart-config/upgrade-cube";
+import { maybeWindow } from "@/utils/maybe-window";
 import { useFetchData } from "@/utils/use-fetch-data";
+
+// Detect static export mode where GraphQL API is unavailable
+const isStaticExport = () => {
+  const windowRef = maybeWindow();
+  return (
+    !!process.env.NEXT_PUBLIC_BASE_PATH ||
+    (windowRef ? windowRef.location.hostname.includes("github.io") : false)
+  );
+};
+
+const useStaticExportFallback = () => {
+  return isStaticExport() && GRAPHQL_ENDPOINT === "/api/graphql";
+};
 
 export const Examples = ({
   headline,
@@ -27,8 +43,12 @@ export const Examples = ({
 }) => {
   const [state1, setState1] = useState<ConfiguratorState>();
   const [state2, setState2] = useState<ConfiguratorState>();
+  const useStaticFallback = useStaticExportFallback();
 
   useEffect(() => {
+    // Skip loading example states in static export mode
+    if (useStaticFallback) return;
+
     const run = async () => {
       (await Promise.all([getExampleState1(), getExampleState2()])).forEach(
         (state, i) => {
@@ -38,7 +58,40 @@ export const Examples = ({
     };
 
     run();
-  }, []);
+  }, [useStaticFallback]);
+
+  // In static export mode, show a preview placeholder instead of trying to load data
+  if (useStaticFallback) {
+    return (
+      <Box sx={{ backgroundColor: "background.paper" }}>
+        <ContentWrapper sx={{ py: 20 }}>
+          <div style={{ width: "100%" }}>
+            <HomepageSectionTitle>{headline}</HomepageSectionTitle>
+            <Box
+              sx={(t) => ({
+                display: "grid",
+                gridTemplateColumns: "1fr",
+                gridTemplateRows: "subgrid",
+                columnGap: 12,
+                [t.breakpoints.up("md")]: {
+                  gridTemplateColumns: "1fr 1fr",
+                },
+              })}
+            >
+              <StaticExampleCard
+                headline={example1Headline}
+                description={example1Description}
+              />
+              <StaticExampleCard
+                headline={example2Headline}
+                description={example2Description}
+              />
+            </Box>
+          </div>
+        </ContentWrapper>
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ backgroundColor: "background.paper" }}>
@@ -147,6 +200,77 @@ const ExampleCard = ({
       }}
     >
       <div>{children}</div>
+      <Box sx={{ px: 7, py: 11 }}>
+        <Typography variant="h3" sx={{ fontWeight: "bold" }}>
+          {headline}
+        </Typography>
+        <Typography variant="body2" sx={{ mt: 4 }}>
+          {description}
+        </Typography>
+      </Box>
+    </Card>
+  );
+};
+
+/**
+ * Static placeholder card for GitHub Pages deployment where GraphQL API is unavailable.
+ * Shows a preview illustration with a CTA to browse real datasets.
+ */
+const StaticExampleCard = ({
+  headline,
+  description,
+}: {
+  headline: string;
+  description: string;
+}) => {
+  return (
+    <Card
+      sx={{
+        display: "grid",
+        gridTemplateRows: "subgrid",
+        gridRow: "span 2",
+      }}
+    >
+      <Box
+        sx={{
+          height: 400,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          bgcolor: "grey.50",
+          borderRadius: 1,
+          p: 4,
+          gap: 3,
+        }}
+      >
+        {/* Simple chart illustration */}
+        <Box
+          component="svg"
+          viewBox="0 0 200 120"
+          sx={{ width: 200, height: 120, opacity: 0.6 }}
+        >
+          <rect x="20" y="80" width="25" height="30" fill="#0c4076" rx="2" />
+          <rect x="55" y="50" width="25" height="60" fill="#0c4076" rx="2" />
+          <rect x="90" y="30" width="25" height="80" fill="#0c4076" rx="2" />
+          <rect x="125" y="60" width="25" height="50" fill="#0c4076" rx="2" />
+          <rect x="160" y="40" width="25" height="70" fill="#0c4076" rx="2" />
+        </Box>
+        <Typography variant="body2" color="text.secondary" textAlign="center">
+          Interaktivni primeri zahtevaju serversku podršku.
+          <br />
+          Pregledajte datasete da kreirate sopstvene vizualizacije.
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          component={Link}
+          href="/browse"
+          size="small"
+        >
+          Pregledaj datasete
+        </Button>
+      </Box>
       <Box sx={{ px: 7, py: 11 }}>
         <Typography variant="h3" sx={{ fontWeight: "bold" }}>
           {headline}
