@@ -1,6 +1,14 @@
 import { defineMessage } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
-import { Box, Card, CardContent, Chip, Grid, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Chip,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
 
 import { ColumnChart, LineChart, PieChart } from "@/components/demos/charts";
 import { DemoLayout } from "@/components/demos/demo-layout";
@@ -16,25 +24,36 @@ export default function DemoShowcasePage() {
 
   const text = {
     title: i18n._(
-      defineMessage({ id: "demos.showcase.title", message: "Demo Showcase Visualizations" })
+      defineMessage({
+        id: "demos.showcase.title",
+        message: "Demo Showcase Visualizations",
+      })
     ),
     description: i18n._(
       defineMessage({
         id: "demos.showcase.description",
-        message: "A quick look at multiple chart types using representative datasets.",
+        message:
+          "A quick look at multiple chart types using representative datasets.",
       })
     ),
     hero: i18n._(
       defineMessage({
         id: "demos.showcase.hero",
-        message: "A bundle of high-signal indicators across economy, mobility, energy, and digitalization.",
+        message:
+          "A bundle of high-signal indicators across economy, mobility, energy, and digitalization.",
       })
     ),
     cta: i18n._(
-      defineMessage({ id: "demos.showcase.cta", message: "Browse all demo pages" })
+      defineMessage({
+        id: "demos.showcase.cta",
+        message: "Browse all demo pages",
+      })
     ),
     economyTitle: i18n._(
-      defineMessage({ id: "demos.showcase.economy.title", message: "Regional GDP Growth" })
+      defineMessage({
+        id: "demos.showcase.economy.title",
+        message: "Regional GDP Growth",
+      })
     ),
     economyDesc: i18n._(
       defineMessage({
@@ -43,16 +62,23 @@ export default function DemoShowcasePage() {
       })
     ),
     transportTitle: i18n._(
-      defineMessage({ id: "demos.showcase.transport.title", message: "Public Transport Momentum" })
+      defineMessage({
+        id: "demos.showcase.transport.title",
+        message: "Public Transport Momentum",
+      })
     ),
     transportDesc: i18n._(
       defineMessage({
         id: "demos.showcase.transport.description",
-        message: "Trips in millions – COVID dip in 2020, then a steady recovery.",
+        message:
+          "Trips in millions – COVID dip in 2020, then a steady recovery.",
       })
     ),
     energyTitle: i18n._(
-      defineMessage({ id: "demos.showcase.energy.title", message: "Energy Mix Snapshot" })
+      defineMessage({
+        id: "demos.showcase.energy.title",
+        message: "Energy Mix Snapshot",
+      })
     ),
     energyDesc: i18n._(
       defineMessage({
@@ -61,7 +87,10 @@ export default function DemoShowcasePage() {
       })
     ),
     digitalTitle: i18n._(
-      defineMessage({ id: "demos.showcase.digital.title", message: "Digital Skills Gap" })
+      defineMessage({
+        id: "demos.showcase.digital.title",
+        message: "Digital Skills Gap",
+      })
     ),
     digitalDesc: i18n._(
       defineMessage({
@@ -70,44 +99,78 @@ export default function DemoShowcasePage() {
       })
     ),
     datasetTitle: i18n._(
-      defineMessage({ id: "demos.showcase.dataset.title", message: "Showcase indicators" })
+      defineMessage({
+        id: "demos.showcase.dataset.title",
+        message: "Showcase indicators",
+      })
     ),
     datasetOrganization: i18n._(
-      defineMessage({ id: "demos.showcase.dataset.organization", message: "Sample dataset" })
+      defineMessage({
+        id: "demos.showcase.dataset.organization",
+        message: "Sample dataset",
+      })
     ),
     chips: {
       economy: i18n._(
-        defineMessage({ id: "demos.showcase.chip.economy", message: "Economic pulse" })
+        defineMessage({
+          id: "demos.showcase.chip.economy",
+          message: "Economic pulse",
+        })
       ),
       mobility: i18n._(
-        defineMessage({ id: "demos.showcase.chip.mobility", message: "Mobility" })
+        defineMessage({
+          id: "demos.showcase.chip.mobility",
+          message: "Mobility",
+        })
       ),
-      energy: i18n._(defineMessage({ id: "demos.showcase.chip.energy", message: "Energy" })),
-      digital: i18n._(defineMessage({ id: "demos.showcase.chip.digital", message: "Digital" })),
+      energy: i18n._(
+        defineMessage({ id: "demos.showcase.chip.energy", message: "Energy" })
+      ),
+      digital: i18n._(
+        defineMessage({ id: "demos.showcase.chip.digital", message: "Digital" })
+      ),
     },
     heroCards: [
       {
         label: i18n._(
-          defineMessage({ id: "demos.showcase.hero.stat1.label", message: "GDP YoY: +4.3%" })
+          defineMessage({
+            id: "demos.showcase.hero.stat1.label",
+            message: "GDP YoY: +4.3%",
+          })
         ),
         hint: i18n._(
-          defineMessage({ id: "demos.showcase.hero.stat1.hint", message: "Belgrade leads" })
+          defineMessage({
+            id: "demos.showcase.hero.stat1.hint",
+            message: "Belgrade leads",
+          })
         ),
       },
       {
         label: i18n._(
-          defineMessage({ id: "demos.showcase.hero.stat2.label", message: "Trips 2023: 171M" })
+          defineMessage({
+            id: "demos.showcase.hero.stat2.label",
+            message: "Trips 2023: 171M",
+          })
         ),
         hint: i18n._(
-          defineMessage({ id: "demos.showcase.hero.stat2.hint", message: "Steady recovery" })
+          defineMessage({
+            id: "demos.showcase.hero.stat2.hint",
+            message: "Steady recovery",
+          })
         ),
       },
       {
         label: i18n._(
-          defineMessage({ id: "demos.showcase.hero.stat3.label", message: "Coal share: 64%" })
+          defineMessage({
+            id: "demos.showcase.hero.stat3.label",
+            message: "Coal share: 64%",
+          })
         ),
         hint: i18n._(
-          defineMessage({ id: "demos.showcase.hero.stat3.hint", message: "Needs diversification" })
+          defineMessage({
+            id: "demos.showcase.hero.stat3.hint",
+            message: "Needs diversification",
+          })
         ),
       },
     ],
@@ -128,17 +191,26 @@ export default function DemoShowcasePage() {
           mb: 4,
           p: { xs: 3, md: 4 },
           borderRadius: 4,
-          background: "linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #22d3ee 100%)",
+          background:
+            "linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #22d3ee 100%)",
           color: "white",
           boxShadow: "0 24px 60px rgba(15, 23, 42, 0.4)",
         }}
       >
         <Grid container spacing={3} alignItems="center">
           <Grid item xs={12} md={7}>
-            <Typography variant="h4" sx={{ fontWeight: 800, mb: 2, lineHeight: 1.2 }}>
+            <Typography
+              variant="h4"
+              sx={{ fontWeight: 800, mb: 2, lineHeight: 1.2 }}
+            >
               {text.hero}
             </Typography>
-            <Stack direction="row" spacing={1.5} flexWrap="wrap" sx={{ mb: 3, gap: 1.5 }}>
+            <Stack
+              direction="row"
+              spacing={1.5}
+              flexWrap="wrap"
+              sx={{ mb: 3, gap: 1.5 }}
+            >
               <Chip label={text.chips.economy} color="primary" />
               <Chip
                 label={text.chips.mobility}
@@ -194,7 +266,13 @@ export default function DemoShowcasePage() {
 
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
-          <Card sx={{ height: "100%", borderRadius: 3, boxShadow: "0 14px 40px rgba(0,0,0,0.08)" }}>
+          <Card
+            sx={{
+              height: "100%",
+              borderRadius: 3,
+              boxShadow: "0 14px 40px rgba(0,0,0,0.08)",
+            }}
+          >
             <CardContent>
               <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
                 {text.economyTitle}
@@ -210,10 +288,16 @@ export default function DemoShowcasePage() {
                   width={760}
                   height={360}
                   xLabel={i18n._(
-                    defineMessage({ id: "demos.showcase.economy.xlabel", message: "Region" })
+                    defineMessage({
+                      id: "demos.showcase.economy.xlabel",
+                      message: "Region",
+                    })
                   )}
                   yLabel={i18n._(
-                    defineMessage({ id: "demos.showcase.economy.ylabel", message: "Growth (%)" })
+                    defineMessage({
+                      id: "demos.showcase.economy.ylabel",
+                      message: "Growth (%)",
+                    })
                   )}
                 />
               </Box>
@@ -222,7 +306,13 @@ export default function DemoShowcasePage() {
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <Card sx={{ height: "100%", borderRadius: 3, boxShadow: "0 14px 40px rgba(0,0,0,0.08)" }}>
+          <Card
+            sx={{
+              height: "100%",
+              borderRadius: 3,
+              boxShadow: "0 14px 40px rgba(0,0,0,0.08)",
+            }}
+          >
             <CardContent>
               <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
                 {text.transportTitle}
@@ -238,10 +328,16 @@ export default function DemoShowcasePage() {
                   width={760}
                   height={360}
                   xLabel={i18n._(
-                    defineMessage({ id: "demos.showcase.transport.xlabel", message: "Year" })
+                    defineMessage({
+                      id: "demos.showcase.transport.xlabel",
+                      message: "Year",
+                    })
                   )}
                   yLabel={i18n._(
-                    defineMessage({ id: "demos.showcase.transport.ylabel", message: "Million trips" })
+                    defineMessage({
+                      id: "demos.showcase.transport.ylabel",
+                      message: "Million trips",
+                    })
                   )}
                   color="#0ea5e9"
                 />
@@ -251,7 +347,13 @@ export default function DemoShowcasePage() {
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <Card sx={{ height: "100%", borderRadius: 3, boxShadow: "0 14px 40px rgba(0,0,0,0.08)" }}>
+          <Card
+            sx={{
+              height: "100%",
+              borderRadius: 3,
+              boxShadow: "0 14px 40px rgba(0,0,0,0.08)",
+            }}
+          >
             <CardContent>
               <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
                 {text.energyTitle}
@@ -273,7 +375,13 @@ export default function DemoShowcasePage() {
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <Card sx={{ height: "100%", borderRadius: 3, boxShadow: "0 14px 40px rgba(0,0,0,0.08)" }}>
+          <Card
+            sx={{
+              height: "100%",
+              borderRadius: 3,
+              boxShadow: "0 14px 40px rgba(0,0,0,0.08)",
+            }}
+          >
             <CardContent>
               <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
                 {text.digitalTitle}
@@ -289,10 +397,16 @@ export default function DemoShowcasePage() {
                   width={760}
                   height={360}
                   xLabel={i18n._(
-                    defineMessage({ id: "demos.showcase.digital.xlabel", message: "Segment" })
+                    defineMessage({
+                      id: "demos.showcase.digital.xlabel",
+                      message: "Segment",
+                    })
                   )}
                   yLabel={i18n._(
-                    defineMessage({ id: "demos.showcase.digital.ylabel", message: "Share (%)" })
+                    defineMessage({
+                      id: "demos.showcase.digital.ylabel",
+                      message: "Share (%)",
+                    })
                   )}
                   colors={["#22c55e"]}
                 />
@@ -309,7 +423,8 @@ export default function DemoShowcasePage() {
           borderRadius: 3,
           border: "1px solid",
           borderColor: "divider",
-          background: "linear-gradient(105deg, rgba(14,165,233,0.1), rgba(34,197,94,0.08))",
+          background:
+            "linear-gradient(105deg, rgba(14,165,233,0.1), rgba(34,197,94,0.08))",
         }}
       >
         <Stack
@@ -321,21 +436,25 @@ export default function DemoShowcasePage() {
           <Box>
             <Typography variant="h6" sx={{ fontWeight: 700 }}>
               {i18n._(
-                defineMessage({ id: "demos.showcase.cta.title", message: "Want more?" })
+                defineMessage({
+                  id: "demos.showcase.cta.title",
+                  message: "Want more?",
+                })
               )}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               {i18n._(
                 defineMessage({
                   id: "demos.showcase.cta.body",
-                  message: "Visit the full gallery for more categories and live data pulls.",
+                  message:
+                    "Visit the full gallery for more categories and live data pulls.",
                 })
               )}
             </Typography>
           </Box>
           <Box
             component="a"
-            href="/demos"
+            href="/vizualni-admin/demos"
             style={{
               textDecoration: "none",
               padding: "10px 16px",
