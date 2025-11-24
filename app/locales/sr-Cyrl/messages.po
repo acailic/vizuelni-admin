@@ -2203,7 +2203,7 @@ msgstr ""
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.transport.title"
-msgstr ""
+msgstr "Моментум јавног превоза"
 
 #: app/configurator/components/configurator.jsx
 #: app/configurator/components/configurator.tsx
@@ -3304,7 +3304,7 @@ msgstr ""
 
 #: app/pages/demos/showcase.tsx
 msgid "demos.showcase.transport.xlabel"
-msgstr ""
+msgstr "Година"
 
 #: app/configurator/components/ui-helpers.js
 #: app/configurator/components/ui-helpers.ts
