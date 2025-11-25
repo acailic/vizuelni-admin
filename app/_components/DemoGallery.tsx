@@ -1,5 +1,6 @@
 import { Box, Typography, Grid, Card, CardContent, CardActions, Button, Chip } from "@mui/material";
-import { useEffect, useState } from "react";
+import { staticGalleryDatasets } from "@/data/static-gallery-data";
+
 
 interface Dataset {
   id: string;
@@ -20,44 +21,10 @@ interface Dataset {
   };
 }
 
-export const DemoGallery = () => {
-  const [datasets, setDatasets] = useState<Dataset[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export const DemoGallery = ({ datasets = staticGalleryDatasets }: { datasets?: Dataset[] }) => {
 
-  useEffect(() => {
-    const fetchDatasets = async () => {
-      try {
-        // Fetching datasets related to "population" and "economy" as examples
-        const response = await fetch(
-          "https://data.gov.rs/api/3/action/package_search?q=statistika&rows=10"
-        );
-        const data = await response.json();
-        if (data.success) {
-          setDatasets(data.result.results);
-        }
-      } catch (error) {
-        console.error("Error fetching datasets:", error);
-        setError("Failed to load datasets. Please try again later.");
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchDatasets();
-  }, []);
 
-  if (loading) {
-    return <Typography>Loading datasets...</Typography>;
-  }
-
-  if (error) {
-    return (
-      <Box sx={{ p: 4 }}>
-        <Typography color="error">{error}</Typography>
-      </Box>
-    );
-  }
 
   return (
     <Box sx={{ p: 4 }}>
