@@ -1,8 +1,9 @@
 import { Box, Typography } from "@mui/material";
+
 import { BrowseFilter } from "@/browse/lib/filters";
 import { NavigationItem } from "@/browse/ui/navigation-item";
 import { SearchCube } from "@/domain/data";
-import SvgIcArrowRight from "@/icons/components/IcArrowRight"; // Assuming an arrow icon exists; adjust if needed
+import SvgIcArrowRight from "@/icons/components/IcArrowRight";
 
 export const SubthemeFilters = ({
   subthemes,

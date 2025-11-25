@@ -167,7 +167,7 @@ const useStyles = makeStyles<Theme, { level: number }>((theme) => ({
       outlineOffset: -2,
     },
   },
-  removeFilterButton: ({ level }) => ({
+  removeFilterButton: () => ({
     display: "flex",
     alignItems: "center",
     width: "auto",

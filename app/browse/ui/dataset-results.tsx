@@ -1,4 +1,5 @@
 import { Trans } from "@lingui/macro";
+import { SearchOff as SearchOffIcon } from "@mui/icons-material";
 import {
   Box,
   Typography,
@@ -7,12 +8,11 @@ import {
   Fade,
   Button,
 } from "@mui/material";
-import { SearchOff as SearchOffIcon } from "@mui/icons-material";
 import { ComponentProps } from "react";
 import { CombinedError } from "urql";
 
 import { DatasetResult, DatasetResultProps } from "@/browse/ui/dataset-result";
-import { Loading, LoadingDataError } from "@/components/hint";
+import { LoadingDataError } from "@/components/hint";
 import { SearchCube } from "@/domain/data";
 import { SearchCubeResult } from "@/graphql/query-hooks";
 

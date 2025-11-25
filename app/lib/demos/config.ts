@@ -15,10 +15,10 @@ export const DEMO_CONFIGS: Record<string, DemoConfig> = {
       sr: 'Koncentracije PM čestica i drugih zagađivača u odnosu na smernice Svetske zdravstvene organizacije.',
       en: 'PM concentrations and other pollutants compared with World Health Organization guidelines.'
     },
-    searchQuery: ['kvalitet vazduha', 'pm10', 'pm2.5'],
+    searchQuery: ['kvalitet vazduha', 'pm10', 'vazduh'],
     preferredDatasetIds: ['6616cc69e9cf23a1ec8096b5'],
     preferredTags: ['kvalitet-vazdukha', 'zivotna-sredina', 'vazduh'],
-    slugKeywords: ['pm10', 'pm2.5', 'vazduh', 'zagađenje'],
+    slugKeywords: ['pm10', 'pm25', 'vazduh', 'zagadjenje'],
     chartType: 'line',
     tags: ['Životna sredina', 'Zdravlje'],
     icon: '🚨'
@@ -33,10 +33,9 @@ export const DEMO_CONFIGS: Record<string, DemoConfig> = {
       sr: 'Prihodi, rashodi i izdaci javnih finansija sa preglednim raspodelama po kategorijama.',
       en: 'Revenues, expenditures, and public spending broken down by category.'
     },
-    // Use accented query to better match data.gov.rs dataset naming
-    searchQuery: ['budžet', 'budzet', 'javne finansije'],
+    searchQuery: ['budzet', 'javne finansije', 'finansije'],
     preferredTags: ['budzet', 'javne-finansije', 'finansije'],
-    slugKeywords: ['budzet', 'budžet', 'finansije'],
+    slugKeywords: ['budzet', 'finansije', 'prihodi'],
     chartType: 'column',
     tags: ['finansije', 'javne-finansije', 'budzet'],
     icon: '💰'

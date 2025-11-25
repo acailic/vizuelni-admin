@@ -1,6 +1,3 @@
-import { BoxProps, styled, Typography, TypographyProps } from "@mui/material";
-import { Theme } from "@mui/material/styles";
-import { makeStyles } from "@mui/styles";
 import {
   Palette as ThemeIcon,
   Business as OrganizationIcon,
@@ -8,6 +5,9 @@ import {
   Lightbulb as ConceptIcon,
   Drafts as DraftIcon,
 } from "@mui/icons-material";
+import { BoxProps, styled, Typography, TypographyProps } from "@mui/material";
+import { Theme } from "@mui/material/styles";
+import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 import { forwardRef, ReactNode } from "react";
 

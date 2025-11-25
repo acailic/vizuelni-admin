@@ -107,11 +107,10 @@ export const SearchDatasetControls = ({
           </span>
           <Typography variant="body2" sx={{ mr: 1 }}>
             Include drafts
-            {includeDrafts ? ` (${cubes.filter((c) => c.isDraft).length})` : ""}
           </Typography>
           <Switch
             checked={includeDrafts}
-            onChange={(e, checked) => onToggleIncludeDrafts()}
+            onChange={() => onToggleIncludeDrafts()}
           />
           <Divider flexItem orientation="vertical" />
           <SearchDatasetSortControl

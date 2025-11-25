@@ -2,6 +2,7 @@ import { Trans } from "@lingui/macro";
 import { Box, CardProps, Stack, Theme, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
+import { differenceInDays } from "date-fns";
 import sortBy from "lodash/sortBy";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
@@ -16,7 +17,6 @@ import { Tag } from "@/components/tag";
 import { PartialSearchCube } from "@/domain/data";
 import { DataCubePublicationStatus } from "@/graphql/query-hooks";
 import { useEvent } from "@/utils/use-event";
-import { differenceInDays } from "date-fns"; // For freshness indicator
 
 export type DatasetResultProps = ComponentProps<typeof DatasetResult>;
 

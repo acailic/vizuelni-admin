@@ -1,9 +1,9 @@
 import { Trans } from "@lingui/macro";
-import { Theme, Typography } from "@mui/material";
 import {
   DataObject as DataObjectIcon,
   Search as SearchIcon,
 } from "@mui/icons-material";
+import { Theme, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { AnimatePresence } from "framer-motion";
 

@@ -8,9 +8,9 @@ type DemoFallback = {
 
 export const DEMO_FALLBACKS: Record<string, DemoFallback> = {
   "air-quality": {
-    searchQueries: ["kvalitet vazduha", "zagađenje vazduha", "pm10", "pm2.5"],
+    searchQueries: ["kvalitet vazduha", "zagadjenje vazduha", "pm10", "pm25"],
     fallbackDatasetInfo: {
-      title: "Indeksi zagađenja vazduha (primer podaci)",
+      title: "Indeksi zagadjenja vazduha (primer podaci)",
       organization: "Demo data.gov.rs",
     },
     fallbackData: [
@@ -24,9 +24,9 @@ export const DEMO_FALLBACKS: Record<string, DemoFallback> = {
     ],
   },
   budget: {
-    searchQueries: ["budžet", "budzet", "budget", "javne finansije"],
+    searchQueries: ["budzet", "javne finansije", "finansije"],
     fallbackDatasetInfo: {
-      title: "Rashodi i prihodi budžeta (primer podaci)",
+      title: "Rashodi i prihodi budzeta (primer podaci)",
       organization: "Demo data.gov.rs",
     },
     fallbackData: [
@@ -40,7 +40,7 @@ export const DEMO_FALLBACKS: Record<string, DemoFallback> = {
     ],
   },
   environment: {
-    searchQueries: ["kvalitet vazduha", "pm10", "zagađenje"],
+    searchQueries: ["kvalitet vazduha", "pm10", "zagadjenje"],
     fallbackDatasetInfo: {
       title: "Indeks kvaliteta vazduha po gradovima (primer podaci)",
       organization: "Demo data.gov.rs",

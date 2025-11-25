@@ -1,7 +1,7 @@
 import { t } from "@lingui/macro";
-import { KeyboardEvent, useEffect, useState } from "react";
-import { Button, Icon } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { Button, Icon } from "@mui/material";
+import { KeyboardEvent, useEffect, useState } from "react";
 
 import { BrowseState } from "@/browse/model/context";
 import { Flex } from "@/components/flex";

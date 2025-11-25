@@ -90,6 +90,11 @@ interface UseDataGovRsReturn {
   error: Error | null;
 
   /**
+   * Whether fallback demo data is being used
+   */
+  usingFallback: boolean;
+
+  /**
    * Manually trigger a refetch
    */
   refetch: () => Promise<void>;
@@ -124,6 +129,7 @@ export function useDataGovRs(options: UseDataGovRsOptions): UseDataGovRsReturn {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  const [usingFallback, setUsingFallback] = useState(false);
 
   const getFallbackDataset = (
     fallbackInfo: Partial<DatasetMetadata> | DemoDatasetInfo | undefined
@@ -179,6 +185,7 @@ export function useDataGovRs(options: UseDataGovRsOptions): UseDataGovRsReturn {
     setDataset(getFallbackDataset(fallbackInfo));
     setResource(null);
     setData(fallback);
+    setUsingFallback(true);
   };
 
   const fetchData = async () => {
@@ -187,18 +194,12 @@ export function useDataGovRs(options: UseDataGovRsOptions): UseDataGovRsReturn {
       setError(null);
 
       // Defensive check for fallbackData availability and GitHub Pages detection
-      console.log(
-        "useDataGovRs: fallbackData available:",
-        fallbackData ? fallbackData.length : "none"
-      );
       if (
         process.env.NEXT_PUBLIC_BASE_PATH &&
         fallbackData &&
         fallbackData.length > 0
       ) {
-        console.log(
-          "useDataGovRs: Running on GitHub Pages, using fallback data directly"
-        );
+        // On GitHub Pages, use fallback data directly (static export limitation)
         applyFallback(fallbackDatasetInfo, fallbackData);
         return;
       }
@@ -253,18 +254,12 @@ export function useDataGovRs(options: UseDataGovRsOptions): UseDataGovRsReturn {
         });
 
         if (!foundDataset) {
-          console.log(
-            "useDataGovRs: No dataset found, checking fallbackData:",
-            fallbackData ? fallbackData.length : "none"
-          );
           if (fallbackData && fallbackData.length > 0) {
-            console.log("useDataGovRs: Applying fallback data");
+            // Use fallback data instead of throwing error
             applyFallback(fallbackDatasetInfo, fallbackData);
             return;
           }
-          console.log(
-            "useDataGovRs: No fallback data available, throwing error"
-          );
+          // Only throw error if no fallback is available
           throw new Error(
             `No datasets found for queries/tags: ${[
               ...queries,
@@ -302,21 +297,20 @@ export function useDataGovRs(options: UseDataGovRsOptions): UseDataGovRsReturn {
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err : new Error("Unknown error occurred");
-      console.log("useDataGovRs: Error occurred:", errorMessage.message);
-      console.log(
-        "useDataGovRs: Checking fallbackData in catch:",
-        fallbackData ? fallbackData.length : "none"
-      );
+
       if (fallbackData && fallbackData.length > 0) {
-        console.log("useDataGovRs: Applying fallback data in catch");
+        // Use fallback data and don't show error to user
         applyFallback(fallbackDatasetInfo, fallbackData);
         setError(null);
-        console.warn(
-          "useDataGovRs: using fallback demo data due to error:",
-          errorMessage
-        );
+        // Only log as info, not error
+        if (process.env.NODE_ENV === 'development') {
+          console.info(
+            "📊 Using demo data (data.gov.rs API not available):",
+            errorMessage.message
+          );
+        }
       } else {
-        console.log("useDataGovRs: No fallback data, setting error");
+        // No fallback available - this is a real error
         setError(errorMessage);
         console.error("useDataGovRs error:", errorMessage);
       }
@@ -337,6 +331,7 @@ export function useDataGovRs(options: UseDataGovRsOptions): UseDataGovRsReturn {
     data,
     loading,
     error,
+    usingFallback,
     refetch: fetchData,
   };
 }

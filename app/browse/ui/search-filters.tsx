@@ -4,7 +4,7 @@ import { AnimatePresence } from "framer-motion";
 import keyBy from "lodash/keyBy";
 import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
-import { ReactNode, useMemo } from "react";
+import React, { ReactNode, useMemo } from "react";
 
 import { BrowseFilter } from "@/browse/lib/filters";
 import { useBrowseContext } from "@/browse/model/context";
@@ -263,7 +263,7 @@ export const SearchFilters = ({
             {filters.map((filter) => (
               <Chip
                 key={filter.iri}
-                label={filter.label}
+                label={"label" in filter ? filter.label : filter.iri}
                 onDelete={() => {
                   const newFilters = filters.filter(
                     (f) => f.iri !== filter.iri

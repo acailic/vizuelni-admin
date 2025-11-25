@@ -1,5 +1,11 @@
 import { t, Trans } from "@lingui/macro";
 import {
+  Sort as SortIcon,
+  TrendingUp,
+  TextFields,
+  Schedule,
+} from "@mui/icons-material";
+import {
   Box,
   FormControl,
   InputLabel,
@@ -8,12 +14,6 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import {
-  Sort as SortIcon,
-  TrendingUp,
-  TextFields,
-  Schedule,
-} from "@mui/icons-material";
 import { useEffect, useMemo, useState } from "react";
 
 import { Flex } from "@/components/flex";

@@ -1,4 +1,5 @@
 import { t } from "@lingui/macro";
+import { Drafts as DraftsIcon } from "@mui/icons-material";
 import {
   Tooltip,
   Switch,
@@ -6,7 +7,6 @@ import {
   CircularProgress,
   Box,
 } from "@mui/material";
-import { Drafts as DraftsIcon } from "@mui/icons-material";
 
 export const SearchDatasetDraftsControl = ({
   checked,

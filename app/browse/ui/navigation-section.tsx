@@ -61,10 +61,8 @@ export const NavigationSection = ({
     );
   }, [counts, items]);
   const hiddenCount = Math.max(0, items.length - 7);
-  const icon =
-    items.length > 0 ? (
-      <Icon name={getIconName(items[0])} size={20} />
-    ) : undefined;
+  const iconName = items.length > 0 ? getIconName(items[0]) : undefined;
+  const icon = iconName ? <Icon name={iconName as any} size={20} /> : undefined;
 
   return (
     <Box
@@ -77,15 +75,11 @@ export const NavigationSection = ({
     >
       <NavigationSectionTitle
         label={label}
-        backgroundColor="white"
+        backgroundColor={backgroundColor}
         icon={icon}
       />
       <Box sx={{ px: 2, pb: 2 }}>
-        <Reorder.Group
-          axis="y"
-          as="div"
-          onReorder={() => {}}
-          values={isOpen ? items : topItems}
+        <Box
           sx={{
             "& > div": {
               borderBottom: "1px solid",
@@ -96,6 +90,12 @@ export const NavigationSection = ({
             "& > div:hover": { backgroundColor: "action.hover" },
           }}
         >
+          <Reorder.Group
+            axis="y"
+            as="div"
+            onReorder={() => {}}
+            values={isOpen ? items : topItems}
+          >
           {(isOpen ? items : topItems).map((item) => {
             return (
               <Reorder.Item key={item.iri} as="div" value={item}>
@@ -131,6 +131,7 @@ export const NavigationSection = ({
             </Button>
           ) : null}
         </Reorder.Group>
+        </Box>
         {extra}
       </Box>
     </Box>

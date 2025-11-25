@@ -1,7 +1,7 @@
-import { useMemo } from "react";
-import { formatDistanceToNow } from "date-fns";
 import { CalendarToday as CalendarTodayIcon } from "@mui/icons-material";
 import { Tooltip, Typography } from "@mui/material";
+import { formatDistanceToNow } from "date-fns";
+import { useMemo } from "react";
 
 import { useFormatDate } from "@/formatters";
 

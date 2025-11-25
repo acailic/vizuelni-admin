@@ -1,6 +1,6 @@
 import { Plural } from "@lingui/macro";
-import { Box, Skeleton, Typography } from "@mui/material";
 import { List as ListIcon } from "@mui/icons-material";
+import { Box, Skeleton, Typography } from "@mui/material";
 
 import { SearchCubeResult } from "@/graphql/query-hooks";
 
