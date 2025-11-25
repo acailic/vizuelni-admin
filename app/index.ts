@@ -14,7 +14,7 @@ export { defaultLocale, locales, parseLocaleString } from "./locales/locales";
 export type { Locale } from "./locales/locales";
 
 // Export config types for external consumers
-export type * from "./config-types";
+export * from "./config-types";
 
 // Note: Configurator, ConfiguratorStateProvider, and other components
 // are not exported in this beta as they have deep dependencies on the
