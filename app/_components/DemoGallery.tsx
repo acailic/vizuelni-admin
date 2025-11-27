@@ -1,27 +1,11 @@
 import { Box, Typography, Grid, Card, CardContent, CardActions, Button, Chip } from "@mui/material";
-import { staticGalleryDatasets } from "@/data/static-gallery-data";
+
+// internal imports
+import { staticGalleryDatasets, GalleryDataset } from "@/data/static-gallery-data";
 
 
-interface Dataset {
-  id: string;
-  title: string;
-  notes: string;
-  resources: {
-    id: string;
-    name: string;
-    format: string;
-    url: string;
-  }[];
-  tags: {
-    name: string;
-  }[];
-  organization?: {
-    title: string;
-    image_url: string;
-  };
-}
 
-export const DemoGallery = ({ datasets = staticGalleryDatasets }: { datasets?: Dataset[] }) => {
+export const DemoGallery = ({ datasets = staticGalleryDatasets }: { datasets?: GalleryDataset[] }) => {
 
 
 

@@ -16,7 +16,7 @@ export const DEMO_CONFIGS: Record<string, DemoConfig> = {
       en: 'PM concentrations and other pollutants compared with World Health Organization guidelines.'
     },
     searchQuery: ['kvalitet vazduha', 'pm10', 'vazduh'],
-    preferredDatasetIds: ['6616cc69e9cf23a1ec8096b5'],
+    preferredDatasetIds: ['692076d3d79dfb1930d75b90'],
     preferredTags: ['kvalitet-vazdukha', 'zivotna-sredina', 'vazduh'],
     slugKeywords: ['pm10', 'pm25', 'vazduh', 'zagadjenje'],
     chartType: 'line',
@@ -51,7 +51,7 @@ export const DEMO_CONFIGS: Record<string, DemoConfig> = {
       en: 'Monitor air, water, and soil quality across Serbian cities.'
     },
     searchQuery: ['kvalitet vazduha', 'pm10'],
-    preferredDatasetIds: ['6616cc69e9cf23a1ec8096b5'],
+    preferredDatasetIds: ['692076d3d79dfb1930d75b90'],
     preferredTags: ['kvalitet-vazdukha', 'zivotna-sredina', 'vazduh'],
     slugKeywords: ['vazduh', 'pm10', 'pm2.5'],
     chartType: 'line',

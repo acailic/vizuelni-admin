@@ -8,7 +8,7 @@ import type { DatasetMetadata, Resource } from './types';
  * Check if a resource is in a supported format for visualization
  */
 export function isSupportedFormat(resource: Resource): boolean {
-  const supportedFormats = ['CSV', 'JSON', 'GEOJSON', 'XML', 'RDF'];
+  const supportedFormats = ['CSV', 'JSON', 'GEOJSON', 'XML', 'RDF', 'XLS', 'XLSX'];
   return supportedFormats.includes(resource.format.toUpperCase());
 }
 
@@ -18,9 +18,9 @@ export function isSupportedFormat(resource: Resource): boolean {
 export function getBestVisualizationResource(
   dataset: DatasetMetadata
 ): Resource | null {
-  // Priority: CSV > JSON > GeoJSON > XML > others
-  const priorityFormats = ['CSV', 'JSON', 'GEOJSON', 'XML'];
-  
+  // Priority: CSV > JSON > GeoJSON > XML > XLS/XLSX > others
+  const priorityFormats = ['CSV', 'JSON', 'GEOJSON', 'XML', 'XLS', 'XLSX'];
+
   for (const format of priorityFormats) {
     const resource = dataset.resources.find(
       r => r.format.toUpperCase() === format
@@ -37,16 +37,16 @@ export function getBestVisualizationResource(
  */
 export function formatFileSize(bytes?: number): string {
   if (!bytes) return 'N/A';
-  
+
   const units = ['B', 'KB', 'MB', 'GB', 'TB'];
   let size = bytes;
   let unitIndex = 0;
-  
+
   while (size >= 1024 && unitIndex < units.length - 1) {
     size /= 1024;
     unitIndex++;
   }
-  
+
   return `${size.toFixed(2)} ${units[unitIndex]}`;
 }
 
@@ -226,7 +226,7 @@ export function getLanguageFromLocale(locale: string): string {
 export function isRecentlyUpdated(dataset: DatasetMetadata): boolean {
   const thirtyDaysAgo = new Date();
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-  
+
   const updatedAt = new Date(dataset.updated_at);
   return updatedAt > thirtyDaysAgo;
 }

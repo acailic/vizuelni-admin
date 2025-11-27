@@ -341,14 +341,82 @@ export function useDataGovRs(options: UseDataGovRsOptions): UseDataGovRsReturn {
  * Handles quoted fields, different line endings, and empty rows
  */
 async function loadResourceData(bestResource: Resource, parseCSV: boolean) {
-  if (bestResource.format.toUpperCase() === "JSON") {
+  const format = bestResource.format.toUpperCase();
+
+  if (format === "JSON") {
     return dataGovRsClient.getResourceJSON(bestResource);
   }
-  if (bestResource.format.toUpperCase() === "CSV" && parseCSV) {
+
+  if (format === "CSV" && parseCSV) {
     const csvText = await dataGovRsClient.getResourceData(bestResource);
     return parseCSVData(csvText);
   }
+
+  if (format === "XLS" || format === "XLSX") {
+    const buffer = await dataGovRsClient.getResourceArrayBuffer(bestResource);
+    return parseExcelData(buffer);
+  }
+
   return dataGovRsClient.getResourceData(bestResource);
+}
+
+async function parseExcelData(buffer: ArrayBuffer): Promise<any[]> {
+  // Dynamic import to keep bundle size low
+  const ExcelJS = await import('exceljs');
+  const Workbook = ExcelJS.Workbook || ExcelJS.default.Workbook;
+
+  const workbook = new Workbook();
+  await workbook.xlsx.load(buffer);
+
+  const worksheet = workbook.worksheets[0];
+  if (!worksheet) return [];
+
+  const rows: any[] = [];
+  const headers: string[] = [];
+
+  worksheet.eachRow((row, rowNumber) => {
+    if (rowNumber === 1) {
+      row.eachCell((cell, colNumber) => {
+        // ExcelJS uses 1-based indexing for columns
+        headers[colNumber] = cell.text;
+      });
+    } else {
+      const rowData: Record<string, any> = {};
+      let hasData = false;
+
+      row.eachCell((cell, colNumber) => {
+        const header = headers[colNumber];
+        if (header) {
+          // Handle different cell types
+          let value = cell.value;
+
+          // Handle rich text
+          if (typeof value === 'object' && value !== null && 'richText' in value) {
+            value = (value as any).richText.map((t: any) => t.text).join('');
+          }
+
+          // Handle formulas
+          if (typeof value === 'object' && value !== null && 'result' in value) {
+            value = (value as any).result;
+          }
+
+          // Handle hyperlinks
+          if (typeof value === 'object' && value !== null && 'text' in value && 'hyperlink' in value) {
+            value = (value as any).text;
+          }
+
+          rowData[header] = value;
+          hasData = true;
+        }
+      });
+
+      if (hasData) {
+        rows.push(rowData);
+      }
+    }
+  });
+
+  return rows;
 }
 
 function parseCSVData(csv: string): any[] {

@@ -115,7 +115,7 @@ export class DataGovRsClient {
     params: SearchParams = {}
   ): Promise<PaginatedResponse<DatasetMetadata>> {
     const searchParams = new URLSearchParams();
-    
+
     if (params.q) searchParams.set('q', params.q);
     if (params.page) searchParams.set('page', params.page.toString());
     if (params.page_size) searchParams.set('page_size', params.page_size.toString());
@@ -203,6 +203,14 @@ export class DataGovRsClient {
   }
 
   /**
+   * Get resource data as ArrayBuffer
+   */
+  async getResourceArrayBuffer(resource: Resource): Promise<ArrayBuffer> {
+    const response = await this.downloadResource(resource.url);
+    return response.arrayBuffer();
+  }
+
+  /**
    * Get all pages of a paginated response
    */
   async *getAllPages<T>(
@@ -210,7 +218,7 @@ export class DataGovRsClient {
     fetcher: (page: number) => Promise<PaginatedResponse<T>>
   ): AsyncGenerator<T[], void, unknown> {
     yield firstPage.data;
-    
+
     let currentPage = firstPage.page;
     const totalPages = Math.ceil(firstPage.total / firstPage.page_size);
 

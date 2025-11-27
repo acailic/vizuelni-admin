@@ -81,7 +81,7 @@ export default function AirQualityDemo() {
 
     const readings = data as PollutionReading[];
 
-    // Detect pollutant and quantity columns (NRIZ dataset)
+    // Detect pollutant and quantity columns (NRIZ dataset - Long format)
     const keys = Object.keys(readings[0]);
     const pollutantKey = keys.find(k =>
       k.toLowerCase().includes('zagad') || k.toLowerCase().includes('pollut')
@@ -90,29 +90,46 @@ export default function AirQualityDemo() {
       k.toLowerCase().includes('kolicina') || k.toLowerCase().includes('quantity')
     );
 
-    const extractValue = (row: any, key: string | undefined) => {
-      if (!key || row[key] === undefined || row[key] === null) return null;
-      const num = parseFloat(String(row[key]));
-      return Number.isFinite(num) ? num : null;
-    };
+    let pm10Values: number[] = [];
+    let pm25Values: number[] = [];
 
-    const pm10Values =
-      pollutantKey && quantityKey
-        ? readings
-            .filter((r) => String(r[pollutantKey]).toLowerCase().includes('pm10'))
-            .map((r) => extractValue(r, quantityKey))
-            .filter((v): v is number => v !== null)
-        : [];
-    const pm25Values =
-      pollutantKey && quantityKey
-        ? readings
-            .filter((r) =>
-              String(r[pollutantKey]).toLowerCase().includes('pm2.5') ||
-              String(r[pollutantKey]).toLowerCase().includes('pm25')
-            )
-            .map((r) => extractValue(r, quantityKey))
-            .filter((v): v is number => v !== null)
-        : [];
+    if (pollutantKey && quantityKey) {
+      // Strategy 1: Long format (NRIZ)
+      const extractValue = (row: any, key: string | undefined) => {
+        if (!key || row[key] === undefined || row[key] === null) return null;
+        const num = parseFloat(String(row[key]));
+        return Number.isFinite(num) ? num : null;
+      };
+
+      pm10Values = readings
+        .filter((r) => String(r[pollutantKey]).toLowerCase().includes('pm10'))
+        .map((r) => extractValue(r, quantityKey))
+        .filter((v): v is number => v !== null);
+
+      pm25Values = readings
+        .filter((r) =>
+          String(r[pollutantKey]).toLowerCase().includes('pm2.5') ||
+          String(r[pollutantKey]).toLowerCase().includes('pm25')
+        )
+        .map((r) => extractValue(r, quantityKey))
+        .filter((v): v is number => v !== null);
+    } else {
+      // Strategy 2: Wide format (Šabac / Automatic Stations)
+      const pm10Col = keys.find(k => k.toUpperCase().includes('PM10'));
+      const pm25Col = keys.find(k => k.toUpperCase().includes('PM2.5') || k.toUpperCase().includes('PM25'));
+
+      if (pm10Col) {
+        pm10Values = readings
+          .map(r => parseFloat(String(r[pm10Col])))
+          .filter(v => !isNaN(v));
+      }
+
+      if (pm25Col) {
+        pm25Values = readings
+          .map(r => parseFloat(String(r[pm25Col])))
+          .filter(v => !isNaN(v));
+      }
+    }
 
     const avgPM25 = pm25Values.length > 0
       ? pm25Values.reduce((a, b) => a + b, 0) / pm25Values.length
@@ -130,9 +147,38 @@ export default function AirQualityDemo() {
     const daysAboveLimitPM25 = pm25Values.filter(v => v > WHO_LIMITS.PM25.daily).length;
     const daysAboveLimitPM10 = pm10Values.filter(v => v > WHO_LIMITS.PM10.daily).length;
 
+    // Normalize readings for timeline chart
+    const normalizedReadings = readings.map(r => {
+      const dateKey = keys.find(k => k.toLowerCase().includes('datum') || k.toLowerCase().includes('date'));
+      const timeKey = keys.find(k => k.toLowerCase().includes('vreme') || k.toLowerCase().includes('time'));
+
+      let pm25 = 0;
+      let pm10 = 0;
+
+      if (pollutantKey && quantityKey) {
+        const p = String(r[pollutantKey]).toLowerCase();
+        const v = parseFloat(String(r[quantityKey]));
+        if (p.includes('pm2.5') || p.includes('pm25')) pm25 = v;
+        if (p.includes('pm10')) pm10 = v;
+      } else {
+        const pm10Col = keys.find(k => k.toUpperCase().includes('PM10'));
+        const pm25Col = keys.find(k => k.toUpperCase().includes('PM2.5') || k.toUpperCase().includes('PM25'));
+        if (pm10Col) pm10 = parseFloat(String(r[pm10Col])) || 0;
+        if (pm25Col) pm25 = parseFloat(String(r[pm25Col])) || 0;
+      }
+
+      return {
+        ...r,
+        date: dateKey ? r[dateKey] : undefined,
+        time: timeKey ? r[timeKey] : undefined,
+        pm25,
+        pm10
+      };
+    });
+
     return {
-      pm25Key: pm25Values.length > 0 ? 'PM2.5' : null,
-      pm10Key: pm10Values.length > 0 ? 'PM10' : null,
+      pm25Key: pm25Values.length > 0 ? 'pm25' : null,
+      pm10Key: pm10Values.length > 0 ? 'pm10' : null,
       avgPM25,
       avgPM10,
       maxPM25,
@@ -142,7 +188,7 @@ export default function AirQualityDemo() {
       daysAboveLimitPM25,
       daysAboveLimitPM10,
       totalDays: readings.length,
-      readings
+      readings: normalizedReadings
     };
   }, [data]);
 
