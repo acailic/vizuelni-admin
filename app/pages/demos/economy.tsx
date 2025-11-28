@@ -9,6 +9,7 @@ import { Alert, Box, Card, CardContent, Chip, Grid, Paper, Typography } from '@m
 import { ColumnChart } from '@/components/demos/charts/ColumnChart';
 import { LineChart } from '@/components/demos/charts/LineChart';
 import { PieChart } from '@/components/demos/charts/PieChart';
+import { LiveDatasetPanel } from '@/components/demos/LiveDatasetPanel';
 import { DemoLayout } from '@/components/demos/demo-layout';
 import {
   economicIndicators,
@@ -53,6 +54,7 @@ export default function EconomyDemo() {
         updatedAt: '2024'
       }}
     >
+      <LiveDatasetPanel demoId="economy" title={locale === 'sr' ? 'Živi podaci (ekonomija)' : 'Live data (economy)'} />
       <Box>
         {/* Economic Overview Alert */}
         <Alert

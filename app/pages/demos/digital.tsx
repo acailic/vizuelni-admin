@@ -9,6 +9,7 @@ import { Alert, Box, Card, CardContent, Chip, Grid, Paper, Typography } from '@m
 import { BarChart } from '@/components/demos/charts/BarChart';
 import { ColumnChart } from '@/components/demos/charts/ColumnChart';
 import { LineChart } from '@/components/demos/charts/LineChart';
+import { LiveDatasetPanel } from '@/components/demos/LiveDatasetPanel';
 import { DemoLayout } from '@/components/demos/demo-layout';
 import {
   digitalDivide,
@@ -59,6 +60,7 @@ export default function DigitalDemo() {
         updatedAt: '2024'
       }}
     >
+      <LiveDatasetPanel demoId="digital" title={locale === 'sr' ? 'Živi podaci (digitalizacija)' : 'Live data (digital)'} />
       <Box>
         {/* Digital Success Story Alert */}
         <Alert

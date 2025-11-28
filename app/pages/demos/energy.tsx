@@ -10,6 +10,7 @@ import { Alert, Box, Card, CardContent, Chip, Grid, LinearProgress, Paper, Typog
 import { BarChart } from '@/components/demos/charts/BarChart';
 import { LineChart } from '@/components/demos/charts/LineChart';
 import { PieChart } from '@/components/demos/charts/PieChart';
+import { LiveDatasetPanel } from '@/components/demos/LiveDatasetPanel';
 import { DemoLayout } from '@/components/demos/demo-layout';
 import {
   energyImports,
@@ -55,6 +56,7 @@ export default function EnergyDemo() {
         updatedAt: '2024'
       }}
     >
+      <LiveDatasetPanel demoId="energy" title={locale === 'sr' ? 'Živi podaci (energija)' : 'Live data (energy)'} />
       <Box>
         {/* Critical Warning Banner */}
         <Alert
