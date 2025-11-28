@@ -5,7 +5,6 @@ import { VizualniAdminConfig } from "./types";
 
 const ajv = new Ajv({
   allErrors: true,
-  removeAdditional: "failing",
 });
 
 const validateFn = ajv.compile(schema);
@@ -38,7 +37,7 @@ const formatErrors = (errors: ErrorObject[] | null | undefined): ValidationIssue
 
     return {
       path: normalizedPath,
-      message: error.message ?? "Invalid value",
+      message: (error.message ?? "Invalid value").replace(/^should\b/i, "must"),
       keyword: error.keyword,
     };
   });

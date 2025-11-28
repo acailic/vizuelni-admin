@@ -86,6 +86,7 @@
     "react-dom": "^18.2.0",
     "ts-brand": "^0.2.0",
     "ts-node": "^10.9.2",
+    "ts-pattern": "^5.9.0",
     "urql": "^5.0.1"
   },
   "devDependencies": {

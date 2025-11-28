@@ -118,7 +118,9 @@ export class DataGovRsClient {
     if (params.q) queryParts.push(['q', params.q]);
     if (!params.q && params.organization) queryParts.push(['organization', params.organization]);
 
-    queryParts.push(['page', params.page ?? 1]);
+    if (params.page) {
+      queryParts.push(['page', params.page]);
+    }
     queryParts.push(['page_size', params.page_size ?? this.config.defaultPageSize]);
 
     if (params.q && params.organization) queryParts.push(['organization', params.organization]);
