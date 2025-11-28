@@ -28,8 +28,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "incremental": true,
-    "outDir": ".next/tsbuild",
-    "tsBuildInfoFile": ".next/cache/tsconfig.tsbuildinfo",
+    "outDir": ".tsbuild",
+    "tsBuildInfoFile": ".tsbuildinfo",
     "plugins": [
       {
         "name": "next"

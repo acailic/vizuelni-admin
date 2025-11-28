@@ -231,6 +231,8 @@ export default function HealthcareDemo() {
               value: item.totalLeft,
               category: locale === 'sr' ? 'Ukupno' : 'Total'
             }))}
+            xKey="label"
+            yKey="value"
             title=""
             width={900}
             height={400}
@@ -274,6 +276,8 @@ export default function HealthcareDemo() {
                     value: item.totalBeds,
                     category: locale === 'sr' ? 'Kreveti' : 'Beds'
                   }))}
+                  xKey="label"
+                  yKey="value"
                   title=""
                   width={450}
                   height={300}
@@ -291,6 +295,8 @@ export default function HealthcareDemo() {
                     value: item.patientsPerDoctor,
                     category: locale === 'sr' ? 'Pacijenti/Lekar' : 'Patients/Doctor'
                   }))}
+                  xKey="label"
+                  yKey="value"
                   title=""
                   width={450}
                   height={300}

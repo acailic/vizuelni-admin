@@ -149,6 +149,8 @@ export default function EmploymentDemo() {
                 value: item.youthUnemploymentRate,
                 category: locale === 'sr' ? 'Mladi (15-24)' : 'Youth (15-24)'
               }))}
+              xKey="label"
+              yKey="value"
               title=""
               width={900}
               height={400}
@@ -199,6 +201,8 @@ export default function EmploymentDemo() {
                   value: item.emigrantsTotal,
                   category: locale === 'sr' ? 'Ukupno' : 'Total'
                 }))}
+                xKey="label"
+                yKey="value"
                 title=""
                 width={450}
                 height={350}
@@ -214,6 +218,8 @@ export default function EmploymentDemo() {
                   value: item.highlyEducated,
                   category: locale === 'sr' ? 'Visokoobrazovani' : 'Highly educated'
                 }))}
+                xKey="label"
+                yKey="value"
                 title=""
                 width={450}
                 height={350}

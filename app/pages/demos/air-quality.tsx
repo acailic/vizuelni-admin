@@ -65,7 +65,7 @@ export default function AirQualityDemo() {
   const locale = i18n.locale?.startsWith('sr') ? 'sr' : 'en';
 
   // Fetch air quality data
-  const { dataset, resource, data, loading, error, refetch } = useDataGovRs({
+  const { dataset, resource, data, loading, error } = useDataGovRs({
     searchQuery: ['kvalitet vazduha', 'pm10', 'pm2.5'],
     preferredDatasetIds: getValidatedDatasetIds('air-quality'),
     preferredTags: ['kvalitet-vazdukha', 'zivotna-sredina', 'vazduh'],

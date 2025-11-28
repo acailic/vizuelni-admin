@@ -83,8 +83,15 @@ export class DataSampler<T = any> {
 
     // Preserve original order if requested
     if (preserveOrder && strategy !== 'first' && strategy !== 'last') {
-      const indices = new Map(sampled.map((item, i) => [item, data.indexOf(item)]));
-      sampled.sort((a, b) => indices.get(a)! - indices.get(b)!);
+      const positions = new Map<T, number>();
+
+      data.forEach((item, index) => {
+        if (!positions.has(item)) {
+          positions.set(item, index);
+        }
+      });
+
+      sampled.sort((a, b) => (positions.get(a) ?? 0) - (positions.get(b) ?? 0));
     }
 
     return sampled;
@@ -140,9 +147,8 @@ export class DataSampler<T = any> {
 
     // Calculate samples per group
     const sampled: T[] = [];
-    const totalGroups = groups.size;
 
-    for (const [key, groupData] of groups) {
+    for (const groupData of groups.values()) {
       const proportion = groupData.length / data.length;
       const groupSampleSize = Math.max(1, Math.floor(sampleSize * proportion));
 
