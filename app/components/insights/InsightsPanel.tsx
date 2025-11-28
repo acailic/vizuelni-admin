@@ -1,20 +1,21 @@
-import React, { useState, useMemo } from 'react';
-import {
-  Box,
-  Typography,
-  Paper,
-  Stack,
-  Chip,
-  CircularProgress,
-  Alert,
-  Button
-} from '@mui/material';
+import { Trans } from '@lingui/macro';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { InsightCard, Insight } from './InsightCard';
+import {
+  Alert,
+  Box,
+  Button,
+  Chip,
+  CircularProgress,
+  Paper,
+  Stack,
+  Typography,
+} from '@mui/material';
+import React, { useMemo, useState } from 'react';
+
+import { Insight, InsightCard } from './InsightCard';
 import { Severity } from './SeverityIndicator';
-import { Trans } from '@lingui/macro';
 
 interface InsightsPanelProps {
   insights: Insight[];

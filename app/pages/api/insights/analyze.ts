@@ -1,6 +1,7 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { spawn } from 'child_process';
 import path from 'path';
+
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 export const config = {
   api: {

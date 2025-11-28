@@ -1,9 +1,9 @@
-import React from 'react';
-import { Box, Chip, useTheme } from '@mui/material';
+import { Trans } from '@lingui/macro';
+import ErrorIcon from '@mui/icons-material/Error';
 import InfoIcon from '@mui/icons-material/Info';
 import WarningIcon from '@mui/icons-material/Warning';
-import ErrorIcon from '@mui/icons-material/Error';
-import { Trans } from '@lingui/macro';
+import { Box, Chip, useTheme } from '@mui/material';
+import React from 'react';
 
 export type Severity = 'info' | 'warning' | 'critical';
 

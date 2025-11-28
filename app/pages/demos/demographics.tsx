@@ -2,6 +2,7 @@
 import { defineMessage } from "@lingui/macro";
 import { Trans, useLingui } from "@lingui/react";
 import { Alert, Box, Card, CardContent, Chip, Grid, Paper, Typography } from "@mui/material";
+
 import { DemoPageTemplate } from "@/components/demo/DemoPageTemplate";
 import { PopulationPyramid } from "@/components/demos/charts/PopulationPyramid";
 import { PopulationTrends } from "@/components/demos/charts/PopulationTrends";

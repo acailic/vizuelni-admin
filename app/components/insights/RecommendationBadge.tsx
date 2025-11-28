@@ -1,6 +1,6 @@
-import React from 'react';
-import { Box, Typography, useTheme } from '@mui/material';
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
+import { Box, Typography, useTheme } from '@mui/material';
+import React from 'react';
 
 interface RecommendationBadgeProps {
   text: string;

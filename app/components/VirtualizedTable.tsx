@@ -4,7 +4,8 @@
  * High-performance table component for large datasets using virtual scrolling.
  */
 
-import React, { useMemo } from 'react';
+import React from 'react';
+
 import { useVirtualScroll } from '../hooks/use-virtual-scroll';
 
 export interface Column<T = any> {

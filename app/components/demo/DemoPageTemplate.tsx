@@ -1,16 +1,31 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Box, Container, Typography, Alert, Button, Tabs, Tab, Paper, Stack, useTheme, useMediaQuery, TextField, InputAdornment } from '@mui/material';
 import { Trans, defineMessage } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
-import { useProgressiveData } from '../../hooks/use-progressive-data';
-import { useDatasetInsights, UseDatasetInsightsOptions } from '../../hooks/use-dataset-insights';
-import { VirtualizedTable } from '../VirtualizedTable';
-import { ProgressIndicator } from '../ProgressIndicator';
-import { InsightsPanel } from '../insights/InsightsPanel';
 import DownloadIcon from '@mui/icons-material/Download';
+import SearchIcon from '@mui/icons-material/Search';
 import ShareIcon from '@mui/icons-material/Share';
 import TableChartIcon from '@mui/icons-material/TableChart';
-import SearchIcon from '@mui/icons-material/Search';
+import {
+  Alert,
+  Box,
+  Button,
+  Container,
+  InputAdornment,
+  Paper,
+  Stack,
+  Tab,
+  Tabs,
+  TextField,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
+import { useDatasetInsights, UseDatasetInsightsOptions } from '../../hooks/use-dataset-insights';
+import { useProgressiveData } from '../../hooks/use-progressive-data';
+import { InsightsPanel } from '../insights/InsightsPanel';
+import { ProgressIndicator } from '../ProgressIndicator';
+import { VirtualizedTable } from '../VirtualizedTable';
 
 interface DemoPageTemplateProps {
   title: React.ReactNode;

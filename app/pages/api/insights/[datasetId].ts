@@ -1,10 +1,12 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import path from 'path';
 import { spawn } from 'child_process';
-import { economicIndicators } from '@/data/serbia-economy';
+import path from 'path';
+
 import { populationTrends } from '@/data/serbia-demographics';
+import { economicIndicators } from '@/data/serbia-economy';
 import { energyProduction } from '@/data/serbia-energy';
 import { DEMO_FALLBACKS } from '@/lib/demos/fallbacks';
+
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 export const config = {
   api: {

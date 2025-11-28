@@ -1,23 +1,24 @@
-import React, { useState } from 'react';
+import { Trans } from '@lingui/macro';
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ShowChartIcon from '@mui/icons-material/ShowChart';
+import TrendingDownIcon from '@mui/icons-material/TrendingDown';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import {
+  Box,
   Card,
   CardContent,
-  Typography,
-  Box,
   Collapse,
   IconButton,
   Stack,
-  useTheme
+  Typography,
+  useTheme,
 } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import TrendingDownIcon from '@mui/icons-material/TrendingDown';
-import ShowChartIcon from '@mui/icons-material/ShowChart';
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
-import { SeverityIndicator, Severity } from './SeverityIndicator';
+import React, { useState } from 'react';
+
 import { RecommendationBadge } from './RecommendationBadge';
-import { Trans } from '@lingui/macro';
+import { Severity, SeverityIndicator } from './SeverityIndicator';
 
 export interface Insight {
   type: 'trend' | 'anomaly' | 'correlation';
