@@ -103,4 +103,4 @@ process.on('unhandledRejection', (reason, promise) => {
   process.exit(1);
 });
 
-program.parse(process.argv);
+program.parse(process.argv as string[]);

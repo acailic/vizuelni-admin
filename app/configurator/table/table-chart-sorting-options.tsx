@@ -42,7 +42,7 @@ import { Dimension, isNumericalMeasure, Measure } from "@/domain/data";
 import { Icon } from "@/icons";
 import { useEvent } from "@/utils/use-event";
 
-const useStyles = makeStyles<Theme>((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   sortingItemContainer: {
     padding: theme.spacing(4),
     paddingRight: theme.spacing(0),
@@ -68,8 +68,7 @@ const useStyles = makeStyles<Theme>((theme) => ({
     minHeight: 0,
   },
   iconWrapper: {
-    // @ts-ignore
-    color: theme.palette.secondary.disabled,
+    color: theme.palette.action.disabled,
 
     "&:hover": {
       color: theme.palette.secondary.main,

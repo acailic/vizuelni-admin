@@ -7,6 +7,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "jsx": "react-jsx",
     "strict": true,
     "noEmit": true,
     "skipLibCheck": true,
@@ -16,6 +17,8 @@
         "bin/*",
         "domain/data-gov-rs/*",
         "lib/config/*",
+        "configurator/table/*",
+        "configurator/components/*",
         "types/*"
       ]
     },
@@ -25,6 +28,10 @@
     "bin/**/*",
     "domain/data-gov-rs/**/*",
     "lib/config/**/*",
+    "configurator/table/table-chart-options.tsx",
+    "configurator/table/table-chart-sorting-options.tsx",
+    "configurator/table/table-config-state.ts",
+    "configurator/components/ui-helpers.ts",
     "types/**/*"
   ]
 }
