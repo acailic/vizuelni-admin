@@ -11,8 +11,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "jsx": "react",
-    "incremental": true,
-    "tsBuildInfoFile": "../.tsbuildinfo-embed"
+    "incremental": false
   },
   "exclude": ["node_modules"],
   "include": ["**/*.ts", "**/*.tsx"]

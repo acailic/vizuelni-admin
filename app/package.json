@@ -1,6 +1,32 @@
 {
   "name": "@acailic/vizualni-admin",
   "version": "0.1.0-beta.1",
+  "description": "Serbian Open Data Visualization Tool - A powerful library for creating interactive data visualizations",
+  "keywords": [
+    "visualization",
+    "data-visualization",
+    "charts",
+    "open-data",
+    "serbian",
+    "i18n",
+    "typescript",
+    "react",
+    "nextjs"
+  ],
+  "homepage": "https://github.com/acailic/vizualni-admin#readme",
+  "bugs": {
+    "url": "https://github.com/acailic/vizualni-admin/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acailic/vizualni-admin.git",
+    "directory": "app"
+  },
+  "license": "BSD-3-Clause",
+  "author": {
+    "name": "acailic",
+    "email": "acailic@example.com"
+  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"

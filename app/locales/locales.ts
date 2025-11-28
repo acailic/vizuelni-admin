@@ -16,7 +16,7 @@ import {
   sr as pluralsSr,
 } from "make-plural/plurals";
 
-import { defaultLocale, locales } from "@/locales/constants";
+import { defaultLocale, locales } from "./constants";
 
 import { messages as catalogEn } from "./en/messages";
 import { messages as catalogSrCyrl } from "./sr-Cyrl/messages";
