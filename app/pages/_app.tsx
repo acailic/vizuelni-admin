@@ -77,7 +77,8 @@ export default function App({
         <meta property="og:type" content="website" />
         <meta property="og:title" content={pageTitleByLocale[locale]} />
         <meta property="og:description" content={descriptionByLocale[locale]} />
-        <meta property="og:image" content={`${PUBLIC_URL}/og-image.png`} />
+        <meta property="og:image" content={`${PUBLIC_URL}/og-image.webp`} />
+        <meta property="og:image:type" content="image/webp" />
         <meta property="og:url" content={`${PUBLIC_URL}${asPath}`} />
         {federalTheme.preloadFonts?.map((src) => (
           <link

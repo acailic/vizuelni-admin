@@ -1,7 +1,7 @@
 import { Box, Typography, TextField, Checkbox, FormControlLabel, Tabs, Tab, Container } from '@mui/material';
 import React, { useState } from 'react';
 
-import { BarChart } from '@/components/demos/charts/BarChart';
+import { BarChart } from '@/components/demos/charts';
 import CodeBlock from '@/components/tutorials/CodeBlock';
 
 // Sample data for demonstration

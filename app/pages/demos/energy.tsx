@@ -8,9 +8,7 @@ import { useLingui } from '@lingui/react';
 import { Alert, Box, Card, CardContent, Chip, Grid, LinearProgress, Paper, Typography } from '@mui/material';
 
 import { DemoPageTemplate } from '@/components/demo/DemoPageTemplate';
-import { BarChart } from '@/components/demos/charts/BarChart';
-import { LineChart } from '@/components/demos/charts/LineChart';
-import { PieChart } from '@/components/demos/charts/PieChart';
+import { BarChart, LineChart, PieChart } from '@/components/demos/charts';
 import { LiveDatasetPanel } from '@/components/demos/LiveDatasetPanel';
 import {
   energyImports,

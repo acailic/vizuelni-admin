@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Script from "next/script";
 
-import { LineChart } from "@/components/demos/charts/LineChart";
+import { LineChart } from "@/components/demos/charts";
 
 function parseTheme(value: string | null): "light" | "dark" {
   return value === "dark" ? "dark" : "light";

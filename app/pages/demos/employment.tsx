@@ -7,7 +7,7 @@ import { useLingui } from '@lingui/react';
 import { Alert, Box, Card, CardContent, Grid, Paper, Typography } from '@mui/material';
 
 import { DemoPageTemplate } from '@/components/demo/DemoPageTemplate';
-import { LineChart } from '@/components/demos/charts/LineChart';
+import { LineChart } from '@/components/demos/charts';
 import { LiveDatasetPanel } from '@/components/demos/LiveDatasetPanel';
 import {
   brainDrainData,

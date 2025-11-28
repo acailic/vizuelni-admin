@@ -7,9 +7,7 @@ import { useLingui } from '@lingui/react';
 import { Alert, Box, Card, CardContent, Chip, Grid, Paper, Typography } from '@mui/material';
 
 import { DemoPageTemplate } from '@/components/demo/DemoPageTemplate';
-import { ColumnChart } from '@/components/demos/charts/ColumnChart';
-import { LineChart } from '@/components/demos/charts/LineChart';
-import { PieChart } from '@/components/demos/charts/PieChart';
+import { ColumnChart, LineChart, PieChart } from '@/components/demos/charts';
 import {
   airQualityTrends,
   climateStats,

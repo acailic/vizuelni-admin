@@ -6,8 +6,7 @@ import { Box, Button, Chip, Container, Fade, Grid, IconButton, LinearProgress, S
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { ColumnChart } from '@/components/demos/charts/ColumnChart';
-import { LineChart } from '@/components/demos/charts/LineChart';
+import { ColumnChart, LineChart } from '@/components/demos/charts';
 import { DemoLayout } from '@/components/demos/demo-layout';
 import { internetAdoption, techIndustryGrowth } from '@/data/serbia-digital';
 import { sectorComposition, tradeBalance } from '@/data/serbia-economy';

@@ -2,8 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { Box, Button, Card, CardContent, Chip, Container, Grid, Stack, Typography } from "@mui/material";
 
-import { LineChart } from "@/components/demos/charts/LineChart";
-import { ColumnChart } from "@/components/demos/charts/ColumnChart";
+import { ColumnChart, LineChart } from "@/components/demos/charts";
 import { Header } from "@/components/header";
 import { energyProduction, energyStats } from "@/data/serbia-energy";
 import { internetAdoption, techIndustryGrowth } from "@/data/serbia-digital";

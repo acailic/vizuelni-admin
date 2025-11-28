@@ -51,6 +51,12 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const enableSentryUpload =
   Boolean(process.env.SENTRY_AUTH_TOKEN) &&
   process.env.SENTRY_UPLOAD !== "false";
+const imageConfig = isGitHubPages
+  ? { unoptimized: true }
+  : {
+      formats: ["image/avif", "image/webp"],
+      minimumCacheTTL: 60,
+    };
 
 const nextConfig = withPreconstruct(
   withBundleAnalyzer(
@@ -58,9 +64,7 @@ const nextConfig = withPreconstruct(
       output: isGitHubPages ? "export" : "standalone",
       basePath: basePath,
       assetPrefix: basePath,
-      images: {
-        unoptimized: true,
-      },
+      images: imageConfig,
       i18n: isGitHubPages
         ? undefined
         : {
@@ -203,7 +207,7 @@ const nextConfig = withPreconstruct(
         ignoreDuringBuilds: true,
       },
 
-      webpack(config, { dev }) {
+      webpack(config, { dev, isServer }) {
         config.module.rules.push({
           test: /\.(graphql|gql)$/,
           exclude: /node_modules/,
@@ -213,6 +217,17 @@ const nextConfig = withPreconstruct(
         /* Disable source maps in production for faster builds */
         if (!dev) {
           config.devtool = false;
+        }
+
+        if (!dev && !isServer) {
+          config.optimization.splitChunks = {
+            ...config.optimization.splitChunks,
+            chunks: "all",
+            minSize: 20000,
+            maxInitialRequests: 25,
+            maxAsyncRequests: 50,
+          };
+          config.optimization.runtimeChunk = "single";
         }
 
         config.resolve.extensions.push(dev ? ".dev.ts" : ".prod.ts");

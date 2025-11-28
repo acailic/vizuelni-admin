@@ -37,4 +37,5 @@ certificates
 .vercel
 *.tgz
 DOCUMENTATION_ASSESSMENT.md
-.gitignore
+DOCUMENTATION_CHECKLIST.md
+TOP_0.1_PERCENT_ROADMAP.md
