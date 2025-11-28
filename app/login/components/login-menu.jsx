@@ -3,7 +3,6 @@ import { signIn, signOut } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 
 import { ADFS_PROFILE_URL } from "@/domain/env";
-import { isVercelPreviewHost } from "@/flags/flag";
 import { useLocale } from "@/locales/use-locale";
 import { useUser } from "@/login/utils";
 import { createMailtoLink } from "@/templates/email";
@@ -47,10 +46,7 @@ export const LoginMenu = () => {
             })} onClick={async () => await signOut({ callbackUrl: "/api/auth/signout" })}/>
           </Menu>
           <Feedback paperEl={paperEl.current} open={feedbackMenuOpen} handleClose={() => setFeedbackMenuOpen(false)}/>
-        </>) : (<Button data-testid="test-sign-in" variant="text" size="sm" onClick={() => isVercelPreviewHost(window.location.host) ||
-                process.env.E2E_ENV === "true"
-                ? signIn("credentials")
-                : signIn("adfs")} sx={{
+        </>) : (<Button data-testid="test-sign-in" variant="text" size="sm" onClick={() => signIn("adfs")} sx={{
                 whiteSpace: "nowrap",
                 color: "white",
                 "&:hover": {

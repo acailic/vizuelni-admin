@@ -1,11 +1,14 @@
 import NextAuth from "next-auth";
-import CredentialsProviders from "next-auth/providers/credentials";
 
 import { ADFS } from "@/auth-providers/adfs";
-import { prisma } from "@/db/client";
 import { ensureUserFromSub } from "@/db/user";
 import { ADFS_ID, ADFS_ISSUER } from "@/domain/env";
 import { truthy } from "@/domain/types";
+const nextAuthSecret = process.env.NEXTAUTH_SECRET;
+const isProduction = process.env.NODE_ENV === "production";
+if (!nextAuthSecret && isProduction) {
+    throw new Error("NEXTAUTH_SECRET is required in production");
+}
 const providers = [
     ADFS_ID && ADFS_ISSUER
         ? ADFS({
@@ -22,33 +25,13 @@ const providers = [
             },
         })
         : null,
-    CredentialsProviders({
-        name: "credentials",
-        credentials: {},
-        authorize: async () => {
-            let user = null;
-            user = await prisma.user.findFirst({
-                where: {
-                    sub: "test-user",
-                },
-            });
-            if (!user) {
-                user = await prisma.user.create({
-                    data: {
-                        name: "TEST USER",
-                        sub: "test-user",
-                    },
-                });
-            }
-            return Promise.resolve({
-                ...user,
-                id: String(user.id),
-            });
-        },
-    }),
 ].filter(truthy);
+if (!providers.length) {
+    throw new Error("No authentication providers configured. Set ADFS_ID and ADFS_ISSUER.");
+}
 export const nextAuthOptions = {
     providers,
+    secret: nextAuthSecret !== null && nextAuthSecret !== void 0 ? nextAuthSecret : "development-only-secret",
     callbacks: {
         /** Necessary otherwise we cannot sign out */
         jwt: async ({ token }) => {
