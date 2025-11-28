@@ -110,7 +110,7 @@ async function deployToGitHubPages(config: any, buildDir: string) {
   }
 }
 
-async function deployToVercel(_config: any, buildDir: string) {
+async function deployToVercel(_config: any, _buildDir: string) {
   console.log(chalk.blue('Deploying to Vercel...'));
   try {
     execSync('npx vercel --prod', { stdio: 'inherit', cwd: process.cwd() });

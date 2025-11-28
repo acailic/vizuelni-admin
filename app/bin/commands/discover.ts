@@ -26,6 +26,8 @@ export async function discoverCommand(options: DiscoverOptions) {
   try {
     console.log(chalk.blue('Searching data.gov.rs...'));
 
+    const threshold = options.threshold ?? 0;
+
     const params = {
       q: options.query,
       tag: options.category,
@@ -37,8 +39,8 @@ export async function discoverCommand(options: DiscoverOptions) {
     let datasets: DatasetMetadata[] = response.data;
 
     // Filter by quality threshold if specified
-    if (options.threshold && options.threshold > 0) {
-      datasets = datasets.filter((d) => (d.quality_score || 0) >= options.threshold);
+    if (threshold > 0) {
+      datasets = datasets.filter((d) => (d.quality_score || 0) >= threshold);
     }
 
     if (datasets.length === 0) {

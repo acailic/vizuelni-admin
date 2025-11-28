@@ -13,7 +13,6 @@
     "bin/**/*",
     "domain/data-gov-rs/**/*",
     "lib/config/**/*",
-    "components/demos/**/*",
     "types/**/*"
   ],
   "exclude": [
