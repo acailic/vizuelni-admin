@@ -2,7 +2,15 @@ node_modules
 .next
 .DS_Store
 *.log
-.tsbuildinfo*
+*.tsbuildinfo
+.eslintcache
+.turbo
+.cache
+.vite
+coverage
+app/coverage
+storybook-static
+app/storybook-static
 
 /app/locales/_build
 /app/locales/**/*.js
@@ -28,3 +36,5 @@ app/public/storybook
 certificates
 .vercel
 *.tgz
+DOCUMENTATION_ASSESSMENT.md
+.gitignore
