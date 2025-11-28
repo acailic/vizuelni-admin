@@ -1,13 +1,17 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import * as d3 from "d3";
+import { extent, max } from "d3-array";
+import { axisBottom, axisLeft } from "d3-axis";
+import { scaleLinear } from "d3-scale";
+import { line } from "d3-shape";
+import { select } from "d3-selection";
 import { getD3FormatLocale } from "../../locales/locales";
 
 // Performance budgets (in milliseconds)
-const PERFORMANCE_BUDGETS = {
-  "100": 50,
-  "1000": 200,
-  "10000": 1000,
-  "100000": 5000,
+const PERFORMANCE_BUDGETS: Record<number, number> = {
+  100: 50,
+  1000: 200,
+  10000: 1000,
+  100000: 5000,
 };
 
 // Memory budget (in MB)
@@ -27,7 +31,7 @@ const renderChart = (data: { x: number; y: number }[], container: Element) => {
   const formatNumber = formatLocale.format(",.0f");
 
   // Clear container
-  d3.select(container).selectAll("*").remove();
+  select(container).selectAll("*").remove();
 
   // Set dimensions
   const margin = { top: 20, right: 30, bottom: 40, left: 50 };
@@ -35,8 +39,7 @@ const renderChart = (data: { x: number; y: number }[], container: Element) => {
   const height = 400 - margin.top - margin.bottom;
 
   // Create SVG
-  const svg = d3
-    .select(container)
+  const svg = select(container)
     .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -44,19 +47,16 @@ const renderChart = (data: { x: number; y: number }[], container: Element) => {
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
   // Scales
-  const x = d3
-    .scaleLinear()
-    .domain(d3.extent(data, (d) => d.x) as [number, number])
+  const x = scaleLinear()
+    .domain(extent(data, (d) => d.x) as [number, number])
     .range([0, width]);
 
-  const y = d3
-    .scaleLinear()
-    .domain([0, d3.max(data, (d) => d.y)!])
+  const y = scaleLinear()
+    .domain([0, max(data, (d) => d.y)!])
     .range([height, 0]);
 
   // Line generator
-  const line = d3
-    .line<{ x: number; y: number }>()
+  const lineBuilder = line<{ x: number; y: number }>()
     .x((d) => x(d.x))
     .y((d) => y(d.y));
 
@@ -67,15 +67,15 @@ const renderChart = (data: { x: number; y: number }[], container: Element) => {
     .attr("fill", "none")
     .attr("stroke", "steelblue")
     .attr("stroke-width", 1.5)
-    .attr("d", line);
+    .attr("d", lineBuilder);
 
   // Add axes
   svg
     .append("g")
     .attr("transform", `translate(0,${height})`)
-    .call(d3.axisBottom(x).tickFormat((d) => formatNumber(d as number)));
+    .call(axisBottom(x).tickFormat((d) => formatNumber(d as number)));
 
-  svg.append("g").call(d3.axisLeft(y).tickFormat((d) => formatNumber(d as number)));
+  svg.append("g").call(axisLeft(y).tickFormat((d) => formatNumber(d as number)));
 };
 
 describe("Chart Rendering Performance Benchmarks", () => {
@@ -125,8 +125,8 @@ describe("Chart Rendering Performance Benchmarks", () => {
       console.log(`Data size ${size}: Render time: ${renderTime}ms, Memory used: ${memoryUsed}MB, TTI: ${timeToInteractive}ms`);
 
       // Assert performance budgets
-      expect(renderTime).toBeLessThan(PERFORMANCE_BUDGETS[size as keyof typeof PERFORMANCE_BUDGETS]);
-      expect(timeToInteractive).toBeLessThan(PERFORMANCE_BUDGETS[size as keyof typeof PERFORMANCE_BUDGETS] + 50);
+      expect(renderTime).toBeLessThan(PERFORMANCE_BUDGETS[size]);
+      expect(timeToInteractive).toBeLessThan(PERFORMANCE_BUDGETS[size] + 50);
       expect(memoryUsed).toBeLessThan(MEMORY_BUDGET);
 
       // Clean up performance entries

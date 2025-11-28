@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { validateConfig } from '../lib/config/validator';
+import { validateConfig } from '@/lib/config/validator';
+import type { ValidationIssue } from '@/lib/config/validator';
 
 describe('config-validation', () => {
   describe('valid configurations', () => {
@@ -441,7 +442,7 @@ describe('config-validation', () => {
 
       const result = validateConfig(invalidConfig);
       expect(result.valid).toBe(false);
-      result.errors.forEach(error => {
+      result.errors.forEach((error: ValidationIssue) => {
         expect(error.path).toBeDefined();
         expect(error.message).toBeDefined();
         expect(typeof error.path).toBe('string');

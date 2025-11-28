@@ -8,6 +8,7 @@ import {
 } from "@/db/palettes";
 import { nextAuthOptions } from "@/pages/api/auth/[...nextauth]";
 import { controller } from "@/server/nextkit";
+import { enforceCsrfProtection } from "@/server/security";
 import {
   CreateCustomColorPalette,
   DeleteCustomColorPalette,
@@ -16,6 +17,7 @@ import {
 
 export const UserController = controller({
   createPalette: async ({ req, res }) => {
+    enforceCsrfProtection(req);
     const session = await getServerSession(req, res, nextAuthOptions);
     const userId = session?.user?.id;
 
@@ -45,6 +47,7 @@ export const UserController = controller({
     return await getPalettesForUser({ user_id: userId });
   },
   deletePalette: async ({ req, res }) => {
+    enforceCsrfProtection(req);
     const session = await getServerSession(req, res, nextAuthOptions);
     const userId = session?.user?.id;
 
@@ -60,6 +63,7 @@ export const UserController = controller({
   },
 
   updatePalette: async ({ req, res }) => {
+    enforceCsrfProtection(req);
     const session = await getServerSession(req, res, nextAuthOptions);
     const userId = session?.user?.id;
 

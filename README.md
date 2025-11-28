@@ -2,7 +2,9 @@
 
 > Alat za vizualizaciju otvorenih podataka Srbije – Beta izdanje
 
-[![npm version](https://img.shields.io/npm/v/@acailic/vizualni-admin.svg)](https://www.npmjs.com/package/@acailic/vizualni-admin)
+[![npm version](https://badge.fury.io/js/%40acailic%2Fvizualni-admin.svg)](https://www.npmjs.com/package/@acailic/vizualni-admin)
+[![Build Status](https://github.com/acailic/vizualni-admin/workflows/CI/badge.svg)](https://github.com/acailic/vizualni-admin/actions)
+[![codecov](https://codecov.io/gh/acailic/vizualni-admin/branch/main/graph/badge.svg)](https://codecov.io/gh/acailic/vizualni-admin)
 [![License](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](https://github.com/acailic/vizualni-admin/blob/main/LICENSE)
 
 ## O paketu (srpski)

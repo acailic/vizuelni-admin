@@ -185,3 +185,5 @@ This will start the development server. Open http://localhost:3000 to see your n
 For more information, check the README.md file in your project directory.
 `);
 }
+
+export const initCommand = init;

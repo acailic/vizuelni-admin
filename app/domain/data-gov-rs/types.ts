@@ -62,7 +62,7 @@ export interface SearchParams {
 }
 
 export interface DataGovRsConfig {
-  apiUrl: string;
+  apiUrl?: string;
   apiKey?: string;
   defaultPageSize?: number;
   timeout?: number;

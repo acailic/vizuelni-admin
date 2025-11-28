@@ -6,6 +6,9 @@ import chalk from 'chalk';
 import { validateConfig } from '../../lib/config/validator';
 import { DEFAULT_CONFIG } from '../../lib/config/defaults';
 
+const getErrorMessage = (error: unknown) =>
+  error instanceof Error ? error.message : String(error);
+
 export async function deployCommand(options: { platform?: string; dryRun?: boolean }) {
   // Load configuration
   const configPath = path.join(process.cwd(), 'vizualni-admin.config.json');
@@ -25,7 +28,7 @@ export async function deployCommand(options: { platform?: string; dryRun?: boole
       }
       config = validation.data;
     } catch (error) {
-      console.error(chalk.red('Failed to load configuration:'), error.message);
+      console.error(chalk.red('Failed to load configuration:'), getErrorMessage(error));
       process.exit(1);
     }
   } else {
@@ -79,7 +82,7 @@ export async function deployCommand(options: { platform?: string; dryRun?: boole
         process.exit(1);
     }
   } catch (error) {
-    console.error(chalk.red('Deployment failed:'), error.message);
+    console.error(chalk.red('Deployment failed:'), getErrorMessage(error));
     process.exit(1);
   }
 }
@@ -107,7 +110,7 @@ async function deployToGitHubPages(config: any, buildDir: string) {
   }
 }
 
-async function deployToVercel(config: any, buildDir: string) {
+async function deployToVercel(_config: any, buildDir: string) {
   console.log(chalk.blue('Deploying to Vercel...'));
   try {
     execSync('npx vercel --prod', { stdio: 'inherit', cwd: process.cwd() });
@@ -118,7 +121,7 @@ async function deployToVercel(config: any, buildDir: string) {
   }
 }
 
-async function deployToNetlify(config: any, buildDir: string) {
+async function deployToNetlify(_config: any, buildDir: string) {
   console.log(chalk.blue('Deploying to Netlify...'));
   try {
     execSync(`npx netlify deploy --prod --dir ${buildDir}`, { stdio: 'inherit', cwd: process.cwd() });

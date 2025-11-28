@@ -4,6 +4,7 @@ import { ADFS } from "@/auth-providers/adfs";
 import { ensureUserFromSub } from "@/db/user";
 import { ADFS_ID, ADFS_ISSUER } from "@/domain/env";
 import { truthy } from "@/domain/types";
+import { enforceRateLimit, handleSecurityError } from "@/server/security";
 const nextAuthSecret = process.env.NEXTAUTH_SECRET;
 const isProduction = process.env.NODE_ENV === "production";
 if (!nextAuthSecret && isProduction) {
@@ -66,10 +67,13 @@ export const nextAuthOptions = {
 };
 export default async function auth(req, res) {
     try {
+        enforceRateLimit(req, res, "auth");
         await NextAuth(req, res, nextAuthOptions);
     }
     catch (e) {
-        console.error(e);
-        throw e;
+        if (!handleSecurityError(res, e)) {
+            console.error(e);
+            throw e;
+        }
     }
 }

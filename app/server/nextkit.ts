@@ -1,4 +1,9 @@
-import createAPI, { NextkitHandler } from "nextkit";
+import createAPI, { NextkitError, NextkitHandler } from "nextkit";
+
+import {
+  enforceCsrfProtection,
+  enforceRateLimit,
+} from "@/server/security";
 
 /** Provides type hints */
 export const controller = <
@@ -9,8 +14,15 @@ export const controller = <
   return methods;
 };
 
-export const api = createAPI({
+const baseApi = createAPI({
   async onError(_req, _res, error) {
+    if (error instanceof NextkitError) {
+      return {
+        status: error.code,
+        message: error.message,
+      };
+    }
+
     return {
       status: 500,
       message: `Something went wrong: ${
@@ -19,3 +31,22 @@ export const api = createAPI({
     };
   },
 });
+
+const applyApiGuards = <
+  THandlers extends Record<string, NextkitHandler<null, unknown>>
+>(
+  handlers: THandlers
+) =>
+  Object.fromEntries(
+    Object.entries(handlers).map(([method, handler]) => [
+      method,
+      async ({ req, res, ctx }) => {
+        enforceRateLimit(req, res, "api");
+        enforceCsrfProtection(req);
+        return handler({ req, res, ctx } as Parameters<typeof handler>[0]);
+      },
+    ])
+  ) as THandlers;
+
+export const api: typeof baseApi = (handlers) =>
+  baseApi(applyApiGuards(handlers));

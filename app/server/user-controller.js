@@ -3,9 +3,11 @@ import { getServerSession } from "next-auth";
 import { createPaletteForUser, deletePaletteForUser, getPalettesForUser, updatePaletteForUser, } from "@/db/palettes";
 import { nextAuthOptions } from "@/pages/api/auth/[...nextauth]";
 import { controller } from "@/server/nextkit";
+import { enforceCsrfProtection } from "@/server/security";
 export const UserController = controller({
     createPalette: async ({ req, res }) => {
         var _a;
+        enforceCsrfProtection(req);
         const session = await getServerSession(req, res, nextAuthOptions);
         const userId = (_a = session === null || session === void 0 ? void 0 : session.user) === null || _a === void 0 ? void 0 : _a.id;
         if (!userId) {
@@ -28,6 +30,7 @@ export const UserController = controller({
     },
     deletePalette: async ({ req, res }) => {
         var _a;
+        enforceCsrfProtection(req);
         const session = await getServerSession(req, res, nextAuthOptions);
         const userId = (_a = session === null || session === void 0 ? void 0 : session.user) === null || _a === void 0 ? void 0 : _a.id;
         if (!userId) {
@@ -38,6 +41,7 @@ export const UserController = controller({
     },
     updatePalette: async ({ req, res }) => {
         var _a;
+        enforceCsrfProtection(req);
         const session = await getServerSession(req, res, nextAuthOptions);
         const userId = (_a = session === null || session === void 0 ? void 0 : session.user) === null || _a === void 0 ? void 0 : _a.id;
         if (!userId) {

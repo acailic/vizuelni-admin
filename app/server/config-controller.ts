@@ -12,9 +12,11 @@ import {
 import { isDataSourceUrlAllowed } from "@/domain/data-source";
 import { nextAuthOptions } from "@/pages/api/auth/[...nextauth]";
 import { controller } from "@/server/nextkit";
+import { enforceCsrfProtection } from "@/server/security";
 
 export const ConfigController = controller({
   create: withAuth(async ({ userId }, req) => {
+    enforceCsrfProtection(req);
     const { data, published_state } = req.body;
 
     if (!isDataSourceUrlAllowed((data as ConfiguratorState).dataSource.url)) {
@@ -29,6 +31,7 @@ export const ConfigController = controller({
     });
   }),
   remove: withAuth(async ({ userId }, req) => {
+    enforceCsrfProtection(req);
     const { key } = req.body;
     const config = await getConfig(key);
 
@@ -39,6 +42,7 @@ export const ConfigController = controller({
     return await removeConfig({ key });
   }),
   update: withAuth(async ({ userId }, req) => {
+    enforceCsrfProtection(req);
     const { key, data, published_state } = req.body;
 
     if (!userId) {

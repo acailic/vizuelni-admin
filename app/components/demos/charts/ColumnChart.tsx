@@ -23,6 +23,7 @@ export interface ColumnChartProps {
   width?: number;
   height?: number;
   margin?: ChartMargin;
+  color?: string;
   colors?: string[];
   xLabel?: string;
   yLabel?: string;
@@ -49,6 +50,7 @@ function ColumnChartComponent({
   width = defaultColumnConfig.width,
   height = defaultColumnConfig.height,
   margin = defaultColumnConfig.margin,
+  color,
   colors = ["#ff9800", "#ff5722", "#f44336", "#e91e63", "#9c27b0", "#673ab7"],
   xLabel = "",
   yLabel = "",
@@ -74,6 +76,8 @@ function ColumnChartComponent({
 
     // Clear previous chart
     select(svgRef.current).selectAll("*").remove();
+
+    const palette = color ? [color, ...colors] : colors;
 
     const svg = select(svgRef.current)
       .attr("width", computedWidth)
@@ -230,7 +234,7 @@ function ColumnChartComponent({
           .attr("y", innerHeight)
           .attr("width", xSubScale.bandwidth())
           .attr("height", 0)
-          .attr("fill", colors[index % colors.length])
+          .attr("fill", palette[index % palette.length])
           .attr("opacity", 0.85)
           .attr("rx", 6)
           .attr("ry", 6)
@@ -265,7 +269,7 @@ function ColumnChartComponent({
             .attr("y", innerHeight)
             .attr("width", xScale.bandwidth())
             .attr("height", 0)
-            .attr("fill", colors[index % colors.length])
+            .attr("fill", palette[index % palette.length])
             .attr("opacity", 0.85)
             .attr("rx", 6)
             .attr("ry", 6)
@@ -295,7 +299,7 @@ function ColumnChartComponent({
         .attr("y", innerHeight)
         .attr("width", xScale.bandwidth())
         .attr("height", 0)
-        .attr("fill", (_, i) => colors[i % colors.length])
+        .attr("fill", (_, i) => palette[i % palette.length])
         .attr("opacity", 0.85)
         .attr("rx", 6)
         .attr("ry", 6)
@@ -352,7 +356,7 @@ function ColumnChartComponent({
           .append("rect")
           .attr("width", 15)
           .attr("height", 15)
-          .attr("fill", colors[i % colors.length])
+          .attr("fill", palette[i % palette.length])
           .attr("opacity", 0.85);
 
         legendRow
@@ -388,6 +392,7 @@ function ColumnChartComponent({
         .text(yLabel);
     }
   }, [
+    color,
     colors,
     computedWidth,
     data,

@@ -3,13 +3,14 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import { initCommand } from './commands/init';
-import { discoverCommand } from './commands/discover';
-import { validateCommand } from './commands/validate';
+import { discoverCommand, DiscoverOptions } from './commands/discover';
+import validateCommand from './commands/validate';
 import { buildCommand } from './commands/build';
-import { devCommand } from './commands/dev';
 import { deployCommand } from './commands/deploy';
 
 const program = new Command();
+const getErrorMessage = (error: unknown) =>
+  error instanceof Error ? error.message : String(error);
 
 program
   .name('vizualni-admin')
@@ -23,7 +24,7 @@ program
     try {
       await initCommand();
     } catch (error) {
-      console.error(chalk.red('Error during init:'), error.message);
+      console.error(chalk.red('Error during init:'), getErrorMessage(error));
       process.exit(1);
     }
   });
@@ -37,9 +38,15 @@ program
   .option('-s, --save', 'Save results to configuration file')
   .action(async (options) => {
     try {
-      await discoverCommand(options);
+      const discoverOptions: DiscoverOptions = {
+        category: options.category,
+        query: options.keyword,
+        threshold: options.quality,
+        save: options.save,
+      };
+      await discoverCommand(discoverOptions);
     } catch (error) {
-      console.error(chalk.red('Error during discover:'), error.message);
+      console.error(chalk.red('Error during discover:'), getErrorMessage(error));
       process.exit(1);
     }
   });
@@ -48,11 +55,11 @@ program
   .command('validate')
   .description(chalk.green('Validate configuration files'))
   .argument('<file>', 'Configuration file to validate')
-  .action(async (file) => {
+  .action(async (file: string) => {
     try {
       await validateCommand(file);
     } catch (error) {
-      console.error(chalk.red('Validation failed:'), error.message);
+      console.error(chalk.red('Validation failed:'), getErrorMessage(error));
       process.exit(1);
     }
   });
@@ -66,21 +73,7 @@ program
     try {
       await buildCommand(options);
     } catch (error) {
-      console.error(chalk.red('Build failed:'), error.message);
-      process.exit(1);
-    }
-  });
-
-program
-  .command('dev')
-  .description(chalk.green('Start development server'))
-  .option('-p, --port <port>', 'Port to run on', parseInt, 3000)
-  .option('-h, --host <host>', 'Host to bind to', 'localhost')
-  .action(async (options) => {
-    try {
-      await devCommand(options);
-    } catch (error) {
-      console.error(chalk.red('Dev server failed:'), error.message);
+      console.error(chalk.red('Build failed:'), getErrorMessage(error));
       process.exit(1);
     }
   });
@@ -94,19 +87,19 @@ program
     try {
       await deployCommand(options);
     } catch (error) {
-      console.error(chalk.red('Deployment failed:'), error.message);
+      console.error(chalk.red('Deployment failed:'), getErrorMessage(error));
       process.exit(1);
     }
   });
 
 // Global error handling
 process.on('uncaughtException', (error) => {
-  console.error(chalk.red('Uncaught Exception:'), error.message);
+  console.error(chalk.red('Uncaught Exception:'), getErrorMessage(error));
   process.exit(1);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-  console.error(chalk.red('Unhandled Rejection at:'), promise, 'reason:', reason);
+  console.error(chalk.red('Unhandled Rejection at:'), promise, 'reason:', getErrorMessage(reason));
   process.exit(1);
 });
 

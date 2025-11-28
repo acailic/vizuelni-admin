@@ -32,14 +32,14 @@ function getDefaultApiUrl(): string {
 }
 
 export class DataGovRsClient {
-  private config: {
+  public readonly config: {
     apiUrl: string;
     apiKey?: string;
     defaultPageSize: number;
     timeout: number;
   };
 
-  constructor(config: DataGovRsConfig) {
+  constructor(config: DataGovRsConfig = {}) {
     this.config = {
       apiUrl: config.apiUrl || getDefaultApiUrl(),
       apiKey: config.apiKey || process.env.DATA_GOV_RS_API_KEY,

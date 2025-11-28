@@ -9,7 +9,7 @@ const validateCommand = new Command('validate');
 validateCommand
   .description('Validate configuration file against JSON schema and check for common issues')
   .argument('<file>', 'Path to config file (JSON or TS)')
-  .action(async (file) => {
+  .action(async (file: string) => {
     if (!fs.existsSync(file)) {
       console.error(chalk.red(`File not found: ${file}`));
       process.exit(1);
@@ -102,3 +102,4 @@ function isValidUrl(string: string): boolean {
 }
 
 export default validateCommand;
+export { validateCommand };

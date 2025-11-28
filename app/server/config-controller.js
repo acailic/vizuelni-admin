@@ -4,8 +4,10 @@ import { createConfig, getConfig, removeConfig, updateConfig, } from "@/db/confi
 import { isDataSourceUrlAllowed } from "@/domain/data-source";
 import { nextAuthOptions } from "@/pages/api/auth/[...nextauth]";
 import { controller } from "@/server/nextkit";
+import { enforceCsrfProtection } from "@/server/security";
 export const ConfigController = controller({
     create: withAuth(async ({ userId }, req) => {
+        enforceCsrfProtection(req);
         const { data, published_state } = req.body;
         if (!isDataSourceUrlAllowed(data.dataSource.url)) {
             throw Error("Invalid data source!");
@@ -18,6 +20,7 @@ export const ConfigController = controller({
         });
     }),
     remove: withAuth(async ({ userId }, req) => {
+        enforceCsrfProtection(req);
         const { key } = req.body;
         const config = await getConfig(key);
         if (userId !== (config === null || config === void 0 ? void 0 : config.user_id)) {
@@ -26,6 +29,7 @@ export const ConfigController = controller({
         return await removeConfig({ key });
     }),
     update: withAuth(async ({ userId }, req) => {
+        enforceCsrfProtection(req);
         const { key, data, published_state } = req.body;
         if (!userId) {
             throw Error("Could not update config: Not logged in users cannot update a chart");

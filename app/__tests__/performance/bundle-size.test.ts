@@ -1,7 +1,7 @@
 import { test, expect } from 'vitest';
 import fs from 'fs';
 import path from 'path';
-import { gzipSizeSync } from 'gzip-size';
+import gzipSize from 'gzip-size';
 
 const distDir = path.join(__dirname, '../../dist');
 
@@ -27,7 +27,7 @@ test('bundle size check', () => {
 
   for (const file of files) {
     const filePath = path.join(distDir, file);
-    const gzippedSize = gzipSizeSync(fs.readFileSync(filePath));
+    const gzippedSize = gzipSize.sync(fs.readFileSync(filePath));
     chunkSizes[file] = gzippedSize;
     totalGzippedSize += gzippedSize;
 
