@@ -12,6 +12,7 @@ export default async function clientEnvApi(
   switch (method) {
     case "GET":
       try {
+        res.setHeader("Content-Security-Policy", "default-src 'none'; script-src 'self'; style-src 'unsafe-inline'");
         const result = `window.__clientEnv__=${JSON.stringify({
           GA_TRACKING_ID: process.env.GA_TRACKING_ID,
           ENDPOINT: process.env.ENDPOINT,
