@@ -22,12 +22,22 @@ const formatErrors = (errors: ErrorObject[] | null | undefined): ValidationIssue
   }
 
   return errors.map((error) => {
-    const pathSource = (error as { instancePath?: string; dataPath?: string }).instancePath
-      ?? (error as { instancePath?: string; dataPath?: string }).dataPath
-      ?? "(root)";
+    const pathSource =
+      (error as { instancePath?: string; dataPath?: string }).instancePath ??
+      (error as { instancePath?: string; dataPath?: string }).dataPath ??
+      "";
+
+    const normalizedPath =
+      pathSource === ""
+        ? "(root)"
+        : pathSource.startsWith("/")
+          ? pathSource
+          : pathSource.startsWith(".")
+            ? `/${pathSource.slice(1).replace(/\./g, "/")}`
+            : pathSource;
 
     return {
-      path: pathSource,
+      path: normalizedPath,
       message: error.message ?? "Invalid value",
       keyword: error.keyword,
     };

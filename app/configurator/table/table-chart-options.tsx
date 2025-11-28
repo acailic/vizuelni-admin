@@ -182,7 +182,7 @@ export const TableColumnOptions = ({
 
   const { isGroup, isHidden } = chartConfig.fields[activeField];
 
-  const columnStyleOptions = isNumericalMeasure(component)
+  const columnStyleOptions = isNumericalMeasure(component as any)
     ? [
         {
           value: "text",

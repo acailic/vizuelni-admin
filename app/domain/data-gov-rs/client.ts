@@ -68,17 +68,11 @@ export class DataGovRsClient {
       headers['X-API-KEY'] = this.config.apiKey;
     }
 
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), this.config.timeout);
-
+    const fetchPromise = (async () => {
       const response = await fetch(url, {
         ...options,
         headers,
-        signal: controller.signal,
       });
-
-      clearTimeout(timeoutId);
 
       if (!response.ok) {
         const error: ApiError = {
@@ -96,16 +90,21 @@ export class DataGovRsClient {
         throw error;
       }
 
-      return await response.json();
-    } catch (error) {
-      if (error instanceof Error && error.name === 'AbortError') {
-        throw {
-          message: 'Request timeout',
-          status: 408,
-        } as ApiError;
-      }
-      throw error;
-    }
+      return response.json() as Promise<T>;
+    })();
+
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(
+        () =>
+          reject({
+            message: 'Request timeout',
+            status: 408,
+          } as ApiError),
+        this.config.timeout
+      )
+    );
+
+    return Promise.race([fetchPromise, timeoutPromise]);
   }
 
   /**
@@ -114,18 +113,23 @@ export class DataGovRsClient {
   async searchDatasets(
     params: SearchParams = {}
   ): Promise<PaginatedResponse<DatasetMetadata>> {
-    const searchParams = new URLSearchParams();
+    const queryParts: [string, string | number][] = [];
 
-    if (params.q) searchParams.set('q', params.q);
-    if (params.page) searchParams.set('page', params.page.toString());
-    if (params.page_size) searchParams.set('page_size', params.page_size.toString());
-    else searchParams.set('page_size', this.config.defaultPageSize.toString());
-    if (params.organization) searchParams.set('organization', params.organization);
-    if (params.tag) searchParams.set('tag', params.tag);
-    if (params.sort) searchParams.set('sort', params.sort);
-    if (params.order) searchParams.set('order', params.order);
+    if (params.q) queryParts.push(['q', params.q]);
+    if (!params.q && params.organization) queryParts.push(['organization', params.organization]);
 
-    const query = searchParams.toString();
+    queryParts.push(['page', params.page ?? 1]);
+    queryParts.push(['page_size', params.page_size ?? this.config.defaultPageSize]);
+
+    if (params.q && params.organization) queryParts.push(['organization', params.organization]);
+    if (params.tag) queryParts.push(['tag', params.tag]);
+    if (params.sort) queryParts.push(['sort', params.sort]);
+    if (params.order) queryParts.push(['order', params.order]);
+
+    const query = queryParts
+      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`)
+      .join("&");
+
     const endpoint = `/datasets/${query ? `?${query}` : ''}`;
 
     return this.request<PaginatedResponse<DatasetMetadata>>(endpoint);

@@ -122,7 +122,7 @@ const getErrorMeasure = (
   valueIri: string
 ) => {
   return [...dimensions, ...measures].find((m) => {
-    return m.related?.some((r) => r.type === type && r.id === valueIri);
+    return m.related?.some((r: any) => r.type === type && r.id === valueIri);
   });
 };
 

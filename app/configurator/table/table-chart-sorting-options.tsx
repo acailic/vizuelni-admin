@@ -189,7 +189,7 @@ const AddTableSortingOption = ({
   const [, dispatch] = useConfiguratorState();
 
   const onChange = useCallback(
-    (e: SelectChangeEvent<unknown>) => {
+    (e: any) => {
       const { value } = e.target;
       const component = [...dimensions, ...measures].find(
         ({ id }) => id === value
