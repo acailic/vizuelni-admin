@@ -27,3 +27,4 @@ app/public/storybook
 
 certificates
 .vercel
+*.tgz
