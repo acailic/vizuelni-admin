@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { GetStaticPaths, GetStaticProps } from "next";
+import dynamic from "next/dynamic";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import NextLink from "next/link";
@@ -16,7 +17,6 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import dynamic from "next/dynamic";
 
 import { useEmbedQueryParams } from "@/components/embed-params";
 import { HintWarning, PublishSuccess } from "@/components/hint";

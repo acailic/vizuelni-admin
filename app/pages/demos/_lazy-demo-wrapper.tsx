@@ -1,5 +1,5 @@
-import dynamic from 'next/dynamic';
 import { Box, CircularProgress, Typography } from '@mui/material';
+import dynamic from 'next/dynamic';
 
 interface LazyDemoWrapperProps {
   demoPath: string;

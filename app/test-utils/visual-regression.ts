@@ -4,7 +4,7 @@
  */
 
 import { test as base, expect } from '@playwright/test';
-import { Page, BrowserContext } from '@playwright/test';
+import { Page } from '@playwright/test';
 
 // Define custom fixtures for visual testing
 type VisualTestFixtures = {

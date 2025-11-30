@@ -3,7 +3,13 @@
  * Displays real-time performance metrics and Core Web Vitals
  */
 
-import { useEffect, useState } from 'react';
+import {
+  ExpandMore as ExpandMoreIcon,
+  Speed as SpeedIcon,
+  Timer as TimerIcon,
+  Eye as EyeIcon,
+  TrendingUp as TrendingUpIcon,
+} from '@mui/icons-material';
 import {
   Box,
   Card,
@@ -17,15 +23,9 @@ import {
   IconButton,
   useTheme,
 } from '@mui/material';
-import {
-  ExpandMore as ExpandMoreIcon,
-  Speed as SpeedIcon,
-  Timer as TimerIcon,
-  Eye as EyeIcon,
-  TrendingUp as TrendingUpIcon,
-} from '@mui/icons-material';
+import { useEffect, useState } from 'react';
 
-import { performanceMonitor, PerformanceThresholds, usePerformanceMonitor } from '@/lib/performance-monitor';
+import { PerformanceThresholds, usePerformanceMonitor } from '@/lib/performance-monitor';
 
 interface MetricDisplay {
   label: string;

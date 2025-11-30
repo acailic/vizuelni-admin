@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+
 import { validateConfig } from '@/lib/config/validator';
 import type { ValidationIssue } from '@/lib/config/validator';
 

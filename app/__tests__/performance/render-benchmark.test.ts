@@ -1,9 +1,10 @@
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { extent, max } from "d3-array";
 import { axisBottom, axisLeft } from "d3-axis";
 import { scaleLinear } from "d3-scale";
-import { line } from "d3-shape";
 import { select } from "d3-selection";
+import { line } from "d3-shape";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+
 import { getD3FormatLocale } from "../../locales/locales";
 
 // Performance budgets (in milliseconds)

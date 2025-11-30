@@ -1,11 +1,10 @@
 import { Trans } from "@lingui/macro";
-import { Box, Link, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { ReactElement, useMemo, useState } from "react";
 
 import { HintError } from "@/components/hint";
-import { Icon } from "@/icons";
 
 const flashes = {
   CANNOT_FIND_CUBE: "CANNOT_FIND_CUBE",

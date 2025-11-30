@@ -3,13 +3,14 @@
  * Tests complete data flow from API client through state management to UI
  */
 
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { QueryClient } from '@tanstack/react-query';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { setupServer } from 'msw/node';
 import { rest } from 'msw';
-import { renderWithProviders, testUserFlow, testApiFlow } from '@/test-utils/integration';
+import { setupServer } from 'msw/node';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+
+import { renderWithProviders, testUserFlow } from '@/test-utils/integration';
 
 // Mock API server setup
 const server = setupServer(

@@ -1,4 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import {
+  GetApp as InstallIcon,
+  Close as CloseIcon,
+  Smartphone as PhoneIcon,
+  DesktopWindows as DesktopIcon,
+  TabletMac as TabletIcon,
+} from '@mui/icons-material';
 import {
   Button,
   Box,
@@ -11,13 +17,8 @@ import {
   IconButton,
   Fade,
 } from '@mui/material';
-import {
-  GetApp as InstallIcon,
-  Close as CloseIcon,
-  Smartphone as PhoneIcon,
-  DesktopWindows as DesktopIcon,
-  TabletMac as TabletIcon,
-} from '@mui/icons-material';
+import React, { useState, useEffect } from 'react';
+
 import useServiceWorker from '../../hooks/useServiceWorker';
 
 interface InstallPromptProps {

@@ -3,12 +3,12 @@
  * Provides utilities for testing end-to-end flows and API integration
  */
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import { ReactElement } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import React, { ReactElement } from 'react';
 import { vi } from 'vitest';
 
 // Mock server setup
@@ -213,9 +213,7 @@ export const renderWithProviders = (ui: ReactElement) => {
   });
 
   return render(
-    <QueryClientProvider client={queryClient}>
-      {ui}
-    </QueryClientProvider>
+    React.createElement(QueryClientProvider, { client: queryClient }, ui)
   );
 };
 
@@ -344,13 +342,17 @@ export const testErrorBoundary = async (component: ReactElement, expectedError: 
   const { ErrorBoundary } = await import('react-error-boundary');
   const onError = vi.fn();
 
-  const TestComponent = () => (
-    <ErrorBoundary fallback={<div>Error occurred</div>} onError={onError}>
-      {component}
-    </ErrorBoundary>
-  );
+  const TestComponent = () =>
+    React.createElement(
+      ErrorBoundary,
+      {
+        fallback: React.createElement("div", null, "Error occurred"),
+        onError: onError
+      },
+      component
+    );
 
-  renderWithProviders(<TestComponent />);
+  renderWithProviders(React.createElement(TestComponent, null));
 
   // Wait for error boundary to catch the error
   await waitFor(() => {

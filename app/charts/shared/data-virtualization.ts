@@ -3,7 +3,6 @@
  * Enables efficient rendering of datasets with millions of points
  */
 
-import { ScaleLinear, ScaleTime } from "d3-scale";
 import { useMemo, useCallback } from "react";
 
 export interface DataPoint {

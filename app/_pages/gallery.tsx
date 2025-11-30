@@ -1,5 +1,5 @@
-import { GetStaticProps } from "next";
 import Box from "@mui/material/Box";
+import { GetStaticProps } from "next";
 
 import { DemoGallery } from "../_components/DemoGallery";
 

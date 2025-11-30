@@ -1,4 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import {
+  Speed as SpeedIcon,
+  Assessment as AssessmentIcon,
+  CheckCircle as GoodIcon,
+  Warning as WarningIcon,
+  Error as ErrorIcon,
+} from '@mui/icons-material';
 import {
   Card,
   CardContent,
@@ -13,15 +19,9 @@ import {
   ListItemText,
   Divider,
 } from '@mui/material';
-import {
-  Speed as SpeedIcon,
-  Timer as TimerIcon,
-  Assessment as AssessmentIcon,
-  CheckCircle as GoodIcon,
-  Warning as WarningIcon,
-  Error as ErrorIcon,
-} from '@mui/icons-material';
-import { getPerformanceMonitor, PerformanceMetric } from '../../lib/performance/monitor';
+import React, { useState, useEffect } from 'react';
+
+import { getPerformanceMonitor } from '../../lib/performance/monitor';
 
 interface MetricData {
   name: string;

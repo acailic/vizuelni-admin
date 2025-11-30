@@ -1,4 +1,3 @@
-import Head from "next/head";
 import {
   Box,
   Button,
@@ -12,11 +11,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import Head from "next/head";
 import { useMemo, useState } from "react";
 
 import { Header } from "@/components/header";
-import { buildEmbedUrl, type EmbedLang, type EmbedTheme } from "@/lib/embed-url";
 import CodeBlock from "@/components/tutorials/CodeBlock";
+import { buildEmbedUrl, type EmbedLang, type EmbedTheme } from "@/lib/embed-url";
 
 const baseEmbedUrl = "https://acailic.github.io/vizualni-admin/embed/demo";
 

@@ -3,11 +3,11 @@
  * Provides common testing patterns, mocks, and utilities for unit and integration tests
  */
 
-import { render, RenderOptions } from '@testing-library/react';
-import { ReactElement, ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { vi } from 'vitest';
+import { render, RenderOptions } from '@testing-library/react';
 import { configureAxe } from 'jest-axe';
+import React, { ReactElement, ReactNode } from 'react';
+import { vi } from 'vitest';
 
 // Mock state management (Zustand)
 vi.mock('@/store', () => ({
@@ -91,10 +91,10 @@ const AllTheProviders = ({ children }: { children: ReactNode }) => {
     },
   });
 
-  return (
-    <QueryClientProvider client={queryClient}>
-      {children}
-    </QueryClientProvider>
+  return React.createElement(
+    QueryClientProvider,
+    { client: queryClient },
+    children
   );
 };
 

@@ -3,9 +3,10 @@
  * Tests render performance, memory usage, and large dataset handling
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { render, screen, waitFor } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+
 import {
   measureRenderPerformance,
   detectMemoryLeaks,

@@ -1,7 +1,9 @@
-import inquirer from 'inquirer';
+import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import { execSync } from 'child_process';
+
+import inquirer from 'inquirer';
+
 import { DEFAULT_CONFIG } from '../../lib/config/defaults';
 
 export async function init() {

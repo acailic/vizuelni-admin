@@ -3,9 +3,9 @@
  * Provides tools for bundle analysis, render performance, and memory leak detection
  */
 
+
 import { render, RenderResult } from '@testing-library/react';
 import { ReactElement } from 'react';
-import { PerformanceObserver, PerformanceEntry } from 'perf_hooks';
 
 // Performance measurement types
 export interface PerformanceMetrics {

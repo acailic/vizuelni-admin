@@ -1,8 +1,8 @@
 import { NextPage } from "next";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import dynamic from "next/dynamic";
 
 import { AppLayout } from "@/components/layout";
 import { ConfiguratorStateProvider } from "@/configurator";

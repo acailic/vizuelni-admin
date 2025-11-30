@@ -3,8 +3,7 @@
  * Optimized for large datasets (>10k points)
  */
 
-import { ScaleLinear, ScaleTime } from "d3-scale";
-import { useEffect, useRef, useCallback, useMemo } from "react";
+import { useEffect, useRef, useCallback } from "react";
 
 export interface Point {
   x: number;

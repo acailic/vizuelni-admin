@@ -3,9 +3,10 @@
  * Cleans up testing environment and generates reports
  */
 
-import { FullConfig } from '@playwright/test';
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
+
+import { FullConfig } from '@playwright/test';
 
 async function globalTeardown(config: FullConfig) {
   console.log('🧹 Cleaning up visual regression test environment...');

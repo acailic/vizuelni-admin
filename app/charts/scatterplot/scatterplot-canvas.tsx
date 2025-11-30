@@ -4,20 +4,21 @@
  */
 
 import { memo, useEffect, useRef, useMemo, useCallback } from "react";
-import { useChartState } from "@/charts/shared/chart-state";
+
 import { ScatterplotState } from "@/charts/scatterplot/scatterplot-state";
 import {
   useCanvasRenderer,
   CanvasRendererConfig,
   Point
 } from "@/charts/shared/canvas-renderer";
+import { useChartState } from "@/charts/shared/chart-state";
 import {
   useDataVirtualization,
   Viewport,
   DataPoint
 } from "@/charts/shared/data-virtualization";
-import { useTransitionStore } from "@/stores/transition";
 import { Observation } from "@/domain/data";
+import { useTransitionStore } from "@/stores/transition";
 
 interface ScatterplotCanvasProps {
   /** Force canvas rendering regardless of data size */

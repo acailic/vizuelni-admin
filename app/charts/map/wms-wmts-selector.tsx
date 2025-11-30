@@ -14,9 +14,9 @@ import {
 import { makeStyles } from "@mui/styles";
 import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
+import NextImage from "next/image";
 import { useCallback, useMemo, useState } from "react";
 import createStore from "zustand";
-import NextImage from "next/image";
 
 import { RemoteLayer } from "@/charts/map/types";
 import { RemoteWMSLayer } from "@/charts/map/wms-utils";

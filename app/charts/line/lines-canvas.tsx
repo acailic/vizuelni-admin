@@ -4,13 +4,13 @@
 
 import { line, curveMonotoneX } from "d3-shape";
 import { memo, useEffect, useRef, useMemo, useCallback } from "react";
+
 import { LinesState } from "@/charts/line/lines-state";
-import { useChartState } from "@/charts/shared/chart-state";
 import { useCanvasRenderer, Point } from "@/charts/shared/canvas-renderer";
-import { useDataVirtualization, Viewport, DataPoint } from "@/charts/shared/data-virtualization";
-import { useTransitionStore } from "@/stores/transition";
-import { Observation } from "@/domain/data";
+import { useChartState } from "@/charts/shared/chart-state";
+import { useDataVirtualization, Viewport } from "@/charts/shared/data-virtualization";
 import { truthy } from "@/domain/types";
+import { useTransitionStore } from "@/stores/transition";
 
 interface LinesCanvasProps {
   /** Force canvas rendering regardless of data size */

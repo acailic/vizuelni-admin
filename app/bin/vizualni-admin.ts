@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 
-import { Command } from 'commander';
 import chalk from 'chalk';
-import { initCommand } from './commands/init';
-import { discoverCommand, DiscoverOptions } from './commands/discover';
-import runValidate from './commands/validate';
+import { Command } from 'commander';
+
 import { buildCommand } from './commands/build';
 import { deployCommand } from './commands/deploy';
+import { discoverCommand, DiscoverOptions } from './commands/discover';
+import { initCommand } from './commands/init';
+import runValidate from './commands/validate';
 
 const program = new Command();
 const getErrorMessage = (error: unknown) =>

@@ -3,9 +3,10 @@
  * Tests error handling and recovery mechanisms
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+
 import { ChartErrorBoundary } from './chart-error-boundary';
 
 // Mock the ChartUnexpectedError component

@@ -1,5 +1,5 @@
-import { useRouter } from "next/router";
 import { GetStaticProps } from "next";
+import { useRouter } from "next/router";
 
 import { SelectDatasetStep } from "@/browse/ui/select-dataset-step";
 import { AppLayout } from "@/components/layout";

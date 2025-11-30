@@ -4,19 +4,21 @@
  */
 
 import { memo, useEffect, useRef, useMemo } from "react";
+
+import { Areas } from "@/charts/area/areas";
+import { AreasCanvas } from "@/charts/area/areas-canvas";
+import { Lines } from "@/charts/line/lines";
+import { LinesCanvas } from "@/charts/line/lines-canvas";
+import { Scatterplot } from "@/charts/scatterplot/scatterplot";
+import { ScatterplotCanvas } from "@/charts/scatterplot/scatterplot-canvas";
 import { useChartState } from "@/charts/shared/chart-state";
 import { ChartType } from "@/config-types";
+
 import { usePerformanceAwareRendering } from "./performance-manager";
 
 // Import canvas components
-import { ScatterplotCanvas } from "@/charts/scatterplot/scatterplot-canvas";
-import { LinesCanvas } from "@/charts/line/lines-canvas";
-import { AreasCanvas } from "@/charts/area/areas-canvas";
 
 // Import original SVG components
-import { Scatterplot } from "@/charts/scatterplot/scatterplot";
-import { Lines } from "@/charts/line/lines";
-import { Areas } from "@/charts/area/areas";
 
 interface OptimizedChartWrapperProps {
   /** Chart type to render */

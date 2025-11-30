@@ -1,10 +1,11 @@
+import { Container, Typography, Box, Alert } from '@mui/material';
 import { GetStaticProps } from 'next';
+import Head from 'next/head';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import Head from 'next/head';
-import { Container, Typography, Box, Alert } from '@mui/material';
-import PerformanceDashboard from '../components/performance/Dashboard';
+
 import { Layout } from '../components/layout';
+import PerformanceDashboard from '../components/performance/Dashboard';
 
 interface PerformancePageProps {
   locale: string;

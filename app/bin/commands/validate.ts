@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
+
 import chalk from 'chalk';
+
 import { validateConfig } from '../../lib/config/validator';
 
 export async function runValidate(file: string) {

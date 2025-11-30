@@ -3,9 +3,16 @@
  * Tests end-to-end flows that span multiple components and API calls
  */
 
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { userEvent } from '@testing-library/user-event';
 import { screen, waitFor } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+
+
+// Mock components for testing (these would be your actual components)
+import { LoginForm } from '@/components/auth/LoginForm';
+import { ChartBuilder } from '@/components/charts/ChartBuilder';
+import { Dashboard } from '@/components/dashboard/Dashboard';
+import { DatasetExplorer } from '@/components/data/DatasetExplorer';
 import {
   renderWithProviders,
   testUserFlow,
@@ -14,12 +21,6 @@ import {
   mockApiHandlers,
   createMockServer,
 } from '@/test-utils/integration';
-
-// Mock components for testing (these would be your actual components)
-import { LoginForm } from '@/components/auth/LoginForm';
-import { DatasetExplorer } from '@/components/data/DatasetExplorer';
-import { ChartBuilder } from '@/components/charts/ChartBuilder';
-import { Dashboard } from '@/components/dashboard/Dashboard';
 
 describe('Critical User Journeys - Integration Tests', () => {
   let mockServer: ReturnType<typeof createMockServer>;

@@ -10,9 +10,9 @@ import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { useEffect } from "react";
 
+import PerformanceInitializer from "@/components/app/PerformanceInitializer";
 import { AppErrorBoundary } from "@/components/app-error-boundary";
 import { SnackbarProvider } from "@/components/snackbar";
-import PerformanceInitializer from "@/components/app/PerformanceInitializer";
 import { PUBLIC_URL } from "@/domain/env";
 import { flag } from "@/flags/flag";
 import { GraphqlProvider } from "@/graphql/graphql-provider";

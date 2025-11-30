@@ -1,10 +1,10 @@
 import "iframe-resizer/js/iframeResizer.contentWindow.js";
 import { GetStaticPaths, GetStaticProps } from "next";
+import dynamic from "next/dynamic";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import Script from "next/script";
 
-import dynamic from "next/dynamic";
 
 import { useEmbedQueryParams } from "@/components/embed-params";
 import {

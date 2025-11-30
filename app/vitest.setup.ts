@@ -1,9 +1,10 @@
+import { createClient, cacheExchange, fetchExchange } from "@urql/core";
 import clownface, { AnyPointer } from "clownface";
+import { configureAxe, toHaveNoViolations } from 'jest-axe';
 import rdf from "rdf-ext";
 import DatasetExt from "rdf-ext/lib/Dataset";
 import DefaultGraphExt from "rdf-ext/lib/DefaultGraph";
 import { NamedNode, Term } from "rdf-js";
-import { createClient, cacheExchange, fetchExchange } from "@urql/core";
 import { vi } from "vitest";
 
 import { GRAPHQL_ENDPOINT } from "@/domain/env";
@@ -131,7 +132,6 @@ vi.mock("next/router", () => {
 });
 
 // Accessibility testing setup
-import { configureAxe, toHaveNoViolations } from 'jest-axe';
 
 // Configure axe with recommended rules
 const axe = configureAxe({

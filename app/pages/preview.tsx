@@ -1,9 +1,9 @@
 import { I18nProvider } from "@lingui/react";
 import { ThemeProvider } from "@mui/material";
+import dynamic from "next/dynamic";
 import { useEffect } from "react";
 import create, { useStore } from "zustand";
 
-import dynamic from "next/dynamic";
 
 import {
   ConfiguratorStatePublished,

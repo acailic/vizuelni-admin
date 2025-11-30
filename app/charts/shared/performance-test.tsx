@@ -4,10 +4,9 @@
  */
 
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
-import { ScatterplotCanvas } from "@/charts/scatterplot/scatterplot-canvas";
-import { LinesCanvas } from "@/charts/line/lines-canvas";
-import { AreasCanvas } from "@/charts/area/areas-canvas";
+
 import { useCanvasRenderer, Point } from "@/charts/shared/canvas-renderer";
+
 import { PerformanceMonitor } from "./performance-manager";
 
 interface TestDataPoint {

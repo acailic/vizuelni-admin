@@ -6,10 +6,11 @@ import {
 } from "@/charts/scatterplot/rendering-utils";
 import { ScatterplotState } from "@/charts/scatterplot/scatterplot-state";
 import { useChartState } from "@/charts/shared/chart-state";
+import { useOptimizedRendering } from "@/charts/shared/optimized-chart-wrapper";
 import { renderContainer } from "@/charts/shared/rendering-utils";
 import { useTransitionStore } from "@/stores/transition";
+
 import { ScatterplotCanvas } from "./scatterplot-canvas";
-import { useOptimizedRendering } from "@/charts/shared/optimized-chart-wrapper";
 
 export const Scatterplot = () => {
   const {

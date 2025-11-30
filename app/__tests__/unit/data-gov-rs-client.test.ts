@@ -1,5 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+
 import { DataGovRsClient, createDataGovRsClient, dataGovRsClient } from '../../domain/data-gov-rs/client';
+
 import type { DatasetMetadata, Organization, Resource, PaginatedResponse, SearchParams } from '../../domain/data-gov-rs/types';
 
 // Mock fetch globally

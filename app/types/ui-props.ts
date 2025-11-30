@@ -7,7 +7,7 @@
  * @module ui-props
  */
 
-import { BoxProps, SxProps, Theme } from "@mui/material";
+import { BoxProps, SxProps } from "@mui/material";
 import { ReactNode } from "react";
 
 // ============================================================================

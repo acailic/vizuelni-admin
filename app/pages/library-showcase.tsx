@@ -9,8 +9,8 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import Link from "next/link";
 import Head from "next/head";
+import Link from "next/link";
 
 import { Header } from "@/components/header";
 import CodeBlock from "@/components/tutorials/CodeBlock";

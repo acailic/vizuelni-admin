@@ -2,9 +2,9 @@ import { createTheme } from "@mui/material/styles";
 
 import { components } from "@/themes/components";
 import { breakpoints, shadows, spacing } from "@/themes/constants";
+import { CRITICAL_FONTS, initializeOptimizedFonts } from "@/themes/optimized-fonts";
 import { palette } from "@/themes/palette";
 import { typography } from "@/themes/typography";
-import { CRITICAL_FONTS, generatePreloadLinks, initializeOptimizedFonts } from "@/themes/optimized-fonts";
 
 export const theme = createTheme({
   palette,

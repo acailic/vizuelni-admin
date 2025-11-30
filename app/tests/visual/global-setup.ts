@@ -3,9 +3,10 @@
  * Ensures consistent testing environment
  */
 
-import { chromium, FullConfig } from '@playwright/test';
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
+
+import { chromium, FullConfig } from '@playwright/test';
 
 async function globalSetup(config: FullConfig) {
   console.log('🎨 Setting up visual regression test environment...');

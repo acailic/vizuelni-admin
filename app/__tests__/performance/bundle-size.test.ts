@@ -1,7 +1,8 @@
-import { test, expect } from 'vitest';
 import fs from 'fs';
 import path from 'path';
+
 import gzipSize from 'gzip-size';
+import { test, expect } from 'vitest';
 
 const distDir = path.join(__dirname, '../../dist');
 

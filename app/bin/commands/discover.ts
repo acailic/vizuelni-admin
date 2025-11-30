@@ -1,7 +1,9 @@
-import chalk from 'chalk';
-import { table } from 'table';
 import fs from 'fs/promises';
 import path from 'path';
+
+import chalk from 'chalk';
+import { table } from 'table';
+
 import { dataGovRsClient } from '../../domain/data-gov-rs/client';
 
 // Assuming DatasetMetadata has these fields based on typical CKAN API

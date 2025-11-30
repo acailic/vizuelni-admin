@@ -3,9 +3,9 @@
  * Temperature trends, extreme weather events, and environmental data
  */
 
-import { GetStaticProps } from 'next';
 import { useLingui } from '@lingui/react';
 import { Alert, Box, Card, CardContent, Chip, Grid, Paper, Typography } from '@mui/material';
+import { GetStaticProps } from 'next';
 
 import { DemoPageTemplate } from '@/components/demo/DemoPageTemplate';
 import { ColumnChart, LineChart, PieChart } from '@/components/demos/charts';

@@ -1,10 +1,12 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import inquirer from 'inquirer';
+
 import chalk from 'chalk';
-import { validateConfig } from '../../lib/config/validator';
+import inquirer from 'inquirer';
+
 import { DEFAULT_CONFIG } from '../../lib/config/defaults';
+import { validateConfig } from '../../lib/config/validator';
 
 const getErrorMessage = (error: unknown) =>
   error instanceof Error ? error.message : String(error);

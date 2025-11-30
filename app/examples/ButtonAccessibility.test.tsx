@@ -3,8 +3,9 @@
  * This demonstrates how to use the accessibility testing framework
  */
 
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { Button } from '@mui/material';
+import { describe, it, expect, beforeEach } from 'vitest';
+
 import { runComprehensiveA11yTests, setupIntersectionObserverMock, setupResizeObserverMock } from '@/test-utils/accessibility';
 
 describe('Button Accessibility', () => {

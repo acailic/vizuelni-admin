@@ -1,5 +1,5 @@
-import NextImage, { ImageProps as NextImageProps } from "next/image";
 import { Box, BoxProps } from "@mui/material";
+import NextImage, { ImageProps as NextImageProps } from "next/image";
 
 export interface ResponsiveImageProps extends Omit<NextImageProps, 'sizes'> {
   /**

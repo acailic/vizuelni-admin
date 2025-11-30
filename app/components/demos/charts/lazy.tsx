@@ -1,5 +1,5 @@
-import dynamic from "next/dynamic";
 import { Box, CircularProgress } from "@mui/material";
+import dynamic from "next/dynamic";
 
 import type { BarChartProps } from "./BarChart";
 import type { ColumnChartProps } from "./ColumnChart";

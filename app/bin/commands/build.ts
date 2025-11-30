@@ -1,6 +1,7 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
+
 import chalk from 'chalk';
 
 export async function buildCommand(options: { target: string; output: string }) {

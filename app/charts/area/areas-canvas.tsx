@@ -3,11 +3,12 @@
  */
 
 import { area, curveMonotoneX } from "d3-shape";
-import { memo, useEffect, useRef, useMemo, useCallback } from "react";
+import { memo, useEffect, useRef, useMemo } from "react";
+
 import { AreasState } from "@/charts/area/areas-state";
-import { useChartState } from "@/charts/shared/chart-state";
 import { useCanvasRenderer } from "@/charts/shared/canvas-renderer";
-import { useDataVirtualization, Viewport, DataPoint } from "@/charts/shared/data-virtualization";
+import { useChartState } from "@/charts/shared/chart-state";
+import { useDataVirtualization, Viewport } from "@/charts/shared/data-virtualization";
 import { useTransitionStore } from "@/stores/transition";
 
 interface AreasCanvasProps {

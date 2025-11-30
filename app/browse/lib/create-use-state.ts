@@ -8,10 +8,10 @@ import {
 import { BrowseParams } from "@/browse/lib/params";
 import { useUrlSyncState } from "@/browse/lib/use-url-sync-state";
 import { SearchCubeResultOrder } from "@/graphql/query-hooks";
+import { useEvent } from "@/utils/use-event";
 
 // Re-export for compatibility
 export { SearchCubeResultOrder };
-import { useEvent } from "@/utils/use-event";
 
 /**
  * Creates a hook that provides the current browse state and actions to update it.
