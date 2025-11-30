@@ -1,7 +1,7 @@
 import { Trans } from "@lingui/macro";
 import { Button, Input, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import * as clipboard from "clipboard-polyfill/text";
+import * as clipboard from "clipboard-polyfill";
 import { MouseEvent as ReactMouseEvent, ReactNode, useState } from "react";
 
 import { Flex } from "@/components/flex";
