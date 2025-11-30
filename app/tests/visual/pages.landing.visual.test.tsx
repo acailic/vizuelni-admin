@@ -3,10 +3,8 @@
  * Tests responsive design and interactive states
  */
 
-/* eslint-disable @typescript-eslint/parser */
-
 // @ts-nocheck
-import { test, expect, VIEWPORTS, navigateAndStabilize, testResponsiveDesign, testInteractiveStates } from '@/test-utils/visual-regression';
+import { test, VIEWPORTS, navigateAndStabilize, testResponsiveDesign, testInteractiveStates } from '@/test-utils/visual-regression';
 
 test.describe('Landing Page Visual Tests', () => {
   test.beforeEach(async ({ page }) => {
