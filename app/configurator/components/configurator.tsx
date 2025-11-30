@@ -8,7 +8,7 @@ import {
   useEventCallback,
 } from "@mui/material";
 import Button, { ButtonProps } from "@mui/material/Button";
-import * as clipboard from "clipboard-polyfill/text";
+import * as clipboard from "clipboard-polyfill";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
