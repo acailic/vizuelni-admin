@@ -1,0 +1,23 @@
+# These are supported funding model platforms
+# GitHub will display a "Sponsor" button in the repository sidebar
+
+# Open Collective
+open_collective: vizualni-admin
+
+# GitHub Sponsors (GitHub maintains a list of these)
+github: [acailic]
+
+# Patreon
+patreon: acailic
+
+# Custom funding URLs
+custom: ["https://www.buymeacoffee.com/acailic", "https://paypal.me/acailic"]
+
+# Tidelift (for professional support)
+tidelift: npm/@acailic/vizualni-admin
+
+# Community funding (for Serbian community)
+community_bridge: vizualni-admin
+
+# Liberapay (open-source funding platform)
+liberapay: acailic

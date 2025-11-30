@@ -129,4 +129,28 @@ vi.mock("next/router", () => {
     useRouter: () => router,
   };
 });
+
+// Accessibility testing setup
+import { configureAxe, toHaveNoViolations } from 'jest-axe';
+
+// Configure axe with recommended rules
+const axe = configureAxe({
+  rules: {
+    // Enable WCAG 2.1 AA compliance
+    'color-contrast': { enabled: true },
+    'keyboard-navigation': { enabled: true },
+    'aria-labels': { enabled: true },
+    'heading-order': { enabled: true },
+    'alt-text': { enabled: true },
+    'form-field-multiple-labels': { enabled: true },
+    'focus-order-semantics': { enabled: true },
+  },
+});
+
+// Extend Vitest's matchers
+expect.extend(toHaveNoViolations);
+
+// Make axe available globally for tests
+vi.stubGlobal('axe', axe);
+
 import "@testing-library/jest-dom/vitest";

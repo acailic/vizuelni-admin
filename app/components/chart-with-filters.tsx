@@ -11,67 +11,78 @@ const ChartAreasVisualization = dynamic(
   import("@/charts/area/chart-area").then(
     (mod) => mod.ChartAreasVisualization,
     () => null as never
-  )
+  ),
+  { ssr: false }
 );
 const ChartColumnsVisualization = dynamic(
   import("@/charts/column/chart-column").then(
     (mod) => mod.ChartColumnsVisualization,
     () => null as never
-  )
+  ),
+  { ssr: false }
 );
 const ChartBarsVisualization = dynamic(
   import("@/charts/bar/chart-bar").then(
     (mod) => mod.ChartBarsVisualization,
     () => null as never
-  )
+  ),
+  { ssr: false }
 );
 const ChartComboLineSingleVisualization = dynamic(
   import("@/charts/combo/chart-combo-line-single").then(
     (mod) => mod.ChartComboLineSingleVisualization,
     () => null as never
-  )
+  ),
+  { ssr: false }
 );
 const ChartComboLineDualVisualization = dynamic(
   import("@/charts/combo/chart-combo-line-dual").then(
     (mod) => mod.ChartComboLineDualVisualization,
     () => null as never
-  )
+  ),
+  { ssr: false }
 );
 const ChartComboLineColumnVisualization = dynamic(
   import("@/charts/combo/chart-combo-line-column").then(
     (mod) => mod.ChartComboLineColumnVisualization,
     () => null as never
-  )
+  ),
+  { ssr: false }
 );
 const ChartLinesVisualization = dynamic(
   import("@/charts/line/chart-lines").then(
     (mod) => mod.ChartLinesVisualization,
     () => null as never
-  )
+  ),
+  { ssr: false }
 );
 const ChartMapVisualization = dynamic(
   import("@/charts/map/chart-map").then(
     (mod) => mod.ChartMapVisualization,
     () => null as never
-  )
+  ),
+  { ssr: false }
 );
 const ChartPieVisualization = dynamic(
   import("@/charts/pie/chart-pie").then(
     (mod) => mod.ChartPieVisualization,
     () => null as never
-  )
+  ),
+  { ssr: false }
 );
 const ChartScatterplotVisualization = dynamic(
   import("@/charts/scatterplot/chart-scatterplot").then(
     (mod) => mod.ChartScatterplotVisualization,
     () => null as never
-  )
+  ),
+  { ssr: false }
 );
 const ChartTableVisualization = dynamic(
   import("@/charts/table/chart-table").then(
     (mod) => mod.ChartTableVisualization,
     () => null as never
-  )
+  ),
+  { ssr: false }
 );
 
 type GenericChartProps = ChartWithFiltersProps;

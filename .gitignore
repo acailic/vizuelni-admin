@@ -213,6 +213,21 @@ amplifier/
 *.old
 ./app/server/security.ts.backup
 ./app/next.config.js.backup
+package.json.backup
+
+# Development planning and temporary documents
+PARALLEL_TASKS.md
+NAVIGATION_UPDATE.md
+performance-report.json
+
+# Large development artifacts that can be regenerated
+*_REPORT.md
+*_IMPLEMENTATION.md
+*_CHECKLIST.md
+*_ASSESSMENT.md
+
+# Development artifacts directory (all temporary development files)
+.development/
 
 # Package manager lock files (keep main lock, ignore others)
 # yarn.lock
