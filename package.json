@@ -239,7 +239,7 @@
   "resolutions": {
     "@babel/core": "^7.14.6",
     "@babel/parser": "^7.14.6",
-    "ansi-regex": "^6.0.1",
+    "ansi-regex": "^5.0.1",
     "cross-spawn": "^7.0.5",
     "esbuild": "^0.24.0",
     "js-yaml": "^4.1.0",
