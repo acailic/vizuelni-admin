@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   TabContext as MuiTabContext,
   TabList as MuiTabList,
@@ -7,6 +6,7 @@ import {
   TabProps as MuiTabProps,
   Box,
 } from "@mui/material";
+import React from "react";
 
 export interface TabsProps {
   value: string;

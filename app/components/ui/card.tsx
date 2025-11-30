@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Card as MuiCard,
   CardContent as MuiCardContent,
@@ -8,6 +7,7 @@ import {
   CardHeaderProps as MuiCardHeaderProps,
   Typography,
 } from "@mui/material";
+import React from "react";
 
 export interface CardProps extends MuiCardProps {
   children?: React.ReactNode;

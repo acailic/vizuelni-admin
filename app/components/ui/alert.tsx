@@ -1,6 +1,6 @@
-import React from "react";
 import { Alert as MuiAlert, AlertProps as MuiAlertProps } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import React from "react";
 
 export interface AlertProps extends Omit<MuiAlertProps, "variant"> {
   variant?: "default" | "destructive" | "warning";
