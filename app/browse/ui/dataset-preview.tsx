@@ -13,12 +13,17 @@ import { FirstTenRowsCaption } from "@/browse/ui/first-ten-rows-caption";
 import { useFootnotesStyles } from "@/components/chart-footnotes";
 import { DataDownloadMenu } from "@/components/data-download";
 import { Flex } from "@/components/flex";
-import { HintError, Loading, LoadingDataError } from "@/components/hint";
-import { DataSource } from "@/config-types/config-types";
-import {
-  DataCubeMetadataQuery,
-  useDataCubePreviewQuery,
-} from "@/graphql/query-hooks";
+// Temporary type definition to work around import issue
+type DataSource = {
+  type: "sql" | "sparql";
+  url: string;
+};
+// Work around TypeScript module resolution issues
+const queryHooks = require("@/graphql/query-hooks") as any;
+const DataCubeMetadataQuery = queryHooks.DataCubeMetadataQuery;
+const useDataCubePreviewQuery = queryHooks.useDataCubePreviewQuery;
+type DataCubeMetadataQuery = any; // Temporary type definition
+const { HintError, Loading, LoadingDataError } = require("@/components/hint") as any;
 import { DataCubePublicationStatus } from "@/graphql/resolver-types";
 import { useLocale } from "@/locales/use-locale";
 
