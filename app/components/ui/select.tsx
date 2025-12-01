@@ -1,3 +1,4 @@
+import { KeyboardArrowDown } from "@mui/icons-material";
 import {
   Select as MuiSelect,
   MenuItem,
@@ -10,7 +11,6 @@ import {
   Box,
   InputAdornment,
 } from "@mui/material";
-import { KeyboardArrowDown } from "@mui/icons-material";
 import React, { useId } from "react";
 
 export interface SelectOption {

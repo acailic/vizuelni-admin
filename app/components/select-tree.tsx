@@ -3,7 +3,6 @@ import MUITreeItem, {
   TreeItemContentClassKey,
   TreeItemProps,
 } from "@mui/lab/TreeItem";
-import { useTreeItem } from "@mui/x-tree-view";
 import TreeView, { TreeViewProps } from "@mui/lab/TreeView";
 import {
   Box,
@@ -22,6 +21,7 @@ import {
   useEventCallback,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { useTreeItem } from "@mui/x-tree-view";
 import clsx from "clsx";
 import {
   ForwardedRef,

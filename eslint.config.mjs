@@ -30,6 +30,7 @@ export default [
       'dist/**',
       '**/*.config.js',
       '**/*.config.mjs',
+      'app/public/storybook/**',
     ],
   },
 
