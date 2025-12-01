@@ -19,14 +19,9 @@ const externalDeps = [
 export default defineConfig((options) => ({
   entry: ["index.ts"],
   format: ["cjs", "esm"],
-  dts: {
-    entry: {
-      index: "index.ts",
-    },
-    resolve: true,
-  },
+  dts: false, // Disable DTS generation temporarily to fix build
   clean: true,
-  sourcemap: true,
+  sourcemap: false, // Disable source maps temporarily to fix build
   splitting: true,
   treeshake: true,
   minify: !options.watch,

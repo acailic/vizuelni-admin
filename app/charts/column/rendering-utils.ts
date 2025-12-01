@@ -1,4 +1,7 @@
-import { getContrastingColor } from "@uiw/react-color";
+import color from "@uiw/react-color";
+
+// getContrastingColor exists in the package but may not be in the TypeScript definitions
+const { getContrastingColor } = color;
 import { select, Selection } from "d3-selection";
 import { Series } from "d3-shape";
 import { useCallback } from "react";

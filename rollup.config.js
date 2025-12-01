@@ -14,7 +14,6 @@ const extensions = [".js", ".jsx", ".ts", ".tsx"];
 
 export default {
   input: "embed/index.tsx",
-  extensions,
   output: {
     intro: "var global = typeof self !== undefined ? self : this;",
     file: "app/public/dist/embed.js",
@@ -22,7 +21,10 @@ export default {
     name: "VisualizeEmbed",
   },
   plugins: [
-    replace({ "process.env.NODE_ENV": JSON.stringify("production") }),
+    replace({
+      "process.env.NODE_ENV": JSON.stringify("production"),
+      preventAssignment: true
+    }),
     resolve({
       mainFields: ["browser", "module", "main"],
       preferBuiltins: true,

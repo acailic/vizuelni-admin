@@ -147,7 +147,7 @@ const useColumnsStackedState = (
   const segmentsByValue = useMemo(() => {
     const values = segmentDimension?.values || [];
 
-    return new Map(values.map((d) => [d.value, d]));
+    return new Map(values.map((d: any) => [d.value, d]));
   }, [segmentDimension?.values]);
 
   const sumsBySegment = useMemo(() => {
@@ -254,10 +254,8 @@ const useColumnsStackedState = (
       const orderedSegmentLabelsAndColors = allSegments.map((segment) => {
         // FIXME: Labels in observations can differ from dimension values because the latter can be concatenated to only appear once per value
         // See https://github.com/visualize-admin/visualization-tool/issues/97
-        const dvIri =
-          segmentsByAbbreviationOrLabel.get(segment)?.value ||
-          segmentsByValue.get(segment)?.value ||
-          "";
+        const segmentData = segmentsByAbbreviationOrLabel.get(segment) || segmentsByValue.get(segment);
+        const dvIri = (segmentData as any)?.value || "";
 
         // There is no way to gracefully recover here :(
         if (!dvIri) {

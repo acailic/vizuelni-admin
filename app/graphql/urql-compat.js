@@ -10,7 +10,8 @@ const {
 // urql v5 dropped defaultExchanges; expose a compatible export for code that still expects it.
 const defaultExchanges = [cacheExchange, fetchExchange];
 
-module.exports = {
+// Create a comprehensive export object that matches urql v4 API
+const urqlCompat = {
   cacheExchange,
   createClient,
   debugExchange,
@@ -20,5 +21,13 @@ module.exports = {
   defaultExchanges,
 };
 
-// Ensure CommonJS default export mirrors named exports for ESM interop.
-module.exports.default = module.exports;
+// Export both as named exports and as default for maximum compatibility
+module.exports = urqlCompat;
+
+// Ensure default export contains all properties
+module.exports.default = urqlCompat;
+
+// Also ensure individual properties are accessible directly
+Object.keys(urqlCompat).forEach(key => {
+  module.exports[key] = urqlCompat[key];
+});
