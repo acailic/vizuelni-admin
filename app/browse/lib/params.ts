@@ -7,7 +7,7 @@ import pickBy from "lodash/pickBy";
 import { Router } from "next/router";
 
 import { truthy } from "@/domain/types";
-import { SearchCubeResultOrder } from "@/graphql/query-hooks";
+import { SearchCubeResultOrder } from "@/graphql/resolver-types";
 
 const params = [
   "type",

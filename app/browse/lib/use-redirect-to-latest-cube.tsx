@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
-import { ConfiguratorState } from "@/config-types";
+import { ConfiguratorState } from "@/configurator";
 import { getMaybeCachedSparqlUrl } from "@/graphql/caching-utils";
 import { useLocale } from "@/locales/use-locale";
 import { queryLatestCubeIri } from "@/rdf/query-latest-cube-iri";
