@@ -9,9 +9,9 @@ import {
 
 import { BrowseState } from "@/browse/model/context";
 // import { SearchDatasetDraftsControl } from "@/browse/ui/search-dataset-drafts-control"; // Removed, using Switch instead
+import { PartialSearchCube } from "@/browse/ui/dataset-result";
 import { SearchDatasetResultsCount } from "@/browse/ui/search-dataset-results-count";
 import { SearchDatasetSortControl } from "@/browse/ui/search-dataset-sort-control";
-import { PartialSearchCube } from "@/browse/ui/dataset-result";
 import { Flex } from "@/components/flex";
 import { SearchCubeResultOrder } from "@/graphql/resolver-types";
 import { Icon } from "@/icons";

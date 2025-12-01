@@ -17,9 +17,9 @@ import { DateFormat } from "@/browse/ui/date-format";
 import { Flex } from "@/components/flex";
 import { MaybeTooltip } from "@/components/maybe-tooltip";
 import { MotionCard, smoothPresenceProps } from "@/components/presence";
+import { DataCubePublicationStatus } from "@/graphql/resolver-types";
 import { Tag } from "@/components/tag";
 import { useEvent } from "@/utils/use-event";
-import { DataCubePublicationStatus } from "@/graphql/resolver-types";
 
 // Minimal shape used in this component; avoids module resolution issues with generated types
 export type PartialSearchCube = {
