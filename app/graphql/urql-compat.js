@@ -19,3 +19,6 @@ module.exports = {
   ssrExchange,
   defaultExchanges,
 };
+
+// Ensure CommonJS default export mirrors named exports for ESM interop.
+module.exports.default = module.exports;
