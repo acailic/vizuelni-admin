@@ -16,7 +16,7 @@ import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
 import NextImage from "next/image";
 import { useCallback, useMemo, useState } from "react";
-import createStore from "zustand";
+import { create } from "zustand";
 
 import { RemoteLayer } from "@/charts/map/types";
 import { RemoteWMSLayer } from "@/charts/map/wms-utils";
@@ -224,7 +224,7 @@ const TreeRow = ({
   );
 };
 
-const useInputValueStore = createStore<{
+const useInputValueStore = create<{
   inputValue: string;
   setInputValue: (inputValue: string) => void;
   provider: string | null;

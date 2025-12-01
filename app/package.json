@@ -114,7 +114,7 @@
     "react-map-gl": "^8.1.0",
     "react-table": "^7.8.0",
     "react-virtualized-auto-sizer": "^1.0.26",
-    "react-window": "^2.2.3",
+    "react-window": "^1.8.10",
     "simple-statistics": "^7.8.8",
     "topojson-client": "^3.1.0",
     "topojson-server": "^3.0.1",

@@ -1,7 +1,7 @@
 import { useEventCallback } from "@mui/material";
 import { useState } from "react";
 import { useClient } from "urql";
-import createStore from "zustand";
+import { create } from "zustand";
 
 import { SelectDatasetStep } from "@/browse/ui/select-dataset-step";
 import { DialogCloseButton } from "@/components/dialog-close-button";
@@ -15,7 +15,7 @@ import { useLocale } from "@/locales/use-locale";
 import { useDataSourceStore } from "@/stores/data-source";
 import { assert } from "@/utils/assert";
 
-export const useSearchDatasetPanelStore = createStore<{
+export const useSearchDatasetPanelStore = create<{
   isOpen: boolean;
   toggle: () => void;
   close: () => void;

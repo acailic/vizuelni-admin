@@ -1,4 +1,4 @@
-import { createClient, defaultExchanges } from "urql";
+import { createClient, cacheExchange, fetchExchange } from "urql";
 
 import { GRAPHQL_ENDPOINT } from "@/domain/env";
 import { flag } from "@/flags/flag";
@@ -7,7 +7,7 @@ import { devtoolsExchanges } from "@/graphql/devtools";
 
 export const client = createClient({
   url: GRAPHQL_ENDPOINT,
-  exchanges: [...devtoolsExchanges, ...defaultExchanges],
+  exchanges: [...devtoolsExchanges, cacheExchange, fetchExchange],
   fetchOptions: {
     headers: getHeaders(),
   },

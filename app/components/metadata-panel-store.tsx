@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 import { createStore, useStore } from "zustand";
-import shallow from "zustand/shallow";
+import { shallow } from "zustand/shallow";
 
 import { Component } from "@/domain/data";
 
