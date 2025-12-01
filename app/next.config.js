@@ -30,37 +30,25 @@ const nextConfig = {
   },
   // Disable webpack optimizations that might cause issues
   webpack: (config, { isServer, dev, webpack, defaultLoaders }) => {
-    // Process files containing Lingui macros with Babel instead of SWC
-    config.module.rules.push({
-      test: /\.(js|jsx|ts|tsx)$/,
-      include: [
-        path.resolve(__dirname, 'login'),
-        path.resolve(__dirname, 'browse'),
-        path.resolve(__dirname, 'components'),
-        path.resolve(__dirname, 'configurator'),
-        path.resolve(__dirname, 'charts'),
-        path.resolve(__dirname, 'src')
-      ],
-      // Only process files that actually contain Lingui imports
-      use: {
-        loader: 'babel-loader',
-        options: {
-          cacheDirectory: true,
-          presets: ['next/babel'],
-          plugins: ['macros'],
-          // Only apply to files that contain Lingui imports
-          override: (config, { source }) => {
-            if (!source.includes('@lingui/macro') &&
-                !source.includes('from "@lingui/macro"') &&
-                !source.includes('import { Trans') &&
-                !source.includes('import { t')) {
-              return false; // Skip Babel processing for files without Lingui
-            }
-            return config;
-          }
-        }
+    // Ensure babel-loader with macro support is available for Lingui files
+    // We'll modify the existing next-babel-loader rule to include macros
+    const babelRule = config.module.rules.find(
+      rule => rule.use && rule.use.loader && rule.use.loader.includes('babel')
+    );
+
+    if (babelRule) {
+      // Add macros plugin to existing Babel configuration
+      if (babelRule.use.options) {
+        babelRule.use.options.plugins = [
+          ...(babelRule.use.options.plugins || []),
+          'macros'
+        ];
+      } else {
+        babelRule.use.options = {
+          plugins: ['macros']
+        };
       }
-    });
+    }
 
     if (!isServer) {
       // Add fallbacks for Node.js built-ins that might be needed by client-side code

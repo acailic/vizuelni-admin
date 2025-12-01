@@ -1,7 +1,6 @@
 module.exports = {
   locales: ["en", "sr-Latn", "sr-Cyrl"],
   sourceLocale: "en",
-  catalogPath: "locales/{locale}/messages",
   catalogs: [
     {
       path: "locales/{locale}/messages",
@@ -22,12 +21,5 @@ module.exports = {
     }
   ],
   format: "po",
-  orderBy: "messageId",
-  pseudoLocale: "pseudo",
-  // Disable extractor warnings to avoid noise
-  extractBabelOptions: {
-    plugins: [
-      "@lingui/macro"
-    ]
-  }
+  orderBy: "messageId"
 }
