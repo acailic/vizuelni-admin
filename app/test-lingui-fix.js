@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+
 const { transformSync } = require('@babel/core');
 
 console.log('🔧 Testing Lingui macro processing...');

@@ -1,6 +1,4 @@
 import { TileLayer } from "@deck.gl/geo-layers";
-// Import types properly to avoid internal type exports
-import type { TileLayerProps } from "@deck.gl/geo-layers";
 import { BitmapLayer } from "@deck.gl/layers";
 import { XMLParser } from "fast-xml-parser";
 import uniq from "lodash/uniq";
