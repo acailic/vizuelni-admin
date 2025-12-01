@@ -1,7 +1,12 @@
 import { DatasetMetadata } from "@/components/dataset-metadata";
-import { DataSource } from "@/config-types";
 import { useDataCubeMetadataQuery } from "@/graphql/query-hooks";
 import { useLocale } from "@/locales/use-locale";
+
+// Temporary type definition to work around import issue
+type DataSource = {
+  type: "sql" | "sparql";
+  url: string;
+};
 
 export const DatasetMetadataSingleCube = ({
   dataSource,
