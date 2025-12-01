@@ -170,5 +170,5 @@ export const validateConfig = (
   }
 
   // If we got here, validation passed
-  return { valid: true, data: config as VizualniAdminConfig };
+  return { valid: true, data: config as unknown as VizualniAdminConfig };
 };

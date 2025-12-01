@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 import { ascending, descending, group, rollup, rollups } from "d3-array";
-import produce from "immer";
+import { produce } from "immer";
 import get from "lodash/get";
 import mapValues from "lodash/mapValues";
 import sortBy from "lodash/sortBy";

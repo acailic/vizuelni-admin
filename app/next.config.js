@@ -9,10 +9,30 @@ const nextConfig = {
     // Disable any experimental features that might cause issues
   },
   // Disable webpack optimizations that might cause issues
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer, dev }) => {
     if (!isServer) {
       config.resolve.fallback.fs = false;
     }
+
+    // Configure module resolution for environment-specific files
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@/graphql/devtools': dev
+        ? require.resolve('./graphql/devtools.dev')
+        : require.resolve('./graphql/devtools.prod'),
+    };
+
+    // Add GraphQL loader for .graphql files
+    config.module.rules.push({
+      test: /\.(graphql|gql)$/,
+      exclude: /node_modules/,
+      use: [
+        {
+          loader: 'graphql-tag/loader',
+        },
+      ],
+    });
+
     return config;
   },
 };

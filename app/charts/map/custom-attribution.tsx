@@ -1,7 +1,7 @@
 import { useTheme } from "@mui/material";
 import maplibregl from "maplibre-gl";
 import { useEffect } from "react";
-import { useMap } from "react-map-gl";
+import { useMap } from "react-map-gl/maplibre";
 
 /**
  * Could not use the CustomAttribute from maplibre gl, it was not updating properly

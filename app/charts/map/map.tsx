@@ -13,7 +13,7 @@ import orderBy from "lodash/orderBy";
 import uniq from "lodash/uniq";
 import maplibreglRaw from "maplibre-gl";
 import { useEffect, useMemo, useRef, useState } from "react";
-import Map, { LngLatLike, MapboxEvent } from "react-map-gl";
+import Map, { LngLatLike, MapboxEvent } from "react-map-gl/maplibre";
 
 import {
   DEFAULT_COLOR,

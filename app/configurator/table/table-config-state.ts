@@ -1,5 +1,5 @@
 import { DraggableLocation } from "@hello-pangea/dnd";
-import produce from "immer";
+import { produce } from "immer";
 
 import {
   SortingOrder,

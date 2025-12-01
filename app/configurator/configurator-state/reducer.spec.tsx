@@ -1,4 +1,4 @@
-import produce, { createDraft, current } from "immer";
+import { produce, createDraft, current } from "immer";
 import get from "lodash/get";
 import { afterEach, describe, expect, it, Mock, vi } from "vitest";
 

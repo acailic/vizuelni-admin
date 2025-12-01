@@ -1,4 +1,4 @@
-import produce from "immer";
+import { produce } from "immer";
 import get from "lodash/get";
 import { useEffect } from "react";
 import { ChangeEvent } from "react";

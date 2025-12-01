@@ -8,7 +8,7 @@ interface GalleryPageProps {
   fallbackData?: any;
 }
 
-export default function GalleryPage({ fallbackData = {} }: GalleryPageProps) {
+export default function GalleryPage({}: GalleryPageProps) {
   return (
     <Box>
       <DemoGallery />

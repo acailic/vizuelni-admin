@@ -26,15 +26,16 @@ export const AsyncLocalizationProvider = (
 
       if (!importKey) {
         console.warn(`Missing date-fns locale for "${locale}", falling back to en-GB.`);
-        const fallback = await import("date-fns/locale/en-GB");
-        setDateFnsLocale(fallback.default);
+        const { enGB } = await import("date-fns/locale");
+        setDateFnsLocale(enGB);
         return;
       }
 
-      const importedLocale = await import(
-        `date-fns/locale/${importKey}/index.js`
-      );
-      setDateFnsLocale(importedLocale.default);
+      // Import locale from date-fns v3
+      const locales = await import("date-fns/locale");
+      const localeKey = importKey.replace(/-/g, "");
+      const localeData = (locales as any)[localeKey] || (locales as any).enGB;
+      setDateFnsLocale(localeData);
     };
 
     run();

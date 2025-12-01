@@ -1,4 +1,4 @@
-import produce from "immer";
+import { produce } from "immer";
 
 import { getOrderedTableColumns } from "../components/ui-helpers";
 export const moveFields = produce((chartConfig, { source, destination, }) => {
