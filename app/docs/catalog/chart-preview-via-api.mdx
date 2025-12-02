@@ -38,8 +38,8 @@ publishing them, by using a custom API or iframe hash parameter.
 page with two iframes containing chart previews. The first iframe gets the chart
 state via hash parameters.
 
-In order to get the parameters, you can use the _Copy preview link_ button found
-in the editor or use the
+In order to get parameters, you can use the _Copy preview link_ button found in
+the editor or use the
 [objectToHashString](https://github.com/visualize-admin/visualization-tool/blob/main/app/utils/hash-utils.ts)
 function.
 
@@ -64,12 +64,13 @@ page with two iframes containing chart previews. The second iframe gets the
 chart state from posting a message to the iframe window.
 
 This method works by pointing an iframe to the `/preview` page, and posting a
-message with the chart state to the iframe window when ready.
+message with chart state to the iframe window when ready.
 
 <CodeSpecimen
   lang="js"
   raw
-  rawBody={`const iframe = document.getElementById("chart");
+  rawBody={`
+const iframe = document.getElementById("chart");
 const handleMessage = (e) => {
   if (e.data?.type === "ready" && e.source === iframe.contentWindow) {
     iframe.contentWindow?.postMessage(configuratorState, "*");
@@ -101,9 +102,10 @@ You can set the desired language for the chart preview by adding a `/de`, `/fr`,
 see a page with two buttons that open a new page with a chart preview after
 clicking.
 
-This method works by sending a POST request to `/preview_post` page with chart
-state when clicking on a form button. The `/preview_post` page retrieves the
-content of a request in `getServerSideProps` and renders a preview of a chart.
+This method works by sending a POST request to the `/preview_post` page with
+chart state when clicking on a form button. The `/preview_post` page retrieves
+the content of a request in `getServerSideProps` and renders a preview of a
+chart.
 
 It's important to only use one input inside a form (as we split the string by
 `=`).
@@ -111,14 +113,16 @@ It's important to only use one input inside a form (as we split the string by
 <CodeSpecimen
   lang="css"
   raw
-  rawBody={`<form method="post" action="/preview_post" target="_blank">
+  rawBody={`
+<form method="post" action="/preview_post" target="_blank">
   <input
     type="hidden"
     name="configuratorState"
     value={JSON.stringify(photovoltaikanlagenState)}
   />
   <input type="submit" value="☀️ Preview a Photovoltaikanlagen chart" />
-</form>`}
+</form>
+`}
 />
 
 ### Controlling the language
@@ -159,7 +163,8 @@ An example configurator state is shown below.
 <CodeSpecimen
   lang="json"
   raw
-  rawBody={`{
+  rawBody={`
+{
   state: "CONFIGURING_CHART",
   dataSet:
     "https://energy.ld.admin.ch/sfoe/bfe_ogd84_einmalverguetung_fuer_photovoltaikanlagen/7",
