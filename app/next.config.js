@@ -7,15 +7,10 @@ const nextConfig = {
   swcMinify: true,
   pageExtensions: ["js", "ts", "tsx", "mdx"],
   experimental: {
-    // Enable SWC for better performance
-    swcMinify: true,
-    // Enable optimized imports
     optimizePackageImports: ['@mui/material', '@mui/icons-material'],
-    // Enable transpilation of packages that need Babel processing
-    transpilePackages: ['@lingui/core', '@lingui/react'],
-    // Ensure proper handling of ES modules
     esmExternals: 'loose',
   },
+  transpilePackages: ['@lingui/core', '@lingui/react'],
   // Enable TypeScript checking but allow build to proceed (will fix incrementally)
   typescript: {
     ignoreBuildErrors: true, // Temporary: allow build while we fix types
@@ -69,6 +64,10 @@ const nextConfig = {
       ...config.resolve.alias,
       // Handle the @ alias that was previously in Babel module-resolver
       '@': path.resolve(__dirname, '.'),
+      '@/graphql/devtools': path.resolve(
+        __dirname,
+        dev ? './graphql/devtools.dev' : './graphql/devtools.prod'
+      ),
       urql: path.resolve(__dirname, './graphql/urql-compat'),
     };
 
