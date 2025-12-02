@@ -1,7 +1,22 @@
 import { Literal, Term } from "rdf-js";
 
-import { ComponentType } from "@/config-types";
 import { ComponentId } from "@/graphql/make-component-id";
+
+// Define ComponentType locally to avoid circular imports
+type ComponentType =
+  | "NominalDimension"
+  | "OrdinalDimension"
+  | "TemporalDimension"
+  | "TemporalEntityDimension"
+  | "TemporalOrdinalDimension"
+  | "GeoCoordinatesDimension"
+  | "GeoShapesDimension"
+  | "StandardErrorDimension"
+  | "ConfidenceUpperBoundDimension"
+  | "ConfidenceLowerBoundDimension"
+  | "NumericalMeasure"
+  | "OrdinalMeasure";
+
 import {
   DataCubeOrganization,
   DataCubePublicationStatus,

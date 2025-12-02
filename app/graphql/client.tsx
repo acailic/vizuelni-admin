@@ -7,7 +7,7 @@ import { flag } from "@/flags/flag";
 let devtoolsExchanges = [];
 if (process.env.NODE_ENV === "development") {
   try {
-    const devtools = require("./devtools.dev");
+    const devtools = require("./devtools.dev.js");
     devtoolsExchanges = devtools.devtoolsExchanges || [];
   } catch (e) {
     console.warn("Devtools not available in production build");
