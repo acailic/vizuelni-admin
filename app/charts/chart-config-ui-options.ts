@@ -41,7 +41,6 @@ import {
   getAnimationField,
   isSortingInConfig,
   LineConfig,
-  MapColorField,
   MapConfig,
   PaletteType,
   PieConfig,
@@ -49,6 +48,7 @@ import {
   SortingOrder,
   SortingType,
   TableConfig,
+  MapColorField,
 } from "@/config-types";
 import { makeMultiFilter } from "@/config-utils";
 import { getFieldLabel } from "@/configurator/components/field-i18n";
@@ -1589,3 +1589,7 @@ export const getChartFieldOptionChangeSideEffect = (
       return get(encoding, "options.columnComponentId.onChange");
   }
 };
+
+// Export the sorting constants
+export { AREA_SEGMENT_SORTING, COLUMN_SEGMENT_SORTING, PIE_SEGMENT_SORTING };
+export { defaultSegmentOnChange, disableStacked };
