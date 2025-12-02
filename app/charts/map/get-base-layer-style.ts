@@ -1,15 +1,16 @@
 import merge from "lodash/merge";
 import { useMemo } from "react";
-import type { StyleSpecification } from "maplibre-gl";
 
 import { BASE_VECTOR_TILE_URL, MAPTILER_STYLE_KEY } from "@/domain/env";
 
 import { Locale } from "../../locales/locales";
 
-type MapboxStyle = StyleSpecification;
-
 import greyStyleBase from "./grey.json";
 import { hasLayout, mapLayers, replaceStyleTokens } from "./style-helpers";
+
+import type { StyleSpecification } from "maplibre-gl";
+
+type MapboxStyle = StyleSpecification;
 
 const tokens = {
   "{key}": MAPTILER_STYLE_KEY,
