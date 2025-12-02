@@ -1,6 +1,18 @@
 import { Literal, Term } from "rdf-js";
 
 import { ComponentId } from "@/graphql/make-component-id";
+import {
+  DataCubeOrganization,
+  DataCubePublicationStatus,
+  DataCubeTheme,
+  RelatedDimension,
+  ScaleType,
+  TimeUnit,
+} from "@/graphql/resolver-types";
+// @ts-ignore
+import { ResolvedDimension } from "@/graphql/shared-types";
+import { Limit } from "@/rdf/limits";
+import { unitsToNode } from "@/rdf/mappings";
 
 // Define ComponentType locally to avoid circular imports
 type ComponentType =
@@ -16,19 +28,6 @@ type ComponentType =
   | "ConfidenceLowerBoundDimension"
   | "NumericalMeasure"
   | "OrdinalMeasure";
-
-import {
-  DataCubeOrganization,
-  DataCubePublicationStatus,
-  DataCubeTheme,
-  RelatedDimension,
-  ScaleType,
-  TimeUnit,
-} from "@/graphql/resolver-types";
-// @ts-ignore
-import { ResolvedDimension } from "@/graphql/shared-types";
-import { Limit } from "@/rdf/limits";
-import { unitsToNode } from "@/rdf/mappings";
 
 type RawObservationValue = Term;
 
