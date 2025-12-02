@@ -4,7 +4,6 @@
  */
 
 const { defaultLocale, locales } = require("./app/locales/locales.json");
-
 const pkg = require("./package.json");
 
 // Populate build-time variables
