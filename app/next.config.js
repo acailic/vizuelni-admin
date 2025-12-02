@@ -63,11 +63,18 @@ module.exports = {
       loader: "graphql-tag/loader",
     });
 
-    // MDX files
+    // MDX files - updated configuration
     config.module.rules.push({
       test: /\.mdx$/,
       exclude: /node_modules/,
       use: [
+        {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-react"],
+            plugins: ["@babel/plugin-transform-runtime"],
+          },
+        },
         {
           loader: "@mdx-js/loader",
           options: {
