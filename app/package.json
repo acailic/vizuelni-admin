@@ -68,12 +68,21 @@
     "url": "https://github.com/sponsors/acailic"
   },
   "scripts": {
-    "build": "tsup",
+    "dev": "next dev",
+    "build": "next build",
+    "build:analyze": "ANALYZE=true next build",
+    "build:lib": "tsup",
     "build:preconstruct": "preconstruct build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "analyze": "next build --analyze",
     "benchmark": "node benchmarks/chart-rendering.bench.ts && node benchmarks/data-loading.bench.ts",
-    "typecheck:focused": "tsc --noEmit -p tsconfig.typecheck.json"
+    "typecheck": "tsc --noEmit",
+    "typecheck:focused": "tsc --noEmit -p tsconfig.typecheck.json",
+    "clean": "rm -rf .next out dist",
+    "postbuild": "npm run build:lib"
   },
   "dependencies": {
     "@apollo/server-plugin-landing-page-graphql-playground": "^4.0.1",

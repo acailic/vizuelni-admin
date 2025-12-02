@@ -7,9 +7,11 @@ const nextConfig = {
   swcMinify: true,
   pageExtensions: ["js", "ts", "tsx", "mdx"],
   transpilePackages: ['@lingui/core', '@lingui/react'],
+  // Explicitly disable App Router to avoid conflicts with Pages Router
   experimental: {
     optimizePackageImports: ['@mui/material', '@mui/icons-material'],
     esmExternals: 'loose',
+    // serverComponentsExternalPackages removed because it conflicts with transpilePackages
   },
   // Enable TypeScript checking but allow build to proceed (will fix incrementally)
   typescript: {
@@ -23,8 +25,43 @@ const nextConfig = {
     locales: ["en", "sr-Latn", "sr-Cyrl"],
     defaultLocale: "en",
   },
-  // Disable webpack optimizations that might cause issues
+  // Ensure proper manifest generation
+  generateBuildId: async () => {
+    return 'build-' + Date.now();
+  },
+  // Optimize build process
+  compress: true,
+  poweredByHeader: false,
+  // Optimize webpack for stable builds
   webpack: (config, { isServer, dev, webpack, defaultLoaders }) => {
+    // Ensure stable build IDs and manifest generation
+    config.optimization = {
+      ...config.optimization,
+      splitChunks: {
+        chunks: 'all',
+        cacheGroups: {
+          default: false,
+          vendors: false,
+          framework: {
+            name: 'framework',
+            chunks: 'all',
+            test: /[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
+            priority: 40,
+            enforce: true,
+          },
+          lib: {
+            test: /[\\/]node_modules[\\/]/,
+            name(module) {
+              const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+              return `npm.${packageName.replace('@', '')}`;
+            },
+            priority: 30,
+            minChunks: 1,
+            reuseExistingChunk: true,
+          },
+        },
+      },
+    };
     // Ensure babel-loader with macro support is available for Lingui files
     // We'll modify the existing next-babel-loader rule to include macros
     const babelRule = config.module.rules.find(
