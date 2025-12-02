@@ -1003,7 +1003,7 @@ const MapFields = t.partial({
 });
 export type MapFields = t.TypeOf<typeof MapFields>;
 
-const MapConfig = t.intersection([
+const MapConfigRuntime = t.intersection([
   GenericChartConfig,
   t.type(
     {
@@ -1014,7 +1014,8 @@ const MapConfig = t.intersection([
     "MapConfig"
   ),
 ]);
-export type MapConfig = t.TypeOf<typeof MapConfig>;
+export const MapConfig = MapConfigRuntime;
+export type MapConfigType = t.TypeOf<typeof MapConfigRuntime>;
 
 const ComboLineSingleFields = t.type({
   x: GenericField,
@@ -1096,7 +1097,7 @@ const RegularChartConfig = t.union([
   ColumnConfig,
   BarConfig,
   LineConfig,
-  MapConfig,
+  MapConfigRuntime,
   PieConfig,
   ScatterPlotConfig,
   TableConfig,
@@ -1222,7 +1223,7 @@ export const isTableConfig = (
 
 export const isMapConfig = (
   chartConfig: ChartConfig
-): chartConfig is MapConfig => {
+): chartConfig is MapConfigType => {
   return chartConfig.chartType === "map";
 };
 

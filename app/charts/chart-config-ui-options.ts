@@ -1591,5 +1591,3 @@ export const getChartFieldOptionChangeSideEffect = (
 };
 
 // Export the sorting constants
-export { AREA_SEGMENT_SORTING, COLUMN_SEGMENT_SORTING, PIE_SEGMENT_SORTING };
-export { defaultSegmentOnChange, disableStacked };
