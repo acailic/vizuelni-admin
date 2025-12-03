@@ -30,8 +30,8 @@ export const getStaticProps: GetStaticProps<BrowsePageProps> = async ({
   // but the shell can be static for instant loading
   return {
     props: {
-      hideHeader: false,
-    },
-    revalidate: 300, // Revalidate every 5 minutes for potential updates
+      hideHeader: false
+    }
+
   };
 };

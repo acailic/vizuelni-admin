@@ -211,6 +211,7 @@
     "chromatic": "^11.4.0",
     "clownface": "^2.0.3",
     "compression-webpack-plugin": "^6.1.2",
+    "critters": "^0.0.25",
     "eslint": "^8.57.1",
     "eslint-config-next": "^14.2.23",
     "eslint-plugin-deprecate": "^0.8.5",

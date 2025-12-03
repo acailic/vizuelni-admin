@@ -8,7 +8,7 @@ import {
   CardContent,
   Chip,
   Grid,
-  Typography,
+  Typography
 } from "@mui/material";
 import Link from "next/link";
 
@@ -25,40 +25,40 @@ export default function DemosIndex() {
   const pageDescription = i18n._(
     defineMessage({
       id: "demos.index.description",
-      message: "Explore different visualizations of Serbian open data",
+      message: "Explore different visualizations of Serbian open data"
     })
   );
   const heroTitle = i18n._(
     defineMessage({
       id: "demos.index.hero.title",
-      message: "📊 Demo Visualization Gallery",
+      message: "📊 Demo Visualization Gallery"
     })
   );
   const heroIntro = i18n._(
     defineMessage({
       id: "demos.index.hero.intro",
       message:
-        "Welcome to the demo visualization gallery using data from data.gov.rs. Each demo showcases different ways to visualize open data from the Republic of Serbia.",
+        "Welcome to the demo visualization gallery using data from data.gov.rs. Each demo showcases different ways to visualize open data from the Republic of Serbia."
     })
   );
   const heroBody = i18n._(
     defineMessage({
       id: "demos.index.hero.body",
       message:
-        "Click on any demo below to see an interactive visualization with real data.",
+        "Click on any demo below to see an interactive visualization with real data."
     })
   );
   const showcaseTitle = i18n._(
     defineMessage({
       id: "demos.index.showcase.title",
-      message: "New Demo Showcase",
+      message: "New Demo Showcase"
     })
   );
   const showcaseDesc = i18n._(
     defineMessage({
       id: "demos.index.showcase.description",
       message:
-        "A compact set of highlight charts across economy, transport, energy, and digitalization.",
+        "A compact set of highlight charts across economy, transport, energy, and digitalization."
     })
   );
   const showcaseCta = i18n._(
@@ -67,39 +67,39 @@ export default function DemosIndex() {
   const aboutTitle = i18n._(
     defineMessage({
       id: "demos.index.about.title",
-      message: "💡 About Demo Visualizations",
+      message: "💡 About Demo Visualizations"
     })
   );
   const aboutParagraph1 = i18n._(
     defineMessage({
       id: "demos.index.about.paragraph1",
       message:
-        "These visualizations use real data from the Republic of Serbia open data portal (data.gov.rs). Data is loaded in real-time directly from the API.",
+        "These visualizations use real data from the Republic of Serbia open data portal (data.gov.rs). Data is loaded in real-time directly from the API."
     })
   );
   const aboutParagraph2 = i18n._(
     defineMessage({
       id: "demos.index.about.paragraph2",
       message:
-        "The project is built with Next.js and optimized for GitHub Pages deployment with static export.",
+        "The project is built with Next.js and optimized for GitHub Pages deployment with static export."
     })
   );
   const statsAvailable = i18n._(
     defineMessage({
       id: "demos.index.stats.available",
-      message: "Available Demos",
+      message: "Available Demos"
     })
   );
   const statsResources = i18n._(
     defineMessage({
       id: "demos.index.stats.resources",
-      message: "Resources on data.gov.rs",
+      message: "Resources on data.gov.rs"
     })
   );
   const statsOrganizations = i18n._(
     defineMessage({
       id: "demos.index.stats.organizations",
-      message: "Organizations",
+      message: "Organizations"
     })
   );
 
@@ -111,7 +111,7 @@ export default function DemosIndex() {
     pie: { sr: "Kružni grafikon", en: "Pie chart" },
     map: { sr: "Mapa", en: "Map" },
     scatterplot: { sr: "Raspršeni grafikon", en: "Scatterplot" },
-    comboLineColumn: { sr: "Kombinovani grafikon", en: "Combo chart" },
+    comboLineColumn: { sr: "Kombinovani grafikon", en: "Combo chart" }
   };
 
   const getChartTypeLabel = (chartType: string) =>
@@ -140,8 +140,8 @@ export default function DemosIndex() {
             background:
               "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
             opacity: 0.4,
-            zIndex: 0,
-          },
+            zIndex: 0
+          }
         }}
       >
         <Box sx={{ position: "relative", zIndex: 1 }}>
@@ -179,7 +179,7 @@ export default function DemosIndex() {
           display: "flex",
           flexDirection: { xs: "column", md: "row" },
           alignItems: { xs: "flex-start", md: "center" },
-          gap: 2,
+          gap: 2
         }}
       >
         <Box sx={{ flex: 1 }}>
@@ -214,7 +214,7 @@ export default function DemosIndex() {
           display: "flex",
           flexDirection: { xs: "column", md: "row" },
           alignItems: { xs: "flex-start", md: "center" },
-          gap: 2,
+          gap: 2
         }}
       >
         <Box sx={{ flex: 1 }}>
@@ -259,7 +259,7 @@ export default function DemosIndex() {
                     position: "relative",
                     "&:hover": {
                       transform: "translateY(-8px)",
-                      boxShadow: "0 20px 40px rgba(14, 165, 233, 0.25)",
+                      boxShadow: "0 20px 40px rgba(14, 165, 233, 0.25)"
                     },
                     "&::before": {
                       content: '""',
@@ -271,11 +271,11 @@ export default function DemosIndex() {
                       background:
                         "linear-gradient(90deg, #0ea5e9 0%, #2563eb 100%)",
                       opacity: 0,
-                      transition: "opacity 0.3s ease",
+                      transition: "opacity 0.3s ease"
                     },
                     "&:hover::before": {
-                      opacity: 1,
-                    },
+                      opacity: 1
+                    }
                   }}
                 >
                   <CardActionArea
@@ -284,7 +284,7 @@ export default function DemosIndex() {
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "stretch",
-                      justifyContent: "flex-start",
+                      justifyContent: "flex-start"
                     }}
                   >
                     <CardContent sx={{ flexGrow: 1, p: 3 }}>
@@ -300,7 +300,7 @@ export default function DemosIndex() {
                           display: "inline-flex",
                           alignItems: "center",
                           justifyContent: "center",
-                          width: "100%",
+                          width: "100%"
                         }}
                       >
                         {config.icon}
@@ -312,7 +312,7 @@ export default function DemosIndex() {
                         sx={{
                           fontWeight: 600,
                           mb: 1.5,
-                          color: "text.primary",
+                          color: "text.primary"
                         }}
                       >
                         {title}
@@ -331,7 +331,7 @@ export default function DemosIndex() {
                           display: "flex",
                           flexWrap: "wrap",
                           gap: 1,
-                          mt: "auto",
+                          mt: "auto"
                         }}
                       >
                         <Chip
@@ -344,7 +344,7 @@ export default function DemosIndex() {
                             fontWeight: 600,
                             fontSize: "0.75rem",
                             textTransform: "uppercase",
-                            letterSpacing: "0.5px",
+                            letterSpacing: "0.5px"
                           }}
                         />
 
@@ -356,7 +356,7 @@ export default function DemosIndex() {
                               fontSize: "0.75rem",
                               borderColor: "#0ea5e9",
                               color: "#0ea5e9",
-                              fontWeight: 500,
+                              fontWeight: 500
                             }}
                             variant="outlined"
                           />
@@ -381,7 +381,7 @@ export default function DemosIndex() {
           textAlign: "center",
           border: "2px solid",
           borderColor: "rgba(67, 233, 123, 0.2)",
-          boxShadow: "0 10px 40px rgba(67, 233, 123, 0.1)",
+          boxShadow: "0 10px 40px rgba(67, 233, 123, 0.1)"
         }}
       >
         <Typography
@@ -420,8 +420,8 @@ export default function DemosIndex() {
                 boxShadow: "0 10px 30px rgba(102, 126, 234, 0.3)",
                 transition: "transform 0.3s ease",
                 "&:hover": {
-                  transform: "translateY(-5px)",
-                },
+                  transform: "translateY(-5px)"
+                }
               }}
             >
               <Typography variant="h3" sx={{ fontWeight: 800, mb: 1 }}>
@@ -446,8 +446,8 @@ export default function DemosIndex() {
                 boxShadow: "0 10px 30px rgba(245, 87, 108, 0.3)",
                 transition: "transform 0.3s ease",
                 "&:hover": {
-                  transform: "translateY(-5px)",
-                },
+                  transform: "translateY(-5px)"
+                }
               }}
             >
               <Typography variant="h3" sx={{ fontWeight: 800, mb: 1 }}>
@@ -472,8 +472,8 @@ export default function DemosIndex() {
                 boxShadow: "0 10px 30px rgba(79, 172, 254, 0.3)",
                 transition: "transform 0.3s ease",
                 "&:hover": {
-                  transform: "translateY(-5px)",
-                },
+                  transform: "translateY(-5px)"
+                }
               }}
             >
               <Typography variant="h3" sx={{ fontWeight: 800, mb: 1 }}>
@@ -497,7 +497,7 @@ export async function getStaticProps() {
   // Pre-build the demo index page for instant loading
   // Demo configs are static at build time, but we may want to refresh occasionally
   return {
-    props: {},
-    revalidate: 1800, // Revalidate every 30 minutes for potential demo updates
+    props: {}
+
   };
 }

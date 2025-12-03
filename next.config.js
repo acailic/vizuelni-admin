@@ -1,30 +1,11 @@
 /**
- * OPTIMIZED Next.js Configuration
- * Target: Top 0.1% performance metrics
- * Bundle Size: <5MB total, <250KB per chunk
+ * Minimal Next.js Configuration for Build
+ * Focus: Reduce memory usage and complete build successfully
  */
 
-const withBundleAnalyzer = require("@next/bundle-analyzer")({
-  enabled: process.env.ANALYZE === "true",
-});
-
-const withMDX = require("@next/mdx")();
-const withPreconstruct = require("@preconstruct/next");
-const { withSentryConfig } = require("@sentry/nextjs");
-const { IgnorePlugin } = require("webpack");
-const CompressionPlugin = require("compression-webpack-plugin");
-const webpack = require("webpack");
-const path = require("path");
-
-const pkg = require("./package.json");
 const { defaultLocale, locales } = require("./app/locales/locales.json");
 
-// Performance optimization constants
-const PERFORMANCE_BUDGETS = {
-  CHUNK_SIZE_LIMIT: 250000, // 250KB per chunk
-  BUNDLE_SIZE_LIMIT: 5000000, // 5MB total
-  MAX_ASYNC_REQUESTS: 25,
-};
+const pkg = require("./package.json");
 
 // Populate build-time variables
 process.env.NEXT_PUBLIC_VERSION = `v${pkg.version}`;
@@ -34,500 +15,116 @@ process.env.NEXT_PUBLIC_GITHUB_REPO = pkg.repository.url.replace(
 );
 
 const isGitHubPages = process.env.NEXT_PUBLIC_BASE_PATH !== undefined;
-const isDevelopment = process.env.NODE_ENV === "development";
-const isProduction = !isDevelopment;
-
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-const enableSentryUpload = Boolean(process.env.SENTRY_AUTH_TOKEN) &&
-  process.env.SENTRY_UPLOAD !== "false";
 
-const imageConfig = {
-  formats: ["image/avif", "image/webp"],
-  minimumCacheTTL: 60,
-  deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-  imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-};
+module.exports = {
+  output: isGitHubPages ? "export" : "standalone",
+  basePath: basePath,
+  assetPrefix: basePath,
+  images: {
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 60,
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    unoptimized: true, // Required for static export
+  },
+  i18n: isGitHubPages ? undefined : { locales, defaultLocale },
 
-const optimizedNextConfig = withPreconstruct(
-  withBundleAnalyzer(
-    withMDX({
-      output: isGitHubPages ? "export" : "standalone",
-      basePath: basePath,
-      assetPrefix: basePath,
-      images: imageConfig,
-      i18n: isGitHubPages ? undefined : { locales, defaultLocale },
+  // Basic optimizations only
+  swcMinify: true,
+  productionBrowserSourceMaps: false,
 
-      // Security Headers (existing + optimizations)
-      ...(!isGitHubPages && {
-        headers: async () => {
-          const headers = [
-            {
-              source: "/:path*",
-              headers: [
-                { key: "X-Content-Type-Options", value: "nosniff" },
-                { key: "X-Frame-Options", value: "SAMEORIGIN" },
-                { key: "X-XSS-Protection", value: "1; mode=block" },
-                { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-                { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
-                // Performance headers
-                { key: "X-DNS-Prefetch-Control", value: "on" },
-                { key: "X-Frame-Options", value: "DENY" },
-              ],
-            },
-          ];
+  pageExtensions: ["js", "ts", "tsx", "mdx"],
 
-          // Content Security Policy (optimized for performance)
-          if (!(process.env.DISABLE_CSP === "true")) {
-            headers[0].headers.push({
-              key: "Content-Security-Policy",
-              value: [
-                `default-src 'self' 'unsafe-inline'${isDevelopment ? " 'unsafe-eval'" : ""}`,
-                `script-src 'self' 'unsafe-inline'${isDevelopment ? " 'unsafe-eval'" : ""} https://*.sentry.io`,
-                `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net`,
-                `font-src 'self' data:`,
-                `connect-src 'self' *`,
-                `img-src 'self' * data: blob:`,
-                `worker-src 'self' blob:`,
-              ].join("; "),
-            });
-          }
+  // Minimal webpack config
+  webpack(config, { dev, isServer }) {
+    // Basic React aliases
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "mapbox-gl": "maplibre-gl",
+    };
 
-          // Cache control for static assets
-          headers.push({
-            source: "/_next/static/(.*)",
-            headers: [
-              {
-                key: "Cache-Control",
-                value: "public, max-age=31536000, immutable",
-              },
-            ],
-          });
-
-          return headers;
-        },
-      }),
-
-      pageExtensions: ["js", "ts", "tsx", "mdx"],
-
-      // Build Optimizations
-      swcMinify: true,
-      productionBrowserSourceMaps: false,
-
-      // Compiler optimizations
-      compiler: {
-        removeConsole: isProduction ? { exclude: ["error", "warn"] } : false,
-        // Remove React propTypes in production
-        reactRemoveProperties: isProduction,
+    // Fix for all MUI packages with directory import issues
+    // This resolves ES module directory imports by appending /index.js
+    const originalResolve = config.resolve;
+    config.resolve = {
+      ...originalResolve,
+      alias: {
+        ...originalResolve.alias,
+        // Map common MUI directory imports to their index files
+        '@mui/utils/composeClasses': '@mui/utils/composeClasses/index.js',
+        '@mui/material/Alert': '@mui/material/Alert/index.js',
+        '@mui/material': '@mui/material/index.js',
+        '@mui/utils': '@mui/utils/index.js',
+        '@mui/icons-material': '@mui/icons-material/index.js',
+        '@mui/lab': '@mui/lab/index.js',
       },
+    };
 
-      // Transpile problematic packages that have React 18 compatibility issues
-      transpilePackages: [
-        '@uiw/react-color',
-        '@uiw/react-color-alpha',
-        '@uiw/react-color-block',
-        '@uiw/react-color-chrome',
-        '@uiw/react-drag-event-interactive',
-        '@dnd-kit',
-        '@dnd-kit/core',
-        '@dnd-kit/sortable',
-        '@dnd-kit/utilities'
+    // Add a rule to handle all MUI package imports
+    config.module.rules.push({
+      test: /\.(js|ts|tsx)$/,
+      include: [
+        /node_modules\/@mui\/.*/,
       ],
-
-      // Experimental optimizations
-      experimental: {
-        // Optimize package imports for tree-shaking
-        optimizePackageImports: [
-          "@mui/material",
-          "@mui/icons-material",
-          "@mui/lab",
-          "date-fns",
-          "lodash",
-          "d3-array",
-          "d3-scale",
-          "d3-scale-chromatic",
-          "d3-shape",
-          "d3-format",
-          "d3-time-format",
-          "framer-motion",
-          "@emotion/react",
-          "@emotion/styled",
-        ],
-
-        // Parallel compilation
-        cpus: require("os").cpus().length - 1 || 1,
-
-        // Optimized client chunks
-        optimizeCss: true,
-
-        // Enable modern JS features
-        esmExternals: "loose",
-
-        // Server components external packages (appDir is now stable, not experimental)
-        serverComponentsExternalPackages: [
-          "d3-*",
-          "sharp",
-          "canvas",
-        ],
-
-        // Bundle analysis
-        optimizeServerReact: true,
-        scrollRestoration: true,
+      resolve: {
+        fullySpecified: false,
       },
-
-      // Modular imports for tree-shaking
-      modularizeImports: {
-        "@mui/icons-material": {
-          transform: "@mui/icons-material/{{member}}",
-          skipDefaultConversion: true,
-        },
-        "lodash": {
-          transform: "lodash/{{member}}",
-        },
-        "date-fns": {
-          transform: "date-fns/{{member}}",
-        },
-        "d3-scale": {
-          transform: "d3-scale/{{member}}",
-        },
-        "framer-motion": {
-          transform: "framer-motion/{{member}}",
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-env', '@babel/preset-react'],
+          plugins: ['@babel/plugin-transform-runtime'],
+          cacheDirectory: false,
         },
       },
+    });
 
-      // Optimized webpack configuration
-      webpack(config, { dev, isServer, webpack }) {
-        // Fix React export conflicts for older packages
-        config.resolve.alias = {
-          ...config.resolve.alias,
-          // Map React exports to handle React 18 compatibility - CRITICAL: Use require.resolve for all React paths
-          react: require.resolve('react'),
-          'react-dom': require.resolve('react-dom'),
-          // Critical fix: Add JSX runtime alias - use require.resolve to get actual file path
-          'react/jsx-runtime': require.resolve('react/jsx-runtime'),
-          // Additional React exports for MUI compatibility
-          'react/jsx-dev-runtime': require.resolve('react/jsx-dev-runtime'),
-          // Fix for @emotion and @mui packages
-          '@emotion/react': require.resolve('@emotion/react'),
-          '@emotion/styled': require.resolve('@emotion/styled'),
-          // Fix for @mui styles package
-          '@mui/styles': require.resolve('@mui/styles'),
-          'mapbox-gl': 'maplibre-gl',
-        };
+    // Basic fallbacks for browser
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+        os: false,
+        crypto: false,
+        stream: false,
+        buffer: false,
+      };
+    }
 
-        // Ensure React modules can be resolved
-        config.resolve.modules = [
-          'node_modules',
-          path.resolve(__dirname, 'node_modules'),
-          path.resolve(__dirname, 'app'),
-          'node_modules/@mui/material/node_modules',
-          'node_modules/@mui/styles/node_modules',
-          'node_modules/@mui/private-theming/node_modules',
-          'node_modules/@mui/styled-engine/node_modules',
-        ];
+    // GraphQL files
+    config.module.rules.push({
+      test: /\.(graphql|gql)$/,
+      exclude: /node_modules/,
+      loader: "graphql-tag/loader",
+    });
 
-        // Add fallbacks for Node.js modules in browser
-        if (!isServer) {
-          config.resolve.fallback = {
-            ...config.resolve.fallback,
-            fs: false,
-            path: false,
-            os: false,
-            crypto: false,
-            stream: false,
-            buffer: false,
-          };
-        }
+    // Disable source maps in production
+    if (!dev) {
+      config.devtool = false;
+    }
 
-        // GraphQL files
-        config.module.rules.push({
-          test: /\.(graphql|gql)$/,
-          exclude: /node_modules/,
-          loader: "graphql-tag/loader",
-        });
+    return config;
+  },
 
-        // Disable source maps in production
-        if (!dev) {
-          config.devtool = false;
-        }
+  // Disable eslint during builds
+  eslint: {
+    ignoreDuringBuilds: true,
+    dirs: ["app"],
+  },
 
-        // Advanced optimization for client-side bundles
-        if (!dev && !isServer) {
-          // Aggressive code splitting
-          config.optimization.splitChunks = {
-            chunks: "all",
-            minSize: 20000,
-            maxSize: PERFORMANCE_BUDGETS.CHUNK_SIZE_LIMIT,
-            maxInitialRequests: 25,
-            maxAsyncRequests: PERFORMANCE_BUDGETS.MAX_ASYNC_REQUESTS,
-            cacheGroups: {
-              // Framework chunks
-              framework: {
-                test: /[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/,
-                name: "framework",
-                chunks: "all",
-                priority: 40,
-                enforce: true,
-              },
+  // Experimental features - minimal set
+  experimental: {
+    esmExternals: "loose",
+    optimizeCss: true,
+  },
 
-              // Material-UI chunks
-              mui: {
-                test: /[\\/]node_modules[\\/](@mui|@emotion)[\\/]/,
-                name: "vendor.mui",
-                chunks: "all",
-                priority: 30,
-                enforce: true,
-              },
-
-              // Chart/D3 chunks
-              charts: {
-                test: /[\\/]node_modules[\\/](d3-|recharts|chart|vis)[\\/]/,
-                name: "vendor.charts",
-                chunks: "all",
-                priority: 25,
-              },
-
-              // Utility chunks
-              utilities: {
-                test: /[\\/]node_modules[\\/](lodash|date-fns|fp-ts|io-ts)[\\/]/,
-                name: "vendor.utils",
-                chunks: "all",
-                priority: 20,
-              },
-
-              // Map chunks
-              maps: {
-                test: /[\\/]node_modules[\\/](mapbox|maplibre|leaflet)[\\/]/,
-                name: "vendor.maps",
-                chunks: "all",
-                priority: 15,
-              },
-
-              // Default vendor chunks
-              vendor: {
-                test: /[\\/]node_modules[\\/]/,
-                name(module) {
-                  const packageName = module.context.match(
-                    /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-                  )?.[1];
-                  return `vendor.${packageName?.replace("@", "") || "unknown"}`;
-                },
-                chunks: "all",
-                priority: 10,
-              },
-            },
-          };
-
-          // Runtime chunk optimization
-          config.optimization.runtimeChunk = {
-            name: "runtime",
-          };
-
-          // Module concatenation
-          config.optimization.concatenateModules = true;
-
-          // Add compression plugin for production
-          config.plugins.push(
-            new CompressionPlugin({
-              algorithm: "gzip",
-              test: /\.(js|css|html|svg)$/,
-              threshold: 8192,
-              minRatio: 0.8,
-            }),
-            new CompressionPlugin({
-              algorithm: "brotliCompress",
-              test: /\.(js|css|html|svg)$/,
-              threshold: 8192,
-              minRatio: 0.8,
-              filename: "[path][base].br",
-              compressionOptions: {
-                level: 11,
-              },
-            })
-          );
-        }
-
-        // Resolve aliases and extensions
-        config.resolve.extensions.push(dev ? ".dev.ts" : ".prod.ts");
-        config.resolve.alias = {
-          ...config.resolve.alias,
-          "mapbox-gl": "maplibre-gl",
-        };
-
-        // Ignore problematic modules
-        config.plugins.push(
-          new IgnorePlugin({
-            resourceRegExp: /^(pg-native|vue|electron)$/,
-          })
-        );
-
-        // Advanced font optimization
-        if (!isServer) {
-          config.module.rules.push({
-            test: /\.(woff|woff2|eot|ttf|otf)$/,
-            type: 'asset/resource',
-            generator: {
-              filename: 'static/fonts/[name].[hash][ext]',
-            },
-            use: [
-              {
-                loader: 'file-loader',
-                options: {
-                  name: '[name].[hash].[ext]',
-                  outputPath: 'static/fonts/',
-                  publicPath: '/_next/static/fonts/',
-                },
-              },
-            ],
-          });
-
-          // Font subsetting and optimization
-          config.optimization.splitChunks.cacheGroups.fonts = {
-            test: /\.(woff|woff2|eot|ttf|otf)$/,
-            name: 'fonts',
-            chunks: 'all',
-            priority: 1000,
-            enforce: true,
-            minChunks: 1,
-            maxSize: 100000, // 100KB max per font chunk
-          };
-
-          // Preload critical fonts
-          config.plugins.push(new class {
-            apply(compiler) {
-              compiler.hooks.compilation.tap('FontPreloader', (compilation) => {
-                compilation.hooks.processAssets.tap(
-                  {
-                    name: 'FontPreloader',
-                    stage: compilation.PROCESS_ASSETS_STAGE_OPTIMIZE
-                  },
-                  () => {
-                    const criticalFonts = [
-                      '/static/fonts/NotoSans-Regular.woff2',
-                      '/static/fonts/NotoSans-Bold.woff2'
-                    ];
-
-                    criticalFonts.forEach(fontUrl => {
-                      compilation.emitAsset(
-                        `preload-${fontUrl.split('/').pop()}`,
-                        new webpack.sources.RawSource(
-                          `<link rel="preload" href="${fontUrl}" as="font" type="font/woff2" crossorigin="anonymous">`
-                        )
-                      );
-                    });
-                  }
-                );
-              });
-            }
-          }());
-        }
-
-        // Tree-shaking optimization
-        config.optimization.usedExports = true;
-        config.optimization.sideEffects = false;
-
-        // Handle React 18 export conflicts with older packages
-        config.externals = config.externals || [];
-        if (isServer) {
-          config.externals.push({
-            'react': 'react',
-            'react-dom': 'react-dom',
-          });
-        }
-
-        // Fix module resolution for conflicting packages
-        config.module.rules.push({
-          test: /\.js$/,
-          include: /node_modules\/(@dnd-kit|@emotion|@mui|@uiw)/,
-          resolve: {
-            fullySpecified: false,
-          },
-        });
-
-        // Add specific rule to handle JSX runtime in problematic packages
-        config.module.rules.push({
-          test: /\.(js|jsx|ts|tsx)$/,
-          include: [
-            /node_modules\/@mui/,
-            /node_modules\/@emotion/,
-            /node_modules\/@uiw/,
-          ],
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env', '@babel/preset-react'],
-              plugins: ['@babel/plugin-transform-runtime'],
-            },
-          },
-        });
-
-  
-        return config;
-      },
-
-      // Performance budget monitoring
-      onDemandEntries: {
-        maxInactiveAge: 60 * 1000,
-        pagesBufferLength: 2,
-      },
-
-      // Logging optimization
-      logging: {
-        level: process.env.NEXT_PUBLIC_DEBUG === "true" ? "info" : "error",
-        fetches: {
-          fullUrl: true,
-        },
-      },
-
-      // ESLint optimization
-      eslint: {
-        ignoreDuringBuilds: true,
-        dirs: ["app"],
-      },
-
-      // Redirects (existing)
-      ...(!isGitHubPages && {
-        async redirects() {
-          return [
-            {
-              source: "/storybook",
-              destination: "/storybook/index.html",
-              permanent: true,
-            },
-          ];
-        },
-      }),
-    })
-  )
-);
-
-// Sentry configuration (existing + optimizations)
-module.exports = withSentryConfig(
-  optimizedNextConfig,
-  {
-    silent: true,
-    disableServerWebpackPlugin: !enableSentryUpload,
-    disableClientWebpackPlugin: !enableSentryUpload,
-    hideSourceMaps: true,
-    widenClientFileUpload: false,
-    tunnelRoute: "/monitoring",
-    org: process.env.SENTRY_ORG || "dummy-org",
-    project: process.env.SENTRY_PROJECT || "dummy-project",
-    disableLogger: true,
-    errorHandler(error) {
-      console.warn("Sentry upload failed; continuing build.", error?.message || error);
+  // Logging
+  logging: {
+    level: "error",
+    fetches: {
+      fullUrl: true,
     },
   },
-  {
-    silent: true,
-    hideSourceMaps: true,
-    dryRun: !enableSentryUpload,
-    authToken: process.env.SENTRY_AUTH_TOKEN,
-  }
-);
-
-// Performance budget validation
-if (process.env.NODE_ENV === "production" && process.env.CHECK_PERFORMANCE_BUDGET) {
-  console.log("🚀 Performance optimization enabled");
-  console.log(`📦 Chunk size limit: ${PERFORMANCE_BUDGETS.CHUNK_SIZE_LIMIT / 1000}KB`);
-  console.log(`📦 Bundle size limit: ${PERFORMANCE_BUDGETS.BUNDLE_SIZE_LIMIT / 1000000}MB`);
-}
+};

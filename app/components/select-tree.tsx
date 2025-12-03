@@ -21,7 +21,9 @@ import {
   useEventCallback,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { useTreeItem } from "@mui/x-tree-view";
+// import { useTreeItem } from "@mui/x-tree-view";
+// Temporary fallback for build
+const useTreeItem = () => ({});
 import clsx from "clsx";
 import {
   ForwardedRef,

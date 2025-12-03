@@ -180,7 +180,7 @@ export default function ClimateDemo({ lastUpdated }: ClimateDemoProps) {
             data={temperatureTrends.map(d => ({
               year: d.year.toString(),
               'Temperature': d.avgTemp,
-              'Anomaly': d.anomaly,
+              'Anomaly': d.anomaly
             }))}
             xKey="year"
             yKey="value"
@@ -209,7 +209,7 @@ export default function ClimateDemo({ lastUpdated }: ClimateDemoProps) {
           <ColumnChart
             data={temperatureTrends.map(d => ({
               year: d.year.toString(),
-              'Events': d.extremeEvents || 0,
+              'Events': d.extremeEvents || 0
             }))}
             xKey="year"
             yKey="Events"
@@ -325,7 +325,7 @@ export default function ClimateDemo({ lastUpdated }: ClimateDemoProps) {
             data={airQualityTrends.map(d => ({
               year: d.year.toString(),
               'PM2.5': d.pm25,
-              'PM10': d.pm10,
+              'PM10': d.pm10
             }))}
             xKey="year"
             yKey="value"
@@ -357,7 +357,7 @@ export default function ClimateDemo({ lastUpdated }: ClimateDemoProps) {
               'Hydro': d.hydro,
               'Wind': d.wind,
               'Solar': d.solar,
-              'Total': d.total,
+              'Total': d.total
             }))}
             xKey="year"
             yKey="value"
@@ -526,15 +526,15 @@ export const getStaticProps: GetStaticProps<ClimateDemoProps> = async () => {
 
     return {
       props: {
-        lastUpdated,
-      },
-      revalidate: 60, // Revalidate every 60 seconds for near real-time updates
+        lastUpdated
+      }
+
     };
   } catch (error) {
     console.error('Failed to generate climate demo props:', error);
     return {
-      props: {},
-      revalidate: 300, // Retry every 5 minutes on error
+      props: {}
+
     };
   }
 };

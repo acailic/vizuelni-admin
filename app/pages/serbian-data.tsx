@@ -318,8 +318,8 @@ export const getStaticProps: GetStaticProps<SerbianDataPageProps> = async () => 
   return {
     props: {
       initialData: null
-    },
-    revalidate: 3600 // Revalidate every hour
+    }
+
   };
 };
 
