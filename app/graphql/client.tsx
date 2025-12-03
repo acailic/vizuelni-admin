@@ -1,7 +1,8 @@
 import { createClient, cacheExchange, fetchExchange } from "urql";
-import { GRAPHQL_ENDPOINT } from "@/domain/env";
 
+import { GRAPHQL_ENDPOINT } from "@/domain/env";
 import { flag } from "@/flags/flag";
+
 import { devtoolsExchanges } from "./devtools";
 
 export const client = createClient({
