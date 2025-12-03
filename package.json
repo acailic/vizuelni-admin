@@ -113,7 +113,7 @@
     "@juggle/resize-observer": "^3.4.0",
     "@mdxeditor/editor": "^3.51.0",
     "@mui/icons-material": "^6.4.8",
-    "@mui/lab": "^7.0.1-beta.19",
+    "@mui/lab": "6.0.0-beta.15",
     "@mui/material": "^6.4.8",
     "@mui/styles": "^6.4.8",
     "@mui/utils": "^6.4.8",
@@ -272,7 +272,15 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "@types/react": "^18.2.79",
-    "@types/react-dom": "^18.2.25"
+    "@types/react-dom": "^18.2.25",
+    "@mui/styled-engine": "npm:@mui/styled-engine@^6.4.8",
+    "@mui/system": "^6.4.8",
+    "@mui/private-theming": "^6.4.8",
+    "@mui/types": "^7.2.19",
+    "@mui/utils": "^6.4.8",
+    "@mui/lab": "6.0.0-beta.15",
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5"
   },
   "bugs": {
     "url": "https://github.com/acailic/vizualni-admin/issues"

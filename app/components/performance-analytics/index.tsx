@@ -58,7 +58,8 @@ export const PerformanceAnalytics = () => {
 
     // Cleanup
     return () => clearInterval(interval);
-  }, [getMetrics, evaluatePerformance]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty deps: only set up interval once on mount
 
   const getMetricColor = (value: number | undefined, target: number): 'success' | 'warning' | 'error' => {
     if (value === undefined) return 'warning';

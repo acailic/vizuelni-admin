@@ -41,6 +41,9 @@ class PerformanceMonitor {
   }
 
   private initializeMonitoring(): void {
+    // Only initialize in browser environment
+    if (typeof window === 'undefined') return;
+
     // Monitor all Core Web Vitals
     this.observeLCP();
     this.observeINP();

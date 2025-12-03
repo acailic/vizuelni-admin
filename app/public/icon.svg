@@ -32,7 +32,8 @@
   <circle cx="41" cy="24" r="2" fill="#E10600"/>
   <circle cx="47" cy="30" r="2" fill="#E10600"/>
 
-  <!-- Subtle Serbian elements - small crosses -->
-  <rect x="30" y="14" width="4" height="4" fill="#ffffff" opacity="0.9" rx="0.5"/>
-  <rect x="30" y="46" width="4" height="4" fill="#ffffff" opacity="0.9" rx="0.5"/>
+  <!-- Serbian flag tricolor - horizontal stripes -->
+  <rect x="26" y="13" width="12" height="2.5" fill="#C6363C" opacity="1" rx="0.3"/>
+  <rect x="26" y="15.5" width="12" height="2.5" fill="#0C4076" opacity="1" rx="0.3"/>
+  <rect x="26" y="18" width="12" height="2.5" fill="#ffffff" opacity="1" rx="0.3"/>
 </svg>
