@@ -34,6 +34,22 @@ module.exports = withMDX({
   },
   transpilePackages: ["@mui/lab", "@mui/material"],
   webpack(config, { dev, isServer }) {
+    // Add conditional resolution for .dev.ts and .prod.ts files
+    config.resolve.extensions = Array.from(
+      new Set([
+        dev ? ".dev.ts" : ".prod.ts",
+        ".ts",
+        ".tsx",
+        ".js",
+        ".jsx",
+        ".mjs",
+        ".cjs",
+        ".json",
+        ".wasm",
+        ...(config.resolve.extensions || []),
+      ])
+    );
+
     config.resolve.alias = {
       ...config.resolve.alias,
       "mapbox-gl": "maplibre-gl",
@@ -47,20 +63,6 @@ module.exports = withMDX({
       exclude: /node_modules/,
       loader: require.resolve("graphql-tag/loader"),
     });
-
-    config.resolve.extensions = Array.from(
-      new Set([
-        ".ts",
-        ".tsx",
-        ".js",
-        ".jsx",
-        ".mjs",
-        ".cjs",
-        ".json",
-        ".wasm",
-        ...(config.resolve.extensions || []),
-      ])
-    );
 
     if (!isServer) {
       config.resolve.fallback = {

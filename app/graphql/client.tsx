@@ -2,17 +2,7 @@ import { createClient, cacheExchange, fetchExchange } from "urql";
 
 import { GRAPHQL_ENDPOINT } from "@/domain/env";
 import { flag } from "@/flags/flag";
-
-// Conditional import based on NODE_ENV to avoid webpack alias issues
-let devtoolsExchanges = [];
-if (process.env.NODE_ENV === "development") {
-  try {
-    const devtools = require("./devtools.dev");
-    devtoolsExchanges = devtools.devtoolsExchanges || [];
-  } catch (e) {
-    console.warn("Devtools not available in production build");
-  }
-}
+import { devtoolsExchanges } from "./devtools";
 
 export const client = createClient({
   url: GRAPHQL_ENDPOINT,
