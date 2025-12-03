@@ -48,6 +48,20 @@ function buildCSPHeader(isDevelopment: boolean): string {
     .join("; ");
 }
 
+function resolveAllowedHost(request: NextRequest): string | undefined {
+  const hostHeader = request.headers.get("host") ?? undefined;
+
+  if (process.env.NEXTAUTH_URL) {
+    return new URL(process.env.NEXTAUTH_URL).host;
+  }
+
+  if (process.env.PUBLIC_URL) {
+    return new URL(process.env.PUBLIC_URL).host;
+  }
+
+  return hostHeader;
+}
+
 function getClientIdentifier(request: NextRequest): string {
   // Try to get real IP from various headers
   const forwardedFor = request.headers.get("x-forwarded-for");
@@ -98,8 +112,10 @@ function isStaticAsset(pathname: string): boolean {
 }
 
 export async function middleware(request: NextRequest) {
-  const { pathname, method } = request;
+  const { pathname } = request.nextUrl;
+  const { method } = request;
   const response = NextResponse.next();
+  const allowedHost = resolveAllowedHost(request);
   
   // Skip security for static assets
   if (isStaticAsset(pathname)) {
@@ -130,15 +146,6 @@ export async function middleware(request: NextRequest) {
   if (pathname.startsWith("/api/") && STATE_CHANGING_METHODS.includes(method)) {
     const origin = request.headers.get("origin");
     const referer = request.headers.get("referer");
-    const host = request.headers.get("host");
-
-    // Get allowed host from environment
-    let allowedHost = host;
-    if (process.env.NEXTAUTH_URL) {
-      allowedHost = new URL(process.env.NEXTAUTH_URL).host;
-    } else if (process.env.PUBLIC_URL) {
-      allowedHost = new URL(process.env.PUBLIC_URL).host;
-    }
 
     // Check if request has proper origin/referer
     if (!origin && !referer) {
@@ -154,7 +161,7 @@ export async function middleware(request: NextRequest) {
     }
 
     // Validate origin
-    if (origin) {
+    if (origin && allowedHost) {
       try {
         const originUrl = new URL(origin);
         if (originUrl.host !== allowedHost) {
@@ -182,7 +189,7 @@ export async function middleware(request: NextRequest) {
     }
 
     // Validate referer
-    if (referer) {
+    if (referer && allowedHost) {
       try {
         const refererUrl = new URL(referer);
         if (refererUrl.host !== allowedHost) {
@@ -291,7 +298,9 @@ export async function middleware(request: NextRequest) {
 
   // Add Access Control headers for API
   if (pathname.startsWith("/api/")) {
-    response.headers.set("Access-Control-Allow-Origin", allowedHost);
+    if (allowedHost) {
+      response.headers.set("Access-Control-Allow-Origin", allowedHost);
+    }
     response.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     response.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
     response.headers.set("Access-Control-Allow-Credentials", "true");
