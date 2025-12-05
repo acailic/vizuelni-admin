@@ -13,7 +13,7 @@ import { useEffect } from "react";
 import PerformanceInitializer from "@/components/app/PerformanceInitializer";
 import { AppErrorBoundary } from "@/components/app-error-boundary";
 import { SnackbarProvider } from "@/components/snackbar";
-import { PUBLIC_URL } from "@/domain/env";
+import { BASE_PATH, PUBLIC_URL } from "@/domain/env";
 import { flag } from "@/flags/flag";
 import { GraphqlProvider } from "@/graphql/graphql-provider";
 import { i18n, parseLocaleString } from "@/locales/locales";
@@ -27,6 +27,8 @@ import "@/utils/nprogress.css";
 import { useNProgress } from "@/utils/use-nprogress";
 
 import "@/configurator/components/color-picker.css";
+
+const withBasePath = (path: string) => `${PUBLIC_URL}${path}`;
 
 const GQLDebugPanel = dynamic(
   () => import("@/gql-flamegraph/devtool").then((mod) => mod.DebugPanel),
@@ -51,6 +53,11 @@ export default function App({
 }: AppProps<{ session: Session }>) {
   const { events: routerEvents, asPath, locale: routerLocale } = useRouter();
   const locale = parseLocaleString(routerLocale ?? "");
+  const canonicalPath =
+    BASE_PATH && asPath.startsWith(BASE_PATH)
+      ? asPath.slice(BASE_PATH.length) || "/"
+      : asPath;
+  const canonicalUrl = `${PUBLIC_URL}${canonicalPath}`;
 
   useNProgress();
 
@@ -95,7 +102,7 @@ export default function App({
         <meta property="og:description" content={descriptionByLocale[locale]} />
         <meta property="og:image" content={`${PUBLIC_URL}/og-image.webp`} />
         <meta property="og:image:type" content="image/webp" />
-        <meta property="og:url" content={`${PUBLIC_URL}${asPath}`} />
+        <meta property="og:url" content={canonicalUrl} />
 
         {/* PWA Meta Tags */}
         <meta name="theme-color" content="#1976d2" />
@@ -105,25 +112,74 @@ export default function App({
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="application-name" content="Vizualni Admin" />
         <meta name="msapplication-TileColor" content="#1976d2" />
-        <meta name="msapplication-config" content="/browserconfig.xml" />
+        <meta
+          name="msapplication-config"
+          content={withBasePath("/browserconfig.xml")}
+        />
 
         {/* Manifest */}
-        <link rel="manifest" href="/manifest.json" crossOrigin="use-credentials" />
+        <link
+          rel="manifest"
+          href={withBasePath("/manifest.json")}
+          crossOrigin="use-credentials"
+        />
 
         {/* Apple Touch Icons */}
-        <link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png" />
-        <link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png" />
-        <link rel="apple-touch-icon" sizes="128x128" href="/icons/icon-128x128.png" />
-        <link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png" />
-        <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152.png" />
-        <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png" />
-        <link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png" />
-        <link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png" />
+        <link
+          rel="apple-touch-icon"
+          sizes="72x72"
+          href={withBasePath("/icons/icon-72x72.png")}
+        />
+        <link
+          rel="apple-touch-icon"
+          sizes="96x96"
+          href={withBasePath("/icons/icon-96x96.png")}
+        />
+        <link
+          rel="apple-touch-icon"
+          sizes="128x128"
+          href={withBasePath("/icons/icon-128x128.png")}
+        />
+        <link
+          rel="apple-touch-icon"
+          sizes="144x144"
+          href={withBasePath("/icons/icon-144x144.png")}
+        />
+        <link
+          rel="apple-touch-icon"
+          sizes="152x152"
+          href={withBasePath("/icons/icon-152x152.png")}
+        />
+        <link
+          rel="apple-touch-icon"
+          sizes="192x192"
+          href={withBasePath("/icons/icon-192x192.png")}
+        />
+        <link
+          rel="apple-touch-icon"
+          sizes="384x384"
+          href={withBasePath("/icons/icon-384x384.png")}
+        />
+        <link
+          rel="apple-touch-icon"
+          sizes="512x512"
+          href={withBasePath("/icons/icon-512x512.png")}
+        />
 
         {/* Favicon */}
-        <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
-        <link rel="shortcut icon" href="/icons/favicon.ico" />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href={withBasePath("/icons/favicon-32x32.png")}
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href={withBasePath("/icons/favicon-16x16.png")}
+        />
+        <link rel="shortcut icon" href={withBasePath("/icons/favicon.ico")} />
 
         {/* Optimized font preloading - critical fonts only */}
         {federalTheme.preloadFonts?.slice(0, 2).map((src) => (
@@ -155,7 +211,12 @@ export default function App({
         }} />
 
         {/* Preload critical resources */}
-        <link rel="preload" href="/sw.js" as="script" crossOrigin="anonymous" />
+        <link
+          rel="preload"
+          href={withBasePath("/sw.js")}
+          as="script"
+          crossOrigin="anonymous"
+        />
       </Head>
 
       <AppErrorBoundary>

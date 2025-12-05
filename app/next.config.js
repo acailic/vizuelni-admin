@@ -11,6 +11,9 @@ const withMDX = require("@next/mdx")({
 const pkg = require("./package.json");
 const { defaultLocale, locales } = require("./locales/locales.json");
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+const isGitHubPages = Boolean(basePath);
+
 // Populate build-time variables
 process.env.NEXT_PUBLIC_VERSION = `v${pkg.version}`;
 process.env.NEXT_PUBLIC_GITHUB_REPO = pkg.repository.url.replace(
@@ -19,26 +22,26 @@ process.env.NEXT_PUBLIC_GITHUB_REPO = pkg.repository.url.replace(
 );
 
 module.exports = withMDX({
+  basePath: basePath || undefined,
+  assetPrefix: basePath || undefined,
+  trailingSlash: isGitHubPages,
   images: {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60,
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    unoptimized: true, // Required for static export
+    unoptimized: isGitHubPages, // Required for static export
   },
   swcMinify: true,
   productionBrowserSourceMaps: false,
   pageExtensions: ["js", "ts", "tsx", "mdx"],
-  // i18n disabled for static export compatibility
-  // i18n: {
-  //   locales,
-  //   defaultLocale,
-  // },
+  i18n: isGitHubPages ? undefined : { locales, defaultLocale },
   transpilePackages: ["@mui/lab", "@mui/material"],
   // Static export configuration for reliable builds (only in production for GitHub Pages)
-  output: process.env.NODE_ENV === 'production' && !!process.env.NEXT_PUBLIC_BASE_PATH ? 'export' : undefined,
-  trailingSlash: true,
-  distDir: process.env.NODE_ENV === 'production' && !!process.env.NEXT_PUBLIC_BASE_PATH ? 'out' : '.next',
+  output:
+    process.env.NODE_ENV === "production" && !!process.env.NEXT_PUBLIC_BASE_PATH
+      ? "export"
+      : undefined,
   webpack(config, { dev, isServer }) {
     // Add conditional resolution for .dev.ts and .prod.ts files
     config.resolve.extensions = Array.from(
@@ -94,8 +97,6 @@ module.exports = withMDX({
   typescript: {
     ignoreBuildErrors: true,
   },
-  // Use SWC compiler for better static export support
-  swcMinify: true,
   experimental: {
     optimizeCss: true,
   },

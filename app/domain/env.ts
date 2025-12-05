@@ -14,12 +14,21 @@ declare global {
  */
 
 const clientEnv = maybeWindow()?.__clientEnv__;
+const basePathEnv =
+  clientEnv?.NEXT_PUBLIC_BASE_PATH ??
+  process.env.NEXT_PUBLIC_BASE_PATH ??
+  "";
+const normalizedBasePath =
+  basePathEnv === "/" ? "" : basePathEnv.replace(/\/$/, "");
 
 export const PUBLIC_URL = (
   clientEnv?.PUBLIC_URL ??
   process.env.PUBLIC_URL ??
+  normalizedBasePath ??
   ""
 ).replace(/\/$/, "");
+
+export const BASE_PATH = normalizedBasePath;
 
 export const ENDPOINT =
   clientEnv?.ENDPOINT ??
