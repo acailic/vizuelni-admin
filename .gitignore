@@ -178,6 +178,7 @@ test-results/
 __diff_output__
 e2e/har/*.zip
 app/coverage/.tmp/
+playwright*.png
 
 # Security and certificates
 certificates/
