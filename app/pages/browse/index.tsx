@@ -14,18 +14,31 @@ export function DatasetBrowser({ hideHeader = false }: BrowsePageProps) {
   const router = useRouter();
   const isStaticExport = Boolean(process.env.NEXT_PUBLIC_BASE_PATH);
 
-  if (typeof window === "undefined" && isStaticExport) {
+  if (typeof window === "undefined") {
     return (
       <AppLayout hideHeader={hideHeader}>
         <Container sx={{ py: 6 }}>
-          <Typography variant="h4" gutterBottom>
-            Demo limita za statički build
-          </Typography>
-          <Typography color="text.secondary">
-            Pregled datasets zahteva runtime API pozive. U GitHub Pages statičkom
-            izdanju ova stranica je onemogućena; koristi embed demo ili lokalni
-            build za punu funkcionalnost.
-          </Typography>
+          {isStaticExport ? (
+            <>
+              <Typography variant="h4" gutterBottom>
+                Demo limita za statički build
+              </Typography>
+              <Typography color="text.secondary">
+                Pregled datasets zahteva runtime API pozive. U GitHub Pages statičkom
+                izdanju ova stranica je onemogućena; koristi embed demo ili lokalni
+                build za punu funkcionalnost.
+              </Typography>
+            </>
+          ) : (
+            <>
+              <Typography variant="h4" gutterBottom>
+                Loading browse iskustvo…
+              </Typography>
+              <Typography color="text.secondary">
+                Ova stranica se učitava samo u pregledaču zbog oslanjanja na window/URL API.
+              </Typography>
+            </>
+          )}
         </Container>
       </AppLayout>
     );
