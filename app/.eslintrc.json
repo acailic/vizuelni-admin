@@ -45,6 +45,7 @@
     "components/**",
     "lib/**",
     "__tests__/**",
-    "tests/**"
+    "tests/**",
+    "graphql/**/*.d.ts"
   ]
 }
