@@ -1,4 +1,5 @@
 import * as Urql from "urql/dist/urql.js";
+
 import type { Exchange } from "urql/dist/types/exchanges/exchange";
 
 // urql v5 no longer exposes `defaultExchanges`; recreate the v4 array shape
