@@ -1,7 +1,5 @@
-import * as Urql from "@urql/core";
-import type { Exchange } from "@urql/core";
-
-export * from "urql";
+import * as Urql from "urql/dist/urql.js";
+import type { Exchange } from "urql/dist/types/exchanges/exchange";
 
 // urql v5 no longer exposes `defaultExchanges`; recreate the v4 array shape
 const dedupExchange = (Urql as Record<string, Exchange | undefined>)[
@@ -13,3 +11,5 @@ export const defaultExchanges: Exchange[] = [
   Urql.cacheExchange,
   Urql.fetchExchange,
 ].filter(Boolean) as Exchange[];
+
+export * from "urql/dist/urql.js";
