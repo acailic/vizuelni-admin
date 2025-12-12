@@ -171,7 +171,13 @@ export const observeLongTasks = () => {
       }
     });
 
-    observer.observe({ entryTypes: ["longtask"] });
+    const entryTypes = ['longtask'].filter(type => 
+      PerformanceObserver.supportedEntryTypes && PerformanceObserver.supportedEntryTypes.includes(type)
+    );
+
+    if (entryTypes.length > 0) {
+      observer.observe({ entryTypes });
+    }
 
     return () => observer.disconnect();
   } catch (e) {

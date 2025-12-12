@@ -48,7 +48,13 @@ const PerformanceInitializer: React.FC<PerformanceInitializerProps> = ({ childre
             });
           });
 
-          observer.observe({ entryTypes: ['longtask'] });
+          const entryTypes = ['longtask'].filter(type => 
+            PerformanceObserver.supportedEntryTypes && PerformanceObserver.supportedEntryTypes.includes(type)
+          );
+
+          if (entryTypes.length > 0) {
+            observer.observe({ entryTypes });
+          }
         } catch (error) {
           // Long task observation might not be supported
           console.debug('Long task monitoring not supported');

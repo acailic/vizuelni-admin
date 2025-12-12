@@ -327,7 +327,7 @@ export const getStaticProps: GetStaticProps = async () => {
     const stats = {
       totalProducts: sampleData.length,
       averagePrice: sampleData.reduce((sum, item) => sum + item.cenaRegular, 0) / sampleData.length,
-      categories: [...new Set(sampleData.map(item => item.kategorija))],
+      categories: [...new Set(sampleData.map(item => item.kategorija))].filter(Boolean),
       retailers: ['IDEA', 'Lidl', 'Delhaize', 'Maxi', 'Dis Market']
     };
 

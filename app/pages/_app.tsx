@@ -220,7 +220,11 @@ export default function App({
       </Head>
 
       <AppErrorBoundary>
-        <SessionProvider session={session}>
+        <SessionProvider 
+          session={session} 
+          refetchOnWindowFocus={false}
+          refetchInterval={0}
+        >
           <LocaleProvider value={locale}>
             <I18nProvider i18n={i18n}>
               <GraphqlProvider>
