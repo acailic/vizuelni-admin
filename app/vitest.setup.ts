@@ -1,3 +1,4 @@
+import { i18n } from '@lingui/core';
 import { createClient, cacheExchange, fetchExchange } from "@urql/core";
 import clownface, { AnyPointer } from "clownface";
 import { configureAxe, toHaveNoViolations } from 'jest-axe';
@@ -169,7 +170,6 @@ if (typeof SVGPathElement !== 'undefined') {
 }
 
 // Setup I18n for tests
-import { i18n } from '@lingui/core';
 i18n.load('en', {});
 i18n.activate('en');
 
