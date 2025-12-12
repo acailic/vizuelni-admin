@@ -82,8 +82,9 @@ const useServiceWorker = () => {
 
   const registerServiceWorker = async () => {
     try {
-      const registration = await navigator.serviceWorker.register('/sw.js', {
-        scope: '/',
+      const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+      const registration = await navigator.serviceWorker.register(`${basePath}/sw.js`, {
+        scope: `${basePath}/`,
       });
 
       console.log('Service Worker registered with scope:', registration.scope);

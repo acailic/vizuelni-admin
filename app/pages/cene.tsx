@@ -1,6 +1,6 @@
-import { GetServerSideProps } from 'next';
-import { useState, useEffect } from 'react';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
+import { useState, useEffect } from 'react';
 
 interface PriceData {
   id: string;
@@ -258,7 +258,7 @@ export default function CenePage({ initialData }: { initialData: ApiResponse }) 
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   try {
     // Create sample data if no real data exists
     const sampleData: PriceData[] = [
@@ -327,7 +327,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     const stats = {
       totalProducts: sampleData.length,
       averagePrice: sampleData.reduce((sum, item) => sum + item.cenaRegular, 0) / sampleData.length,
-      categories: [...new Set(sampleData.map(item => item.kategorija))],
+      categories: [...new Set(sampleData.map(item => item.kategorija))].filter(Boolean),
       retailers: ['IDEA', 'Lidl', 'Delhaize', 'Maxi', 'Dis Market']
     };
 

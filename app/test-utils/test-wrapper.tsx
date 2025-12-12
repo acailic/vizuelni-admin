@@ -3,10 +3,10 @@
  * Including I18nProvider for Lingui and other common providers
  */
 
+import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, RenderOptions } from '@testing-library/react';
-import { i18n } from '@lingui/core';
 import { ReactElement, ReactNode } from 'react';
 
 // Initialize i18n for tests
