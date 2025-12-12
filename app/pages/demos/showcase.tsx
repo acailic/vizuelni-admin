@@ -308,8 +308,20 @@ export default function DemoShowcasePage() {
           </Box>
         )}
 
-        {/* Last Updated Badge */}
+        {/* Data Type & Last Updated Badges */}
         <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
+          <Chip
+            icon={<span>🎨</span>}
+            label={locale.startsWith('sr') ? 'Demo Podaci' : 'Demo Data'}
+            size="small"
+            sx={{
+              bgcolor: 'warning.lighter',
+              color: 'warning.main',
+              fontWeight: 700,
+              border: '2px solid',
+              borderColor: 'warning.light',
+            }}
+          />
           <Chip
             label={`${locale.startsWith('sr') ? 'Poslednje ažuriranje' : 'Last updated'}: ${lastUpdated.toLocaleDateString(locale, {
               year: 'numeric',
@@ -318,11 +330,84 @@ export default function DemoShowcasePage() {
             })}`}
             size="small"
             sx={{
-              bgcolor: 'primary.lighter',
-              color: 'primary.main',
+              bgcolor: 'grey.100',
+              color: 'text.secondary',
               fontWeight: 600
             }}
           />
+          <Chip
+            label={locale.startsWith('sr') ? 'Ilustrativni podaci' : 'Sample dataset'}
+            size="small"
+            sx={{
+              bgcolor: 'grey.100',
+              color: 'text.secondary',
+              fontWeight: 600
+            }}
+          />
+        </Box>
+
+        {/* Demo Data Notice */}
+        <Box
+          sx={{
+            mb: 4,
+            p: 2.5,
+            bgcolor: 'info.lighter',
+            border: '1px solid',
+            borderColor: 'info.light',
+            borderRadius: 2,
+            borderLeft: '4px solid',
+            borderLeftColor: 'info.main',
+          }}
+          role="note"
+          aria-label={locale.startsWith('sr') ? 'Obaveštenje o demo podacima' : 'Demo data notice'}
+        >
+          <Stack direction="row" spacing={1.5} alignItems="flex-start">
+            <Box sx={{ fontSize: '1.5rem', lineHeight: 1 }}>ℹ️</Box>
+            <Box sx={{ flex: 1 }}>
+              <Typography variant="body2" sx={{ fontWeight: 600, mb: 0.5, color: 'info.main' }}>
+                {locale.startsWith('sr') ? 'Demonstracioni Podaci' : 'Demonstration Data'}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {locale.startsWith('sr')
+                  ? 'Grafikoni na ovoj stranici koriste simulirane podatke za demonstraciju različitih tipova vizualizacija. Za prave podatke iz izvora data.gov.rs, posetite posebne stranice za svaku kategoriju (ekonomija, saobraćaj, energija, digitalizacija).'
+                  : 'The charts on this page use simulated data to demonstrate different visualization types. For real data from data.gov.rs, visit the dedicated pages for each category (economy, transport, energy, digitalization).'}
+              </Typography>
+              <Box sx={{ mt: 1.5, display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                <Button
+                  component={Link}
+                  href="/demos/economy"
+                  size="small"
+                  variant="outlined"
+                  sx={{
+                    borderColor: 'info.main',
+                    color: 'info.main',
+                    '&:hover': {
+                      bgcolor: 'info.lighter',
+                      borderColor: 'info.dark',
+                    }
+                  }}
+                >
+                  {locale.startsWith('sr') ? '→ Prave ekonomske podatke' : '→ Real economy data'}
+                </Button>
+                <Button
+                  component={Link}
+                  href="/demos"
+                  size="small"
+                  variant="outlined"
+                  sx={{
+                    borderColor: 'info.main',
+                    color: 'info.main',
+                    '&:hover': {
+                      bgcolor: 'info.lighter',
+                      borderColor: 'info.dark',
+                    }
+                  }}
+                >
+                  {locale.startsWith('sr') ? '→ Sve kategorije' : '→ All categories'}
+                </Button>
+              </Box>
+            </Box>
+          </Stack>
         </Box>
       <Card
         component="section"

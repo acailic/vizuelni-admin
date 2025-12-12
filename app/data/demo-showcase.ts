@@ -1,6 +1,16 @@
 /**
- * Sample datasets for the demo showcase page.
- * These are small, curated examples to highlight chart capabilities.
+ * DEMO/SAMPLE DATASETS - FOR ILLUSTRATION PURPOSES ONLY
+ *
+ * ⚠️ WARNING: These are NOT real data from data.gov.rs
+ *
+ * These are small, curated examples created specifically to demonstrate
+ * chart capabilities and visualization types on the showcase page.
+ *
+ * For REAL data from official sources (data.gov.rs), please visit:
+ * - /demos/economy - Real economic indicators
+ * - /demos/transport - Real transport statistics
+ * - /demos/energy - Real energy data
+ * - /demos/digital - Real digital skills data
  */
 
 // Regional GDP growth (% year-over-year)
