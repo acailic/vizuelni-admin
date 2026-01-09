@@ -94,7 +94,7 @@ cd app && yarn test tests/packaging/
 
 ```bash
 # Build documentation
-yarn build:docs
+yarn docs:build
 
 # Verify documentation builds successfully
 ```

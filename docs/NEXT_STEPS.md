@@ -125,7 +125,7 @@ scoped, specific, and tied to files and tests.
 - [done] Expand release checklist and automate preflight checks in CI.
   - Goal: codify release steps with build, test, and docs gates.
   - Deliverables: update `docs/release/RELEASE.md`, add CI step to run
-    `yarn build:npm` plus packaging tests.
+    `cd app && yarn build:lib` plus packaging tests.
   - Definition of done: CI prevents releases that fail preflight checks.
   - Completed: 2026-01-09. See:
     - `docs/release/RELEASE.md` - Comprehensive release guide with preflight
@@ -175,28 +175,37 @@ scoped, specific, and tied to files and tests.
 
 ## 90-180 Days: Adoption and maintainability
 
-- [todo] Define API stability and deprecation policy.
+- [done] Define API stability and deprecation policy.
   - Goal: clarify stable vs experimental exports.
   - Deliverables: updates in `docs/API.md` and export docs.
   - Definition of done: stable APIs are labeled and deprecation policy exists.
+  - Completed: 2026-01-09. See `docs/API_STABILITY.md` for full policy. 49 APIs
+    classified with stability levels, deprecation process documented.
 
-- [todo] Visual regression suite for core charts.
+- [done] Visual regression suite for core charts.
   - Goal: catch rendering regressions for Bar, Line, Column, Area, Pie.
   - Deliverables: Playwright visual tests and baselines in `e2e/` or
     `app/tests/`.
   - Definition of done: `yarn test:visual` covers core chart exports.
+  - Completed: 2026-01-09. ~150 visual tests covering 5 core charts across
+    multiple viewports, locales, themes, and data scenarios.
 
-- [todo] Expand demo catalog with data stories.
+- [done] Expand demo catalog with data stories.
   - Goal: add 2-3 new demos using real datasets with narrative.
   - Deliverables: new pages in `app/pages/demos/`, updates in
     `docs/DATASET_VISUALIZATION_PLAN.md`.
   - Definition of done: demos load in sr/en and cite dataset sources.
+  - Completed: 2026-01-09. 3 narrative demos created: education-trends,
+    public-health-crisis, regional-development. All use real data.gov.rs
+    datasets.
 
-- [todo] Publish API reference for exports.
+- [done] Publish API reference for exports.
   - Goal: keep docs in sync with actual exports.
   - Deliverables: integrate `yarn docs:api:build` output into docs site and link
     it from `docs/README.md` or `docs/index.md`.
   - Definition of done: API reference is accessible in published docs.
+  - Completed: 2026-01-09. TypeDoc + VitePress integration, category-specific
+    API guides, `npm run docs:api:build` script available.
 
 ## 180-365 Days: Ecosystem and sustainability
 

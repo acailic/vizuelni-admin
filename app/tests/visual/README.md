@@ -57,6 +57,32 @@ yarn install
 npx playwright install
 ```
 
+## First-Time Setup
+
+**IMPORTANT**: Visual regression tests require baseline screenshots to compare
+against. On a fresh checkout, you must generate baselines before running tests.
+
+### Generate initial baselines
+
+```bash
+# Generate all baselines (required on first checkout)
+yarn test:visual:baseline
+
+# Or use the Playwright command directly
+npx playwright test --config=playwright.visual.config.ts --update-snapshots
+```
+
+This will create baseline images in `app/tests/visual/__screenshots__/`.
+
+### Verify tests pass after baseline generation
+
+```bash
+yarn test:visual
+```
+
+**Note**: Baseline images are tracked in git. After generating baselines, commit
+them so CI and other developers have the reference images.
+
 ## Running Tests
 
 ### Run all visual tests
@@ -164,6 +190,13 @@ app/tests/visual/
 │   ├── bar-chart-normal-desktop.png
 │   └── ...
 ```
+
+**Important notes:**
+
+- Baseline PNG files in the root of `__screenshots__/` are tracked in git
+- Subdirectories inside `__screenshots__/` are ignored (for test artifacts)
+- Tests will **fail** in CI without committed baselines
+- Always commit baseline updates when making intentional visual changes
 
 ## Configuration
 
