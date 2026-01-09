@@ -9,14 +9,14 @@
  * 3. Updates navigation configuration
  */
 
-const fs = require('fs').promises;
-const path = require('path');
+const fs = require("fs").promises;
+const path = require("path");
 
 const CONFIG = {
-  typedocOutputDir: './docs/api',
-  vitepressApiDir: './docs/api-reference',
-  publicDir: './docs/public',
-  apiEmbedDir: './docs/public/api'
+  typedocOutputDir: "./docs/api",
+  vitepressApiDir: "./docs/api-reference",
+  publicDir: "./docs/public",
+  apiEmbedDir: "./docs/public/api",
 };
 
 async function ensureDir(dir) {
@@ -28,7 +28,7 @@ async function ensureDir(dir) {
 }
 
 async function copyTypeDocToPublic() {
-  console.log('📚 Copying TypeDoc output to VitePress public directory...');
+  console.log("📚 Copying TypeDoc output to VitePress public directory...");
 
   await ensureDir(CONFIG.apiEmbedDir);
 
@@ -50,11 +50,11 @@ async function copyTypeDocToPublic() {
   };
 
   await copyRecursive(CONFIG.typedocOutputDir, CONFIG.apiEmbedDir);
-  console.log('✅ TypeDoc documentation copied to public directory');
+  console.log("✅ TypeDoc documentation copied to public directory");
 }
 
 async function createVitePressApiPages() {
-  console.log('📄 Creating VitePress API reference pages...');
+  console.log("📄 Creating VitePress API reference pages...");
 
   await ensureDir(CONFIG.vitepressApiDir);
 
@@ -82,27 +82,27 @@ Sva dokumentacija se automatski generiše iz TypeScript koda i održava je ažur
 `;
 
   await fs.writeFile(
-    path.join(CONFIG.vitepressApiDir, 'index.md'),
+    path.join(CONFIG.vitepressApiDir, "index.md"),
     apiIndexContent
   );
 
   // Create categorized pages
   const categories = [
     {
-      name: 'Tipovi',
-      file: 'types.md',
-      htmlFile: 'modules.html'
+      name: "Tipovi",
+      file: "types.md",
+      htmlFile: "modules.html",
     },
     {
-      name: 'Konfiguracija',
-      file: 'configuration.md',
-      htmlFile: 'interfaces.html'
+      name: "Konfiguracija",
+      file: "configuration.md",
+      htmlFile: "interfaces.html",
     },
     {
-      name: 'Funkcije',
-      file: 'utilities.md',
-      htmlFile: 'functions.html'
-    }
+      name: "Funkcije",
+      file: "utilities.md",
+      htmlFile: "functions.html",
+    },
   ];
 
   for (const category of categories) {
@@ -122,13 +122,13 @@ Sva dokumentacija se automatski generiše iz TypeScript koda i održava je ažur
     );
   }
 
-  console.log('✅ VitePress API pages created');
+  console.log("✅ VitePress API pages created");
 }
 
 async function createEnglishApiPages() {
-  console.log('📄 Creating English API reference pages...');
+  console.log("📄 Creating English API reference pages...");
 
-  const enApiDir = './docs/en/api-reference';
+  const enApiDir = "./docs/en/api-reference";
   await ensureDir(enApiDir);
 
   // Create English API index page
@@ -154,28 +154,25 @@ The API documentation contains detailed information about:
 All documentation is automatically generated from TypeScript code and kept up-to-date.
 `;
 
-  await fs.writeFile(
-    path.join(enApiDir, 'index.md'),
-    apiIndexContent
-  );
+  await fs.writeFile(path.join(enApiDir, "index.md"), apiIndexContent);
 
   // Create English categorized pages
   const categories = [
     {
-      name: 'Types',
-      file: 'types.md',
-      htmlFile: 'modules.html'
+      name: "Types",
+      file: "types.md",
+      htmlFile: "modules.html",
     },
     {
-      name: 'Configuration',
-      file: 'configuration.md',
-      htmlFile: 'interfaces.html'
+      name: "Configuration",
+      file: "configuration.md",
+      htmlFile: "interfaces.html",
     },
     {
-      name: 'Functions',
-      file: 'utilities.md',
-      htmlFile: 'functions.html'
-    }
+      name: "Functions",
+      file: "utilities.md",
+      htmlFile: "functions.html",
+    },
   ];
 
   for (const category of categories) {
@@ -189,19 +186,16 @@ All documentation is automatically generated from TypeScript code and kept up-to
 ></iframe>
 `;
 
-    await fs.writeFile(
-      path.join(enApiDir, category.file),
-      content
-    );
+    await fs.writeFile(path.join(enApiDir, category.file), content);
   }
 
-  console.log('✅ English API pages created');
+  console.log("✅ English API pages created");
 }
 
 async function createCyrillicApiPages() {
-  console.log('📄 Creating Cyrillic API reference pages...');
+  console.log("📄 Creating Cyrillic API reference pages...");
 
-  const srCyrlApiDir = './docs/sr-cyrl/api-reference';
+  const srCyrlApiDir = "./docs/sr-cyrl/api-reference";
   await ensureDir(srCyrlApiDir);
 
   // Create Cyrillic API index page
@@ -227,28 +221,25 @@ API документација садржи детаљне информациј�
 Сва документација се аутоматски генерише из TypeScript кода и одржава је ажурном.
 `;
 
-  await fs.writeFile(
-    path.join(srCyrlApiDir, 'index.md'),
-    apiIndexContent
-  );
+  await fs.writeFile(path.join(srCyrlApiDir, "index.md"), apiIndexContent);
 
   // Create Cyrillic categorized pages
   const categories = [
     {
-      name: 'Типови',
-      file: 'types.md',
-      htmlFile: 'modules.html'
+      name: "Типови",
+      file: "types.md",
+      htmlFile: "modules.html",
     },
     {
-      name: 'Конфигурација',
-      file: 'configuration.md',
-      htmlFile: 'interfaces.html'
+      name: "Конфигурација",
+      file: "configuration.md",
+      htmlFile: "interfaces.html",
     },
     {
-      name: 'Функције',
-      file: 'utilities.md',
-      htmlFile: 'functions.html'
-    }
+      name: "Функције",
+      file: "utilities.md",
+      htmlFile: "functions.html",
+    },
   ];
 
   for (const category of categories) {
@@ -262,21 +253,19 @@ API документација садржи детаљне информациј�
 ></iframe>
 `;
 
-    await fs.writeFile(
-      path.join(srCyrlApiDir, category.file),
-      content
-    );
+    await fs.writeFile(path.join(srCyrlApiDir, category.file), content);
   }
 
-  console.log('✅ Cyrillic API pages created');
+  console.log("✅ Cyrillic API pages created");
 }
 
 async function updateNavigation() {
-  console.log('🔄 Updating VitePress navigation configuration...');
+  console.log("🔄 Updating VitePress navigation configuration...");
 
-  // Read current config
-  const configPath = './.vitepress/config.mts';
-  let configContent = await fs.readFile(configPath, 'utf-8');
+  // Note: Navigation is already configured in docs/.vitepress/config.mts
+  // No automatic update needed - the config is already set up with API reference links
+  console.log("✅ Navigation already configured in docs/.vitepress/config.mts");
+  return;
 
   // Note: In a real implementation, you would parse and modify the config object
   // For now, we'll create a manual instruction file
@@ -318,13 +307,15 @@ async function updateNavigation() {
 },
 `;
 
-  await fs.writeFile('./NAVIGATION_UPDATE.md', navigationUpdate);
-  console.log('📝 Navigation update instructions saved to NAVIGATION_UPDATE.md');
+  await fs.writeFile("./NAVIGATION_UPDATE.md", navigationUpdate);
+  console.log(
+    "📝 Navigation update instructions saved to NAVIGATION_UPDATE.md"
+  );
 }
 
 async function main() {
   try {
-    console.log('🚀 Starting TypeDoc to VitePress integration...\n');
+    console.log("🚀 Starting TypeDoc to VitePress integration...\n");
 
     await copyTypeDocToPublic();
     await createVitePressApiPages();
@@ -332,14 +323,15 @@ async function main() {
     await createCyrillicApiPages();
     await updateNavigation();
 
-    console.log('\n✅ TypeDoc integration completed successfully!');
-    console.log('\n📋 Next steps:');
-    console.log('1. Update your VitePress sidebar configuration (see NAVIGATION_UPDATE.md)');
-    console.log('2. Run: npm run docs:dev to test the integration');
-    console.log('3. Build your docs: npm run docs:build');
-
+    console.log("\n✅ TypeDoc integration completed successfully!");
+    console.log("\n📋 Next steps:");
+    console.log(
+      "1. Update your VitePress sidebar configuration (see NAVIGATION_UPDATE.md)"
+    );
+    console.log("2. Run: npm run docs:dev to test the integration");
+    console.log("3. Build your docs: npm run docs:build");
   } catch (error) {
-    console.error('❌ Error during integration:', error);
+    console.error("❌ Error during integration:", error);
     process.exit(1);
   }
 }

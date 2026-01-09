@@ -1,6 +1,12 @@
 {
   "$schema": "https://typedoc.org/schema.json",
   "entryPoints": [
+    "app/exports/index.ts",
+    "app/exports/charts/index.ts",
+    "app/exports/hooks/index.ts",
+    "app/exports/utils/index.ts",
+    "app/exports/core.ts",
+    "app/exports/client.ts",
     "app/index.ts",
     "app/config-types.ts",
     "app/types/index.ts",
@@ -26,12 +32,17 @@
   "tsconfig": "tsconfig.json",
   "defaultCategory": "Other",
   "categoryOrder": [
+    "Exports",
+    "Chart Components",
+    "React Hooks",
+    "Utilities",
     "Core API",
+    "Client",
     "Configuration Types",
     "UI Types",
     "Locale Utilities",
     "Formatters",
-    "Utilities",
+    "Statistics",
     "*"
   ],
   "sort": ["source-order"],

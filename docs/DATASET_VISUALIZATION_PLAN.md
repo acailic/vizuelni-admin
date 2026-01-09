@@ -1,17 +1,20 @@
 # Dataset Visualization Plan - data.gov.rs
 
-This document outlines ideas for creating interesting visualizations and demos using datasets from the Serbian Open Data Portal (data.gov.rs).
+This document outlines ideas for creating interesting visualizations and demos
+using datasets from the Serbian Open Data Portal (data.gov.rs).
 
 ## Current State of data.gov.rs
 
 - **93 organizations** actively publishing data
 - **6,162 resources** available (as of 2024)
 - **3,000+ open datasets** covering various social areas
-- **Categories**: public finance, mobility, education, energy, administration, policing, health, environment, judiciary
+- **Categories**: public finance, mobility, education, energy, administration,
+  policing, health, environment, judiciary
 
 ## Available Visualization Types
 
 The vizualni-admin tool supports:
+
 - **Line charts** - Time series, trends
 - **Bar charts** - Comparisons, rankings
 - **Column charts** - Grouped and stacked data
@@ -26,30 +29,34 @@ The vizualni-admin tool supports:
 ### 1. Public Finance & Budget
 
 **Dataset Ideas:**
+
 - National budget breakdown by ministry
 - Municipal budgets across Serbian cities
 - Government spending trends over time
 - Tax revenue by category
 
 **Visualization Ideas:**
+
 - **Stacked column chart**: Annual budget allocation by category (2020-2024)
 - **Pie chart**: Current year budget distribution across ministries
 - **Line chart**: Budget execution rate over time
-- **Combo chart**: Budget planned vs. actual spending (columns + line for variance)
+- **Combo chart**: Budget planned vs. actual spending (columns + line for
+  variance)
 
 **Technical Approach:**
+
 ```typescript
-import { dataGovRsClient } from '@/domain/data-gov-rs';
+import { dataGovRsClient } from "@/domain/data-gov-rs";
 
 // Search for budget datasets
 const budgetDatasets = await dataGovRsClient.searchDatasets({
-  q: 'budzet',
-  tag: 'finansije',
-  page_size: 20
+  q: "budzet",
+  tag: "finansije",
+  page_size: 20,
 });
 
 // Get CSV/JSON resource and visualize
-const dataset = await dataGovRsClient.getDataset('budget-dataset-id');
+const dataset = await dataGovRsClient.getDataset("budget-dataset-id");
 const resource = getBestVisualizationResource(dataset);
 const data = await dataGovRsClient.getResourceJSON(resource);
 ```
@@ -61,12 +68,14 @@ const data = await dataGovRsClient.getResourceJSON(resource);
 ### 2. Environmental Data
 
 **Dataset Ideas:**
+
 - Air quality measurements (PM2.5, PM10) across cities
 - Pollen levels (xEko Pollen dataset)
 - Temperature and precipitation trends
 - Waste management statistics
 
 **Visualization Ideas:**
+
 - **Map visualization**: Air quality index by city with color coding
 - **Line chart**: Air quality trends over the year
 - **Area chart**: Pollen concentration by type over seasons
@@ -79,12 +88,14 @@ const data = await dataGovRsClient.getResourceJSON(resource);
 ### 3. Demographics & Population
 
 **Dataset Ideas:**
+
 - Population by age group and gender
 - Population density by region
 - Migration statistics
 - Birth and death rates
 
 **Visualization Ideas:**
+
 - **Population pyramid**: Age and gender distribution
 - **Map**: Population density heat map of Serbia
 - **Line chart**: Population trends 2000-2024
@@ -97,12 +108,14 @@ const data = await dataGovRsClient.getResourceJSON(resource);
 ### 4. Education Statistics
 
 **Dataset Ideas:**
+
 - Number of students by education level
 - Schools by region
 - Teacher-to-student ratios
 - University enrollment trends
 
 **Visualization Ideas:**
+
 - **Column chart**: Students enrolled by education level
 - **Map**: Distribution of schools across Serbia
 - **Line chart**: University enrollment trends over time
@@ -115,12 +128,14 @@ const data = await dataGovRsClient.getResourceJSON(resource);
 ### 5. Transportation & Mobility
 
 **Dataset Ideas:**
+
 - Traffic accident statistics
 - Public transport usage
 - Road infrastructure data
 - Vehicle registration statistics
 
 **Visualization Ideas:**
+
 - **Map**: Traffic accidents by location with severity indicators
 - **Bar chart**: Accident types and frequencies
 - **Line chart**: Public transport ridership trends
@@ -133,12 +148,14 @@ const data = await dataGovRsClient.getResourceJSON(resource);
 ### 6. Healthcare
 
 **Dataset Ideas:**
+
 - Hospital capacity by region
 - Disease incidence rates
 - Vaccination coverage
 - Healthcare spending
 
 **Visualization Ideas:**
+
 - **Map**: Hospital locations and bed capacity
 - **Line chart**: Disease trends over time
 - **Column chart**: Vaccination rates by age group
@@ -151,12 +168,14 @@ const data = await dataGovRsClient.getResourceJSON(resource);
 ### 7. Energy & Utilities
 
 **Dataset Ideas:**
+
 - Energy production by source (hydro, thermal, renewable)
 - Electricity consumption trends
 - Energy prices
 - Renewable energy capacity
 
 **Visualization Ideas:**
+
 - **Stacked area chart**: Energy mix over time
 - **Line chart**: Electricity consumption trends
 - **Pie chart**: Current energy production by source
@@ -171,6 +190,7 @@ const data = await dataGovRsClient.getResourceJSON(resource);
 **Concept:** Compare multiple Serbian cities across various metrics
 
 **Visualization Ideas:**
+
 - **Grouped bar chart**: Population, budget, schools across top 5 cities
 - **Scatterplot**: Budget per capita vs. population
 - **Small multiples**: Mini line charts showing trends for each city
@@ -183,25 +203,59 @@ const data = await dataGovRsClient.getResourceJSON(resource);
 ## Implementation Strategy
 
 ### ✅ Phase 1: Research & Data Discovery (COMPLETED)
+
 1. ✅ Browse data.gov.rs API to identify high-quality datasets
 2. ✅ Test API endpoints with the existing `dataGovRsClient`
 3. ✅ Document dataset IDs and resource formats
 4. ✅ Validate data quality and completeness
 
 ### ✅ Phase 2: Build Foundation (COMPLETED)
+
 1. ✅ Create a `/demos` route in the Next.js app
 2. ✅ Build reusable data fetching hooks (`useDataGovRs`, `useDataGovRsSearch`)
 3. ✅ Create demo layout component with navigation (`DemoLayout`)
 4. ✅ Set up automatic data transformation via `SimpleChart`
 
 ### ✅ Phase 3: Build Individual Demos (COMPLETED)
+
 1. ✅ Budget visualization (Column chart)
 2. ✅ Environment dashboard (Line chart)
 3. ✅ Demographics explorer (Bar chart)
 4. ✅ Education statistics (Column chart)
 5. ✅ Transport safety (Map - placeholder, others working)
 
+### ✅ Phase 3.5: Build Narrative Data Stories (COMPLETED - 2026-01-09)
+
+1. ✅ **Education Trends** (`/demos/education-trends`) - Data story exploring
+   Serbia's education transformation
+   - Narrative: Demographic enrollment decline vs STEM growth
+   - Datasets: Enrollment by level, STEM vs Humanities, Teacher-student ratios
+   - Charts: Multi-line enrollment trends, stacked composition, ratio
+     comparisons
+   - Data source: Statistical Office of Serbia via data.gov.rs
+   - URL: https://data.gov.rs/datasets?tags=obrazovanje
+
+2. ✅ **Public Health Crisis** (`/demos/public-health-crisis`) - Healthcare
+   system challenges
+   - Narrative: Waiting lists, staff exodus, capacity constraints
+   - Datasets: Waiting lists by procedure, hospital capacity, healthcare worker
+     emigration
+   - Charts: Bar charts for wait times, line trends for capacity, stacked exodus
+   - Data source: Ministry of Health via data.gov.rs
+   - URL: https://data.gov.rs/datasets?tags=zdravstvo
+
+3. ✅ **Regional Development** (`/demos/regional-development`) - Regional
+   disparities story
+   - Narrative: Belgrade dominance, regional GDP gaps, infrastructure
+     inequalities
+   - Datasets: Regional GDP, FDI by region, unemployment, population change
+   - Charts: Bar/column for GDP comparisons, multi-line for trends, composition
+     charts
+   - Data source: Statistical Office of Serbia via data.gov.rs
+   - URL: https://data.gov.rs/datasets?tags=regionalni-razvoj
+
 ### ✅ Phase 4: Core Visualization (COMPLETED)
+
 1. ✅ Add Serbian and English translations for all demos
 2. ✅ Built lightweight SVG chart component (`SimpleChart`)
 3. ✅ Performance optimization (first 50 rows only)
@@ -209,6 +263,7 @@ const data = await dataGovRsClient.getResourceJSON(resource);
 5. ⚠️ Export functionality - pending future enhancement
 
 ### 📋 Future Enhancements
+
 1. Add export functionality (PNG, SVG, CSV)
 2. Implement interactive tooltips
 3. Add chart configuration UI
@@ -218,10 +273,11 @@ const data = await dataGovRsClient.getResourceJSON(resource);
 ## Technical Components Needed
 
 ### 1. Data Fetching Layer
+
 ```typescript
 // lib/demos/data-fetchers.ts
 export async function fetchBudgetData(year: number) {
-  const dataset = await dataGovRsClient.getDataset('budget-id');
+  const dataset = await dataGovRsClient.getDataset("budget-id");
   const resource = getBestVisualizationResource(dataset);
   const rawData = await dataGovRsClient.getResourceJSON(resource);
   return transformBudgetData(rawData);
@@ -229,6 +285,7 @@ export async function fetchBudgetData(year: number) {
 ```
 
 ### 2. Data Transformers
+
 ```typescript
 // lib/demos/transformers.ts
 export function transformBudgetData(raw: any) {
@@ -242,6 +299,7 @@ export function transformBudgetData(raw: any) {
 ```
 
 ### 3. Demo Components
+
 ```typescript
 // pages/demos/[category].tsx
 export default function DemoPage({ category }: { category: string }) {
@@ -257,15 +315,16 @@ export default function DemoPage({ category }: { category: string }) {
 ```
 
 ### 4. Demo Configuration
+
 ```typescript
 // config/demos.ts
 export const DEMO_CONFIGS = {
   budgets: {
-    title: { sr: 'Budžeti', en: 'Budgets' },
-    description: { sr: '...', en: '...' },
-    datasets: ['budget-2024', 'budget-2023'],
-    defaultChart: 'column',
-    availableCharts: ['column', 'pie', 'line']
+    title: { sr: "Budžeti", en: "Budgets" },
+    description: { sr: "...", en: "..." },
+    datasets: ["budget-2024", "budget-2023"],
+    defaultChart: "column",
+    availableCharts: ["column", "pie", "line"],
   },
   // ... other demos
 };
@@ -282,15 +341,17 @@ export const DEMO_CONFIGS = {
 ## Localization
 
 All demos should support:
+
 - **Serbian (Cyrillic)**: Primary language
 - **Serbian (Latin)**: Alternative script
 - **English**: International users
 
 Example:
+
 ```typescript
 const t = {
-  sr: 'Budžet Republike Srbije 2024',
-  en: 'Republic of Serbia Budget 2024'
+  sr: "Budžet Republike Srbije 2024",
+  en: "Republic of Serbia Budget 2024",
 };
 ```
 
@@ -315,7 +376,9 @@ const t = {
 
 ## Examples from Similar Projects
 
-Reference the budget visualization at https://budzeti.data.gov.rs/ as inspiration for:
+Reference the budget visualization at https://budzeti.data.gov.rs/ as
+inspiration for:
+
 - Clean, professional design
 - Serbian language localization
 - Interactive filtering

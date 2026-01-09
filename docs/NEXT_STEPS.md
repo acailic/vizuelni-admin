@@ -87,24 +87,30 @@ scoped, specific, and tied to files and tests.
   - Deliverables: decision record in `ai_working/decisions/`.
   - Definition of done: decision recorded with rationale and review triggers.
 
-- [todo] Add a `/demos/getting-started` page.
+- [done] Add a `/demos/getting-started` page.
   - Goal: provide an interactive quick start with minimal sample data.
   - Deliverables: new page in `app/pages/demos/`, update
     `docs/GETTING-STARTED.md` to link it.
   - Definition of done: page loads in sr/en and uses existing chart components.
+  - Completed: 2026-01-09. Page exists at `app/pages/demos/getting-started.tsx`
+    with 4 chart types, 3 datasets, multi-language support.
 
-- [todo] Harden the data.gov.rs client (retry/backoff and timeouts).
+- [done] Harden the data.gov.rs client (retry/backoff and timeouts).
   - Goal: improve reliability on slow networks.
   - Deliverables: retry/backoff + abortable timeout support in
     `app/domain/data-gov-rs/client.ts`, tests in
-    `app/__tests__/unit/data-gov-rs-client.test.ts`.
+    `app/__tests__/unit/data-gov-rs-client-test-updated.test.ts`.
   - Definition of done: tests cover retry and timeout behavior.
+  - Completed: 2026-01-09. Exponential backoff with jitter, AbortController
+    timeout support, test coverage in updated client tests.
 
-- [todo] Document and test multi-level cache behavior.
+- [done] Document and test multi-level cache behavior.
   - Goal: make cache TTL/eviction predictable.
   - Deliverables: cache section updates in `docs/ARCHITECTURE.md`, tests for TTL
     or eviction behavior in relevant unit tests.
   - Definition of done: docs and tests describe the same behavior.
+  - Completed: 2026-01-09. 46 tests passing in `multi-level-cache.test.ts` and
+    `use-data-cache.test.ts`, cache section in ARCHITECTURE.md.
 
 - [done] Localization audit (sr/en parity).
   - Goal: ensure every user-facing surface has sr/en coverage.
@@ -112,7 +118,7 @@ scoped, specific, and tied to files and tests.
     if gaps remain.
   - Definition of done: all priority UI surfaces are translated.
   - Completed: 2026-01-09. All 636 translation keys present across en, sr-Latn,
-    and sr-Cyrl. See `docs/LOCALIZATION_AUDIT.md` for full report.
+    and sr-Cyrl. See `app/docs/LOCALIZATION_AUDIT.md` for full report.
 
 ## 60-90 Days: Scale and operational readiness
 

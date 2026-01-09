@@ -174,11 +174,19 @@ TOP_0.1_PERCENT_ROADMAP.md
 screenshots/
 e2e-screenshots/
 playwright-report/
+playwright-visual-report/
+playwright-visual-results/
 test-results/
 __diff_output__
 e2e/har/*.zip
 app/coverage/.tmp/
 playwright*.png
+
+# Visual regression test results (ignore but keep baselines)
+playwright-visual-results.json
+playwright-visual-results.xml
+app/tests/visual/__screenshots__/*/
+!app/tests/visual/__screenshots__/*.png
 
 # Security and certificates
 certificates/
