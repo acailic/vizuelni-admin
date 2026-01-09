@@ -56,24 +56,34 @@ The tool enables:
 
 ```
 Frontend:
-├── Next.js 14 (React framework)
+├── Next.js (Pages Router)
 ├── TypeScript (type safety)
-├── Material-UI (UI components)
+├── Material-UI (@mui/material) (UI components)
 ├── D3.js (charts and visualizations)
 ├── Vega (declarative visualizations)
-└── styled-components (styling)
+├── MapLibre GL + Deck.gl (geographic visualizations)
+├── urql (GraphQL client)
+└── i18next (internationalization)
 
 Backend:
 ├── Next.js API routes
-├── PostgreSQL (database)
-├── Prisma (ORM)
-├── GraphQL (data layer)
+├── PostgreSQL (database - mocked for static builds)
+├── Prisma (ORM - mocked for static builds)
+├── GraphQL (Apollo Server)
+├── SPARQL (RDF data sources)
 └── REST API (data.gov.rs integration)
+
+Data & Caching:
+├── Multi-level cache (Memory + IndexedDB)
+├── urql document caching
+├── SPARQL query caching with LRU
+└── Custom useFetchData hook with global cache
 
 DevOps:
 ├── Docker (containerization)
 ├── Yarn (package management)
 ├── ESLint + Prettier (code quality)
+├── Vitest (unit testing)
 └── Playwright (E2E testing)
 ```
 
@@ -106,32 +116,38 @@ vizualni-admin/
 │   API Server    │
 └────────┬────────┘
          │
-         │ REST API
+         │ REST API / SPARQL
          ▼
 ┌─────────────────┐
 │  API Client     │ app/domain/data-gov-rs/
-│  (TypeScript)   │
-└────────┬────────┘
-         │
+│  (TypeScript)   │ - Cloudflare Worker proxy (prod)
+└────────┬────────┘ - Direct API calls (dev)
          │
          ▼
 ┌─────────────────┐
-│  GraphQL Layer  │ Data transformation
-│                 │
+│  Multi-Level    │ L1: Memory (50MB)
+│  Cache          │ L2: IndexedDB (200MB)
+│                 │ L3: Network
 └────────┬────────┘
          │
+         ▼
+┌─────────────────┐
+│  GraphQL/SPARQL │ Data transformation
+│  Layer          │ - urql client
+│                 │ - SPARQL query caching
+└────────┬────────┘
          │
          ▼
 ┌─────────────────┐
 │  React UI       │ User interface
-│  Components     │
+│  Components     │ - Material-UI
+│                 │ - Custom components
 └────────┬────────┘
-         │
          │
          ▼
 ┌─────────────────┐
-│  Chart          │ D3.js / Vega
-│  Rendering      │
+│  Chart          │ D3.js / Vega /
+│  Rendering      │ MapLibre GL
 └─────────────────┘
 ```
 
@@ -229,11 +245,15 @@ vizualni-admin/
 
 ### Performance
 
-- Server-side rendering (SSR)
-- Static generation where possible
-- Image optimization
-- Code splitting
-- Caching strategies
+- Static site generation (SSG) for GitHub Pages deployment
+- Server-side rendering (SSR) when not in static mode
+- Multi-level caching (Memory + IndexedDB) for reduced API calls
+- Image optimization with AVIF/WebP formats
+- Code splitting and lazy loading
+- LRU cache for SPARQL queries
+- urql document caching for GraphQL
+- Virtualization for large data tables (react-window)
+- Bundle analysis and optimization
 
 ### Accessibility
 
@@ -256,17 +276,22 @@ vizualni-admin/
 
 ### Production Environments
 
-- **Docker** - Containerized deployment
-- **Vercel** - Serverless Next.js hosting
-- **Heroku** - Platform-as-a-Service
-- **AWS** - EC2, ECS, or Lambda
-- **Google Cloud** - Cloud Run
-- **Self-hosted** - On-premises server
+- **GitHub Pages** - Primary static deployment with Cloudflare Worker proxy
+- **Vercel** - Full SSR deployment with API routes and database
+- **Docker** - Containerized deployment with full backend
+- **Self-hosted** - Node.js server with PostgreSQL database
 
 ### Requirements
 
+**Static Deployment (GitHub Pages)**:
+- Node.js 18+ (for build only)
+- No database required
+- Cloudflare Worker for API proxy
+- GitHub Pages hosting
+
+**Full Deployment**:
 - Node.js 18+
-- PostgreSQL 12+
+- PostgreSQL 12+ (for persistent storage)
 - 2GB RAM minimum
 - 10GB storage minimum
 
