@@ -18,18 +18,18 @@ const externalDeps = [
 
 export default defineConfig((options) => ({
   // Build all entry points to match package.json exports
-  entry: [
-    "index.ts", // Main entry point
-    "exports/core.ts", // Core utilities
-    "exports/client.ts", // Client functionality
-    "exports/charts/index.ts", // Chart components
-    "exports/hooks/index.ts", // React hooks
-    "exports/utils/index.ts", // Utility functions
-  ],
+  entry: {
+    index: "index.ts", // Main entry point
+    core: "exports/core.ts", // Core utilities
+    client: "exports/client.ts", // Client functionality
+    "charts/index": "exports/charts/index.ts", // Chart components
+    "hooks/index": "exports/hooks/index.ts", // React hooks
+    "utils/index": "exports/utils/index.ts", // Utility functions
+  },
   format: ["cjs", "esm"],
-  dts: false, // Disable DTS generation temporarily to fix build
+  dts: false, // Disable DTS generation until config-types.ts TypeScript errors are fixed
   clean: true,
-  sourcemap: false, // Disable source maps temporarily to fix build
+  sourcemap: false, // Disable source maps for JS build
   splitting: true,
   treeshake: true,
   minify: !options.watch,
