@@ -34,8 +34,8 @@ export const testDataFixtures = {
   // Large dataset
   large: Array.from({ length: 50 }, (_, i) => ({
     category: `Month ${i + 1}`,
-    value: Math.floor(Math.random() * 200) + 50,
-    value2: Math.floor(Math.random() * 200) + 50,
+    value: 50 + ((i * 37) % 200),
+    value2: 50 + ((i * 53) % 200),
   })),
 
   // Data with negative values

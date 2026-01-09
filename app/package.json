@@ -23,7 +23,12 @@
     "rdf",
     "sparql",
     "accessibility",
-    "responsive"
+    "responsive",
+    "data-connectors",
+    "csv",
+    "ckan",
+    "socrata",
+    "data-sources"
   ],
   "homepage": "https://github.com/acailic/vizualni-admin#readme",
   "bugs": {
@@ -73,6 +78,11 @@
       "types": "./dist/utils/index.d.ts",
       "import": "./dist/utils/index.mjs",
       "require": "./dist/utils/index.js"
+    },
+    "./connectors": {
+      "types": "./dist/connectors/index.d.ts",
+      "import": "./dist/connectors/index.mjs",
+      "require": "./dist/connectors/index.js"
     }
   },
   "main": "dist/index.js",
@@ -162,7 +172,8 @@
       "./exports/client.ts",
       "./exports/charts/index.ts",
       "./exports/hooks/index.ts",
-      "./exports/utils/index.ts"
+      "./exports/utils/index.ts",
+      "./exports/connectors/index.ts"
     ],
     "___experimentalFlags_WILL_CHANGE_IN_PATCH": {
       "importsConditions": true

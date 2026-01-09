@@ -244,8 +244,8 @@ test.describe("ColumnChart Visual Regression", () => {
       await page.setViewportSize(viewports.desktop);
 
       const largeData = Array.from({ length: 50 }, (_, i) => ({
-        category: `Category ${i}`,
-        value: Math.floor(Math.random() * 200) + 50,
+        category: `Category ${i + 1}`,
+        value: 50 + ((i * 37) % 200),
       }));
 
       await renderChart(page, "column", largeData, {

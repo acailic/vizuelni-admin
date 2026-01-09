@@ -185,8 +185,8 @@ playwright*.png
 # Visual regression test results (ignore but keep baselines)
 playwright-visual-results.json
 playwright-visual-results.xml
-app/tests/visual/__screenshots__/*/
-!app/tests/visual/__screenshots__/*.png
+app/tests/visual/__screenshots__/**
+!app/tests/visual/__screenshots__/**/*.png
 
 # Security and certificates
 certificates/

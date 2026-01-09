@@ -223,8 +223,8 @@ test.describe("LineChart Visual Regression", () => {
       await page.setViewportSize(viewports.desktop);
 
       const largeData = Array.from({ length: 100 }, (_, i) => ({
-        category: `Point ${i}`,
-        value: Math.floor(Math.random() * 200) + 50,
+        category: `Point ${i + 1}`,
+        value: 50 + ((i * 37) % 200),
       }));
 
       await renderChart(page, "line", largeData, {

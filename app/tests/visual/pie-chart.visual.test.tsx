@@ -276,7 +276,7 @@ test.describe("PieChart Visual Regression", () => {
 
       const manyCategories = Array.from({ length: 15 }, (_, i) => ({
         category: `Category ${i + 1}`,
-        value: Math.floor(Math.random() * 100) + 10,
+        value: 10 + ((i * 31) % 100),
       }));
 
       await renderChart(page, "pie", manyCategories, {
