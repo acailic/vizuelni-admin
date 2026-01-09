@@ -90,6 +90,135 @@ Chart implementation:
   `ai_working/decisions/2026-01-09-mapchart-packaging.md`.
 - App-only map features live in `app/charts/map/`.
 
+### Chart plugin system
+
+The chart plugin system enables dynamic registration of custom chart types
+without modifying the core bundle. This prevents bundle size bloat and supports
+a third-party chart ecosystem.
+
+**Primary entry points:**
+
+- `app/exports/charts/plugin-types.ts`: Plugin interface definitions
+  (`IChartPlugin`, `ChartPluginMetadata`, `ChartPluginHooks`)
+- `app/exports/charts/chart-registry.ts`: Registry implementation and public API
+- `app/exports/charts/examples/RadarChartPlugin.tsx`: Example plugin
+  implementation
+
+**Plugin interface:**
+
+A plugin is an object implementing `IChartPlugin<TConfig>` that includes:
+
+- **Metadata**: `id`, `name`, `version`, `author`, `description`, `category`,
+  `tags`, `license`, `minCoreVersion`
+- **Component**: React component that accepts standard chart props (data,
+  config, height, width, locale, callbacks)
+- **Optional hooks**: `onRegister`, `onUnregister`, `validateData`,
+  `transformData`, `transformConfig`
+- **Optional helpers**: `defaultConfig`, `configSchema`, `exampleData`,
+  `exampleConfig`
+
+**Registration API:**
+
+```typescript
+import { registerChartPlugin, getChartPlugin } from '@acailic/vizualni-admin/charts';
+import { myCustomChartPlugin } from 'my-custom-chart-plugin';
+
+// Register the plugin
+const result = registerChartPlugin(myCustomChartPlugin);
+
+// Use the registered plugin
+const plugin = getChartPlugin('my-custom-chart');
+const ChartComponent = plugin.component;
+
+<ChartComponent data={data} config={config} />
+```
+
+**Registry features:**
+
+- `register(plugin, options)`: Register a plugin with validation
+- `unregister(pluginId)`: Remove a plugin (built-in plugins are protected)
+- `get(pluginId)`: Retrieve a registered plugin
+- `has(pluginId)`: Check if a plugin is registered
+- `list()`: List all registered plugins
+- `listByCategory(category)`: List plugins by category
+- `clear()`: Remove all external plugins
+- `stats()`: Get plugin statistics (total, builtin, external, byCategory)
+
+**Bundle size impact:**
+
+The plugin system is designed for zero impact on the core bundle:
+
+- Plugin types and registry are tree-shakeable
+- Plugins are loaded only when explicitly imported and registered
+- Example plugins (e.g., RadarChart) are in `examples/` and not exported by
+  default
+- Users can create plugins in separate packages without touching core
+
+**Plugin lifecycle:**
+
+1. Import plugin definition
+2. Call `registerChartPlugin(plugin)`
+3. Plugin metadata is validated (id format, version compatibility)
+4. Plugin is stored in registry with timestamp and type (builtin/external)
+5. `onRegister` hook is called (if provided)
+6. Plugin component is available for use
+7. On unregister, `onUnregister` hook is called before removal
+
+**Version compatibility:**
+
+Plugins declare `minCoreVersion` to ensure compatibility:
+
+- Registry validates `minCoreVersion` against `CORE_VERSION` (from
+  `app/package.json`)
+- Semver comparison prevents incompatible plugins from loading
+- Use `force: true` option to bypass validation (not recommended)
+
+**Example plugin structure:**
+
+```typescript
+export const myChartPlugin: IChartPlugin<MyChartConfig> = {
+  // Required metadata
+  id: "my-custom-chart",
+  name: "My Custom Chart",
+  version: "1.0.0",
+  author: "Your Name",
+  description: "A custom chart type",
+  category: "custom",
+  tags: ["custom", "specialized"],
+  license: "MIT",
+  minCoreVersion: "0.1.0-beta.1",
+
+  // Chart component
+  component: MyChartComponent,
+
+  // Optional: default configuration
+  defaultConfig: {
+    /* ... */
+  },
+
+  // Optional: lifecycle hooks
+  hooks: {
+    validateData: (data, config) => {
+      /* ... */
+    },
+    onRegister: () => {
+      /* ... */
+    },
+  },
+
+  // Optional: examples for documentation
+  exampleData: [
+    /* ... */
+  ],
+  exampleConfig: {
+    /* ... */
+  },
+};
+```
+
+**See also:** `app/exports/charts/examples/RadarChartPlugin.tsx` for a complete
+working example.
+
 ## State management and caching
 
 State and cache primitives:

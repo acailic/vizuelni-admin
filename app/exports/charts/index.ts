@@ -25,3 +25,29 @@ export { ColumnChart } from "./ColumnChart";
 export { PieChart } from "./PieChart";
 export { AreaChart } from "./AreaChart";
 export { MapChart } from "./MapChart";
+
+// Export plugin system (tree-shakeable - only included when used)
+export {
+  // Plugin registry and functions
+  chartRegistry,
+  registerChartPlugin,
+  unregisterChartPlugin,
+  getChartPlugin,
+  listChartPlugins,
+  hasChartPlugin,
+  clearChartPlugins,
+  getChartPluginStats,
+  ChartRegistry,
+} from "./chart-registry";
+
+// Export plugin types
+export {
+  IChartPlugin,
+  ChartPluginMetadata,
+  ChartPluginHooks,
+  ChartValidationResult,
+  ChartRegistryEntry,
+  PluginRegistrationResult,
+  RegisterPluginOptions,
+  IChartRegistry,
+} from "./plugin-types";

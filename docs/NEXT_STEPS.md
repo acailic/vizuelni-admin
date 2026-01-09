@@ -116,28 +116,56 @@ scoped, specific, and tied to files and tests.
 
 ## 60-90 Days: Scale and operational readiness
 
-- [todo] Expand release checklist and automate preflight checks in CI.
+- [done] Expand release checklist and automate preflight checks in CI.
   - Goal: codify release steps with build, test, and docs gates.
   - Deliverables: update `docs/release/RELEASE.md`, add CI step to run
     `yarn build:npm` plus packaging tests.
   - Definition of done: CI prevents releases that fail preflight checks.
+  - Completed: 2026-01-09. See:
+    - `docs/release/RELEASE.md` - Comprehensive release guide with preflight
+      checklist
+    - `.github/workflows/release-preflight.yml` - CI workflow for preflight
+      checks
+    - `.github/workflows/release.yml` - Updated to use preflight checks
+    - `scripts/test-release-preflight.sh` - Local preflight test script
+    - `yarn release:preflight` - Run preflight checks locally
 
-- [todo] Establish a performance baseline for exports.
+- [done] Establish a performance baseline for exports.
   - Goal: track chart render times and data fetch latency.
   - Deliverables: baseline numbers in `docs/PERFORMANCE.md`, updates to
     `scripts/test-performance.js`.
   - Definition of done: baseline exists and regressions are measurable.
+  - Completed: 2026-01-09. See:
+    - `docs/PERFORMANCE.md` - Comprehensive performance baseline documentation
+    - `scripts/test-performance.js` - Updated with chart render and data fetch
+      benchmarks
+    - `performance-report.json` - Generated performance metrics report
+    - Chart render baselines established for LineChart, BarChart, ColumnChart,
+      AreaChart, PieChart
+    - Data fetch latency baselines established for small/medium/large datasets
+    - Bundle size baselines: 87.73 KB total (within 250 KB budget)
 
-- [todo] Define a plugin strategy for new chart types.
+- [done] Define a plugin strategy for new chart types.
   - Goal: avoid growth of the core bundle.
   - Deliverables: design note and example plugin interface documented in
     `docs/ARCHITECTURE.md`.
   - Definition of done: contributors can add a chart without editing core.
+  - Completed: 2026-01-09. Plugin system implemented with:
+    - `app/exports/charts/plugin-types.ts`: Plugin interface definitions
+    - `app/exports/charts/chart-registry.ts`: Registry implementation
+    - `app/exports/charts/examples/RadarChartPlugin.tsx`: Example plugin
+    - `docs/CHART_PLUGIN_GUIDE.md`: Comprehensive contributor guide
+    - See `docs/ARCHITECTURE.md` "Chart plugin system" section for architecture.
 
-- [todo] Document operational requirements.
+- [done] Document operational requirements.
   - Goal: clarify hosting constraints, caching, and environment variables.
   - Deliverables: updates to `docs/DEPLOYMENT.md`.
   - Definition of done: deployment doc lists required env vars and constraints.
+  - Completed: 2026-01-09. Added comprehensive sections on runtime modes (static
+    export vs full app), complete environment variable reference with security
+    best practices, detailed caching strategy (L1/L2/L3 architecture), hosting
+    constraints for both modes, and extensive troubleshooting guide. Document
+    expanded from 419 to 1,159 lines.
 
 ## 90-180 Days: Adoption and maintainability
 

@@ -89,6 +89,7 @@
     "fonts:test": "node scripts/test-font-optimization.js",
     "fonts:report": "node scripts/optimize-fonts.js && echo '📊 Optimization report generated in app/public/static/fonts/optimized/'",
     "fonts:clean": "rm -rf app/public/static/fonts/optimized/ && echo '🧹 Cleaned optimized fonts'",
+    "release:preflight": "./scripts/test-release-preflight.sh",
     "performance:test": "node scripts/test-performance.js",
     "performance:monitor": "echo '📊 Performance monitoring is now integrated in the app. Visit /performance to view metrics.'",
     "performance:lighthouse": "npx lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-report.json --chrome-flags='--headless'",
