@@ -12,7 +12,7 @@
  * - Validate bundle structure and content
  */
 
-import { readFileSync, existsSync, statSync } from "fs";
+import { readFileSync, existsSync, statSync, readdirSync } from "fs";
 import { join } from "path";
 
 import { describe, it, expect, beforeAll } from "vitest";

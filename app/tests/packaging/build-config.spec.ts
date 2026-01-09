@@ -233,7 +233,10 @@ describe("Build Configuration Validation", () => {
 
     it("should have build:lib script", () => {
       expect(packageJson.scripts["build:lib"]).toBeDefined();
-      expect(packageJson.scripts["build:lib"]).toBe("tsup");
+      // build:lib now includes DTS generation: tsup + tsc + copy-dts
+      expect(packageJson.scripts["build:lib"]).toContain("tsup");
+      expect(packageJson.scripts["build:lib"]).toContain("tsc");
+      expect(packageJson.scripts["build:lib"]).toContain("copy-dts");
     });
 
     it("should have build script", () => {
@@ -265,13 +268,13 @@ describe("Build Configuration Validation", () => {
     it("should have main field pointing to dist", () => {
       expect(packageJson.main).toBeDefined();
       expect(packageJson.main).toMatch(/^dist\//);
-      expect(packageJson.main).toMatch(/\.cjs(\.js)?$/);
+      expect(packageJson.main).toMatch(/\.(js|cjs)$/);
     });
 
     it("should have module field pointing to dist", () => {
       expect(packageJson.module).toBeDefined();
       expect(packageJson.module).toMatch(/^dist\//);
-      expect(packageJson.module).toMatch(/\.esm(\.js)?$/);
+      expect(packageJson.module).toMatch(/\.(mjs|esm\.js)$/);
     });
 
     it("should have types field pointing to dist", () => {
@@ -458,7 +461,8 @@ describe("Build Configuration Validation", () => {
 
     it("should support standalone library build", () => {
       expect(packageJson.scripts["build:lib"]).toBeDefined();
-      expect(packageJson.scripts["build:lib"]).toBe("tsup");
+      // build:lib includes tsup + DTS generation
+      expect(packageJson.scripts["build:lib"]).toContain("tsup");
     });
   });
 
