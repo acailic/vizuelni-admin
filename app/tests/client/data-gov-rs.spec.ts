@@ -148,24 +148,11 @@ const server = setupServer(
 
   // Get dataset by ID
   http.get(`${API_BASE_URL}/datasets/:id/`, ({ params }) => {
-    const { id } = params;
-
-    if (id === "nonexistent") {
-      return HttpResponse.json(
-        { message: "Dataset not found" },
-        { status: 404 }
-      );
+    const dataset = mockDatasets.find((d) => d.id === params.id);
+    if (dataset) {
+      return HttpResponse.json(dataset);
     }
-
-    const dataset = mockDatasets.find((d) => d.id === id);
-    if (!dataset) {
-      return HttpResponse.json(
-        { message: "Dataset not found" },
-        { status: 404 }
-      );
-    }
-
-    return HttpResponse.json(dataset);
+    return HttpResponse.json({ message: "Dataset not found" }, { status: 404 });
   }),
 
   // List organizations
@@ -192,45 +179,36 @@ const server = setupServer(
 
   // Get organization by ID
   http.get(`${API_BASE_URL}/organizations/:id/`, ({ params }) => {
-    const { id } = params;
-
-    if (id === "nonexistent") {
-      return HttpResponse.json(
-        { message: "Organization not found" },
-        { status: 404 }
-      );
+    const organization = mockOrganizations.find((o) => o.id === params.id);
+    if (organization) {
+      return HttpResponse.json(organization);
     }
-
-    const organization = mockOrganizations.find((o) => o.id === id);
-    if (!organization) {
-      return HttpResponse.json(
-        { message: "Organization not found" },
-        { status: 404 }
-      );
-    }
-
-    return HttpResponse.json(organization);
+    return HttpResponse.json(
+      { message: "Organization not found" },
+      { status: 404 }
+    );
   }),
 
   // Get resource by ID
   http.get(`${API_BASE_URL}/resources/:id/`, ({ params }) => {
-    const { id } = params;
-
-    if (id === "nonexistent") {
-      return HttpResponse.json(
-        { message: "Resource not found" },
-        { status: 404 }
-      );
-    }
-
-    if (id === mockResource.id) {
+    if (params.id === mockResource.id) {
       return HttpResponse.json(mockResource);
     }
-
     return HttpResponse.json(
       { message: "Resource not found" },
       { status: 404 }
     );
+  }),
+
+  // Get datasets for an organization
+  http.get(`${API_BASE_URL}/organizations/:id/datasets/`, ({ params }) => {
+    const organizationDatasets = mockDatasets.filter(
+      (d) => d.organization.id === params.id
+    );
+    return HttpResponse.json({
+      data: organizationDatasets,
+      total: organizationDatasets.length,
+    });
   }),
 
   // Download resource (actual CSV data)
@@ -239,11 +217,12 @@ const server = setupServer(
   })
 );
 
-describe("DataGovRsClient", () => {
-  beforeAll(() => server.listen());
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.close());
+// Setup MSW server - only once at the top level
+beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
 
+describe("DataGovRsClient", () => {
   describe("createDataGovRsClient()", () => {
     it("should create client with default config", () => {
       const client = createDataGovRsClient();
@@ -745,10 +724,6 @@ describe("DataGovRsClient", () => {
 });
 
 describe("DataGovRsClient - Error Handling", () => {
-  beforeAll(() => server.listen());
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.close());
-
   describe("Network errors", () => {
     it("should handle network timeout", async () => {
       const client = new DataGovRsClient({
@@ -810,7 +785,10 @@ describe("DataGovRsClient - Error Handling", () => {
     });
 
     it("should handle 500 Internal Server Error", async () => {
-      const client = new DataGovRsClient({ apiUrl: API_BASE_URL });
+      const client = new DataGovRsClient({
+        apiUrl: API_BASE_URL,
+        retryConfig: { maxRetries: 0 }, // Disable retries for this test
+      });
 
       server.use(
         http.get(`${API_BASE_URL}/datasets/`, () => {
@@ -853,7 +831,10 @@ describe("DataGovRsClient - Error Handling", () => {
     });
 
     it("should handle 429 Rate Limit errors", async () => {
-      const client = new DataGovRsClient({ apiUrl: API_BASE_URL });
+      const client = new DataGovRsClient({
+        apiUrl: API_BASE_URL,
+        retryConfig: { maxRetries: 0 }, // Disable retries for this test
+      });
 
       server.use(
         http.get(`${API_BASE_URL}/datasets/`, () => {
@@ -899,7 +880,10 @@ describe("DataGovRsClient - Error Handling", () => {
     });
 
     it("should handle malformed error responses", async () => {
-      const client = new DataGovRsClient({ apiUrl: API_BASE_URL });
+      const client = new DataGovRsClient({
+        apiUrl: API_BASE_URL,
+        retryConfig: { maxRetries: 0 }, // Disable retries for this test
+      });
 
       server.use(
         http.get(`${API_BASE_URL}/datasets/`, () => {
@@ -917,7 +901,10 @@ describe("DataGovRsClient - Error Handling", () => {
     });
 
     it("should handle non-JSON error responses", async () => {
-      const client = new DataGovRsClient({ apiUrl: API_BASE_URL });
+      const client = new DataGovRsClient({
+        apiUrl: API_BASE_URL,
+        retryConfig: { maxRetries: 0 }, // Disable retries for this test
+      });
 
       server.use(
         http.get(`${API_BASE_URL}/datasets/`, () => {
@@ -941,6 +928,7 @@ describe("DataGovRsClient - Error Handling", () => {
       const client = new DataGovRsClient({
         apiUrl: API_BASE_URL,
         timeout: 50,
+        retryConfig: { maxRetries: 0 }, // Disable retries for this test
       });
 
       server.use(
@@ -1047,10 +1035,6 @@ describe("DataGovRsClient - Error Handling", () => {
 });
 
 describe("DataGovRsClient - Edge Cases", () => {
-  beforeAll(() => server.listen());
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.close());
-
   it("should handle empty dataset list", async () => {
     const client = new DataGovRsClient({ apiUrl: API_BASE_URL });
 
