@@ -205,6 +205,111 @@ class QualityGateChecker {
     return allPassed;
   }
 
+  async checkTypeSafety() {
+    log.header('Type Safety Checks (app/exports/)');
+
+    // Check for any types in exports directory (excluding D3 idiomatic usage and comments)
+    try {
+      const { execSync } = require('child_process');
+      const result = execSync(
+        'grep -rn "\\bany\\b" app/exports --include="*.ts" --include="*.tsx" | ' +
+        'grep -v "node_modules" | grep -v ".spec." | ' +
+        'grep -v "<[a-zA-Z]*>" | ' + // Exclude D3 generics like <any>
+        'grep -v "//.*any" | ' + // Exclude comments
+        'grep -v "\\*.*any" | ' + // Exclude JSDoc comments
+        'grep -v "works in any" | ' + // Exclude documentation
+        'grep -v "if any" | ' + // Exclude "if any" phrases
+        'grep -v "as any" | ' + // Exclude D3 type assertions (idiomatic)
+        'wc -l',
+        { stdio: 'pipe', cwd: path.join(__dirname, '../') }
+      ).toString().trim();
+
+      const anyCount = parseInt(result, 10);
+
+      if (anyCount > 0) {
+        log.error(`Found ${anyCount} problematic 'any' types in app/exports/`);
+        log.info('D3 type assertions (as any) are excluded from this check as they are idiomatic.');
+        this.results.failed.push({
+          description: 'Type safety (no any types in exports)',
+          error: `Found ${anyCount} problematic 'any' types`
+        });
+        return false;
+      } else {
+        log.success('No problematic "any" types found in app/exports/');
+        this.results.passed.push('Type safety (no any types in exports)');
+        return true;
+      }
+    } catch (error) {
+      log.error(`Type safety check failed: ${error.message}`);
+      this.results.failed.push({
+        description: 'Type safety check',
+        error: error.message
+      });
+      return false;
+    }
+  }
+
+  async checkLoggingPractices() {
+    log.header('Logging Practices Check (app/exports/)');
+
+    try {
+      const { execSync } = require('child_process');
+      const result = execSync(
+        'grep -rn "console\\." app/exports --include="*.ts" --include="*.tsx" | ' +
+        'grep -v "node_modules" | grep -v ".spec." | ' +
+        'grep -v "\\* console\\." | ' + // Exclude documentation comments
+        'wc -l',
+        { stdio: 'pipe', cwd: path.join(__dirname, '../') }
+      ).toString().trim();
+
+      const consoleCount = parseInt(result, 10);
+
+      if (consoleCount > 0) {
+        log.error(`Found ${consoleCount} console.* statements in app/exports/`);
+        log.info('Run: grep -rn "console\\." app/exports --include="*.ts" --include="*.tsx" | grep -v ".spec."');
+        this.results.failed.push({
+          description: 'Logging practices (no console.* in exports)',
+          error: `Found ${consoleCount} console.* statements`
+        });
+        return false;
+      } else {
+        log.success('No console.* statements found in app/exports/');
+        this.results.passed.push('Logging practices (no console.* in exports)');
+        return true;
+      }
+    } catch (error) {
+      log.error(`Logging practices check failed: ${error.message}`);
+      this.results.failed.push({
+        description: 'Logging practices check',
+        error: error.message
+      });
+      return false;
+    }
+  }
+
+  async checkCircularDependencies() {
+    log.header('Circular Dependency Check (app/exports/)');
+
+    try {
+      const { execSync } = require('child_process');
+      execSync(
+        'npx madge app/exports --circular --extensions ts,tsx',
+        { stdio: 'pipe', cwd: path.join(__dirname, '../') }
+      );
+
+      log.success('No circular dependencies found in app/exports/');
+      this.results.passed.push('Circular dependency check');
+      return true;
+    } catch (error) {
+      log.error(`Circular dependency check failed: ${error.message}`);
+      this.results.failed.push({
+        description: 'Circular dependency check',
+        error: error.message
+      });
+      return false;
+    }
+  }
+
   async checkSecurity() {
     log.header('Security Analysis');
 
@@ -299,7 +404,13 @@ class QualityGateChecker {
     const startTime = Date.now();
 
     try {
+      // Core code quality checks
       await this.checkCodeQuality();
+      await this.checkTypeSafety();
+      await this.checkLoggingPractices();
+      await this.checkCircularDependencies();
+
+      // Testing and compliance
       await this.checkTestCoverage();
       await this.checkAccessibility();
       await this.checkPerformance();

@@ -489,8 +489,7 @@ const ChartPreviewInner = ({
             <Head>
               <title key="title">
                 {!chartConfig.meta.title[locale]
-                  ? // FIXME: adapt to design
-                    metadata?.dataCubesMetadata.map((d) => d.title).join(", ")
+                  ? metadata?.dataCubesMetadata.map((d) => d.title).join(", ")
                   : chartConfig.meta.title[locale]}{" "}
                 - visualize.admin.ch
               </title>

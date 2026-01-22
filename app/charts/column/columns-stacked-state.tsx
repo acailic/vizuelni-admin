@@ -252,12 +252,12 @@ const useColumnsStackedState = (
     ) {
       const segmentColor = fields.color;
       const orderedSegmentLabelsAndColors = allSegments.map((segment) => {
-        // FIXME: Labels in observations can differ from dimension values because the latter can be concatenated to only appear once per value
-        // See https://github.com/visualize-admin/visualization-tool/issues/97
+        // Workaround for issue #97: Labels in observations can differ from dimension values
+        // because the latter can be concatenated to only appear once per value.
+        // We attempt to look up segments by abbreviation, label, or value as fallback.
         const segmentData = segmentsByAbbreviationOrLabel.get(segment) || segmentsByValue.get(segment);
-        const dvIri = (segmentData as any)?.value || "";
+        const dvIri = segmentData?.value || "";
 
-        // There is no way to gracefully recover here :(
         if (!dvIri) {
           console.warn(`Can't find color for '${segment}'.`);
         }

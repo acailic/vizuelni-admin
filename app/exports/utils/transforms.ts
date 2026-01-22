@@ -136,7 +136,7 @@ export function uniqueValues<T extends ChartData>(
 /**
  * Transform data for chart use (normalize and clean)
  */
-export function normalizeData<T extends Record<string, any>>(
+export function normalizeData<T extends Record<string, unknown>>(
   data: T[],
   options: {
     /** Keys to include (null = all) */
@@ -150,12 +150,12 @@ export function normalizeData<T extends Record<string, any>>(
   const { keys = null, clean = true, parseNumbers = true } = options;
 
   return data.map((item) => {
-    let result: any = {};
+    let result: ChartData = {};
 
     const keysToProcess = keys || (Object.keys(item) as (keyof T)[]);
 
     for (const key of keysToProcess) {
-      let value = item[key];
+      let value: unknown = item[key];
 
       // Skip null/undefined if cleaning
       if (clean && (value === null || value === undefined)) {
@@ -170,7 +170,7 @@ export function normalizeData<T extends Record<string, any>>(
         }
       }
 
-      result[key as string] = value;
+      result[key as string] = value as ChartData[string];
     }
 
     return result;

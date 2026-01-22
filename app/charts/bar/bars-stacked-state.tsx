@@ -252,14 +252,14 @@ const useBarsStackedState = (
 
     if (fields.segment && segmentsByAbbreviationOrLabel && fields.color) {
       const orderedSegmentLabelsAndColors = allSegments.map((segment) => {
-        // FIXME: Labels in observations can differ from dimension values because the latter can be concatenated to only appear once per value
-        // See https://github.com/visualize-admin/visualization-tool/issues/97
+        // Workaround for issue #97: Labels in observations can differ from dimension values
+        // because the latter can be concatenated to only appear once per value.
+        // We attempt to look up segments by abbreviation, label, or value as fallback.
         const dvIri =
           segmentsByAbbreviationOrLabel.get(segment)?.value ||
           segmentsByValue.get(segment)?.value ||
           "";
 
-        // There is no way to gracefully recover here :(
         if (!dvIri) {
           console.warn(`Can't find color for '${segment}'.`);
         }

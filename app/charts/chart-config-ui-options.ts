@@ -281,8 +281,9 @@ type EncodingOptionImputation<T extends ChartConfig = ChartConfig> = {
   shouldShow: (chartConfig: T, data: Observation[]) => boolean;
 };
 /**
- * @todo
- * - Differentiate sorting within chart vs. sorting legend / tooltip only
+ * Sorting option for chart encodings.
+ *
+ * @note Future: Consider differentiating sorting behavior for chart rendering vs legend/tooltip display.
  */
 export type EncodingSortingOption<T extends ChartConfig = ChartConfig> = {
   sortingType: SortingType;

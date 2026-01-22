@@ -30,6 +30,8 @@ import { select } from "d3-selection";
 import "d3-transition";
 import { memo, useEffect, useRef, useState } from "react";
 
+import { createLogger } from "../../../lib/logger";
+
 import type {
   ChartPluginMetadata,
   ChartPluginHooks,
@@ -482,16 +484,19 @@ const metadata: ChartPluginMetadata = {
   externalDependencies: [],
 };
 
+// Create a logger for this plugin
+const logger = createLogger({ component: "RadarChartPlugin" });
+
 /**
  * Plugin hooks
  */
 const hooks: ChartPluginHooks = {
   validateData,
   onRegister: () => {
-    console.log("Radar Chart plugin registered");
+    logger.debug("Radar Chart plugin registered");
   },
   onUnregister: () => {
-    console.log("Radar Chart plugin unregistered");
+    logger.debug("Radar Chart plugin unregistered");
   },
 };
 

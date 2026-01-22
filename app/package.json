@@ -69,6 +69,36 @@
       "import": "./dist/charts/index.mjs",
       "require": "./dist/charts/index.js"
     },
+    "./charts/LineChart": {
+      "types": "./dist/charts/LineChart.d.ts",
+      "import": "./dist/charts/LineChart.mjs",
+      "require": "./dist/charts/LineChart.js"
+    },
+    "./charts/BarChart": {
+      "types": "./dist/charts/BarChart.d.ts",
+      "import": "./dist/charts/BarChart.mjs",
+      "require": "./dist/charts/BarChart.js"
+    },
+    "./charts/ColumnChart": {
+      "types": "./dist/charts/ColumnChart.d.ts",
+      "import": "./dist/charts/ColumnChart.mjs",
+      "require": "./dist/charts/ColumnChart.js"
+    },
+    "./charts/PieChart": {
+      "types": "./dist/charts/PieChart.d.ts",
+      "import": "./dist/charts/PieChart.mjs",
+      "require": "./dist/charts/PieChart.js"
+    },
+    "./charts/AreaChart": {
+      "types": "./dist/charts/AreaChart.d.ts",
+      "import": "./dist/charts/AreaChart.mjs",
+      "require": "./dist/charts/AreaChart.js"
+    },
+    "./charts/MapChart": {
+      "types": "./dist/charts/MapChart.d.ts",
+      "import": "./dist/charts/MapChart.mjs",
+      "require": "./dist/charts/MapChart.js"
+    },
     "./hooks": {
       "types": "./dist/hooks/index.d.ts",
       "import": "./dist/hooks/index.mjs",
@@ -123,6 +153,7 @@
     "postbuild": "npm run build:lib"
   },
   "dependencies": {
+    "@deck.gl/core": "^9.2.6",
     "@uiw/react-color": "^2.9.2",
     "@urql/core": "^6.0.0",
     "@visx/group": "^3.12.0",
@@ -131,6 +162,7 @@
     "d3-array": "^3.2.0",
     "d3-axis": "^3.0.0",
     "d3-delaunay": "^6.0.4",
+    "d3-dsv": "^3.0.1",
     "d3-ease": "^3.0.1",
     "d3-format": "^3.1.0",
     "d3-geo": "^3.1.1",
@@ -154,6 +186,7 @@
     "react-virtualized-auto-sizer": "^1.0.26",
     "react-window": "^1.8.10",
     "simple-statistics": "^7.8.8",
+    "topojson-server": "^3.0.1",
     "urql": "^5.0.1",
     "web-vitals": "^5.1.0",
     "wellknown": "^0.5.0"
@@ -162,6 +195,25 @@
     "@lingui/core": "^4.0.0",
     "@lingui/react": "^4.0.0",
     "@urql/core": "^6.0.0",
+    "d3-array": "^3.0.0",
+    "d3-axis": "^3.0.0",
+    "d3-brush": "^3.0.0",
+    "d3-color": "^3.0.0",
+    "d3-delaunay": "^6.0.0",
+    "d3-ease": "^3.0.0",
+    "d3-format": "^3.0.0",
+    "d3-geo": "^3.0.0",
+    "d3-interpolate": "^3.0.0",
+    "d3-scale": "^4.0.0",
+    "d3-scale-chromatic": "^3.0.0",
+    "d3-selection": "^3.0.0",
+    "d3-shape": "^3.0.0",
+    "d3-time-format": "^4.0.0",
+    "d3-transition": "^3.0.0",
+    "d3-zoom": "^3.0.0",
+    "fp-ts": "^2.0.0",
+    "io-ts": "^2.0.0",
+    "make-plural": "^6.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -171,6 +223,12 @@
       "./exports/core.ts",
       "./exports/client.ts",
       "./exports/charts/index.ts",
+      "./exports/charts/LineChart.tsx",
+      "./exports/charts/BarChart.tsx",
+      "./exports/charts/ColumnChart.tsx",
+      "./exports/charts/PieChart.tsx",
+      "./exports/charts/AreaChart.tsx",
+      "./exports/charts/MapChart.tsx",
       "./exports/hooks/index.ts",
       "./exports/utils/index.ts",
       "./exports/connectors/index.ts"

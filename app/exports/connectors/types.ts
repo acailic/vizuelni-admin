@@ -249,7 +249,7 @@ export interface ConnectorCapabilities {
  * All connectors must implement this interface to provide a consistent
  * API for fetching data from different sources.
  */
-export interface IDataConnector<TConfig extends BaseConnectorConfig = any> {
+export interface IDataConnector<TConfig extends BaseConnectorConfig = BaseConnectorConfig> {
   /**
    * Connector configuration
    */

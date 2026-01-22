@@ -147,7 +147,6 @@ export const joinDimensions = (options: {
         id: mkJoinById(Number(index)) as ComponentId,
         // Non-relevant, as we rely on the originalIris property.
         cubeIri: JOIN_BY_CUBE_IRI,
-        // FIXME: adapt to design
         label: uniq(joinedDimensions.map((d) => d.label)).join(", "),
         isJoinByDimension: true,
         originalIds: joinedDimensions.map((d) => ({

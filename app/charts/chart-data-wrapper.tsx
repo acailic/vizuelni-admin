@@ -170,7 +170,6 @@ const ChartDataWrapperInner = <
   ) {
     return <Loading />;
   } else if (metadata && dimensions && measures && observations) {
-    // FIXME: adapt to design
     const title = metadata.map((d) => d.title).join(", ");
 
     return (

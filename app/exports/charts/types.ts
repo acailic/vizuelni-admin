@@ -108,8 +108,3 @@ export interface ChartProps extends InteractiveChartProps, ChartLoadingProps {
   /** Description for screen readers */
   description?: string;
 }
-
-/**
- * Re-export MapChart types for convenience
- */
-export type { MapData, MapFeature, MapPoint, MapChartConfig } from "./MapChart";

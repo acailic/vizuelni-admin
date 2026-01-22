@@ -20,7 +20,7 @@ interface RegistryEntry {
   /**
    * Connector factory function
    */
-  factory: ConnectorFactory<any>;
+  factory: ConnectorFactory<BaseConnectorConfig>;
 
   /**
    * Connector type identifier
@@ -66,7 +66,7 @@ class ConnectorRegistryClass {
     }
 
     this.registry.set(type, {
-      factory,
+      factory: factory as unknown as ConnectorFactory<BaseConnectorConfig>,
       type,
       ...metadata,
     });
@@ -100,7 +100,7 @@ class ConnectorRegistryClass {
    * @param type - Type identifier
    * @returns Factory function or undefined if not found
    */
-  getFactory(type: string): ConnectorFactory<any> | undefined {
+  getFactory(type: string): ConnectorFactory<BaseConnectorConfig> | undefined {
     const entry = this.registry.get(type);
     return entry?.factory;
   }
@@ -134,7 +134,7 @@ class ConnectorRegistryClass {
     let instance: IDataConnector<TConfig>;
     try {
       // Try as a factory function first
-      instance = entry.factory(config);
+      instance = entry.factory(config) as IDataConnector<TConfig>;
     } catch {
       // If that fails, try as a class constructor
       const FactoryClass = entry.factory as unknown as new (
@@ -156,7 +156,7 @@ class ConnectorRegistryClass {
    * @param id - Connector instance ID
    * @returns Connector instance or undefined if not found
    */
-  getInstance(id: string): IDataConnector | undefined {
+  getInstance(id: string): IDataConnector<BaseConnectorConfig> | undefined {
     return this.instances.get(id);
   }
 

@@ -50,7 +50,7 @@ export interface MapFeature {
   properties: {
     name: string;
     value?: number;
-    [key: string]: any;
+    [key: string]: unknown;
   };
   geometry: GeoJSON.Geometry;
 }
@@ -71,7 +71,7 @@ export interface MapPoint {
   name: string;
   value?: number;
   coordinates: [number, number]; // [longitude, latitude]
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -130,9 +130,9 @@ export interface MapChartProps {
   /** Additional styles */
   style?: React.CSSProperties;
   /** Callback when data point is clicked */
-  onDataPointClick?: (data: any, index: number) => void;
+  onDataPointClick?: (data: MapFeature['properties'] | MapPoint, index: number) => void;
   /** Custom tooltip renderer */
-  renderTooltip?: (data: any) => React.ReactNode;
+  renderTooltip?: (data: MapFeature['properties'] | MapPoint) => React.ReactNode;
   /** Show tooltip on hover */
   showTooltip?: boolean;
   /** Enable animations */
@@ -491,7 +491,7 @@ export const MapChart = memo(
               setTooltip({
                 x: pos[0] + margin.left + 15,
                 y: pos[1] + margin.top,
-                feature: d as any,
+                feature: d as MapFeature | MapPoint,
                 position: { x: pos[0], y: pos[1] },
               });
             }
@@ -524,7 +524,7 @@ export const MapChart = memo(
           .style("fill", "#374151")
           .style("pointer-events", "none")
           .style("opacity", 0)
-          .text((d) => d.properties[labelKey] || "")
+          .text((d) => String(d.properties[labelKey] ?? ""))
           .transition()
           .delay(animated ? animationDuration * 0.7 : 0)
           .duration(animated ? 400 : 0)
@@ -741,7 +741,11 @@ export const MapChart = memo(
             }}
           >
             {renderTooltip ? (
-              renderTooltip(tooltip.feature.properties)
+              renderTooltip(
+                "properties" in tooltip.feature
+                  ? (tooltip.feature.properties as MapFeature['properties'])
+                  : tooltip.feature
+              )
             ) : (
               <>
                 <div
@@ -754,31 +758,34 @@ export const MapChart = memo(
                     paddingBottom: "6px",
                   }}
                 >
-                  {tooltip.feature.properties.name || "Nepoznata regija"}
+                  {"properties" in tooltip.feature
+                    ? ((tooltip.feature.properties as MapFeature['properties']).name ?? "Nepoznata regija")
+                    : tooltip.feature.name}
                 </div>
-                {Object.entries(tooltip.feature.properties)
-                  .filter(([key]) => key !== "name" && !key.startsWith("_"))
-                  .map(([key, value]) => (
-                    <div
-                      key={key}
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        gap: "16px",
-                        marginTop: "4px",
-                        fontSize: "12px",
-                      }}
-                    >
-                      <span style={{ color: "#6b7280", fontWeight: 500 }}>
-                        {key.charAt(0).toUpperCase() + key.slice(1)}:
-                      </span>
-                      <span style={{ color: "#1f2937", fontWeight: 600 }}>
-                        {typeof value === "number"
-                          ? value.toLocaleString(locale)
-                          : String(value)}
-                      </span>
-                    </div>
-                  ))}
+                {"properties" in tooltip.feature &&
+                  Object.entries(tooltip.feature.properties as MapFeature['properties'])
+                    .filter(([key]) => key !== "name" && !key.startsWith("_"))
+                    .map(([key, value]) => (
+                      <div
+                        key={key}
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          gap: "16px",
+                          marginTop: "4px",
+                          fontSize: "12px",
+                        }}
+                      >
+                        <span style={{ color: "#6b7280", fontWeight: 500 }}>
+                          {key.charAt(0).toUpperCase() + key.slice(1)}:
+                        </span>
+                        <span style={{ color: "#1f2937", fontWeight: 600 }}>
+                          {typeof value === "number"
+                            ? value.toLocaleString(locale)
+                            : String(value)}
+                        </span>
+                      </div>
+                    ))}
               </>
             )}
           </div>

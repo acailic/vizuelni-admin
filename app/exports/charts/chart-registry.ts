@@ -27,6 +27,8 @@
  * @packageDocumentation
  */
 
+import { createLogger } from "../../lib/logger";
+
 import type {
   ChartRegistryEntry,
   IChartPlugin,
@@ -41,6 +43,11 @@ import type { BaseChartConfig } from "./types";
  * This should match the version in app/package.json
  */
 const CORE_VERSION = "0.1.0-beta.1";
+
+/**
+ * Logger for chart registry operations
+ */
+const logger = createLogger({ component: "ChartRegistry" });
 
 /**
  * Semver utility for version comparison
@@ -180,7 +187,7 @@ class ChartRegistry implements IChartRegistry {
       try {
         plugin.hooks.onRegister();
       } catch (error) {
-        console.warn(`Plugin '${plugin.id}' onRegister hook failed:`, error);
+        logger.warn(`Plugin '${plugin.id}' onRegister hook failed`, { error });
       }
     }
 
@@ -203,7 +210,7 @@ class ChartRegistry implements IChartRegistry {
 
     // Prevent unregistering built-in plugins
     if (plugin.type === "builtin") {
-      console.warn(
+      logger.warn(
         `Cannot unregister built-in plugin '${pluginId}'. Use clear() to remove all external plugins.`
       );
       return false;
@@ -214,7 +221,7 @@ class ChartRegistry implements IChartRegistry {
       try {
         plugin.hooks.onUnregister();
       } catch (error) {
-        console.warn(`Plugin '${pluginId}' onUnregister hook failed:`, error);
+        logger.warn(`Plugin '${pluginId}' onUnregister hook failed`, { error });
       }
     }
 
@@ -266,7 +273,7 @@ class ChartRegistry implements IChartRegistry {
           try {
             plugin.hooks.onUnregister();
           } catch (error) {
-            console.warn(`Plugin '${id}' onUnregister hook failed:`, error);
+            logger.warn(`Plugin '${id}' onUnregister hook failed`, { error });
           }
         }
 

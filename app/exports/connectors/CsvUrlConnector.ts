@@ -7,17 +7,18 @@
  * @packageDocumentation
  */
 
+import { createLogger } from "../../lib/logger";
+
 import { ConnectorError } from "./types";
 
 import type {
-  IDataConnector,
-  BaseConnectorConfig,
   ConnectorCapabilities,
+  ConnectorErrorCode,
   DataSchema,
   DataType,
-  ConnectorErrorCode,
   HealthCheckResult,
 } from "./types";
+import type { BaseConnectorConfig, IDataConnector } from "./types";
 
 /**
  * Configuration for CSV URL connector
@@ -126,6 +127,7 @@ export class CsvUrlConnector implements IDataConnector<CsvUrlConnectorConfig> {
 
   private cachedData?: CsvRow[];
   private cachedSchema?: DataSchema;
+  private logger = createLogger({ component: "CsvUrlConnector" });
 
   constructor(config: CsvUrlConnectorConfig) {
     this.id = config.id;
@@ -164,7 +166,7 @@ export class CsvUrlConnector implements IDataConnector<CsvUrlConnectorConfig> {
    */
   async initialize(): Promise<void> {
     if (this.config.debug) {
-      console.debug(`[CsvUrlConnector:${this.config.id}] Initializing...`);
+      this.logger.debug("Initializing", { connectorId: this.config.id });
     }
 
     await this.fetch();
@@ -392,9 +394,12 @@ export class CsvUrlConnector implements IDataConnector<CsvUrlConnectorConfig> {
       // Skip rows with mismatched column count
       if (values.length !== headers.length) {
         if (this.config.debug) {
-          console.warn(
-            `[CsvUrlConnector:${this.config.id}] Row ${i} has ${values.length} values, expected ${headers.length}`
-          );
+          this.logger.warn("Row has mismatched column count", {
+            connectorId: this.config.id,
+            row: i,
+            actualCount: values.length,
+            expectedCount: headers.length,
+          });
         }
         continue;
       }
