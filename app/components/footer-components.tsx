@@ -18,6 +18,7 @@ export const Footer = ({
   return (
     <Box
       component="footer"
+      data-testid="footer"
       sx={{
         borderTop: "1px solid",
         borderColor: "divider",
@@ -115,11 +116,7 @@ export const FooterSectionSocialMediaButtonGroup = ({
 }: {
   children?: ReactNode;
 }) => {
-  return (
-    <Box sx={{ display: "flex", gap: 2 }}>
-      {children}
-    </Box>
-  );
+  return <Box sx={{ display: "flex", gap: 2 }}>{children}</Box>;
 };
 
 export const FooterSectionSocialMediaButton = ({

@@ -26,7 +26,7 @@ export const Header = ({
   });
 
   return (
-    <div ref={ref} style={{ zIndex: 1 }}>
+    <div ref={ref} style={{ zIndex: 1 }} data-testid="header">
       <Box
         sx={{
           display: "flex",
@@ -42,6 +42,7 @@ export const Header = ({
           <Link href="/demos/showcase" passHref legacyBehavior>
             <Box
               component="a"
+              data-testid="nav-demo"
               sx={{
                 color: "white",
                 fontWeight: 600,
@@ -59,6 +60,7 @@ export const Header = ({
           </Link>
           <Box
             component="a"
+            data-testid="nav-github"
             href="https://github.com/acailic/vizualni-admin"
             target="_blank"
             rel="noopener noreferrer"

@@ -134,11 +134,8 @@ export async function renderChart(
     title,
   } = options;
 
-  // Navigate to test page with chart component
-  await page.goto(`/test/charts/${chartType}`);
-
-  // Set chart data and config via window object
-  await page.evaluate(
+  // Set chart data before navigation so the test page can read it on first render.
+  await page.addInitScript(
     ({ chartType, data, config, options }) => {
       (window as any).testChartConfig = {
         type: chartType,
@@ -154,6 +151,9 @@ export async function renderChart(
       options: { animated, showTooltip, height, width, locale, title },
     }
   );
+
+  // Navigate to test page with chart component
+  await page.goto(`/test/charts/${chartType}`);
 
   // Wait for chart to render
   await page.waitForSelector("[data-testid^='chart-']", { timeout: 5000 });

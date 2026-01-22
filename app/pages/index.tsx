@@ -8,7 +8,7 @@ import {
   Stack,
   Typography,
   useTheme,
-  Chip
+  Chip,
 } from "@mui/material";
 import { GetStaticProps } from "next";
 import Link from "next/link";
@@ -43,22 +43,22 @@ const heroCopy: Record<
     title: "Transform data.gov.rs datasets into beautiful charts",
     body: "Create, customize, and embed interactive visualizations from Serbia's official open data portal. No coding required.",
     primary: "Browse datasets",
-    secondary: "View demos"
+    secondary: "View demos",
   },
   sr: {
     overline: "Vizualizacija otvorenih podataka Srbije",
     title: "Pretvorite data.gov.rs skupove podataka u prelepe grafikone",
     body: "Kreirajte, prilagodite i ugradite interaktivne vizualizacije sa zvaničnog portala otvorenih podataka Srbije. Bez programiranja.",
     primary: "Pregledaj datasete",
-    secondary: "Pogledaj demo"
+    secondary: "Pogledaj demo",
   },
   "sr-Cyrl": {
     overline: "Визуализација отворених података Србије",
     title: "Претворите data.gov.rs скупове података у прелепе графиконе",
     body: "Креирајте, прилагодите и уградите интерактивне визуализације са званичног портала отворених података Србије. Без програмирања.",
     primary: "Прегледај датасете",
-    secondary: "Погледај демо"
-  }
+    secondary: "Погледај демо",
+  },
 };
 
 const featuresCopy: Record<
@@ -79,27 +79,27 @@ const featuresCopy: Record<
         title: "10+ Chart Types",
         description:
           "Bar, line, pie, area, scatter, map and more. Choose the right visualization for your data story.",
-        icon: <ChartIcon />
+        icon: <ChartIcon />,
       },
       {
         title: "Direct data.gov.rs Integration",
         description:
           "Browse and select from hundreds of official Serbian government datasets.",
-        icon: <DatabaseIcon />
+        icon: <DatabaseIcon />,
       },
       {
         title: "Instant Embedding",
         description:
           "Copy embed code and add interactive charts to any website or application.",
-        icon: <EmbedIcon />
+        icon: <EmbedIcon />,
       },
       {
         title: "Fully Customizable",
         description:
           "Colors, labels, filters, and interactivity. Make every chart your own.",
-        icon: <CustomizeIcon />
+        icon: <CustomizeIcon />,
       },
-    ]
+    ],
   },
   sr: {
     label: "Mogućnosti",
@@ -110,27 +110,27 @@ const featuresCopy: Record<
         title: "10+ tipova grafikona",
         description:
           "Stubičasti, linijski, kružni, prostorni, tačkasti, mapa i još. Izaberite pravu vizualizaciju.",
-        icon: <ChartIcon />
+        icon: <ChartIcon />,
       },
       {
         title: "Direktna data.gov.rs integracija",
         description:
           "Pregledajte i izaberite iz stotina zvaničnih skupova podataka Vlade Srbije.",
-        icon: <DatabaseIcon />
+        icon: <DatabaseIcon />,
       },
       {
         title: "Instant ugradnja",
         description:
           "Kopirajte embed kod i dodajte interaktivne grafikone na bilo koji sajt.",
-        icon: <EmbedIcon />
+        icon: <EmbedIcon />,
       },
       {
         title: "Potpuno prilagodljivo",
         description:
           "Boje, oznake, filteri i interaktivnost. Napravite svaki grafikon svojim.",
-        icon: <CustomizeIcon />
+        icon: <CustomizeIcon />,
       },
-    ]
+    ],
   },
   "sr-Cyrl": {
     label: "Могућности",
@@ -141,28 +141,28 @@ const featuresCopy: Record<
         title: "10+ типова графикона",
         description:
           "Стубичасти, линијски, кружни, просторни, тачкасти, мапа и још. Изаберите праву визуализацију.",
-        icon: <ChartIcon />
+        icon: <ChartIcon />,
       },
       {
         title: "Директна data.gov.rs интеграција",
         description:
           "Прегледајте и изаберите из стотина званичних скупова података Владе Србије.",
-        icon: <DatabaseIcon />
+        icon: <DatabaseIcon />,
       },
       {
         title: "Инстант уградња",
         description:
           "Копирајте embed код и додајте интерактивне графиконе на било који сајт.",
-        icon: <EmbedIcon />
+        icon: <EmbedIcon />,
       },
       {
         title: "Потпуно прилагодљиво",
         description:
           "Боје, ознаке, филтери и интерактивност. Направите сваки графикон својим.",
-        icon: <CustomizeIcon />
+        icon: <CustomizeIcon />,
       },
-    ]
-  }
+    ],
+  },
 };
 
 const howItWorksCopy: Record<
@@ -181,19 +181,19 @@ const howItWorksCopy: Record<
         step: "1",
         title: "Choose a dataset",
         description:
-          "Browse data.gov.rs and select the data you want to visualize"
+          "Browse data.gov.rs and select the data you want to visualize",
       },
       {
         step: "2",
         title: "Customize your chart",
-        description: "Pick a chart type, adjust colors, add filters and labels"
+        description: "Pick a chart type, adjust colors, add filters and labels",
       },
       {
         step: "3",
         title: "Share or embed",
-        description: "Publish your visualization or embed it on your website"
+        description: "Publish your visualization or embed it on your website",
       },
-    ]
+    ],
   },
   sr: {
     label: "Kako funkcioniše",
@@ -203,19 +203,19 @@ const howItWorksCopy: Record<
         step: "1",
         title: "Izaberite dataset",
         description:
-          "Pregledajte data.gov.rs i izaberite podatke za vizualizaciju"
+          "Pregledajte data.gov.rs i izaberite podatke za vizualizaciju",
       },
       {
         step: "2",
         title: "Prilagodite grafikon",
-        description: "Izaberite tip, podesite boje, dodajte filtere i oznake"
+        description: "Izaberite tip, podesite boje, dodajte filtere i oznake",
       },
       {
         step: "3",
         title: "Podelite ili ugradite",
-        description: "Objavite vizualizaciju ili je ugradite na svoj sajt"
+        description: "Objavite vizualizaciju ili je ugradite na svoj sajt",
       },
-    ]
+    ],
   },
   "sr-Cyrl": {
     label: "Како функционише",
@@ -225,20 +225,20 @@ const howItWorksCopy: Record<
         step: "1",
         title: "Изаберите датасет",
         description:
-          "Прегледајте data.gov.rs и изаберите податке за визуализацију"
+          "Прегледајте data.gov.rs и изаберите податке за визуализацију",
       },
       {
         step: "2",
         title: "Прилагодите графикон",
-        description: "Изаберите тип, подесите боје, додајте филтере и ознаке"
+        description: "Изаберите тип, подесите боје, додајте филтере и ознаке",
       },
       {
         step: "3",
         title: "Поделите или уградите",
-        description: "Објавите визуализацију или је уградите на свој сајт"
+        description: "Објавите визуализацију или је уградите на свој сајт",
       },
-    ]
-  }
+    ],
+  },
 };
 
 const useCasesCopy: Record<
@@ -259,27 +259,27 @@ const useCasesCopy: Record<
         title: "Journalists & Media",
         description:
           "Create data-driven stories with interactive charts. Embed visualizations directly in articles.",
-        tags: ["Stories", "Embed"]
+        tags: ["Stories", "Embed"],
       },
       {
         title: "Researchers & Academics",
         description:
           "Analyze government statistics. Export data for further research and publication.",
-        tags: ["Analysis", "Export"]
+        tags: ["Analysis", "Export"],
       },
       {
         title: "Government & NGOs",
         description:
           "Present public data transparently. Build dashboards for citizen engagement.",
-        tags: ["Transparency", "Reports"]
+        tags: ["Transparency", "Reports"],
       },
       {
         title: "Developers & Analysts",
         description:
           "Quickly prototype visualizations. Use embed codes in web applications.",
-        tags: ["API", "Integration"]
+        tags: ["API", "Integration"],
       },
-    ]
+    ],
   },
   sr: {
     label: "Primeri upotrebe",
@@ -290,27 +290,27 @@ const useCasesCopy: Record<
         title: "Novinari i mediji",
         description:
           "Kreirajte priče zasnovane na podacima sa interaktivnim grafikonima. Ugradite ih u članke.",
-        tags: ["Priče", "Embed"]
+        tags: ["Priče", "Embed"],
       },
       {
         title: "Istraživači i akademici",
         description:
           "Analizirajte državne statistike. Izvezite podatke za dalje istraživanje.",
-        tags: ["Analiza", "Izvoz"]
+        tags: ["Analiza", "Izvoz"],
       },
       {
         title: "Vlada i NVO",
         description:
           "Transparentno predstavite javne podatke. Napravite dashboard-e za angažovanje građana.",
-        tags: ["Transparentnost", "Izveštaji"]
+        tags: ["Transparentnost", "Izveštaji"],
       },
       {
         title: "Programeri i analitičari",
         description:
           "Brzo prototipišite vizualizacije. Koristite embed kodove u web aplikacijama.",
-        tags: ["API", "Integracija"]
+        tags: ["API", "Integracija"],
       },
-    ]
+    ],
   },
   "sr-Cyrl": {
     label: "Примери употребе",
@@ -321,28 +321,28 @@ const useCasesCopy: Record<
         title: "Новинари и медији",
         description:
           "Креирајте приче засноване на подацима са интерактивним графиконима. Уградите их у чланке.",
-        tags: ["Приче", "Embed"]
+        tags: ["Приче", "Embed"],
       },
       {
         title: "Истраживачи и академици",
         description:
           "Анализирајте државне статистике. Извезите податке за даље истраживање.",
-        tags: ["Анализа", "Извоз"]
+        tags: ["Анализа", "Извоз"],
       },
       {
         title: "Влада и НВО",
         description:
           "Транспарентно представите јавне податке. Направите dashboard-е за ангажовање грађана.",
-        tags: ["Транспарентност", "Извештаји"]
+        tags: ["Транспарентност", "Извештаји"],
       },
       {
         title: "Програмери и аналитичари",
         description:
           "Брзо прототипишите визуализације. Користите embed кодове у web апликацијама.",
-        tags: ["API", "Интеграција"]
+        tags: ["API", "Интеграција"],
       },
-    ]
-  }
+    ],
+  },
 };
 
 const resourcesCopy: Record<
@@ -364,24 +364,24 @@ const resourcesCopy: Record<
       {
         title: "Getting started",
         description: "Create your first visualization in minutes",
-        link: "/docs/getting-started"
+        link: "/docs/getting-started",
       },
       {
         title: "Chart types guide",
         description: "Choose the right chart for your data",
-        link: "/docs/chart-types-guide"
+        link: "/docs/chart-types-guide",
       },
       {
         title: "Embedding guide",
         description: "Add charts to your website or app",
-        link: "/docs/embedding-guide"
+        link: "/docs/embedding-guide",
       },
       {
         title: "Demo gallery",
         description: "Explore example visualizations",
-        link: "/demos"
+        link: "/demos",
       },
-    ]
+    ],
   },
   sr: {
     label: "Resursi",
@@ -393,24 +393,24 @@ const resourcesCopy: Record<
       {
         title: "Prvi koraci",
         description: "Napravite prvu vizualizaciju za nekoliko minuta",
-        link: "/docs/getting-started"
+        link: "/docs/getting-started",
       },
       {
         title: "Vodič za grafikone",
         description: "Izaberite pravi grafikon za vaše podatke",
-        link: "/docs/chart-types-guide"
+        link: "/docs/chart-types-guide",
       },
       {
         title: "Vodič za ugradnju",
         description: "Dodajte grafikone na svoj sajt ili aplikaciju",
-        link: "/docs/embedding-guide"
+        link: "/docs/embedding-guide",
       },
       {
         title: "Galerija primera",
         description: "Istražite primere vizualizacija",
-        link: "/demos"
+        link: "/demos",
       },
-    ]
+    ],
   },
   "sr-Cyrl": {
     label: "Ресурси",
@@ -422,25 +422,25 @@ const resourcesCopy: Record<
       {
         title: "Први кораци",
         description: "Направите прву визуализацију за неколико минута",
-        link: "/docs/getting-started"
+        link: "/docs/getting-started",
       },
       {
         title: "Водич за графиконе",
         description: "Изаберите прави графикон за ваше податке",
-        link: "/docs/chart-types-guide"
+        link: "/docs/chart-types-guide",
       },
       {
         title: "Водич за уградњу",
         description: "Додајте графиконе на свој сајт или апликацију",
-        link: "/docs/embedding-guide"
+        link: "/docs/embedding-guide",
       },
       {
         title: "Галерија примера",
         description: "Истражите примере визуализација",
-        link: "/demos"
+        link: "/demos",
       },
-    ]
-  }
+    ],
+  },
 };
 
 const ctaCopy: Record<
@@ -450,20 +450,20 @@ const ctaCopy: Record<
   en: {
     heading: "Ready to visualize Serbian open data?",
     subheading: "Start exploring datasets and create your first chart today.",
-    button: "Get started free"
+    button: "Get started free",
   },
   sr: {
     heading: "Spremni da vizualizujete otvorene podatke Srbije?",
     subheading:
       "Počnite da istražujete datasete i napravite prvi grafikon danas.",
-    button: "Započnite besplatno"
+    button: "Započnite besplatno",
   },
   "sr-Cyrl": {
     heading: "Спремни да визуализујете отворене податке Србије?",
     subheading:
       "Почните да истражујете датасете и направите први графикон данас.",
-    button: "Започните бесплатно"
-  }
+    button: "Започните бесплатно",
+  },
 };
 
 // ============================================================================
@@ -551,20 +551,23 @@ function CustomizeIcon() {
 const SectionShell = ({
   children,
   background = "background.paper",
-  id
+  id,
+  testId,
 }: {
   children: ReactNode;
   background?: string;
   id?: string;
+  testId?: string;
 }) => {
   return (
     <Box
       id={id}
+      data-testid={testId}
       sx={{
         position: "relative",
         px: { xs: 2, md: 5 },
         py: { xs: 8, md: 12 },
-        backgroundColor: background
+        backgroundColor: background,
       }}
     >
       <Box
@@ -573,7 +576,7 @@ const SectionShell = ({
           mx: "auto",
           display: "flex",
           flexDirection: "column",
-          gap: { xs: 4, md: 6 }
+          gap: { xs: 4, md: 6 },
         }}
       >
         {children}
@@ -587,7 +590,10 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
   const copy = heroCopy[locale];
 
   return (
-    <SectionShell background="linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0ea5e9 100%)">
+    <SectionShell
+      background="linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0ea5e9 100%)"
+      testId="hero-section"
+    >
       <Box
         sx={{
           position: "absolute",
@@ -597,7 +603,7 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
           bottom: 0,
           background:
             "radial-gradient(circle at top right, rgba(255,255,255,0.1) 0%, transparent 60%)",
-          pointerEvents: "none"
+          pointerEvents: "none",
         }}
       />
       <Grid
@@ -617,7 +623,7 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
               fontWeight: 600,
               letterSpacing: 0.5,
               backdropFilter: "blur(4px)",
-              border: "1px solid rgba(255,255,255,0.2)"
+              border: "1px solid rgba(255,255,255,0.2)",
             }}
           />
           <Typography
@@ -627,7 +633,7 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
               fontSize: { xs: "2.5rem", md: "3.5rem" },
               lineHeight: 1.1,
               letterSpacing: "-0.02em",
-              textShadow: "0 2px 4px rgba(0,0,0,0.1)"
+              textShadow: "0 2px 4px rgba(0,0,0,0.1)",
             }}
           >
             {copy.title}
@@ -640,7 +646,7 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
               maxWidth: 560,
               fontWeight: 400,
               lineHeight: 1.6,
-              fontSize: "1.125rem"
+              fontSize: "1.125rem",
             }}
           >
             {copy.body}
@@ -653,6 +659,7 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
             <Button
               variant="contained"
               size="large"
+              data-testid="primary-cta"
               component={Link}
               href="/browse"
               sx={{
@@ -666,8 +673,8 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
                 "&:hover": {
                   backgroundColor: "rgba(255,255,255,0.9)",
                   transform: "translateY(-1px)",
-                  boxShadow: "0 6px 16px rgba(0,0,0,0.15)"
-                }
+                  boxShadow: "0 6px 16px rgba(0,0,0,0.15)",
+                },
               }}
             >
               {copy.primary}
@@ -687,8 +694,8 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
                 backdropFilter: "blur(4px)",
                 "&:hover": {
                   borderColor: "white",
-                  backgroundColor: "rgba(255,255,255,0.1)"
-                }
+                  backgroundColor: "rgba(255,255,255,0.1)",
+                },
               }}
             >
               Анализа цена
@@ -698,6 +705,7 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
               size="large"
               component={Link}
               href="/demos"
+              data-testid="secondary-cta"
               sx={{
                 py: 1.5,
                 px: 4,
@@ -708,8 +716,8 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
                 backdropFilter: "blur(4px)",
                 "&:hover": {
                   borderColor: "white",
-                  backgroundColor: "rgba(255,255,255,0.1)"
-                }
+                  backgroundColor: "rgba(255,255,255,0.1)",
+                },
               }}
             >
               {copy.secondary}
@@ -730,8 +738,8 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
               transform: "perspective(1000px) rotateY(-5deg)",
               transition: "transform 0.3s ease",
               "&:hover": {
-                transform: "perspective(1000px) rotateY(0deg)"
-              }
+                transform: "perspective(1000px) rotateY(0deg)",
+              },
             }}
           >
             {/* Hero illustration - Multiple chart types preview */}
@@ -840,7 +848,7 @@ const FeaturesSection = ({ locale }: { locale: Locale }) => {
   const copy = featuresCopy[locale];
 
   return (
-    <SectionShell id="features">
+    <SectionShell id="features" testId="features-section">
       <Box sx={{ textAlign: "center", maxWidth: 700, mx: "auto" }}>
         <Typography
           variant="overline"
@@ -871,7 +879,7 @@ const FeaturesSection = ({ locale }: { locale: Locale }) => {
                   justifyContent: "center",
                   mx: "auto",
                   mb: 3,
-                  boxShadow: "0 8px 24px rgba(12,64,118,0.25)"
+                  boxShadow: "0 8px 24px rgba(12,64,118,0.25)",
                 }}
               >
                 {feature.icon}
@@ -915,7 +923,7 @@ const HowItWorksSection = ({ locale }: { locale: Locale }) => {
                 flexDirection: "column",
                 alignItems: "center",
                 textAlign: "center",
-                position: "relative"
+                position: "relative",
               }}
             >
               <Box
@@ -931,7 +939,7 @@ const HowItWorksSection = ({ locale }: { locale: Locale }) => {
                   fontWeight: 800,
                   fontSize: "1.5rem",
                   mb: 3,
-                  boxShadow: "0 6px 20px rgba(12,64,118,0.3)"
+                  boxShadow: "0 6px 20px rgba(12,64,118,0.3)",
                 }}
               >
                 {step.step}
@@ -987,8 +995,8 @@ const UseCasesSection = ({ locale }: { locale: Locale }) => {
                 transition: "box-shadow 0.2s, transform 0.2s",
                 "&:hover": {
                   boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
-                  transform: "translateY(-2px)"
-                }
+                  transform: "translateY(-2px)",
+                },
               }}
             >
               <Typography variant="h6" sx={{ fontWeight: 700, mb: 1.5 }}>
@@ -1041,7 +1049,7 @@ const ResourcesSection = ({ locale }: { locale: Locale }) => {
                 border: "1px solid",
                 borderColor: "divider",
                 borderRadius: 3,
-                backgroundColor: "background.paper"
+                backgroundColor: "background.paper",
               }}
             >
               <CardContent sx={{ flexGrow: 1, p: 3 }}>
@@ -1095,8 +1103,8 @@ const CTASection = ({ locale }: { locale: Locale }) => {
             backgroundColor: "white",
             color: "primary.main",
             "&:hover": {
-              backgroundColor: "rgba(255,255,255,0.9)"
-            }
+              backgroundColor: "rgba(255,255,255,0.9)",
+            },
           }}
         >
           {copy.button}
@@ -1145,7 +1153,7 @@ export default function ContentPage({ staticPage }: ContentPageProps) {
 }
 
 export const getStaticProps: GetStaticProps<ContentPageProps> = async ({
-  locale
+  locale,
 }) => {
   const normalizedLocale: Locale =
     locale && locale.startsWith("en") ? "en" : "sr";
@@ -1154,14 +1162,13 @@ export const getStaticProps: GetStaticProps<ContentPageProps> = async ({
 
   if (!pageExists) {
     return {
-      notFound: true
+      notFound: true,
     };
   }
 
   return {
     props: {
-      staticPage: path
-    }
-
+      staticPage: path,
+    },
   };
 };

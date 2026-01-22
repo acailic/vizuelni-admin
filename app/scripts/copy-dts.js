@@ -4,7 +4,7 @@ const path = require("path");
 const distDir = path.resolve(__dirname, "../dist");
 
 // Ensure target directories exist
-const dirs = ["charts", "hooks", "utils"];
+const dirs = ["charts", "hooks", "utils", "connectors"];
 dirs.forEach((dir) => {
   const targetDir = path.join(distDir, dir);
   if (!fs.existsSync(targetDir)) {
@@ -19,6 +19,7 @@ const copies = [
   { from: "exports/charts/index.d.ts", to: "charts/index.d.ts" },
   { from: "exports/hooks/index.d.ts", to: "hooks/index.d.ts" },
   { from: "exports/utils/index.d.ts", to: "utils/index.d.ts" },
+  { from: "exports/connectors/index.d.ts", to: "connectors/index.d.ts" },
 ];
 
 copies.forEach(({ from, to }) => {

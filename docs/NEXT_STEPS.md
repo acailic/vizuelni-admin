@@ -28,7 +28,7 @@ scoped, specific, and tied to files and tests.
   `docs/GETTING-STARTED.md`, `docs/release/RELEASE.md`.
 - Data.gov.rs integration: `app/domain/data-gov-rs/`,
   `app/hooks/use-data-gov-rs.ts`,
-  `app/__tests__/unit/data-gov-rs-client.test.ts`.
+  `app/__tests__/unit/data-gov-rs-client-test-updated.test.ts`.
 - Map and geo: `app/charts/map/`, `app/tests/exports/MapChart.test.tsx`,
   `app/tests/exports/MapChart.integration.test.tsx`.
 - Demos: `app/pages/demos/`, `docs/DATASET_VISUALIZATION_PLAN.md`.
@@ -46,7 +46,7 @@ scoped, specific, and tied to files and tests.
   - Key files: `app/exports/charts/`, `app/exports/hooks/`, `app/package.json`.
   - Tests: `yarn test` (or `cd app && vitest run`).
 
-- [todo] Align dist artifact tests with the exports map.
+- [done] Align dist artifact tests with the exports map.
   - Goal: assert every `app/package.json` export path exists in `app/dist`.
   - Deliverables: update `app/tests/packaging/dist-artifacts.spec.ts` to read
     `app/package.json` and verify files.
@@ -87,7 +87,8 @@ scoped, specific, and tied to files and tests.
   - Deliverables: decision record in `ai_working/decisions/`.
   - Definition of done: decision recorded with rationale and review triggers.
 
-- [done] Add a `/demos/getting-started` page.
+- [done] Add the `app/pages/demos/getting-started.tsx` page
+  (`/demos/getting-started` route).
   - Goal: provide an interactive quick start with minimal sample data.
   - Deliverables: new page in `app/pages/demos/`, update
     `docs/GETTING-STARTED.md` to link it.
@@ -109,8 +110,10 @@ scoped, specific, and tied to files and tests.
   - Deliverables: cache section updates in `docs/ARCHITECTURE.md`, tests for TTL
     or eviction behavior in relevant unit tests.
   - Definition of done: docs and tests describe the same behavior.
-  - Completed: 2026-01-09. 46 tests passing in `multi-level-cache.test.ts` and
-    `use-data-cache.test.ts`, cache section in ARCHITECTURE.md.
+  - Completed: 2026-01-09. 46 tests passing in
+    `app/__tests__/unit/multi-level-cache.test.ts` and
+    `app/__tests__/unit/use-data-cache.test.ts`, cache section in
+    ARCHITECTURE.md.
 
 - [done] Localization audit (sr/en parity).
   - Goal: ensure every user-facing surface has sr/en coverage.

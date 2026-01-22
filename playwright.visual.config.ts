@@ -147,7 +147,8 @@ export default defineConfig({
 
   // Web server for local testing
   webServer: {
-    command: "yarn --cwd app dev",
+    command:
+      "VISUAL_TESTING=true NEXT_PUBLIC_VISUAL_TESTING=true API_RATE_LIMIT=100000 AUTH_RATE_LIMIT=100000 yarn --cwd app dev",
     port: 3000,
     reuseExistingServer: !process.env.CI,
     timeout: 120000,

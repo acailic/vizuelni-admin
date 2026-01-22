@@ -150,21 +150,11 @@ describe("Distribution Artifacts Validation", () => {
   });
 
   describe("TypeScript Declarations", () => {
-    it("should have TypeScript declaration files if DTS generation is enabled", () => {
+    it("should have TypeScript declaration files for exports", () => {
       if (!distExists) return;
 
       const dtsFiles = distFiles.filter((f: string) => f.endsWith(".d.ts"));
-
-      // Note: DTS generation might be disabled in tsup.config.ts
-      // This test checks consistency - if DTS files exist, validate them
-      if (dtsFiles.length > 0) {
-        console.log(`  Found ${dtsFiles.length} declaration file(s)`);
-        expect(dtsFiles.length).toBeGreaterThan(0);
-      } else {
-        console.log(
-          `  No declaration files found (DTS generation may be disabled)`
-        );
-      }
+      expect(dtsFiles.length).toBeGreaterThan(0);
     });
 
     it("declaration files should have valid TypeScript syntax", () => {
@@ -533,19 +523,15 @@ describe("Distribution Artifacts Validation", () => {
       }
     });
 
-    it("types entry point should exist if DTS is enabled", () => {
+    it("types entry point should exist when dist is built", () => {
       const packageJsonPath = join(appDir, "package.json");
       const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf-8"));
 
       const typesFile = join(appDir, packageJson.types);
 
-      if (distExists && existsSync(typesFile)) {
-        expect(existsSync(typesFile)).toBe(true);
-      } else {
-        console.log(
-          `  Types file ${typesFile} not found (DTS may be disabled)`
-        );
-      }
+      if (!distExists) return;
+
+      expect(existsSync(typesFile)).toBe(true);
     });
   });
 
@@ -609,10 +595,7 @@ describe("Distribution Artifacts Validation", () => {
     it("exports map targets should exist when dist is built", () => {
       if (!distExists) return;
 
-      const hasDts = distFiles.some((f: string) => f.endsWith(".d.ts"));
-      const targets = collectExportTargets(exports).filter(
-        (target) => target.condition !== "types" || hasDts
-      );
+      const targets = collectExportTargets(exports);
       const missingTargets = targets.filter(
         (target) => !existsSync(join(appDir, target.target))
       );
@@ -648,6 +631,7 @@ describe("Distribution Artifacts Validation", () => {
         "./charts",
         "./hooks",
         "./utils",
+        "./connectors",
       ];
 
       const actualExports = Object.keys(exports);
@@ -683,15 +667,7 @@ describe("Distribution Artifacts Validation", () => {
       const targets = collectExportTargets(exports);
       const missingFiles: string[] = [];
 
-      // Check if DTS generation is enabled
-      const hasAnyDts = distFiles.some((f: string) => f.endsWith(".d.ts"));
-
       for (const target of targets) {
-        // Skip type checks if DTS generation is disabled
-        if (target.condition === "types" && !hasAnyDts) {
-          continue;
-        }
-
         const filePath = join(appDir, target.target);
 
         if (!existsSync(filePath)) {
@@ -722,13 +698,7 @@ describe("Distribution Artifacts Validation", () => {
         throw new Error(errorMessage);
       }
 
-      const checkedTargets = hasAnyDts
-        ? targets.length
-        : targets.filter((t) => t.condition !== "types").length;
-      console.log(`✓ All ${checkedTargets} export targets exist in dist/`);
-      if (!hasAnyDts) {
-        console.log("  (Type declarations skipped - DTS generation disabled)");
-      }
+      console.log(`✓ All ${targets.length} export targets exist in dist/`);
     });
 
     it("main entry point files should match package.json main/module/types", () => {
@@ -775,6 +745,7 @@ describe("Distribution Artifacts Validation", () => {
         "exports/charts/index.ts",
         "exports/hooks/index.ts",
         "exports/utils/index.ts",
+        "exports/connectors/index.ts",
       ];
 
       for (const entryPoint of expectedEntryPoints) {

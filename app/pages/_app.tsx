@@ -37,7 +37,10 @@ const GQLDebugPanel = dynamic(
 
 // Performance Analytics - only in development
 const PerformanceAnalytics = dynamic(
-  () => import("@/components/performance-analytics").then((mod) => mod.PerformanceAnalytics),
+  () =>
+    import("@/components/performance-analytics").then(
+      (mod) => mod.PerformanceAnalytics
+    ),
   { ssr: false }
 );
 
@@ -53,6 +56,7 @@ export default function App({
 }: AppProps<{ session: Session }>) {
   const { events: routerEvents, asPath, locale: routerLocale } = useRouter();
   const locale = parseLocaleString(routerLocale ?? "");
+  const isVisualTesting = process.env.NEXT_PUBLIC_VISUAL_TESTING === "true";
   const canonicalPath =
     BASE_PATH && asPath.startsWith(BASE_PATH)
       ? asPath.slice(BASE_PATH.length) || "/"
@@ -68,6 +72,10 @@ export default function App({
 
   // Initialize analytics
   useEffect(() => {
+    if (isVisualTesting) {
+      return;
+    }
+
     const handleRouteChange = (url: string) => {
       analyticsPageView(url);
     };
@@ -92,6 +100,24 @@ export default function App({
 
   const shouldShowPerformanceAnalytics = false; // Disabled to show actual content
   const shouldShowInstallPrompt = process.env.NODE_ENV === "production";
+
+  if (isVisualTesting) {
+    return (
+      <>
+        <Head>
+          <title key="title">{pageTitleByLocale[locale]}</title>
+        </Head>
+        <LocaleProvider value={locale}>
+          <I18nProvider i18n={i18n}>
+            <ThemeProvider theme={federalTheme.theme}>
+              <CssBaseline />
+              <Component {...pageProps} />
+            </ThemeProvider>
+          </I18nProvider>
+        </LocaleProvider>
+      </>
+    );
+  }
 
   return (
     <>
@@ -194,21 +220,38 @@ export default function App({
         ))}
 
         {/* Font performance optimizations */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://api.data.gov.rs" crossOrigin="anonymous" />
+        <link
+          rel="preconnect"
+          href="https://fonts.googleapis.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="dns-prefetch"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preconnect"
+          href="https://api.data.gov.rs"
+          crossOrigin="anonymous"
+        />
         <meta httpEquiv="accept-ch" content="dpr, width, viewport-width" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
 
         {/* Critical CSS for font loading */}
-        <style dangerouslySetInnerHTML={{
-          __html: `
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
             body {
               font-family: "NotoSans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
               font-display: swap;
             }
-          `
-        }} />
+          `,
+          }}
+        />
 
         {/* Preload critical resources */}
         <link
@@ -220,8 +263,8 @@ export default function App({
       </Head>
 
       <AppErrorBoundary>
-        <SessionProvider 
-          session={session} 
+        <SessionProvider
+          session={session}
           refetchOnWindowFocus={false}
           refetchInterval={0}
         >

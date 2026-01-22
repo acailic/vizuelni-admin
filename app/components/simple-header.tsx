@@ -28,6 +28,7 @@ export const SimpleHeader = ({
       <Box
         component="a"
         href={rootHref}
+        data-testid="nav-home"
         onClick={(e) => {
           e.preventDefault();
           router.push(rootHref);

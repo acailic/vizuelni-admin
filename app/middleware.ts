@@ -14,7 +14,8 @@ function getSecurityHeaders(isDevelopment: boolean) {
     "X-Content-Type-Options": "nosniff",
     "X-XSS-Protection": "1; mode=block",
     "Referrer-Policy": "strict-origin-when-cross-origin",
-    "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=()",
+    "Permissions-Policy":
+      "camera=(), microphone=(), geolocation=(), payment=()",
     "Cross-Origin-Embedder-Policy": "require-corp",
     "Cross-Origin-Opener-Policy": "same-origin",
     "Cross-Origin-Resource-Policy": "same-origin",
@@ -22,7 +23,8 @@ function getSecurityHeaders(isDevelopment: boolean) {
 
   // Only add HSTS in production (not for localhost development)
   if (!isDevelopment) {
-    headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains; preload";
+    headers["Strict-Transport-Security"] =
+      "max-age=31536000; includeSubDomains; preload";
   }
 
   return headers;
@@ -31,7 +33,12 @@ function getSecurityHeaders(isDevelopment: boolean) {
 function buildCSPHeader(isDevelopment: boolean): string {
   const policies = {
     "default-src": ["'self'"],
-    "script-src": ["'self'", "'unsafe-inline'", "https://*.sentry.io", "https://vercel.live"],
+    "script-src": [
+      "'self'",
+      "'unsafe-inline'",
+      "https://*.sentry.io",
+      "https://vercel.live",
+    ],
     "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
     "font-src": ["'self'", "https://fonts.gstatic.com"],
     "img-src": ["'self'", "data:", "blob:", "https:"],
@@ -76,23 +83,27 @@ function getClientIdentifier(request: NextRequest): string {
   const forwardedFor = request.headers.get("x-forwarded-for");
   const realIp = request.headers.get("x-real-ip");
   const cfConnectingIp = request.headers.get("cf-connecting-ip"); // Cloudflare
-  
+
   if (forwardedFor) {
     return forwardedFor.split(",")[0].trim();
   }
-  
+
   if (realIp) {
     return realIp;
   }
-  
+
   if (cfConnectingIp) {
     return cfConnectingIp;
   }
-  
+
   return request.ip || "unknown";
 }
 
-function checkRateLimit(identifier: string, limit: number, windowMs: number): boolean {
+function checkRateLimit(
+  identifier: string,
+  limit: number,
+  windowMs: number
+): boolean {
   const now = Date.now();
   const key = identifier;
   const record = rateLimitStore.get(key);
@@ -125,14 +136,14 @@ export async function middleware(request: NextRequest) {
   const { method } = request;
   const response = NextResponse.next();
   const allowedHost = resolveAllowedHost(request);
-  
+
   // Skip security for static assets
   if (isStaticAsset(pathname)) {
     return response;
   }
-  
+
   const isDevelopment = process.env.NODE_ENV === "development";
-  
+
   // Apply security headers to all responses
   const securityHeaders = getSecurityHeaders(isDevelopment);
   Object.entries(securityHeaders).forEach(([key, value]) => {
@@ -141,13 +152,16 @@ export async function middleware(request: NextRequest) {
 
   // Add CSP header unless disabled
   if (process.env.DISABLE_CSP !== "true") {
-    response.headers.set("Content-Security-Policy", buildCSPHeader(isDevelopment));
+    response.headers.set(
+      "Content-Security-Policy",
+      buildCSPHeader(isDevelopment)
+    );
   }
 
   // Add other security-related headers
   response.headers.set("X-Permitted-Cross-Domain-Policies", "none");
   response.headers.set("X-Download-Options", "noopen");
-  
+
   // Remove server information
   response.headers.delete("Server");
   response.headers.delete("X-Powered-By");
@@ -160,8 +174,8 @@ export async function middleware(request: NextRequest) {
     // Check if request has proper origin/referer
     if (!origin && !referer) {
       return new Response(
-        JSON.stringify({ 
-          error: "CSRF protection: Origin or Referer header required" 
+        JSON.stringify({
+          error: "CSRF protection: Origin or Referer header required",
         }),
         {
           status: 403,
@@ -176,8 +190,8 @@ export async function middleware(request: NextRequest) {
         const originUrl = new URL(origin);
         if (originUrl.host !== allowedHost) {
           return new Response(
-            JSON.stringify({ 
-              error: "CSRF protection: invalid Origin header" 
+            JSON.stringify({
+              error: "CSRF protection: invalid Origin header",
             }),
             {
               status: 403,
@@ -187,8 +201,8 @@ export async function middleware(request: NextRequest) {
         }
       } catch {
         return new Response(
-          JSON.stringify({ 
-            error: "CSRF protection: invalid Origin URL" 
+          JSON.stringify({
+            error: "CSRF protection: invalid Origin URL",
           }),
           {
             status: 403,
@@ -204,8 +218,8 @@ export async function middleware(request: NextRequest) {
         const refererUrl = new URL(referer);
         if (refererUrl.host !== allowedHost) {
           return new Response(
-            JSON.stringify({ 
-              error: "CSRF protection: invalid Referer header" 
+            JSON.stringify({
+              error: "CSRF protection: invalid Referer header",
             }),
             {
               status: 403,
@@ -215,8 +229,8 @@ export async function middleware(request: NextRequest) {
         }
       } catch {
         return new Response(
-          JSON.stringify({ 
-            error: "CSRF protection: invalid Referer URL" 
+          JSON.stringify({
+            error: "CSRF protection: invalid Referer URL",
           }),
           {
             status: 403,
@@ -227,40 +241,45 @@ export async function middleware(request: NextRequest) {
     }
 
     // Rate limiting for API endpoints
-    const clientId = getClientIdentifier(request);
-    const apiLimit = parseInt(process.env.API_RATE_LIMIT || "100");
-    
-    if (!checkRateLimit('api:' + clientId, apiLimit, FIFTEEN_MINUTES_MS)) {
-      return new Response(
-        JSON.stringify({ 
-          error: "Rate limit exceeded for API requests",
-          retryAfter: FIFTEEN_MINUTES_MS / 1000,
-        }),
-        {
-          status: 429,
-          headers: { 
-            "Content-Type": "application/json",
-            "Retry-After": String(Math.ceil(FIFTEEN_MINUTES_MS / 1000)),
-          },
-        }
-      );
+    if (process.env.VISUAL_TESTING !== "true") {
+      const clientId = getClientIdentifier(request);
+      const apiLimit = parseInt(process.env.API_RATE_LIMIT || "100");
+
+      if (!checkRateLimit("api:" + clientId, apiLimit, FIFTEEN_MINUTES_MS)) {
+        return new Response(
+          JSON.stringify({
+            error: "Rate limit exceeded for API requests",
+            retryAfter: FIFTEEN_MINUTES_MS / 1000,
+          }),
+          {
+            status: 429,
+            headers: {
+              "Content-Type": "application/json",
+              "Retry-After": String(Math.ceil(FIFTEEN_MINUTES_MS / 1000)),
+            },
+          }
+        );
+      }
     }
   }
 
   // Enhanced rate limiting for authentication endpoints
-  if (pathname.startsWith("/api/auth/")) {
+  if (
+    pathname.startsWith("/api/auth/") &&
+    process.env.VISUAL_TESTING !== "true"
+  ) {
     const clientId = getClientIdentifier(request);
     const authLimit = parseInt(process.env.AUTH_RATE_LIMIT || "5");
-    
-    if (!checkRateLimit('auth:' + clientId, authLimit, FIFTEEN_MINUTES_MS)) {
+
+    if (!checkRateLimit("auth:" + clientId, authLimit, FIFTEEN_MINUTES_MS)) {
       return new Response(
-        JSON.stringify({ 
+        JSON.stringify({
           error: "Too many authentication attempts",
           retryAfter: FIFTEEN_MINUTES_MS / 1000,
         }),
         {
           status: 429,
-          headers: { 
+          headers: {
             "Content-Type": "application/json",
             "Retry-After": String(Math.ceil(FIFTEEN_MINUTES_MS / 1000)),
           },
@@ -277,14 +296,11 @@ export async function middleware(request: NextRequest) {
       userAgent: request.headers.get("user-agent"),
       timestamp: new Date().toISOString(),
     });
-    
-    return new Response(
-      JSON.stringify({ error: "Invalid path" }),
-      {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+
+    return new Response(JSON.stringify({ error: "Invalid path" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
   // Check for common attack patterns
@@ -293,7 +309,7 @@ export async function middleware(request: NextRequest) {
     "x-original-host",
     "x-rewrite-url",
   ];
-  
+
   for (const header of suspiciousHeaders) {
     if (request.headers.get(header)) {
       console.warn("Suspicious header detected:", {
@@ -311,8 +327,14 @@ export async function middleware(request: NextRequest) {
     if (allowedHost) {
       response.headers.set("Access-Control-Allow-Origin", allowedHost);
     }
-    response.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    response.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+    response.headers.set(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, DELETE, OPTIONS"
+    );
+    response.headers.set(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization, X-Requested-With"
+    );
     response.headers.set("Access-Control-Allow-Credentials", "true");
     response.headers.set("Access-Control-Max-Age", "86400"); // 24 hours
   }

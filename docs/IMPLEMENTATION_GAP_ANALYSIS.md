@@ -1,20 +1,20 @@
 # Implementation Gap Analysis
 
 > Review of IMPLEMENTATION_ROADMAP.md against actual implementation Generated:
-> 2026-01-08 **Last Recheck: 2026-01-08**
+> 2026-01-09 **Last Recheck: 2026-01-09**
 
 ---
 
 ## Executive Summary
 
-| Phase                    | Planned Items | Completed | Gaps            |
-| ------------------------ | ------------- | --------- | --------------- |
-| Phase 1: Testing         | 5             | **5**     | 0               |
-| Phase 2: Library Exports | 12            | **11**    | 1 (deferred)    |
-| Phase 3: Demo Components | 4             | **3**     | 1 (alternative) |
-| **Total**                | **21**        | **19**    | **2**           |
+| Phase                    | Planned Items | Completed | Gaps  |
+| ------------------------ | ------------- | --------- | ----- |
+| Phase 1: Testing         | 5             | **5**     | 0     |
+| Phase 2: Library Exports | 12            | **12**    | 0     |
+| Phase 3: Demo Components | 4             | **4**     | 0     |
+| **Total**                | **21**        | **21**    | **0** |
 
-**Completion Rate: 90%** _(previously 63%)_
+**Completion Rate: 100%** _(previously 90%)_
 
 ---
 
@@ -32,11 +32,11 @@
 
 ### Dependencies
 
-- [x] MSW installed (`msw@^2.7.0` in devDependencies)
+- [x] MSW installed (`msw@^2.12.7` in devDependencies)
 
 ---
 
-## Phase 2: Library Exports ✅ MOSTLY COMPLETE
+## Phase 2: Library Exports ✅ COMPLETE
 
 ### All Core Items Implemented
 
@@ -48,28 +48,14 @@
 - [x] `app/exports/charts/ColumnChart.tsx` - **RESOLVED** _(was Gap #3)_
 - [x] `app/exports/charts/PieChart.tsx` - **RESOLVED** _(was Gap #4)_
 - [x] `app/exports/charts/AreaChart.tsx` - **RESOLVED** _(was Gap #5)_
+- [x] `app/exports/charts/MapChart.tsx` - D3-based map chart export
 - [x] `app/exports/hooks/useDataGovRs.ts` - Data fetching hook
 - [x] `app/exports/hooks/useChartConfig.ts` - Config management hook
 - [x] `app/exports/hooks/useLocale.ts` - Locale utilities
 
-### Intentionally Deferred
-
-#### `exports/charts/MapChart.tsx`
-
-**Status:** DEFERRED
-
-**Reason:** Complex geospatial dependencies (deck.gl/mapbox-gl) require separate
-planning and potential optional peer dependency structure.
-
-**Note in code:** The export is commented out in `app/exports/charts/index.ts`
-with explanation.
-
-**Future Action:** Consider as separate package or optional feature in future
-release.
-
 ---
 
-## Phase 3: Demo Components ✅ MOSTLY COMPLETE
+## Phase 3: Demo Components ✅ COMPLETE
 
 ### All Core Items Implemented
 
@@ -78,20 +64,8 @@ release.
       (`app/components/demos/performance-badge.tsx`)
 - [x] `/demos/playground` page (`app/pages/demos/playground/index.tsx`) -
       Interactive chart configuration
-
-### Alternative Implementation
-
-#### `/demos/getting-started` page
-
-**Status:** ALTERNATIVE PATH
-
-**What Was Planned:** `app/pages/demos/getting-started/index.tsx`
-
-**What Exists:** `/docs/getting-started` (documentation page at
-`app/docs/catalog/getting-started.mdx`)
-
-**Decision:** Keep current docs-based approach. It's discoverable and maintains
-separation between documentation and demos.
+- [x] `/demos/getting-started` page (`app/pages/demos/getting-started.tsx`) -
+      Interactive quick start with minimal sample data
 
 ---
 
@@ -107,44 +81,34 @@ separation between documentation and demos.
 
 ---
 
-## Remaining Items (Intentionally Deferred)
+## Remaining Items
 
-| Item                      | Status      | Reason                                 |
-| ------------------------- | ----------- | -------------------------------------- |
-| MapChart component        | DEFERRED    | Complex deck.gl/mapbox-gl dependencies |
-| Getting-started demo page | ALTERNATIVE | Exists as documentation page           |
+All planned items in the implementation roadmap are complete.
 
 ---
 
-## Additional Implementation Gaps
+## Additional Implementation Notes
 
-- Extract a standalone MapChart export from `app/charts/map/` that does not
-  depend on app-specific GraphQL/configurator logic.
-- Define how MapChart consumers should load required CSS (MapLibre) and document
-  the integration steps.
-- Decide whether `@deck.gl/*`, `maplibre-gl`, and `react-map-gl` remain
-  dependencies or move to peer/optional dependencies before exporting MapChart.
+- MapChart export is D3-based and does not require MapLibre or Deck.gl.
+- Packaging decision recorded in
+  `ai_working/decisions/2026-01-09-mapchart-packaging.md`.
 
 ---
 
-## Testing Coverage Gaps
+## Testing Coverage
 
-- Add unit tests for `BarChart`, `ColumnChart`, `PieChart`, and `AreaChart` in
-  `app/tests/exports/charts/` (only `LineChart` is covered today).
-- Add tests for `useLocale` in `app/tests/exports/hooks/` (current coverage is
-  `useDataGovRs` and `useChartConfig` only).
-- Add a packaging/export test that validates the `@acailic/vizualni-admin/*`
-  subpath exports against built `dist` artifacts, not just source imports.
+- Chart export tests live in `app/tests/exports/charts/` for Line, Bar, Column,
+  Pie, and Area charts, with MapChart coverage in
+  `app/tests/exports/MapChart.test.tsx` and
+  `app/tests/exports/MapChart.integration.test.tsx`.
+- `useLocale` tests live in `app/tests/exports/hooks/useLocale.spec.ts`.
+- Export map validation lives in `app/tests/packaging/dist-artifacts.spec.ts`.
 
 ---
 
 ## Skipped Parts For Other Agents
 
-- Implement `app/exports/charts/MapChart.tsx` and wire the export in
-  `app/exports/charts/index.ts` after deciding how to package deck.gl/maplibre
-  dependencies.
-- Build `/demos/getting-started` at `app/pages/demos/getting-started/index.tsx`
-  or replace the alternative docs-only approach with a real demo page.
+No skipped parts; all items are implemented.
 
 ---
 
@@ -158,7 +122,7 @@ export { BarChart } from "./BarChart";
 export { ColumnChart } from "./ColumnChart";
 export { PieChart } from "./PieChart";
 export { AreaChart } from "./AreaChart";
-// MapChart - deferred due to complex geospatial dependencies
+export { MapChart } from "./MapChart";
 ```
 
 ---
@@ -198,7 +162,8 @@ grep "export" app/exports/charts/index.ts
 | ---------- | ---------------------------------------- |
 | 2026-01-08 | Initial gap analysis (63% complete)      |
 | 2026-01-08 | Recheck - 5 gaps resolved (89% complete) |
+| 2026-01-09 | Recheck - all roadmap items complete     |
 
 ---
 
-_Generated from review of implementation phases_ _Last Updated: 2026-01-08_
+_Generated from review of implementation phases_ _Last Updated: 2026-01-09_
