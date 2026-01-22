@@ -729,15 +729,14 @@ describe("DataGovRsClient - Error Handling", () => {
       const client = new DataGovRsClient({
         apiUrl: API_BASE_URL,
         timeout: 100,
+        retryConfig: { maxRetries: 0 }, // Disable retries for this test
       });
 
-      // Mock a delayed response
+      // Mock a delayed response that never completes
       server.use(
         http.get(`${API_BASE_URL}/datasets/`, () => {
-          return new Promise((resolve) => {
-            setTimeout(() => {
-              resolve(HttpResponse.json({ data: [], total: 0 }));
-            }, 200);
+          return new Promise(() => {
+            // Never resolve to trigger timeout
           });
         })
       );
