@@ -362,8 +362,15 @@ describe("Build Configuration Validation", () => {
         "./exports/core.ts": "./core",
         "./exports/client.ts": "./client",
         "./exports/charts/index.ts": "./charts",
+        "./exports/charts/LineChart.tsx": "./charts/LineChart",
+        "./exports/charts/BarChart.tsx": "./charts/BarChart",
+        "./exports/charts/ColumnChart.tsx": "./charts/ColumnChart",
+        "./exports/charts/PieChart.tsx": "./charts/PieChart",
+        "./exports/charts/AreaChart.tsx": "./charts/AreaChart",
+        "./exports/charts/MapChart.tsx": "./charts/MapChart",
         "./exports/hooks/index.ts": "./hooks",
         "./exports/utils/index.ts": "./utils",
+        "./exports/connectors/index.ts": "./connectors",
       };
 
       for (const entrypoint of entrypoints) {

@@ -1,11 +1,14 @@
-import { i18n } from '@lingui/core';
+import { i18n } from "@lingui/core";
+import { I18nProvider } from "@lingui/react";
+import { render as rtlRender } from "@testing-library/react";
 import { createClient, cacheExchange, fetchExchange } from "@urql/core";
 import clownface, { AnyPointer } from "clownface";
-import { configureAxe, toHaveNoViolations } from 'jest-axe';
+import { configureAxe, toHaveNoViolations } from "jest-axe";
 import rdf from "rdf-ext";
 import DatasetExt from "rdf-ext/lib/Dataset";
 import DefaultGraphExt from "rdf-ext/lib/DefaultGraph";
 import { NamedNode, Term } from "rdf-js";
+import * as React from "react";
 import { vi, expect } from "vitest";
 
 import { GRAPHQL_ENDPOINT } from "@/domain/env";
@@ -18,6 +21,15 @@ vi.mock("@lingui/macro", () => {
   return {
     defineMessage: (d: string) => d,
     t: (d: string) => d,
+  };
+});
+
+// Mock Trans component to return children directly
+vi.mock("@lingui/react", async () => {
+  const actual = await vi.importActual("@lingui/react");
+  return {
+    ...actual,
+    Trans: ({ children }: { children: React.ReactNode }) => children,
   };
 });
 
@@ -138,13 +150,13 @@ vi.mock("next/router", () => {
 const axe = configureAxe({
   rules: {
     // Enable WCAG 2.1 AA compliance
-    'color-contrast': { enabled: true },
-    'keyboard-navigation': { enabled: true },
-    'aria-labels': { enabled: true },
-    'heading-order': { enabled: true },
-    'alt-text': { enabled: true },
-    'form-field-multiple-labels': { enabled: true },
-    'focus-order-semantics': { enabled: true },
+    "color-contrast": { enabled: true },
+    "keyboard-navigation": { enabled: true },
+    "aria-labels": { enabled: true },
+    "heading-order": { enabled: true },
+    "alt-text": { enabled: true },
+    "form-field-multiple-labels": { enabled: true },
+    "focus-order-semantics": { enabled: true },
   },
 });
 
@@ -152,25 +164,42 @@ const axe = configureAxe({
 expect.extend(toHaveNoViolations);
 
 // Make axe available globally for tests
-vi.stubGlobal('axe', axe);
+vi.stubGlobal("axe", axe);
 
 // Mock DOM methods that are not available in jsdom
-if (typeof SVGElement !== 'undefined') {
-  Object.defineProperty(SVGElement.prototype, 'getTotalLength', {
+if (typeof SVGElement !== "undefined") {
+  Object.defineProperty(SVGElement.prototype, "getTotalLength", {
     writable: true,
-    value: function() { return 100; }
+    value: function () {
+      return 100;
+    },
   });
 }
 
-if (typeof SVGPathElement !== 'undefined') {
-  Object.defineProperty(SVGPathElement.prototype, 'getTotalLength', {
+if (typeof SVGPathElement !== "undefined") {
+  Object.defineProperty(SVGPathElement.prototype, "getTotalLength", {
     writable: true,
-    value: function() { return 100; }
+    value: function () {
+      return 100;
+    },
   });
 }
 
 // Setup I18n for tests
-i18n.load('en', {});
-i18n.activate('en');
+i18n.load("en", {});
+i18n.activate("en");
+
+// Setup I18nProvider wrapper for all RTL renders
+const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
+  return React.createElement(I18nProvider, { i18n }, children);
+};
+
+// Override RTL render with providers
+const customRender = (ui: React.ReactElement, options?: any) =>
+  rtlRender(ui, { wrapper: AllTheProviders, ...options });
+
+// Re-export everything
+export * from "@testing-library/react";
+export { customRender as render };
 
 import "@testing-library/jest-dom/vitest";
