@@ -5,7 +5,7 @@
  * Automatically manages cache invalidation and memory limits.
  */
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef } from "react";
 
 export interface CacheOptions {
   /** Cache key */
@@ -19,7 +19,7 @@ export interface CacheOptions {
   /** Force refresh from network */
   forceRefresh?: boolean;
   /** Callback when cache is hit */
-  onCacheHit?: (source: 'memory' | 'indexeddb') => void;
+  onCacheHit?: (source: "memory" | "indexeddb") => void;
   /** Callback when cache is missed */
   onCacheMiss?: () => void;
 }
@@ -34,7 +34,7 @@ export interface CacheState<T> {
   /** Whether data came from cache */
   fromCache: boolean;
   /** Cache source */
-  cacheSource: 'memory' | 'indexeddb' | 'network' | null;
+  cacheSource: "memory" | "indexeddb" | "network" | null;
   /** Invalidate cache and reload */
   invalidate: () => Promise<void>;
   /** Manually set cache */
@@ -44,7 +44,10 @@ export interface CacheState<T> {
 }
 
 // In-memory cache
-const memoryCache = new Map<string, { data: any; timestamp: number; ttl: number }>();
+const memoryCache = new Map<
+  string,
+  { data: any; timestamp: number; ttl: number }
+>();
 
 // Memory limit (50MB)
 const MAX_MEMORY_SIZE = 50 * 1024 * 1024;
@@ -115,11 +118,14 @@ function setInMemory<T>(key: string, data: T, ttl: number): void {
 /**
  * Get from IndexedDB cache
  */
-async function getFromIndexedDB<T>(key: string, ttl: number): Promise<T | null> {
+async function getFromIndexedDB<T>(
+  key: string,
+  ttl: number
+): Promise<T | null> {
   try {
     const db = await openCacheDB();
-    const transaction = db.transaction(['cache'], 'readonly');
-    const store = transaction.objectStore('cache');
+    const transaction = db.transaction(["cache"], "readonly");
+    const store = transaction.objectStore("cache");
     const request = store.get(key);
 
     return new Promise((resolve, reject) => {
@@ -144,7 +150,7 @@ async function getFromIndexedDB<T>(key: string, ttl: number): Promise<T | null> 
       request.onerror = () => reject(request.error);
     });
   } catch (error) {
-    console.warn('IndexedDB cache read failed:', error);
+    console.warn("IndexedDB cache read failed:", error);
     return null;
   }
 }
@@ -155,8 +161,8 @@ async function getFromIndexedDB<T>(key: string, ttl: number): Promise<T | null> 
 async function setInIndexedDB<T>(key: string, data: T): Promise<void> {
   try {
     const db = await openCacheDB();
-    const transaction = db.transaction(['cache'], 'readwrite');
-    const store = transaction.objectStore('cache');
+    const transaction = db.transaction(["cache"], "readwrite");
+    const store = transaction.objectStore("cache");
 
     store.put({
       key,
@@ -169,7 +175,7 @@ async function setInIndexedDB<T>(key: string, data: T): Promise<void> {
       transaction.onerror = () => reject(transaction.error);
     });
   } catch (error) {
-    console.warn('IndexedDB cache write failed:', error);
+    console.warn("IndexedDB cache write failed:", error);
   }
 }
 
@@ -181,8 +187,13 @@ let dbPromise: Promise<IDBDatabase> | null = null;
 function openCacheDB(): Promise<IDBDatabase> {
   if (dbPromise) return dbPromise;
 
+  // Check if IndexedDB is available (not in Node.js test environment)
+  if (typeof indexedDB === "undefined") {
+    return Promise.reject(new Error("IndexedDB not available"));
+  }
+
   dbPromise = new Promise((resolve, reject) => {
-    const request = indexedDB.open('vizualni-admin-cache', 1);
+    const request = indexedDB.open("vizualni-admin-cache", 1);
 
     request.onerror = () => reject(request.error);
     request.onsuccess = () => resolve(request.result);
@@ -190,8 +201,8 @@ function openCacheDB(): Promise<IDBDatabase> {
     request.onupgradeneeded = (event) => {
       const db = (event.target as IDBOpenDBRequest).result;
 
-      if (!db.objectStoreNames.contains('cache')) {
-        db.createObjectStore('cache', { keyPath: 'key' });
+      if (!db.objectStoreNames.contains("cache")) {
+        db.createObjectStore("cache", { keyPath: "key" });
       }
     };
   });
@@ -235,89 +246,96 @@ export function useDataCache<T>(
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [fromCache, setFromCache] = useState(false);
-  const [cacheSource, setCacheSource] = useState<'memory' | 'indexeddb' | 'network' | null>(null);
+  const [cacheSource, setCacheSource] = useState<
+    "memory" | "indexeddb" | "network" | null
+  >(null);
 
   const fetcherRef = useRef(fetcher);
   fetcherRef.current = fetcher;
 
-  const loadData = useCallback(async (skipCache = false) => {
-    setLoading(true);
-    setError(null);
+  const loadData = useCallback(
+    async (skipCache = false) => {
+      setLoading(true);
+      setError(null);
 
-    try {
-      // Try memory cache first
-      if (!skipCache && useMemory) {
-        const cached = getFromMemory<T>(key, ttl);
-        if (cached !== null) {
-          setData(cached);
-          setFromCache(true);
-          setCacheSource('memory');
-          setLoading(false);
-          onCacheHit?.('memory');
-          return;
-        }
-      }
-
-      // Try IndexedDB cache
-      if (!skipCache && useIndexedDB) {
-        const cached = await getFromIndexedDB<T>(key, ttl);
-        if (cached !== null) {
-          setData(cached);
-          setFromCache(true);
-          setCacheSource('indexeddb');
-          setLoading(false);
-
-          // Also cache in memory for faster access
-          if (useMemory) {
-            setInMemory(key, cached, ttl);
+      try {
+        // Try memory cache first
+        if (!skipCache && useMemory) {
+          const cached = getFromMemory<T>(key, ttl);
+          if (cached !== null) {
+            setData(cached);
+            setFromCache(true);
+            setCacheSource("memory");
+            setLoading(false);
+            onCacheHit?.("memory");
+            return;
           }
-
-          onCacheHit?.('indexeddb');
-          return;
         }
+
+        // Try IndexedDB cache
+        if (!skipCache && useIndexedDB) {
+          const cached = await getFromIndexedDB<T>(key, ttl);
+          if (cached !== null) {
+            setData(cached);
+            setFromCache(true);
+            setCacheSource("indexeddb");
+            setLoading(false);
+
+            // Also cache in memory for faster access
+            if (useMemory) {
+              setInMemory(key, cached, ttl);
+            }
+
+            onCacheHit?.("indexeddb");
+            return;
+          }
+        }
+
+        // Cache miss - fetch from network
+        onCacheMiss?.();
+
+        const result = await fetcherRef.current();
+
+        setData(result);
+        setFromCache(false);
+        setCacheSource("network");
+
+        // Cache the result
+        if (useMemory) {
+          setInMemory(key, result, ttl);
+        }
+
+        if (useIndexedDB) {
+          await setInIndexedDB(key, result);
+        }
+      } catch (err) {
+        const error = err instanceof Error ? err : new Error(String(err));
+        setError(error);
+      } finally {
+        setLoading(false);
       }
-
-      // Cache miss - fetch from network
-      onCacheMiss?.();
-
-      const result = await fetcherRef.current();
-
-      setData(result);
-      setFromCache(false);
-      setCacheSource('network');
-
-      // Cache the result
-      if (useMemory) {
-        setInMemory(key, result, ttl);
-      }
-
-      if (useIndexedDB) {
-        await setInIndexedDB(key, result);
-      }
-
-    } catch (err) {
-      const error = err instanceof Error ? err : new Error(String(err));
-      setError(error);
-    } finally {
-      setLoading(false);
-    }
-  }, [key, ttl, useIndexedDB, useMemory, onCacheHit, onCacheMiss]);
+    },
+    [key, ttl, useIndexedDB, useMemory, onCacheHit, onCacheMiss]
+  );
 
   const invalidate = useCallback(async () => {
     await loadData(true);
   }, [loadData]);
 
-  const setCache = useCallback(async (newData: T) => {
-    setData(newData);
+  const setCache = useCallback(
+    async (newData: T) => {
+      setData(newData);
 
-    if (useMemory) {
-      setInMemory(key, newData, ttl);
-    }
+      if (useMemory) {
+        setInMemory(key, newData, ttl);
+      }
 
-    if (useIndexedDB) {
-      await setInIndexedDB(key, newData);
-    }
-  }, [key, ttl, useIndexedDB, useMemory]);
+      if (useIndexedDB) {
+        await setInIndexedDB(key, newData);
+      }
+    },
+    [key, ttl, useIndexedDB, useMemory]
+  );
 
   const clearCache = useCallback(async () => {
     // Clear memory cache
@@ -333,11 +351,11 @@ export function useDataCache<T>(
     if (useIndexedDB) {
       try {
         const db = await openCacheDB();
-        const transaction = db.transaction(['cache'], 'readwrite');
-        const store = transaction.objectStore('cache');
+        const transaction = db.transaction(["cache"], "readwrite");
+        const store = transaction.objectStore("cache");
         store.delete(key);
       } catch (error) {
-        console.warn('Failed to clear IndexedDB cache:', error);
+        console.warn("Failed to clear IndexedDB cache:", error);
       }
     }
 
@@ -374,11 +392,11 @@ export async function clearAllCaches(): Promise<void> {
   // Clear IndexedDB cache
   try {
     const db = await openCacheDB();
-    const transaction = db.transaction(['cache'], 'readwrite');
-    const store = transaction.objectStore('cache');
+    const transaction = db.transaction(["cache"], "readwrite");
+    const store = transaction.objectStore("cache");
     store.clear();
   } catch (error) {
-    console.warn('Failed to clear IndexedDB cache:', error);
+    console.warn("Failed to clear IndexedDB cache:", error);
   }
 }
 
