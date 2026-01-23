@@ -1,10 +1,14 @@
-import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
 import { describe, expect, it, vi } from "vitest";
 
 import DemographicsDemo from "@/pages/demos/demographics";
+import { render, screen } from "@/test-utils";
 
 vi.mock("next/router", () => ({
+  default: {
+    useRouter: () => ({ locale: "sr" }),
+    Router: () => ({}),
+  },
   useRouter: () => ({ locale: "sr" }),
 }));
 
@@ -20,9 +24,7 @@ describe("DemographicsDemo", () => {
   it("renders key computed metrics and warning", () => {
     render(<DemographicsDemo />);
 
-    expect(
-      screen.getByText(/Demografija Srbije/i)
-    ).toBeTruthy();
+    expect(screen.getByText(/Demografija Srbije/i)).toBeTruthy();
     expect(screen.getByText(/DEMOGRAFSKO UPOZORENJE/i)).toBeTruthy();
     // Total population number cards (uses calculated totals)
     expect(screen.getByText(/M/)).toBeTruthy();
@@ -37,9 +39,7 @@ describe("DemographicsDemo", () => {
     const { default: Page } = await import("@/pages/demos/demographics");
     render(<Page />);
 
-    expect(
-      screen.getByText(/Serbia Demographics/i)
-    ).toBeTruthy();
+    expect(screen.getByText(/Serbia Demographics/i)).toBeTruthy();
     expect(screen.getByText(/DEMOGRAPHIC WARNING/i)).toBeTruthy();
   });
 });
