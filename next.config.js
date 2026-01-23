@@ -44,7 +44,6 @@ module.exports = withMDX({
 
   i18n: isGitHubPages ? undefined : { locales, defaultLocale },
 
-  swcMinify: true,
   productionBrowserSourceMaps: false,
   pageExtensions: ["js", "ts", "tsx", "mdx"],
 
