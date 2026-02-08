@@ -135,6 +135,7 @@ temp/
 # Build artifacts and reports
 *.build.js
 performance-report.json
+lighthouse-report.json
 bundle-reports/
 
 # Test artifacts

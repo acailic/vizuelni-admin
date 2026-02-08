@@ -1,4 +1,12 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  vi,
+  beforeEach,
+  afterEach,
+  afterAll,
+} from "vitest";
 
 import {
   DataGovRsClient,
@@ -18,16 +26,31 @@ import type {
 const mockFetch = vi.fn();
 vi.stubGlobal("fetch", mockFetch);
 
+const createAbortError = () => {
+  try {
+    return new DOMException("Aborted", "AbortError");
+  } catch {
+    const error = new Error("Aborted");
+    (error as { name?: string }).name = "AbortError";
+    return error;
+  }
+};
+
 describe("DataGovRsClient", () => {
   let client: DataGovRsClient;
 
   beforeEach(() => {
     client = new DataGovRsClient({});
-    mockFetch.mockClear();
+    mockFetch.mockReset();
   });
 
   afterEach(() => {
-    vi.restoreAllMocks();
+    vi.useRealTimers();
+    vi.clearAllMocks();
+  });
+
+  afterAll(() => {
+    vi.unstubAllGlobals();
   });
 
   describe("constructor", () => {
@@ -400,8 +423,7 @@ describe("DataGovRsClient", () => {
       });
     });
 
-    // TODO: Fix flaky test - times out intermittently
-    it.skip("should handle JSON parse error in error response", async () => {
+    it("should handle JSON parse error in error response", async () => {
       mockFetch.mockResolvedValue({
         ok: false,
         status: 500,
@@ -416,55 +438,71 @@ describe("DataGovRsClient", () => {
     });
   });
 
-  // TODO: Fix flaky timeout tests
-  describe.skip("timeout behavior", () => {
+  describe("timeout behavior", () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
     it("should throw timeout error when request exceeds timeout", async () => {
-      mockFetch.mockImplementation(
-        () =>
-          new Promise((resolve) =>
-            setTimeout(
-              () => resolve({ ok: true, json: () => Promise.resolve({}) }),
-              200
-            )
-          )
-      );
+      mockFetch.mockImplementation((_url: string, options: RequestInit) => {
+        const signal = options.signal as AbortSignal | undefined;
+        return new Promise((_resolve, reject) => {
+          const onAbort = () => reject(createAbortError());
+          if (signal) {
+            if (signal.aborted) {
+              onAbort();
+              return;
+            }
+            signal.addEventListener("abort", onAbort, { once: true });
+          }
+        });
+      });
 
       const fastClient = new DataGovRsClient({ timeout: 100 });
+      const pending = fastClient.searchDatasets();
 
-      await expect(fastClient.searchDatasets()).rejects.toMatchObject({
+      await vi.advanceTimersByTimeAsync(100);
+
+      await expect(pending).rejects.toMatchObject({
         message: "Request timeout",
         status: 408,
         isRetryable: true,
       });
-    }, 10000);
+    });
 
     it("should use AbortController to abort request on timeout", async () => {
-      type AbortSignalLike = { aborted: boolean };
-      let capturedSignal: AbortSignalLike | null = null;
+      let capturedSignal: AbortSignal | null = null;
       mockFetch.mockImplementation((_url: string, options: RequestInit) => {
-        capturedSignal = options.signal as AbortSignalLike;
-        return new Promise((resolve) =>
-          setTimeout(
-            () => resolve({ ok: true, json: () => Promise.resolve({}) }),
-            200
-          )
-        );
+        capturedSignal = options.signal as AbortSignal;
+        return new Promise((_resolve, reject) => {
+          const onAbort = () => reject(createAbortError());
+          if (capturedSignal) {
+            if (capturedSignal.aborted) {
+              onAbort();
+              return;
+            }
+            capturedSignal.addEventListener("abort", onAbort, { once: true });
+          }
+        });
       });
 
       const fastClient = new DataGovRsClient({ timeout: 100 });
+      const pending = fastClient.searchDatasets();
 
-      await expect(fastClient.searchDatasets()).rejects.toMatchObject({
+      await vi.advanceTimersByTimeAsync(100);
+
+      await expect(pending).rejects.toMatchObject({
         message: "Request timeout",
         status: 408,
       });
 
-      // The request should have been aborted
       expect(capturedSignal).not.toBeNull();
-      if (!capturedSignal) {
-        throw new Error("AbortSignal was not captured");
-      }
-      expect((capturedSignal as { aborted: boolean }).aborted).toBe(true);
-    }, 10000);
+      expect(capturedSignal?.aborted).toBe(true);
+    });
 
     it("should complete request successfully within timeout", async () => {
       mockFetch.mockResolvedValue({
@@ -473,44 +511,49 @@ describe("DataGovRsClient", () => {
           Promise.resolve({ data: [], page: 1, page_size: 20, total: 0 }),
       });
 
-      const result = await client.searchDatasets();
+      const fastClient = new DataGovRsClient({ timeout: 100 });
+      const result = await fastClient.searchDatasets();
 
       expect(result).toEqual({ data: [], page: 1, page_size: 20, total: 0 });
     });
   });
 
-  // TODO: Fix flaky retry test
-  describe.skip("retry behavior", () => {
+  describe("retry behavior", () => {
+    let randomSpy: ReturnType<typeof vi.spyOn> | null = null;
+
+    beforeEach(() => {
+      vi.useFakeTimers();
+      randomSpy = vi.spyOn(Math, "random").mockReturnValue(0.5);
+    });
+
+    afterEach(() => {
+      randomSpy?.mockRestore();
+      vi.useRealTimers();
+    });
+
     it("should retry on timeout error", async () => {
       let attemptCount = 0;
-      mockFetch.mockImplementation(() => {
+      mockFetch.mockImplementation((_url: string, options: RequestInit) => {
         attemptCount++;
         if (attemptCount < 3) {
-          // First two attempts timeout
-          return new Promise((resolve) =>
-            setTimeout(
-              () =>
-                resolve({
-                  ok: true,
-                  json: () =>
-                    Promise.resolve({
-                      data: [],
-                      page: 1,
-                      page_size: 20,
-                      total: 0,
-                    }),
-                }),
-              200
-            )
-          );
-        } else {
-          // Third attempt succeeds
-          return Promise.resolve({
-            ok: true,
-            json: () =>
-              Promise.resolve({ data: [], page: 1, page_size: 20, total: 0 }),
+          const signal = options.signal as AbortSignal | undefined;
+          return new Promise((_resolve, reject) => {
+            const onAbort = () => reject(createAbortError());
+            if (signal) {
+              if (signal.aborted) {
+                onAbort();
+                return;
+              }
+              signal.addEventListener("abort", onAbort, { once: true });
+            }
           });
         }
+
+        return Promise.resolve({
+          ok: true,
+          json: () =>
+            Promise.resolve({ data: [], page: 1, page_size: 20, total: 0 }),
+        });
       });
 
       const fastClient = new DataGovRsClient({
@@ -518,10 +561,18 @@ describe("DataGovRsClient", () => {
         retryConfig: { maxRetries: 3, initialDelay: 10 },
       });
 
-      await fastClient.searchDatasets();
+      const pending = fastClient.searchDatasets();
 
+      await vi.runAllTimersAsync();
+
+      await expect(pending).resolves.toEqual({
+        data: [],
+        page: 1,
+        page_size: 20,
+        total: 0,
+      });
       expect(attemptCount).toBe(3);
-    }, 15000);
+    });
 
     it("should retry on 500 error", async () => {
       let attemptCount = 0;
@@ -543,7 +594,9 @@ describe("DataGovRsClient", () => {
         }
       });
 
-      await client.searchDatasets();
+      const pending = client.searchDatasets();
+      await vi.runAllTimersAsync();
+      await pending;
 
       expect(attemptCount).toBe(2);
     }, 10000);
@@ -568,7 +621,9 @@ describe("DataGovRsClient", () => {
         }
       });
 
-      await client.searchDatasets();
+      const pending = client.searchDatasets();
+      await vi.runAllTimersAsync();
+      await pending;
 
       expect(attemptCount).toBe(2);
     }, 10000);
@@ -593,7 +648,9 @@ describe("DataGovRsClient", () => {
         }
       });
 
-      await client.searchDatasets();
+      const pending = client.searchDatasets();
+      await vi.runAllTimersAsync();
+      await pending;
 
       expect(attemptCount).toBe(2);
     }, 10000);
@@ -610,7 +667,9 @@ describe("DataGovRsClient", () => {
         });
       });
 
-      await expect(client.getDataset("invalid")).rejects.toMatchObject({
+      const pending = client.getDataset("invalid");
+      await vi.runAllTimersAsync();
+      await expect(pending).rejects.toMatchObject({
         message: "API request failed: Not Found",
         status: 404,
       });
@@ -630,7 +689,9 @@ describe("DataGovRsClient", () => {
         });
       });
 
-      await expect(client.searchDatasets()).rejects.toMatchObject({
+      const pending = client.searchDatasets();
+      await vi.runAllTimersAsync();
+      await expect(pending).rejects.toMatchObject({
         message: "API request failed: Bad Request",
         status: 400,
       });
@@ -654,19 +715,22 @@ describe("DataGovRsClient", () => {
         retryConfig: { maxRetries: 2, initialDelay: 10 },
       });
 
-      await expect(clientWithMaxRetries.searchDatasets()).rejects.toMatchObject(
-        {
-          message: "API request failed: Internal Server Error",
-          status: 500,
-        }
-      );
+      const pending = clientWithMaxRetries.searchDatasets();
+      await vi.runAllTimersAsync();
+      await expect(pending).rejects.toMatchObject({
+        message: "API request failed: Internal Server Error",
+        status: 500,
+      });
 
       expect(attemptCount).toBe(3); // Initial attempt + 2 retries
     }, 10000);
 
     it("should use exponential backoff between retries", async () => {
       let attemptCount = 0;
-      void attemptCount; // Mark as intentionally unused for now
+      const sleepSpy = vi.spyOn(
+        client as unknown as { sleep: (ms: number) => Promise<void> },
+        "sleep"
+      );
 
       mockFetch.mockImplementation(() => {
         attemptCount++;
@@ -686,14 +750,12 @@ describe("DataGovRsClient", () => {
         }
       });
 
-      const startTime = Date.now();
+      const pending = client.searchDatasets();
+      await vi.runAllTimersAsync();
+      await pending;
 
-      await client.searchDatasets();
-
-      const elapsed = Date.now() - startTime;
-
-      // Should have taken at least some time due to delays (1000ms + 2000ms with some jitter)
-      expect(elapsed).toBeGreaterThan(500);
+      const delays = sleepSpy.mock.calls.map(([delay]) => delay);
+      expect(delays).toEqual([750, 1500, 3000]);
       expect(attemptCount).toBe(4);
     }, 15000);
 
@@ -726,7 +788,9 @@ describe("DataGovRsClient", () => {
         },
       });
 
-      await customClient.searchDatasets();
+      const pending = customClient.searchDatasets();
+      await vi.runAllTimersAsync();
+      await pending;
 
       expect(attemptCount).toBe(2);
       expect(customClient.config.retryConfig.maxRetries).toBe(5);

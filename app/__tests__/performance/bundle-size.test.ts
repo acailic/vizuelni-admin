@@ -1,10 +1,11 @@
 import fs from "fs";
 import path from "path";
 
-import gzipSize from "gzip-size";
+import { gzipSizeSync } from "gzip-size";
 import { test, expect } from "vitest";
 
 const distDir = path.join(__dirname, "../../dist");
+const runBundleSizeTest = fs.existsSync(distDir) ? test : test.skip;
 
 interface SizeReport {
   totalGzippedSize: number;
@@ -12,13 +13,7 @@ interface SizeReport {
   chunkSizes: { [file: string]: number };
 }
 
-// TODO: Fix gzip-size module import issue
-test.skip("bundle size check", () => {
-  // Ensure dist directory exists
-  if (!fs.existsSync(distDir)) {
-    throw new Error("Dist directory not found. Please run build first.");
-  }
-
+runBundleSizeTest("bundle size check", () => {
   const files = fs
     .readdirSync(distDir)
     .filter(
@@ -31,7 +26,7 @@ test.skip("bundle size check", () => {
 
   for (const file of files) {
     const filePath = path.join(distDir, file);
-    const gzippedSize = gzipSize.sync(fs.readFileSync(filePath));
+    const gzippedSize = gzipSizeSync(fs.readFileSync(filePath));
     chunkSizes[file] = gzippedSize;
     totalGzippedSize += gzippedSize;
 
