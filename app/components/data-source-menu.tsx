@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Typography } from "@mui/material";
+import { SelectChangeEvent, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 
@@ -29,7 +29,7 @@ export const DataSourceMenu = () => {
         id="dataSourceSelect"
         variant="standard"
         value={stringifyDataSource(dataSource)}
-        onChange={(e) => {
+        onChange={(e: SelectChangeEvent) => {
           setDataSource(parseDataSource(e.target.value as string));
         }}
         disabled={isDisabled}

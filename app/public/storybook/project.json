@@ -1,5 +1,5 @@
 {
-  "generatedAt": 1769129629222,
+  "generatedAt": 1770385246062,
   "hasCustomBabel": false,
   "hasCustomWebpack": true,
   "hasStaticDirs": false,
@@ -33,7 +33,7 @@
   "builder": "@storybook/builder-webpack5",
   "renderer": "@storybook/react",
   "portableStoriesFileCount": 3,
-  "applicationFileCount": 112,
+  "applicationFileCount": 116,
   "storybookVersion": "8.6.12",
   "storybookVersionSpecifier": "8.6.12",
   "language": "typescript",

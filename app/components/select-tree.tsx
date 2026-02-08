@@ -1,9 +1,6 @@
 import { Trans } from "@lingui/macro";
-import MUITreeItem, {
-  TreeItemContentClassKey,
-  TreeItemProps,
-} from "@mui/lab/TreeItem";
-import TreeView, { TreeViewProps } from "@mui/lab/TreeView";
+import MUITreeItem, { TreeItemProps } from "@mui/lab/TreeItem";
+import TreeView from "@mui/lab/TreeView";
 import {
   Box,
   Chip,
@@ -23,15 +20,26 @@ import {
 import { makeStyles } from "@mui/styles";
 // import { useTreeItem } from "@mui/x-tree-view";
 // Temporary fallback for build
-const useTreeItem = () => ({});
+const useTreeItem = (_nodeId: string) => ({
+  disabled: false,
+  expanded: false,
+  selected: false,
+  focused: false,
+  handleExpansion: (_e: any) => {},
+  handleSelection: (_e: any) => {},
+  preventSelection: (_e: any) => {},
+});
 import clsx from "clsx";
 import {
+  ChangeEvent,
   ForwardedRef,
   forwardRef,
   HTMLAttributes,
+  KeyboardEvent,
   type MouseEvent,
   MouseEventHandler,
   ReactNode,
+  SyntheticEvent,
   useCallback,
   useEffect,
   useMemo,
@@ -114,7 +122,7 @@ const useCustomTreeItemStyles = makeStyles<Theme, { selectable?: boolean }>(
 const TreeItemContent = forwardRef<
   unknown,
   {
-    classes: Record<TreeItemContentClassKey, string>;
+    classes: Record<string, string>;
     className?: string;
     displayIcon?: ReactNode;
     expansionIcon?: ReactNode;
@@ -361,26 +369,28 @@ export const useSelectTree = ({
 
   const [expanded, setExpanded] = useState(defaultExpanded);
 
-  const handleInputChange: TextFieldProps["onChange"] = useEvent((ev) => {
-    const value = ev.currentTarget.value;
-    setInputValue(value);
-    const filteredOptions = getFilteredOptions(options, value);
-    setFilteredOptions(filteredOptions);
-    setExpanded((curExpanded) => {
-      const newExpanded = Array.from(
-        new Set([
-          ...curExpanded,
-          ...flattenTree(filteredOptions as HierarchyValue[]).map(
-            (v) => v.value
-          ),
-        ])
-      );
-      return newExpanded;
-    });
-  });
+  const handleInputChange: TextFieldProps["onChange"] = useEvent(
+    (ev: ChangeEvent<HTMLInputElement>) => {
+      const value = ev.currentTarget.value;
+      setInputValue(value);
+      const filteredOptions = getFilteredOptions(options, value);
+      setFilteredOptions(filteredOptions);
+      setExpanded((curExpanded) => {
+        const newExpanded = Array.from(
+          new Set([
+            ...curExpanded,
+            ...flattenTree(filteredOptions as HierarchyValue[]).map(
+              (v) => v.value
+            ),
+          ])
+        );
+        return newExpanded;
+      });
+    }
+  );
 
-  const handleNodeToggle: TreeViewProps["onNodeToggle"] = useEvent(
-    (_ev, nodeIds) => {
+  const handleNodeToggle = useEvent(
+    (_ev: SyntheticEvent, nodeIds: string[]) => {
       setExpanded(nodeIds);
     }
   );
@@ -439,7 +449,7 @@ export const SelectTree = ({
   } = useSelectTree({ value, options });
 
   const menuRef = useRef<PopoverActions>(null);
-  const inputRef = useRef<HTMLDivElement>();
+  const inputRef = useRef<HTMLDivElement>(null);
 
   const labelsByValue = useMemo(() => {
     parentsRef.current = {} as Record<NodeId, NodeId>;
@@ -535,8 +545,6 @@ export const SelectTree = ({
                   TransitionComponent={Collapse}
                   TransitionProps={treeItemTransitionProps}
                   ContentProps={{
-                    // @ts-expect-error - TS says we cannot put a data attribute
-                    // on the HTML element, but we know we can.
                     "data-selectable": selectable,
                     "data-children": children && children.length > 0,
                     "data-multi": isMulti,
@@ -591,9 +599,9 @@ export const SelectTree = ({
     []
   );
 
-  const treeRef = useRef();
+  const treeRef = useRef(null);
   const handleKeyDown: HTMLAttributes<HTMLInputElement>["onKeyDown"] = useEvent(
-    (e) => {
+    (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === "Enter" || e.key == " ") {
         handleOpen();
         e.preventDefault();

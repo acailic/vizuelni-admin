@@ -21,7 +21,7 @@ export const useInteractiveFiltersToggle = () => {
     if (chartConfig.interactiveFiltersConfig.legend) {
       const newConfig = produce(
         chartConfig.interactiveFiltersConfig,
-        (draft) => {
+        (draft: InteractiveFiltersConfig) => {
           draft.legend.active = e.currentTarget.checked;
         }
       );
@@ -91,7 +91,7 @@ export const toggleInteractiveFilterDataDimension = produce(
       newValue === undefined ? !currentComponentIds.includes(id) : newValue;
     const newComponentIds = shouldAdd
       ? [...currentComponentIds, id]
-      : config.dataFilters.componentIds.filter((d) => d !== id);
+      : config.dataFilters.componentIds.filter((d: string) => d !== id);
 
     const newDefaultValueOverrides = {
       ...config.dataFilters.defaultValueOverrides,
@@ -169,13 +169,16 @@ export const useDefaultValueOverride = (dimensionId: string) => {
     ] ?? [];
 
   const onChange = useEvent((newValue: string[]) => {
-    const newConfig = produce(chartConfig.interactiveFiltersConfig, (draft) => {
-      if (newValue.length === 0) {
-        delete draft.dataFilters.defaultValueOverrides[dimensionId];
-      } else {
-        draft.dataFilters.defaultValueOverrides[dimensionId] = newValue;
+    const newConfig = produce(
+      chartConfig.interactiveFiltersConfig,
+      (draft: InteractiveFiltersConfig) => {
+        if (newValue.length === 0) {
+          delete draft.dataFilters.defaultValueOverrides[dimensionId];
+        } else {
+          draft.dataFilters.defaultValueOverrides[dimensionId] = newValue;
+        }
       }
-    });
+    );
 
     dispatch({
       type: "INTERACTIVE_FILTER_CHANGED",
@@ -197,7 +200,7 @@ export const useDefaultValueOverride = (dimensionId: string) => {
         const validValues = override.filter((v) => f.values[v]);
         const newConfig = produce(
           chartConfig.interactiveFiltersConfig,
-          (draft) => {
+          (draft: InteractiveFiltersConfig) => {
             if (validValues.length > 0) {
               draft.dataFilters.defaultValueOverrides[dimensionId] =
                 validValues;

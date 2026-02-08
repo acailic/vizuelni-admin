@@ -134,7 +134,7 @@ const mkHeading = (level: number) => {
       const slugger = new Slugger();
       return slugger.slug(props.children);
     }, [props.children]);
-    const HeadingTag = `h${level}` as keyof JSX.IntrinsicElements;
+    const HeadingTag = `h${level}` as keyof React.JSX.IntrinsicElements;
     return <HeadingTag id={slug}>{props.children}</HeadingTag>;
   };
   Component.displayName = `Heading${level}`;
@@ -153,15 +153,21 @@ const mdxComponents = {
   ul: ({ children }: $IntentionalAny) => <ul>{children}</ul>,
   ol: ({ children }: $IntentionalAny) => <ol>{children}</ol>,
   li: ({ children }: $IntentionalAny) => <li>{children}</li>,
-  blockquote: ({ children }: $IntentionalAny) => <blockquote>{children}</blockquote>,
+  blockquote: ({ children }: $IntentionalAny) => (
+    <blockquote>{children}</blockquote>
+  ),
   em: ({ children }: $IntentionalAny) => <em>{children}</em>,
   strong: ({ children }: $IntentionalAny) => <strong>{children}</strong>,
   del: ({ children }: $IntentionalAny) => <del>{children}</del>,
-  img: ({ src, alt, ...props }: $IntentionalAny) => <img src={src} alt={alt} {...props} />,
+  img: ({ src, alt, ...props }: $IntentionalAny) => (
+    <img src={src} alt={alt} {...props} />
+  ),
   code: ({ children }: $IntentionalAny) => <code>{children}</code>,
   hr: () => <hr />,
   a: ({ href, children, ...props }: $IntentionalAny) => (
-    <a href={href} {...props}>{children}</a>
+    <a href={href} {...props}>
+      {children}
+    </a>
   ),
   ImageSpecimen,
   AudioSpecimen,

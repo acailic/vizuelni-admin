@@ -53,7 +53,7 @@ const useScroll = () => {
 };
 
 const usePosition = (yKey?: number) => {
-  const yKeyRef = useRef<number>();
+  const yKeyRef = useRef<number | undefined>(undefined);
   const [rect, rectRect] = useState<[number, number]>();
   const [x, y] = rect ?? [0, 0];
   const setRef = useMemo(() => {

@@ -61,10 +61,14 @@ export const initChartStateFromCube = async (
 
   const previewDimensions = dataCubePreview?.dataCubePreview.dimensions ?? [];
   const previewMeasures = dataCubePreview?.dataCubePreview.measures ?? [];
-  const componentIds = previewDimensions.some((d) => !d.isKeyDimension)
+  const componentIds = previewDimensions.some(
+    (d: { isKeyDimension: boolean }) => !d.isKeyDimension
+  )
     ? [
-        ...previewDimensions.filter((d) => d.isKeyDimension).map((d) => d.id),
-        ...previewMeasures.map((d) => d.id),
+        ...previewDimensions
+          .filter((d: { isKeyDimension: boolean }) => d.isKeyDimension)
+          .map((d: { id: string }) => d.id),
+        ...previewMeasures.map((d: { id: string }) => d.id),
       ]
     : // As the query with undefined component ids is also used in other parts of the app,
       // we want to benefit from the cache and not refetch the data if we already have it.
@@ -176,11 +180,11 @@ export const initChartStateFromChartCopy = async (
 ): Promise<ConfiguratorStateConfiguringChart | undefined> => {
   const config = await fetchChartConfig(fromChartId);
 
-  if (config?.data) {
+  if ((config as any)?.data) {
     // Do not keep the previous chart key
-    delete config.data.key;
+    delete (config as any).data.key;
     const state = (await migrateConfiguratorState({
-      ...config.data,
+      ...(config as any).data,
       state: "CONFIGURING_CHART",
     })) as ConfiguratorStateConfiguringChart;
     return await upgradeConfiguratorState(state, {
@@ -197,9 +201,9 @@ export const initChartStateFromChartEdit = async (
 ): Promise<ConfiguratorStateConfiguringChart | undefined> => {
   const config = await fetchChartConfig(fromChartId);
 
-  if (config?.data) {
+  if ((config as any)?.data) {
     const configState = (await migrateConfiguratorState({
-      ...config.data,
+      ...(config as any).data,
       state: state ?? "CONFIGURING_CHART",
     })) as ConfiguratorStateConfiguringChart;
     return await upgradeConfiguratorState(configState, {

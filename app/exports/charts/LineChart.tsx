@@ -80,7 +80,6 @@ export const LineChart = memo(
     config,
     height = 400,
     width = "100%",
-    locale = "sr-Latn",
     className = "",
     style = {},
     onDataPointClick,
@@ -329,13 +328,17 @@ export const LineChart = memo(
           .attr("stroke-width", 2)
           .style("filter", "drop-shadow(0 1px 2px rgba(0,0,0,0.1))")
           .style("cursor", onDataPointClick ? "pointer" : "default")
-          .on("click", (event, d) => {
+          .on("click", (_event, d) => {
             if (onDataPointClick) {
               onDataPointClick(d, data.indexOf(d));
             }
           })
           .transition()
-          .delay(animated ? (_, i) => animationDuration * 0.7 + i * 30 : 0)
+          .delay(
+            (animated
+              ? (_: unknown, i: number) => animationDuration * 0.7 + i * 30
+              : 0) as any
+          )
           .duration(animated ? 400 : 0)
           .ease(easeCubicOut)
           .attr("r", 5);

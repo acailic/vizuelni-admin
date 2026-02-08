@@ -32,6 +32,8 @@ import {
 } from "@/domain/data";
 import { useLocale } from "@/locales/use-locale";
 
+import type { SelectChangeEvent } from "@mui/material/Select";
+
 type ComboYFieldProps<T extends ComboChartConfig> = {
   chartConfig: T;
   measures: Measure[];
@@ -41,7 +43,7 @@ export const ComboYField = <T extends ComboChartConfig>({
   chartConfig,
   measures,
 }: ComboYFieldProps<T>) => {
-  switch (chartConfig.chartType) {
+  switch ((chartConfig as any).chartType) {
     case "comboLineSingle": {
       return (
         <ComboLineSingleYField chartConfig={chartConfig} measures={measures} />
@@ -57,7 +59,7 @@ export const ComboYField = <T extends ComboChartConfig>({
         <ComboLineColumnYField chartConfig={chartConfig} measures={measures} />
       );
     default:
-      const _exhaustiveCheck: never = chartConfig;
+      const _exhaustiveCheck: never = chartConfig as never;
       return _exhaustiveCheck;
   }
 };
@@ -103,7 +105,7 @@ const ComboLineSingleYField = ({
   const unit = useMemo(() => {
     const uniqueUnits = Array.from(
       new Set(
-        y.componentIds.map((id) => {
+        y.componentIds.map((id: string) => {
           const measure = numericalMeasures.find((m) => m.id === id);
           return measure?.unit;
         })
@@ -181,9 +183,11 @@ const ComboLineSingleYField = ({
           </Typography>
           <Typography variant="caption" sx={{ mb: 2 }}>
             <Trans id="controls.chart.combo.y.common-unit">Common unit</Trans>:{" "}
-            <b>{unit ?? t({ id: "controls.none", message: "None" })}</b>
+            <b>
+              {unit || (t({ id: "controls.none", message: "None" }) as any)}
+            </b>
           </Typography>
-          {y.componentIds.map((id, i) => {
+          {y.componentIds.map((id: string, i: number) => {
             // If there are multiple measures, we allow the user to remove any measure.
             const allowNone = y.componentIds.length > 1;
             // If there is only one measure, we allow the user to select any measure.
@@ -207,12 +211,14 @@ const ComboLineSingleYField = ({
                 optionGroups={options}
                 sort={false}
                 value={id}
-                onChange={(e) => {
+                onChange={(e: SelectChangeEvent<string>) => {
                   const newId = e.target.value as string;
                   let newComponentIds: string[];
 
                   if (newId === FIELD_VALUE_NONE) {
-                    newComponentIds = y.componentIds.filter((d) => d !== id);
+                    newComponentIds = y.componentIds.filter(
+                      (d: string) => d !== id
+                    );
                   } else {
                     newComponentIds = [...y.componentIds];
                     newComponentIds.splice(i, 1, newId);
@@ -242,7 +248,7 @@ const ComboLineSingleYField = ({
               options={[]}
               optionGroups={addNewMeasureOptions}
               sort={false}
-              onChange={(e) => {
+              onChange={(e: SelectChangeEvent<string>) => {
                 const id = e.target.value as string;
 
                 if (id !== FIELD_VALUE_NONE) {
@@ -263,7 +269,7 @@ const ComboLineSingleYField = ({
         </ControlSectionContent>
       </ControlSection>
       <ColorSelection
-        values={y.componentIds.map((id) => ({ id, symbol: "line" }))}
+        values={y.componentIds.map((id: string) => ({ id, symbol: "line" }))}
         measures={measures}
       />
     </>
@@ -333,7 +339,7 @@ const ComboLineDualYField = ({
               message: "Left axis measure",
             })}
             value={y.leftAxisComponentId}
-            onChange={(e) => {
+            onChange={(e: SelectChangeEvent<string>) => {
               const newId = e.target.value as string;
               dispatch({
                 type: "CHART_FIELD_UPDATED",
@@ -358,7 +364,7 @@ const ComboLineDualYField = ({
               message: "Right axis measure",
             })}
             value={y.rightAxisComponentId}
-            onChange={(e) => {
+            onChange={(e: SelectChangeEvent<string>) => {
               const newId = e.target.value as string;
               dispatch({
                 type: "CHART_FIELD_UPDATED",
@@ -448,7 +454,7 @@ const ComboLineColumnYField = ({
               message: "Left axis (column)",
             })}
             value={y.columnComponentId}
-            onChange={(e) => {
+            onChange={(e: SelectChangeEvent<string>) => {
               const newId = e.target.value as string;
               dispatch({
                 type: "CHART_FIELD_UPDATED",
@@ -473,7 +479,7 @@ const ComboLineColumnYField = ({
               message: "Right axis (line)",
             })}
             value={y.lineComponentId}
-            onChange={(e) => {
+            onChange={(e: SelectChangeEvent<string>) => {
               const newId = e.target.value as string;
               dispatch({
                 type: "CHART_FIELD_UPDATED",

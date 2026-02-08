@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import { Inspector } from "react-inspector";
 
 import { getChartConfig } from "@/config-utils";
@@ -66,8 +66,8 @@ const CubeMetadata = ({
     },
     pause: !expanded,
   });
-  const handleChange: AccordionProps["onChange"] = useEvent((_ev, expanded) =>
-    setExpanded(expanded)
+  const handleChange: AccordionProps["onChange"] = useEvent(
+    (_ev: SyntheticEvent, expanded: boolean) => setExpanded(expanded)
   );
 
   return (
@@ -99,9 +99,9 @@ const CubeMetadata = ({
 
 const DebugConfigurator = () => {
   const [configuratorState] = useConfiguratorState();
-  const chartConfig = getChartConfig(configuratorState);
+  const chartConfig = getChartConfig(configuratorState as any);
   const sparqlEditorUrl = dataSourceToSparqlEditorUrl(
-    configuratorState.dataSource
+    (configuratorState as any).dataSource
   );
 
   return (
@@ -109,7 +109,7 @@ const DebugConfigurator = () => {
       <Typography component="h3" variant="h4" sx={{ px: 5, color: "grey.700" }}>
         Cube Tools
       </Typography>
-      {chartConfig.cubes.map((cube) => (
+      {chartConfig.cubes.map((cube: ChartConfig["cubes"][number]) => (
         <Stack key={cube.iri} spacing={2} sx={{ pl: 5, py: 3 }}>
           <Button
             component="a"
@@ -117,7 +117,7 @@ const DebugConfigurator = () => {
             variant="text"
             size="sm"
             href={`https://cube-viewer.zazuko.com/?endpointUrl=${encodeURIComponent(
-              configuratorState.dataSource.url
+              (configuratorState as any).dataSource.url
             )}&user=&password=&sourceGraph=&cube=${encodeURIComponent(
               cube.iri
             )}`}
@@ -145,7 +145,7 @@ const DebugConfigurator = () => {
           </Button>
           <CubeMetadata
             datasetIri={cube.iri}
-            dataSource={configuratorState.dataSource}
+            dataSource={(configuratorState as any).dataSource}
             chartConfig={chartConfig}
           />
         </Stack>

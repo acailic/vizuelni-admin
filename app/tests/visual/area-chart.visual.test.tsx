@@ -83,20 +83,15 @@ test.describe("AreaChart Visual Regression", () => {
     test("should render overlap mode correctly", async ({ page }) => {
       await page.setViewportSize(viewports.desktop);
 
-      await renderChart(
-        page,
-        "area",
-        chartTestScenarios.area.multiSeries.data,
-        {
-          xAxis: "category",
-          yAxis: ["value", "value2"],
-          stackMode: "overlap" as const,
-          color: "#ef4444",
-          title: "Area Chart - Overlap Mode",
-          animated: false,
-          showTooltip: false,
-        }
-      );
+      await renderChart(page, "area", chartTestScenarios.area.stacked.data, {
+        xAxis: "category",
+        yAxis: ["value", "value2"],
+        stackMode: "overlap" as const,
+        color: "#ef4444",
+        title: "Area Chart - Overlap Mode",
+        animated: false,
+        showTooltip: false,
+      });
 
       await waitForChartStability(page);
 

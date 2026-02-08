@@ -144,7 +144,9 @@ export const parseCubeDimension = ({
     .terms.some((t) => t.equals(ns.cube.MeasureDimension));
 
   // Keeping qudt:unit format for backwards compatibility.
-  const unitTerm = dim.out(ns.qudt.unit).term ?? dim.out(ns.qudt.hasUnit).term;
+  const unitTerm =
+    (dim.out as any)((ns.qudt as any).unit).term ??
+    (dim.out as any)((ns.qudt as any).hasUnit).term;
   const unit = unitTerm ? units?.get(unitTerm.value) : undefined;
   const unitLabel = unit?.label?.value;
   const resolution = parseResolution(dataType);

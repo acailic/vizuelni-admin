@@ -43,6 +43,8 @@ import { getFittingColorInterpolator } from "@/utils/color-palette-utils";
 import { useEvent } from "@/utils/use-event";
 import { useUserPalettes } from "@/utils/use-user-palettes";
 
+import type { SelectChangeEvent } from "@mui/material/Select";
+
 // Adapted from https://observablehq.com/@mbostock/color-ramp
 
 type ColorRampProps = {
@@ -123,8 +125,8 @@ export const ColorRampField = (props: ColorRampFieldProps) => {
     (d) => d.paletteId === currentPaletteId
   );
 
-  const onSelectedItemChange: SelectProps<typeof currentPalette>["onChange"] =
-    useEvent((ev) => {
+  const onSelectedItemChange: SelectProps<string>["onChange"] = useEvent(
+    (ev: SelectChangeEvent<string>) => {
       const value = ev.target.value as string;
 
       const selectedPalette = customColorPalettes?.find(
@@ -132,7 +134,8 @@ export const ColorRampField = (props: ColorRampFieldProps) => {
       );
 
       handleChartConfigUpdate(value, selectedPalette);
-    });
+    }
+  );
 
   const handleChartConfigUpdate = (
     value: string,
@@ -159,7 +162,7 @@ export const ColorRampField = (props: ColorRampFieldProps) => {
   const [type, setType] = useState<CustomPaletteType["type"] | undefined>();
   const [anchorEl, setAnchorEl] = useState<HTMLElement>();
   const handleOpenCreateColorPalette: MouseEventHandler<HTMLButtonElement> =
-    useEvent((ev) => {
+    useEvent((ev: MouseEvent<HTMLButtonElement>) => {
       setAnchorEl(ev.currentTarget);
     });
   const handleCloseCreateColorPalette = useEvent(

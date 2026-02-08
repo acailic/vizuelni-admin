@@ -1,7 +1,7 @@
 import { ascending, bisect } from "d3-array";
 import { scaleLinear } from "d3-scale";
 
-import { AnimationType } from "@/config-types/config-types";
+import { AnimationType } from "@/config-types";
 
 export abstract class Observable {
   private observers: Function[];
@@ -174,7 +174,7 @@ export class Timeline extends Observable {
    * correspond to the actual progress of the slider.
    */
   public setProgress = (progress: number, triggeredByAnimation = false) => {
-    let value: number;
+    let value: number = progress;
 
     switch (this.animationType) {
       case "continuous":

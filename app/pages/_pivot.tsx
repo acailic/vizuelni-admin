@@ -13,6 +13,7 @@ import { makeStyles, styled } from "@mui/styles";
 import clsx from "clsx";
 import groupBy from "lodash/groupBy";
 import mapValues from "lodash/mapValues";
+import dynamic from "next/dynamic";
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { Inspector } from "react-inspector";
 import { Column, useExpanded, useSortBy, useTable } from "react-table";
@@ -682,5 +683,8 @@ const Page = () => {
   );
 };
 
-export default Page;
+// Make page client-side only to avoid SSR issues
+export default dynamic(() => Promise.resolve(Page), {
+  ssr: false,
+});
 // @ts-nocheck

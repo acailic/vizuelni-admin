@@ -4,43 +4,47 @@
  * Tests the React hook for managing chart configuration with validation.
  */
 
-import { renderHook, act } from '@testing-library/react';
-import { describe, expect, it, beforeEach, vi } from 'vitest';
-import { useChartConfig } from '../../../exports/hooks/useChartConfig';
-import { validateConfig, DEFAULT_CONFIG } from '../../../exports/core';
-import type { VizualniAdminConfig } from '../../../exports/core';
+import { renderHook, act } from "@testing-library/react";
+import { describe, expect, it, beforeEach, vi } from "vitest";
+import "@testing-library/jest-dom/vitest";
+
+import { validateConfig, DEFAULT_CONFIG } from "../../../exports/core";
+import { useChartConfig } from "../../../exports/hooks/useChartConfig";
+
+import type { VizualniAdminConfig } from "../../../exports/core";
+import type { Mock } from "vitest";
 
 // Mock validateConfig
-vi.mock('../../../exports/core', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('../../../exports/core')>();
+vi.mock("../../../exports/core", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("../../../exports/core")>();
   return {
     ...actual,
     validateConfig: vi.fn(),
   };
 });
 
-describe('useChartConfig', () => {
+describe("useChartConfig", () => {
   const mockValidConfig: VizualniAdminConfig = {
     project: {
-      name: 'Test Project',
-      language: 'sr',
-      theme: 'light',
+      name: "Test Project",
+      language: "sr",
+      theme: "light",
     },
     categories: {
-      enabled: ['economy', 'transport'],
-      featured: ['economy'],
+      enabled: ["economy", "transport"],
+      featured: ["economy"],
     },
     datasets: {
       autoDiscovery: true,
       manualIds: {
-        economy: ['dataset-1'],
-        transport: ['dataset-2'],
+        economy: ["dataset-1"],
+        transport: ["dataset-2"],
       },
     },
     visualization: {
-      defaultChartType: 'line',
-      colorPalette: '#6366f1',
-      customColors: ['#6366f1', '#10b981'],
+      defaultChartType: "line",
+      colorPalette: "#6366f1",
+      customColors: ["#6366f1", "#10b981"],
     },
     features: {
       embedding: true,
@@ -49,23 +53,23 @@ describe('useChartConfig', () => {
       tutorials: true,
     },
     deployment: {
-      basePath: '/vizualni',
-      customDomain: '',
-      target: 'local',
+      basePath: "/vizualni",
+      customDomain: "",
+      target: "local",
     },
   };
 
   beforeEach(() => {
     vi.clearAllMocks();
     // Default mock implementation
-    (validateConfig as vi.Mock).mockReturnValue({
+    (validateConfig as Mock).mockReturnValue({
       valid: true,
       errors: [],
     });
   });
 
-  describe('config initialization', () => {
-    it('should initialize with default config', () => {
+  describe("config initialization", () => {
+    it("should initialize with default config", () => {
       const { result } = renderHook(() => useChartConfig());
 
       expect(result.current.config).toBeDefined();
@@ -73,12 +77,12 @@ describe('useChartConfig', () => {
       expect(result.current.errors).toEqual([]);
     });
 
-    it('should merge initialConfig with defaults', () => {
+    it("should merge initialConfig with defaults", () => {
       const initialConfig = {
         project: {
-          name: 'Custom Project',
-          language: 'sr' as const,
-          theme: 'dark' as const,
+          name: "Custom Project",
+          language: "sr" as const,
+          theme: "dark" as const,
         },
       };
 
@@ -88,18 +92,18 @@ describe('useChartConfig', () => {
         })
       );
 
-      expect(result.current.config.project.name).toBe('Custom Project');
-      expect(result.current.config.project.theme).toBe('dark');
+      expect(result.current.config.project.name).toBe("Custom Project");
+      expect(result.current.config.project.theme).toBe("dark");
     });
 
-    it('should validate on mount by default', () => {
+    it("should validate on mount by default", () => {
       renderHook(() => useChartConfig());
 
       // Validator is called internally
       expect(validateConfig).toHaveBeenCalled();
     });
 
-    it('should not validate on mount when validateOnMount is false', () => {
+    it("should not validate on mount when validateOnMount is false", () => {
       renderHook(() =>
         useChartConfig({
           validateOnMount: false,
@@ -109,22 +113,24 @@ describe('useChartConfig', () => {
       expect(validateConfig).not.toHaveBeenCalled();
     });
 
-    it('should set isValid to true when validation passes', () => {
+    it("should set isValid to true when validation passes", () => {
       const { result } = renderHook(() => useChartConfig());
 
       expect(result.current.isValid).toBe(true);
       expect(result.current.errors).toEqual([]);
     });
 
-    it('should set isValid to false when validation fails', () => {
-      (validateConfig as vi.Mock).mockReturnValue({
+    it("should set isValid to false when validation fails", () => {
+      (validateConfig as Mock).mockReturnValue({
         valid: false,
-        errors: [{ path: '/project/name', message: 'name is required' }],
+        errors: [{ path: "/project/name", message: "name is required" }],
       });
 
       const { result } = renderHook(() =>
         useChartConfig({
-          initialConfig: { project: { name: '', language: 'invalid' as any, theme: 'light' } },
+          initialConfig: {
+            project: { name: "", language: "invalid" as any, theme: "light" },
+          },
         })
       );
 
@@ -133,25 +139,25 @@ describe('useChartConfig', () => {
     });
   });
 
-  describe('updateConfig function', () => {
-    it('should update config with partial changes', () => {
+  describe("updateConfig function", () => {
+    it("should update config with partial changes", () => {
       const { result } = renderHook(() => useChartConfig());
 
       act(() => {
         result.current.updateConfig({
           project: {
-            name: 'Updated Project',
-            language: 'sr',
-            theme: 'dark',
+            name: "Updated Project",
+            language: "sr",
+            theme: "dark",
           },
         });
       });
 
-      expect(result.current.config.project.name).toBe('Updated Project');
-      expect(result.current.config.project.theme).toBe('dark');
+      expect(result.current.config.project.name).toBe("Updated Project");
+      expect(result.current.config.project.theme).toBe("dark");
     });
 
-    it('should preserve other fields when updating', () => {
+    it("should preserve other fields when updating", () => {
       const { result } = renderHook(() =>
         useChartConfig({
           initialConfig: mockValidConfig,
@@ -164,19 +170,19 @@ describe('useChartConfig', () => {
       act(() => {
         result.current.updateConfig({
           project: {
-            name: 'New Name',
+            name: "New Name",
             language: originalLanguage,
             theme: originalTheme,
           },
         });
       });
 
-      expect(result.current.config.project.name).toBe('New Name');
+      expect(result.current.config.project.name).toBe("New Name");
       expect(result.current.config.project.theme).toBe(originalTheme);
       expect(result.current.config.project.language).toBe(originalLanguage);
     });
 
-    it('should auto-validate when autoValidate is true', () => {
+    it("should auto-validate when autoValidate is true", () => {
       const { result } = renderHook(() =>
         useChartConfig({
           autoValidate: true,
@@ -187,9 +193,9 @@ describe('useChartConfig', () => {
       act(() => {
         result.current.updateConfig({
           project: {
-            name: 'Test',
-            language: 'sr',
-            theme: 'light',
+            name: "Test",
+            language: "sr",
+            theme: "light",
           },
         });
       });
@@ -198,7 +204,7 @@ describe('useChartConfig', () => {
       expect(result.current.config).toBeDefined();
     });
 
-    it('should not auto-validate when autoValidate is false', () => {
+    it("should not auto-validate when autoValidate is false", () => {
       const { result } = renderHook(() =>
         useChartConfig({
           autoValidate: false,
@@ -209,9 +215,9 @@ describe('useChartConfig', () => {
       act(() => {
         result.current.updateConfig({
           project: {
-            name: 'Test',
-            language: 'sr',
-            theme: 'light',
+            name: "Test",
+            language: "sr",
+            theme: "light",
           },
         });
       });
@@ -220,7 +226,7 @@ describe('useChartConfig', () => {
       expect(validateConfig).not.toHaveBeenCalled();
     });
 
-    it('should merge updates with existing config', () => {
+    it("should merge updates with existing config", () => {
       const { result } = renderHook(() =>
         useChartConfig({
           initialConfig: mockValidConfig,
@@ -241,8 +247,8 @@ describe('useChartConfig', () => {
     });
   });
 
-  describe('resetConfig function', () => {
-    it('should reset to initial config', () => {
+  describe("resetConfig function", () => {
+    it("should reset to initial config", () => {
       const { result } = renderHook(() =>
         useChartConfig({
           initialConfig: mockValidConfig,
@@ -253,25 +259,29 @@ describe('useChartConfig', () => {
       act(() => {
         result.current.updateConfig({
           project: {
-            name: 'Modified Name',
-            language: 'en',
-            theme: 'dark',
+            name: "Modified Name",
+            language: "en",
+            theme: "dark",
           },
         });
       });
 
-      expect(result.current.config.project.name).toBe('Modified Name');
+      expect(result.current.config.project.name).toBe("Modified Name");
 
       // Reset
       act(() => {
         result.current.resetConfig();
       });
 
-      expect(result.current.config.project.name).toBe(mockValidConfig.project.name);
-      expect(result.current.config.project.language).toBe(mockValidConfig.project.language);
+      expect(result.current.config.project.name).toBe(
+        mockValidConfig.project.name
+      );
+      expect(result.current.config.project.language).toBe(
+        mockValidConfig.project.language
+      );
     });
 
-    it('should clear errors on reset', () => {
+    it("should clear errors on reset", () => {
       const { result } = renderHook(() =>
         useChartConfig({
           initialConfig: mockValidConfig,
@@ -283,18 +293,18 @@ describe('useChartConfig', () => {
       act(() => {
         result.current.updateConfig({
           project: {
-            name: '',
-            language: 'invalid' as any,
-            theme: 'light',
+            name: "",
+            language: "invalid" as any,
+            theme: "light",
           },
         });
       });
 
       // Manually validate to get errors
       act(() => {
-        (validateConfig as vi.Mock).mockReturnValueOnce({
+        (validateConfig as Mock).mockReturnValueOnce({
           valid: false,
-          errors: [{ path: '/project/name', message: 'name is required' }],
+          errors: [{ path: "/project/name", message: "name is required" }],
         });
         result.current.validate();
       });
@@ -309,16 +319,16 @@ describe('useChartConfig', () => {
       expect(result.current.errors).toEqual([]);
     });
 
-    it('should reset to default config when no initialConfig provided', () => {
+    it("should reset to default config when no initialConfig provided", () => {
       const { result } = renderHook(() => useChartConfig());
 
       // Modify config
       act(() => {
         result.current.updateConfig({
           project: {
-            name: 'Modified Name',
-            language: 'sr',
-            theme: 'dark',
+            name: "Modified Name",
+            language: "sr",
+            theme: "dark",
           },
         });
       });
@@ -332,8 +342,8 @@ describe('useChartConfig', () => {
     });
   });
 
-  describe('validation errors', () => {
-    it('should handle validation results', () => {
+  describe("validation errors", () => {
+    it("should handle validation results", () => {
       const { result } = renderHook(() =>
         useChartConfig({
           autoValidate: true,
@@ -345,7 +355,7 @@ describe('useChartConfig', () => {
       expect(result.current.errors).toEqual([]);
     });
 
-    it('should update errors when validation fails', () => {
+    it("should update errors when validation fails", () => {
       const { result } = renderHook(() =>
         useChartConfig({
           autoValidate: true,
@@ -357,8 +367,8 @@ describe('useChartConfig', () => {
     });
   });
 
-  describe('setField function', () => {
-    it('should set a single field value', () => {
+  describe("setField function", () => {
+    it("should set a single field value", () => {
       const { result } = renderHook(() =>
         useChartConfig({
           initialConfig: mockValidConfig,
@@ -366,18 +376,18 @@ describe('useChartConfig', () => {
       );
 
       act(() => {
-        result.current.setField('project', {
-          name: 'New Project Name',
-          language: 'sr',
-          theme: 'dark',
+        result.current.setField("project", {
+          name: "New Project Name",
+          language: "sr",
+          theme: "dark",
         });
       });
 
-      expect(result.current.config.project.name).toBe('New Project Name');
-      expect(result.current.config.project.theme).toBe('dark');
+      expect(result.current.config.project.name).toBe("New Project Name");
+      expect(result.current.config.project.theme).toBe("dark");
     });
 
-    it('should set nested field values', () => {
+    it("should set nested field values", () => {
       const { result } = renderHook(() =>
         useChartConfig({
           initialConfig: mockValidConfig,
@@ -385,7 +395,7 @@ describe('useChartConfig', () => {
       );
 
       act(() => {
-        result.current.setField('features', {
+        result.current.setField("features", {
           embedding: false,
           export: true,
           sharing: true,
@@ -397,7 +407,7 @@ describe('useChartConfig', () => {
       expect(result.current.config.features.sharing).toBe(true);
     });
 
-    it('should trigger validation when autoValidate is true', () => {
+    it("should trigger validation when autoValidate is true", () => {
       const { result } = renderHook(() =>
         useChartConfig({
           autoValidate: true,
@@ -405,17 +415,17 @@ describe('useChartConfig', () => {
       );
 
       act(() => {
-        result.current.setField('project', {
-          name: 'Test Project',
-          language: 'sr',
-          theme: 'light',
+        result.current.setField("project", {
+          name: "Test Project",
+          language: "sr",
+          theme: "light",
         });
       });
 
       expect(validateConfig).toHaveBeenCalled();
     });
 
-    it('should maintain type safety for field keys', () => {
+    it("should maintain type safety for field keys", () => {
       const { result } = renderHook(() =>
         useChartConfig({
           initialConfig: mockValidConfig,
@@ -425,17 +435,17 @@ describe('useChartConfig', () => {
       // TypeScript should catch invalid keys at compile time
       // This test ensures runtime behavior matches
       act(() => {
-        result.current.setField('project', {
-          name: 'Test',
-          language: 'sr',
-          theme: 'light',
+        result.current.setField("project", {
+          name: "Test",
+          language: "sr",
+          theme: "light",
         });
       });
 
       expect(result.current.config.project).toBeDefined();
     });
 
-    it('should preserve other fields when setting one field', () => {
+    it("should preserve other fields when setting one field", () => {
       const { result } = renderHook(() =>
         useChartConfig({
           initialConfig: mockValidConfig,
@@ -446,10 +456,10 @@ describe('useChartConfig', () => {
       const originalDatasets = result.current.config.datasets;
 
       act(() => {
-        result.current.setField('project', {
-          name: 'New Name',
-          language: 'en',
-          theme: 'dark',
+        result.current.setField("project", {
+          name: "New Name",
+          language: "en",
+          theme: "dark",
         });
       });
 
@@ -458,8 +468,8 @@ describe('useChartConfig', () => {
     });
   });
 
-  describe('validate function', () => {
-    it('should manually validate config', () => {
+  describe("validate function", () => {
+    it("should manually validate config", () => {
       const { result } = renderHook(() =>
         useChartConfig({
           validateOnMount: false,
@@ -474,10 +484,10 @@ describe('useChartConfig', () => {
       });
 
       // Should return a boolean
-      expect(typeof validationResult).toBe('boolean');
+      expect(typeof validationResult).toBe("boolean");
     });
 
-    it('should update errors when manually validating', () => {
+    it("should update errors when manually validating", () => {
       const { result } = renderHook(() =>
         useChartConfig({
           validateOnMount: false,
@@ -494,8 +504,8 @@ describe('useChartConfig', () => {
     });
   });
 
-  describe('integration tests', () => {
-    it('should handle complete workflow: update, validate, reset', () => {
+  describe("integration tests", () => {
+    it("should handle complete workflow: update, validate, reset", () => {
       const { result } = renderHook(() =>
         useChartConfig({
           initialConfig: mockValidConfig,
@@ -510,24 +520,26 @@ describe('useChartConfig', () => {
       act(() => {
         result.current.updateConfig({
           project: {
-            name: 'Changed',
-            language: 'sr',
-            theme: 'dark',
+            name: "Changed",
+            language: "sr",
+            theme: "dark",
           },
         });
       });
 
-      expect(result.current.config.project.name).toBe('Changed');
+      expect(result.current.config.project.name).toBe("Changed");
 
       // Reset
       act(() => {
         result.current.resetConfig();
       });
 
-      expect(result.current.config.project.name).toBe(mockValidConfig.project.name);
+      expect(result.current.config.project.name).toBe(
+        mockValidConfig.project.name
+      );
     });
 
-    it('should handle multiple rapid updates', () => {
+    it("should handle multiple rapid updates", () => {
       const { result } = renderHook(() =>
         useChartConfig({
           autoValidate: false,
@@ -536,24 +548,24 @@ describe('useChartConfig', () => {
 
       // Multiple updates
       act(() => {
-        result.current.setField('project', {
-          name: 'Test 1',
-          language: 'sr',
-          theme: 'light',
+        result.current.setField("project", {
+          name: "Test 1",
+          language: "sr",
+          theme: "light",
         });
-        result.current.setField('project', {
-          name: 'Test 2',
-          language: 'sr',
-          theme: 'light',
+        result.current.setField("project", {
+          name: "Test 2",
+          language: "sr",
+          theme: "light",
         });
-        result.current.setField('project', {
-          name: 'Test 3',
-          language: 'sr',
-          theme: 'light',
+        result.current.setField("project", {
+          name: "Test 3",
+          language: "sr",
+          theme: "light",
         });
       });
 
-      expect(result.current.config.project.name).toBe('Test 3');
+      expect(result.current.config.project.name).toBe("Test 3");
     });
   });
 });

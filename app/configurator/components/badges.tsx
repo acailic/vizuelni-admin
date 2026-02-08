@@ -17,7 +17,7 @@ export const FiltersBadge = ({ sx }: { sx?: BadgeProps["sx"] }) => {
     <Badge
       invisible={ctx.isOpen}
       badgeContent={
-        Object.values(filters).filter((d) => d.type === "single").length
+        Object.values(filters).filter((d: any) => d.type === "single").length
       }
       color="secondary"
       sx={{ display: "block", ...sx }}

@@ -21,8 +21,7 @@ import { useChartTheme } from "@/charts/shared/use-chart-theme";
 import { useInteraction } from "@/charts/shared/use-interaction";
 import { useSize } from "@/charts/shared/use-size";
 import { Flex } from "@/components/flex";
-import { useLimits } from "@/config-utils";
-import { MapConfig, PaletteType } from "@/configurator";
+import { Limit as ConfigLimit, MapConfig, PaletteType } from "@/config-types";
 import { ColorRamp } from "@/configurator/components/chart-controls/color-ramp";
 import { Observation } from "@/domain/data";
 import { truthy } from "@/domain/types";
@@ -32,6 +31,7 @@ import {
   useFormatNumber,
 } from "@/formatters";
 import { getColorInterpolator } from "@/palettes";
+import { Limit as MeasureLimit } from "@/rdf/limits";
 import { getTextWidth } from "@/utils/get-text-width";
 
 const MAX_WIDTH = 204;
@@ -42,6 +42,13 @@ const AXIS_TICK_ROTATE_ANGLE = 45;
 const AXIS_LABEL_FONT_SIZE = 10;
 
 const useLegendWidth = () => Math.min(useSize().width, MAX_WIDTH);
+
+type LimitEntry = {
+  configLimit: ConfigLimit;
+  measureLimit: MeasureLimit;
+  relatedAxisDimensionValueLabel: string | undefined;
+  limitUnit: string | undefined;
+};
 
 const makeAxis = (
   g: Selection<SVGGElement, unknown, null, undefined>,
@@ -84,7 +91,7 @@ export const MapLegend = ({
 }: {
   chartConfig: MapConfig;
   observations: Observation[];
-  limits: ReturnType<typeof useLimits>["limits"];
+  limits: LimitEntry[];
 }) => {
   const { areaLayer, symbolLayer } = useChartState() as MapState;
   const showAreaLegend =
@@ -258,7 +265,7 @@ export const MapLegend = ({
                 </Box>
               );
             default:
-              const _exhaustiveCheck: never = measureLimit;
+              const _exhaustiveCheck: never = measureLimit as never;
               return _exhaustiveCheck;
           }
         })}

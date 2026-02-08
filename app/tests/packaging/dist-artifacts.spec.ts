@@ -95,7 +95,6 @@ describe("Distribution Artifacts Validation", () => {
   describe("Main Entry Point", () => {
     const cjsFile = join(distDir, "index.js");
     const esmFile = join(distDir, "index.mjs");
-    const dtsFile = join(distDir, "index.d.ts");
 
     it("should have CJS entry point (index.js)", () => {
       if (!distExists) return;
@@ -642,19 +641,27 @@ describe("Distribution Artifacts Validation", () => {
     });
 
     it("each export should have import, require, and types conditions", () => {
-      for (const [subpath, entry] of Object.entries(exports)) {
-        expect(entry).toBeDefined();
-        expect(typeof entry).toBe("object");
+      const exportEntries = Object.entries(
+        exports as Record<
+          string,
+          { import?: string; require?: string; types?: string }
+        >
+      );
+      for (const [_subpath, entry] of exportEntries) {
+        const exportConfig = entry;
+
+        expect(exportConfig).toBeDefined();
+        expect(typeof exportConfig).toBe("object");
 
         // Check for required conditions
-        expect(entry.import).toBeDefined();
-        expect(entry.require).toBeDefined();
-        expect(entry.types).toBeDefined();
+        expect(exportConfig.import).toBeDefined();
+        expect(exportConfig.require).toBeDefined();
+        expect(exportConfig.types).toBeDefined();
 
         // All should point to dist/ directory
-        expect(entry.import).toMatch(/^\.\/dist\//);
-        expect(entry.require).toMatch(/^\.\/dist\//);
-        expect(entry.types).toMatch(/^\.\/dist\//);
+        expect(exportConfig.import).toMatch(/^\.\/dist\//);
+        expect(exportConfig.require).toMatch(/^\.\/dist\//);
+        expect(exportConfig.types).toMatch(/^\.\/dist\//);
       }
     });
 

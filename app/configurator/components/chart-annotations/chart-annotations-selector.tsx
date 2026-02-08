@@ -2,12 +2,12 @@ import { t, Trans } from "@lingui/macro";
 import { Button, Typography } from "@mui/material";
 import isEqual from "lodash/isEqual";
 import omit from "lodash/omit";
-import { useMemo } from "react";
+import { ChangeEvent, useMemo } from "react";
 
 import { Checkbox, MarkdownInput, Radio, RadioGroup } from "@/components/form";
 import { Markdown } from "@/components/markdown";
 import { useDisclosure } from "@/components/use-disclosure";
-import { Annotation, AnnotationTarget } from "@/config-types";
+import { Annotation, AnnotationTarget, ChartConfig } from "@/config-types";
 import { isSegmentInConfig } from "@/config-types";
 import { getChartConfig } from "@/config-utils";
 import { getDefaultHighlightAnnotation } from "@/configurator/components/chart-annotations/utils";
@@ -36,7 +36,7 @@ export const ChartAnnotationsSelector = () => {
   const chartConfig = getChartConfig(state);
   const activeField = chartConfig.activeField;
   const annotation = chartConfig.annotations.find(
-    (annotation) => annotation.key === activeField
+    (annotation: Annotation) => annotation.key === activeField
   );
 
   const [{ data: componentsData }] = useDataCubesComponentsQuery({
@@ -45,11 +45,13 @@ export const ChartAnnotationsSelector = () => {
       locale,
       sourceType: state.dataSource.type,
       sourceUrl: state.dataSource.url,
-      cubeFilters: chartConfig.cubes.map((cube) => ({
-        iri: cube.iri,
-        joinBy: cube.joinBy,
-        loadValues: true,
-      })),
+      cubeFilters: chartConfig.cubes.map(
+        (cube: ChartConfig["cubes"][number]) => ({
+          iri: cube.iri,
+          joinBy: cube.joinBy,
+          loadValues: true,
+        })
+      ),
     },
   });
 
@@ -321,7 +323,7 @@ const AnnotationDrawer = ({
   const chartConfig = getChartConfig(state);
   const activeField = chartConfig.activeField;
   const annotation = chartConfig.annotations.find(
-    (annotation) => annotation.key === activeField
+    (annotation: Annotation) => annotation.key === activeField
   );
 
   const handleTextChange = useEvent((locale: Locale, value: string) => {
@@ -374,7 +376,7 @@ const AnnotationDrawer = ({
                     listToggles: true,
                     link: true,
                   }}
-                  onChange={(e) => {
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
                     handleTextChange(locale, e.currentTarget.value);
                   }}
                 />
@@ -399,7 +401,7 @@ const getAnnotationLabel = ({
   }
 
   return annotation.targets
-    .map((target) => {
+    .map((target: AnnotationTarget) => {
       if (target) {
         return getTargetLabel(target, { dimensions });
       }

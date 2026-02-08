@@ -154,13 +154,15 @@ const NextStepButton = ({ children }: PropsWithChildren<{}>) => {
       sourceType: state.dataSource.type,
       sourceUrl: state.dataSource.url,
       locale,
-      cubeFilters: chartConfig.cubes.map((cube) => ({
-        iri: cube.iri,
-        componentIds,
-        filters: cube.filters,
-        joinBy: cube.joinBy,
-        loadValues: true,
-      })),
+      cubeFilters: chartConfig.cubes.map(
+        (cube: { iri: string; filters: unknown; joinBy?: string[] }) => ({
+          iri: cube.iri,
+          componentIds,
+          filters: cube.filters,
+          joinBy: cube.joinBy,
+          loadValues: true,
+        })
+      ),
     },
   });
 
@@ -202,16 +204,16 @@ const SaveDraftButton = ({ chartId }: { chartId: string | undefined }) => {
 
   const handleClick = useEventCallback(async () => {
     try {
-      if (config?.user_id && loggedInId) {
+      if ((config as any)?.user_id && loggedInId) {
         const updated = await updatePublishedStateMut.mutate({
           data: state,
           published_state: PUBLISHED_STATE.DRAFT,
-          key: config.key,
+          key: (config as any).key,
         });
 
         if (updated) {
-          if (asPath !== `/create/${updated.key}`) {
-            replace(`/create/new?edit=${updated.key}`);
+          if (asPath !== `/create/${(updated as any).key}`) {
+            replace(`/create/new?edit=${(updated as any).key}`);
           }
         } else {
           throw Error("Could not update draft");
@@ -225,7 +227,7 @@ const SaveDraftButton = ({ chartId }: { chartId: string | undefined }) => {
         if (saved) {
           const config = await initChartStateFromChartEdit(
             client,
-            saved.key,
+            (saved as any).key,
             state.state
           );
 
@@ -234,8 +236,8 @@ const SaveDraftButton = ({ chartId }: { chartId: string | undefined }) => {
           }
 
           dispatch({ type: "INITIALIZED", value: config });
-          saveChartLocally(saved.key, config);
-          replace(`/create/${saved.key}`, undefined, {
+          saveChartLocally((saved as any).key, config);
+          replace(`/create/${(saved as any).key}`, undefined, {
             shallow: true,
           });
         } else {
@@ -368,8 +370,8 @@ const PublishChartButton = ({ chartId }: { chartId: string | undefined }) => {
   const { data: config } = useUserConfig(chartId);
   const editingPublishedChart =
     session.data?.user.id &&
-    config?.user_id === session.data.user.id &&
-    config.published_state === "PUBLISHED";
+    (config as any)?.user_id === session.data.user.id &&
+    (config as any).published_state === "PUBLISHED";
 
   return (
     <NextStepButton>
@@ -638,7 +640,7 @@ const LayoutingStep = () => {
                   value: {
                     type: "singleURLs",
                     publishableChartKeys: state.chartConfigs.map(
-                      (chartConfig) => chartConfig.key
+                      (chartConfig: { key: string }) => chartConfig.key
                     ),
                     meta: state.layout.meta,
                     blocks: state.layout.blocks,

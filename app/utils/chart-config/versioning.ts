@@ -2,12 +2,10 @@ import { schemeCategory10 } from "d3-scale-chromatic";
 import stringSimilarity from "string-similarity-js";
 
 import { DEFAULT_OTHER_COLOR_FIELD_OPACITY } from "@/charts/map/constants";
-import { ChartConfig, ConfiguratorState } from "@/config-types/config-types";
+import { ChartConfig, ConfiguratorState } from "@/config-types";
 import { mapValueIrisToColor } from "@/configurator/components/ui-helpers";
 import { FIELD_VALUE_NONE } from "@/configurator/constants";
-import {
-  PROD_DATA_SOURCE_URL,
-} from "@/domain/data-source/constants";
+import { PROD_DATA_SOURCE_URL } from "@/domain/data-source/constants";
 import { client } from "@/graphql/client";
 import { isJoinById } from "@/graphql/join";
 import {
@@ -1702,7 +1700,7 @@ const makeBumpChartConfigVersionMigration = ({
     to: toVersion,
     up: async (config) => {
       const newConfig = { ...config, version: toVersion };
-      const chartConfigs = [];
+      const chartConfigs: any[] = [];
 
       for (const chartConfig of newConfig.chartConfigs) {
         const migratedChartConfig = await migrateChartConfig(chartConfig, {
@@ -1718,7 +1716,7 @@ const makeBumpChartConfigVersionMigration = ({
     },
     down: async (config) => {
       const newConfig = { ...config, version: fromVersion };
-      const chartConfigs = [];
+      const chartConfigs: any[] = [];
 
       for (const chartConfig of newConfig.chartConfigs) {
         const migratedChartConfig = await migrateChartConfig(chartConfig, {
@@ -1790,7 +1788,7 @@ export const configuratorStateMigrations: Migration[] = [
     to: "3.0.0",
     up: async (config) => {
       const newConfig = { ...config, version: "3.0.0" };
-      const chartConfigs = [];
+      const chartConfigs: any[] = [];
 
       for (const chartConfig of newConfig.chartConfigs) {
         const migratedChartConfig = await migrateChartConfig(chartConfig, {
@@ -1808,7 +1806,7 @@ export const configuratorStateMigrations: Migration[] = [
     down: async (config) => {
       const newConfig = { ...config, version: "2.0.0" };
       let dataSet: string | undefined;
-      const chartConfigs = [];
+      const chartConfigs: any[] = [];
 
       for (const chartConfig of newConfig.chartConfigs) {
         if (!dataSet) {
@@ -2046,7 +2044,7 @@ export const configuratorStateMigrations: Migration[] = [
         },
       };
 
-      const chartConfigs = [];
+      const chartConfigs: any[] = [];
 
       for (const chartConfig of newConfig.chartConfigs) {
         const migratedChartConfig = await migrateChartConfig(chartConfig, {
@@ -2073,7 +2071,7 @@ export const configuratorStateMigrations: Migration[] = [
         },
       };
 
-      const chartConfigs = [];
+      const chartConfigs: any[] = [];
 
       for (const chartConfig of newConfig.chartConfigs) {
         const migratedChartConfig = await migrateChartConfig(chartConfig, {
@@ -2137,7 +2135,7 @@ export const configuratorStateMigrations: Migration[] = [
     to: "4.0.0",
     up: async (config) => {
       const newConfig = { ...config, version: "4.0.0" };
-      const chartConfigs = [];
+      const chartConfigs: any[] = [];
 
       for (const chartConfig of newConfig.chartConfigs) {
         const migratedChartConfig = await migrateChartConfig(chartConfig, {
@@ -2177,7 +2175,7 @@ export const configuratorStateMigrations: Migration[] = [
     },
     down: async (config) => {
       const newConfig = { ...config, version: "3.8.0" };
-      const chartConfigs = [];
+      const chartConfigs: any[] = [];
 
       for (const chartConfig of newConfig.chartConfigs) {
         const migratedChartConfig = await migrateChartConfig(chartConfig, {

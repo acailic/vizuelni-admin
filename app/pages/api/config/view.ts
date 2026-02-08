@@ -5,7 +5,7 @@ import {
 import { api } from "../../../server/nextkit";
 
 const route = api({
-  GET: async ({ req }) => {
+  GET: async ({ req }: { req: any }) => {
     const { id } = req.query;
 
     if (typeof id !== "string") {
@@ -16,7 +16,7 @@ const route = api({
 
     return viewCount;
   },
-  POST: async ({ req }) => {
+  POST: async ({ req }: { req: any }) => {
     const { type } = JSON.parse(req.body);
 
     if (type === "preview") {

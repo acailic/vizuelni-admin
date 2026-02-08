@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import get from "lodash/get";
-import { MouseEventHandler, useMemo, useState } from "react";
+import { MouseEvent, MouseEventHandler, useMemo, useState } from "react";
 
 import { EncodingFieldType } from "@/charts/chart-config-ui-options";
 import { hasDimensionColors } from "@/charts/shared/colors";
@@ -47,6 +47,12 @@ type Props = {
   component?: Component;
 };
 
+type PaletteOption = {
+  label: string;
+  value: string;
+  colors: ReadonlyArray<string>;
+};
+
 export const ColorPalette = ({
   field,
   disabled,
@@ -60,27 +66,31 @@ export const ColorPalette = ({
   const { data: customColorPalettes, invalidate } = useUserPalettes();
 
   const hasColors = hasDimensionColors(component);
-  const defaultPalette =
+  const defaultPalette: PaletteOption | null =
     hasColors && component
       ? getDefaultCategoricalPalette(
           component.values.map((d) => d.color).filter(Boolean) as string[]
         )
       : null;
 
-  const palettes = isNumericalMeasure(component)
-    ? divergingSteppedPalettes
-    : defaultPalette
-      ? [defaultPalette, ...categoricalPalettes]
-      : categoricalPalettes;
+  const palettes = (
+    isNumericalMeasure(component)
+      ? divergingSteppedPalettes
+      : defaultPalette
+        ? [defaultPalette, ...categoricalPalettes]
+        : categoricalPalettes
+  ) as PaletteOption[];
 
-  const currentPaletteName = isColorInConfig(chartConfig)
-    ? get(chartConfig, `fields.color.paletteId`)
-    : get(
-        chartConfig,
-        `fields["${chartConfig.activeField}"].${
-          colorConfigPath ? `${colorConfigPath}.` : ""
-        }paletteId`
-      );
+  const currentPaletteName = (
+    isColorInConfig(chartConfig)
+      ? get(chartConfig, `fields.color.paletteId`)
+      : get(
+          chartConfig,
+          `fields["${chartConfig.activeField}"].${
+            colorConfigPath ? `${colorConfigPath}.` : ""
+          }paletteId`
+        )
+  ) as string | undefined;
 
   const currentPalette = palettes.find((p) => p.value === currentPaletteName);
 
@@ -179,7 +189,7 @@ export const ColorPalette = ({
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement>();
   const handleOpenCreateColorPalette: MouseEventHandler<HTMLElement> = useEvent(
-    (e) => {
+    (e: MouseEvent<HTMLElement>) => {
       setAnchorEl(e.currentTarget);
     }
   );
@@ -195,7 +205,10 @@ export const ColorPalette = ({
     }
   );
 
-  const isValidValue = (value: string) => {
+  const isValidValue = (value?: string) => {
+    if (!value) {
+      return false;
+    }
     const isPaletteValue = palettes.some((p) => p.value === value);
     const isCustomPaletteValue = customColorPalettes?.some(
       (p) => p.paletteId === value
@@ -513,7 +526,7 @@ const ColorPaletteControls = ({
     const currentPalette = getPalette({
       paletteId,
       fallbackPalette: customPalette?.colors,
-    });
+    }) as readonly string[];
     const colorMappingColors = Object.values(colorMapping);
     const nbMatchedColors = colorMappingColors.length;
     const matchedColorsInPalette = currentPalette.slice(0, nbMatchedColors);

@@ -28,10 +28,9 @@ import {
   useTemporalEntityVariable,
   useTemporalVariable,
 } from "@/charts/shared/chart-helpers";
-import { DimensionsById, MeasuresById } from "@/charts/shared/chart-props";
+import type { DimensionsById, MeasuresById } from "@/charts/shared/chart-props";
 import { Bounds } from "@/charts/shared/use-size";
 import { TableChartState } from "@/charts/table/table-state";
-import { useLimits } from "@/config-utils";
 import {
   AreaFields,
   BarFields,
@@ -835,7 +834,13 @@ export type LimitsVariables = {
   maxLimitValue: number | undefined;
 };
 
-export const useLimitsVariables = (limits: ReturnType<typeof useLimits>) => {
+type LimitsState = {
+  limits: Array<{
+    measureLimit: Limit;
+  }>;
+};
+
+export const useLimitsVariables = (limits: LimitsState) => {
   const values = limits.limits.flatMap((d) => {
     switch (d.measureLimit.type) {
       case "single":
@@ -845,14 +850,14 @@ export const useLimitsVariables = (limits: ReturnType<typeof useLimits>) => {
       case "time-range":
         return [d.measureLimit.value];
       default:
-        const _exhaustiveCheck: never = d.measureLimit;
+        const _exhaustiveCheck: never = d.measureLimit as never;
         return _exhaustiveCheck;
     }
   });
 
   return {
-    minLimitValue: min(values),
-    maxLimitValue: max(values),
+    minLimitValue: min(values) as number | undefined,
+    maxLimitValue: max(values) as number | undefined,
   };
 };
 

@@ -20,43 +20,43 @@ const getSource = (dataSourceType: string) => {
 
 export const Query: QueryResolvers = {
   dataCubeLatestIri: async (parent, args, context, info) => {
-    const source = getSource(args.sourceType);
+    const source = getSource(args.sourceType) as any;
     return await source.dataCubeLatestIri(parent, args, context, info);
   },
   dataCubeUnversionedIri: async (parent, args, context, info) => {
-    const source = getSource(args.sourceType);
+    const source = getSource(args.sourceType) as any;
     return await source.dataCubeUnversionedIri(parent, args, context, info);
   },
   dataCubeComponents: async (parent, args, context, info) => {
-    const source = getSource(args.sourceType);
+    const source = getSource(args.sourceType) as any;
     return await source.dataCubeComponents(parent, args, context, info);
   },
   dataCubeMetadata: async (parent, args, context, info) => {
-    const source = getSource(args.sourceType);
+    const source = getSource(args.sourceType) as any;
     return await source.dataCubeMetadata(parent, args, context, info);
   },
   dataCubeComponentTermsets: async (parent, args, context, info) => {
-    const source = getSource(args.sourceType);
+    const source = getSource(args.sourceType) as any;
     return await source.dataCubeComponentTermsets(parent, args, context, info);
   },
   dataCubeObservations: async (parent, args, context, info) => {
-    const source = getSource(args.sourceType);
+    const source = getSource(args.sourceType) as any;
     return await source.dataCubeObservations(parent, args, context, info);
   },
   dataCubePreview: async (parent, args, context, info) => {
-    const source = getSource(args.sourceType);
+    const source = getSource(args.sourceType) as any;
     return await source.dataCubePreview(parent, args, context, info);
   },
   possibleFilters: async (parent, args, context, info) => {
-    const source = getSource(args.sourceType);
+    const source = getSource(args.sourceType) as any;
     return await source.possibleFilters(parent, args, context, info);
   },
   searchCubes: async (parent, args, context, info) => {
-    const source = getSource(args.sourceType);
+    const source = getSource(args.sourceType) as any;
     return await source.searchCubes(parent, args, context, info);
   },
   dataCubeDimensionGeoShapes: async (parent, args, context, info) => {
-    const source = getSource(args.sourceType);
+    const source = getSource(args.sourceType) as any;
     return await source.dataCubeDimensionGeoShapes(parent, args, context, info);
   },
 };
@@ -139,8 +139,8 @@ export const datasourceValidationError = () => {
 const DataSourceUrlScalar = new GraphQLScalarType({
   name: "DataSourceUrl",
   description: "DataSourceUrl custom scalar type",
-  parseValue: datasourceUrlValue,
-  serialize: datasourceUrlValue,
+  parseValue: (value: unknown) => datasourceUrlValue(value as string),
+  serialize: (value: unknown) => datasourceUrlValue(value as string),
   parseLiteral(ast) {
     if (ast.kind === Kind.INT) {
       return datasourceUrlValue(ast.value);

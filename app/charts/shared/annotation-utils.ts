@@ -67,7 +67,7 @@ export const useGetAnnotationRenderState = () => {
           axisValue;
 
       const targetsOtherAnnotations = chartConfig.annotations.some(
-        (a) =>
+        (a: Annotation) =>
           a.key !== activeField &&
           matchesAnnotationTarget(observation, a.targets)
       );
@@ -106,10 +106,10 @@ export const getAnnotationTargetsFromObservation = (
 ): Annotation["targets"] => {
   const singleFilters = extractSingleFilters(definitiveFilters);
   const targets: Annotation["targets"] = Object.entries(singleFilters)
-    .filter(([, v]) => v.value !== FIELD_VALUE_NONE)
+    .filter(([, v]) => (v as any).value !== FIELD_VALUE_NONE)
     .map(([componentId, value]) => ({
       componentId,
-      value: `${value.value}`,
+      value: `${(value as any).value}`,
     }));
 
   switch (chartConfig.chartType) {
@@ -190,7 +190,7 @@ export const getAnnotationTargetsFromObservation = (
     case "table":
       break;
     default:
-      const _exhaustiveCheck: never = chartConfig;
+      const _exhaustiveCheck: never = chartConfig as never;
       return _exhaustiveCheck;
   }
 
@@ -231,7 +231,7 @@ export const hasSegmentAnnotation = (
     return false;
   }
 
-  return chartConfig.annotations.some((annotation) => {
+  return chartConfig.annotations.some((annotation: Annotation) => {
     const observationTargets = getAnnotationTargetsFromObservation(
       observation,
       {
@@ -246,10 +246,14 @@ export const hasSegmentAnnotation = (
     }
 
     const relevantAnnotationTargets = annotation.targets.filter(
-      (annotationTarget) => {
-        return observationTargets.some((observationTarget) => {
-          return annotationTarget.componentId === observationTarget.componentId;
-        });
+      (annotationTarget: AnnotationTarget) => {
+        return observationTargets.some(
+          (observationTarget: AnnotationTarget) => {
+            return (
+              annotationTarget.componentId === observationTarget.componentId
+            );
+          }
+        );
       }
     );
 
@@ -257,13 +261,17 @@ export const hasSegmentAnnotation = (
       return false;
     }
 
-    return relevantAnnotationTargets.every((annotationTarget) => {
-      return observationTargets.some((observationTarget) => {
-        return (
-          annotationTarget.componentId === observationTarget.componentId &&
-          annotationTarget.value === observationTarget.value
+    return relevantAnnotationTargets.every(
+      (annotationTarget: AnnotationTarget) => {
+        return observationTargets.some(
+          (observationTarget: AnnotationTarget) => {
+            return (
+              annotationTarget.componentId === observationTarget.componentId &&
+              annotationTarget.value === observationTarget.value
+            );
+          }
         );
-      });
-    });
+      }
+    );
   });
 };

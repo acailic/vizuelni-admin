@@ -15,6 +15,8 @@ import {
   useConfiguratorState,
 } from "@/configurator/configurator-state";
 
+import type { SelectChangeEvent } from "@mui/material/Select";
+
 export const ImputationField = ({
   chartConfig,
 }: {
@@ -39,7 +41,7 @@ export const ImputationField = ({
           message: "Linear interpolation",
         });
       default:
-        const _exhaustiveCheck: never = type;
+        const _exhaustiveCheck: never = type as never;
         return _exhaustiveCheck;
     }
   };
@@ -81,12 +83,12 @@ export const ImputationField = ({
         <Select
           id="imputation-type"
           label={getFieldLabel("imputation")}
-          options={IMPUTATION_TYPES.map((d) => ({
+          options={IMPUTATION_TYPES.map((d: ImputationType) => ({
             value: d,
             label: getImputationTypeLabel(d),
           }))}
           value={imputationType}
-          onChange={(e) => {
+          onChange={(e: SelectChangeEvent<string>) => {
             updateImputationType(e.target.value as ImputationType);
           }}
         />

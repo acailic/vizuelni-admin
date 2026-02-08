@@ -91,7 +91,9 @@ export const ChartOptionsSelector = () => {
         locale,
         sourceType: dataSource.type,
         sourceUrl: dataSource.url,
-        cubeFilters: chartConfig.cubes.map((cube) => ({ iri: cube.iri })),
+        cubeFilters: chartConfig.cubes.map((cube: { iri: string }) => ({
+          iri: cube.iri,
+        })),
       },
     });
   const cubesMetadata = metadataData?.dataCubesMetadata;
@@ -102,11 +104,13 @@ export const ChartOptionsSelector = () => {
         sourceType: dataSource.type,
         sourceUrl: dataSource.url,
         locale,
-        cubeFilters: chartConfig.cubes.map((cube) => ({
-          iri: cube.iri,
-          joinBy: cube.joinBy,
-          loadValues: true,
-        })),
+        cubeFilters: chartConfig.cubes.map(
+          (cube: { iri: string; joinBy?: string[] }) => ({
+            iri: cube.iri,
+            joinBy: cube.joinBy,
+            loadValues: true,
+          })
+        ),
       },
       keepPreviousData: true,
     });
@@ -196,12 +200,12 @@ const ActiveFieldSwitch = ({
   const animatable =
     isAnimationInConfig(chartConfig) &&
     chartSpec.interactiveFilters.includes("animation");
-  const baseEncodings = chartSpec.encodings;
-  const encodings = animatable
-    ? [...baseEncodings, ANIMATION_FIELD_SPEC]
-    : baseEncodings;
+  const baseEncodings = chartSpec.encodings as EncodingSpec[];
+  const encodings = (
+    animatable ? [...baseEncodings, ANIMATION_FIELD_SPEC] : baseEncodings
+  ) as EncodingSpec[];
   const encoding = encodings.find(
-    (e) => e.field === activeField
+    (e: EncodingSpec) => e.field === activeField
   ) as EncodingSpec;
 
   const activeFieldComponentId = getFieldComponentId(

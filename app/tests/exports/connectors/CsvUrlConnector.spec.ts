@@ -257,9 +257,9 @@ describe("CsvUrlConnector", () => {
       await connector.fetch();
       const schema = await connector.getSchema();
 
-      expect(schema.fields).toHaveLength(2);
-      expect(schema.fields[0].name).toBe("name");
-      expect(schema.fields[1].name).toBe("age");
+      expect(schema.columns).toHaveLength(2);
+      expect(schema.columns[0]).toBe("name");
+      expect(schema.columns[1]).toBe("age");
     });
 
     it("should cache schema", async () => {

@@ -111,21 +111,23 @@ const migrateCubeIri = (iri: string): string => {
 const ensureFiltersOrder = (chartConfig: ChartConfig) => {
   return {
     ...chartConfig,
-    cubes: chartConfig.cubes.map((cube) => {
-      return {
-        ...cube,
-        filters: Object.fromEntries(
-          Object.entries(cube.filters)
-            .sort(([, a], [, b]) => {
-              return (a.position ?? 0) - (b.position ?? 0);
-            })
-            .map(([k, v]) => {
-              const { position, ...rest } = v;
-              return [k, rest];
-            })
-        ),
-      };
-    }),
+    cubes: chartConfig.cubes.map(
+      (cube: { filters: Record<string, unknown>; iri: string }) => {
+        return {
+          ...cube,
+          filters: Object.fromEntries(
+            Object.entries(cube.filters)
+              .sort(([, a], [, b]) => {
+                return ((a as any).position ?? 0) - ((b as any).position ?? 0);
+              })
+              .map(([k, v]) => {
+                const { position, ...rest } = v as any;
+                return [k, rest];
+              })
+          ),
+        };
+      }
+    ),
   };
 };
 
@@ -133,10 +135,12 @@ const ensureFiltersOrder = (chartConfig: ChartConfig) => {
 const ensureMigratedCubeIris = (chartConfig: ChartConfig) => {
   return {
     ...chartConfig,
-    cubes: chartConfig.cubes.map((cube) => ({
-      ...cube,
-      iri: migrateCubeIri(cube.iri),
-    })),
+    cubes: chartConfig.cubes.map(
+      (cube: { iri: string; filters?: Record<string, unknown> }) => ({
+        ...cube,
+        iri: migrateCubeIri(cube.iri),
+      })
+    ),
   };
 };
 

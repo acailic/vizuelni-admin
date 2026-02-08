@@ -60,8 +60,15 @@ export interface DatasetSearchRequest {
   limit?: number;
   organization?: string;
   tag?: string;
-  sortBy?: 'relevance' | 'title' | 'created' | 'modified' | 'downloads';
-  sortOrder?: 'asc' | 'desc';
+  sortBy?:
+    | "relevance"
+    | "title"
+    | "created"
+    | "modified"
+    | "downloads"
+    | "organization"
+    | "format";
+  sortOrder?: "asc" | "desc";
 }
 
 export interface APIError {
@@ -71,4 +78,7 @@ export interface APIError {
   details?: any;
 }
 
-export type DatasetApiResponse = DatasetSearchResponse | DatasetDetailResponse | APIError;
+export type DatasetApiResponse =
+  | DatasetSearchResponse
+  | DatasetDetailResponse
+  | APIError;

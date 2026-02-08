@@ -42,7 +42,8 @@ export const PERFORMANCE_THRESHOLDS: PerformanceThresholds = {
 class PerformanceMonitor {
   private metrics: Partial<PerformanceMetrics> = {};
   private observers: PerformanceObserver[] = [];
-  private isSupported = typeof window !== 'undefined' && 'performance' in window;
+  private isSupported =
+    typeof window !== "undefined" && "performance" in window;
 
   constructor() {
     if (this.isSupported) {
@@ -52,17 +53,17 @@ class PerformanceMonitor {
 
   private initializeObservers() {
     // Largest Contentful Paint (LCP)
-    if ('PerformanceObserver' in window) {
+    if ("PerformanceObserver" in window) {
       try {
         const lcpObserver = new PerformanceObserver((entryList) => {
           const entries = entryList.getEntries();
           const lastEntry = entries[entries.length - 1] as PerformanceEntry;
           this.metrics.lcp = lastEntry.startTime;
         });
-        lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+        lcpObserver.observe({ entryTypes: ["largest-contentful-paint"] });
         this.observers.push(lcpObserver);
       } catch (e) {
-        console.warn('LCP observer not supported:', e);
+        console.warn("LCP observer not supported:", e);
       }
 
       // First Input Delay (FID)
@@ -70,15 +71,15 @@ class PerformanceMonitor {
         const fidObserver = new PerformanceObserver((entryList) => {
           const entries = entryList.getEntries();
           entries.forEach((entry: any) => {
-            if (entry.name === 'first-input') {
+            if (entry.name === "first-input") {
               this.metrics.fid = entry.processingStart - entry.startTime;
             }
           });
         });
-        fidObserver.observe({ entryTypes: ['first-input'] });
+        fidObserver.observe({ entryTypes: ["first-input"] });
         this.observers.push(fidObserver);
       } catch (e) {
-        console.warn('FID observer not supported:', e);
+        console.warn("FID observer not supported:", e);
       }
 
       // Cumulative Layout Shift (CLS)
@@ -93,35 +94,40 @@ class PerformanceMonitor {
             }
           });
         });
-        clsObserver.observe({ entryTypes: ['layout-shift'] });
+        clsObserver.observe({ entryTypes: ["layout-shift"] });
         this.observers.push(clsObserver);
       } catch (e) {
-        console.warn('CLS observer not supported:', e);
+        console.warn("CLS observer not supported:", e);
       }
 
       // First Contentful Paint (FCP)
       try {
         const fcpObserver = new PerformanceObserver((entryList) => {
           const entries = entryList.getEntries();
-          const fcpEntry = entries.find((entry) => entry.name === 'first-contentful-paint');
+          const fcpEntry = entries.find(
+            (entry) => entry.name === "first-contentful-paint"
+          );
           if (fcpEntry) {
             this.metrics.fcp = fcpEntry.startTime;
           }
         });
-        fcpObserver.observe({ entryTypes: ['paint'] });
+        fcpObserver.observe({ entryTypes: ["paint"] });
         this.observers.push(fcpObserver);
       } catch (e) {
-        console.warn('FCP observer not supported:', e);
+        console.warn("FCP observer not supported:", e);
       }
 
       // Time to First Byte (TTFB)
       try {
-        const navigationEntry = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+        const navigationEntry = performance.getEntriesByType(
+          "navigation"
+        )[0] as PerformanceNavigationTiming;
         if (navigationEntry) {
-          this.metrics.ttfb = navigationEntry.responseStart - navigationEntry.requestStart;
+          this.metrics.ttfb =
+            navigationEntry.responseStart - navigationEntry.requestStart;
         }
       } catch (e) {
-        console.warn('TTFB calculation failed:', e);
+        console.warn("TTFB calculation failed:", e);
       }
     }
   }
@@ -130,7 +136,7 @@ class PerformanceMonitor {
    * Record a custom metric
    */
   public recordCustomMetric(name: keyof PerformanceMetrics, value: number) {
-    this.metrics[name] = value;
+    (this.metrics as any)[name] = value;
   }
 
   /**
@@ -139,9 +145,9 @@ class PerformanceMonitor {
   public getMetrics(): PerformanceMetrics {
     return {
       ...this.metrics,
-      url: typeof window !== 'undefined' ? window.location.href : '',
+      url: typeof window !== "undefined" ? window.location.href : "",
       timestamp: Date.now(),
-      userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : '',
+      userAgent: typeof navigator !== "undefined" ? navigator.userAgent : "",
     } as PerformanceMetrics;
   }
 
@@ -161,50 +167,75 @@ class PerformanceMonitor {
     // LCP
     if (currentMetrics.lcp !== undefined) {
       metricsCount++;
-      const lcpScore = Math.max(0, 100 - (currentMetrics.lcp / PERFORMANCE_THRESHOLDS.lcp) * 100);
+      const lcpScore = Math.max(
+        0,
+        100 - (currentMetrics.lcp / PERFORMANCE_THRESHOLDS.lcp) * 100
+      );
       totalScore += lcpScore;
       if (currentMetrics.lcp > PERFORMANCE_THRESHOLDS.lcp) {
-        issues.push(`LCP too slow: ${currentMetrics.lcp.toFixed(0)}ms (target: <${PERFORMANCE_THRESHOLDS.lcp}ms)`);
+        issues.push(
+          `LCP too slow: ${currentMetrics.lcp.toFixed(0)}ms (target: <${PERFORMANCE_THRESHOLDS.lcp}ms)`
+        );
       }
     }
 
     // FID
     if (currentMetrics.fid !== undefined) {
       metricsCount++;
-      const fidScore = Math.max(0, 100 - (currentMetrics.fid / PERFORMANCE_THRESHOLDS.fid) * 100);
+      const fidScore = Math.max(
+        0,
+        100 - (currentMetrics.fid / PERFORMANCE_THRESHOLDS.fid) * 100
+      );
       totalScore += fidScore;
       if (currentMetrics.fid > PERFORMANCE_THRESHOLDS.fid) {
-        issues.push(`FID too high: ${currentMetrics.fid.toFixed(0)}ms (target: <${PERFORMANCE_THRESHOLDS.fid}ms)`);
+        issues.push(
+          `FID too high: ${currentMetrics.fid.toFixed(0)}ms (target: <${PERFORMANCE_THRESHOLDS.fid}ms)`
+        );
       }
     }
 
     // CLS
     if (currentMetrics.cls !== undefined) {
       metricsCount++;
-      const clsScore = Math.max(0, 100 - (currentMetrics.cls / PERFORMANCE_THRESHOLDS.cls) * 100);
+      const clsScore = Math.max(
+        0,
+        100 - (currentMetrics.cls / PERFORMANCE_THRESHOLDS.cls) * 100
+      );
       totalScore += clsScore;
       if (currentMetrics.cls > PERFORMANCE_THRESHOLDS.cls) {
-        issues.push(`CLS too high: ${currentMetrics.cls.toFixed(3)} (target: <${PERFORMANCE_THRESHOLDS.cls})`);
+        issues.push(
+          `CLS too high: ${currentMetrics.cls.toFixed(3)} (target: <${PERFORMANCE_THRESHOLDS.cls})`
+        );
       }
     }
 
     // FCP
     if (currentMetrics.fcp !== undefined) {
       metricsCount++;
-      const fcpScore = Math.max(0, 100 - (currentMetrics.fcp / PERFORMANCE_THRESHOLDS.fcp) * 100);
+      const fcpScore = Math.max(
+        0,
+        100 - (currentMetrics.fcp / PERFORMANCE_THRESHOLDS.fcp) * 100
+      );
       totalScore += fcpScore;
       if (currentMetrics.fcp > PERFORMANCE_THRESHOLDS.fcp) {
-        issues.push(`FCP too slow: ${currentMetrics.fcp.toFixed(0)}ms (target: <${PERFORMANCE_THRESHOLDS.fcp}ms)`);
+        issues.push(
+          `FCP too slow: ${currentMetrics.fcp.toFixed(0)}ms (target: <${PERFORMANCE_THRESHOLDS.fcp}ms)`
+        );
       }
     }
 
     // TTFB
     if (currentMetrics.ttfb !== undefined) {
       metricsCount++;
-      const ttfbScore = Math.max(0, 100 - (currentMetrics.ttfb / PERFORMANCE_THRESHOLDS.ttfb) * 100);
+      const ttfbScore = Math.max(
+        0,
+        100 - (currentMetrics.ttfb / PERFORMANCE_THRESHOLDS.ttfb) * 100
+      );
       totalScore += ttfbScore;
       if (currentMetrics.ttfb > PERFORMANCE_THRESHOLDS.ttfb) {
-        issues.push(`TTFB too high: ${currentMetrics.ttfb.toFixed(0)}ms (target: <${PERFORMANCE_THRESHOLDS.ttfb}ms)`);
+        issues.push(
+          `TTFB too high: ${currentMetrics.ttfb.toFixed(0)}ms (target: <${PERFORMANCE_THRESHOLDS.ttfb}ms)`
+        );
       }
     }
 
@@ -223,7 +254,7 @@ class PerformanceMonitor {
    */
   public async sendMetrics(endpoint?: string) {
     if (!this.metrics.lcp && !this.metrics.fid && !this.metrics.cls) {
-      console.warn('No performance metrics collected yet');
+      console.warn("No performance metrics collected yet");
       return;
     }
 
@@ -231,24 +262,24 @@ class PerformanceMonitor {
     const evaluation = this.evaluatePerformance();
 
     // Log to console in development
-    if (process.env.NODE_ENV === 'development') {
-      console.group('🚀 Performance Metrics');
-      console.log('Metrics:', metrics);
-      console.log('Score:', evaluation.score);
-      console.log('Passed:', evaluation.passed);
+    if (process.env.NODE_ENV === "development") {
+      console.group("🚀 Performance Metrics");
+      console.log("Metrics:", metrics);
+      console.log("Score:", evaluation.score);
+      console.log("Passed:", evaluation.passed);
       if (evaluation.issues.length > 0) {
-        console.warn('Issues:', evaluation.issues);
+        console.warn("Issues:", evaluation.issues);
       }
       console.groupEnd();
     }
 
     // Send to analytics in production
-    if (process.env.NODE_ENV === 'production' && endpoint) {
+    if (process.env.NODE_ENV === "production" && endpoint) {
       try {
         await fetch(endpoint, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             metrics,
@@ -257,7 +288,7 @@ class PerformanceMonitor {
           }),
         });
       } catch (error) {
-        console.error('Failed to send performance metrics:', error);
+        console.error("Failed to send performance metrics:", error);
       }
     }
   }
@@ -266,7 +297,7 @@ class PerformanceMonitor {
    * Clean up observers
    */
   public destroy() {
-    this.observers.forEach(observer => observer.disconnect());
+    this.observers.forEach((observer) => observer.disconnect());
     this.observers = [];
   }
 
@@ -274,9 +305,13 @@ class PerformanceMonitor {
    * Measure bundle size (client-side approximation)
    */
   public measureBundleSize() {
-    if (typeof window !== 'undefined' && 'performance' in window) {
-      const resources = performance.getEntriesByType('resource') as PerformanceResourceTiming[];
-      const jsResources = resources.filter(resource => resource.name.includes('.js'));
+    if (typeof window !== "undefined" && "performance" in window) {
+      const resources = performance.getEntriesByType(
+        "resource"
+      ) as PerformanceResourceTiming[];
+      const jsResources = resources.filter((resource) =>
+        resource.name.includes(".js")
+      );
       const totalSize = jsResources.reduce((total, resource) => {
         return total + (resource.transferSize || 0);
       }, 0);
@@ -290,7 +325,7 @@ class PerformanceMonitor {
   /**
    * Measure API response time
    */
-  public measureApiResponseTime(apiUrl: string, startTime: number) {
+  public measureApiResponseTime(_apiUrl: string, startTime: number) {
     const endTime = performance.now();
     const responseTime = endTime - startTime;
     this.metrics.apiResponseTime = responseTime;
@@ -310,7 +345,8 @@ export const usePerformanceMonitor = () => {
   const getMetrics = () => performanceMonitor.getMetrics();
   const evaluatePerformance = (metrics?: Partial<PerformanceMetrics>) =>
     performanceMonitor.evaluatePerformance(metrics);
-  const sendMetrics = (endpoint?: string) => performanceMonitor.sendMetrics(endpoint);
+  const sendMetrics = (endpoint?: string) =>
+    performanceMonitor.sendMetrics(endpoint);
 
   return {
     recordMetric,
@@ -319,7 +355,5 @@ export const usePerformanceMonitor = () => {
     sendMetrics,
   };
 };
-
-
 
 export default performanceMonitor;

@@ -38,7 +38,7 @@ export const ChartAnnotations = () => {
         <Trans id="controls.section.annotations">Annotations</Trans>
       </SectionTitle>
       <ControlSectionContent gap="none" px="none">
-        {chartConfig.annotations.map((annotation) => (
+        {chartConfig.annotations.map((annotation: Annotation) => (
           <ChartAnnotationTab key={annotation.key} annotation={annotation} />
         ))}
         <AddAnnotationButton />

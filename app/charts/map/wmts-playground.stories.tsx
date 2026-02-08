@@ -119,8 +119,7 @@ const WMTSPlayground = () => {
           <Map
             mapLib={maplibregl}
             mapStyle={mapStyle}
-            // Important so we can take a screenshot of the map
-            preserveDrawingBuffer
+            // preserveDrawingBuffer - removed as not supported in this version
             style={{
               position: "absolute",
               left: 0,

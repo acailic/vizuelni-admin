@@ -305,7 +305,6 @@ export default function EducationTrendsDemo() {
     100;
 
   const latestYear = enrollmentTrends[enrollmentTrends.length - 1];
-  const firstYear = enrollmentTrends[0];
 
   const dashboardContent = (
     <Box>

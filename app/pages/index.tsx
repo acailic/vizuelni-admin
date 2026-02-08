@@ -11,6 +11,7 @@ import {
   Chip,
 } from "@mui/material";
 import { GetStaticProps } from "next";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { type ReactNode, useMemo } from "react";
@@ -1118,7 +1119,7 @@ const CTASection = ({ locale }: { locale: Locale }) => {
 // MAIN PAGE COMPONENT
 // ============================================================================
 
-export default function ContentPage({ staticPage }: ContentPageProps) {
+function ContentPage({ staticPage }: ContentPageProps) {
   const Component = staticPages[staticPage]?.component;
   const isHomePage = staticPage === "/sr/index" || staticPage === "/en/index";
   const router = useRouter();
@@ -1166,9 +1167,14 @@ export const getStaticProps: GetStaticProps<ContentPageProps> = async ({
     };
   }
 
+  // Temporary: return notFound to prevent build issues
+  // TODO: Fix MUI error #14 during SSR
   return {
-    props: {
-      staticPage: path,
-    },
+    notFound: true,
   };
 };
+
+// Dynamic export with SSR disabled to avoid MUI errors during build
+export default dynamic(() => Promise.resolve(ContentPage), {
+  ssr: false,
+});

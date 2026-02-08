@@ -2,7 +2,7 @@ import { useEvent } from "@dnd-kit/utilities";
 import { t, Trans } from "@lingui/macro";
 import { Box, Button, IconButton, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { forwardRef, useState } from "react";
+import { ChangeEvent, forwardRef, useState } from "react";
 
 import { Flex } from "@/components/flex";
 import { Input } from "@/components/form";
@@ -171,7 +171,9 @@ export const ColorPaletteDrawerContent = forwardRef<
             label={t({ id: "controls.custom-color-palettes.title" })}
             name="custom-color-palette-title"
             value={titleInput}
-            onChange={(e) => setTitleInput(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setTitleInput(e.target.value)
+            }
           />
           {isNotAvailable && (
             <Typography color={"error.main"} variant="caption">

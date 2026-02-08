@@ -75,7 +75,6 @@ export const ColumnChart = memo(
     config,
     height = 400,
     width = "100%",
-    locale = "sr-Latn",
     className = "",
     style = {},
     onDataPointClick,
@@ -243,12 +242,12 @@ export const ColumnChart = memo(
           .style("filter", "drop-shadow(0 1px 2px rgba(0,0,0,0.1))")
           .style("cursor", onDataPointClick ? "pointer" : "default")
           .attr("opacity", 0)
-          .on("click", (event, d) => {
+          .on("click", (_event, d) => {
             if (onDataPointClick) {
               onDataPointClick(d, data.indexOf(d));
             }
           })
-          .on("mouseenter", function (event, d) {
+          .on("mouseenter", function (_event, d) {
             select(this).transition().duration(150).attr("opacity", 0.85);
 
             if (showTooltip && containerRef.current) {
@@ -267,7 +266,7 @@ export const ColumnChart = memo(
               });
             }
           })
-          .on("mousemove", function (event, d) {
+          .on("mousemove", function (_event, d) {
             if (showTooltip) {
               const value = Number(d[key]) || 0;
               const yPos = yScale(value);
@@ -289,7 +288,7 @@ export const ColumnChart = memo(
             setTooltip(null);
           })
           .transition()
-          .delay(animated ? (_, i) => i * 50 : 0)
+          .delay((animated ? (_: unknown, i: number) => i * 50 : 0) as any)
           .duration(animated ? animationDuration : 0)
           .ease(easeCubicOut)
           .attr("y", (d) => yScale(Number(d[key]) || 0))
@@ -320,7 +319,11 @@ export const ColumnChart = memo(
             .style("opacity", 0)
             .text((d) => (Number(d[key]) || 0).toLocaleString())
             .transition()
-            .delay(animated ? (_, i) => animationDuration + i * 50 : 0)
+            .delay(
+              (animated
+                ? (_: unknown, i: number) => animationDuration + i * 50
+                : 0) as any
+            )
             .duration(animated ? 400 : 0)
             .ease(easeCubicOut)
             .style("opacity", 1);

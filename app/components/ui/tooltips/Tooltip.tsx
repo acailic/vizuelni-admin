@@ -14,8 +14,8 @@ import { useEvent } from "@/utils/use-event";
 
 // Base props for all tooltip variants
 type BaseTooltipProps = Omit<TooltipProps, "children" | "title"> & {
-  title?: JSX.Element | ReactNode | string;
-  children: JSX.Element;
+  title?: React.ReactElement | ReactNode | string;
+  children: React.ReactElement;
 };
 
 // Props for conditional variant (MaybeTooltip replacement)
@@ -50,7 +50,10 @@ export type UnifiedTooltipProps =
 /**
  * Internal component for overflow variant to ensure hooks are called unconditionally
  */
-const OverflowTooltipInternal = ({ children, ...rest }: Omit<TooltipProps, "open">) => {
+const OverflowTooltipInternal = ({
+  children,
+  ...rest
+}: Omit<TooltipProps, "open">) => {
   const [open, setOpen] = useState(false);
 
   const handleMouseEnter = useEvent(
@@ -98,7 +101,12 @@ export const Tooltip = (props: UnifiedTooltipProps) => {
 
   // Conditional variant (MaybeTooltip replacement)
   if (variant === "conditional") {
-    const { title, children, variant: _, ...tooltipProps } = props as ConditionalTooltipProps;
+    const {
+      title,
+      children,
+      variant: _,
+      ...tooltipProps
+    } = props as ConditionalTooltipProps;
     return title ? (
       <MUITooltip arrow title={title} disableInteractive {...tooltipProps}>
         {children}
@@ -111,7 +119,9 @@ export const Tooltip = (props: UnifiedTooltipProps) => {
   // Overflow variant (OverflowTooltip replacement)
   if (variant === "overflow") {
     const { children, variant: _, ...rest } = props as OverflowTooltipProps;
-    return <OverflowTooltipInternal {...rest}>{children}</OverflowTooltipInternal>;
+    return (
+      <OverflowTooltipInternal {...rest}>{children}</OverflowTooltipInternal>
+    );
   }
 
   // Info icon variant (InfoIconTooltip replacement)
@@ -140,7 +150,12 @@ export const Tooltip = (props: UnifiedTooltipProps) => {
   }
 
   // Default variant
-  const { title, children, variant: _, ...tooltipProps } = props as DefaultTooltipProps;
+  const {
+    title,
+    children,
+    variant: _,
+    ...tooltipProps
+  } = props as DefaultTooltipProps;
   return (
     <MUITooltip arrow title={title} disableInteractive {...tooltipProps}>
       {children}
@@ -158,8 +173,8 @@ export const MaybeTooltip = ({
   children,
   tooltipProps,
 }: {
-  title?: JSX.Element | ReactNode | string;
-  children: JSX.Element;
+  title?: React.ReactElement | ReactNode | string;
+  children: React.ReactElement;
   tooltipProps?: Omit<TooltipProps, "children" | "title">;
 }) => {
   return (

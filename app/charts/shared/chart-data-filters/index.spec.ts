@@ -6,7 +6,7 @@ import {
   groupPreparedFiltersByDimension,
   PreparedFilter,
 } from "@/charts/shared/chart-data-filters/group-filters";
-import { Filters } from "@/configurator";
+import { Filters } from "@/config-types";
 
 describe("getInteractiveQueryFilters", () => {
   it("should use correct positions", () => {

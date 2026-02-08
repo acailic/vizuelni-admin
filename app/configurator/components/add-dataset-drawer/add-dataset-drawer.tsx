@@ -74,6 +74,10 @@ import { Locale } from "@/locales/locales";
 import { useLocale } from "@/locales/use-locale";
 import { useEventEmitter } from "@/utils/event-emitter";
 
+type CubeLike = { iri: string; joinBy?: string[] };
+type ChartConfigLike = { key: string; cubes: CubeLike[] };
+type SearchCubeResultLike = { cube: PartialSearchCube };
+
 const DialogCloseButton = (props: IconButtonProps) => {
   return (
     <IconButton
@@ -172,7 +176,7 @@ const useMergeDatasetsData = ({
   };
 
   const activeChartConfig = state.chartConfigs.find(
-    (chartConfig) => chartConfig.key === state.activeChartKey
+    (chartConfig: ChartConfigLike) => chartConfig.key === state.activeChartKey
   );
 
   if (!activeChartConfig) {
@@ -186,7 +190,7 @@ const useMergeDatasetsData = ({
     chartConfig: activeChartConfig,
     variables: {
       ...commonQueryVariables,
-      cubeFilters: currentCubes.map((cube) => ({
+      cubeFilters: currentCubes.map((cube: CubeLike) => ({
         iri: cube.iri,
         joinBy: cube.joinBy,
       })),
@@ -201,7 +205,7 @@ const useMergeDatasetsData = ({
       locale,
       sourceType: state.dataSource.type,
       sourceUrl: state.dataSource.url,
-      cubeFilters: currentCubes.map((cube) => ({ iri: cube.iri })),
+      cubeFilters: currentCubes.map((cube: CubeLike) => ({ iri: cube.iri })),
     },
   });
 
@@ -241,7 +245,7 @@ export const AddDatasetDrawer = ({
   const [includeDrafts, setIncludeDrafts] = useState(false);
 
   const activeChartConfig = state.chartConfigs.find(
-    (chartConfig) => chartConfig.key === state.activeChartKey
+    (chartConfig: ChartConfigLike) => chartConfig.key === state.activeChartKey
   );
 
   if (!activeChartConfig) {
@@ -326,10 +330,10 @@ export const AddDatasetDrawer = ({
   });
 
   const rawSearchCubes = useMemo(() => {
-    const relevantCubeIris = currentCubes.map((d) => d.iri);
+    const relevantCubeIris = currentCubes.map((d: CubeLike) => d.iri);
     return (
       searchQuery.data?.searchCubes.filter(
-        (d) => !relevantCubeIris.includes(d.cube.iri)
+        (d: SearchCubeResultLike) => !relevantCubeIris.includes(d.cube.iri)
       ) ?? []
     );
   }, [currentCubes, searchQuery.data?.searchCubes]);
@@ -338,7 +342,7 @@ export const AddDatasetDrawer = ({
     if (currentCubes.length === 1) {
       return rawSearchCubes;
     } else {
-      return rawSearchCubes.filter((result) => {
+      return rawSearchCubes.filter((result: SearchCubeResultLike) => {
         const inferred = inferJoinBy(
           selectedSearchDimensions ?? [],
           result.cube
@@ -410,7 +414,7 @@ export const AddDatasetDrawer = ({
     }, 100);
   });
 
-  const inputRef = useRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleKeyDown = useEventCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
@@ -601,7 +605,7 @@ export const AddDatasetDrawer = ({
                   showTags: true,
                   onClickTitle: (e) => {
                     e.preventDefault();
-                    handleClickOtherCube(cube);
+                    handleClickOtherCube(cube as any);
                   },
                 })}
               />

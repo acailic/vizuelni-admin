@@ -20,7 +20,7 @@ const isEqualFilter = (fa?: FilterValue, fb?: FilterValue) => {
 
 const computeFilterChanges = (prev: Filters, cur: Filters) => {
   const allKeys = new Set([...Object.keys(prev), ...Object.keys(cur)]);
-  const res = [];
+  const res: any[] = [];
 
   for (const key of allKeys) {
     if (!isEqualFilter(prev[key], cur[key])) {

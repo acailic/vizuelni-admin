@@ -1,7 +1,7 @@
 import { Box, BoxProps } from "@mui/material";
 import NextImage, { ImageProps as NextImageProps } from "next/image";
 
-export interface ResponsiveImageProps extends Omit<NextImageProps, 'sizes'> {
+export interface ResponsiveImageProps extends Omit<NextImageProps, "sizes"> {
   /**
    * Container width - defaults to 100%
    */
@@ -69,26 +69,34 @@ export const ResponsiveImage = ({
 }: ResponsiveImageProps) => {
   // Generate responsive sizes based on maxWidth
   const generateSizes = () => {
-    if (typeof maxWidth === 'number') {
+    if (typeof maxWidth === "number") {
       return `(max-width: ${maxWidth}px) 100vw, ${maxWidth}px`;
     }
-    if (typeof maxWidth === 'string' && maxWidth.includes('px')) {
+    if (typeof maxWidth === "string" && maxWidth.includes("px")) {
       const numericMaxWidth = parseInt(maxWidth);
       return `(max-width: ${numericMaxWidth}px) 100vw, ${numericMaxWidth}px`;
     }
     return "100vw";
   };
 
-  const sizes = imageProps.sizes || generateSizes();
+  const sizes = (imageProps as any).sizes || generateSizes();
 
-  // Performance optimizations
-  const blurDataURL = enableBlur ? `data:image/svg+xml;base64,${btoa(
-    `<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+  // Performance optimizations - server-safe base64 encoding
+  const blurDataURL = enableBlur
+    ? (() => {
+        const svg = `<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg">
       <rect width="100%" height="100%" fill="#f0f0f0"/>
       <rect width="20%" height="20%" fill="#e0e0e0" x="10" y="10"/>
       <rect width="30%" height="30%" fill="#d0d0d0" x="20" y="15"/>
-    </svg>`
-  )}` : undefined;
+    </svg>`;
+        // Use Buffer for Node.js (SSR), btoa for browser
+        const base64 =
+          typeof window === "undefined"
+            ? Buffer.from(svg).toString("base64")
+            : btoa(svg);
+        return `data:image/svg+xml;base64,${base64}`;
+      })()
+    : undefined;
 
   // Container styles
   const containerStyle = {
@@ -114,12 +122,13 @@ export const ResponsiveImage = ({
 
   const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
     // Fade in image when loaded
-    (e.target as HTMLImageElement).style.opacity = '1';
+    (e.target as HTMLImageElement).style.opacity = "1";
 
     // Hide skeleton when image loads
-    const skeleton = e.currentTarget.parentElement?.querySelector('[style*="pulse"]');
+    const skeleton =
+      e.currentTarget.parentElement?.querySelector('[style*="pulse"]');
     if (skeleton) {
-      (skeleton as HTMLElement).style.display = 'none';
+      (skeleton as HTMLElement).style.display = "none";
     }
 
     imageProps.onLoad?.(e);
@@ -127,9 +136,10 @@ export const ResponsiveImage = ({
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     // Hide skeleton on error
-    const skeleton = e.currentTarget.parentElement?.querySelector('[style*="pulse"]');
+    const skeleton =
+      e.currentTarget.parentElement?.querySelector('[style*="pulse"]');
     if (skeleton) {
-      (skeleton as HTMLElement).style.display = 'none';
+      (skeleton as HTMLElement).style.display = "none";
     }
     imageProps.onError?.(e);
   };
@@ -159,7 +169,7 @@ export const ResponsiveImage = ({
           rel="preload"
           as="image"
           href={imageProps.src as string}
-          imageSrcSet={imageProps.srcSet}
+          imageSrcSet={(imageProps as any).srcSet}
           imageSizes={sizes}
         />
       )}

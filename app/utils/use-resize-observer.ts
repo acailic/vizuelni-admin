@@ -9,8 +9,8 @@ export const INIT_SIZE = 1;
 export const useResizeObserver = <T extends Element>(
   cb?: (size: { width: number; height: number }) => void
 ) => {
-  const roRef = useRef<ResizeObserver>();
-  const elRef = useRef<T>();
+  const roRef = useRef<ResizeObserver>(undefined);
+  const elRef = useRef<T>(undefined);
   const [size, changeSize] = useState({ width: INIT_SIZE, height: INIT_SIZE });
 
   const handleRef = useEventCallback((node: T) => {

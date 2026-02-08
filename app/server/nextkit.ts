@@ -1,13 +1,10 @@
 import createAPI, { NextkitError, NextkitHandler } from "nextkit";
 
-import {
-  enforceCsrfProtection,
-  enforceRateLimit,
-} from "@/server/security";
+import { enforceCsrfProtection, enforceRateLimit } from "@/server/security";
 
 /** Provides type hints */
 export const controller = <
-  THandlers extends Record<string, NextkitHandler<null, unknown>>
+  THandlers extends Record<string, NextkitHandler<null, unknown>>,
 >(
   methods: THandlers
 ) => {
@@ -33,7 +30,7 @@ const baseApi = createAPI({
 });
 
 const applyApiGuards = <
-  THandlers extends Record<string, NextkitHandler<null, unknown>>
+  THandlers extends Record<string, NextkitHandler<null, unknown>>,
 >(
   handlers: THandlers
 ) =>
@@ -48,5 +45,5 @@ const applyApiGuards = <
     ])
   ) as THandlers;
 
-export const api: typeof baseApi = (handlers) =>
-  baseApi(applyApiGuards(handlers));
+export const api = (handlers: any) => baseApi(applyApiGuards(handlers)) as any;
+(api as any).raw = baseApi.raw;

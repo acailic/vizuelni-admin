@@ -103,7 +103,7 @@ export const ChartDataFilter = ({
         componentIds: [d.resolvedDimensionId],
         filters: d.resolvedQueryFilters,
         loadValues: true,
-      })),
+      })) as any,
       // This is important for urql not to think that filters
       // are the same  while the order of the keys has changed.
       // If this is not present, we'll have outdated dimension

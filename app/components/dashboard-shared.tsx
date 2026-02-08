@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { ArrowMenuTopBottom } from "@/components/arrow-menu";
 import { MenuActionItem } from "@/components/menu-action-item";
+import { LayoutBlock } from "@/config-types";
 import {
   isLayouting,
   useConfiguratorState,
@@ -19,7 +20,7 @@ export const BlockMoreButton = ({ blockKey }: { blockKey: string }) => {
   const handleClose = useEventCallback(() => setAnchor(null));
   const handleDuplicate = useEventCallback(() => {
     const key = createId();
-    const block = layout.blocks.find((b) => b.key === blockKey);
+    const block = layout.blocks.find((b: LayoutBlock) => b.key === blockKey);
 
     if (!block) {
       return;
@@ -48,7 +49,7 @@ export const BlockMoreButton = ({ blockKey }: { blockKey: string }) => {
       type: "LAYOUT_CHANGED",
       value: {
         ...layout,
-        blocks: layout.blocks.filter((b) => b.key !== blockKey),
+        blocks: layout.blocks.filter((b: LayoutBlock) => b.key !== blockKey),
       },
     });
 

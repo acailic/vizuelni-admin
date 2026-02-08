@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { getHasColorMapping, sortFilterValues } from "@/configurator/components/filters";
+import {
+  getHasColorMapping,
+  sortFilterValues,
+} from "@/configurator/components/filters";
 import { HierarchyValue, TemporalDimension } from "@/domain/data";
 import { TimeUnit } from "@/graphql/resolver-types";
 import { getD3TimeFormatLocale } from "@/locales/locales";
@@ -74,7 +77,11 @@ describe("sortFilterValues", () => {
 
     const sortedValues = sortFilterValues(values);
 
-    expect(sortedValues.map(v => v.identifier)).toEqual(["1", "2", "10"]);
+    expect(sortedValues.map((v: HierarchyValue) => v.identifier)).toEqual([
+      "1",
+      "2",
+      "10",
+    ]);
   });
 
   it("should sort alphabetically when identifiers are non-numeric", () => {
@@ -107,7 +114,11 @@ describe("sortFilterValues", () => {
 
     const sortedValues = sortFilterValues(values);
 
-    expect(sortedValues.map(v => v.identifier)).toEqual(["a", "b", "c"]);
+    expect(sortedValues.map((v: HierarchyValue) => v.identifier)).toEqual([
+      "a",
+      "b",
+      "c",
+    ]);
   });
 
   it("should handle mixed numeric and non-numeric identifiers", () => {
@@ -141,7 +152,11 @@ describe("sortFilterValues", () => {
     const sortedValues = sortFilterValues(values);
 
     // Numeric should come first, then alphabetic
-    expect(sortedValues.map(v => v.identifier)).toEqual(["1", "3", "alpha"]);
+    expect(sortedValues.map((v: HierarchyValue) => v.identifier)).toEqual([
+      "1",
+      "3",
+      "alpha",
+    ]);
   });
 
   it("should handle values without identifiers", () => {
@@ -250,7 +265,11 @@ describe("sortFilterValues", () => {
 
     const sortedValues = sortFilterValues(values);
 
-    expect(sortedValues.map(v => v.identifier)).toEqual(["1", "500", "1000000"]);
+    expect(sortedValues.map((v: HierarchyValue) => v.identifier)).toEqual([
+      "1",
+      "500",
+      "1000000",
+    ]);
   });
 });
 
@@ -261,7 +280,7 @@ describe("colorMapping - additional tests", () => {
         colorConfig: {
           type: "segment",
           paletteId: "321",
-          colorMapping: { "value1": "red", "value2": "blue" }
+          colorMapping: { value1: "red", value2: "blue" },
         },
         filterDimensionId: "123",
       })
@@ -283,7 +302,7 @@ describe("colorMapping - additional tests", () => {
         colorConfig: {
           type: "segment",
           paletteId: "321",
-          colorMapping: {}
+          colorMapping: {},
         },
         filterDimensionId: "456",
       })
@@ -297,11 +316,7 @@ describe("TimeFilter - additional tests", () => {
       __typename: "TemporalDimension",
       timeFormat: "%Y",
       timeUnit: TimeUnit.Year,
-      values: [
-        { value: "2020" },
-        { value: "2021" },
-        { value: "2022" },
-      ],
+      values: [{ value: "2020" }, { value: "2021" }, { value: "2022" }],
       relatedLimitValues: [],
     } as unknown as TemporalDimension;
     const formatLocale = getD3TimeFormatLocale("en");
@@ -317,7 +332,7 @@ describe("TimeFilter - additional tests", () => {
 
     expect(sortedOptions).toHaveLength(3);
     expect(sortedValues).toHaveLength(3);
-    expect(sortedOptions.map(o => o.value)).toEqual(["2020", "2021", "2022"]);
+    expect(sortedOptions.map((o) => o.value)).toEqual(["2020", "2021", "2022"]);
   });
 
   it("should handle dimensions with all invalid dates", () => {
@@ -325,11 +340,7 @@ describe("TimeFilter - additional tests", () => {
       __typename: "TemporalDimension",
       timeFormat: "%Y",
       timeUnit: TimeUnit.Year,
-      values: [
-        { value: "INVALID" },
-        { value: "NOT_A_DATE" },
-        { value: "XYZ" },
-      ],
+      values: [{ value: "INVALID" }, { value: "NOT_A_DATE" }, { value: "XYZ" }],
       relatedLimitValues: [],
     } as unknown as TemporalDimension;
     const formatLocale = getD3TimeFormatLocale("en");
@@ -381,7 +392,7 @@ describe("TimeFilter - additional tests", () => {
 
     const locales = ["de", "fr", "it", "en"];
 
-    locales.forEach(locale => {
+    locales.forEach((locale) => {
       const formatLocale = getD3TimeFormatLocale(locale as any);
       const timeFormatUnit = (date: Date | string, _: TimeUnit) => {
         return date.toString();
@@ -403,11 +414,7 @@ describe("TimeFilter - additional tests", () => {
       __typename: "TemporalDimension",
       timeFormat: "%Y",
       timeUnit: TimeUnit.Year,
-      values: [
-        { value: "2022" },
-        { value: "2020" },
-        { value: "2021" },
-      ],
+      values: [{ value: "2022" }, { value: "2020" }, { value: "2021" }],
       relatedLimitValues: [],
     } as unknown as TemporalDimension;
     const formatLocale = getD3TimeFormatLocale("en");
@@ -421,6 +428,6 @@ describe("TimeFilter - additional tests", () => {
       timeFormatUnit,
     });
 
-    expect(sortedOptions.map(o => o.value)).toEqual(["2020", "2021", "2022"]);
+    expect(sortedOptions.map((o) => o.value)).toEqual(["2020", "2021", "2022"]);
   });
 });

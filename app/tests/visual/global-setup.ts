@@ -3,26 +3,26 @@
  * Ensures consistent testing environment
  */
 
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
-import { chromium, FullConfig } from '@playwright/test';
+import { chromium, FullConfig } from "@playwright/test";
 
-async function globalSetup(config: FullConfig) {
-  console.log('🎨 Setting up visual regression test environment...');
+async function globalSetup(_config: FullConfig) {
+  console.log("🎨 Setting up visual regression test environment...");
 
   // Ensure screenshot directories exist
   const screenshotDirs = [
-    './screenshots',
-    './screenshots/baseline',
-    './screenshots/diff',
-    './screenshots/components',
-    './screenshots/responsive',
-    './screenshots/states',
-    './screenshots/current',
+    "./screenshots",
+    "./screenshots/baseline",
+    "./screenshots/diff",
+    "./screenshots/components",
+    "./screenshots/responsive",
+    "./screenshots/states",
+    "./screenshots/current",
   ];
 
-  screenshotDirs.forEach(dir => {
+  screenshotDirs.forEach((dir) => {
     const fullPath = path.join(process.cwd(), dir);
     if (!fs.existsSync(fullPath)) {
       fs.mkdirSync(fullPath, { recursive: true });
@@ -38,16 +38,16 @@ async function globalSetup(config: FullConfig) {
 
   // Warm up the browser
   const page = await context.newPage();
-  await page.goto('about:blank');
+  await page.goto("about:blank");
   await browser.close();
 
   // Set up environment variables
-  process.env.VISUAL_TESTING = 'true';
-  process.env.SCREENSHOT_DIR = './screenshots';
-  process.env.BASELINE_DIR = './screenshots/baseline';
-  process.env.DIFF_DIR = './screenshots/diff';
+  process.env.VISUAL_TESTING = "true";
+  process.env.SCREENSHOT_DIR = "./screenshots";
+  process.env.BASELINE_DIR = "./screenshots/baseline";
+  process.env.DIFF_DIR = "./screenshots/diff";
 
-  console.log('✅ Visual regression test environment ready');
+  console.log("✅ Visual regression test environment ready");
 }
 
 export default globalSetup;

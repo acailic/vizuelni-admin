@@ -14,7 +14,12 @@ import {
 } from "@/charts/map/wmts-utils";
 import { Error, InlineLoading } from "@/components/hint";
 import { InfoIconTooltip } from "@/components/info-icon-tooltip";
-import { BaseLayer, MapConfig } from "@/config-types";
+import {
+  BaseLayer,
+  MapConfig,
+  WMSCustomLayer,
+  WMTSCustomLayer,
+} from "@/config-types";
 import { truthy } from "@/domain/types";
 import { useLocale } from "@/locales/use-locale";
 import { useFetchData } from "@/utils/use-fetch-data";
@@ -172,21 +177,25 @@ const useLegendsData = ({
   customLayers: BaseLayer["customLayers"];
 }) => {
   const locale = useLocale();
-  const wmsLayerConfigs = configLayers.filter((layer) => layer.type === "wms");
+  const wmsLayerConfigs = configLayers.filter(
+    (layer: WMSCustomLayer | WMTSCustomLayer): layer is WMSCustomLayer =>
+      layer.type === "wms"
+  );
   const wmtsLayerConfigs = configLayers.filter(
-    (layer) => layer.type === "wmts"
+    (layer: WMSCustomLayer | WMTSCustomLayer): layer is WMTSCustomLayer =>
+      layer.type === "wmts"
   );
 
   const wmtsEndpoints = uniq(
-    wmtsLayerConfigs.map((x) => x.endpoint ?? DEFAULT_WMTS_URL)
+    wmtsLayerConfigs.map((x: WMTSCustomLayer) => x.endpoint ?? DEFAULT_WMTS_URL)
   );
   const wmsEndpoints = uniq(
-    wmsLayerConfigs.map((x) => x.endpoint ?? DEFAULT_WMS_URL)
+    wmsLayerConfigs.map((x: WMSCustomLayer) => x.endpoint ?? DEFAULT_WMS_URL)
   );
   const { data: groupedLayers, error: customLayersError } = useWMTSorWMSLayers([
     ...wmtsEndpoints,
     ...wmsEndpoints,
-  ]);
+  ] as string[]);
   const {
     wms: wmsLayers,
     wmts: wmtsLayers,
@@ -199,31 +208,33 @@ const useLegendsData = ({
   const { data: legendsData, error: legendsError } = useFetchData({
     queryKey: [
       "custom-layers-legends",
-      configLayers.map((d) => d.id),
-      wmsLayers?.map((d) => d.id),
-      wmtsLayers?.map((d) => d.id),
+      configLayers.map((d: WMSCustomLayer | WMTSCustomLayer) => d.id),
+      wmsLayers?.map((d: RemoteWMSLayer) => d.id),
+      wmtsLayers?.map((d: RemoteWMTSLayer) => d.id),
       locale,
       1,
     ],
     queryFn: async () => {
       return (
         await Promise.all(
-          configLayers.map(async (configLayer) => {
-            let remoteLayer: RemoteWMSLayer | RemoteWMTSLayer | undefined =
-              layersByKey[getLayerKey(configLayer)];
-            const legendImage = await fetchLegendImageFromCache(remoteLayer);
-            if (!legendImage) {
-              return undefined;
+          configLayers.map(
+            async (configLayer: WMSCustomLayer | WMTSCustomLayer) => {
+              let remoteLayer: RemoteWMSLayer | RemoteWMTSLayer | undefined =
+                layersByKey[getLayerKey(configLayer)];
+              const legendImage = await fetchLegendImageFromCache(remoteLayer);
+              if (!legendImage) {
+                return undefined;
+              }
+              const { width, height, dataUrl } = legendImage;
+              return {
+                remoteLayer,
+                configLayer,
+                dataUrl,
+                width,
+                height,
+              };
             }
-            const { width, height, dataUrl } = legendImage;
-            return {
-              remoteLayer,
-              configLayer,
-              dataUrl,
-              width,
-              height,
-            };
-          })
+          )
         )
       ).filter(truthy);
     },

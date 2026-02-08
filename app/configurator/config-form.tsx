@@ -25,7 +25,6 @@ import { getChartConfig } from "@/config-utils";
 import { mapValueIrisToColor } from "@/configurator/components/ui-helpers";
 import {
   getChartOptionField,
-  GetConfiguratorStateAction,
   getFilterValue,
   isConfiguring,
   isLayouting,
@@ -153,10 +152,15 @@ export const useChartFieldField = ({
       }
 
       if (isColorInConfig(chartConfig)) {
+        const palettes = categoricalPalettes as Array<{
+          value: string;
+          colors: ReadonlyArray<string>;
+        }>;
         const palette =
-          categoricalPalettes.find(
-            (p) => p.value === chartConfig.fields.color.paletteId
-          ) ?? categoricalPalettes[0];
+          palettes.find(
+            (p: { value: string }) =>
+              p.value === chartConfig.fields.color.paletteId
+          ) ?? palettes[0];
         dispatch({
           type: "COLOR_FIELD_SET",
           value:
@@ -458,7 +462,10 @@ export const getNewChartConfig = ({
 
   return getInitialConfig({
     chartType,
-    iris: cubes.map((cube) => ({ iri: cube.iri, joinBy: cube.joinBy })),
+    iris: cubes.map((cube: { iri: string; joinBy?: string[] }) => ({
+      iri: cube.iri,
+      joinBy: cube.joinBy,
+    })),
     dimensions,
     measures,
   });
@@ -512,9 +519,7 @@ export const useAddOrEditChartType = (
 };
 
 // Used in the configurator filters
-export const useSingleFilterSelect = (
-  filters: GetConfiguratorStateAction<"FILTER_SET_SINGLE">["value"]["filters"]
-) => {
+export const useSingleFilterSelect = (filters: any) => {
   const [state, dispatch] = useConfiguratorState();
   const onChange = useCallback<
     (
@@ -552,7 +557,10 @@ export const useSingleFilterSelect = (
     const chartConfig = getChartConfig(state);
     for (const filter of filters) {
       const { cubeIri, dimensionId } = filter;
-      const cube = chartConfig.cubes.find((cube) => cube.iri === cubeIri);
+      const cube = chartConfig.cubes.find(
+        (cube: { iri: string; filters?: Record<string, unknown> }) =>
+          cube.iri === cubeIri
+      );
 
       if (cube) {
         value = get(cube, ["filters", dimensionId, "value"], FIELD_VALUE_NONE);
@@ -577,7 +585,7 @@ export const useSingleFilterField = ({
   filters,
   value,
 }: {
-  filters: GetConfiguratorStateAction<"FILTER_SET_SINGLE">["value"]["filters"];
+  filters: any;
   value: string;
 }): FieldProps => {
   const [state, dispatch] = useConfiguratorState();
@@ -597,7 +605,10 @@ export const useSingleFilterField = ({
   const cubeIri = filters[0].cubeIri;
   const dimensionId = filters[0].dimensionId;
   const chartConfig = getChartConfig(state);
-  const cube = chartConfig.cubes.find((cube) => cube.iri === cubeIri);
+  const cube = chartConfig.cubes.find(
+    (cube: { iri: string; filters?: Record<string, unknown> }) =>
+      cube.iri === cubeIri
+  );
   const stateValue = isConfiguring(state)
     ? get(cube, ["filters", dimensionId, "value"], "")
     : "";

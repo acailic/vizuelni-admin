@@ -1,4 +1,4 @@
-import { defineMessage } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { Trans, useLingui } from "@lingui/react";
 import { Box, Button, Container, Typography } from "@mui/material";
 import Link from "next/link";
@@ -67,7 +67,10 @@ export function DemoLayout({
                     pl: 0,
                   }}
                 >
-                  <Trans id="demos.layout.back">Back to demo gallery</Trans>
+                  <Trans
+                    id="demos.layout.back"
+                    message="Back to demo gallery"
+                  />
                 </Button>
               </Link>
             </Box>
@@ -124,7 +127,7 @@ export function DemoLayout({
                     variant="body2"
                     sx={{ color: "warning.main", fontWeight: 600, mb: 1 }}
                   >
-                    <Trans id="demos.layout.demo-data">Demo Data</Trans>
+                    <Trans id="demos.layout.demo-data" message="Demo Data" />
                   </Typography>
                 )}
                 {datasetInfo.organization && (
@@ -134,13 +137,7 @@ export function DemoLayout({
                       color="text.secondary"
                       fontWeight={600}
                     >
-                      {i18n._(
-                        defineMessage({
-                          id: "demos.layout.organization",
-                          message: "Organization",
-                        })
-                      )}
-                      :
+                      {"Organization"}:
                     </Typography>
                     <Typography variant="body2" color="text.primary">
                       {datasetInfo.organization}
@@ -161,13 +158,7 @@ export function DemoLayout({
                       color="text.secondary"
                       fontWeight={600}
                     >
-                      {i18n._(
-                        defineMessage({
-                          id: "demos.layout.updated",
-                          message: "Updated",
-                        })
-                      )}
-                      :
+                      {"Updated"}:
                     </Typography>
                     <Typography variant="body2" color="text.primary">
                       {formattedUpdatedAt}
@@ -194,13 +185,7 @@ export function DemoLayout({
                           gap: "4px",
                         }}
                       >
-                        {i18n._(
-                          defineMessage({
-                            id: "demos.layout.view-dataset",
-                            message: "View on data.gov.rs",
-                          })
-                        )}{" "}
-                        ↗
+                        {"View on data.gov.rs"} ↗
                       </a>
                     </Link>
                   </>
@@ -221,13 +206,7 @@ export function DemoLayout({
             }}
           >
             <Typography variant="body2" color="text.secondary">
-              {i18n._(
-                defineMessage({
-                  id: "demos.layout.source",
-                  message: locale === "sr" ? "Izvor podataka" : "Data source",
-                })
-              )}
-              :{" "}
+              {locale === "sr" ? "Izvor podataka" : "Data source"}:{" "}
               <Link href="https://data.gov.rs" passHref legacyBehavior>
                 <a
                   target="_blank"
@@ -246,7 +225,8 @@ export function DemoLayout({
 }
 
 export function DemoLoading({ message }: { message?: string }) {
-  const { i18n } = useLingui();
+  // i18n hook kept for potential future use
+  useLingui();
 
   return (
     <Box
@@ -275,13 +255,7 @@ export function DemoLoading({ message }: { message?: string }) {
         }}
       />
       <Typography variant="body1" color="text.secondary">
-        {message ||
-          i18n._(
-            defineMessage({
-              id: "demos.layout.loading",
-              message: "Loading data from data.gov.rs...",
-            })
-          )}
+        {message || "Loading data from data.gov.rs..."}
       </Typography>
     </Box>
   );
@@ -294,7 +268,8 @@ export function DemoError({
   error: Error | string;
   onRetry?: () => void;
 }) {
-  const { i18n } = useLingui();
+  // i18n hook kept for potential future use
+  useLingui();
   const errorMessage = typeof error === "string" ? error : error.message;
   const isNoDatasetsError = errorMessage.includes("No datasets found");
 
@@ -310,22 +285,22 @@ export function DemoError({
       }}
     >
       <Typography variant="h6" color="error.main" sx={{ mb: 2 }}>
-        <Trans id="demos.layout.error-title">Error loading data</Trans>
+        <Trans id="demos.layout.error-title" message="Error loading data" />
       </Typography>
       <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
         {errorMessage}
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
         {isNoDatasetsError ? (
-          <Trans id="demos.layout.error-suggestions-no-datasets">
-            This demo should display fallback data. Check the browser console
-            for more details.
-          </Trans>
+          <Trans
+            id="demos.layout.error-suggestions-no-datasets"
+            message="This demo should display fallback data. Check the browser console for more details."
+          />
         ) : (
-          <Trans id="demos.layout.error-suggestions">
-            Suggestions: try again, check internet connection, or open a
-            different dataset from data.gov.rs.
-          </Trans>
+          <Trans
+            id="demos.layout.error-suggestions"
+            message="Suggestions: try again, check internet connection, or open a different dataset from data.gov.rs."
+          />
         )}
       </Typography>
       {onRetry && (
@@ -335,9 +310,7 @@ export function DemoError({
           onClick={onRetry}
           sx={{ textTransform: "none" }}
         >
-          {i18n._(
-            defineMessage({ id: "demos.layout.retry", message: "Try again" })
-          )}
+          {t({ id: "demos.layout.retry", message: "Try again" })}
         </Button>
       )}
     </Box>
@@ -345,7 +318,8 @@ export function DemoError({
 }
 
 export function DemoEmpty({ message }: { message?: string }) {
-  const { i18n } = useLingui();
+  // i18n hook kept for potential future use
+  useLingui();
 
   return (
     <Box
@@ -355,13 +329,7 @@ export function DemoEmpty({ message }: { message?: string }) {
       }}
     >
       <Typography variant="h6" color="text.secondary">
-        {message ||
-          i18n._(
-            defineMessage({
-              id: "demos.layout.empty",
-              message: "No data available",
-            })
-          )}
+        {message || "No data available"}
       </Typography>
     </Box>
   );

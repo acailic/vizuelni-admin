@@ -41,7 +41,7 @@ export {
 } from "./chart-registry";
 
 // Export plugin types
-export {
+export type {
   IChartPlugin,
   ChartPluginMetadata,
   ChartPluginHooks,

@@ -59,7 +59,7 @@ export default function StoryPage() {
         <meta name="description" content={description} />
       </Head>
       <StoryLayout title={title} description={description}>
-        <StoryContainer storyId={story.id} config={story} />
+        <StoryContainer storyId={story.id} config={story as any} />
       </StoryLayout>
     </>
   );

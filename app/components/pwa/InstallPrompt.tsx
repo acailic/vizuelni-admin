@@ -4,11 +4,12 @@ import {
   Smartphone as PhoneIcon,
   DesktopWindows as DesktopIcon,
   TabletMac as TabletIcon,
-} from '@mui/icons-material';
+} from "@mui/icons-material";
 import {
   Button,
   Box,
   Typography,
+  Chip,
   Card,
   CardContent,
   CardActions,
@@ -16,27 +17,25 @@ import {
   Alert,
   IconButton,
   Fade,
-} from '@mui/material';
-import React, { useState, useEffect } from 'react';
+} from "@mui/material";
+import React, { useState, useEffect } from "react";
 
-import useServiceWorker from '../../hooks/useServiceWorker';
+import useServiceWorker from "../../hooks/useServiceWorker";
 
 interface InstallPromptProps {
   show?: boolean;
 }
 
 const InstallPrompt: React.FC<InstallPromptProps> = ({ show = true }) => {
-  const {
-    canInstall,
-    promptInstall,
-    isInstalled,
-    isSupported,
-  } = useServiceWorker();
+  const { canInstall, promptInstall, isInstalled, isSupported } =
+    useServiceWorker();
 
   const [isVisible, setIsVisible] = useState(false);
   const [dismissed, setDismissed] = useState(false);
   const [installing, setInstalling] = useState(false);
-  const [installStatus, setInstallStatus] = useState<'success' | 'error' | null>(null);
+  const [installStatus, setInstallStatus] = useState<
+    "success" | "error" | null
+  >(null);
 
   useEffect(() => {
     // Show prompt after user has been on the site for a while
@@ -50,10 +49,11 @@ const InstallPrompt: React.FC<InstallPromptProps> = ({ show = true }) => {
     }, 10000); // Show after 10 seconds
 
     // Check if user has previously dismissed
-    const previouslyDismissed = localStorage.getItem('pwa-install-dismissed');
+    const previouslyDismissed = localStorage.getItem("pwa-install-dismissed");
     if (previouslyDismissed) {
       const dismissedTime = parseInt(previouslyDismissed);
-      const daysSinceDismissed = (Date.now() - dismissedTime) / (1000 * 60 * 60 * 24);
+      const daysSinceDismissed =
+        (Date.now() - dismissedTime) / (1000 * 60 * 60 * 24);
 
       // Show again after 30 days
       if (daysSinceDismissed < 30) {
@@ -72,26 +72,26 @@ const InstallPrompt: React.FC<InstallPromptProps> = ({ show = true }) => {
       const accepted = await promptInstall();
 
       if (accepted) {
-        setInstallStatus('success');
+        setInstallStatus("success");
         setIsVisible(false);
         // Track installation event
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'pwa_install', {
-            event_category: 'PWA',
-            event_label: 'install_accepted',
+        if (typeof window.gtag !== "undefined") {
+          window.gtag("event", "pwa_install", {
+            event_category: "PWA",
+            event_label: "install_accepted",
           });
         }
       } else {
-        setInstallStatus('error');
+        setInstallStatus("error");
       }
     } catch (error) {
-      console.error('Installation failed:', error);
-      setInstallStatus('error');
+      console.error("Installation failed:", error);
+      setInstallStatus("error");
       // Track installation error
-      if (typeof gtag !== 'undefined') {
-        gtag('event', 'pwa_install_error', {
-          event_category: 'PWA',
-          event_label: 'install_failed',
+      if (typeof window.gtag !== "undefined") {
+        window.gtag("event", "pwa_install_error", {
+          event_category: "PWA",
+          event_label: "install_failed",
         });
       }
     } finally {
@@ -102,13 +102,13 @@ const InstallPrompt: React.FC<InstallPromptProps> = ({ show = true }) => {
   const handleDismiss = () => {
     setIsVisible(false);
     setDismissed(true);
-    localStorage.setItem('pwa-install-dismissed', Date.now().toString());
+    localStorage.setItem("pwa-install-dismissed", Date.now().toString());
 
     // Track dismissal event
-    if (typeof gtag !== 'undefined') {
-      gtag('event', 'pwa_install_dismiss', {
-        event_category: 'PWA',
-        event_label: 'install_dismissed',
+    if (typeof window.gtag !== "undefined") {
+      window.gtag("event", "pwa_install_dismiss", {
+        event_category: "PWA",
+        event_label: "install_dismissed",
       });
     }
   };
@@ -134,14 +134,14 @@ const InstallPrompt: React.FC<InstallPromptProps> = ({ show = true }) => {
     const userAgent = navigator.userAgent.toLowerCase();
 
     if (/android/.test(userAgent)) {
-      return 'Install our app for easy access to Serbian data visualization on your Android device.';
+      return "Install our app for easy access to Serbian data visualization on your Android device.";
     }
 
     if (/iphone|ipad|ipod/.test(userAgent)) {
-      return 'Add our app to your home screen for quick access to Serbian data visualization.';
+      return "Add our app to your home screen for quick access to Serbian data visualization.";
     }
 
-    return 'Install our app for the best Serbian data visualization experience with offline access.';
+    return "Install our app for the best Serbian data visualization experience with offline access.";
   };
 
   if (!isSupported || !isVisible || dismissed) {
@@ -153,21 +153,21 @@ const InstallPrompt: React.FC<InstallPromptProps> = ({ show = true }) => {
       {/* Install Prompt Card */}
       <Box
         sx={{
-          position: 'fixed',
+          position: "fixed",
           bottom: 20,
           left: 20,
           right: 20,
           zIndex: 1300,
           maxWidth: 400,
-          margin: '0 auto',
+          margin: "0 auto",
         }}
       >
         <Fade in={isVisible} timeout={500}>
           <Card
             elevation={8}
             sx={{
-              background: 'linear-gradient(135deg, #1976d2 0%, #42a5f5 100%)',
-              color: 'white',
+              background: "linear-gradient(135deg, #1976d2 0%, #42a5f5 100%)",
+              color: "white",
               borderRadius: 2,
             }}
           >
@@ -180,7 +180,7 @@ const InstallPrompt: React.FC<InstallPromptProps> = ({ show = true }) => {
                 <IconButton
                   size="small"
                   onClick={handleDismiss}
-                  sx={{ color: 'white' }}
+                  sx={{ color: "white" }}
                 >
                   <CloseIcon />
                 </IconButton>
@@ -190,15 +190,15 @@ const InstallPrompt: React.FC<InstallPromptProps> = ({ show = true }) => {
                 {getInstallMessage()}
               </Typography>
 
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 1 }}>
+              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 1 }}>
                 <Chip
                   label="Offline Access"
                   size="small"
                   variant="outlined"
                   sx={{
-                    borderColor: 'rgba(255,255,255,0.5)',
-                    color: 'white',
-                    fontSize: '0.75rem',
+                    borderColor: "rgba(255,255,255,0.5)",
+                    color: "white",
+                    fontSize: "0.75rem",
                   }}
                 />
                 <Chip
@@ -206,9 +206,9 @@ const InstallPrompt: React.FC<InstallPromptProps> = ({ show = true }) => {
                   size="small"
                   variant="outlined"
                   sx={{
-                    borderColor: 'rgba(255,255,255,0.5)',
-                    color: 'white',
-                    fontSize: '0.75rem',
+                    borderColor: "rgba(255,255,255,0.5)",
+                    color: "white",
+                    fontSize: "0.75rem",
                   }}
                 />
                 <Chip
@@ -216,9 +216,9 @@ const InstallPrompt: React.FC<InstallPromptProps> = ({ show = true }) => {
                   size="small"
                   variant="outlined"
                   sx={{
-                    borderColor: 'rgba(255,255,255,0.5)',
-                    color: 'white',
-                    fontSize: '0.75rem',
+                    borderColor: "rgba(255,255,255,0.5)",
+                    color: "white",
+                    fontSize: "0.75rem",
                   }}
                 />
               </Box>
@@ -234,18 +234,18 @@ const InstallPrompt: React.FC<InstallPromptProps> = ({ show = true }) => {
                 sx={{
                   flexGrow: 1,
                   borderRadius: 2,
-                  textTransform: 'none',
-                  fontWeight: 'bold',
+                  textTransform: "none",
+                  fontWeight: "bold",
                 }}
               >
-                {installing ? 'Installing...' : 'Install'}
+                {installing ? "Installing..." : "Install"}
               </Button>
 
               <Button
                 variant="text"
                 onClick={handleDismiss}
                 sx={{
-                  color: 'rgba(255,255,255,0.8)',
+                  color: "rgba(255,255,255,0.8)",
                   borderRadius: 2,
                 }}
               >
@@ -261,17 +261,16 @@ const InstallPrompt: React.FC<InstallPromptProps> = ({ show = true }) => {
         open={!!installStatus}
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert
           onClose={handleCloseSnackbar}
-          severity={installStatus === 'success' ? 'success' : 'error'}
-          sx={{ width: '100%' }}
+          severity={installStatus === "success" ? "success" : "error"}
+          sx={{ width: "100%" }}
         >
-          {installStatus === 'success'
-            ? 'App installed successfully! You can now launch it from your home screen.'
-            : 'Installation failed. You can try again later or continue using the browser version.'
-          }
+          {installStatus === "success"
+            ? "App installed successfully! You can now launch it from your home screen."
+            : "Installation failed. You can try again later or continue using the browser version."}
         </Alert>
       </Snackbar>
     </>

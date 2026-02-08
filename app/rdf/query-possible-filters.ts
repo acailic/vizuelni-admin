@@ -168,7 +168,8 @@ export const getQueryFilters = async (
   const { cubeIri, dimensionsMetadata, sparqlClient, cache } = options;
 
   return Promise.all(
-    Object.entries(filters).map(async ([iri, { value }], i) => {
+    Object.entries(filters).map(async ([iri, filterObj], i) => {
+      const filterValue = (filterObj as any).value;
       const metadata = dimensionsMetadata.find((d) => d.iri === iri);
       const isVersioned = metadata?.isVersioned ?? false;
       const isLiteral = metadata?.isLiteral ?? false;
@@ -176,7 +177,7 @@ export const getQueryFilters = async (
       return {
         i,
         iri,
-        value: isMostRecentValue(value)
+        value: isMostRecentValue(filterValue)
           ? await loadMaxDimensionValue(cubeIri, {
               dimensionIri: iri,
               // TODO: refactor dimension parsing to avoid "mocking" the cubeDimensions
@@ -216,7 +217,7 @@ export const getQueryFilters = async (
               sparqlClient,
               cache,
             })
-          : `${value}`,
+          : `${filterValue}`,
         isVersioned,
         isLiteral,
       };

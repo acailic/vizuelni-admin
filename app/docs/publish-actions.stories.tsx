@@ -11,7 +11,11 @@ export default meta;
 const PublishActionsStory = () => {
   const ref = useRef<HTMLDivElement>(null);
   return (
-    <PublishActions configKey="123456789" locale="en" chartWrapperRef={ref} />
+    <PublishActions
+      configKey="123456789"
+      locale="en"
+      chartWrapperRef={ref as any}
+    />
   );
 };
 

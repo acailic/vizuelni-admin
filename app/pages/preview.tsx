@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import { useEffect } from "react";
 import { create, useStore } from "zustand";
 
-
 import {
   ConfiguratorStatePublished,
   decodeConfiguratorState,
@@ -19,7 +18,8 @@ import { hashStringToObject } from "@/utils/hash-utils";
 import { maybeWindow } from "@/utils/maybe-window";
 
 const ChartPublished = dynamic(
-  () => import("@/components/chart-published").then((mod) => mod.ChartPublished),
+  () =>
+    import("@/components/chart-published").then((mod) => mod.ChartPublished),
   {
     ssr: false,
   }
@@ -57,7 +57,7 @@ const updateState = async (rawState: any) => {
   }
 };
 
-export default function Preview() {
+function Preview() {
   const locale = useLocale();
   i18n.activate(locale);
   const state = useStore(chartStateStore, (d) => d.state);
@@ -122,3 +122,8 @@ export default function Preview() {
     </LocaleProvider>
   );
 }
+
+// Make the page client-side only to avoid SSR issues
+export default dynamic(() => Promise.resolve(Preview), {
+  ssr: false,
+});

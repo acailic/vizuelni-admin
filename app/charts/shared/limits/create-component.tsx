@@ -11,7 +11,8 @@ import {
   RenderLimitDatum,
 } from "@/charts/shared/limits/rendering-utils";
 import { VerticalChartState } from "@/charts/shared/limits/vertical";
-import { useLimits } from "@/config-utils";
+import { Limit as ConfigLimit } from "@/config-types";
+import { Dimension } from "@/domain/data";
 import { Limit } from "@/rdf/limits";
 
 export const createLimitsComponent = <
@@ -23,10 +24,19 @@ export const createLimitsComponent = <
   isHorizontal: boolean;
   getChartState: () => T;
 }) => {
-  const Component = ({
-    axisDimension,
-    limits,
-  }: ReturnType<typeof useLimits>) => {
+  type LimitEntry = {
+    configLimit: ConfigLimit;
+    measureLimit: Limit;
+    relatedAxisDimensionValueLabel: string | undefined;
+    limitUnit: string | undefined;
+  };
+
+  type LimitsState = {
+    axisDimension: Dimension | undefined;
+    limits: LimitEntry[];
+  };
+
+  const Component = ({ axisDimension, limits }: LimitsState) => {
     const {
       bounds: { margins, chartWidth, chartHeight },
       xScale,
@@ -65,7 +75,7 @@ export const createLimitsComponent = <
           const measure1 = measureScale(measure1Value);
           const measure2 = measureScale(measure2Value);
           const key = configLimit.related
-            .map((d) => d.dimensionId + d.value)
+            .map((d: ConfigLimit["related"][number]) => d.dimensionId + d.value)
             .join();
           const size =
             axis1 === undefined

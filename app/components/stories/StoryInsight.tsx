@@ -8,7 +8,7 @@ interface StoryInsightProps {
   index: number;
 }
 
-export function StoryInsight({ insight, index }: StoryInsightProps) {
+export function StoryInsight({ insight, index: _index }: StoryInsightProps) {
   // Detect sentiment for icon selection
   const lowerInsight = insight.toLowerCase();
   const isPositive =

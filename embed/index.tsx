@@ -6,6 +6,10 @@ interface IFrameResizeOptions {
   [key: string]: unknown;
 }
 
-Array.from(document.querySelectorAll("[data-visualize-iframe]")).forEach((el: HTMLElement) => {
-    (iframeResize as (options: IFrameResizeOptions, element: HTMLElement) => void)({ log: false }, el);
+Array.from(
+  document.querySelectorAll<HTMLElement>("[data-visualize-iframe]")
+).forEach((el) => {
+  (
+    iframeResize as (options: IFrameResizeOptions, element: HTMLElement) => void
+  )({ log: false }, el);
 });

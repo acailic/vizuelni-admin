@@ -94,9 +94,11 @@ export const Search = () => {
           ? {
               type: SearchCubeFilterType.DataCubeTermset,
               value: sharedComponents
-                .map((x) => cubeSharedDimensionsByIri[x])
+                .map((x: string) => cubeSharedDimensionsByIri[x])
                 .filter(truthy)
-                .flatMap((x) => x.termsets.map((x) => x.iri))
+                .flatMap((x: { termsets: Array<{ iri: string }> }) =>
+                  x.termsets.map((termset: { iri: string }) => termset.iri)
+                )
                 ?.join(";"),
             }
           : null,
@@ -141,7 +143,9 @@ export const Search = () => {
         ).cubeFilter?.iri
     ) {
       setSharedComponents(
-        cubeTermsetsResults?.data?.dataCubeComponentTermsets.map((x) => x.iri)
+        cubeTermsetsResults?.data?.dataCubeComponentTermsets.map(
+          (x: { iri: string }) => x.iri
+        )
       );
     }
   }, [cubeTermsetsResults, sharedComponents, chosenOption.cubeIri]);
@@ -221,7 +225,11 @@ export const Search = () => {
                 }
               >
                 {cubeTermsetsResults?.data?.dataCubeComponentTermsets?.map(
-                  (sd) => (
+                  (sd: {
+                    iri: string;
+                    label: string;
+                    termsets: Array<{ iri: string; label: string }>;
+                  }) => (
                     <MenuItem
                       key={sd.label}
                       value={sd.iri}
@@ -250,16 +258,18 @@ export const Search = () => {
                               >
                                 Joined by{" "}
                               </Typography>
-                              {sd.termsets.map((t) => (
-                                <Tag
-                                  key={t.iri}
-                                  type="termset"
-                                  typography="caption"
-                                  sx={{ "&&": { fontSize: 10 } }}
-                                >
-                                  {t.label}
-                                </Tag>
-                              ))}
+                              {sd.termsets.map(
+                                (t: { iri: string; label: string }) => (
+                                  <Tag
+                                    key={t.iri}
+                                    type="termset"
+                                    typography="caption"
+                                    sx={{ "&&": { fontSize: 10 } }}
+                                  >
+                                    {t.label}
+                                  </Tag>
+                                )
+                              )}
                             </Stack>
                           </>
                         }
@@ -299,13 +309,15 @@ export const Search = () => {
         <Error>{searchCubesResult.error.message}</Error>
       ) : null}
 
-      {searchCubesResult?.data?.searchCubes.map((item) => (
-        <DatasetResult
-          key={item.cube.iri}
-          dataCube={item.cube}
-          showDimensions
-        />
-      ))}
+      {searchCubesResult?.data?.searchCubes.map(
+        (item: { cube: { iri: string } }) => (
+          <DatasetResult
+            key={item.cube.iri}
+            dataCube={item.cube}
+            showDimensions
+          />
+        )
+      )}
     </div>
   );
 };

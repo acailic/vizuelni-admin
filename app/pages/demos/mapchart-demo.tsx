@@ -133,7 +133,7 @@ export default function MapChartDemo() {
     },
   ];
 
-  const handleRegionClick = (properties: any, index: number) => {
+  const handleRegionClick = (properties: any, _index: number) => {
     console.log("Clicked region:", properties);
     alert(
       `Region: ${

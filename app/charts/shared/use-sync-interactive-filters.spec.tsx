@@ -1,6 +1,6 @@
 import { cleanup, fireEvent, render } from "@testing-library/react";
 import { useState } from "react";
-import { Client, Provider } from "urql";
+import { cacheExchange, Client, fetchExchange, Provider } from "urql";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { useSyncInteractiveFilters } from "@/charts/shared/use-sync-interactive-filters";
@@ -116,6 +116,7 @@ const setup = async ({
 
   const mockClient = new Client({
     url: "http://localhost",
+    exchanges: [cacheExchange, fetchExchange],
   });
 
   const root = render(
@@ -299,7 +300,10 @@ describe("useSyncInteractiveFilters", () => {
       chartConfigs: [modifiedChartConfig],
     } as unknown as ConfiguratorStateConfiguringChart;
 
-    const mockClient = new Client({ url: "http://localhost" });
+    const mockClient = new Client({
+      url: "http://localhost",
+      exchanges: [cacheExchange, fetchExchange],
+    });
 
     const root = render(
       <Provider value={mockClient}>
@@ -549,7 +553,10 @@ describe("useSyncInteractiveFilters", () => {
     const configState = {
       chartConfigs: [initial],
     } as unknown as ConfiguratorStateConfiguringChart;
-    const mockClient = new Client({ url: "http://localhost" });
+    const mockClient = new Client({
+      url: "http://localhost",
+      exchanges: [cacheExchange, fetchExchange],
+    });
 
     const root = render(
       <Provider value={mockClient}>

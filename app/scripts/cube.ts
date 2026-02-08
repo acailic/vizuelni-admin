@@ -196,6 +196,7 @@ const main = async () => {
     url: `http://localhost:3000${GRAPHQL_ENDPOINT}`,
     // @ts-ignore
     fetch: fetch,
+    exchanges: [] as any,
   });
   args.handler(args);
 };

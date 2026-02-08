@@ -63,23 +63,35 @@ export const Termsets = () => {
       {result.error ? <div>Error: {result.error.message}</div> : null}
 
       <Stack mt={2} gap={2} direction="column">
-        {data?.dataCubeComponentTermsets?.map((componentTermsets) => {
-          return (
-            <Stack gap={1} direction="column" key={componentTermsets.iri}>
-              <Typography variant="body2">{componentTermsets.label}</Typography>
-              <Typography variant="caption">{componentTermsets.iri}</Typography>
-              <Stack gap={1} direction="row">
-                {componentTermsets.termsets.map((termset) => {
-                  return (
-                    <Tag key={termset.iri} type="termset">
-                      {termset.label}
-                    </Tag>
-                  );
-                })}
+        {data?.dataCubeComponentTermsets?.map(
+          (componentTermsets: {
+            iri: string;
+            label: string;
+            termsets: Array<{ iri: string; label: string }>;
+          }) => {
+            return (
+              <Stack gap={1} direction="column" key={componentTermsets.iri}>
+                <Typography variant="body2">
+                  {componentTermsets.label}
+                </Typography>
+                <Typography variant="caption">
+                  {componentTermsets.iri}
+                </Typography>
+                <Stack gap={1} direction="row">
+                  {componentTermsets.termsets.map(
+                    (termset: { iri: string; label: string }) => {
+                      return (
+                        <Tag key={termset.iri} type="termset">
+                          {termset.label}
+                        </Tag>
+                      );
+                    }
+                  )}
+                </Stack>
               </Stack>
-            </Stack>
-          );
-        })}
+            );
+          }
+        )}
       </Stack>
     </div>
   );

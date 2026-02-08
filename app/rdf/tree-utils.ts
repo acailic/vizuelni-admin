@@ -110,11 +110,11 @@ export const findInHierarchy = (
 
 export const getOptionsFromTree = (tree: HierarchyValue[]) => {
   return sortBy(
-    bfs(tree, (node, { parents }) => ({
+    bfs(tree, (node: any, { parents }: any) => ({
       ...node,
       parents,
     })),
-    (node) => joinParents(node.parents)
+    (node: any) => joinParents(node.parents)
   );
 };
 

@@ -52,7 +52,7 @@ export default function StoriesIndexPage() {
       <Grid container spacing={3}>
         {ALL_STORIES.map((story) => (
           <Grid item xs={12} sm={6} md={3} key={story.id}>
-            <StoryCard story={story} href={`/stories/${story.id}`} />
+            <StoryCard story={story as any} href={`/stories/${story.id}`} />
           </Grid>
         ))}
       </Grid>

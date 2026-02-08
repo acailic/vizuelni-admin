@@ -13,9 +13,9 @@ export const TransitionPopper = ({
   anchorX: number;
   anchorY: number;
   children?: PopperProps["children"];
-}): JSX.Element => {
+}): any => {
   const [isClosing, setIsClosing] = useState(false);
-  const childrenRef = useRef<ReactNode>();
+  const childrenRef = useRef<ReactNode | undefined>(undefined);
 
   // Make sure the children do not disappear mid-transition.
   useEffect(() => {
@@ -61,7 +61,7 @@ export const TransitionPopper = ({
         const content =
           typeof children === "function"
             ? children({ TransitionProps, placement })
-            : children ?? null;
+            : (children ?? null);
 
         if (open) {
           childrenRef.current = content;
@@ -73,9 +73,9 @@ export const TransitionPopper = ({
             onExit={() => setIsClosing(true)}
             style={{ transformOrigin: `var(--transform-origin)` }}
           >
-          <div>{isClosing ? childrenRef.current : content}</div>
-        </Grow>
-      );
+            <div>{isClosing ? childrenRef.current : content}</div>
+          </Grow>
+        );
       }}
     </Popper>
   );

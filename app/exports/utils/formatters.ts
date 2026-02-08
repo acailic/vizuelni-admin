@@ -24,7 +24,10 @@ export function formatNumber(
     maximumFractionDigits?: number;
   } = {}
 ): string {
-  const { minimumFractionDigits = 0, maximumFractionDigits = 2 } = options;
+  const {
+    minimumFractionDigits: _minimumFractionDigits = 0,
+    maximumFractionDigits = 2,
+  } = options;
 
   // Get or create format locale
   let fmt = formatLocaleCache.get(locale);
@@ -146,7 +149,7 @@ export function formatFileSize(
  */
 export function formatDuration(
   milliseconds: number,
-  locale: Locale = "sr-Latn"
+  _locale: Locale = "sr-Latn"
 ): string {
   const seconds = Math.floor(milliseconds / 1000);
   const minutes = Math.floor(seconds / 60);

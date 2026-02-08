@@ -135,26 +135,29 @@ export const DataFilterSelectGeneric = ({
       sourceType: state.dataSource.type,
       sourceUrl: state.dataSource.url,
       locale,
-      cubeFilters: chartConfig.cubes.map((cube) => {
-        const rawFilters = pickBy(cube.filters, (_, key) =>
-          filterDimensionIds.includes(key)
-        );
+      cubeFilters: chartConfig.cubes.map(
+        (cube: ChartConfig["cubes"][number]) => {
+          const rawFilters = pickBy(cube.filters, (_, key) =>
+            filterDimensionIds.includes(key)
+          );
 
-        return {
-          iri: cube.iri,
-          joinBy: cube.joinBy,
-          componentIds: [rawDimension.id],
-          filters: Object.keys(rawFilters).length > 0 ? rawFilters : undefined,
-          loadValues: true,
-        };
-      }),
+          return {
+            iri: cube.iri,
+            joinBy: cube.joinBy,
+            componentIds: [rawDimension.id],
+            filters:
+              Object.keys(rawFilters).length > 0 ? rawFilters : undefined,
+            loadValues: true,
+          };
+        }
+      ),
     },
     keepPreviousData: true,
   });
 
   const dimension =
     data?.dataCubesComponents?.dimensions.find(
-      (d) => d.cubeIri === rawDimension.cubeIri
+      (d: Dimension) => d.cubeIri === rawDimension.cubeIri
     ) ?? rawDimension;
 
   const sharedProps = {
@@ -229,12 +232,14 @@ const useEnsurePossibleFilters = ({
   const lastFilters = useRef<Record<string, Filters>>({});
   const client = useClient();
   const joinByIds = useMemo(() => {
-    return chartConfig.cubes.flatMap((cube) => cube.joinBy).filter(truthy);
+    return chartConfig.cubes
+      .flatMap((cube: ChartConfig["cubes"][number]) => cube.joinBy)
+      .filter(truthy);
   }, [chartConfig.cubes]);
 
   useEffect(() => {
     const run = async () => {
-      chartConfig.cubes.forEach(async (cube) => {
+      chartConfig.cubes.forEach(async (cube: ChartConfig["cubes"][number]) => {
         const { mappedFilters, unmappedFilters } = getFiltersByMappingStatus(
           chartConfig,
           { cubeIri: cube.iri, joinByIds }
@@ -276,10 +281,12 @@ const useEnsurePossibleFilters = ({
 
         const filters = Object.assign(
           Object.fromEntries(
-            data.possibleFilters.map((x) => [
-              x.id,
-              { type: x.type, value: x.value },
-            ])
+            data.possibleFilters.map(
+              (x: PossibleFiltersQuery["possibleFilters"][number]) => [
+                x.id,
+                { type: x.type, value: x.value },
+              ]
+            )
           ) as Filters,
           mappedFilters
         );
@@ -292,13 +299,13 @@ const useEnsurePossibleFilters = ({
         // override the dynamic max value with the resolved value
         for (const [key, value] of Object.entries(oldFilters)) {
           if (
-            value.type === "single" &&
-            isMostRecentValue(value.value) &&
+            (value as any).type === "single" &&
+            isMostRecentValue((value as any).value) &&
             filters[key]
           ) {
             filters[key] = {
               type: "single",
-              value: `${value.value}`,
+              value: `${(value as any).value}`,
             };
           }
         }
@@ -332,20 +339,22 @@ export const getFilterReorderCubeFilters = (
   chartConfig: ChartConfig,
   { joinByIds }: { joinByIds: string[] }
 ) => {
-  return chartConfig.cubes.map(({ iri, joinBy }) => {
-    const { unmappedFilters } = getFiltersByMappingStatus(chartConfig, {
-      cubeIri: iri,
-      joinByIds,
-    });
+  return chartConfig.cubes.map(
+    ({ iri, joinBy }: ChartConfig["cubes"][number]) => {
+      const { unmappedFilters } = getFiltersByMappingStatus(chartConfig, {
+        cubeIri: iri,
+        joinByIds,
+      });
 
-    return {
-      iri,
-      filters:
-        Object.keys(unmappedFilters).length > 0 ? unmappedFilters : undefined,
-      joinBy,
-      loadValues: true,
-    };
-  });
+      return {
+        iri,
+        filters:
+          Object.keys(unmappedFilters).length > 0 ? unmappedFilters : undefined,
+        joinBy,
+        loadValues: true,
+      };
+    }
+  );
 };
 
 const useFilterReorder = ({
@@ -358,7 +367,9 @@ const useFilterReorder = ({
   const locale = useLocale();
   const filters = getChartConfigFilters(chartConfig.cubes, { joined: true });
   const joinByIds = useMemo(() => {
-    return chartConfig.cubes.flatMap((cube) => cube.joinBy).filter(truthy);
+    return chartConfig.cubes
+      .flatMap((cube: ChartConfig["cubes"][number]) => cube.joinBy)
+      .filter(truthy);
   }, [chartConfig.cubes]);
   const { mappedFiltersIds } = useMemo(() => {
     return getFiltersByMappingStatus(chartConfig, { joinByIds });
@@ -373,9 +384,12 @@ const useFilterReorder = ({
     // are the same  while the order of the keys has changed.
     // If this is not present, we'll have outdated dimension
     // values after we change the filter order
-    const reQueryKey = cubeFilters.reduce((acc, d) => {
-      return `${acc}${d.iri}${JSON.stringify(d.filters)}`;
-    }, "");
+    const reQueryKey = cubeFilters.reduce(
+      (acc: string, d: { iri: string; filters?: Filters }) => {
+        return `${acc}${d.iri}${JSON.stringify(d.filters)}`;
+      },
+      ""
+    );
 
     return {
       cubeFilters,
@@ -423,13 +437,15 @@ const useFilterReorder = ({
       return;
     }
 
-    const dimension = dimensions.find((d) => d.id === dimensionId);
+    const dimension = dimensions.find((d: Dimension) => d.id === dimensionId);
 
     if (dimension) {
       const newChartConfig = moveFilterField(chartConfig, {
         dimension,
         delta,
-        possibleValues: dimension ? dimension.values.map((d) => d.value) : [],
+        possibleValues: dimension
+          ? dimension.values.map((d: { value: string | number }) => d.value)
+          : [],
       });
 
       dispatch({
@@ -466,19 +482,21 @@ const useFilterReorder = ({
     });
   });
 
-  const handleDragEnd: OnDragEndResponder = useEvent((result) => {
-    const sourceIndex = result.source?.index;
-    const destinationIndex = result.destination?.index;
-    if (
-      typeof sourceIndex !== "number" ||
-      typeof destinationIndex !== "number" ||
-      result.source === result.destination
-    ) {
-      return;
+  const handleDragEnd: OnDragEndResponder = useEvent(
+    (result: Parameters<OnDragEndResponder>[0]) => {
+      const sourceIndex = result.source?.index;
+      const destinationIndex = result.destination?.index;
+      if (
+        typeof sourceIndex !== "number" ||
+        typeof destinationIndex !== "number" ||
+        result.source === result.destination
+      ) {
+        return;
+      }
+      const delta = destinationIndex - sourceIndex;
+      handleMove(result.draggableId, delta);
     }
-    const delta = destinationIndex - sourceIndex;
-    handleMove(result.draggableId, delta);
-  });
+  );
 
   const { fetching: possibleFiltersFetching } = useEnsurePossibleFilters({
     state,
@@ -499,13 +517,13 @@ const useFilterReorder = ({
         (dim) =>
           !mappedFiltersIds.has(dim.id) && keysOrder[dim.id] !== undefined
       ) ?? [],
-      [(x) => keysOrder[x.id] ?? Infinity]
+      [(x: Dimension) => keysOrder[x.id] ?? Infinity]
     );
     const filterDimensionsByCubeIri = groupBy(
       filterDimensions,
-      (d) => d.cubeIri
+      (d: Dimension) => d.cubeIri
     );
-    const allCubeIris = uniq(dimensions?.map((d) => d.cubeIri));
+    const allCubeIris = uniq(dimensions?.map((d: Dimension) => d.cubeIri));
 
     // Make sure we don't forget about merged cubes that have non-key-dimensions
     // available, but no key dimension available (might be the case when merging)
@@ -525,10 +543,10 @@ const useFilterReorder = ({
       ) ?? [];
     const addableDimensionsByCubeIri = groupBy(
       addableDimensions,
-      (d) => d.cubeIri
+      (d: Dimension) => d.cubeIri
     );
     const missingDimensions = dimensions?.filter(
-      (d) => d.isKeyDimension && addableDimensions?.includes(d)
+      (d: Dimension) => d.isKeyDimension && addableDimensions?.includes(d)
     );
 
     return {
@@ -626,7 +644,9 @@ export const ChartConfigurator = ({
       sourceType: state.dataSource.type,
       sourceUrl: state.dataSource.url,
       locale,
-      cubeFilters: chartConfig.cubes.map((cube) => ({ iri: cube.iri })),
+      cubeFilters: chartConfig.cubes.map(
+        (cube: ChartConfig["cubes"][number]) => ({ iri: cube.iri })
+      ),
     },
     pause: chartConfig.cubes.length === 1,
   });
@@ -751,7 +771,8 @@ export const ChartConfigurator = ({
               )
               .map(([cubeIri, dims]) => {
                 const cubeTitle = cubes?.find(
-                  (cube) => cube.iri === cubeIri
+                  (cube: { iri: string; title?: string }) =>
+                    cube.iri === cubeIri
                 )?.title;
                 const cubeAddableDims = addableDimensionsByCubeIri[cubeIri];
 
@@ -792,9 +813,12 @@ export const ChartConfigurator = ({
                                         key={dim.id}
                                         rawDimension={dim}
                                         filterDimensionIds={filterDimensions
-                                          .filter((d) => d.cubeIri === cubeIri)
+                                          .filter(
+                                            (d: Dimension) =>
+                                              d.cubeIri === cubeIri
+                                          )
                                           .slice(0, i)
-                                          .map((d) => d.id)}
+                                          .map((d: Dimension) => d.id)}
                                         index={i}
                                         disabled={fetching}
                                         onRemove={() =>
@@ -897,65 +921,80 @@ const ChartFields = ({
       cubeFilters: queryFilters,
     },
   });
-  const observations = observationsData?.dataCubesObservations?.data ?? [];
+  void observationsData?.dataCubesObservations?.data; // Available but not currently used
 
   return (
     <>
       {getChartSpec(chartConfig)
-        .encodings.filter((d) => !d.hide)
-        .map(({ field, getDisabledState, idAttributes }) => {
-          const componentIds = idAttributes
-            .flatMap(
-              (x) =>
-                // componentId or componentIds
-                (chartConfig.fields as any)[field]?.[x] as string | string[]
-            )
-            .filter(truthy);
-          const fieldComponents = componentIds
-            .map((cId) => components.find((d) => cId === d.id))
-            .filter(truthy);
-          const baseLayer = isMapConfig(chartConfig) && field === "baseLayer";
-          const customLayers =
-            isMapConfig(chartConfig) && field === "customLayers";
+        .encodings.filter((d: { hide?: boolean }) => !d.hide)
+        .map(
+          ({
+            field,
+            getDisabledState,
+            idAttributes,
+          }: {
+            field: string;
+            getDisabledState?: (data: any) => {
+              disabled?: boolean;
+              reason?: string;
+            };
+            idAttributes: string[];
+          }) => {
+            const componentIds = idAttributes
+              .flatMap(
+                (x) =>
+                  // componentId or componentIds
+                  (chartConfig.fields as any)[field]?.[x] as string | string[]
+              )
+              .filter(truthy);
+            const fieldComponents = componentIds
+              .map((cId) =>
+                components.find((d: { id: string }) => cId === d.id)
+              )
+              .filter(truthy);
+            const baseLayer = isMapConfig(chartConfig) && field === "baseLayer";
+            const customLayers =
+              isMapConfig(chartConfig) && field === "customLayers";
 
-          return baseLayer ? (
-            <OnOffControlTabField
-              key={field}
-              value={field}
-              icon="baseLayer"
-              label={<Trans id="chart.map.layers.base">Base map</Trans>}
-              active={chartConfig.baseLayer.show}
-            />
-          ) : customLayers ? (
-            <OnOffControlTabField
-              key={field}
-              value={field}
-              icon="customLayers"
-              label={
-                <Trans id="chart.map.layers.custom-layers">Import map</Trans>
-              }
-              active={
-                chartConfig.baseLayer.show &&
-                chartConfig.baseLayer.customLayers.length > 0
-              }
-            />
-          ) : (
-            <ControlTabField
-              key={field}
-              chartConfig={chartConfig}
-              fieldComponents={
-                isMapConfig(chartConfig) && field === "symbolLayer"
-                  ? chartConfig.fields.symbolLayer
-                    ? fieldComponents
-                    : undefined
-                  : fieldComponents
-              }
-              value={field}
-              labelId={`${chartConfig.chartType}.${field}`}
-              {...getDisabledState?.(chartConfig, components, observations)}
-            />
-          );
-        })}
+            return baseLayer ? (
+              <OnOffControlTabField
+                key={field}
+                value={field}
+                icon="baseLayer"
+                label={<Trans id="chart.map.layers.base">Base map</Trans>}
+                active={chartConfig.baseLayer.show}
+              />
+            ) : customLayers ? (
+              <OnOffControlTabField
+                key={field}
+                value={field}
+                icon="customLayers"
+                label={
+                  <Trans id="chart.map.layers.custom-layers">Import map</Trans>
+                }
+                active={
+                  chartConfig.baseLayer.show &&
+                  chartConfig.baseLayer.customLayers.length > 0
+                }
+              />
+            ) : (
+              <ControlTabField
+                key={field}
+                chartConfig={chartConfig}
+                fieldComponents={
+                  isMapConfig(chartConfig) && field === "symbolLayer"
+                    ? chartConfig.fields.symbolLayer
+                      ? fieldComponents
+                      : undefined
+                    : fieldComponents
+                }
+                value={field}
+                labelId={`${chartConfig.chartType}.${field}`}
+                {...getDisabledState?.(chartConfig)}
+              />
+            );
+          }
+        )}
     </>
   );
 };

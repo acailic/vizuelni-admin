@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { Stack, TextField } from "@mui/material";
+import { Stack } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { PickersDay } from "@mui/x-date-pickers/PickersDay";
 import { useState } from "react";
@@ -173,21 +173,26 @@ const DatePickerStory = {
   render: () => (
     <DatePicker
       views={["year", "month"]}
-      inputFormat="dd/MM/yyyy"
-      componentsProps={{}}
+      format="dd/MM/yyyy"
       value={new Date(1991, 10, 20)}
       onChange={() => {}}
-      renderDay={(date, _, pickersDayProps) => {
-        return (
-          <PickersDay
-            {...pickersDayProps}
-            disabled={new Date(date).getDate() % 2 === 1}
-          />
-        );
+      slots={{
+        day: (props: any) => {
+          const { day, ...pickersDayProps } = props;
+          return (
+            <PickersDay
+              {...pickersDayProps}
+              disabled={new Date(day).getDate() % 2 === 1}
+            />
+          );
+        },
       }}
-      renderInput={(params) => (
-        <TextField hiddenLabel size="small" {...params} />
-      )}
+      slotProps={{
+        textField: {
+          hiddenLabel: true,
+          size: "small",
+        } as any,
+      }}
     />
   ),
 };

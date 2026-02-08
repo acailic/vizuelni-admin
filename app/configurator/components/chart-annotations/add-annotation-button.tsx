@@ -24,7 +24,7 @@ export const AddAnnotationButton = () => {
         annotation = getDefaultHighlightAnnotation();
         break;
       default:
-        const _exhaustiveCheck: never = type;
+        const _exhaustiveCheck: never = type as never;
         return _exhaustiveCheck;
     }
 

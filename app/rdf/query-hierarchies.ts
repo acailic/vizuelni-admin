@@ -154,7 +154,7 @@ export const parseHierarchy = (
     return tree;
   });
   const tree = regroupTrees(trees);
-  const treeValues = new Set(getOptionsFromTree(tree).map((d) => d.value));
+  const treeValues = new Set(getOptionsFromTree(tree).map((d: any) => d.value));
   const prunedTree = mapTree(
     pruneTree(tree, (node) => rawValues.has(node.value)),
     (node) => ({ ...node, hasValue: rawValues.has(node.value) })

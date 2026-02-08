@@ -286,24 +286,26 @@ const InteractiveFiltersContext = createContext<
 const getPotentialTimeRangeFilterIds = (chartConfigs: ChartConfig[]) => {
   const temporalDimensions = chartConfigs.flatMap((config) => {
     const chartSpec = getChartSpec(config);
-    const temporalEncodings = chartSpec.encodings.filter((x) =>
-      x.componentTypes.some(
-        (x) => x === "TemporalDimension" || x === "TemporalEntityDimension"
-      )
+    const temporalEncodings = chartSpec.encodings.filter(
+      (x: { componentTypes: string[] }) =>
+        x.componentTypes.some(
+          (componentType: string) =>
+            componentType === "TemporalDimension" ||
+            componentType === "TemporalEntityDimension"
+        )
     );
     const chartTemporalDimensions = temporalEncodings
-      .map((encoding) => {
+      .map((encoding: { field: string }) => {
         const field =
           encoding.field in config.fields
-            ? // @ts-expect-error ts(7053) - Not possible to narrow down here, but we check for undefined below
-              config.fields[encoding.field]
+            ? (config.fields[encoding.field] as any)
             : undefined;
         if (field && "componentId" in field) {
           const candidateIds = isJoinById(field.componentId as string)
             ? getOriginalIds(field.componentId, config)
             : [field.componentId];
 
-          return candidateIds.map((componentId) => ({
+          return candidateIds.map((componentId: string) => ({
             componentId,
             chartKey: config.key,
           }));
@@ -324,12 +326,13 @@ export const getPotentialDataFilterIds = (chartConfigs: ChartConfig[]) => {
   chartConfigs.forEach((config) => {
     const dimensionIds = uniq(
       config.cubes
-        .map((cube) => cube.filters)
-        .flatMap((filters) => {
+        .map((cube: { filters: Record<string, any> }) => cube.filters)
+        .flatMap((filters: Record<string, any>) => {
           return Object.entries(filters)
             .filter(
               ([_, filter]) =>
-                filter.type === "single" || filter.type === "multi"
+                (filter as any).type === "single" ||
+                (filter as any).type === "multi"
             )
             .map(([dimensionId]) => dimensionId)
             .concat(
@@ -337,7 +340,7 @@ export const getPotentialDataFilterIds = (chartConfigs: ChartConfig[]) => {
                 ? Object.entries(config.fields)
                     .map(([componentId, field]) =>
                       canDimensionBeMultiFiltered({
-                        __typename: field.componentType,
+                        __typename: (field as any).componentType,
                       } as Component)
                         ? componentId
                         : undefined
@@ -350,8 +353,8 @@ export const getPotentialDataFilterIds = (chartConfigs: ChartConfig[]) => {
 
     dimensionIds.forEach((dimensionId) => {
       dimensionIdCounts.set(
-        dimensionId,
-        (dimensionIdCounts.get(dimensionId) ?? 0) + 1
+        dimensionId as string,
+        (dimensionIdCounts.get(dimensionId as string) ?? 0) + 1
       );
     });
   });
@@ -415,7 +418,7 @@ export const InteractiveFiltersProvider = ({
     potentialTimeRangeFilterIds: string[];
     potentialDataFilterIds: string[];
     stores: Record<ChartConfig["key"], InteractiveFiltersContextValue>;
-  }>();
+  }>(undefined as any);
 
   const newCtxValue = {
     potentialTimeRangeFilterIds,

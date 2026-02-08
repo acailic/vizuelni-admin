@@ -71,13 +71,14 @@ const ErrorFallback = ({ error, resetErrorBoundary }: ErrorFallbackProps) => {
   );
 };
 
-const logErrorToService = (error: Error, errorInfo: { componentStack: string }) => {
+const logErrorToService = (error: unknown, errorInfo: any) => {
+  const errorObj = error instanceof Error ? error : new Error(String(error));
   // Log to Sentry if configured
   if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
-    Sentry.captureException(error, {
+    Sentry.captureException(errorObj, {
       contexts: {
         react: {
-          componentStack: errorInfo.componentStack,
+          componentStack: errorInfo.componentStack || "",
         },
       },
     });
@@ -92,7 +93,7 @@ const logErrorToService = (error: Error, errorInfo: { componentStack: string }) 
 export const AppErrorBoundary = ({ children }: { children: ReactNode }) => {
   return (
     <ErrorBoundary
-      FallbackComponent={ErrorFallback}
+      FallbackComponent={ErrorFallback as any}
       onError={logErrorToService}
       onReset={() => {
         // Reset app state or navigate to home

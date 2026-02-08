@@ -25,6 +25,7 @@ import uniqBy from "lodash/uniqBy";
 import {
   ChangeEvent,
   forwardRef,
+  MouseEvent,
   MouseEventHandler,
   MutableRefObject,
   ReactNode,
@@ -280,7 +281,7 @@ const MultiFilterContent = ({
   const { sortedTree, flatOptions, optionsByValue } = useMemo(() => {
     const sortedTree = sortHierarchy(tree);
     const flatOptions = getOptionsFromTree(sortedTree);
-    const optionsByValue = keyBy(flatOptions, (option) => option.value);
+    const optionsByValue = keyBy(flatOptions, (option: any) => option.value);
 
     return {
       sortedTree,
@@ -306,7 +307,7 @@ const MultiFilterContent = ({
             ) || ascending(a[0], b[0])
       )
       .map(([parent, group]) => {
-        return [parent, sortFilterValues(group)] as const;
+        return [parent, sortFilterValues(group as any)] as any;
       });
 
     return {
@@ -318,7 +319,7 @@ const MultiFilterContent = ({
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement>();
   const handleOpenAutocomplete: MouseEventHandler<HTMLButtonElement> = useEvent(
-    (ev) => {
+    (ev: MouseEvent<HTMLButtonElement>) => {
       setAnchorEl(ev.currentTarget);
     }
   );
@@ -533,7 +534,7 @@ const MultiFilterContent = ({
                 <BreadcrumbChevron key={i} />
               ))}
             </Typography>
-            {children.map(({ value, label }) => {
+            {children.map(({ value, label }: HierarchyValue) => {
               return (
                 <Flex
                   key={value}

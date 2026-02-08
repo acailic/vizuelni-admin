@@ -72,7 +72,7 @@ export const ColorPaletteCreator = (props: ColorPaletteCreatorProps) => {
     case "sequential":
       return <SequentialColorPaletteCreator {...props} />;
     default:
-      const _exhaustiveCheck: never = type;
+      const _exhaustiveCheck: never = type as never;
       return _exhaustiveCheck;
   }
 };
@@ -292,7 +292,7 @@ const ColorSelectionRow = (props: ColorSelectionRowProps) => {
           id: "controls.custom-color-palettes.diverging-contrast-warning",
         });
       default:
-        const _exhaustiveCheck: never = type;
+        const _exhaustiveCheck: never = type as never;
         return _exhaustiveCheck;
     }
   };

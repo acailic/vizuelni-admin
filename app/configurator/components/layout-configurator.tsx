@@ -13,6 +13,7 @@ import { makeStyles } from "@mui/styles";
 import capitalize from "lodash/capitalize";
 import omit from "lodash/omit";
 import {
+  ChangeEvent,
   MouseEvent,
   useCallback,
   useEffect,
@@ -135,7 +136,7 @@ const LayoutSharedFiltersConfigurator = () => {
   const combinedTemporalDimension = useCombinedTemporalDimension();
 
   const handleTimeRangeFilterToggle: SwitchProps["onChange"] = useEvent(
-    (_, checked) => {
+    (_: ChangeEvent<HTMLInputElement>, checked: boolean) => {
       if (checked) {
         const options = getTimeFilterOptions({
           dimension: combinedTemporalDimension,
@@ -581,10 +582,15 @@ const LayoutBlocksConfigurator = () => {
         <div>
           {blocks
             .filter(
-              (block): block is LayoutTextBlock & { initialized: boolean } =>
+              (block: {
+                type: string;
+                key: string;
+                text: Record<string, string>;
+                initialized?: boolean;
+              }): block is LayoutTextBlock & { initialized: boolean } =>
                 block.type === "text"
             )
-            .map((block) => (
+            .map((block: { key: string; text: Record<string, string> }) => (
               <ControlTab
                 key={block.key}
                 id={`tab-block-${block.key}`}
@@ -713,7 +719,7 @@ const migrateLayout = (
       ...layout,
       layout: newLayoutType,
       layouts,
-      blocks: blocks.map((block) => {
+      blocks: blocks.map((block: { key: string; type: string }) => {
         return {
           ...block,
           initialized: false,
@@ -736,7 +742,7 @@ const DashboardLayoutButton = ({
   layout: LayoutDashboard;
 }) => {
   const [config, dispatch] = useConfiguratorState(isLayouting);
-  const ref = useRef<LayoutDashboard>();
+  const ref = useRef<LayoutDashboard>(undefined);
   const checked = layout.layout === type;
   useEffect(() => {
     if (checked) {

@@ -139,7 +139,7 @@ export class CsvUrlConnector implements IDataConnector<CsvUrlConnectorConfig> {
     this.config = {
       id: config.id,
       name: config.name,
-      description: config.description,
+      description: config.description ?? "",
       url: config.url,
       timeout: config.timeout ?? 10000,
       maxRetries: config.maxRetries ?? 3,
@@ -256,7 +256,7 @@ export class CsvUrlConnector implements IDataConnector<CsvUrlConnectorConfig> {
         const size = parseInt(contentLength, 10);
         if (this.config.maxFileSize > 0 && size > this.config.maxFileSize) {
           throw this.createError(
-            "FILE_TOO_LARGE",
+            "INVALID_REQUEST",
             `CSV file size (${size} bytes) exceeds maximum allowed size (${this.config.maxFileSize} bytes)`
           );
         }
@@ -270,7 +270,7 @@ export class CsvUrlConnector implements IDataConnector<CsvUrlConnectorConfig> {
         csvText.length > this.config.maxFileSize
       ) {
         throw this.createError(
-          "FILE_TOO_LARGE",
+          "INVALID_REQUEST",
           `CSV file size (${csvText.length} bytes) exceeds maximum allowed size (${this.config.maxFileSize} bytes)`
         );
       }
@@ -588,7 +588,8 @@ export class CsvUrlConnector implements IDataConnector<CsvUrlConnectorConfig> {
       });
 
       // Normalize integer to number for consistency
-      columnTypes[col] = dominantType === "integer" ? "number" : dominantType;
+      columnTypes[col] =
+        (dominantType as any) === "integer" ? "number" : (dominantType as any);
 
       // Check if column is nullable (has null values)
       const nullCount = data.filter((row) => row[col] === null).length;

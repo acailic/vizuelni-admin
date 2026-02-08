@@ -123,7 +123,19 @@ const Search = ({
 
       <Stack spacing={4}>
         {cubes.data?.searchCubes.map(
-          ({ cube, highlightedTitle, highlightedDescription }) => {
+          ({
+            cube,
+            highlightedTitle,
+            highlightedDescription,
+          }: {
+            cube: {
+              iri: string;
+              publicationStatus: string;
+              themes: Array<{ iri: string; label: string }>;
+            };
+            highlightedTitle?: string | null;
+            highlightedDescription?: string | null;
+          }) => {
             return (
               <div key={cube.iri}>
                 <Typography
@@ -139,7 +151,7 @@ const Search = ({
                 <br />
                 <Typography variant="caption">{cube.iri}</Typography>
                 <Stack spacing={2} direction="row">
-                  {cube.themes.map((t) => (
+                  {cube.themes.map((t: { iri: string; label: string }) => (
                     <Chip key={t.iri} size="small" label={t.label} />
                   ))}
                   <Chip size="small" label={cube.publicationStatus} />

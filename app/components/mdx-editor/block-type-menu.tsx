@@ -54,7 +54,7 @@ export const BlockTypeMenu = () => {
     return null;
   }
 
-  type Item = { label: string | JSX.Element; value: BlockType };
+  type Item = { label: string | any; value: BlockType };
   const items: Item[] = [
     {
       label: "Paragraph",

@@ -8,7 +8,10 @@ import { useEffect, useRef } from "react";
  * Measure and log component render time
  * Usage: const renderTime = useRenderTime('MyComponent');
  */
-export const useRenderTime = (componentName: string, enabled = process.env.NODE_ENV === "development") => {
+export const useRenderTime = (
+  componentName: string,
+  enabled = process.env.NODE_ENV === "development"
+) => {
   const renderCount = useRef(0);
   const startTime = useRef(performance.now());
 
@@ -29,7 +32,9 @@ export const useRenderTime = (componentName: string, enabled = process.env.NODE_
 
   return (duration: number) => {
     if (enabled) {
-      console.log(`[Performance] ${componentName} operation took ${duration.toFixed(2)}ms`);
+      console.log(
+        `[Performance] ${componentName} operation took ${duration.toFixed(2)}ms`
+      );
     }
   };
 };
@@ -129,7 +134,10 @@ export const performanceMarker = new PerformanceMarker();
 /**
  * Hook to measure component mount/unmount time
  */
-export const useComponentLifecycle = (componentName: string, enabled = process.env.NODE_ENV === "development") => {
+export const useComponentLifecycle = (
+  componentName: string,
+  enabled = process.env.NODE_ENV === "development"
+) => {
   useEffect(() => {
     if (!enabled) return;
 
@@ -139,7 +147,9 @@ export const useComponentLifecycle = (componentName: string, enabled = process.e
     return () => {
       const unmountTime = performance.now();
       const lifetime = unmountTime - mountTime;
-      console.log(`[Lifecycle] ${componentName} unmounted after ${lifetime.toFixed(2)}ms`);
+      console.log(
+        `[Lifecycle] ${componentName} unmounted after ${lifetime.toFixed(2)}ms`
+      );
     };
   }, [componentName, enabled]);
 };
@@ -157,7 +167,10 @@ export const observeLongTasks = () => {
     const observer = new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
         if (entry.duration > 50) {
-          console.warn(`[Performance] Long task detected: ${entry.duration.toFixed(2)}ms`, entry);
+          console.warn(
+            `[Performance] Long task detected: ${entry.duration.toFixed(2)}ms`,
+            entry
+          );
 
           // Send to analytics if available
           if (window.gtag) {
@@ -171,8 +184,10 @@ export const observeLongTasks = () => {
       }
     });
 
-    const entryTypes = ['longtask'].filter(type => 
-      PerformanceObserver.supportedEntryTypes && PerformanceObserver.supportedEntryTypes.includes(type)
+    const entryTypes = ["longtask"].filter(
+      (type) =>
+        PerformanceObserver.supportedEntryTypes &&
+        PerformanceObserver.supportedEntryTypes.includes(type)
     );
 
     if (entryTypes.length > 0) {
@@ -199,7 +214,8 @@ export const getMemoryUsage = () => {
       totalJSHeapSize: performance.memory.totalJSHeapSize,
       jsHeapSizeLimit: performance.memory.jsHeapSizeLimit,
       usedPercentage: (
-        (performance.memory.usedJSHeapSize / performance.memory.jsHeapSizeLimit) *
+        (performance.memory.usedJSHeapSize /
+          performance.memory.jsHeapSizeLimit) *
         100
       ).toFixed(2),
     };
@@ -218,17 +234,12 @@ export const useMemoryMonitor = (interval = 10000) => {
     const intervalId = setInterval(() => {
       const memory = getMemoryUsage();
       if (memory) {
-        console.log(`[Memory] Used: ${(memory.usedJSHeapSize / 1048576).toFixed(2)}MB (${memory.usedPercentage}%)`);
+        console.log(
+          `[Memory] Used: ${(memory.usedJSHeapSize / 1048576).toFixed(2)}MB (${memory.usedPercentage}%)`
+        );
       }
     }, interval);
 
     return () => clearInterval(intervalId);
   }, [interval]);
 };
-
-// Extend Window type for TypeScript
-declare global {
-  interface Window {
-    gtag?: (...args: any[]) => void;
-  }
-}

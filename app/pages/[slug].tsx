@@ -1,4 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from "next";
+import dynamic from "next/dynamic";
 
 import { ContentMDXProvider } from "@/components/content-mdx-provider";
 import localesConfig from "@/locales/locales.json";
@@ -19,7 +20,7 @@ interface ContentPageProps {
   staticPage: string;
 }
 
-export default function ContentPage({ staticPage }: ContentPageProps) {
+function ContentPage({ staticPage }: ContentPageProps) {
   const Component = staticPages[staticPage]?.component;
 
   return (
@@ -28,6 +29,11 @@ export default function ContentPage({ staticPage }: ContentPageProps) {
     </ContentMDXProvider>
   );
 }
+
+// Make page client-side only to avoid MUI errors during SSR
+export default dynamic(() => Promise.resolve(ContentPage), {
+  ssr: false,
+});
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const isGitHubPages = process.env.NEXT_PUBLIC_BASE_PATH !== undefined;
@@ -61,7 +67,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
       return {
         params: { slug },
-        locale: normalizedLocale === defaultLocale ? undefined : normalizedLocale,
+        locale:
+          normalizedLocale === defaultLocale ? undefined : normalizedLocale,
       };
     })
     .filter(

@@ -15,7 +15,7 @@ import {
   useIsEditingAnnotation,
 } from "@/charts/shared/annotation-utils";
 import { useChartState } from "@/charts/shared/chart-state";
-import { Annotation } from "@/config-types";
+import { Annotation, AnnotationTarget } from "@/config-types";
 import { getChartConfig } from "@/config-utils";
 import { isAnnotationField } from "@/configurator/components/chart-annotations/utils";
 import { useConfiguratorState } from "@/configurator/configurator-state";
@@ -96,7 +96,7 @@ export const Annotations = () => {
     (annotation: Annotation) => {
       return chartData.find((observation) => {
         return annotation.targets.some(
-          (target) =>
+          (target: AnnotationTarget) =>
             observation[`${target.componentId}/__iri__`] === target.value &&
             target.componentId !== segmentDimension?.id
         );
@@ -180,11 +180,12 @@ export const Annotations = () => {
     }
 
     return annotations
-      .flatMap((annotation) => {
+      .flatMap((annotation: Annotation) => {
         const focusingSegment =
           !segmentDimension ||
           annotation.targets.some(
-            (target) => target.componentId === segmentDimension.id
+            (target: AnnotationTarget) =>
+              target.componentId === segmentDimension.id
           );
 
         if (focusingSegment) {
@@ -232,7 +233,9 @@ export const Annotations = () => {
       isAnnotationField(prevField) &&
       prevField !== activeField
     ) {
-      const prevAnnotation = annotations.find((a) => a.key === prevField);
+      const prevAnnotation = annotations.find(
+        (a: Annotation) => a.key === prevField
+      );
 
       if (prevAnnotation && !prevAnnotation.defaultOpen) {
         updateAnnotation(prevField, false);
@@ -244,7 +247,7 @@ export const Annotations = () => {
 
   return (
     <>
-      {renderAnnotations.map((renderAnnotation) => {
+      {renderAnnotations.map((renderAnnotation: RenderAnnotation) => {
         const { annotation, x, y, color, focused } = renderAnnotation;
 
         return (

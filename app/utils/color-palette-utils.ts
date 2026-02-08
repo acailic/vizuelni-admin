@@ -1,16 +1,10 @@
 import { rgb } from "d3-color";
 import { nanoid } from "nanoid";
 
-import {
-  CustomPaletteType,
-  DivergingPaletteType,
-  PaletteType,
-  SequentialPaletteType,
-} from "@/config-types";
+import { CustomPaletteType, PaletteType } from "@/config-types";
 import {
   createDivergingInterpolator,
   createSequentialInterpolator,
-  type Palette,
 } from "@/palettes";
 
 const SRGB_THRESHOLD = 0.03928;
@@ -69,12 +63,19 @@ interface ColorConfig {
   paletteId: string;
 }
 
+export const getContrastingColor = (color: string): string => {
+  const rgbColor = rgb(color);
+  const colorLuminance = getLuminance(rgbColor.r, rgbColor.g, rgbColor.b);
+  // Use black text for light backgrounds (luminance > 0.5), white for dark backgrounds
+  return colorLuminance > 0.5 ? "#000000" : "#ffffff";
+};
+
 export const getFittingColorInterpolator = (
   config: {
-    currentPalette?: Palette<SequentialPaletteType | DivergingPaletteType>;
+    currentPalette?: any;
     customPalette?: CustomPaletteType;
     color?: ColorConfig;
-    defaultPalette?: Palette<SequentialPaletteType | DivergingPaletteType>;
+    defaultPalette?: any;
   },
   getColorInterpolator: (
     paletteId: PaletteType["paletteId"]

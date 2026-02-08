@@ -1,5 +1,9 @@
 import { EmbedQueryParams } from "@/components/embed-params";
-import { ChartConfig, DataSource, DashboardFiltersConfig } from "@/config-types/config-types";
+import {
+  ChartConfig,
+  DataSource,
+  DashboardFiltersConfig,
+} from "@/config-types";
 import { Dimension, Measure, Observation } from "@/domain/data";
 import { DataCubeObservationFilter } from "@/graphql/query-hooks";
 
@@ -100,18 +104,19 @@ export type ChartProps<TChartConfig extends ChartConfig> = BaseChartProps & {
  */
 export type VisualizationProps<TChartConfig extends ChartConfig> =
   DataSourceProps &
-  ChartConfigProps<TChartConfig> &
-  QueryFilterProps & {
-    /** Optional embed parameters */
-    embedParams?: EmbedQueryParams;
-  };
+    ChartConfigProps<TChartConfig> &
+    QueryFilterProps & {
+      /** Optional embed parameters */
+      embedParams?: EmbedQueryParams;
+    };
 
 /**
  * Props for chart components integrated with dashboard filters.
  * Common pattern for charts that can be filtered at dashboard level.
  */
-export type ChartWithFiltersProps<TChartConfig extends ChartConfig = ChartConfig> =
-  DataSourceProps &
+export type ChartWithFiltersProps<
+  TChartConfig extends ChartConfig = ChartConfig,
+> = DataSourceProps &
   ChartConfigProps<TChartConfig> &
   Partial<QueryFilterProps> & {
     /** Optional embed parameters */

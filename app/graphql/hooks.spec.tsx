@@ -40,13 +40,14 @@ describe("makeUseQuery", () => {
 
   const TestComponent = ({ variables }: { variables: any }) => {
     const [result] = useMockQuery({ variables });
-    const client = useMemo(() => new Client({ url: "http://example.com" }), []);
+    const client = useMemo(
+      () => new Client({ url: "http://example.com", exchanges: [] }),
+      []
+    );
 
     return (
       <Provider value={client}>
-        <div data-testid="result">
-          {String(result.data ?? "loading")}
-        </div>
+        <div data-testid="result">{String(result.data ?? "loading")}</div>
       </Provider>
     );
   };
@@ -176,14 +177,18 @@ describe("useComponentsQuery - keepPreviousData", () => {
   it("should work when keep previous data is false", async () => {
     await act(async () => {
       // Load for two cubes
-      const hook = renderHook((props) => useDataCubesComponentsQuery(props), {
-        initialProps: {
-          chartConfig: {
-            conversionUnitsByComponentId: {},
-          } as ChartConfig,
-          variables: useDataCubesComponentsQueryVariables.twoCubes,
-        },
-      });
+      const hook = renderHook(
+        (props: Parameters<typeof useDataCubesComponentsQuery>[0]) =>
+          useDataCubesComponentsQuery(props),
+        {
+          initialProps: {
+            chartConfig: {
+              conversionUnitsByComponentId: {},
+            } as ChartConfig,
+            variables: useDataCubesComponentsQueryVariables.twoCubes,
+          },
+        }
+      );
 
       // At init, we are already fetching
       expect(hook.result.current[0].fetching).toBe(true);
@@ -270,15 +275,19 @@ describe("useComponentsQuery - keepPreviousData", () => {
   it("should work when keep previous data is true", async () => {
     await act(async () => {
       // Load for two cubes
-      const hook = renderHook((props) => useDataCubesComponentsQuery(props), {
-        initialProps: {
-          chartConfig: {
-            conversionUnitsByComponentId: {},
-          } as ChartConfig,
-          variables: useDataCubesComponentsQueryVariables.twoCubes,
-          keepPreviousData: true,
-        },
-      });
+      const hook = renderHook(
+        (props: Parameters<typeof useDataCubesComponentsQuery>[0]) =>
+          useDataCubesComponentsQuery(props),
+        {
+          initialProps: {
+            chartConfig: {
+              conversionUnitsByComponentId: {},
+            } as ChartConfig,
+            variables: useDataCubesComponentsQueryVariables.twoCubes,
+            keepPreviousData: true,
+          },
+        }
+      );
 
       // At init, we are already fetching
       expect(hook.result.current[0].fetching).toBe(true);

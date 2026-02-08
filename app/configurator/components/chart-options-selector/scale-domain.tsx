@@ -1,7 +1,7 @@
 import { t } from "@lingui/macro";
 import { Stack } from "@mui/material";
 import get from "lodash/get";
-import { useMemo, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useMemo, useState } from "react";
 
 import {
   EncodingFieldType,
@@ -165,9 +165,11 @@ const DomainInput = ({
       label={label}
       name={label}
       value={inputValue}
-      onChange={(e) => setInputValue(e.currentTarget.value)}
+      onChange={(e: ChangeEvent<HTMLInputElement>) =>
+        setInputValue(e.currentTarget.value)
+      }
       onBlur={handleCommit}
-      onKeyDown={(e) => {
+      onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
           handleCommit();
         }

@@ -15,14 +15,14 @@ interface StoryContainerProps {
 }
 
 export function StoryContainer({ storyId, config }: StoryContainerProps) {
-  const { i18n } = useLingui();
+  const { i18n: _i18n } = useLingui();
   const storyStore = useStoryStore((state) =>
     state.createStory(config, storyId)
   );
-  const currentStep = storyStore((state) => state.currentStep);
-  const completedSteps = storyStore((state) => state.completedSteps);
-  const setCurrentStep = storyStore((state) => state.setCurrentStep);
-  const markStepComplete = storyStore((state) => state.markStepComplete);
+  const currentStep = useStoryStore((state) => state.currentStep);
+  const completedSteps = useStoryStore((state) => state.completedSteps);
+  const setCurrentStep = useStoryStore((state) => state.setCurrentStep);
+  const markStepComplete = useStoryStore((state) => state.markStepComplete);
 
   const step = config.steps[currentStep];
   const isLastStep = currentStep === config.steps.length - 1;
@@ -117,7 +117,7 @@ export function StoryContainer({ storyId, config }: StoryContainerProps) {
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={currentStep}
-              variants={variants}
+              variants={variants as any}
               initial="enter"
               animate="center"
               exit="exit"

@@ -14,7 +14,7 @@ import {
   Pie,
   Cell,
   AreaChart,
-  Area
+  Area,
 } from "recharts";
 
 import { Badge } from "@/components/ui/badge";
@@ -27,34 +27,122 @@ import {
   getSerbianTranslation,
   getDatasetLabels,
   formatSerbianNumber,
-  SerbianLanguageVariant
+  SerbianLanguageVariant,
 } from "./serbian-language-utils";
 
 // Mock demographic data
 const populationTimeSeries = [
-  { year: 2010, total: 7276000, male: 3582000, female: 3694000, urban: 4769000, rural: 2507000 },
-  { year: 2012, total: 7188000, male: 3536000, female: 3652000, urban: 4721000, rural: 2467000 },
-  { year: 2014, total: 7101000, male: 3492000, female: 3609000, urban: 4673000, rural: 2428000 },
-  { year: 2016, total: 7034000, male: 3457000, female: 3577000, urban: 4638000, rural: 2396000 },
-  { year: 2018, total: 7001000, male: 3442000, female: 3559000, urban: 4619000, rural: 2382000 },
-  { year: 2020, total: 6964000, male: 3421000, female: 3543000, urban: 4602000, rural: 2362000 },
-  { year: 2022, total: 6797000, male: 3335000, female: 3462000, urban: 4521000, rural: 2276000 }
+  {
+    year: 2010,
+    total: 7276000,
+    male: 3582000,
+    female: 3694000,
+    urban: 4769000,
+    rural: 2507000,
+  },
+  {
+    year: 2012,
+    total: 7188000,
+    male: 3536000,
+    female: 3652000,
+    urban: 4721000,
+    rural: 2467000,
+  },
+  {
+    year: 2014,
+    total: 7101000,
+    male: 3492000,
+    female: 3609000,
+    urban: 4673000,
+    rural: 2428000,
+  },
+  {
+    year: 2016,
+    total: 7034000,
+    male: 3457000,
+    female: 3577000,
+    urban: 4638000,
+    rural: 2396000,
+  },
+  {
+    year: 2018,
+    total: 7001000,
+    male: 3442000,
+    female: 3559000,
+    urban: 4619000,
+    rural: 2382000,
+  },
+  {
+    year: 2020,
+    total: 6964000,
+    male: 3421000,
+    female: 3543000,
+    urban: 4602000,
+    rural: 2362000,
+  },
+  {
+    year: 2022,
+    total: 6797000,
+    male: 3335000,
+    female: 3462000,
+    urban: 4521000,
+    rural: 2276000,
+  },
 ];
 
 const populationByRegion = [
   { region: "Beograd", population: 1689000, density: 1452, growth: -0.2 },
   { region: "Vojvodina", population: 1991000, density: 97, growth: -1.1 },
-  { region: "Šumadija i Zapadna Srbija", population: 2014000, density: 71, growth: -1.8 },
-  { region: "Južna i Istočna Srbija", population: 1648000, density: 56, growth: -2.3 },
-  { region: "Kosovo i Metohija", population: 1455000, density: 134, growth: -0.8 }
+  {
+    region: "Šumadija i Zapadna Srbija",
+    population: 2014000,
+    density: 71,
+    growth: -1.8,
+  },
+  {
+    region: "Južna i Istočna Srbija",
+    population: 1648000,
+    density: 56,
+    growth: -2.3,
+  },
+  {
+    region: "Kosovo i Metohija",
+    population: 1455000,
+    density: 134,
+    growth: -0.8,
+  },
 ];
 
 const ageDistribution = [
-  { age: "0-14", count: 980000, percentage: 14.4, male: 502000, female: 478000 },
-  { age: "15-24", count: 820000, percentage: 12.1, male: 420000, female: 400000 },
-  { age: "25-54", count: 3200000, percentage: 47.1, male: 1620000, female: 1580000 },
-  { age: "55-64", count: 880000, percentage: 12.9, male: 420000, female: 460000 },
-  { age: "65+", count: 917000, percentage: 13.5, male: 373000, female: 544000 }
+  {
+    age: "0-14",
+    count: 980000,
+    percentage: 14.4,
+    male: 502000,
+    female: 478000,
+  },
+  {
+    age: "15-24",
+    count: 820000,
+    percentage: 12.1,
+    male: 420000,
+    female: 400000,
+  },
+  {
+    age: "25-54",
+    count: 3200000,
+    percentage: 47.1,
+    male: 1620000,
+    female: 1580000,
+  },
+  {
+    age: "55-64",
+    count: 880000,
+    percentage: 12.9,
+    male: 420000,
+    female: 460000,
+  },
+  { age: "65+", count: 917000, percentage: 13.5, male: 373000, female: 544000 },
 ];
 
 const populationProjection = [
@@ -63,12 +151,19 @@ const populationProjection = [
   { year: 2035, optimistic: 6700000, realistic: 6300000, pessimistic: 5800000 },
   { year: 2040, optimistic: 6600000, realistic: 6000000, pessimistic: 5400000 },
   { year: 2045, optimistic: 6500000, realistic: 5700000, pessimistic: 5000000 },
-  { year: 2050, optimistic: 6400000, realistic: 5400000, pessimistic: 4600000 }
+  { year: 2050, optimistic: 6400000, realistic: 5400000, pessimistic: 4600000 },
 ];
 
 // WCAG-compliant colors with sufficient contrast against light backgrounds
 // Using palette with minimum 4.5:1 contrast ratio for normal text
-const COLORS = ['#1E40AF', '#059669', '#CA8A04', '#DC2626', '#7C3AED', '#0891B2'];
+const COLORS = [
+  "#1E40AF",
+  "#059669",
+  "#CA8A04",
+  "#DC2626",
+  "#7C3AED",
+  "#0891B2",
+];
 
 interface SerbianDemographicsChartProps {
   language?: SerbianLanguageVariant;
@@ -76,15 +171,20 @@ interface SerbianDemographicsChartProps {
   height?: number;
 }
 
-export const SerbianDemographicsChart: React.FC<SerbianDemographicsChartProps> = ({
+export const SerbianDemographicsChart: React.FC<
+  SerbianDemographicsChartProps
+> = ({
   language = "sr-Latn",
   showInteractiveFeatures = true,
-  height = 400
+  height = 400,
 }) => {
   const [activeTab, setActiveTab] = useState("overview");
-  const [selectedRegion, setSelectedRegion] = useState("Beograd");
+  const [_selectedRegion, _setSelectedRegion] = useState("Beograd");
 
-  const labels = useMemo(() => getDatasetLabels('demographics', language), [language]);
+  const labels = useMemo(
+    () => getDatasetLabels("demographics", language),
+    [language]
+  );
 
   const formatPopulation = (value: number) => {
     if (value >= 1000000) {
@@ -125,9 +225,27 @@ export const SerbianDemographicsChart: React.FC<SerbianDemographicsChartProps> =
               <YAxis tickFormatter={formatPopulation} />
               <Tooltip content={<CustomTooltip />} />
               <Legend />
-              <Line type="monotone" dataKey="total" stroke="#8884d8" strokeWidth={2} name="Ukupno" />
-              <Line type="monotone" dataKey="male" stroke="#82ca9d" strokeWidth={2} name="Muškarci" />
-              <Line type="monotone" dataKey="female" stroke="#ffc658" strokeWidth={2} name="Žene" />
+              <Line
+                type="monotone"
+                dataKey="total"
+                stroke="#8884d8"
+                strokeWidth={2}
+                name="Ukupno"
+              />
+              <Line
+                type="monotone"
+                dataKey="male"
+                stroke="#82ca9d"
+                strokeWidth={2}
+                name="Muškarci"
+              />
+              <Line
+                type="monotone"
+                dataKey="female"
+                stroke="#ffc658"
+                strokeWidth={2}
+                name="Žene"
+              />
             </LineChart>
           </ResponsiveContainer>
         </CardContent>
@@ -145,16 +263,23 @@ export const SerbianDemographicsChart: React.FC<SerbianDemographicsChartProps> =
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                label={({ age, percentage }) => `${age}: ${percentage}%`}
+                label={({ age, percentage }: any) => `${age}: ${percentage}%`}
                 outerRadius={80}
                 fill="#8884d8"
                 dataKey="count"
               >
-                {ageDistribution.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                {ageDistribution.map((_entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
                 ))}
               </Pie>
-              <Tooltip formatter={(value: number) => formatSerbianNumber(value, language)} />
+              <Tooltip
+                formatter={(value: number | undefined) =>
+                  formatSerbianNumber(value || 0, language)
+                }
+              />
             </PieChart>
           </ResponsiveContainer>
         </CardContent>
@@ -170,7 +295,10 @@ export const SerbianDemographicsChart: React.FC<SerbianDemographicsChartProps> =
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={height}>
-            <BarChart data={populationByRegion} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+            <BarChart
+              data={populationByRegion}
+              margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
+            >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 dataKey="region"
@@ -192,7 +320,10 @@ export const SerbianDemographicsChart: React.FC<SerbianDemographicsChartProps> =
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={height}>
-            <BarChart data={populationByRegion} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+            <BarChart
+              data={populationByRegion}
+              margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
+            >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 dataKey="region"
@@ -201,7 +332,11 @@ export const SerbianDemographicsChart: React.FC<SerbianDemographicsChartProps> =
                 height={100}
               />
               <YAxis
-                label={{ value: 'Stanovnika po km²', angle: -90, position: 'insideLeft' }}
+                label={{
+                  value: "Stanovnika po km²",
+                  angle: -90,
+                  position: "insideLeft",
+                }}
               />
               <Tooltip
                 content={({ active, payload }) => {
@@ -210,7 +345,10 @@ export const SerbianDemographicsChart: React.FC<SerbianDemographicsChartProps> =
                     return (
                       <div className="bg-white p-3 border border-gray-300 rounded shadow-lg">
                         <p className="font-semibold">{data.region}</p>
-                        <p>Gustina: {formatSerbianNumber(data.density, language)} stanovnika/km²</p>
+                        <p>
+                          Gustina: {formatSerbianNumber(data.density, language)}{" "}
+                          stanovnika/km²
+                        </p>
                         <p>Rast: {data.growth}% godišnje</p>
                       </div>
                     );
@@ -218,7 +356,11 @@ export const SerbianDemographicsChart: React.FC<SerbianDemographicsChartProps> =
                   return null;
                 }}
               />
-              <Bar dataKey="density" fill="#82ca9d" name="Gustina (stanovnika/km²)" />
+              <Bar
+                dataKey="density"
+                fill="#82ca9d"
+                name="Gustina (stanovnika/km²)"
+              />
             </BarChart>
           </ResponsiveContainer>
         </CardContent>
@@ -232,7 +374,8 @@ export const SerbianDemographicsChart: React.FC<SerbianDemographicsChartProps> =
         <CardHeader>
           <CardTitle>Projekcija stanovništva do 2050.</CardTitle>
           <p className="text-sm text-muted-foreground">
-            {getSerbianTranslation('projection', language)} prema različitim scenarijima
+            {getSerbianTranslation("projection", language)} prema različitim
+            scenarijima
           </p>
         </CardHeader>
         <CardContent>
@@ -274,7 +417,9 @@ export const SerbianDemographicsChart: React.FC<SerbianDemographicsChartProps> =
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle className="text-green-600">Optimističan scenario</CardTitle>
+            <CardTitle className="text-green-600">
+              Optimističan scenario
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -291,7 +436,9 @@ export const SerbianDemographicsChart: React.FC<SerbianDemographicsChartProps> =
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-blue-600">Realističan scenario</CardTitle>
+            <CardTitle className="text-blue-600">
+              Realističan scenario
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -308,7 +455,9 @@ export const SerbianDemographicsChart: React.FC<SerbianDemographicsChartProps> =
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-red-600">Pesimističan scenario</CardTitle>
+            <CardTitle className="text-red-600">
+              Pesimističan scenario
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -373,7 +522,9 @@ export const SerbianDemographicsChart: React.FC<SerbianDemographicsChartProps> =
               <div key={index} className="p-4 border rounded-lg">
                 <div className="flex justify-between items-center mb-2">
                   <h4 className="font-semibold">Grupa: {group.age} godina</h4>
-                  <Badge variant="outline">{group.percentage}% populacije</Badge>
+                  <Badge variant="outline">
+                    {group.percentage}% populacije
+                  </Badge>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
@@ -404,7 +555,9 @@ export const SerbianDemographicsChart: React.FC<SerbianDemographicsChartProps> =
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="text-center p-4 border rounded-lg">
                 <p className="text-2xl font-bold text-blue-600">6.80M</p>
-                <p className="text-sm text-muted-foreground">Trenutno stanovništvo</p>
+                <p className="text-sm text-muted-foreground">
+                  Trenutno stanovništvo
+                </p>
               </div>
               <div className="text-center p-4 border rounded-lg">
                 <p className="text-2xl font-bold text-red-600">-1.8%</p>
@@ -412,11 +565,15 @@ export const SerbianDemographicsChart: React.FC<SerbianDemographicsChartProps> =
               </div>
               <div className="text-center p-4 border rounded-lg">
                 <p className="text-2xl font-bold text-green-600">42.6</p>
-                <p className="text-sm text-muted-foreground">Prosečna starost</p>
+                <p className="text-sm text-muted-foreground">
+                  Prosečna starost
+                </p>
               </div>
               <div className="text-center p-4 border rounded-lg">
                 <p className="text-2xl font-bold text-purple-600">66%</p>
-                <p className="text-sm text-muted-foreground">Urbana populacija</p>
+                <p className="text-sm text-muted-foreground">
+                  Urbana populacija
+                </p>
               </div>
             </div>
           </CardContent>
@@ -437,7 +594,7 @@ export const SerbianDemographicsChart: React.FC<SerbianDemographicsChartProps> =
                   variant="outline"
                   size="sm"
                   onClick={() => {
-                    console.log('Language toggle clicked');
+                    console.log("Language toggle clicked");
                   }}
                 >
                   {language === "sr-Latn" ? "Ћирилица" : "Latinica"}

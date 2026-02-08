@@ -4,7 +4,7 @@ import {
   maybeTransition,
   RenderOptions,
 } from "@/charts/shared/rendering-utils";
-import { DISABLE_SCREENSHOT_COLOR_WIPE_KEY } from "@/components/chart-shared";
+import { DISABLE_SCREENSHOT_COLOR_WIPE_KEY } from "@/components/chart-shared-styles";
 
 export type RenderTotalValueLabelDatum = {
   key: string;

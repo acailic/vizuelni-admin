@@ -4,83 +4,55 @@
  * Tests the React hook for fetching data from the Serbian Open Data Portal.
  */
 
-import { renderHook, act, waitFor } from '@testing-library/react';
-import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
-import { useDataGovRs } from '../../../exports/hooks/useDataGovRs';
-import type { DatasetMetadata } from '../../../exports/client';
+import { renderHook, act, waitFor } from "@testing-library/react";
+import {
+  describe,
+  expect,
+  it,
+  vi,
+  beforeEach,
+  afterEach,
+  type Mock,
+} from "vitest";
 
-describe('useDataGovRs', () => {
+import { useDataGovRs } from "../../../exports/hooks/useDataGovRs";
+
+import type { DatasetMetadata } from "../../../exports/client";
+
+describe("useDataGovRs", () => {
   const mockDatasetData: DatasetMetadata[] = [
     {
-      id: '1',
-      title: 'Test Dataset 1',
-      notes: 'Test description',
-      author: 'Test Organization',
-      author_email: 'test@example.com',
-      maintainer: 'Test Maintainer',
-      maintainer_email: 'maintainer@example.com',
-      license_id: 'cc-by',
-      license_title: 'CC-BY 4.0',
-      license_url: 'https://creativecommons.org/licenses/by/4.0/',
-      url: 'https://data.gov.rs/datasets/test-dataset-1',
-      notes_rendered: 'Test description',
-      created: '2023-01-01T00:00:00',
-      revision_timestamp: '2023-01-01T00:00:00',
-      state: 'active',
-      type: 'dataset',
-      metadata_created: '2023-01-01T00:00:00',
-      metadata_modified: '2023-01-01T00:00:00',
-      owner_org: 'test-org',
+      id: "1",
+      title: "Test Dataset 1",
+      description: "Test description",
+      created_at: "2023-01-01T00:00:00",
+      updated_at: "2023-01-01T00:00:00",
       resources: [],
       tags: [],
       organization: {
-        id: 'test-org',
-        name: 'Test Organization',
-        title: 'Test Organization',
-        description: 'Test organization description',
-        image_url: 'https://example.com/org.png',
-        created: '2023-01-01T00:00:00',
-        type: 'organization',
-        is_organization: true,
-        approval_status: 'approved',
-        state: 'active',
-        image_display_url: 'https://example.com/org.png',
+        id: "test-org",
+        name: "Test Organization",
+        title: "Test Organization",
+        description: "Test organization description",
+        image_url: "https://example.com/org.png",
+        created_at: "2023-01-01T00:00:00",
       },
     },
     {
-      id: '2',
-      title: 'Test Dataset 2',
-      notes: 'Test description 2',
-      author: 'Test Organization',
-      author_email: 'test@example.com',
-      maintainer: 'Test Maintainer',
-      maintainer_email: 'maintainer@example.com',
-      license_id: 'cc-by',
-      license_title: 'CC-BY 4.0',
-      license_url: 'https://creativecommons.org/licenses/by/4.0/',
-      url: 'https://data.gov.rs/datasets/test-dataset-2',
-      notes_rendered: 'Test description 2',
-      created: '2023-01-02T00:00:00',
-      revision_timestamp: '2023-01-02T00:00:00',
-      state: 'active',
-      type: 'dataset',
-      metadata_created: '2023-01-02T00:00:00',
-      metadata_modified: '2023-01-02T00:00:00',
-      owner_org: 'test-org',
+      id: "2",
+      title: "Test Dataset 2",
+      description: "Test description 2",
+      created_at: "2023-01-02T00:00:00",
+      updated_at: "2023-01-02T00:00:00",
       resources: [],
       tags: [],
       organization: {
-        id: 'test-org',
-        name: 'Test Organization',
-        title: 'Test Organization',
-        description: 'Test organization description',
-        image_url: 'https://example.com/org.png',
-        created: '2023-01-01T00:00:00',
-        type: 'organization',
-        is_organization: true,
-        approval_status: 'approved',
-        state: 'active',
-        image_display_url: 'https://example.com/org.png',
+        id: "test-org",
+        name: "Test Organization",
+        title: "Test Organization",
+        description: "Test organization description",
+        image_url: "https://example.com/org.png",
+        created_at: "2023-01-01T00:00:00",
       },
     },
   ];
@@ -96,9 +68,9 @@ describe('useDataGovRs', () => {
     vi.restoreAllMocks();
   });
 
-  describe('data fetching', () => {
-    it.skip('should fetch data successfully on mount', async () => {
-      const mockFetch = global.fetch as vi.Mock;
+  describe("data fetching", () => {
+    it.skip("should fetch data successfully on mount", async () => {
+      const mockFetch = global.fetch as Mock;
       mockFetch.mockImplementation(() =>
         Promise.resolve({
           ok: true,
@@ -112,7 +84,7 @@ describe('useDataGovRs', () => {
 
       const { result } = renderHook(() =>
         useDataGovRs({
-          params: { q: 'test-1-fetch-on-mount' },
+          params: { q: "test-1-fetch-on-mount" },
           cacheTime: 0,
         })
       );
@@ -129,8 +101,8 @@ describe('useDataGovRs', () => {
       expect(result.current.error).toBeNull();
     });
 
-    it.skip('should pass search params to the API', async () => {
-      const mockFetch = global.fetch as vi.Mock;
+    it.skip("should pass search params to the API", async () => {
+      const mockFetch = global.fetch as Mock;
       mockFetch.mockImplementation(() =>
         Promise.resolve({
           ok: true,
@@ -143,10 +115,10 @@ describe('useDataGovRs', () => {
       );
 
       const params = {
-        q: 'test query',
+        q: "test query",
         page: 2,
         page_size: 10,
-        organization: 'test-org',
+        organization: "test-org",
       };
 
       renderHook(() =>
@@ -164,14 +136,14 @@ describe('useDataGovRs', () => {
       );
 
       const fetchUrl = mockFetch.mock.calls[0][0] as string;
-      expect(fetchUrl).toContain('q=test%20query');
-      expect(fetchUrl).toContain('page=2');
-      expect(fetchUrl).toContain('page_size=10');
-      expect(fetchUrl).toContain('organization=test-org');
+      expect(fetchUrl).toContain("q=test%20query");
+      expect(fetchUrl).toContain("page=2");
+      expect(fetchUrl).toContain("page_size=10");
+      expect(fetchUrl).toContain("organization=test-org");
     });
 
-    it.skip('should return count from API response', async () => {
-      const mockFetch = global.fetch as vi.Mock;
+    it.skip("should return count from API response", async () => {
+      const mockFetch = global.fetch as Mock;
       mockFetch.mockImplementation(() =>
         Promise.resolve({
           ok: true,
@@ -185,7 +157,7 @@ describe('useDataGovRs', () => {
 
       const { result } = renderHook(() =>
         useDataGovRs({
-          params: { q: 'test-3-count-response' },
+          params: { q: "test-3-count-response" },
           cacheTime: 0,
         })
       );
@@ -201,9 +173,9 @@ describe('useDataGovRs', () => {
     });
   });
 
-  describe('loading states', () => {
-    it.skip('should set isLoading to true while fetching', async () => {
-      const mockFetch = global.fetch as vi.Mock;
+  describe("loading states", () => {
+    it.skip("should set isLoading to true while fetching", async () => {
+      const mockFetch = global.fetch as Mock;
       mockFetch.mockImplementation(
         () =>
           new Promise((resolve) =>
@@ -224,7 +196,7 @@ describe('useDataGovRs', () => {
 
       const { result } = renderHook(() =>
         useDataGovRs({
-          params: { q: 'test-4-loading-while-fetching' },
+          params: { q: "test-4-loading-while-fetching" },
           cacheTime: 0,
         })
       );
@@ -239,8 +211,8 @@ describe('useDataGovRs', () => {
       );
     });
 
-    it.skip('should set isLoading to false after successful fetch', async () => {
-      const mockFetch = global.fetch as vi.Mock;
+    it.skip("should set isLoading to false after successful fetch", async () => {
+      const mockFetch = global.fetch as Mock;
       mockFetch.mockImplementation(() =>
         Promise.resolve({
           ok: true,
@@ -254,7 +226,7 @@ describe('useDataGovRs', () => {
 
       const { result } = renderHook(() =>
         useDataGovRs({
-          params: { q: 'test-5-loading-after-fetch' },
+          params: { q: "test-5-loading-after-fetch" },
           cacheTime: 0,
         })
       );
@@ -269,20 +241,20 @@ describe('useDataGovRs', () => {
       expect(result.current.data).toEqual(mockDatasetData);
     });
 
-    it.skip('should set isLoading to false after failed fetch', async () => {
-      const mockFetch = global.fetch as vi.Mock;
+    it.skip("should set isLoading to false after failed fetch", async () => {
+      const mockFetch = global.fetch as Mock;
       mockFetch.mockImplementation(() =>
         Promise.resolve({
           ok: false,
           status: 500,
-          statusText: 'Internal Server Error',
-          json: () => Promise.resolve({ error: 'Server error' }),
+          statusText: "Internal Server Error",
+          json: () => Promise.resolve({ error: "Server error" }),
         })
       );
 
       const { result } = renderHook(() =>
         useDataGovRs({
-          params: { q: 'test-6-loading-after-failed-fetch' },
+          params: { q: "test-6-loading-after-failed-fetch" },
           cacheTime: 0,
         })
       );
@@ -298,15 +270,15 @@ describe('useDataGovRs', () => {
     });
   });
 
-  describe('error handling', () => {
-    it.skip('should handle network errors', async () => {
-      const mockFetch = global.fetch as vi.Mock;
-      const networkError = new Error('Network error');
+  describe("error handling", () => {
+    it.skip("should handle network errors", async () => {
+      const mockFetch = global.fetch as Mock;
+      const networkError = new Error("Network error");
       mockFetch.mockImplementation(() => Promise.reject(networkError));
 
       const { result } = renderHook(() =>
         useDataGovRs({
-          params: { q: 'test-7-network-error' },
+          params: { q: "test-7-network-error" },
           cacheTime: 0,
         })
       );
@@ -319,23 +291,23 @@ describe('useDataGovRs', () => {
       );
 
       expect(result.current.error).toBeTruthy();
-      expect(result.current.error?.message).toBe('Network error');
+      expect(result.current.error?.message).toBe("Network error");
     });
 
-    it.skip('should handle API errors', async () => {
-      const mockFetch = global.fetch as vi.Mock;
+    it.skip("should handle API errors", async () => {
+      const mockFetch = global.fetch as Mock;
       mockFetch.mockImplementation(() =>
         Promise.resolve({
           ok: false,
           status: 404,
-          statusText: 'Not Found',
-          json: () => Promise.resolve({ error: 'Dataset not found' }),
+          statusText: "Not Found",
+          json: () => Promise.resolve({ error: "Dataset not found" }),
         })
       );
 
       const { result } = renderHook(() =>
         useDataGovRs({
-          params: { q: 'test-8-api-error' },
+          params: { q: "test-8-api-error" },
           cacheTime: 0,
         })
       );
@@ -350,18 +322,18 @@ describe('useDataGovRs', () => {
       expect(result.current.error).toBeTruthy();
     });
 
-    it.skip('should handle malformed JSON responses', async () => {
-      const mockFetch = global.fetch as vi.Mock;
+    it.skip("should handle malformed JSON responses", async () => {
+      const mockFetch = global.fetch as Mock;
       mockFetch.mockImplementation(() =>
         Promise.resolve({
           ok: true,
-          json: () => Promise.reject(new Error('Invalid JSON')),
+          json: () => Promise.reject(new Error("Invalid JSON")),
         })
       );
 
       const { result } = renderHook(() =>
         useDataGovRs({
-          params: { q: 'test-9-malformed-json' },
+          params: { q: "test-9-malformed-json" },
           cacheTime: 0,
         })
       );
@@ -376,17 +348,17 @@ describe('useDataGovRs', () => {
       expect(result.current.error).toBeTruthy();
     });
 
-    it.skip('should clear error on successful refetch', async () => {
-      const mockFetch = global.fetch as vi.Mock;
+    it.skip("should clear error on successful refetch", async () => {
+      const mockFetch = global.fetch as Mock;
       let callCount = 0;
       mockFetch.mockImplementation(() =>
         Promise.resolve({
           ok: callCount++ === 0 ? false : true,
           status: 500,
-          statusText: callCount === 0 ? 'Internal Server Error' : 'OK',
+          statusText: callCount === 0 ? "Internal Server Error" : "OK",
           json: () =>
             callCount === 1
-              ? Promise.resolve({ error: 'Server error' })
+              ? Promise.resolve({ error: "Server error" })
               : Promise.resolve({
                   results: mockDatasetData,
                   count: 2,
@@ -396,7 +368,7 @@ describe('useDataGovRs', () => {
 
       const { result } = renderHook(() =>
         useDataGovRs({
-          params: { q: 'test-10-clear-error-refetch' },
+          params: { q: "test-10-clear-error-refetch" },
           cacheTime: 0,
         })
       );
@@ -421,9 +393,9 @@ describe('useDataGovRs', () => {
     });
   });
 
-  describe('refetch functionality', () => {
-    it.skip('should refetch data when refetch is called', async () => {
-      const mockFetch = global.fetch as vi.Mock;
+  describe("refetch functionality", () => {
+    it.skip("should refetch data when refetch is called", async () => {
+      const mockFetch = global.fetch as Mock;
       mockFetch.mockImplementation(() =>
         Promise.resolve({
           ok: true,
@@ -437,7 +409,7 @@ describe('useDataGovRs', () => {
 
       const { result } = renderHook(() =>
         useDataGovRs({
-          params: { q: 'test-11-refetch-data' },
+          params: { q: "test-11-refetch-data" },
           cacheTime: 0,
         })
       );
@@ -465,43 +437,24 @@ describe('useDataGovRs', () => {
       expect(mockFetch.mock.calls.length).toBeGreaterThan(initialCallCount);
     });
 
-    it.skip('should update data after refetch', async () => {
-      const mockFetch = global.fetch as vi.Mock;
+    it.skip("should update data after refetch", async () => {
+      const mockFetch = global.fetch as Mock;
       const updatedData: DatasetMetadata[] = [
         {
-          id: '3',
-          title: 'Updated Dataset',
-          notes: 'Updated description',
-          author: 'Test Organization',
-          author_email: 'test@example.com',
-          maintainer: 'Test Maintainer',
-          maintainer_email: 'maintainer@example.com',
-          license_id: 'cc-by',
-          license_title: 'CC-BY 4.0',
-          license_url: 'https://creativecommons.org/licenses/by/4.0/',
-          url: 'https://data.gov.rs/datasets/updated',
-          notes_rendered: 'Updated description',
-          created: '2023-01-01T00:00:00',
-          revision_timestamp: '2023-01-01T00:00:00',
-          state: 'active',
-          type: 'dataset',
-          metadata_created: '2023-01-01T00:00:00',
-          metadata_modified: '2023-01-01T00:00:00',
-          owner_org: 'test-org',
+          id: "3",
+          title: "Updated Dataset",
+          description: "Updated description",
+          created_at: "2023-01-01T00:00:00",
+          updated_at: "2023-01-01T00:00:00",
           resources: [],
           tags: [],
           organization: {
-            id: 'test-org',
-            name: 'Test Organization',
-            title: 'Test Organization',
-            description: 'Test organization description',
-            image_url: 'https://example.com/org.png',
-            created: '2023-01-01T00:00:00',
-            type: 'organization',
-            is_organization: true,
-            approval_status: 'approved',
-            state: 'active',
-            image_display_url: 'https://example.com/org.png',
+            id: "test-org",
+            name: "Test Organization",
+            title: "Test Organization",
+            description: "Test organization description",
+            image_url: "https://example.com/org.png",
+            created_at: "2023-01-01T00:00:00",
           },
         },
       ];
@@ -520,7 +473,7 @@ describe('useDataGovRs', () => {
 
       const { result } = renderHook(() =>
         useDataGovRs({
-          params: { q: 'test-12-update-after-refetch' },
+          params: { q: "test-12-update-after-refetch" },
           cacheTime: 0,
         })
       );
@@ -546,9 +499,9 @@ describe('useDataGovRs', () => {
     });
   });
 
-  describe('disabled state', () => {
-    it.skip('should not fetch when enabled is false', async () => {
-      const mockFetch = global.fetch as vi.Mock;
+  describe("disabled state", () => {
+    it.skip("should not fetch when enabled is false", async () => {
+      const mockFetch = global.fetch as Mock;
       mockFetch.mockImplementation(() =>
         Promise.resolve({
           ok: true,
@@ -562,7 +515,7 @@ describe('useDataGovRs', () => {
 
       const { result } = renderHook(() =>
         useDataGovRs({
-          params: { q: 'test-13-disabled-false' },
+          params: { q: "test-13-disabled-false" },
           enabled: false,
           cacheTime: 0,
         })
@@ -580,8 +533,8 @@ describe('useDataGovRs', () => {
       expect(mockFetch).not.toHaveBeenCalled();
     });
 
-    it.skip('should not fetch when enabled becomes false', async () => {
-      const mockFetch = global.fetch as vi.Mock;
+    it.skip("should not fetch when enabled becomes false", async () => {
+      const mockFetch = global.fetch as Mock;
       mockFetch.mockImplementation(() =>
         Promise.resolve({
           ok: true,
@@ -593,16 +546,13 @@ describe('useDataGovRs', () => {
         })
       );
 
-      const { result, rerender } = renderHook(
-        (props) => useDataGovRs(props),
-        {
-          initialProps: {
-            params: { q: 'test-14-enabled-becomes-false' },
-            enabled: true,
-            cacheTime: 0,
-          },
-        }
-      );
+      const { result, rerender } = renderHook((props) => useDataGovRs(props), {
+        initialProps: {
+          params: { q: "test-14-enabled-becomes-false" },
+          enabled: true,
+          cacheTime: 0,
+        },
+      });
 
       await waitFor(
         () => {
@@ -614,7 +564,7 @@ describe('useDataGovRs', () => {
       const callCountAfterInitialFetch = mockFetch.mock.calls.length;
 
       rerender({
-        params: { q: 'test-14-enabled-becomes-false' },
+        params: { q: "test-14-enabled-becomes-false" },
         enabled: false,
         cacheTime: 0,
       });
@@ -627,8 +577,8 @@ describe('useDataGovRs', () => {
       );
     });
 
-    it.skip('should fetch when enabled becomes true', async () => {
-      const mockFetch = global.fetch as vi.Mock;
+    it.skip("should fetch when enabled becomes true", async () => {
+      const mockFetch = global.fetch as Mock;
       mockFetch.mockImplementation(() =>
         Promise.resolve({
           ok: true,
@@ -640,21 +590,18 @@ describe('useDataGovRs', () => {
         })
       );
 
-      const { result, rerender } = renderHook(
-        (props) => useDataGovRs(props),
-        {
-          initialProps: {
-            params: { q: 'test-15-enabled-becomes-true' },
-            enabled: false,
-            cacheTime: 0,
-          },
-        }
-      );
+      const { result, rerender } = renderHook((props) => useDataGovRs(props), {
+        initialProps: {
+          params: { q: "test-15-enabled-becomes-true" },
+          enabled: false,
+          cacheTime: 0,
+        },
+      });
 
       const initialCallCount = mockFetch.mock.calls.length;
 
       rerender({
-        params: { q: 'test-15-enabled-becomes-true' },
+        params: { q: "test-15-enabled-becomes-true" },
         enabled: true,
         cacheTime: 0,
       });
@@ -669,8 +616,8 @@ describe('useDataGovRs', () => {
       expect(mockFetch.mock.calls.length).toBeGreaterThan(initialCallCount);
     });
 
-    it.skip('should not execute manual fetch when disabled', async () => {
-      const mockFetch = global.fetch as vi.Mock;
+    it.skip("should not execute manual fetch when disabled", async () => {
+      const mockFetch = global.fetch as Mock;
       mockFetch.mockImplementation(() =>
         Promise.resolve({
           ok: true,
@@ -684,7 +631,7 @@ describe('useDataGovRs', () => {
 
       const { result } = renderHook(() =>
         useDataGovRs({
-          params: { q: 'test-16-manual-fetch-disabled' },
+          params: { q: "test-16-manual-fetch-disabled" },
           enabled: false,
           cacheTime: 0,
         })
@@ -699,9 +646,9 @@ describe('useDataGovRs', () => {
     });
   });
 
-  describe('manual fetch', () => {
-    it.skip('should provide manual fetch function', async () => {
-      const mockFetch = global.fetch as vi.Mock;
+  describe("manual fetch", () => {
+    it.skip("should provide manual fetch function", async () => {
+      const mockFetch = global.fetch as Mock;
       mockFetch.mockImplementation(() =>
         Promise.resolve({
           ok: true,
@@ -715,7 +662,7 @@ describe('useDataGovRs', () => {
 
       const { result } = renderHook(() =>
         useDataGovRs({
-          params: { q: 'test-17-manual-fetch-function' },
+          params: { q: "test-17-manual-fetch-function" },
           cacheTime: 0,
         })
       );
@@ -743,8 +690,8 @@ describe('useDataGovRs', () => {
       expect(mockFetch.mock.calls.length).toBeGreaterThan(initialCallCount);
     });
 
-    it.skip('should respect enabled state in manual fetch', async () => {
-      const mockFetch = global.fetch as vi.Mock;
+    it.skip("should respect enabled state in manual fetch", async () => {
+      const mockFetch = global.fetch as Mock;
       mockFetch.mockImplementation(() =>
         Promise.resolve({
           ok: true,
@@ -758,7 +705,7 @@ describe('useDataGovRs', () => {
 
       const { result } = renderHook(() =>
         useDataGovRs({
-          params: { q: 'test-18-manual-fetch-respect-enabled' },
+          params: { q: "test-18-manual-fetch-respect-enabled" },
           enabled: false,
           cacheTime: 0,
         })
@@ -774,9 +721,9 @@ describe('useDataGovRs', () => {
     });
   });
 
-  describe('caching behavior', () => {
-    it.skip('should use cached data when cache is fresh', async () => {
-      const mockFetch = global.fetch as vi.Mock;
+  describe("caching behavior", () => {
+    it.skip("should use cached data when cache is fresh", async () => {
+      const mockFetch = global.fetch as Mock;
       mockFetch.mockImplementation(() =>
         Promise.resolve({
           ok: true,
@@ -794,7 +741,7 @@ describe('useDataGovRs', () => {
         ({ params }) => useDataGovRs({ params, cacheTime }),
         {
           initialProps: {
-            params: { q: 'test-19-cache-fresh' },
+            params: { q: "test-19-cache-fresh" },
           },
         }
       );
@@ -808,7 +755,7 @@ describe('useDataGovRs', () => {
 
       const callCountAfterInitial = mockFetch.mock.calls.length;
 
-      rerender({ params: { q: 'test-19-cache-fresh' } });
+      rerender({ params: { q: "test-19-cache-fresh" } });
 
       await waitFor(
         () => {
@@ -818,8 +765,8 @@ describe('useDataGovRs', () => {
       );
     });
 
-    it.skip('should use different cache keys for different params', async () => {
-      const mockFetch = global.fetch as vi.Mock;
+    it.skip("should use different cache keys for different params", async () => {
+      const mockFetch = global.fetch as Mock;
       mockFetch.mockImplementation(() =>
         Promise.resolve({
           ok: true,
@@ -831,15 +778,12 @@ describe('useDataGovRs', () => {
         })
       );
 
-      const { rerender } = renderHook(
-        (props) => useDataGovRs(props),
-        {
-          initialProps: {
-            params: { q: 'test-20-cache-keys-1' },
-            cacheTime: 0,
-          },
-        }
-      );
+      const { rerender } = renderHook((props) => useDataGovRs(props), {
+        initialProps: {
+          params: { q: "test-20-cache-keys-1" },
+          cacheTime: 0,
+        },
+      });
 
       await waitFor(
         () => {
@@ -850,11 +794,13 @@ describe('useDataGovRs', () => {
 
       const callCountAfterFirst = mockFetch.mock.calls.length;
 
-      rerender({ params: { q: 'test-20-cache-keys-2' }, cacheTime: 0 });
+      rerender({ params: { q: "test-20-cache-keys-2" }, cacheTime: 0 });
 
       await waitFor(
         () => {
-          expect(mockFetch.mock.calls.length).toBeGreaterThan(callCountAfterFirst);
+          expect(mockFetch.mock.calls.length).toBeGreaterThan(
+            callCountAfterFirst
+          );
         },
         { timeout: 10000 }
       );

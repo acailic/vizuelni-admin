@@ -89,7 +89,7 @@ const LimitSymbol = ({ limit }: { limit: RenderLimitDatum }) => {
     case "triangle":
       return <TriangleSymbol {...props} />;
     default:
-      const _exhaustiveCheck: never = limit.symbolType;
+      const _exhaustiveCheck: never = limit.symbolType as never;
       return _exhaustiveCheck;
   }
 };

@@ -1,35 +1,35 @@
 import { memo } from "react";
 
-import { ChartDataWrapper } from "@/charts/chart-data-wrapper";
-import { ErrorWhiskers, Lines } from "@/charts/line/lines";
-import { LineChart } from "@/charts/line/lines-state";
-import { useIsEditingAnnotation } from "@/charts/shared/annotation-utils";
-import { Annotations } from "@/charts/shared/annotations";
-import { AxisHeightLinear } from "@/charts/shared/axis-height-linear";
-import { AxisHideXOverflowRect } from "@/charts/shared/axis-hide-overflow-rect";
-import { AxisTime, AxisTimeDomain } from "@/charts/shared/axis-width-time";
-import { BrushTime, shouldShowBrush } from "@/charts/shared/brush";
+import { LineConfig } from "../../config-types";
+import { useLimits } from "../../config-utils";
+import {
+  hasChartConfigs,
+  useConfiguratorState,
+} from "../../configurator/configurator-state";
+import { ChartDataWrapper } from "../chart-data-wrapper";
+import { useIsEditingAnnotation } from "../shared/annotation-utils";
+import { Annotations } from "../shared/annotations";
+import { AxisHeightLinear } from "../shared/axis-height-linear";
+import { AxisHideXOverflowRect } from "../shared/axis-hide-overflow-rect";
+import { AxisTime, AxisTimeDomain } from "../shared/axis-width-time";
+import { BrushTime, shouldShowBrush } from "../shared/brush";
+import { ChartProps, VisualizationProps } from "../shared/chart-props";
 import {
   ChartContainer,
   ChartControlsContainer,
   ChartSvg,
-} from "@/charts/shared/containers";
-import { HoverAnnotationDot } from "@/charts/shared/interaction/hover-annotation-dot";
-import { HoverDotMultiple } from "@/charts/shared/interaction/hover-dots-multiple";
-import { Ruler } from "@/charts/shared/interaction/ruler";
-import { Tooltip } from "@/charts/shared/interaction/tooltip";
-import { LegendColor } from "@/charts/shared/legend-color";
-import { VerticalLimits } from "@/charts/shared/limits/vertical";
-import { InteractionHorizontal } from "@/charts/shared/overlay-horizontal";
-import { InteractionVoronoi } from "@/charts/shared/overlay-voronoi";
-import { LineConfig } from "@/config-types";
-import { useLimits } from "@/config-utils";
-import {
-  hasChartConfigs,
-  useConfiguratorState,
-} from "@/configurator/configurator-state";
+} from "../shared/containers";
+import { HoverAnnotationDot } from "../shared/interaction/hover-annotation-dot";
+import { HoverDotMultiple } from "../shared/interaction/hover-dots-multiple";
+import { Ruler } from "../shared/interaction/ruler";
+import { Tooltip } from "../shared/interaction/tooltip";
+import { LegendColor } from "../shared/legend-color";
+import { VerticalLimits } from "../shared/limits/vertical";
+import { InteractionHorizontal } from "../shared/overlay-horizontal";
+import { InteractionVoronoi } from "../shared/overlay-voronoi";
 
-import { ChartProps, VisualizationProps } from "../shared/chart-props";
+import { ErrorWhiskers, Lines } from "./lines";
+import { LineChart } from "./lines-state";
 
 export const ChartLinesVisualization = (
   props: VisualizationProps<LineConfig>

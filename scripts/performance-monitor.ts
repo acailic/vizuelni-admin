@@ -3,7 +3,7 @@
  * Real-time performance tracking and optimization validation
  */
 
-import { performance, PerformanceObserver } from 'perf_hooks';
+import { performance, PerformanceObserver } from "perf_hooks";
 
 interface BundleAnalysis {
   totalSize: number;
@@ -66,12 +66,12 @@ export class PerformanceMonitor {
   analyzeBundle(): BundleAnalysis {
     const stats = this.getWebpackStats();
     if (!stats) {
-      throw new Error('Webpack stats not available');
+      throw new Error("Webpack stats not available");
     }
 
     const chunks = this.extractChunkInfo(stats);
     const totalSize = chunks.reduce((sum, chunk) => sum + chunk.size, 0);
-    const largestChunk = Math.max(...chunks.map(chunk => chunk.size));
+    const largestChunk = Math.max(...chunks.map((chunk) => chunk.size));
 
     this.metrics.bundleSize = {
       totalSize,
@@ -85,7 +85,11 @@ export class PerformanceMonitor {
 
   // Render time measurement decorator
   static measureRenderTime(componentName: string) {
-    return (target: any, propertyName: string, descriptor: PropertyDescriptor) => {
+    return (
+      target: any,
+      propertyName: string,
+      descriptor: PropertyDescriptor
+    ) => {
       const originalMethod = descriptor.value;
 
       descriptor.value = function (...args: any[]) {
@@ -94,10 +98,16 @@ export class PerformanceMonitor {
         const end = performance.now();
 
         const renderTime = end - start;
-        PerformanceMonitor.getInstance().trackRenderTime(componentName, renderTime);
+        PerformanceMonitor.getInstance().trackRenderTime(
+          componentName,
+          renderTime
+        );
 
-        if (renderTime > 100) { // Alert on slow renders
-          console.warn(`🐌 Slow render: ${componentName} took ${renderTime.toFixed(2)}ms`);
+        if (renderTime > 100) {
+          // Alert on slow renders
+          console.warn(
+            `🐌 Slow render: ${componentName} took ${renderTime.toFixed(2)}ms`
+          );
         }
 
         return result;
@@ -123,8 +133,11 @@ export class PerformanceMonitor {
       });
 
       // Alert on memory leaks
-      if (usage.heapUsed > 100 * 1024 * 1024) { // 100MB
-        console.warn(`🧠 High memory usage: ${(usage.heapUsed / 1024 / 1024).toFixed(2)}MB`);
+      if (usage.heapUsed > 100 * 1024 * 1024) {
+        // 100MB
+        console.warn(
+          `🧠 High memory usage: ${(usage.heapUsed / 1024 / 1024).toFixed(2)}MB`
+        );
       }
     };
 
@@ -134,10 +147,10 @@ export class PerformanceMonitor {
 
   // Bundle loading performance
   trackBundleLoading(): void {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const observer = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
-          if (entry.name.includes('chunk') || entry.name.includes('bundle')) {
+          if (entry.name.includes("chunk") || entry.name.includes("bundle")) {
             const resource = entry as PerformanceResourceTiming;
             console.log(`📦 Bundle loaded: ${resource.name}`);
             console.log(`   Size: ${resource.transferSize} bytes`);
@@ -147,25 +160,25 @@ export class PerformanceMonitor {
         }
       });
 
-      observer.observe({ entryTypes: ['resource'] });
+      observer.observe({ entryTypes: ["resource"] });
       this.observers.push(observer);
     }
   }
 
   // Web Vitals tracking
   trackWebVitals(): void {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       // First Contentful Paint
       const observer = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
-          if (entry.name === 'first-contentful-paint') {
+          if (entry.name === "first-contentful-paint") {
             this.metrics.loadTimes.firstContentfulPaint = entry.startTime;
             console.log(`🎨 FCP: ${entry.startTime.toFixed(2)}ms`);
           }
         }
       });
 
-      observer.observe({ entryTypes: ['paint'] });
+      observer.observe({ entryTypes: ["paint"] as any });
       this.observers.push(observer);
 
       // Largest Contentful Paint
@@ -180,7 +193,7 @@ export class PerformanceMonitor {
         }
       });
 
-      lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+      lcpObserver.observe({ entryTypes: ["largest-contentful-paint"] as any });
       this.observers.push(lcpObserver);
 
       // Cumulative Layout Shift
@@ -195,7 +208,7 @@ export class PerformanceMonitor {
         console.log(`📐 CLS: ${clsValue.toFixed(4)}`);
       });
 
-      clsObserver.observe({ entryTypes: ['layout-shift'] });
+      clsObserver.observe({ entryTypes: ["layout-shift"] as any });
       this.observers.push(clsObserver);
     }
   }
@@ -225,7 +238,7 @@ export class PerformanceMonitor {
       if (chunk.size > BUDGETS.maxChunkSize) {
         validation.passed = false;
         validation.violations.push({
-          type: 'chunk-size',
+          type: "chunk-size",
           component: chunk.name,
           current: chunk.size,
           budget: BUDGETS.maxChunkSize,
@@ -237,8 +250,8 @@ export class PerformanceMonitor {
     if (this.metrics.bundleSize.totalSize > BUDGETS.maxBundleSize) {
       validation.passed = false;
       validation.violations.push({
-        type: 'bundle-size',
-        component: 'total',
+        type: "bundle-size",
+        component: "total",
         current: this.metrics.bundleSize.totalSize,
         budget: BUDGETS.maxBundleSize,
       });
@@ -249,7 +262,7 @@ export class PerformanceMonitor {
       if (time > BUDGETS.maxRenderTime) {
         validation.passed = false;
         validation.violations.push({
-          type: 'render-time',
+          type: "render-time",
           component,
           current: time,
           budget: BUDGETS.maxRenderTime,
@@ -269,7 +282,7 @@ export class PerformanceMonitor {
         assets: [],
       };
     } catch (error) {
-      console.warn('Could not load webpack stats:', error);
+      console.warn("Could not load webpack stats:", error);
       return null;
     }
   }
@@ -281,7 +294,7 @@ export class PerformanceMonitor {
 
   // Cleanup observers
   cleanup(): void {
-    this.observers.forEach(observer => observer.disconnect());
+    this.observers.forEach((observer) => observer.disconnect());
     this.observers = [];
   }
 }
@@ -305,7 +318,7 @@ ${bundleSize.chunks
   .sort((a, b) => b.size - a.size)
   .slice(0, 10)
   .map((chunk, i) => `${i + 1}. ${chunk.name}: ${this.formatBytes(chunk.size)}`)
-  .join('\n')}
+  .join("\n")}
 
 ## Render Performance
 ### Slowest Components
@@ -313,11 +326,11 @@ ${Array.from(renderTime.entries())
   .sort((a, b) => b[1] - a[1])
   .slice(0, 10)
   .map(([component, time], i) => `${i + 1}. ${component}: ${time.toFixed(2)}ms`)
-  .join('\n')}
+  .join("\n")}
 
 ## Memory Usage
-- **Peak Memory**: ${this.formatBytes(Math.max(...memoryUsage.map(m => m.heapUsed)))}
-- **Current Memory**: ${memoryUsage.length > 0 ? this.formatBytes(memoryUsage[memoryUsage.length - 1].heapUsed) : 'N/A'}
+- **Peak Memory**: ${this.formatBytes(Math.max(...memoryUsage.map((m) => m.heapUsed)))}
+- **Current Memory**: ${memoryUsage.length > 0 ? this.formatBytes(memoryUsage[memoryUsage.length - 1].heapUsed) : "N/A"}
 
 ## Web Vitals
 - **First Contentful Paint**: ${loadTimes.firstContentfulPaint.toFixed(2)}ms
@@ -327,15 +340,15 @@ ${Array.from(renderTime.entries())
   }
 
   private formatBytes(bytes: number): string {
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    if (bytes === 0) return '0 Bytes';
+    const sizes = ["Bytes", "KB", "MB", "GB"];
+    if (bytes === 0) return "0 Bytes";
     const i = Math.floor(Math.log(bytes) / Math.log(1024));
     return `${(bytes / Math.pow(1024, i)).toFixed(2)} ${sizes[i]}`;
   }
 }
 
 interface BudgetViolation {
-  type: 'chunk-size' | 'bundle-size' | 'render-time' | 'memory-usage';
+  type: "chunk-size" | "bundle-size" | "render-time" | "memory-usage";
   component: string;
   current: number;
   budget: number;
@@ -357,12 +370,12 @@ export const initializePerformanceMonitoring = () => {
 
   // Analyze bundle size
   const bundleAnalysis = monitor.analyzeBundle();
-  console.log('📊 Bundle Analysis:', bundleAnalysis);
+  console.log("📊 Bundle Analysis:", bundleAnalysis);
 
   // Validate budgets
   const validation = monitor.validateBudgets();
   if (!validation.passed) {
-    console.error('❌ Performance budget violations:', validation.violations);
+    console.error("❌ Performance budget violations:", validation.violations);
   }
 
   return monitor;

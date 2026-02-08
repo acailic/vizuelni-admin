@@ -19,7 +19,7 @@ type Context = {
   isTable: boolean;
   setIsTable: Dispatch<SetStateAction<boolean>>;
   setIsTableRaw: Dispatch<SetStateAction<boolean>>;
-  containerRef: RefObject<HTMLDivElement>;
+  containerRef: RefObject<HTMLDivElement | null>;
   containerHeight: "auto" | number;
   computeContainerHeight: () => void;
 };
@@ -28,7 +28,7 @@ const ChartTablePreviewContext = createContext<Context>({
   isTable: false,
   setIsTable: () => {},
   setIsTableRaw: () => {},
-  containerRef: { current: null },
+  containerRef: { current: null as any },
   containerHeight: "auto",
   computeContainerHeight: () => undefined,
 });

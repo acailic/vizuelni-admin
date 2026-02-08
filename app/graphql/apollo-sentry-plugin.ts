@@ -21,7 +21,7 @@ const getDataCubeIri = (req: GraphQLRequest) => {
 
 export const SentryPlugin: ApolloServerPlugin = {
   requestDidStart({ request }) {
-    const transaction = Sentry.startTransaction({
+    const transaction = (Sentry as any).startTransaction({
       op: "gql",
       name: "GQL - Unnamed", // this will be the default name, unless the gql query has a name
     });

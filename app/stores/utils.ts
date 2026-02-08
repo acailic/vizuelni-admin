@@ -9,7 +9,9 @@ export type UseBoundStoreWithSelector<S> = {
 };
 
 export const createBoundUseStoreWithSelector = ((store) => (selector, equals) =>
-  useStore(store, selector as never, equals)) as <S extends StoreApi<unknown>>(
+  (useStore as any)(store, selector as never, equals)) as <
+  S extends StoreApi<unknown>,
+>(
   store: S
 ) => UseBoundStoreWithSelector<S>;
 

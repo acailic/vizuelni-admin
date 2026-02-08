@@ -3,18 +3,23 @@
  * This demonstrates how to use the accessibility testing framework
  */
 
-import { Button } from '@mui/material';
-import { describe, it, expect, beforeEach } from 'vitest';
+import { Button } from "@mui/material";
+import { describe, it, expect, beforeEach } from "vitest";
 
-import { runComprehensiveA11yTests, setupIntersectionObserverMock, setupResizeObserverMock } from '@/test-utils/accessibility';
+import {
+  renderWithA11y,
+  runComprehensiveA11yTests,
+  setupIntersectionObserverMock,
+  setupResizeObserverMock,
+} from "@/test-utils/accessibility";
 
-describe('Button Accessibility', () => {
+describe("Button Accessibility", () => {
   beforeEach(() => {
     setupIntersectionObserverMock();
     setupResizeObserverMock();
   });
 
-  it('should have no accessibility violations for basic button', async () => {
+  it("should have no accessibility violations for basic button", async () => {
     const TestButton = () => (
       <Button variant="contained" onClick={() => {}}>
         Click me
@@ -24,7 +29,7 @@ describe('Button Accessibility', () => {
     await runComprehensiveA11yTests(<TestButton />);
   });
 
-  it('should have no accessibility violations for disabled button', async () => {
+  it("should have no accessibility violations for disabled button", async () => {
     const TestButton = () => (
       <Button variant="contained" disabled onClick={() => {}}>
         Disabled button
@@ -34,7 +39,7 @@ describe('Button Accessibility', () => {
     await runComprehensiveA11yTests(<TestButton />);
   });
 
-  it('should have no accessibility violations for button with icon', async () => {
+  it("should have no accessibility violations for button with icon", async () => {
     const TestButton = () => (
       <Button variant="contained" startIcon={<span aria-label="add">+</span>}>
         Add item
@@ -44,7 +49,7 @@ describe('Button Accessibility', () => {
     await runComprehensiveA11yTests(<TestButton />);
   });
 
-  it('should have proper ARIA attributes for toggle button', async () => {
+  it("should have proper ARIA attributes for toggle button", async () => {
     const TestToggleButton = () => (
       <Button
         variant="contained"
@@ -59,15 +64,17 @@ describe('Button Accessibility', () => {
     await runComprehensiveA11yTests(<TestToggleButton />);
   });
 
-  it('should handle keyboard navigation properly', async () => {
+  it("should handle keyboard navigation properly", async () => {
     const TestButton = () => (
       <Button variant="contained" onClick={() => {}}>
         Keyboard test button
       </Button>
     );
 
-    const { renderResult } = await runComprehensiveA11yTests(<TestButton />);
-    const button = renderResult.getByRole('button', { name: 'Keyboard test button' });
+    const { renderResult } = await renderWithA11y(<TestButton />);
+    const button = renderResult.getByRole("button", {
+      name: "Keyboard test button",
+    });
 
     // Test that button can receive focus
     button.focus();
@@ -78,13 +85,13 @@ describe('Button Accessibility', () => {
   });
 });
 
-describe('Form Accessibility', () => {
+describe("Form Accessibility", () => {
   beforeEach(() => {
     setupIntersectionObserverMock();
     setupResizeObserverMock();
   });
 
-  it('should have no accessibility violations for form with proper labels', async () => {
+  it("should have no accessibility violations for form with proper labels", async () => {
     const TestForm = () => (
       <form>
         <label htmlFor="email">Email address</label>
@@ -115,7 +122,7 @@ describe('Form Accessibility', () => {
     await runComprehensiveA11yTests(<TestForm />);
   });
 
-  it('should have no accessibility violations for form with fieldset', async () => {
+  it("should have no accessibility violations for form with fieldset", async () => {
     const TestFormWithFieldset = () => (
       <form>
         <fieldset>
@@ -136,19 +143,25 @@ describe('Form Accessibility', () => {
   });
 });
 
-describe('Navigation Accessibility', () => {
+describe("Navigation Accessibility", () => {
   beforeEach(() => {
     setupIntersectionObserverMock();
     setupResizeObserverMock();
   });
 
-  it('should have no accessibility violations for navigation menu', async () => {
+  it("should have no accessibility violations for navigation menu", async () => {
     const TestNavigation = () => (
       <nav aria-label="Main navigation">
         <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/about">About</a></li>
-          <li><a href="/contact">Contact</a></li>
+          <li>
+            <a href="/">Home</a>
+          </li>
+          <li>
+            <a href="/about">About</a>
+          </li>
+          <li>
+            <a href="/contact">Contact</a>
+          </li>
         </ul>
       </nav>
     );
@@ -156,16 +169,28 @@ describe('Navigation Accessibility', () => {
     await runComprehensiveA11yTests(<TestNavigation />);
   });
 
-  it('should have no accessibility violations for accessible button group', async () => {
+  it("should have no accessibility violations for accessible button group", async () => {
     const TestButtonGroup = () => (
       <div role="group" aria-label="Document actions">
-        <Button variant="outlined" onClick={() => {}} aria-label="Save document">
+        <Button
+          variant="outlined"
+          onClick={() => {}}
+          aria-label="Save document"
+        >
           Save
         </Button>
-        <Button variant="outlined" onClick={() => {}} aria-label="Cancel changes">
+        <Button
+          variant="outlined"
+          onClick={() => {}}
+          aria-label="Cancel changes"
+        >
           Cancel
         </Button>
-        <Button variant="outlined" onClick={() => {}} aria-label="Delete document">
+        <Button
+          variant="outlined"
+          onClick={() => {}}
+          aria-label="Delete document"
+        >
           Delete
         </Button>
       </div>

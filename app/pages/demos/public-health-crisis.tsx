@@ -409,13 +409,19 @@ export default function PublicHealthCrisisDemo() {
                     </Typography>
                   </Box>
                   <Chip
-                    icon={
-                      indicator.trend === "improving" ? (
-                        <TrendingUpIcon />
-                      ) : indicator.trend === "worsening" ? (
-                        <TrendingUpIcon sx={{ transform: "rotate(180deg)" }} />
-                      ) : null
-                    }
+                    {...(indicator.trend === "improving" ||
+                    indicator.trend === "worsening"
+                      ? {
+                          icon:
+                            indicator.trend === "improving" ? (
+                              <TrendingUpIcon />
+                            ) : (
+                              <TrendingUpIcon
+                                sx={{ transform: "rotate(180deg)" }}
+                              />
+                            ),
+                        }
+                      : {})}
                     label={locale === "sr" ? indicator.trend : indicator.trend}
                     size="small"
                     color={

@@ -5,7 +5,7 @@ import { api } from "../../../server/nextkit";
  * Endpoint to read configuration from
  */
 const route = api({
-  GET: async ({ req }) => {
+  GET: async ({ req }: { req: any }) => {
     return getAllConfigsMetadata({
       limit:
         req.query.limit && !Array.isArray(req.query.limit)

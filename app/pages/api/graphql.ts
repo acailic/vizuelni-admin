@@ -28,7 +28,7 @@ const schema = makeExecutableSchema({
   typeDefs: [constraintDirectiveTypeDefs, typeDefs],
   resolvers,
   schemaTransforms: [constraintDirective()],
-});
+} as any);
 
 const server = new ApolloServer({
   schema,

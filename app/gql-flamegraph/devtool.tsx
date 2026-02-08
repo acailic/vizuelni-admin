@@ -53,10 +53,10 @@ type Timings = Record<
   { start: number; end: number; children?: Timings }
 >;
 
-type VisualizeOperationResult<TData = any, TVariables = any> = Omit<
-  OperationResult<TData, TVariables>,
-  "extensions"
-> & {
+type VisualizeOperationResult<
+  TData = any,
+  TVariables extends Record<string, any> = any,
+> = Omit<OperationResult<TData, TVariables>, "extensions"> & {
   extensions: {
     queries: RequestQueryMeta[];
     timings: Timings;

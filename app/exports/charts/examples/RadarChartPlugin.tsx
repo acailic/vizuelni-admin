@@ -89,7 +89,6 @@ export const RadarChart = memo(
     config,
     height = 400,
     width = "100%",
-    locale = "sr-Latn",
     className = "",
     style = {},
     onDataPointClick,
@@ -250,7 +249,7 @@ export const RadarChart = memo(
         .attr("fill-opacity", 0)
         .attr("stroke", color)
         .attr("stroke-width", 2)
-        .on("click", function (event, d) {
+        .on("click", function (_event, _d) {
           if (onDataPointClick) {
             onDataPointClick(data[0], 0);
           }
@@ -287,14 +286,14 @@ export const RadarChart = memo(
       // Add hover interaction
       if (showTooltip) {
         points
-          .on("mouseover", function (event, d) {
+          .on("mouseover", function (_event, _d) {
             select(this)
               .transition()
               .duration(150)
               .attr("r", pointRadius * 1.5)
               .style("filter", "drop-shadow(0 4px 8px rgba(0,0,0,0.2))");
           })
-          .on("mouseout", function (event, d) {
+          .on("mouseout", function (_event, _d) {
             select(this)
               .transition()
               .duration(150)

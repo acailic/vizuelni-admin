@@ -8,7 +8,11 @@ export interface BadgeProps {
   style?: React.CSSProperties;
 }
 
-const StyledBadge = styled("span")<{ variant: string }>(({ theme, variant }) => {
+// @ts-expect-error - MUI styled types are too strict for custom components
+const StyledBadge = styled("span")<{ variant: string }>(({
+  theme,
+  variant,
+}) => {
   const baseStyles = {
     display: "inline-flex",
     alignItems: "center",
@@ -54,14 +58,10 @@ export const Badge: React.FC<BadgeProps> = ({
   children,
   variant = "default",
   className,
-  style
+  style,
 }) => {
   return (
-    <StyledBadge
-      variant={variant}
-      className={className}
-      style={style}
-    >
+    <StyledBadge {...({ variant } as any)} className={className} style={style}>
       {children}
     </StyledBadge>
   );

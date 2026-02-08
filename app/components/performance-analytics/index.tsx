@@ -9,7 +9,7 @@ import {
   Timer as TimerIcon,
   Visibility as EyeIcon,
   TrendingUp as TrendingUpIcon,
-} from '@mui/icons-material';
+} from "@mui/icons-material";
 import {
   Box,
   Card,
@@ -22,10 +22,13 @@ import {
   Collapse,
   IconButton,
   useTheme,
-} from '@mui/material';
-import { useEffect, useState } from 'react';
+} from "@mui/material";
+import { useEffect, useState } from "react";
 
-import { PERFORMANCE_THRESHOLDS, usePerformanceMonitor } from '@/lib/performance-monitor';
+import {
+  PERFORMANCE_THRESHOLDS,
+  usePerformanceMonitor,
+} from "@/lib/performance-monitor";
 
 interface MetricDisplay {
   label: string;
@@ -33,7 +36,7 @@ interface MetricDisplay {
   unit: string;
   target: number;
   good: (value: number, target: number) => boolean;
-  color: 'success' | 'warning' | 'error';
+  color: "success" | "warning" | "error";
   icon: React.ReactNode;
 }
 
@@ -42,7 +45,9 @@ export const PerformanceAnalytics = () => {
   const { getMetrics, evaluatePerformance } = usePerformanceMonitor();
   const [metrics, setMetrics] = useState(getMetrics());
   const [evaluation, setEvaluation] = useState(evaluatePerformance());
-  const [expanded, setExpanded] = useState(process.env.NODE_ENV === 'development');
+  const [expanded, setExpanded] = useState(
+    process.env.NODE_ENV === "development"
+  );
 
   useEffect(() => {
     const updateMetrics = () => {
@@ -51,7 +56,10 @@ export const PerformanceAnalytics = () => {
     };
 
     // Update metrics every 2 seconds in development, every 5 seconds in production
-    const interval = setInterval(updateMetrics, process.env.NODE_ENV === 'development' ? 2000 : 5000);
+    const interval = setInterval(
+      updateMetrics,
+      process.env.NODE_ENV === "development" ? 2000 : 5000
+    );
 
     // Initial update
     updateMetrics();
@@ -61,45 +69,48 @@ export const PerformanceAnalytics = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Empty deps: only set up interval once on mount
 
-  const getMetricColor = (value: number | undefined, target: number): 'success' | 'warning' | 'error' => {
-    if (value === undefined) return 'warning';
-    if (value <= target * 0.8) return 'success'; // Excellent
-    if (value <= target) return 'warning'; // Good
-    return 'error'; // Poor
+  const getMetricColor = (
+    value: number | undefined,
+    target: number
+  ): "success" | "warning" | "error" => {
+    if (value === undefined) return "warning";
+    if (value <= target * 0.8) return "success"; // Excellent
+    if (value <= target) return "warning"; // Good
+    return "error"; // Poor
   };
 
   const metricDisplays: MetricDisplay[] = [
     {
-      label: 'Largest Contentful Paint',
+      label: "Largest Contentful Paint",
       value: metrics.lcp,
-      unit: 'ms',
+      unit: "ms",
       target: PERFORMANCE_THRESHOLDS.lcp,
       good: (v, t) => v <= t,
       color: getMetricColor(metrics.lcp, PERFORMANCE_THRESHOLDS.lcp),
       icon: <TimerIcon />,
     },
     {
-      label: 'First Input Delay',
+      label: "First Input Delay",
       value: metrics.fid,
-      unit: 'ms',
+      unit: "ms",
       target: PERFORMANCE_THRESHOLDS.fid,
       good: (v, t) => v <= t,
       color: getMetricColor(metrics.fid, PERFORMANCE_THRESHOLDS.fid),
       icon: <SpeedIcon />,
     },
     {
-      label: 'Cumulative Layout Shift',
+      label: "Cumulative Layout Shift",
       value: metrics.cls,
-      unit: '',
+      unit: "",
       target: PERFORMANCE_THRESHOLDS.cls,
       good: (v, t) => v <= t,
       color: getMetricColor(metrics.cls, PERFORMANCE_THRESHOLDS.cls),
       icon: <EyeIcon />,
     },
     {
-      label: 'First Contentful Paint',
+      label: "First Contentful Paint",
       value: metrics.fcp,
-      unit: 'ms',
+      unit: "ms",
       target: PERFORMANCE_THRESHOLDS.fcp,
       good: (v, t) => v <= t,
       color: getMetricColor(metrics.fcp, PERFORMANCE_THRESHOLDS.fcp),
@@ -107,21 +118,24 @@ export const PerformanceAnalytics = () => {
     },
   ];
 
-  const getProgressValue = (value: number | undefined, target: number): number => {
+  const getProgressValue = (
+    value: number | undefined,
+    target: number
+  ): number => {
     if (value === undefined) return 0;
     return Math.min(100, (value / target) * 100);
   };
 
   const formatValue = (value: number | undefined, unit: string): string => {
-    if (value === undefined) return '--';
-    if (unit === '') return value.toFixed(3);
+    if (value === undefined) return "--";
+    if (unit === "") return value.toFixed(3);
     return Math.round(value).toString();
   };
 
   const getOverallStatus = () => {
-    if (evaluation.score >= 90) return { color: 'success', label: 'Excellent' };
-    if (evaluation.score >= 70) return { color: 'warning', label: 'Good' };
-    return { color: 'error', label: 'Needs Improvement' };
+    if (evaluation.score >= 90) return { color: "success", label: "Excellent" };
+    if (evaluation.score >= 70) return { color: "warning", label: "Good" };
+    return { color: "error", label: "Needs Improvement" };
   };
 
   const overallStatus = getOverallStatus();
@@ -130,47 +144,47 @@ export const PerformanceAnalytics = () => {
     <Card
       elevation={0}
       sx={{
-        position: 'fixed',
+        position: "fixed",
         bottom: 20,
         right: 20,
         minWidth: 320,
         maxWidth: 400,
-        backgroundColor: 'rgba(255, 255, 255, 0.95)',
-        backdropFilter: 'blur(10px)',
+        backgroundColor: "rgba(255, 255, 255, 0.95)",
+        backdropFilter: "blur(10px)",
         border: `1px solid ${theme.palette.divider}`,
         borderRadius: 2,
         zIndex: 1000,
-        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+        boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
       }}
     >
-      <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
+      <CardContent sx={{ p: 2, "&:last-child": { pb: 2 } }}>
         {/* Header */}
         <Box
           sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            cursor: 'pointer',
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            cursor: "pointer",
           }}
           onClick={() => setExpanded(!expanded)}
         >
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <SpeedIcon color="primary" />
             <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
               Performance
             </Typography>
             <Chip
               label={overallStatus.label}
-              color={overallStatus.color}
+              color={overallStatus.color as any}
               size="small"
-              sx={{ fontSize: '0.7rem', height: 20 }}
+              sx={{ fontSize: "0.7rem", height: 20 }}
             />
           </Box>
           <IconButton size="small" sx={{ p: 0.5 }}>
             <ExpandMoreIcon
               sx={{
-                transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
-                transition: 'transform 0.2s ease',
+                transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
+                transition: "transform 0.2s ease",
               }}
             />
           </IconButton>
@@ -178,7 +192,14 @@ export const PerformanceAnalytics = () => {
 
         {/* Score */}
         <Box sx={{ mt: 2, mb: 1 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              mb: 1,
+            }}
+          >
             <Typography variant="body2" color="text.secondary">
               Overall Score
             </Typography>
@@ -189,11 +210,11 @@ export const PerformanceAnalytics = () => {
           <LinearProgress
             variant="determinate"
             value={evaluation.score}
-            color={overallStatus.color}
+            color={overallStatus.color as any}
             sx={{
               height: 6,
               borderRadius: 3,
-              backgroundColor: 'grey.200',
+              backgroundColor: "grey.200",
             }}
           />
         </Box>
@@ -207,14 +228,16 @@ export const PerformanceAnalytics = () => {
                   <Box>
                     <Box
                       sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
                         mb: 0.5,
                       }}
                     >
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <Box sx={{ fontSize: 16, color: 'text.secondary' }}>
+                      <Box
+                        sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                      >
+                        <Box sx={{ fontSize: 16, color: "text.secondary" }}>
                           {metric.icon}
                         </Box>
                         <Typography variant="caption" color="text.secondary">
@@ -224,8 +247,13 @@ export const PerformanceAnalytics = () => {
                       <Typography variant="body2" sx={{ fontWeight: 600 }}>
                         {formatValue(metric.value, metric.unit)}
                         {metric.unit && (
-                          <Typography component="span" variant="caption" color="text.secondary">
-                            {' '}{metric.unit}
+                          <Typography
+                            component="span"
+                            variant="caption"
+                            color="text.secondary"
+                          >
+                            {" "}
+                            {metric.unit}
                           </Typography>
                         )}
                       </Typography>
@@ -237,11 +265,12 @@ export const PerformanceAnalytics = () => {
                       sx={{
                         height: 4,
                         borderRadius: 2,
-                        backgroundColor: 'grey.200',
+                        backgroundColor: "grey.200",
                       }}
                     />
                     <Typography variant="caption" color="text.secondary">
-                      Target: &lt;{metric.target}{metric.unit}
+                      Target: &lt;{metric.target}
+                      {metric.unit}
                     </Typography>
                   </Box>
                 </Grid>
@@ -253,9 +282,9 @@ export const PerformanceAnalytics = () => {
               <Alert severity="warning" sx={{ mt: 2 }}>
                 <Typography variant="caption">
                   <strong>Performance Issues:</strong>
-                  <ul style={{ margin: '4px 0 0 0', paddingLeft: '16px' }}>
+                  <ul style={{ margin: "4px 0 0 0", paddingLeft: "16px" }}>
                     {evaluation.issues.slice(0, 3).map((issue, index) => (
-                      <li key={index} style={{ margin: '2px 0' }}>
+                      <li key={index} style={{ margin: "2px 0" }}>
                         {issue}
                       </li>
                     ))}
@@ -270,7 +299,11 @@ export const PerformanceAnalytics = () => {
             )}
 
             {/* Last Updated */}
-            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 2, textAlign: 'center' }}>
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ display: "block", mt: 2, textAlign: "center" }}
+            >
               Last updated: {new Date(metrics.timestamp).toLocaleTimeString()}
             </Typography>
           </Box>

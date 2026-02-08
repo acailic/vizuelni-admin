@@ -1,4 +1,8 @@
-import { Alert as MuiAlert, AlertProps as MuiAlertProps, AlertTitle as MuiAlertTitle } from "@mui/material";
+import {
+  Alert as MuiAlert,
+  AlertProps as MuiAlertProps,
+  AlertTitle as MuiAlertTitle,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 import React from "react";
 
@@ -9,7 +13,7 @@ export interface AlertProps extends Omit<MuiAlertProps, "variant"> {
 
 const StyledAlert = styled(MuiAlert, {
   shouldForwardProp: (prop) => prop !== "variant",
-})<{ variant?: string }>(({ theme, variant }) => ({
+})<Pick<AlertProps, "variant">>(({ theme, variant }) => ({
   ...(variant === "destructive" && {
     backgroundColor: theme.palette.error.light,
     color: theme.palette.error.contrastText,
@@ -33,12 +37,16 @@ export const Alert: React.FC<AlertProps> = ({
   severity = "info",
   ...props
 }) => {
-  const mappedSeverity = variant === "destructive" ? "error" :
-                       variant === "warning" ? "warning" :
-                       severity;
+  const mappedSeverity =
+    variant === "destructive"
+      ? "error"
+      : variant === "warning"
+        ? "warning"
+        : severity;
 
   return (
     <StyledAlert
+      // @ts-expect-error - variant is filtered by shouldForwardProp but TypeScript doesn't know
       variant={variant}
       severity={mappedSeverity}
       className={className}
@@ -51,6 +59,9 @@ export const Alert: React.FC<AlertProps> = ({
 
 // Re-export MUI components
 export const AlertTitle = MuiAlertTitle;
-export const AlertDescription = ({ children, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
+export const AlertDescription = ({
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) => {
   return <div {...props}>{children}</div>;
 };

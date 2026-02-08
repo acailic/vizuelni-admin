@@ -130,17 +130,19 @@ const ChartSubType = ({
         <Trans id="controls.select.column.layout">Column layout</Trans>
       </Typography>
       <RadioGroup>
-        {values.map((d) => (
-          <ChartOptionRadioField
-            key={d.value}
-            label={getFieldLabel(d.value)}
-            field={encoding.field}
-            path="type"
-            value={d.value}
-            disabled={disabled || d.disabled}
-            warnMessage={d.warnMessage}
-          />
-        ))}
+        {values.map(
+          (d: { value: string; disabled?: boolean; warnMessage?: string }) => (
+            <ChartOptionRadioField
+              key={d.value}
+              label={getFieldLabel(d.value)}
+              field={encoding.field}
+              path="type"
+              value={d.value}
+              disabled={disabled || d.disabled}
+              warnMessage={d.warnMessage}
+            />
+          )
+        )}
       </RadioGroup>
     </Flex>
   );

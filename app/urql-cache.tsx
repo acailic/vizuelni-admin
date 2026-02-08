@@ -7,9 +7,8 @@ import { joinDimensions } from "@/graphql/join";
 import {
   DataCubeComponentFilter,
   DataCubeComponentsDocument,
-  DataCubeComponentsQuery,
-  DataCubeComponentsQueryVariables,
 } from "@/graphql/query-hooks";
+import type { DataCubeComponentsQueryVariables } from "@/graphql/query-hooks";
 import { Locale } from "@/locales/locales";
 
 /**
@@ -27,20 +26,20 @@ export const getCachedComponents = ({
 }): DataCubeComponents | undefined => {
   const queries = cubeFilters
     .map((cubeFilter) => {
-      return client.readQuery<
-        DataCubeComponentsQuery,
-        DataCubeComponentsQueryVariables
-      >(DataCubeComponentsDocument, {
-        locale,
-        sourceType: dataSource.type,
-        sourceUrl: dataSource.url,
-        cubeFilter: {
-          iri: cubeFilter.iri,
-          componentIds: undefined,
-          joinBy: cubeFilter.joinBy,
-          loadValues: true,
-        },
-      });
+      return client.readQuery<any, DataCubeComponentsQueryVariables>(
+        DataCubeComponentsDocument,
+        {
+          locale,
+          sourceType: dataSource.type,
+          sourceUrl: dataSource.url,
+          cubeFilter: {
+            iri: cubeFilter.iri,
+            componentIds: undefined,
+            joinBy: cubeFilter.joinBy,
+            loadValues: true,
+          },
+        }
+      );
     })
     .filter(truthy);
 

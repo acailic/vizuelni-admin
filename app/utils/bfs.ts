@@ -21,7 +21,7 @@ export const bfs = function <T extends unknown>(
       parents: [] as HierarchyValue[],
     })),
   ].reverse();
-  const res = [];
+  const res: T[] = [];
   while (q.length > 0) {
     const popped = q.shift()!;
     const { node, depth, parents } = popped;

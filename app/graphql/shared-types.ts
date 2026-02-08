@@ -1,7 +1,7 @@
 import { CubeDimension } from "rdf-cube-view-query";
 
 import { DataCubeMetadata, Observation } from "@/domain/data";
-import { RelatedDimension } from "@/graphql/query-hooks";
+import { RelatedDimensionType } from "@/graphql/query-hooks";
 import { ScaleType, TimeUnit } from "@/graphql/resolver-types";
 import { ExtendedCube } from "@/rdf/extended-cube";
 import { Limit } from "@/rdf/limits";
@@ -33,7 +33,9 @@ export type ResolvedDimension = {
     name: string;
     description?: string;
     dataKind?: "Time" | "GeoCoordinates" | "GeoShape";
-    related: (Omit<RelatedDimension, "__typename" | "id"> & { iri: string })[];
+    related: (Omit<RelatedDimensionType, "__typename" | "id"> & {
+      iri: string;
+    })[];
     timeUnit?: TimeUnit;
     timeFormat?: string;
     scaleType?: ScaleType;

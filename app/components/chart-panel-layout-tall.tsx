@@ -41,7 +41,7 @@ const ChartPanelLayoutTallRow = ({ row }: { row: ChartPanelLayoutTallRow }) => {
   }
 };
 type ChartPanelLayoutTallRow = {
-  renderBlock: (block: LayoutBlock) => JSX.Element;
+  renderBlock: (block: LayoutBlock) => any;
 } & (
   | {
       type: "wide";

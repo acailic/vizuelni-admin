@@ -26,7 +26,7 @@ export const useDataCubesComponentsQueryVariables: Record<
               value:
                 "https://energy.ld.admin.ch/sfoe/bfe_ogd18_gebaeudeprogramm_energiewirkung/ogd18_catalog/Haustechnik",
             },
-        },
+        } as any,
         loadValues: true,
       },
     ],
@@ -53,7 +53,7 @@ export const useDataCubesComponentsQueryVariables: Record<
               value:
                 "https://energy.ld.admin.ch/sfoe/bfe_ogd18_gebaeudeprogramm_energiewirkung/ogd18_catalog/Haustechnik",
             },
-        },
+        } as any,
         joinBy: [
           "https://energy.ld.admin.ch/sfoe/bfe_ogd18_gebaeudeprogramm_energiewirkung/Jahr",
         ],

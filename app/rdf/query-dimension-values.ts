@@ -504,14 +504,15 @@ export const getQueryFilters = (
 
       // Ignore filters with no value or with the special value
       if (
-        value.type === "single" &&
-        (value.value === FIELD_VALUE_NONE || isMostRecentValue(value.value))
+        (value as any).type === "single" &&
+        ((value as any).value === FIELD_VALUE_NONE ||
+          isMostRecentValue((value as any).value))
       ) {
         return "";
       }
 
       // Ignore range filters for now
-      if (value.type === "range") {
+      if ((value as any).type === "range") {
         return "";
       }
 
@@ -557,7 +558,7 @@ FILTER ( (STRLEN(STR(?value)) > 0) && (STR(?value) != "NaN") )`;
       sparqlClient,
       query.build(),
       () =>
-        query.execute(sparqlClient.query, {
+        query.execute((sparqlClient as any).query, {
           operation: "postUrlencoded",
         }),
       parseMinMax,

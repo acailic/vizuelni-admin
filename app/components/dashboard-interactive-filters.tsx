@@ -312,8 +312,8 @@ const DashboardDataFilters = ({ componentIds }: { componentIds: string[] }) => {
   const groupedPreparedFilters = useMemo(() => {
     const allPreparedFilters: PreparedFilter[] = [];
 
-    chartConfigs.forEach((chartConfig) => {
-      chartConfig.cubes.forEach((cube) => {
+    chartConfigs.forEach((chartConfig: ChartConfig) => {
+      chartConfig.cubes.forEach((cube: ChartConfig["cubes"][number]) => {
         const filtersByMappingStatus = getFiltersByMappingStatus(chartConfig, {
           cubeIri: cube.iri,
           joinByIds: componentIds.filter(isJoinById),
@@ -324,7 +324,7 @@ const DashboardDataFilters = ({ componentIds }: { componentIds: string[] }) => {
           ...Object.keys(cube.filters),
           ...Object.keys(chartConfig.fields),
           ...Object.values(chartConfig.fields).map(
-            (field) => field.componentId
+            (field: any) => field.componentId
           ),
         ].filter(truthy);
 

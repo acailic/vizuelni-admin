@@ -88,7 +88,7 @@ export const CustomColorPicker = ({
         <Saturation
           data-testid="color-picker-saturation"
           hsva={hsva}
-          onChange={(color) => {
+          onChange={(color: HsvaColor) => {
             const newHsva = { ...hsva, ...color, a: hsva.a };
             setColor({ hsva: newHsva, hex: hsvaToHex(newHsva) });
           }}
@@ -113,7 +113,7 @@ export const CustomColorPicker = ({
           <Hue
             data-testid="color-picker-hue"
             hue={hsva.h}
-            onChange={(newHue) => {
+            onChange={(newHue: HsvaColor) => {
               const newHsva = { ...hsva, ...newHue };
               setColor({ hsva: newHsva, hex: hsvaToHex(newHsva) });
             }}
@@ -144,17 +144,17 @@ export const CustomColorPicker = ({
             value={hex}
             onChange={updateColorInput}
           />
-          <ChromePicker
-            data-testid="color-picker-chrome"
-            showAlpha={false}
-            showHue={false}
-            showColorPreview={false}
-            showEditableInput={false}
-            color={hsva}
-            onChange={(color) => {
+          {(ChromePicker as any)({
+            "data-testid": "color-picker-chrome",
+            showAlpha: false,
+            showHue: false,
+            showColorPreview: false,
+            showEditableInput: false,
+            color: hsva,
+            onChange: (color: { hsva: HsvaColor; hex: string }) => {
               setColor({ hsva: { ...hsva, ...color.hsva }, hex: color.hex });
-            }}
-          />
+            },
+          })}
         </Flex>
       </Flex>
     </Flex>

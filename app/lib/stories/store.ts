@@ -33,7 +33,7 @@ const createStoryStore = (
     bookmarked: false,
 
     setCurrentStep: (step: number) =>
-      set((state) => ({
+      set((_state) => ({
         currentStep: Math.max(0, Math.min(step, config.steps.length - 1)),
       })),
 

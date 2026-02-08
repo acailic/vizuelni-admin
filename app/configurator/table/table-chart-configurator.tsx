@@ -66,8 +66,12 @@ export const ChartConfiguratorTable = ({
     return <Loading />;
   }
 
-  const groupFields = [...fieldsArray.filter((f) => f.isGroup)];
-  const columnFields = [...fieldsArray.filter((f) => !f.isGroup)];
+  const groupFields = [
+    ...fieldsArray.filter((f: { isGroup: boolean }) => f.isGroup),
+  ];
+  const columnFields = [
+    ...fieldsArray.filter((f: { isGroup: boolean }) => !f.isGroup),
+  ];
 
   const currentDraggedField =
     currentDraggableId !== null ? chartConfig.fields[currentDraggableId] : null;

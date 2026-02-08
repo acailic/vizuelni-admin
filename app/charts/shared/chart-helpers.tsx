@@ -88,7 +88,7 @@ export const prepareCubeQueryFilters = ({
   }
 
   const resolvedInteractiveFiltersConfigComponentIds =
-    interactiveFiltersConfig.dataFilters.componentIds.flatMap((k) =>
+    interactiveFiltersConfig.dataFilters.componentIds.flatMap((k: string) =>
       isJoinById(k) ? getOriginalIds(k, chartConfig) : [k]
     );
 
@@ -145,12 +145,14 @@ export const useQueryFilters = ({
   );
   const resolvedChartInteractiveFilters = useMemo(() => {
     return Object.fromEntries(
-      Object.entries(chartInteractiveFilters).flatMap(([k, v]) => {
-        const resolvedIds = isJoinById(k)
-          ? getOriginalIds(k, chartConfig)
-          : [k];
-        return resolvedIds.map((id) => [id, v]);
-      })
+      Object.entries(chartInteractiveFilters).flatMap(
+        ([k, v]: [string, InteractiveFiltersState["dataFilters"][string]]) => {
+          const resolvedIds = isJoinById(k)
+            ? getOriginalIds(k, chartConfig)
+            : [k];
+          return resolvedIds.map((id: string) => [id, v]);
+        }
+      )
     );
   }, [chartInteractiveFilters, chartConfig]);
   const animationField = isAnimationInConfig(chartConfig)
@@ -158,7 +160,7 @@ export const useQueryFilters = ({
     : undefined;
 
   return useMemo(() => {
-    return chartConfig.cubes.map((cube) => {
+    return chartConfig.cubes.map((cube: ChartConfig["cubes"][number]) => {
       const rawCubeFilters = getChartConfigFilters(chartConfig.cubes, {
         cubeIri: cube.iri,
       });
@@ -171,7 +173,9 @@ export const useQueryFilters = ({
       const cubeComponentIds = [
         ...Object.keys(cubeFilters),
         ...Object.keys(chartConfig.fields),
-        ...Object.values(chartConfig.fields).map((field) => field.componentId),
+        ...Object.values(chartConfig.fields).map(
+          (field) => (field as any).componentId
+        ),
       ]
         .filter(truthy)
         .map((id) =>
@@ -218,7 +222,7 @@ const getChartConfigFilterComponentIds = ({ cubes }: ChartConfig) => {
 
 const getMapChartConfigAdditionalFieldIds = ({ fields }: MapConfig) => {
   const { areaLayer, symbolLayer } = fields;
-  const additionalFields = [];
+  const additionalFields: string[] = [];
 
   if (areaLayer) {
     additionalFields.push(areaLayer.color.componentId);
@@ -324,7 +328,7 @@ export const extractChartConfigComponentIds = ({
         case "calculation":
           break;
         default:
-          const _exhaustiveCheck: never = k;
+          const _exhaustiveCheck: never = k as never;
           return _exhaustiveCheck;
       }
     });
@@ -481,9 +485,9 @@ export const stackOffsetDivergingPositiveZeros = (
   for (let i, j = 0, d, dy, yp, yn, m = series[order[0]].length; j < m; ++j) {
     for (yp = yn = 0, i = 0; i < n; ++i) {
       if ((dy = (d = series[order[i]][j])[1] - d[0]) >= 0) {
-        (d[0] = yp), (d[1] = yp += dy);
+        ((d[0] = yp), (d[1] = yp += dy));
       } else {
-        (d[1] = yn), (d[0] = yn += dy);
+        ((d[1] = yn), (d[0] = yn += dy));
       }
     }
   }
@@ -588,7 +592,7 @@ const getBaseWideData = ({
     datumIndex: number
   ) => Array<{ [key: string]: number }>;
 }): Array<Observation> => {
-  const wideData = [];
+  const wideData: Observation[] = [];
   const dataGroupedByXEntries = [...dataGrouped.entries()];
 
   for (let i = 0; i < dataGrouped.size; i++) {

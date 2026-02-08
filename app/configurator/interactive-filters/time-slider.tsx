@@ -14,7 +14,7 @@ import { useSyncExternalStore } from "use-sync-external-store/shim";
 import { ChartState, useChartState } from "@/charts/shared/chart-state";
 import { TableChartState } from "@/charts/table/table-state";
 import { Slider as GenericSlider } from "@/components/form";
-import { AnimationField, Filters, SortingField } from "@/config-types";
+import { AnimationField, Filters } from "@/config-types";
 import { parseDate } from "@/configurator/components/ui-helpers";
 import { hasChartConfigs } from "@/configurator/configurator-state";
 import {
@@ -69,7 +69,7 @@ export const TimeSlider = (props: TimeSliderProps) => {
 
   const [state] = useConfiguratorState(hasChartConfigs);
   const dimension = useMemo(() => {
-    return dimensions.find((d) => d.id === componentId);
+    return dimensions.find((d: Dimension) => d.id === componentId);
   }, [componentId, dimensions]);
   const temporal = isTemporalDimension(dimension);
   const temporalEntity = isTemporalEntityDimension(dimension);
@@ -111,7 +111,7 @@ export const TimeSlider = (props: TimeSliderProps) => {
         ...commonProps,
       };
     } else {
-      const sorting: NonNullable<SortingField["sorting"]> = {
+      const sorting: any = {
         sortingType: "byAuto",
         sortingOrder: "asc",
       };
@@ -143,7 +143,7 @@ export const TimeSlider = (props: TimeSliderProps) => {
     return new Timeline(timelineProps);
   }, [timelineProps]);
 
-  if (state.dashboardFilters?.timeRange.active) {
+  if ((state as any).dashboardFilters?.timeRange.active) {
     return null;
   }
 

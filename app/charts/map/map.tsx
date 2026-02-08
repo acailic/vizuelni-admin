@@ -13,7 +13,7 @@ import orderBy from "lodash/orderBy";
 import uniq from "lodash/uniq";
 import maplibreglRaw from "maplibre-gl";
 import { useEffect, useMemo, useRef, useState } from "react";
-import Map, { LngLatLike, MapboxEvent } from "react-map-gl/maplibre";
+import Map, { LngLatLike, MapEvent } from "react-map-gl/maplibre";
 
 import {
   DEFAULT_COLOR,
@@ -47,7 +47,7 @@ import {
 } from "@/charts/map/wmts-utils";
 import { useChartState } from "@/charts/shared/chart-state";
 import { useInteraction } from "@/charts/shared/use-interaction";
-import { useLimits } from "@/config-utils";
+import { Limit as ConfigLimit } from "@/config-types";
 import {
   BaseLayer,
   BBox,
@@ -59,6 +59,7 @@ import {
 import { GeoFeature, GeoPoint } from "@/domain/data";
 import { Icon, IconName } from "@/icons";
 import { useLocale } from "@/locales/use-locale";
+import { Limit as MeasureLimit } from "@/rdf/limits";
 import { useEvent } from "@/utils/use-event";
 import { DISABLE_SCREENSHOT_ATTR } from "@/utils/use-screenshot";
 
@@ -109,17 +110,28 @@ const useStyles = makeStyles<Theme>((theme) => ({
 
 // Debounced function fixes the problem of maximizing window or opening a console,
 // when map was not resized initially.
-const resizeAndFit = debounce((map: mapboxgl.Map, bbox: BBox) => {
+const resizeAndFit = debounce((map: any, bbox: BBox) => {
   map.resize();
   map.fitBounds(bbox, { duration: 0 });
 }, 0);
+
+type LimitEntry = {
+  configLimit: ConfigLimit;
+  measureLimit: MeasureLimit;
+  relatedAxisDimensionValueLabel: string | undefined;
+  limitUnit: string | undefined;
+};
+
+type LimitsState = {
+  limits: LimitEntry[];
+};
 
 export const MapComponent = ({
   limits,
   customLayers,
   value,
 }: {
-  limits: ReturnType<typeof useLimits>;
+  limits: LimitsState;
   customLayers: BaseLayer["customLayers"];
   value?: string | number;
 }) => {
@@ -522,7 +534,7 @@ export const MapComponent = ({
               }),
             ];
           default:
-            const _exhaustiveCheck: never = measureLimit;
+            const _exhaustiveCheck: never = measureLimit as never;
             return _exhaustiveCheck;
         }
       }),
@@ -553,7 +565,7 @@ export const MapComponent = ({
     resizeAndFit(map, bbox);
   });
 
-  const handleResize = useEvent((e: MapboxEvent) => {
+  const handleResize = useEvent((e: MapEvent) => {
     if (e.originalEvent) {
       redrawMap();
     }
@@ -576,8 +588,7 @@ export const MapComponent = ({
           initialViewState={defaultViewState}
           mapLib={maplibregl}
           mapStyle={mapStyle}
-          // Important so we can take a screenshot of the map
-          preserveDrawingBuffer
+          // preserveDrawingBuffer - removed as it's not supported in this version
           style={{
             position: "absolute",
             left: 0,
@@ -603,7 +614,7 @@ export const MapComponent = ({
             setMap(null);
           }}
           onLoad={(e) => {
-            setMap(e.target as mapboxgl.Map);
+            setMap(e.target as any);
             /**
              * Redraw the map on load, when style data has been downloaded
              * to solve an offset problem between the viz layer and the base layer

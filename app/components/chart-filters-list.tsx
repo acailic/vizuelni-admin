@@ -76,7 +76,7 @@ export const ChartFiltersList = ({
 
     return queryFilters.flatMap((filter) => {
       const namedFilters = Object.entries<FilterValue>(
-        filter.filters ?? {}
+        (filter.filters as any) ?? {}
       ).flatMap(([id, f]) => {
         if (f?.type !== "single") {
           return [];

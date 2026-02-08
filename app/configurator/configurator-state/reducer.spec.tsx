@@ -133,7 +133,7 @@ describe("add dataset", () => {
         options.cubeFilters.map((x) => x.joinBy).every((x) => x === undefined)
       ).toBe(true);
 
-      return getCachedComponentsMock.electricityPricePerCantonDimensions;
+      return getCachedComponentsMock.geoAndNumerical;
     });
     const newState2 = runReducer(
       newState,
@@ -209,8 +209,10 @@ describe("add chart based on the same cube", () => {
       actionNewCube
     ) as ConfiguratorStateConfiguringChart;
 
-    expect(newStateAfterSameCube.chartConfigs.map((c) => c.key)).toEqual(
-      newStateAfterSameCube.layout.blocks.map((b) => b.key)
+    expect(
+      newStateAfterSameCube.chartConfigs.map((c: { key: string }) => c.key)
+    ).toEqual(
+      newStateAfterSameCube.layout.blocks.map((b: { key: string }) => b.key)
     );
   });
 });
@@ -614,7 +616,9 @@ describe("deriveFiltersFromFields", () => {
       dimensions: dimensionsJoinedCubes,
     });
 
-    expect(derived.cubes.map((c) => c.filters)).toMatchInlineSnapshot(`
+    expect(
+      derived.cubes.map((c: { filters: Record<string, unknown> }) => c.filters)
+    ).toMatchInlineSnapshot(`
       [
         {},
         {},
@@ -1302,7 +1306,11 @@ describe("filtering", () => {
 
     setRangeFilter(draft, action);
 
-    expect(draft.chartConfigs[0].cubes.map((cube) => cube.filters)).toEqual([
+    expect(
+      draft.chartConfigs[0].cubes.map(
+        (cube: { filters: Record<string, unknown> }) => cube.filters
+      )
+    ).toEqual([
       { time1: { type: "range", from: "2010", to: "2014" } },
       { time2: { type: "range", from: "2010", to: "2014" } },
       { time3: { type: "range", from: "2010", to: "2014" } },

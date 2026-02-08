@@ -89,7 +89,7 @@ export const makeUseQuery =
     }>(
       cachedResult || { fetching: !options.pause, queryKey: null, data: null }
     );
-    const currentQueryRef = useRef<string>();
+    const currentQueryRef = useRef<string | undefined>(undefined);
 
     if (!options.pause && check) {
       check(options.variables);
@@ -607,9 +607,11 @@ const executeFetchAllUsedCubeComponents = async (
   const { dataSource } = state;
   assert(hasChartConfigs(state), "Expected state with chart configs");
 
-  const cubeFilters: DataCubeComponentFilter[][] = state.chartConfigs.map(
-    (config) => {
-      return config.cubes.map((x) => ({
+  const cubeFilters: DataCubeComponentFilter[][] = (
+    state as any
+  ).chartConfigs.map(
+    (config: { cubes: Array<{ iri: string; joinBy?: string[] }> }) => {
+      return config.cubes.map((x: { iri: string; joinBy?: string[] }) => ({
         iri: x.iri,
         joinBy: x.joinBy,
         loadValues: true,

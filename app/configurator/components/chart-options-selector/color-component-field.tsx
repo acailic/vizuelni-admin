@@ -269,7 +269,7 @@ export const ColorComponentField = ({
               field={field}
               path="color.nbClass"
               options={nbColorOptions}
-              getValue={(d) => +d}
+              getValue={(d: string | number) => +d}
             />
           </Stack>
         ) : null}

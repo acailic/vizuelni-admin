@@ -259,7 +259,7 @@ CONSTRUCT {
     const qScaleType = pQsDim[ns.qudt.scaleType.value]?.[0];
     const scaleType = getScaleType(qScaleType?.object);
     const dataType = dimMetadataByDimIri[dimIri].dataType;
-    const qUnit = pQsDim[ns.qudt.unit.value]?.[0];
+    const qUnit = pQsDim[(ns.qudt as any).unit.value]?.[0];
     const qUnitLabel = spQs[qUnit?.object.value]?.[ns.schema.name.value]?.[0];
     const qDataKind = pQsDim[ns.cube("meta/dataKind").value]?.[0];
     const qDataKindType =

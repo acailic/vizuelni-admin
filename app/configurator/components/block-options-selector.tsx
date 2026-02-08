@@ -17,11 +17,11 @@ import { useEvent } from "@/utils/use-event";
 export const LayoutBlocksSelector = () => {
   const orderedLocales = useOrderedLocales();
   const [state, dispatch] = useConfiguratorState(isLayouting);
-  const { layout } = state;
+  const { layout } = state as any;
   const { blocks } = layout;
   const activeBlock = useMemo(() => {
     const activeBlock = blocks.find(
-      (block) => block.key === layout.activeField
+      (block: { key: string; type: string }) => block.key === layout.activeField
     );
 
     if (activeBlock) {

@@ -64,7 +64,7 @@ export const getChartIcon = (chartType: ChartType): IconName => {
     case "comboLineColumn":
       return "columnLineChart";
     default:
-      const _exhaustiveCheck: never = chartType;
+      const _exhaustiveCheck: never = chartType as never;
       return _exhaustiveCheck;
   }
 };

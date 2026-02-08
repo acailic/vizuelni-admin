@@ -5,7 +5,7 @@
  * Based on react-window principles but with custom implementation.
  */
 
-import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 
 export interface VirtualScrollOptions {
   /** Height of each item in pixels */
@@ -32,11 +32,11 @@ export interface VirtualScrollState {
   /** Offset from top for visible items */
   offsetY: number;
   /** Scroll to specific index */
-  scrollToIndex: (index: number, align?: 'start' | 'center' | 'end') => void;
+  scrollToIndex: (index: number, align?: "start" | "center" | "end") => void;
   /** Scroll to specific offset */
   scrollToOffset: (offset: number) => void;
   /** Ref for scroll container */
-  containerRef: React.RefObject<HTMLDivElement>;
+  containerRef: React.RefObject<HTMLDivElement | null>;
   /** Current scroll position */
   scrollTop: number;
 }
@@ -95,7 +95,7 @@ export function useVirtualScroll(
     const overscanStart = Math.max(0, start - overscan);
     const overscanEnd = Math.min(itemCount - 1, end + overscan);
 
-    const items = [];
+    const items: number[] = [];
     for (let i = overscanStart; i <= overscanEnd; i++) {
       items.push(i);
     }
@@ -130,24 +130,24 @@ export function useVirtualScroll(
     const container = containerRef.current;
     if (!container) return;
 
-    container.addEventListener('scroll', handleScroll, { passive: true });
+    container.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
-      container.removeEventListener('scroll', handleScroll);
+      container.removeEventListener("scroll", handleScroll);
     };
   }, [handleScroll]);
 
   // Scroll to index
   const scrollToIndex = useCallback(
-    (index: number, align: 'start' | 'center' | 'end' = 'start') => {
+    (index: number, align: "start" | "center" | "end" = "start") => {
       const container = containerRef.current;
       if (!container) return;
 
       let offset = index * itemHeight;
 
-      if (align === 'center') {
+      if (align === "center") {
         offset -= viewportHeight / 2 - itemHeight / 2;
-      } else if (align === 'end') {
+      } else if (align === "end") {
         offset -= viewportHeight - itemHeight;
       }
 
@@ -155,7 +155,7 @@ export function useVirtualScroll(
 
       container.scrollTo({
         top: offset,
-        behavior: smoothScroll ? 'smooth' : 'auto',
+        behavior: smoothScroll ? "smooth" : "auto",
       });
     },
     [itemHeight, viewportHeight, totalHeight, smoothScroll]
@@ -169,7 +169,7 @@ export function useVirtualScroll(
 
       container.scrollTo({
         top: offset,
-        behavior: smoothScroll ? 'smooth' : 'auto',
+        behavior: smoothScroll ? "smooth" : "auto",
       });
     },
     [smoothScroll]
@@ -225,7 +225,7 @@ export interface VirtualGridState {
   /** Horizontal offset */
   offsetX: number;
   /** Ref for scroll container */
-  containerRef: React.RefObject<HTMLDivElement>;
+  containerRef: React.RefObject<HTMLDivElement | null>;
 }
 
 export function useVirtualGrid(
@@ -255,7 +255,7 @@ export function useVirtualGrid(
     const overscanStart = Math.max(0, startRow - rowOverscan);
     const overscanEnd = Math.min(rowCount - 1, endRow + rowOverscan);
 
-    const rows = [];
+    const rows: number[] = [];
     for (let i = overscanStart; i <= overscanEnd; i++) {
       rows.push(i);
     }
@@ -271,7 +271,7 @@ export function useVirtualGrid(
     const overscanStart = Math.max(0, startCol - columnOverscan);
     const overscanEnd = Math.min(columnCount - 1, endCol + columnOverscan);
 
-    const cols = [];
+    const cols: number[] = [];
     for (let i = overscanStart; i <= overscanEnd; i++) {
       cols.push(i);
     }
@@ -281,7 +281,8 @@ export function useVirtualGrid(
   const totalHeight = rowCount * rowHeight;
   const totalWidth = columnCount * columnWidth;
   const offsetY = visibleRows.length > 0 ? visibleRows[0] * rowHeight : 0;
-  const offsetX = visibleColumns.length > 0 ? visibleColumns[0] * columnWidth : 0;
+  const offsetX =
+    visibleColumns.length > 0 ? visibleColumns[0] * columnWidth : 0;
 
   // Handle scroll
   useEffect(() => {
@@ -293,10 +294,10 @@ export function useVirtualGrid(
       setScrollLeft(container.scrollLeft);
     };
 
-    container.addEventListener('scroll', handleScroll, { passive: true });
+    container.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
-      container.removeEventListener('scroll', handleScroll);
+      container.removeEventListener("scroll", handleScroll);
     };
   }, []);
 

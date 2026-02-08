@@ -123,7 +123,7 @@ export const possibleFilters: NonNullable<
   for (let i = nbFilters; i > 0; i--) {
     const queryFilters = Object.fromEntries(
       Object.entries(filters).slice(0, i)
-    );
+    ) as any;
     const observations = filterObservations(allObservations, queryFilters);
 
     if (observations.length === 0) {

@@ -14,7 +14,6 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import {
   Alert,
   Box,
-  Button,
   Card,
   CardContent,
   Container,
@@ -82,9 +81,8 @@ export default function PlaygroundPage() {
     xAxis: "year",
     yAxis: "value",
     color: "#6366f1",
-    showArea: true,
     showCrosshair: true,
-  });
+  } as any);
 
   const data = sampleData[dataset];
 
@@ -330,32 +328,7 @@ function MyChart() {
               />
 
               {/* Quick Actions */}
-              <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-                <Button
-                  size="small"
-                  variant="outlined"
-                  onClick={() => updateConfig("showArea", !config.showArea)}
-                >
-                  {config.showArea ? (
-                    <Trans>Hide Area</Trans>
-                  ) : (
-                    <Trans>Show Area</Trans>
-                  )}
-                </Button>
-                <Button
-                  size="small"
-                  variant="outlined"
-                  onClick={() =>
-                    updateConfig("showCrosshair", !config.showCrosshair)
-                  }
-                >
-                  {config.showCrosshair ? (
-                    <Trans>Hide Crosshair</Trans>
-                  ) : (
-                    <Trans>Show Crosshair</Trans>
-                  )}
-                </Button>
-              </Box>
+              <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}></Box>
             </Stack>
           </Paper>
         </Grid>

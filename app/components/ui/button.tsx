@@ -1,16 +1,25 @@
-import { Button as MuiButton, ButtonProps as MuiButtonProps } from "@mui/material";
+import {
+  Button as MuiButton,
+  ButtonProps as MuiButtonProps,
+} from "@mui/material";
 import React from "react";
 
-export interface ButtonProps extends Omit<MuiButtonProps, "size"> {
+export interface ButtonProps extends Omit<MuiButtonProps, "size" | "variant"> {
   size?: "xs" | "sm" | "md" | "lg";
-  variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+  variant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link";
 }
 
 const sizeMap = {
   xs: "small",
   sm: "small",
   md: "medium",
-  lg: "large"
+  lg: "large",
 } as const;
 
 const variantMap = {
@@ -19,7 +28,7 @@ const variantMap = {
   outline: "outlined",
   secondary: "outlined",
   ghost: "text",
-  link: "text"
+  link: "text",
 } as const;
 
 export const Button: React.FC<ButtonProps> = ({

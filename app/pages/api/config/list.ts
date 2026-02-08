@@ -10,7 +10,7 @@ import { api } from "../../../server/nextkit";
  * Endpoint to read configuration from
  */
 const route = api({
-  GET: async ({ req, res }) => {
+  GET: async ({ req, res }: { req: any; res: any }) => {
     const session = await getServerSession(req, res, nextAuthOptions);
     return SuperJSON.serialize(
       session?.user.id ? await getUserConfigs(session?.user.id) : []

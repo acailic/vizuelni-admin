@@ -320,7 +320,7 @@ const getNumericalColorScale = ({
           return scaleQuantize<string>().domain(dataDomain).range(range);
       }
     default:
-      const _exhaustiveCheck: never = color;
+      const _exhaustiveCheck: never = color as never;
       return _exhaustiveCheck;
   }
 };
@@ -508,7 +508,7 @@ const useColors = ({
     case "numerical":
       return numericalColors;
     default:
-      const _exhaustiveCheck: never = color;
+      const _exhaustiveCheck: never = color as never;
       return _exhaustiveCheck;
   }
 };

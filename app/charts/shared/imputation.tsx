@@ -40,8 +40,8 @@ export const imputeTemporalLinearSeries = ({
 }: {
   dataSortedByX: Array<TemporalSeriesBeforeImputationEntry>;
 }): Array<TemporalSeriesAfterImputationEntry> => {
-  const presentDataIndexes = [];
-  const missingDataIndexes = [];
+  const presentDataIndexes: number[] = [];
+  const missingDataIndexes: number[] = [];
 
   for (let i = 0; i < dataSortedByX.length; i++) {
     if (dataSortedByX[i].value !== null) {

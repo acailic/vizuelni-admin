@@ -39,7 +39,9 @@ export const isSingleFilters = (filters: Filters): filters is SingleFilters => {
 
 export const extractSingleFilters = (filters: Filters): SingleFilters => {
   return Object.fromEntries(
-    Object.entries(filters).filter(([, value]) => value.type === "single")
+    Object.entries(filters).filter(
+      ([, value]: [string, any]) => value.type === "single"
+    )
   ) as SingleFilters;
 };
 
@@ -70,7 +72,9 @@ export const getChartConfig = (
   const { chartConfigs, activeChartKey } = state;
   const key = chartKey ?? activeChartKey;
 
-  return chartConfigs.find((d) => d.key === key) ?? chartConfigs[0];
+  return (
+    chartConfigs.find((d: ChartConfig) => d.key === key) ?? chartConfigs[0]
+  );
 };
 
 /**
@@ -96,16 +100,16 @@ export const getChartConfigFilters = (
   );
   const dimIdToJoinId = joined
     ? Object.fromEntries(
-        relevantCubes.flatMap((x) =>
+        relevantCubes.flatMap((x: Cube) =>
           (x.joinBy ?? []).map(
-            (iri, index) => [iri, mkJoinById(index)] as const
+            (iri: string, index: number) => [iri, mkJoinById(index)] as const
           )
         )
       )
     : {};
 
   return Object.fromEntries(
-    relevantCubes.flatMap((c) =>
+    relevantCubes.flatMap((c: Cube) =>
       Object.entries(c.filters).map(([id, value]) => [
         dimIdToJoinId[id] ?? id,
         value,
@@ -136,7 +140,7 @@ export const useDefinitiveTemporalFilterValue = ({
   const definitiveFilters = useDefinitiveFilters();
   const temporalDims = dimensions.filter(isTemporalDimensionWithTimeUnit);
   const temporalFilters = Object.entries(definitiveFilters)
-    .map(([id, f]) => {
+    .map(([id, f]: [string, any]) => {
       return temporalDims.some((d) => d.id === id) && f.type === "single"
         ? f
         : undefined;
@@ -263,12 +267,12 @@ export const getMaybeValidChartConfigLimit = ({
   const measureConfigLimits = chartConfig.limits[measureId] ?? [];
 
   return {
-    limit: measureConfigLimits.find((configLimit) => {
+    limit: measureConfigLimits.find((configLimit: ConfigLimit) => {
       if (configLimit.related.length !== limit.related.length) {
         return false;
       }
 
-      return configLimit.related.every((cr) => {
+      return configLimit.related.every((cr: ConfigLimit["related"][number]) => {
         return limit.related.some((lr) => {
           return lr.dimensionId === cr.dimensionId && lr.value === cr.value;
         });
@@ -305,7 +309,7 @@ export const getAxisDimension = ({
     case "table":
       return;
     default:
-      const _exhaustiveCheck: never = chartConfig;
+      const _exhaustiveCheck: never = chartConfig as never;
       return _exhaustiveCheck;
   }
 };
@@ -336,7 +340,7 @@ const getLimitMeasure = ({
     case "table":
       return;
     default:
-      const _exhaustiveCheck: never = chartConfig;
+      const _exhaustiveCheck: never = chartConfig as never;
       return _exhaustiveCheck;
   }
 };

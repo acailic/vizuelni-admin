@@ -9,7 +9,7 @@ export const useLocalSnack = () => {
     variant: "success" | "error";
     duration?: number;
   };
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const [snack, setSnack] = useState(undefined as Snack | undefined);
 
   useEffect(() => {

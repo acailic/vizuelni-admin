@@ -3,10 +3,15 @@
  * Supports WCAG 2.1 AA compliance testing
  */
 
-import { render, RenderResult } from '@testing-library/react';
-import { axe, toHaveNoViolations, AxeResults } from 'jest-axe';
-import { ReactElement } from 'react';
-import { vi } from 'vitest';
+import { render, RenderResult } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import { ReactElement } from "react";
+import { vi, expect } from "vitest";
+
+import type { AxeResults as AxeCoreResults } from "axe-core";
+
+// Use the axe-core type for compatibility
+type AxeResults = AxeCoreResults;
 
 // Extend Vitest matchers
 expect.extend(toHaveNoViolations);
@@ -35,7 +40,7 @@ export async function renderWithA11y(
     const a11yResults = await axe(renderResult.container, axeOptions);
     return { renderResult, a11yResults };
   } catch (error) {
-    console.warn('Accessibility testing failed:', error);
+    console.warn("Accessibility testing failed:", error);
     return { renderResult, a11yResults: null };
   }
 }
@@ -55,10 +60,10 @@ export async function expectNoA11yViolations(
   const { a11yResults } = await renderWithA11y(component, options);
 
   if (!a11yResults) {
-    throw new Error('Accessibility testing failed to run');
+    throw new Error("Accessibility testing failed to run");
   }
 
-  expect(a11yResults).toHaveNoViolations();
+  (expect(a11yResults) as any).toHaveNoViolations();
 }
 
 /**
@@ -70,10 +75,10 @@ export function testKeyboardNavigation(container: HTMLElement): void {
     'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
   );
 
-  interactiveElements.forEach((element, index) => {
+  interactiveElements.forEach((element, _index) => {
     // Simulate tab navigation
-    element.focus();
-    expect(document.activeElement).toBe(element);
+    (element as any).focus();
+    expect(document.activeElement).toBe(element as any);
 
     // Test that focus is visible (basic check for focus styles)
     const computedStyle = window.getComputedStyle(element);
@@ -88,7 +93,7 @@ export function testKeyboardNavigation(container: HTMLElement): void {
  */
 export function testColorContrast(container: HTMLElement): void {
   const textElements = container.querySelectorAll(
-    'p, h1, h2, h3, h4, h5, h6, span, label, button'
+    "p, h1, h2, h3, h4, h5, h6, span, label, button"
   );
 
   textElements.forEach((element) => {
@@ -100,8 +105,8 @@ export function testColorContrast(container: HTMLElement): void {
       const backgroundColor = computedStyle.backgroundColor;
 
       // Basic check that colors are defined
-      expect(color).not.toBe('');
-      expect(backgroundColor).not.toBe('');
+      expect(color).not.toBe("");
+      expect(backgroundColor).not.toBe("");
 
       // Note: For actual contrast ratio calculation, you'd need a color contrast library
       // This is a placeholder for where such logic would go
@@ -115,26 +120,28 @@ export function testColorContrast(container: HTMLElement): void {
  */
 export function testAriaAttributes(container: HTMLElement): void {
   // Test elements with ARIA roles
-  const elementsWithRoles = container.querySelectorAll('[role]');
+  const elementsWithRoles = container.querySelectorAll("[role]");
   elementsWithRoles.forEach((element) => {
-    const role = element.getAttribute('role');
+    const role = element.getAttribute("role");
     expect(role).toBeTruthy();
   });
 
   // Test aria-label and aria-labelledby
-  const elementsWithAriaLabels = container.querySelectorAll('[aria-label], [aria-labelledby]');
+  const elementsWithAriaLabels = container.querySelectorAll(
+    "[aria-label], [aria-labelledby]"
+  );
   elementsWithAriaLabels.forEach((element) => {
-    const ariaLabel = element.getAttribute('aria-label');
-    const ariaLabelledBy = element.getAttribute('aria-labelledby');
+    const ariaLabel = element.getAttribute("aria-label");
+    const ariaLabelledBy = element.getAttribute("aria-labelledby");
 
     // At least one should be present
     expect(ariaLabel || ariaLabelledBy).toBeTruthy();
   });
 
   // Test required ARIA attributes for common roles
-  const buttons = container.querySelectorAll('button[aria-expanded]');
+  const buttons = container.querySelectorAll("button[aria-expanded]");
   buttons.forEach((button) => {
-    const expanded = button.getAttribute('aria-expanded');
+    const expanded = button.getAttribute("aria-expanded");
     expect(expanded).toMatch(/^(true|false)$/);
   });
 }
@@ -187,7 +194,7 @@ export function setupIntersectionObserverMock(): void {
     disconnect: vi.fn(),
   }));
 
-  vi.stubGlobal('IntersectionObserver', mockIntersectionObserver);
+  vi.stubGlobal("IntersectionObserver", mockIntersectionObserver);
 }
 
 /**
@@ -200,5 +207,5 @@ export function setupResizeObserverMock(): void {
     disconnect: vi.fn(),
   }));
 
-  vi.stubGlobal('ResizeObserver', mockResizeObserver);
+  vi.stubGlobal("ResizeObserver", mockResizeObserver);
 }

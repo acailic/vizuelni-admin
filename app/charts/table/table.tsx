@@ -3,6 +3,7 @@ import { Box, Theme, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import FlexSearch from "flexsearch";
 import {
+  ChangeEvent,
   CSSProperties,
   forwardRef,
   useCallback,
@@ -121,7 +122,7 @@ export const Table = () => {
       m.columnComponentType === "NumericalMeasure" ? [] : [m.slugifiedId]
     );
 
-    const index = FlexSearch.create({
+    const index = (FlexSearch as any).create({
       tokenize: "full",
       doc: {
         id: "id",
@@ -318,7 +319,9 @@ export const Table = () => {
             })}
             endAdornment={<Icon name="search" />}
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.currentTarget.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setSearchTerm(e.currentTarget.value)
+            }
           />
         </Box>
       )}

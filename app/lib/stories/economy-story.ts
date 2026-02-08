@@ -1,15 +1,21 @@
-import { ColumnChart, PieChart } from "@/components/demos/charts";
-
-import type { StoryConfig } from "../stories";
+import {
+  ColumnChart,
+  PieChart,
+  type StoryConfig,
+} from "@/components/demos/charts";
 
 export const economyStory: StoryConfig = {
   id: "economy",
   theme: "economy",
   difficulty: "intermediate",
-  estimatedTime: 6,
+  estimatedTime: "6 min",
   title: {
     sr: "Ekonomska Tranzicija: Regionalne Nejednakosti i Razvoj",
     en: "Economic Transition: Regional Disparities and Development",
+  },
+  description: {
+    sr: "Istražite ekonomske nejednakosti između regiona Srbije i analize energetskog miksa.",
+    en: "Explore economic inequalities between Serbian regions and analyze the energy mix.",
   },
   steps: [
     {

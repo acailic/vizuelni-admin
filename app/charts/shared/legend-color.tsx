@@ -3,7 +3,7 @@ import { Theme, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 import orderBy from "lodash/orderBy";
-import { memo, useCallback, useMemo } from "react";
+import { ChangeEvent, memo, useCallback, useMemo } from "react";
 
 import { ColorsChartState, useChartState } from "@/charts/shared/chart-state";
 import { rgbArrayToHex } from "@/charts/shared/colors";
@@ -12,7 +12,8 @@ import { Flex } from "@/components/flex";
 import { Checkbox, CheckboxProps } from "@/components/form";
 import { MaybeTooltip } from "@/components/maybe-tooltip";
 import { OpenMetadataPanelWrapper } from "@/components/metadata-panel";
-import { useChartConfigFilters, useLimits } from "@/config-utils";
+import { Limit as ConfigLimit } from "@/config-types";
+import { useChartConfigFilters } from "@/config-utils";
 import {
   AreaConfig,
   BarConfig,
@@ -35,6 +36,7 @@ import {
 } from "@/domain/data";
 import { useFormatNumber } from "@/formatters";
 import SvgIcChevronRight from "@/icons/components/IcChevronRight";
+import { Limit as MeasureLimit } from "@/rdf/limits";
 import { useChartInteractiveFilters } from "@/stores/interactive-filters";
 import { interlace } from "@/utils/interlace";
 import { makeDimensionValueSorters } from "@/utils/sorting-values";
@@ -81,6 +83,17 @@ const useStyles = makeStyles<Theme>((theme) => ({
   },
 }));
 
+type LimitEntry = {
+  configLimit: ConfigLimit;
+  measureLimit: MeasureLimit;
+  relatedAxisDimensionValueLabel: string | undefined;
+  limitUnit: string | undefined;
+};
+
+type LimitsState = {
+  limits: LimitEntry[];
+};
+
 const useLegendGroups = ({
   chartConfig,
   title,
@@ -90,7 +103,7 @@ const useLegendGroups = ({
   title?: string;
   values: string[];
 }) => {
-  const configState = useReadOnlyConfiguratorState();
+  const configState = useReadOnlyConfiguratorState() as any;
 
   if (
     configState.state === "INITIAL" ||
@@ -136,7 +149,7 @@ export const LegendColor = memo(function LegendColor({
   interactive?: boolean;
   showTitle?: boolean;
   dimensionsById?: DimensionsById;
-  limits?: ReturnType<typeof useLimits>;
+  limits?: LimitsState;
 }) {
   const { colors, getColorLabel } = useChartState() as ColorsChartState;
   const values =
@@ -179,7 +192,7 @@ export const LegendColor = memo(function LegendColor({
                 values = [measureLimit.value];
                 break;
               default:
-                const _exhaustiveCheck: never = measureLimit;
+                const _exhaustiveCheck: never = measureLimit as never;
                 return _exhaustiveCheck;
             }
 
@@ -310,16 +323,18 @@ const LegendColorContent = ({
 
   const soleItemChecked = activeInteractiveFilters.size === numberOfOptions - 1;
 
-  const handleToggle: CheckboxProps["onChange"] = useEvent((e) => {
-    const disabled = soleItemChecked && !e.target.checked;
-    const item = e.target.value;
+  const handleToggle: CheckboxProps["onChange"] = useEvent(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const disabled = soleItemChecked && !e.target.checked;
+      const item = e.target.value;
 
-    if (activeInteractiveFilters.has(item)) {
-      removeCategory(item);
-    } else if (!disabled) {
-      addCategory(item);
+      if (activeInteractiveFilters.has(item)) {
+        removeCategory(item);
+      } else if (!disabled) {
+        addCategory(item);
+      }
     }
-  });
+  );
 
   const formatNumber = useFormatNumber({ decimals: "auto" });
 
@@ -403,7 +418,7 @@ const LegendIcon = ({
   size: number;
   fill: string;
 }) => {
-  let node: JSX.Element;
+  let node: any;
 
   switch (symbol) {
     case "circle":

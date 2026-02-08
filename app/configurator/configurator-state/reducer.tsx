@@ -5,8 +5,8 @@ import {
   Draft,
   isDraft,
   setAutoFreeze,
+  WritableDraft,
 } from "immer";
-import { WritableDraft } from "immer/dist/types/types-external";
 import get from "lodash/get";
 import isEqual from "lodash/isEqual";
 import setWith from "lodash/setWith";
@@ -83,6 +83,24 @@ import { getCachedComponents } from "@/urql-cache";
 import { assert } from "@/utils/assert";
 import { unreachableError } from "@/utils/unreachable";
 
+type CubeLike = {
+  iri: string;
+  filters?: Filters;
+  joinBy?: string[];
+};
+
+type ChartConfigLike = {
+  key: string;
+  activeField?: string;
+  cubes: CubeLike[];
+};
+
+type LayoutBlockLike = {
+  key: string;
+  type: string;
+  initialized?: boolean;
+};
+
 /**
  * Setting auto-freeze behavior to false, to prevent hard-to-trace bugs.
  * It looks like the state is sometimes being mutated in a way that is not
@@ -122,7 +140,7 @@ export const deriveFiltersFromFields = produce(
       const groupedDimensionIds = getGroupedFieldIds(draft.fields);
       const isHidden = (dim: Dimension) => hiddenFieldIds.has(dim.id);
       const isGrouped = (dim: Dimension) => groupedDimensionIds.has(dim.id);
-      draft.cubes.forEach((cube) => {
+      draft.cubes.forEach((cube: CubeLike) => {
         const cubeDimensions = getCubeDimensions(dimensions, cube.iri);
         cubeDimensions.forEach((dim) => {
           applyTableDimensionToFilters({
@@ -138,7 +156,7 @@ export const deriveFiltersFromFields = produce(
     } else {
       const fieldDimensionIds = getFieldComponentIds(draft.fields);
       const isField = (dim: Dimension) => fieldDimensionIds.has(dim.id);
-      draft.cubes.forEach((cube) => {
+      draft.cubes.forEach((cube: CubeLike) => {
         const cubeDimensions = getCubeDimensions(dimensions, cube.iri);
         const sortedCubeDimensions = sortBy(
           cubeDimensions,
@@ -197,7 +215,7 @@ export const applyTableDimensionToFilters = (props: {
       case "range":
         break;
       default:
-        const _exhaustiveCheck: never = currentFilter;
+        const _exhaustiveCheck: never = currentFilter as never;
         return _exhaustiveCheck;
     }
   } else if (shouldBecomeSingleFilter && dimension.isKeyDimension) {
@@ -258,7 +276,7 @@ export const applyNonTableDimensionToFilters = (props: {
         }
         break;
       default:
-        const _exhaustiveCheck: never = currentFilter;
+        const _exhaustiveCheck: never = currentFilter as never;
         return _exhaustiveCheck;
     }
   } else if (!isField && dimension.isKeyDimension) {
@@ -316,7 +334,7 @@ export const transitionStepNext = (
     case "PUBLISHED":
       break;
     default:
-      throw unreachableError(draft);
+      throw unreachableError(draft as never);
   }
 
   return draft;
@@ -347,10 +365,12 @@ const transitionStepPrevious = (
           ...draft.layout,
           activeField: undefined,
         },
-        chartConfigs: draft.chartConfigs.map((chartConfig) => ({
-          ...chartConfig,
-          activeField: undefined,
-        })),
+        chartConfigs: draft.chartConfigs.map(
+          (chartConfig: ChartConfigLike) => ({
+            ...chartConfig,
+            activeField: undefined,
+          })
+        ),
         activeChartKey: draft.chartConfigs[0].key,
       };
     case "LAYOUTING":
@@ -382,7 +402,7 @@ export const handleChartFieldChanged = (
   const dataCubesComponents = getCachedComponents({
     locale,
     dataSource: draft.dataSource,
-    cubeFilters: chartConfig.cubes.map((cube) => ({
+    cubeFilters: chartConfig.cubes.map((cube: CubeLike) => ({
       iri: cube.iri,
       joinBy: cube.joinBy,
     })),
@@ -414,7 +434,7 @@ export const handleChartFieldChanged = (
   // Remove the component from interactive data filters.
   const componentIds =
     chartConfig.interactiveFiltersConfig.dataFilters.componentIds.filter(
-      (d) => d !== componentId
+      (d: string) => d !== componentId
     );
   const active = componentIds.length > 0;
   chartConfig.interactiveFiltersConfig.dataFilters = {
@@ -433,7 +453,9 @@ export const handleChartFieldChanged = (
   };
 
   const newConfig = deriveFiltersFromFields(chartConfig, { dimensions });
-  const index = draft.chartConfigs.findIndex((d) => d.key === chartConfig.key);
+  const index = draft.chartConfigs.findIndex(
+    (d: ChartConfigLike) => d.key === chartConfig.key
+  );
   draft.chartConfigs[index] = newConfig;
 
   return draft;
@@ -453,7 +475,7 @@ export const handleChartFieldDeleted = (
   const dataCubesComponents = getCachedComponents({
     locale,
     dataSource: draft.dataSource,
-    cubeFilters: chartConfig.cubes.map((cube) => ({
+    cubeFilters: chartConfig.cubes.map((cube: CubeLike) => ({
       iri: cube.iri,
       joinBy: cube.joinBy,
     })),
@@ -476,7 +498,9 @@ export const handleChartFieldDeleted = (
 
   const dimensions = dataCubesComponents?.dimensions ?? [];
   const newConfig = deriveFiltersFromFields(chartConfig, { dimensions });
-  const index = draft.chartConfigs.findIndex((d) => d.key === chartConfig.key);
+  const index = draft.chartConfigs.findIndex(
+    (d: ChartConfigLike) => d.key === chartConfig.key
+  );
   draft.chartConfigs[index] = newConfig;
 
   const sideEffect = getChartFieldDeleteSideEffect(chartConfig, field);
@@ -496,7 +520,7 @@ export const handleChartFieldUpdated = (
     const dataCubesComponents = getCachedComponents({
       locale,
       dataSource: draft.dataSource,
-      cubeFilters: chartConfig.cubes.map((cube) => ({
+      cubeFilters: chartConfig.cubes.map((cube: CubeLike) => ({
         iri: cube.iri,
         joinBy: cube.joinBy,
       })),
@@ -611,7 +635,9 @@ export const setRangeFilter = (
   const { dimension, from, to } = action.value;
   const chartConfig = getChartConfig(draft);
   const adjustFilter = (cubeIri: string, dimensionId: string) => {
-    const cube = chartConfig.cubes.find((cube) => cube.iri === cubeIri);
+    const cube = chartConfig.cubes.find(
+      (cube: CubeLike) => cube.iri === cubeIri
+    );
 
     if (cube) {
       cube.filters[dimensionId] = {
@@ -684,7 +710,7 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
         const dataCubesComponents = getCachedComponents({
           locale,
           dataSource: draft.dataSource,
-          cubeFilters: chartConfig.cubes.map((cube) => ({
+          cubeFilters: chartConfig.cubes.map((cube: CubeLike) => ({
             iri: cube.iri,
             joinBy: cube.joinBy,
           })),
@@ -705,7 +731,7 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
           );
 
           const index = draft.chartConfigs.findIndex(
-            (d) => d.key === chartConfig.key
+            (d: ChartConfigLike) => d.key === chartConfig.key
           );
           draft.chartConfigs[index] = newConfig;
         }
@@ -732,7 +758,7 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
           chartConfig.fields.segment.showTitle = action.value;
         }
         const index = draft.chartConfigs.findIndex(
-          (d) => d.key === chartConfig.key
+          (d: ChartConfigLike) => d.key === chartConfig.key
         );
         draft.chartConfigs[index] = chartConfig;
       }
@@ -851,7 +877,8 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
         if (isMapConfig(chartConfig)) {
           const { layer } = action.value;
           const i = chartConfig.baseLayer.customLayers.findIndex(
-            (l) => l.type === layer.type && l.id === layer.id
+            (l: { type: string; id: string }) =>
+              l.type === layer.type && l.id === layer.id
           );
 
           if (i !== -1) {
@@ -870,7 +897,8 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
           const { type, id } = action.value;
           chartConfig.baseLayer.customLayers =
             chartConfig.baseLayer.customLayers.filter(
-              (layer) => !(layer.type === type && layer.id === id)
+              (layer: { type: string; id: string }) =>
+                !(layer.type === type && layer.id === id)
             );
         }
       }
@@ -900,7 +928,7 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
       if (isConfiguring(draft)) {
         const chartConfig = getChartConfig(draft);
         const index = draft.chartConfigs.findIndex(
-          (d) => d.key === chartConfig.key
+          (d: ChartConfigLike) => d.key === chartConfig.key
         );
         draft.chartConfigs[index] = deriveFiltersFromFields(
           action.value.chartConfig,
@@ -922,7 +950,9 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
          */
         for (const filter of filters) {
           const { cubeIri, dimensionId } = filter;
-          const cube = chartConfig.cubes.find((cube) => cube.iri === cubeIri);
+          const cube = chartConfig.cubes.find(
+            (cube: CubeLike) => cube.iri === cubeIri
+          );
 
           if (cube) {
             cube.filters[dimensionId] = {
@@ -955,7 +985,9 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
 
         for (const filter of filters) {
           const { cubeIri, dimensionId } = filter;
-          const cube = chartConfig.cubes.find((cube) => cube.iri === cubeIri);
+          const cube = chartConfig.cubes.find(
+            (cube: CubeLike) => cube.iri === cubeIri
+          );
 
           if (cube) {
             delete cube.filters[dimensionId];
@@ -990,7 +1022,7 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
 
         for (const resolvedCubeIri of resolvedCubeIris) {
           const cube = chartConfig.cubes.find(
-            (cube) =>
+            (cube: CubeLike) =>
               cube.iri === resolvedCubeIri ||
               cube.joinBy?.includes(resolvedCubeIri)
           );
@@ -1007,7 +1039,9 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
       if (isConfiguring(draft)) {
         const { cubeIri, dimensionId } = action.value;
         const chartConfig = getChartConfig(draft);
-        const cube = chartConfig.cubes.find((cube) => cube.iri === cubeIri);
+        const cube = chartConfig.cubes.find(
+          (cube: CubeLike) => cube.iri === cubeIri
+        );
 
         if (cube) {
           delete cube.filters[dimensionId];
@@ -1027,7 +1061,9 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
       if (isConfiguring(draft)) {
         const { cubeIri, filters } = action.value;
         const chartConfig = getChartConfig(draft);
-        const cube = chartConfig.cubes.find((cube) => cube.iri === cubeIri);
+        const cube = chartConfig.cubes.find(
+          (cube: CubeLike) => cube.iri === cubeIri
+        );
 
         if (cube) {
           cube.filters = filters;
@@ -1070,7 +1106,7 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
         const dataCubesComponents = getCachedComponents({
           locale: action.value.locale,
           dataSource: draft.dataSource,
-          cubeFilters: chartConfig.cubes.map((cube) => ({
+          cubeFilters: chartConfig.cubes.map((cube: CubeLike) => ({
             iri: cube.iri,
             joinBy: cube.joinBy,
           })),
@@ -1118,12 +1154,12 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
     case "CHART_CONFIG_REMOVE":
       if (isConfiguring(draft) || isLayouting(draft)) {
         const index = draft.chartConfigs.findIndex(
-          (d) => d.key === action.value.chartKey
+          (d: ChartConfigLike) => d.key === action.value.chartKey
         );
         const removedKey = draft.chartConfigs[index].key;
         draft.chartConfigs.splice(index, 1);
         draft.layout.blocks = draft.layout.blocks.filter(
-          (block) => block.key !== removedKey
+          (block: LayoutBlockLike) => block.key !== removedKey
         );
 
         if (removedKey === draft.activeChartKey) {
@@ -1160,7 +1196,9 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
       if (isConfiguring(draft)) {
         const { key, highlightType } = action.value;
         const chartConfig = getChartConfig(draft);
-        const annotation = chartConfig.annotations.find((a) => a.key === key);
+        const annotation = chartConfig.annotations.find(
+          (a: { key: string }) => a.key === key
+        );
 
         if (annotation) {
           annotation.highlightType = highlightType;
@@ -1173,7 +1211,9 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
       if (isConfiguring(draft)) {
         const { key, color } = action.value;
         const chartConfig = getChartConfig(draft);
-        const annotation = chartConfig.annotations.find((a) => a.key === key);
+        const annotation = chartConfig.annotations.find(
+          (a: { key: string }) => a.key === key
+        );
 
         if (annotation) {
           annotation.color = color;
@@ -1186,7 +1226,9 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
       if (isConfiguring(draft)) {
         const { key, defaultOpen } = action.value;
         const chartConfig = getChartConfig(draft);
-        const annotation = chartConfig.annotations.find((a) => a.key === key);
+        const annotation = chartConfig.annotations.find(
+          (a: { key: string }) => a.key === key
+        );
 
         if (annotation) {
           annotation.defaultOpen = defaultOpen;
@@ -1199,7 +1241,9 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
       if (isConfiguring(draft)) {
         const { key, locale, value } = action.value;
         const chartConfig = getChartConfig(draft);
-        const annotation = chartConfig.annotations.find((a) => a.key === key);
+        const annotation = chartConfig.annotations.find(
+          (a: { key: string }) => a.key === key
+        );
 
         if (annotation) {
           annotation.text[locale] = value;
@@ -1212,7 +1256,9 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
       if (isConfiguring(draft)) {
         const { key } = action.value;
         const chartConfig = getChartConfig(draft);
-        const annotation = chartConfig.annotations.find((a) => a.key === key);
+        const annotation = chartConfig.annotations.find(
+          (a: { key: string }) => a.key === key
+        );
 
         if (annotation) {
           annotation.text = createLocalizedString();
@@ -1225,7 +1271,7 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
       if (isConfiguring(draft)) {
         const chartConfig = getChartConfig(draft);
         chartConfig.annotations = chartConfig.annotations.filter(
-          (a) => a.key !== action.value.key
+          (a: { key: string }) => a.key !== action.value.key
         );
         chartConfig.activeField = undefined;
       }
@@ -1236,7 +1282,9 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
       if (isConfiguring(draft)) {
         const { key, targets } = action.value;
         const chartConfig = getChartConfig(draft);
-        const annotation = chartConfig.annotations.find((a) => a.key === key);
+        const annotation = chartConfig.annotations.find(
+          (a: { key: string }) => a.key === key
+        );
 
         if (annotation) {
           annotation.targets = targets;
@@ -1254,16 +1302,17 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
           chartConfig.limits[measureId] = [limit];
         } else {
           const limitToAddIndex = chartConfig.limits[measureId].findIndex(
-            (d) => {
+            (d: { related: Array<{ dimensionId: string; value: string }> }) => {
               if (d.related.length !== limit.related.length) {
                 return false;
               }
 
-              return d.related.every((r) =>
-                limit.related.some(
-                  (nr) =>
-                    r.dimensionId === nr.dimensionId && r.value === nr.value
-                )
+              return d.related.every(
+                (r: { dimensionId: string; value: string }) =>
+                  limit.related.some(
+                    (nr: { dimensionId: string; value: string }) =>
+                      r.dimensionId === nr.dimensionId && r.value === nr.value
+                  )
               );
             }
           );
@@ -1285,17 +1334,25 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
 
         const limits = chartConfig.limits[measureId] ?? [];
 
-        const limitToRemoveIndex = limits.findIndex((d) => {
-          if (d.related.length !== related.length) {
-            return false;
-          }
+        const limitToRemoveIndex = limits.findIndex(
+          (d: { related: Array<{ dimensionId: string; value: string }> }) => {
+            if (d.related.length !== related.length) {
+              return false;
+            }
 
-          return d.related.every((r) => {
-            return related.some((nr) => {
-              return r.dimensionId === nr.dimensionId && r.value === nr.value;
-            });
-          });
-        });
+            return d.related.every(
+              (r: { dimensionId: string; value: string }) => {
+                return related.some(
+                  (nr: { dimensionId: string; value: string }) => {
+                    return (
+                      r.dimensionId === nr.dimensionId && r.value === nr.value
+                    );
+                  }
+                );
+              }
+            );
+          }
+        );
 
         if (limitToRemoveIndex === -1) {
           return draft;
@@ -1305,7 +1362,7 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
           delete chartConfig.limits[measureId];
         } else {
           chartConfig.limits[measureId] = limits.filter(
-            (_, index) => index !== limitToRemoveIndex
+            (_: unknown, index: number) => index !== limitToRemoveIndex
           );
         }
       }
@@ -1424,7 +1481,7 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
             ...draft.dashboardFilters.dataFilters,
             componentIds:
               draft.dashboardFilters.dataFilters.componentIds.filter(
-                (d) => d !== dimensionId
+                (d: string) => d !== dimensionId
               ),
           },
         };
@@ -1434,7 +1491,7 @@ const reducer_: Reducer<ConfiguratorState, ConfiguratorStateAction> = (
       return draft;
 
     default:
-      throw unreachableError(action);
+      throw unreachableError(action as never);
   }
 };
 
@@ -1460,19 +1517,21 @@ export const ensureDashboardLayoutIsCorrect = (
 ) => {
   if (
     hasChartConfigs(draft) &&
-    draft.layout.type === "dashboard" &&
-    draft.layout.layout === "canvas"
+    (draft as any).layout.type === "dashboard" &&
+    (draft as any).layout.layout === "canvas"
   ) {
-    const { blocks, layouts } = draft.layout;
+    const { blocks, layouts } = (draft as any).layout;
 
     for (const [breakpoint, _breakpointLayouts] of Object.entries(layouts)) {
-      const breakpointLayouts = [..._breakpointLayouts];
-      const breakpointLayoutKeys = breakpointLayouts.map((l) => l.i);
-      const newBlocks = blocks.filter((block) => {
+      const breakpointLayouts = [...(_breakpointLayouts as any)];
+      const breakpointLayoutKeys = breakpointLayouts.map(
+        (l: { i: string }) => l.i
+      );
+      const newBlocks = blocks.filter((block: LayoutBlockLike) => {
         return !breakpointLayoutKeys.includes(block.key);
       });
       const keysToRemove = breakpointLayoutKeys.filter(
-        (key) => !blocks.find((block) => block.key === key)
+        (key) => !blocks.find((block: LayoutBlockLike) => block.key === key)
       );
       const cols = COLS[breakpoint as keyof typeof COLS];
       const { x, y } = getPreferredEmptyCellCoords({
@@ -1493,7 +1552,7 @@ export const ensureDashboardLayoutIsCorrect = (
             h = 1;
             break;
           default:
-            const _exhaustiveCheck: never = block;
+            const _exhaustiveCheck: never = block as never;
             return _exhaustiveCheck;
         }
 
@@ -1504,17 +1563,22 @@ export const ensureDashboardLayoutIsCorrect = (
           w,
           h,
           minH: MIN_H,
-          resizeHandles: availableHandlesByBlockType[block.type],
+          resizeHandles:
+            availableHandlesByBlockType[
+              block.type as keyof typeof availableHandlesByBlockType
+            ],
         });
       }
 
       for (const key of keysToRemove) {
-        const index = breakpointLayouts.findIndex((l) => l.i === key);
+        const index = breakpointLayouts.findIndex(
+          (l: { i: string }) => l.i === key
+        );
         breakpointLayouts.splice(index, 1);
       }
 
-      draft.layout.layouts = {
-        ...draft.layout.layouts,
+      (draft as any).layout.layouts = {
+        ...(draft as any).layout.layouts,
         [breakpoint]: breakpointLayouts,
       };
     }

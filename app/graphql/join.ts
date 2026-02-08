@@ -15,12 +15,7 @@ import {
   ObservationValue,
 } from "@/domain/data";
 import { ComponentId } from "@/graphql/make-component-id";
-import {
-  DataCubeComponentsQuery,
-  DataCubeObservationsQuery,
-  DataCubeObservationsQueryVariables,
-  Exact,
-} from "@/graphql/query-hooks";
+import type { DataCubeObservationsQuery } from "@/graphql/query-hooks";
 import { assert } from "@/utils/assert";
 
 const JOIN_BY_CUBE_IRI = "joinBy";
@@ -71,7 +66,7 @@ const dimensionValueSorter = (
  * a new joinBy dimension with values from all joinBy dimensions.
  */
 export const joinDimensions = (options: {
-  dimensions: DataCubeComponentsQuery["dataCubeComponents"]["dimensions"];
+  dimensions: any;
   joinBy: VersionedJoinBy;
 }) => {
   const joinByDimensions: (Dimension & { joinByIndex: undefined | number })[] =
@@ -81,7 +76,7 @@ export const joinDimensions = (options: {
   const { dimensions: fetchedDimensions, joinBy } = options;
 
   const dimensionsWithJoinByIndex = fetchedDimensions.flatMap(
-    (d): (Dimension & { joinByIndex: number | undefined })[] => {
+    (d: Dimension): (Dimension & { joinByIndex: number | undefined })[] => {
       // Extracts out the joinBy dimensions from the fetched dimensions
       if (isJoinByComponent(d)) {
         const index = getJoinByIdIndex(d.id);
@@ -166,7 +161,7 @@ export const joinDimensions = (options: {
 export const getOriginalIds = (joinById: string, chartConfig: ChartConfig) => {
   const index = getJoinByIdIndex(joinById);
 
-  return chartConfig.cubes.map((cube) => {
+  return chartConfig.cubes.map((cube: { joinBy?: string[] }) => {
     const joinBy = cube.joinBy;
     assert(joinBy !== undefined, "Found joinBy id and cube has no join by");
 
@@ -195,10 +190,7 @@ type JoinByKey = string;
  * they will be merged into one.
  */
 export const mergeObservations = (
-  queries: OperationResult<
-    DataCubeObservationsQuery,
-    Exact<DataCubeObservationsQueryVariables>
-  >[]
+  queries: OperationResult<DataCubeObservationsQuery, any>[]
 ): Observation[] => {
   const merged = queries.reduce<Record<JoinByKey, Observation>>((acc, q) => {
     const joinBy = q.operation.variables?.cubeFilter.joinBy;
@@ -213,7 +205,7 @@ export const mergeObservations = (
       const om = omit(o, joinBy) as Observation;
 
       const key: ObservationValue | undefined = joinBy
-        .map((x) => o[x])!
+        .map((x: string) => o[x])!
         .join(keyJoiner);
 
       if (!key) {

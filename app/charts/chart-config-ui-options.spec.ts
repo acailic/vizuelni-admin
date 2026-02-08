@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { defaultSegmentOnChange } from "@/charts/chart-config-ui-options";
+import { defaultSegmentOnChange } from "@/charts/chart-config-additional-helpers";
 import { ColumnConfig, ScatterPlotConfig } from "@/configurator";
 import { stringifyComponentId } from "@/graphql/make-component-id";
 

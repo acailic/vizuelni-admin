@@ -97,7 +97,6 @@ export const PieChart = memo(
     config,
     height = 400,
     width = "100%",
-    locale = "sr-Latn",
     className = "",
     style = {},
     onDataPointClick,
@@ -211,16 +210,16 @@ export const PieChart = memo(
       slices
         .append("path")
         .attr("d", arcGenerator)
-        .attr("fill", (d, i) => colorScale(i))
+        .attr("fill", (_d, i) => colorScale(i))
         .attr("stroke", "#fff")
         .attr("stroke-width", 2)
         .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.1))")
-        .on("click", (event, d) => {
+        .on("click", (_event, d) => {
           if (onDataPointClick) {
             onDataPointClick(d.data, processedData.indexOf(d.data));
           }
         })
-        .on("mouseenter", function (event, d) {
+        .on("mouseenter", function (_event, _d) {
           if (showTooltip) {
             select(this)
               .transition()
@@ -228,7 +227,7 @@ export const PieChart = memo(
               .attr("d", arcHoverGenerator as any);
           }
         })
-        .on("mouseleave", function (event, d) {
+        .on("mouseleave", function (_event, _d) {
           if (showTooltip) {
             select(this)
               .transition()
@@ -280,13 +279,12 @@ export const PieChart = memo(
             ? radius * 1.2
             : (radius * (1 + innerRadiusRatio)) / 2;
 
-        pieData.forEach((d, i) => {
+        pieData.forEach((d, _i) => {
           const percentage = (d.value / total) * 100;
 
           // Only show label if slice is big enough
           if (percentage < 5 && labelPosition === "inside") return;
 
-          const centroid = arcGenerator.centroid(d);
           const labelAngle = (d.startAngle + d.endAngle) / 2;
 
           // Calculate label position
@@ -392,7 +390,7 @@ export const PieChart = memo(
 
       // Add legend
       if (showLegend) {
-        let legend: d3.Selection<SVGGElement, unknown, null, undefined>;
+        let legend: any;
 
         if (legendPosition === "right") {
           legend = g

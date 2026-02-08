@@ -103,7 +103,9 @@ const SelectDatasetStepInner = ({
   variant?: "page" | "drawer";
 }) => {
   const locale = useLocale();
-  const [{ state, dataSource }] = useConfiguratorState();
+  const [{ state, dataSource }] = useConfiguratorState() as unknown as [
+    { state: any; dataSource: any },
+  ];
   const browseState = useBrowseContext();
   const {
     search,

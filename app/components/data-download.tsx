@@ -24,7 +24,7 @@ import {
 import { useClient } from "urql";
 
 import { ArrowMenuBottomTop } from "@/components/arrow-menu";
-import { DataSource, SortingField } from "@/config-types/config-types";
+import { DataSource } from "@/config-types";
 import {
   Component,
   DataCubeComponents,
@@ -101,7 +101,7 @@ const prepareData = ({
   const sortedComponents = getSortedComponents(components);
   const columns = keyBy(sortedComponents, (d) => d.id);
   // Sort the data from left to right, keeping the order of the columns.
-  const sorting: SortingField["sorting"] = {
+  const sorting: any = {
     sortingType: "byAuto",
     sortingOrder: "asc",
   };

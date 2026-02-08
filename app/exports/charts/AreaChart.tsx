@@ -90,7 +90,6 @@ export const AreaChart = memo(
     config,
     height = 400,
     width = "100%",
-    locale = "sr-Latn",
     className = "",
     style = {},
     onDataPointClick,
@@ -254,7 +253,10 @@ export const AreaChart = memo(
       const stackedData =
         stackMode === "stack"
           ? data.map((d) => {
-              const stacked: Record<string, number> = { ...d };
+              const stacked: Record<string, number> = { ...d } as Record<
+                string,
+                number
+              >;
               let cumulative = 0;
               seriesKeys.forEach((key) => {
                 cumulative += Number(d[key]) || 0;
@@ -367,7 +369,7 @@ export const AreaChart = memo(
           .attr("opacity", 0.8)
           .style("filter", "drop-shadow(0 1px 2px rgba(0,0,0,0.1))")
           .style("cursor", onDataPointClick ? "pointer" : "default")
-          .on("click", (event, d) => {
+          .on("click", (_event, d) => {
             if (onDataPointClick) {
               onDataPointClick(d, data.indexOf(d));
             }

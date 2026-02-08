@@ -2,7 +2,7 @@ import { Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { ReactElement, useMemo, useState } from "react";
+import { ReactElement, useState } from "react";
 
 import { HintError } from "@/components/hint";
 
@@ -20,14 +20,7 @@ export const getErrorQueryParams = (
 };
 
 const CannotFindCubeContent = () => {
-  const { query } = useRouter();
-  const errorOptions = useMemo(() => {
-    try {
-      return JSON.parse(query?.errorOptions as string);
-    } catch (e) {
-      return {};
-    }
-  }, [query]);
+  useRouter();
 
   return (
     <>
@@ -35,7 +28,9 @@ const CannotFindCubeContent = () => {
       <Box sx={{ mt: 1 }}>
         <Typography variant="body2" color="textSecondary">
           <Trans id="flashes.couldnt-load-cube.message">
-            Please check the data source URL and cube configuration. For data.gov.rs datasets, ensure the endpoint is accessible and properly formatted.
+            Please check the data source URL and cube configuration. For
+            data.gov.rs datasets, ensure the endpoint is accessible and properly
+            formatted.
           </Trans>
         </Typography>
       </Box>

@@ -135,17 +135,19 @@ const DatasetRow = ({
                 try {
                   const chartConfig = getChartConfig(state);
                   const newCubes = chartConfig.cubes.filter(
-                    (c) => c.iri !== cube.iri
+                    (c: { iri: string }) => c.iri !== cube.iri
                   );
                   await executeDataCubesComponentsQuery(client, {
                     locale,
                     sourceUrl: state.dataSource.url,
                     sourceType: state.dataSource.type,
-                    cubeFilters: newCubes.map((cube) => ({
-                      iri: cube.iri,
-                      joinBy: newCubes.length > 1 ? cube.joinBy : undefined,
-                      loadValues: true,
-                    })),
+                    cubeFilters: newCubes.map(
+                      (cube: { iri: string; joinBy?: string[] }) => ({
+                        iri: cube.iri,
+                        joinBy: newCubes.length > 1 ? cube.joinBy : undefined,
+                        loadValues: true,
+                      })
+                    ),
                   });
                   dispatch({
                     type: "DATASET_REMOVE",
@@ -179,15 +181,18 @@ export const DatasetsControlSection = () => {
   const { setOpen, setActiveSection } = useMetadataPanelStoreActions();
   const cubes = useMemo(() => {
     const activeChartConfig = state.chartConfigs.find(
-      (x) => x.key === state.activeChartKey
+      (x: { key: string }) => x.key === state.activeChartKey
     );
-    const cubes = uniqBy(activeChartConfig?.cubes ?? [], (x) => x.iri);
+    const cubes = uniqBy(
+      activeChartConfig?.cubes ?? [],
+      (x: { iri: string }) => x.iri
+    );
     return cubes;
   }, [state.activeChartKey, state.chartConfigs]);
   const [metadataQuery] = useDataCubesMetadataQuery({
     variables: {
       ...commonQueryVariables,
-      cubeFilters: cubes.map((cube) => ({
+      cubeFilters: cubes.map((cube: { iri: string }) => ({
         iri: cube.iri,
       })),
     },

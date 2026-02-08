@@ -1,6 +1,6 @@
 import { t, Trans } from "@lingui/macro";
 import get from "lodash/get";
-import { useCallback } from "react";
+import { ChangeEvent, useCallback } from "react";
 
 import { DEFAULT_SORTING } from "@/charts";
 import {
@@ -8,7 +8,7 @@ import {
   EncodingSortingOption,
 } from "@/charts/chart-config-ui-options";
 import { Radio, RadioGroup, Select } from "@/components/form";
-import { ChartConfig, SortingType } from "@/config-types";
+import { ChartConfig, SortingOrder, SortingType } from "@/config-types";
 import {
   ControlSection,
   ControlSectionContent,
@@ -21,6 +21,8 @@ import {
 } from "@/configurator/configurator-state";
 import { useLocale } from "@/locales/use-locale";
 
+import type { SelectChangeEvent } from "@mui/material/Select";
+
 export const SortingField = ({
   chartConfig,
   field,
@@ -32,6 +34,16 @@ export const SortingField = ({
   encodingSortingOptions: EncodingSortingOption[];
   disabled?: boolean;
 }) => {
+  type EncodingSortingOptionLike = {
+    sortingType: SortingType;
+    sortingOrder?: SortingOrder[];
+    getDisabledState?: (chartConfig: ChartConfig) => {
+      disabled?: boolean;
+      reason?: string;
+    };
+  };
+
+  const sortingOptions = encodingSortingOptions as EncodingSortingOptionLike[];
   const locale = useLocale();
   const [, dispatch] = useConfiguratorState(isConfiguring);
 
@@ -46,7 +58,7 @@ export const SortingField = ({
       case "byAuto":
         return t({ id: "controls.sorting.byAuto", message: "Automatic" });
       default:
-        const _exhaustiveCheck: never = type;
+        const _exhaustiveCheck: never = type as never;
         return _exhaustiveCheck;
     }
   };
@@ -79,8 +91,8 @@ export const SortingField = ({
   );
 
   // FIXME: Remove this once it's properly encoded in chart-config-ui-options
-  const sortingOrderOptions = encodingSortingOptions.find(
-    (o) => o.sortingType === activeSortingType
+  const sortingOrderOptions = sortingOptions.find(
+    (o: EncodingSortingOptionLike) => o.sortingType === activeSortingType
   )?.sortingOrder;
   const activeSortingOrder = get(
     chartConfig,
@@ -98,7 +110,7 @@ export const SortingField = ({
           id="sort-by"
           size="sm"
           label={getFieldLabel("sortBy")}
-          options={encodingSortingOptions?.map((d) => {
+          options={sortingOptions?.map((d: EncodingSortingOptionLike) => {
             const disabledState = d.getDisabledState?.(chartConfig);
 
             return {
@@ -109,7 +121,7 @@ export const SortingField = ({
           })}
           value={activeSortingType}
           disabled={disabled}
-          onChange={(e) => {
+          onChange={(e: SelectChangeEvent<string>) => {
             updateSortingOption({
               sortingType: e.target
                 .value as EncodingSortingOption["sortingType"],
@@ -119,7 +131,7 @@ export const SortingField = ({
         />
         <RadioGroup>
           {sortingOrderOptions &&
-            sortingOrderOptions.map((sortingOrder) => {
+            sortingOrderOptions.map((sortingOrder: SortingOrder) => {
               const subType = get(
                 chartConfig,
                 ["fields", "segment", "type"],
@@ -136,7 +148,7 @@ export const SortingField = ({
                   value={sortingOrder}
                   checked={sortingOrder === activeSortingOrder}
                   disabled={disabled}
-                  onChange={(e) => {
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
                     if (e.currentTarget.checked) {
                       updateSortingOption({
                         sortingType: activeSortingType,

@@ -130,7 +130,7 @@ describe("transforms", () => {
     });
 
     it("should filter using index parameter", () => {
-      const result = filterData(mockData, (item, index) => index < 2);
+      const result = filterData(mockData, (_item, index) => index < 2);
 
       expect(result).toHaveLength(2);
       expect(result[0].year).toBe("2020");

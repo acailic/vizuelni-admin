@@ -14,7 +14,7 @@ import {
   LineChart,
   Line,
   Area,
-  AreaChart
+  AreaChart,
 } from "recharts";
 
 import { Button } from "@/components/ui/button";
@@ -27,23 +27,23 @@ import {
   getDatasetLabels,
   formatSerbianCurrency,
   formatSerbianNumber,
-  SerbianLanguageVariant
+  SerbianLanguageVariant,
 } from "./serbian-language-utils";
 
 // Mock data for demonstration - in production this would come from API
 const mockBudgetData = [
   {
-    category: getSerbianTranslation('revenue', 'sr-Latn'),
+    category: getSerbianTranslation("revenue", "sr-Latn"),
     amount: 1500000000,
     subcategories: [
       { name: "Porezi na dohodak", value: 600000000 },
       { name: "PDV", value: 450000000 },
       { name: "Akizize", value: 200000000 },
-      { name: "Ostali prihodi", value: 250000000 }
-    ]
+      { name: "Ostali prihodi", value: 250000000 },
+    ],
   },
   {
-    category: getSerbianTranslation('expenses', 'sr-Latn'),
+    category: getSerbianTranslation("expenses", "sr-Latn"),
     amount: 1450000000,
     subcategories: [
       { name: "Obrazovanje", value: 300000000 },
@@ -51,9 +51,9 @@ const mockBudgetData = [
       { name: "Socijalna zaštita", value: 350000000 },
       { name: "Infrastruktura", value: 200000000 },
       { name: "Odbrana", value: 180000000 },
-      { name: "Ostalo", value: 140000000 }
-    ]
-  }
+      { name: "Ostalo", value: 140000000 },
+    ],
+  },
 ];
 
 const monthlyBudgetData = [
@@ -68,12 +68,19 @@ const monthlyBudgetData = [
   { month: "Sep", prihodi: 145000000, rashodi: 135000000 },
   { month: "Okt", prihodi: 148000000, rashodi: 138000000 },
   { month: "Nov", prihodi: 150000000, rashodi: 140000000 },
-  { month: "Dec", prihodi: 155000000, rashodi: 145000000 }
+  { month: "Dec", prihodi: 155000000, rashodi: 145000000 },
 ];
 
 // WCAG-compliant colors with sufficient contrast against light backgrounds
 // Using palette with minimum 4.5:1 contrast ratio for normal text
-const COLORS = ['#1E40AF', '#059669', '#CA8A04', '#DC2626', '#7C3AED', '#0891B2'];
+const COLORS = [
+  "#1E40AF",
+  "#059669",
+  "#CA8A04",
+  "#DC2626",
+  "#7C3AED",
+  "#0891B2",
+];
 
 interface SerbianBudgetChartProps {
   language?: SerbianLanguageVariant;
@@ -84,14 +91,20 @@ interface SerbianBudgetChartProps {
 export const SerbianBudgetChart: React.FC<SerbianBudgetChartProps> = ({
   language = "sr-Latn",
   showInteractiveFeatures = true,
-  height = 400
+  height = 400,
 }) => {
   const [activeTab, setActiveTab] = useState("overview");
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [_selectedCategory, _setSelectedCategory] = useState<string | null>(
+    null
+  );
 
-  const labels = useMemo(() => getDatasetLabels('budget', language), [language]);
+  const labels = useMemo(
+    () => getDatasetLabels("budget", language),
+    [language]
+  );
 
-  const formatCurrency = (value: number) => formatSerbianCurrency(value, language);
+  const formatCurrency = (value: number) =>
+    formatSerbianCurrency(value, language);
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
@@ -108,14 +121,20 @@ export const SerbianBudgetChart: React.FC<SerbianBudgetChartProps> = ({
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <Card>
         <CardHeader>
-          <CardTitle>{labels.revenue} vs {labels.expenses}</CardTitle>
+          <CardTitle>
+            {labels.revenue} vs {labels.expenses}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={height}>
             <BarChart data={mockBudgetData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="category" />
-              <YAxis tickFormatter={(value) => `${formatSerbianNumber(value / 1000000000, language)} Mrd`} />
+              <YAxis
+                tickFormatter={(value) =>
+                  `${formatSerbianNumber(value / 1000000000, language)} Mrd`
+                }
+              />
               <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="amount" fill="#8884d8" />
             </BarChart>
@@ -125,7 +144,9 @@ export const SerbianBudgetChart: React.FC<SerbianBudgetChartProps> = ({
 
       <Card>
         <CardHeader>
-          <CardTitle>{getSerbianTranslation('total', language)} {labels.expenses}</CardTitle>
+          <CardTitle>
+            {getSerbianTranslation("total", language)} {labels.expenses}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={height}>
@@ -135,16 +156,25 @@ export const SerbianBudgetChart: React.FC<SerbianBudgetChartProps> = ({
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                label={({ name, percent }) =>
+                  `${name} ${((percent || 0) * 100).toFixed(0)}%`
+                }
                 outerRadius={80}
                 fill="#8884d8"
                 dataKey="value"
               >
-                {mockBudgetData[1].subcategories.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                {mockBudgetData[1].subcategories.map((_entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
                 ))}
               </Pie>
-              <Tooltip formatter={(value: number) => formatCurrency(value)} />
+              <Tooltip
+                formatter={(value: number | undefined) =>
+                  formatCurrency(value || 0)
+                }
+              />
             </PieChart>
           </ResponsiveContainer>
         </CardContent>
@@ -155,14 +185,20 @@ export const SerbianBudgetChart: React.FC<SerbianBudgetChartProps> = ({
   const renderMonthlyTrends = () => (
     <Card>
       <CardHeader>
-        <CardTitle>{getSerbianTranslation('month', language)}ni trendovi</CardTitle>
+        <CardTitle>
+          {getSerbianTranslation("month", language)}ni trendovi
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={height}>
           <LineChart data={monthlyBudgetData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="month" />
-            <YAxis tickFormatter={(value) => `${formatSerbianNumber(value / 1000000000, language)} Mrd`} />
+            <YAxis
+              tickFormatter={(value) =>
+                `${formatSerbianNumber(value / 1000000000, language)} Mrd`
+              }
+            />
             <Tooltip content={<CustomTooltip />} />
             <Legend />
             <Line
@@ -193,9 +229,17 @@ export const SerbianBudgetChart: React.FC<SerbianBudgetChartProps> = ({
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={height}>
-            <BarChart data={mockBudgetData[1].subcategories} layout="horizontal">
+            <BarChart
+              data={mockBudgetData[1].subcategories}
+              layout="horizontal"
+            >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis type="number" tickFormatter={(value) => `${formatSerbianNumber(value / 1000000000, language)} Mrd`} />
+              <XAxis
+                type="number"
+                tickFormatter={(value) =>
+                  `${formatSerbianNumber(value / 1000000000, language)} Mrd`
+                }
+              />
               <YAxis dataKey="name" type="category" width={120} />
               <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="value" fill="#8884d8" />
@@ -214,7 +258,11 @@ export const SerbianBudgetChart: React.FC<SerbianBudgetChartProps> = ({
               <AreaChart data={monthlyBudgetData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
-                <YAxis tickFormatter={(value) => `${formatSerbianNumber(value / 1000000000, language)} Mrd`} />
+                <YAxis
+                  tickFormatter={(value) =>
+                    `${formatSerbianNumber(value / 1000000000, language)} Mrd`
+                  }
+                />
                 <Tooltip content={<CustomTooltip />} />
                 <Area
                   type="monotone"
@@ -247,7 +295,9 @@ export const SerbianBudgetChart: React.FC<SerbianBudgetChartProps> = ({
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
-            <span>{getSerbianTranslation('budget', language)} - Republika Srbija</span>
+            <span>
+              {getSerbianTranslation("budget", language)} - Republika Srbija
+            </span>
             {showInteractiveFeatures && (
               <div className="flex gap-2">
                 <Button
@@ -255,7 +305,7 @@ export const SerbianBudgetChart: React.FC<SerbianBudgetChartProps> = ({
                   size="sm"
                   onClick={() => {
                     // This would be handled by parent component in real implementation
-                    console.log('Language toggle clicked');
+                    console.log("Language toggle clicked");
                   }}
                 >
                   {language === "sr-Latn" ? "Ћирилица" : "Latinica"}

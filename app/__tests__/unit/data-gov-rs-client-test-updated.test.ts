@@ -374,7 +374,7 @@ describe("DataGovRsClient", () => {
         throw new Error("Unexpected page");
       });
 
-      const pages = [];
+      const pages: string[][] = [];
       for await (const page of client.getAllPages(firstPage, fetcher)) {
         pages.push(page);
       }
@@ -439,9 +439,10 @@ describe("DataGovRsClient", () => {
     }, 10000);
 
     it("should use AbortController to abort request on timeout", async () => {
-      let capturedSignal: AbortSignal | null = null;
-      mockFetch.mockImplementation((url: string, options: RequestInit) => {
-        capturedSignal = options.signal as AbortSignal;
+      type AbortSignalLike = { aborted: boolean };
+      let capturedSignal: AbortSignalLike | null = null;
+      mockFetch.mockImplementation((_url: string, options: RequestInit) => {
+        capturedSignal = options.signal as AbortSignalLike;
         return new Promise((resolve) =>
           setTimeout(
             () => resolve({ ok: true, json: () => Promise.resolve({}) }),
@@ -459,7 +460,10 @@ describe("DataGovRsClient", () => {
 
       // The request should have been aborted
       expect(capturedSignal).not.toBeNull();
-      expect(capturedSignal?.aborted).toBe(true);
+      if (!capturedSignal) {
+        throw new Error("AbortSignal was not captured");
+      }
+      expect((capturedSignal as { aborted: boolean }).aborted).toBe(true);
     }, 10000);
 
     it("should complete request successfully within timeout", async () => {
@@ -662,7 +666,7 @@ describe("DataGovRsClient", () => {
 
     it("should use exponential backoff between retries", async () => {
       let attemptCount = 0;
-      const delays: number[] = [];
+      void attemptCount; // Mark as intentionally unused for now
 
       mockFetch.mockImplementation(() => {
         attemptCount++;

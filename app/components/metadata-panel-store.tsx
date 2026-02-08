@@ -60,7 +60,7 @@ export const useMetadataPanelStore: <T>(
 ) => T = (selector) => {
   const store = useContext(MetadataPanelStoreContext);
 
-  return useStore(store, selector, shallow);
+  return (useStore as any)(store, selector, shallow);
 };
 
 export const useMetadataPanelStoreActions = () => {

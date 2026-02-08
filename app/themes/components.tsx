@@ -1,5 +1,3 @@
-import { Components } from "@mui/material";
-
 import { Icon } from "@/icons";
 import { colors } from "@/themes/constants";
 import {
@@ -13,7 +11,33 @@ import { palette } from "@/themes/palette";
 import { shadows } from "@/themes/shadows";
 import { typography } from "@/themes/typography";
 
-export const components: Components = {
+import type { SvgIconProps } from "@mui/material";
+
+// Type definitions for ownerState parameters
+interface AlertOwnerState {
+  color?: "info" | "success" | "warning" | "error";
+}
+
+interface ButtonOwnerState {
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
+  variant?: "contained" | "outlined" | "text";
+  color?: "primary" | "secondary" | "error" | "inherit";
+}
+
+interface InputOwnerState {
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
+}
+
+interface SelectOwnerState {
+  variant?: "outlined" | "filled" | "standard";
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
+}
+
+interface IconComponentProps extends SvgIconProps {
+  style?: React.CSSProperties;
+}
+
+export const components = {
   MuiAccordion: {
     defaultProps: {
       disableGutters: true,
@@ -50,7 +74,7 @@ export const components: Components = {
       icon: false,
     },
     styleOverrides: {
-      root: ({ ownerState }) => {
+      root: ({ ownerState }: { ownerState: AlertOwnerState }) => {
         const color = ownerState.color ?? "info";
         const getPalette = (
           color: "info" | "success" | "warning" | "error"
@@ -262,7 +286,7 @@ export const components: Components = {
       size: "md",
     },
     styleOverrides: {
-      root: ({ ownerState }) => {
+      root: ({ ownerState }: { ownerState: ButtonOwnerState }) => {
         const size = ownerState.size ?? "md";
         const sizeStyles = (() => {
           switch (size) {
@@ -347,7 +371,7 @@ export const components: Components = {
                 },
               };
             default:
-              const _exhaustiveCheck: never = variant;
+              const _exhaustiveCheck: never = variant as never;
               return _exhaustiveCheck;
           }
         })();
@@ -473,7 +497,7 @@ export const components: Components = {
       disableUnderline: true,
     },
     styleOverrides: {
-      root: ({ ownerState }) => {
+      root: ({ ownerState }: { ownerState: InputOwnerState }) => {
         const size = ownerState.size ?? "md";
         const sizeStyles = (() => {
           switch (size) {
@@ -488,7 +512,7 @@ export const components: Components = {
             case "xl":
               return { padding: "12px 16px", ...typography.h4 };
             default:
-              const _exhaustiveCheck: never = size;
+              const _exhaustiveCheck: never = size as never;
               return _exhaustiveCheck;
           }
         })();
@@ -558,7 +582,7 @@ export const components: Components = {
   },
   MuiNativeSelect: {
     defaultProps: {
-      IconComponent: ({ style, ...rest }: any) => {
+      IconComponent: ({ style, ...rest }: IconComponentProps) => {
         return (
           <Icon
             name="chevronDown"
@@ -622,9 +646,6 @@ export const components: Components = {
   MuiSelect: {
     defaultProps: {
       size: "md",
-      // MUI types are not correct here - browser is not happy with
-      // a boolean passed to DOM.
-      notched: "false" as any,
       MenuProps: {
         slotProps: {
           paper: {
@@ -632,7 +653,7 @@ export const components: Components = {
           },
         },
       },
-      IconComponent: ({ style, ...rest }: any) => {
+      IconComponent: ({ style, ...rest }: IconComponentProps) => {
         return (
           <Icon
             name="chevronDown"
@@ -648,7 +669,7 @@ export const components: Components = {
       },
     },
     styleOverrides: {
-      root: ({ ownerState }) => {
+      root: ({ ownerState }: { ownerState: SelectOwnerState }) => {
         const variant = ownerState.variant ?? "outlined";
         const variantStyles = (() => {
           switch (variant) {
@@ -666,7 +687,7 @@ export const components: Components = {
               };
             }
             default:
-              const _exhaustiveCheck: never = variant;
+              const _exhaustiveCheck: never = variant as never;
               return _exhaustiveCheck;
           }
         })();
@@ -685,7 +706,7 @@ export const components: Components = {
             case "xl":
               return { ...typography.h4 };
             default:
-              const _exhaustiveCheck: never = size;
+              const _exhaustiveCheck: never = size as never;
               return _exhaustiveCheck;
           }
         })();
@@ -710,7 +731,7 @@ export const components: Components = {
           },
         };
       },
-      select: ({ ownerState }) => {
+      select: ({ ownerState }: { ownerState: SelectOwnerState }) => {
         const variant = ownerState.variant ?? "outlined";
         const variantStyles = (() => {
           switch (variant) {
@@ -738,7 +759,7 @@ export const components: Components = {
               };
             }
             default:
-              const _exhaustiveCheck: never = variant;
+              const _exhaustiveCheck: never = variant as never;
               return _exhaustiveCheck;
           }
         })();
@@ -750,7 +771,7 @@ export const components: Components = {
             "border 0.2s ease, background-color 0.2s ease, color 0.2s ease",
         };
       },
-      icon: ({ ownerState }) => {
+      icon: ({ ownerState }: { ownerState: SelectOwnerState }) => {
         const variant = ownerState.variant ?? "outlined";
 
         return {

@@ -19,7 +19,7 @@ import { makeStyles } from "@mui/styles";
 import match from "autosuggest-highlight/match";
 import parse from "autosuggest-highlight/parse";
 import clsx from "clsx";
-import { AnimatePresence, Transition } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import groupBy from "lodash/groupBy";
 import keyBy from "lodash/keyBy";
 import omit from "lodash/omit";
@@ -206,10 +206,10 @@ const useOtherStyles = makeStyles<Theme>((theme) => {
   };
 });
 
-const animationProps: Transition = {
+const animationProps = {
   transition: {
     duration: 0.2,
-  },
+  } as any,
   initial: {
     opacity: 0,
   },

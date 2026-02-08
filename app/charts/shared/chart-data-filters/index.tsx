@@ -22,15 +22,17 @@ import { Select } from "@/components/form";
 import { OpenMetadataPanelWrapper } from "@/components/metadata-panel";
 import { MultiSelect } from "@/components/multi-select";
 import { SelectTree, Tree } from "@/components/select-tree";
-import { isTableConfig } from "@/config-types";
 import {
-  areDataFiltersActive,
   ChartConfig,
   DashboardFiltersConfig,
   DataSource,
   Filters,
-  getFiltersByMappingStatus,
   SingleFilters,
+  isTableConfig,
+} from "@/config-types";
+import {
+  areDataFiltersActive,
+  getFiltersByMappingStatus,
   useConfiguratorState,
 } from "@/configurator";
 import { FieldLabel, LoadingIndicator } from "@/configurator/components/field";
@@ -73,15 +75,15 @@ export const useChartDataFiltersState = ({
   const defaultOpen = dataFiltersConfig.defaultOpen;
   const configComponentIds = dataFiltersConfig.componentIds;
 
-  const componentIds = useMemo(() => {
+  const componentIds = useMemo<string[]>(() => {
     const excludeDashboardFilters = (id: string) => {
       return !dashboardFilters?.dataFilters.componentIds.includes(id);
     };
 
     if (isTableConfig(chartConfig)) {
-      const orderedIds = getOrderedTableColumns(chartConfig.fields).map(
-        (c) => c.componentId
-      );
+      const orderedIds: string[] = getOrderedTableColumns(
+        chartConfig.fields
+      ).map((c: { componentId: string }) => c.componentId);
 
       return orderedIds.filter(
         (id) => configComponentIds.includes(id) && excludeDashboardFilters(id)
@@ -103,7 +105,7 @@ export const useChartDataFiltersState = ({
     componentIds,
   });
   const preparedFilters = useMemo(() => {
-    return chartConfig.cubes.map((cube) => {
+    return chartConfig.cubes.map((cube: ChartConfig["cubes"][number]) => {
       const cubeQueryFilters = queryFilters.find((d) => d.iri === cube.iri);
       assert(cubeQueryFilters, "Cube query filters not found.");
       const filtersByMappingStatus = getFiltersByMappingStatus(chartConfig, {
@@ -119,11 +121,16 @@ export const useChartDataFiltersState = ({
       const cubeComponentIds = [
         ...Object.keys(filters),
         ...Object.keys(chartConfig.fields),
-        ...Object.values(chartConfig.fields).map((field) => field.componentId),
+        ...Object.values(chartConfig.fields).map(
+          (field) => (field as { componentId?: string }).componentId
+        ),
       ].filter(Boolean);
 
-      const componentIdPairs = componentIds
-        .map((originalId) => {
+      const componentIdPairs: Array<{
+        originalId: string;
+        resolvedId: string;
+      }> = componentIds
+        .map((originalId: string) => {
           const resolvedId = isJoinById(originalId)
             ? (getResolvedJoinById(cube, originalId) ?? originalId)
             : originalId;
@@ -206,7 +213,8 @@ export const ChartDataFiltersToggle = ({
     >
       <Typography variant="body2" sx={{ color: "inherit" }}>
         <Trans id="controls.section.data.filters.possible-filters-error">
-          An error happened while fetching possible filters, please retry later or reload the page.
+          An error happened while fetching possible filters, please retry later
+          or reload the page.
         </Trans>
       </Typography>
     </Alert>
@@ -293,7 +301,7 @@ export const getInteractiveQueryFilters = ({
 };
 
 export type DataFilterGenericDimensionProps = {
-  configFilter?: Filters[string];
+  configFilter?: any;
   dimension: Dimension;
   value: string;
   values?: string[];
@@ -412,7 +420,7 @@ export const DataFilterHierarchyDimension = ({
   hierarchy,
   disabled,
 }: {
-  configFilter?: Filters[string];
+  configFilter?: any;
   dimension: Dimension;
   value: string;
   values?: string[];
@@ -507,7 +515,7 @@ export const DataFilterTemporalDimension = ({
   onChange,
   disabled,
 }: {
-  configFilter?: Filters[string];
+  configFilter?: any;
   dimension: TemporalDimension;
   value: string;
   onChange: (
@@ -601,7 +609,7 @@ const useEnsurePossibleInteractiveFilters = ({
         return;
       }
 
-      chartConfig.cubes.forEach(async (cube) => {
+      chartConfig.cubes.forEach(async (cube: ChartConfig["cubes"][number]) => {
         const { mappedFilters, unmappedFilters, interactiveFilters } =
           filtersByCubeIri[cube.iri];
 
@@ -641,21 +649,23 @@ const useEnsurePossibleInteractiveFilters = ({
 
         const filters = Object.assign(
           Object.fromEntries(
-            data.possibleFilters.map((d) => {
-              const interactiveFilter = interactiveFilters[d.id];
-              return [
-                d.id,
-                {
-                  type: d.type,
-                  value:
-                    // We want to keep the none filter without overriding them.
-                    interactiveFilter?.type === "single" &&
-                    interactiveFilter.value === FIELD_VALUE_NONE
-                      ? FIELD_VALUE_NONE
-                      : d.value,
-                },
-              ];
-            })
+            data.possibleFilters.map(
+              (d: PossibleFiltersQuery["possibleFilters"][number]) => {
+                const interactiveFilter = interactiveFilters[d.id];
+                return [
+                  d.id,
+                  {
+                    type: d.type,
+                    value:
+                      // We want to keep the none filter without overriding them.
+                      interactiveFilter?.type === "single" &&
+                      interactiveFilter.value === FIELD_VALUE_NONE
+                        ? FIELD_VALUE_NONE
+                        : d.value,
+                  },
+                ];
+              }
+            )
           ) as Filters,
           mappedFilters
         );
@@ -665,7 +675,7 @@ const useEnsurePossibleInteractiveFilters = ({
         const dataFilters = { ...getInteractiveFiltersState().dataFilters };
         const filtersToUpdate = Object.fromEntries(
           Object.entries(filters).filter(
-            ([k, v]) => k in dataFilters && v.type === "single"
+            ([k, v]) => k in dataFilters && (v as any).type === "single"
           )
         );
 
@@ -674,7 +684,7 @@ const useEnsurePossibleInteractiveFilters = ({
           !isEmpty(filtersToUpdate)
         ) {
           for (const [k, v] of Object.entries(filters)) {
-            if (k in dataFilters && v.type === "single") {
+            if (k in dataFilters && (v as any).type === "single") {
               dataFilters[k] = v;
             }
           }
@@ -701,10 +711,7 @@ const useEnsurePossibleInteractiveFilters = ({
   return { error };
 };
 
-const filterTreeRecursively = (
-  options: Tree,
-  configFilter: Filters[string]
-): Tree => {
+const filterTreeRecursively = (options: Tree, configFilter: any): Tree => {
   if (!configFilter || configFilter.type !== "multi") {
     return options;
   }

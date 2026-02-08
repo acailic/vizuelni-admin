@@ -3,13 +3,13 @@
  * Provides utilities for testing end-to-end flows and API integration
  */
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render, screen, waitFor } from '@testing-library/react';
-import { userEvent } from '@testing-library/user-event';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
-import React, { ReactElement } from 'react';
-import { vi } from 'vitest';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { render, screen, waitFor } from "@testing-library/react";
+import { userEvent } from "@testing-library/user-event";
+import { http } from "msw";
+import { setupServer } from "msw/node";
+import React, { ReactElement } from "react";
+import { vi, expect } from "vitest";
 
 // Mock server setup
 export const createMockServer = (handlers: any[]) => {
@@ -17,61 +17,61 @@ export const createMockServer = (handlers: any[]) => {
   return {
     ...server,
     close: () => server.close(),
-    listen: () => server.listen({ onUnhandledRequest: 'error' }),
+    listen: () => server.listen({ onUnhandledRequest: "error" }),
   };
 };
 
 // API response mock handlers
 export const mockApiHandlers = {
   // Authentication endpoints
-  login: rest.post('/api/auth/login', async (req, res, ctx) => {
+  login: http.post("/api/auth/login", async ({ res, ctx }: any) => {
     return res(
       ctx.status(200),
       ctx.json({
-        user: { id: '1', email: 'test@example.com', name: 'Test User' },
-        token: 'mock-jwt-token',
+        user: { id: "1", email: "test@example.com", name: "Test User" },
+        token: "mock-jwt-token",
       })
     );
   }),
 
-  logout: rest.post('/api/auth/logout', async (req, res, ctx) => {
+  logout: http.post("/api/auth/logout", async ({ res, ctx }: any) => {
     return res(ctx.status(200), ctx.json({ success: true }));
   }),
 
-  getUser: rest.get('/api/auth/user', async (req, res, ctx) => {
+  getUser: http.get("/api/auth/user", async ({ res, ctx }: any) => {
     return res(
       ctx.status(200),
-      ctx.json({ id: '1', email: 'test@example.com', name: 'Test User' })
+      ctx.json({ id: "1", email: "test@example.com", name: "Test User" })
     );
   }),
 
   // Dataset endpoints
-  getDatasets: rest.get('/api/datasets', async (req, res, ctx) => {
+  getDatasets: http.get("/api/datasets", async ({ res, ctx }: any) => {
     return res(
       ctx.status(200),
       ctx.json({
         datasets: [
           {
-            id: '1',
-            name: 'Population Data',
-            description: 'Population data by region',
+            id: "1",
+            name: "Population Data",
+            description: "Population data by region",
             rows: 1500,
-            createdAt: '2023-01-01T00:00:00Z',
+            createdAt: "2023-01-01T00:00:00Z",
           },
           {
-            id: '2',
-            name: 'Economic Indicators',
-            description: 'Key economic indicators',
+            id: "2",
+            name: "Economic Indicators",
+            description: "Key economic indicators",
             rows: 800,
-            createdAt: '2023-01-15T00:00:00Z',
+            createdAt: "2023-01-15T00:00:00Z",
           },
         ],
       })
     );
   }),
 
-  getDataset: rest.get('/api/datasets/:id', async (req, res, ctx) => {
-    const { id } = req.params;
+  getDataset: http.get("/api/datasets/:id", async ({ req, res, ctx }: any) => {
+    const { id } = (req as any).params;
     return res(
       ctx.status(200),
       ctx.json({
@@ -79,9 +79,9 @@ export const mockApiHandlers = {
         name: `Dataset ${id}`,
         description: `Description for dataset ${id}`,
         columns: [
-          { name: 'year', type: 'number' },
-          { name: 'value', type: 'number' },
-          { name: 'region', type: 'string' },
+          { name: "year", type: "number" },
+          { name: "value", type: "number" },
+          { name: "region", type: "string" },
         ],
         rows: Array.from({ length: 100 }, (_, i) => ({
           year: 2020 + Math.floor(i / 10),
@@ -92,78 +92,84 @@ export const mockApiHandlers = {
     );
   }),
 
-  createDataset: rest.post('/api/datasets', async (req, res, ctx) => {
-    const body = await req.json();
+  createDataset: http.post("/api/datasets", async ({ req, res, ctx }: any) => {
+    const body = await (req as any).json();
     return res(
       ctx.status(201),
       ctx.json({
-        id: 'new-dataset-id',
+        id: "new-dataset-id",
         ...body,
         createdAt: new Date().toISOString(),
       })
     );
   }),
 
-  updateDataset: rest.put('/api/datasets/:id', async (req, res, ctx) => {
-    const { id } = req.params;
-    const body = await req.json();
-    return res(
-      ctx.status(200),
-      ctx.json({
-        id,
-        ...body,
-        updatedAt: new Date().toISOString(),
-      })
-    );
-  }),
+  updateDataset: http.put(
+    "/api/datasets/:id",
+    async ({ req, res, ctx }: any) => {
+      const { id } = (req as any).params;
+      const body = await (req as any).json();
+      return res(
+        ctx.status(200),
+        ctx.json({
+          id,
+          ...body,
+          updatedAt: new Date().toISOString(),
+        })
+      );
+    }
+  ),
 
   // Chart endpoints
-  generateChart: rest.post('/api/charts/generate', async (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        id: 'chart-123',
-        imageUrl: '/api/charts/chart-123/image',
-        config: await req.json(),
-        generatedAt: new Date().toISOString(),
-      })
-    );
-  }),
+  generateChart: http.post(
+    "/api/charts/generate",
+    async ({ req, res, ctx }: any) => {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          id: "chart-123",
+          imageUrl: "/api/charts/chart-123/image",
+          config: await (req as any).json(),
+          generatedAt: new Date().toISOString(),
+        })
+      );
+    }
+  ),
 
-  getChart: rest.get('/api/charts/:id', async (req, res, ctx) => {
-    const { id } = req.params;
+  getChart: http.get("/api/charts/:id", async ({ req, res, ctx }: any) => {
+    const { id } = (req as any).params;
     return res(
       ctx.status(200),
       ctx.json({
         id,
-        type: 'bar',
-        title: 'Generated Chart',
+        type: "bar",
+        title: "Generated Chart",
         config: {
-          datasetId: '1',
-          xAxis: 'year',
-          yAxis: 'value',
-          groupBy: 'region',
+          datasetId: "1",
+          xAxis: "year",
+          yAxis: "value",
+          groupBy: "region",
         },
       })
     );
   }),
 
   // Dashboard endpoints
-  getDashboard: rest.get('/api/dashboard', async (req, res, ctx) => {
+  getDashboard: http.get("/api/dashboard", async ({ res, ctx }: any) => {
     return res(
       ctx.status(200),
       ctx.json({
         widgets: [
           {
-            id: 'widget-1',
-            type: 'chart',
-            title: 'Total Datasets',
+            id: "widget-1",
+            type: "chart",
+            title: "Total Datasets",
             data: { value: 25 },
           },
           {
-            id: 'widget-2',
-            type: 'chart',
-            title: 'Recent Activity',
+            id: "widget-2",
+            type: "chart",
+            title: "Recent Activity",
             data: { activities: [] },
           },
         ],
@@ -174,26 +180,20 @@ export const mockApiHandlers = {
 
 // Mock response overrides for error testing
 export const mockErrorHandlers = {
-  unauthorized: rest.get('*', async (req, res, ctx) => {
-    return res(
-      ctx.status(401),
-      ctx.json({ error: 'Unauthorized access' })
-    );
+  unauthorized: http.get("*", async ({ res, ctx }: any) => {
+    return res(ctx.status(401), ctx.json({ error: "Unauthorized access" }));
   }),
 
-  serverError: rest.get('*', async (req, res, ctx) => {
-    return res(
-      ctx.status(500),
-      ctx.json({ error: 'Internal server error' })
-    );
+  serverError: http.get("*", async ({ res, ctx }: any) => {
+    return res(ctx.status(500), ctx.json({ error: "Internal server error" }));
   }),
 
-  networkError: rest.get('*', async (req, res, ctx) => {
-    return res.networkError('Network error');
+  networkError: http.get("*", async ({ res }: any) => {
+    return (res as any).networkError("Network error");
   }),
 
-  timeout: rest.get('*', async (req, res, ctx) => {
-    await new Promise(resolve => setTimeout(resolve, 10000)); // Long delay
+  timeout: http.get("*", async ({ res, ctx }: any) => {
+    await new Promise((resolve) => setTimeout(resolve, 10000)); // Long delay
     return res(ctx.status(200), ctx.json({}));
   }),
 };
@@ -218,11 +218,13 @@ export const renderWithProviders = (ui: ReactElement) => {
 };
 
 // User flow testing helper
-export const testUserFlow = async (steps: Array<{
-  action?: () => Promise<void>;
-  expectation?: () => Promise<void>;
-  description: string;
-}>) => {
+export const testUserFlow = async (
+  steps: Array<{
+    action?: () => Promise<void>;
+    expectation?: () => Promise<void>;
+    description: string;
+  }>
+) => {
   for (const step of steps) {
     try {
       if (step.action) {
@@ -264,18 +266,20 @@ export const testFormSubmission = async (
   form: HTMLElement,
   data: Record<string, any>,
   submitButton: HTMLElement,
-  options: { shouldSucceed?: boolean } = { shouldSucceed: true }
+  _options: { shouldSucceed?: boolean } = { shouldSucceed: true }
 ) => {
   const user = userEvent.setup();
 
   // Fill form fields
   for (const [fieldName, value] of Object.entries(data)) {
-    const field = form.querySelector(`[name="${fieldName}"], [id="${fieldName}"]`) as HTMLElement;
+    const field = form.querySelector(
+      `[name="${fieldName}"], [id="${fieldName}"]`
+    ) as HTMLElement;
     if (field) {
-      if (field.tagName === 'INPUT' || field.tagName === 'TEXTAREA') {
+      if (field.tagName === "INPUT" || field.tagName === "TEXTAREA") {
         await user.clear(field);
         await user.type(field, String(value));
-      } else if (field.tagName === 'SELECT') {
+      } else if (field.tagName === "SELECT") {
         await user.selectOptions(field, String(value));
       }
     }
@@ -288,7 +292,9 @@ export const testFormSubmission = async (
 };
 
 // Performance testing helpers
-export const measureUserFlowPerformance = async (userFlow: () => Promise<void>) => {
+export const measureUserFlowPerformance = async (
+  userFlow: () => Promise<void>
+) => {
   const startTime = performance.now();
   await userFlow();
   const endTime = performance.now();
@@ -301,13 +307,15 @@ export const measureUserFlowPerformance = async (userFlow: () => Promise<void>) 
 };
 
 // Accessibility testing for flows
-export const testFlowAccessibility = async (flowSteps: Array<() => Promise<void>>) => {
+export const testFlowAccessibility = async (
+  flowSteps: Array<() => Promise<void>>
+) => {
   const violations: any[] = [];
 
   for (const step of flowSteps) {
     await step();
     // Check accessibility after each step
-    const { axe } = await import('./index');
+    const { axe } = await import("./index");
     const results = await axe(document.body);
     violations.push(...results.violations);
   }
@@ -338,8 +346,11 @@ export const testMemoryUsage = async (testFunction: () => Promise<void>) => {
 };
 
 // Error boundary testing helper
-export const testErrorBoundary = async (component: ReactElement, expectedError: Error) => {
-  const { ErrorBoundary } = await import('react-error-boundary');
+export const testErrorBoundary = async (
+  component: ReactElement,
+  expectedError: Error
+) => {
+  const { ErrorBoundary } = await import("react-error-boundary");
   const onError = vi.fn();
 
   const TestComponent = () =>
@@ -347,7 +358,7 @@ export const testErrorBoundary = async (component: ReactElement, expectedError: 
       ErrorBoundary,
       {
         fallback: React.createElement("div", null, "Error occurred"),
-        onError: onError
+        onError: onError,
       },
       component
     );
@@ -359,9 +370,9 @@ export const testErrorBoundary = async (component: ReactElement, expectedError: 
     expect(onError).toHaveBeenCalledWith(expectedError, expect.any(Object));
   });
 
-  expect(screen.getByText('Error occurred')).toBeInTheDocument();
+  (expect(screen.getByText("Error occurred")) as any).toBeInTheDocument();
 };
 
 // Re-export utilities
-export { renderWithProviders, testUserFlow, testApiFlow, testFormSubmission };
-export { mockApiHandlers, mockErrorHandlers, createMockServer };
+// test utility functions are already exported inline above
+// mockApiHandlers, mockErrorHandlers, createMockServer are already exported inline above

@@ -182,8 +182,8 @@ export function usePerformanceMetrics() {
     dataPoints: 0,
   });
 
-  const dataLoadStartRef = useRef<number>();
-  const renderStartRef = useRef<number>();
+  const dataLoadStartRef = useRef<number | undefined>(undefined);
+  const renderStartRef = useRef<number | undefined>(undefined);
 
   const markDataLoadStart = useCallback(() => {
     dataLoadStartRef.current = performance.now();

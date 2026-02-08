@@ -245,19 +245,27 @@ export const ChartGridLayout = ({
     layout.type === "dashboard" && layout.layout === "canvas",
     "ChartGridLayout can only be used in a canvas layout!"
   );
+  type LayoutBlockLike = {
+    key: string;
+    type: "chart" | "text";
+    initialized?: boolean;
+  };
+  const blocks = layout.blocks as LayoutBlockLike[];
   const allowHeightInitialization = isLayouting(state);
   const [mounted, setMounted] = useState(false);
   const mountedForSomeTime = useTimeout(500, mounted);
   const chartContainerClasses = useChartContainerStyles();
-  const [enhancedLayouts, setEnhancedLayouts] = useState(() => {
+  const [enhancedLayouts, setEnhancedLayouts] = useState<
+    Record<string, Layout[]>
+  >(() => {
     if (!layouts) {
-      return {};
+      return {} as Record<string, Layout[]>;
     }
 
-    return mapValues(layouts, (chartLayouts) => {
-      return chartLayouts.map((chartLayout) => {
-        const block = layout.blocks.find(
-          (block) => block.key === chartLayout.i
+    return mapValues(layouts, (chartLayouts: Layout[]) => {
+      return chartLayouts.map((chartLayout: Layout) => {
+        const block = blocks.find(
+          (block: LayoutBlockLike) => block.key === chartLayout.i
         );
 
         return {
@@ -270,7 +278,7 @@ export const ChartGridLayout = ({
           h: Math.max(MIN_H, chartLayout.h),
         };
       });
-    });
+    }) as unknown as Record<string, Layout[]>;
   });
 
   useEffect(() => {
@@ -283,55 +291,59 @@ export const ChartGridLayout = ({
     }
 
     const newLayouts = Object.fromEntries(
-      Object.entries(enhancedLayouts).map(([breakpoint, chartLayouts]) => {
-        return [
-          breakpoint,
-          chartLayouts.map((chartLayout) => {
-            const block = layout.blocks.find(
-              (block) => block.key === chartLayout.i
-            );
+      Object.entries(enhancedLayouts).map(
+        ([breakpoint, chartLayouts]: [string, Layout[]]) => {
+          return [
+            breakpoint,
+            chartLayouts.map((chartLayout: Layout) => {
+              const block = blocks.find(
+                (block: LayoutBlockLike) => block.key === chartLayout.i
+              );
 
-            if (block?.initialized) {
-              return chartLayout;
-            }
-
-            let minH = MIN_H;
-
-            const chartKey = chartLayout.i;
-            const wrapper: HTMLDivElement | null = document.querySelector(
-              `#${getChartWrapperId(chartKey)}`
-            );
-
-            if (wrapper) {
-              const chartContainer: HTMLDivElement | null =
-                wrapper.querySelector(
-                  `.${chartContainerClasses.chartContainer}`
-                );
-
-              if (chartContainer) {
-                const minWrapperHeight =
-                  wrapper.scrollHeight -
-                  chartContainer.clientHeight +
-                  CHART_GRID_MIN_HEIGHT;
-                minH = Math.max(
-                  MIN_H,
-                  Math.ceil(minWrapperHeight / ROW_HEIGHT)
-                );
+              if (block?.initialized) {
+                return chartLayout;
               }
-            }
 
-            return {
-              ...chartLayout,
-              maxW: MAX_W,
-              w: Math.min(MAX_W, chartLayout.w),
-              resizeHandles:
-                resize && block ? availableHandlesByBlockType[block.type] : [],
-              minH,
-              h: minH,
-            };
-          }),
-        ];
-      })
+              let minH = MIN_H;
+
+              const chartKey = chartLayout.i;
+              const wrapper: HTMLDivElement | null = document.querySelector(
+                `#${getChartWrapperId(chartKey)}`
+              );
+
+              if (wrapper) {
+                const chartContainer: HTMLDivElement | null =
+                  wrapper.querySelector(
+                    `.${chartContainerClasses.chartContainer}`
+                  );
+
+                if (chartContainer) {
+                  const minWrapperHeight =
+                    wrapper.scrollHeight -
+                    chartContainer.clientHeight +
+                    CHART_GRID_MIN_HEIGHT;
+                  minH = Math.max(
+                    MIN_H,
+                    Math.ceil(minWrapperHeight / ROW_HEIGHT)
+                  );
+                }
+              }
+
+              return {
+                ...chartLayout,
+                maxW: MAX_W,
+                w: Math.min(MAX_W, chartLayout.w),
+                resizeHandles:
+                  resize && block
+                    ? availableHandlesByBlockType[block.type]
+                    : [],
+                minH,
+                h: minH,
+              };
+            }),
+          ];
+        }
+      )
     );
 
     if (!isEqual(newLayouts, enhancedLayouts)) {
@@ -341,7 +353,7 @@ export const ChartGridLayout = ({
         value: {
           ...layout,
           layouts: newLayouts,
-          blocks: layout.blocks.map((block) => {
+          blocks: layout.blocks.map((block: LayoutBlockLike) => {
             return {
               ...block,
               initialized: true,

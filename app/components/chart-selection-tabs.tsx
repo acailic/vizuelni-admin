@@ -27,7 +27,6 @@ import {
   useState,
 } from "react";
 
-
 import { AddButton } from "@/components/add-button";
 import { ArrowMenuTopCenter } from "@/components/arrow-menu";
 import { DuplicateChartMenuActionItem } from "@/components/chart-shared";
@@ -55,10 +54,7 @@ import { Icon, IconName } from "@/icons";
 import { useLocale } from "@/locales";
 import { useEvent } from "@/utils/use-event";
 
-import type {
-  DragDropContextProps,
-  DroppableProps,
-} from "@hello-pangea/dnd";
+import type { DragDropContextProps, DroppableProps } from "@hello-pangea/dnd";
 
 type TabsState = {
   popoverOpen: boolean;
@@ -110,13 +106,13 @@ export const ChartSelectionTabs = () => {
     isConfiguring(state) || isLayouting(state) || isPublishing(state);
   const locale = useLocale();
 
-  if (!editable && state.chartConfigs.length === 1) {
+  if (!editable && (state as any).chartConfigs.length === 1) {
     return null;
   }
 
   const chartConfig = getChartConfig(state);
-  const data: TabDatum[] = state.chartConfigs.map(
-    ({ key, chartType, meta }) => {
+  const data: TabDatum[] = (state as any).chartConfigs.map(
+    ({ key, chartType, meta }: ChartConfig) => {
       return {
         key,
         chartType,

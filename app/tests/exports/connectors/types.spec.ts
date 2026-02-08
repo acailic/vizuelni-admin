@@ -41,26 +41,24 @@ describe("Connector Types", () => {
         id: "test",
         name: "Test",
         description: "Test description",
-        version: "1.0.0",
+        timeout: 5000,
       };
 
       expect(config.description).toBeDefined();
-      expect(config.version).toBeDefined();
+      expect(config.timeout).toBeDefined();
     });
   });
 
   describe("DataSchema", () => {
     it("should define schema structure", () => {
       const schema: DataSchema = {
-        fields: [
-          { name: "id", type: "string", required: true },
-          { name: "value", type: "number", required: false },
-        ],
+        columns: ["id", "value"],
+        columnTypes: { id: "string", value: "number" },
       };
 
-      expect(schema.fields).toHaveLength(2);
-      expect(schema.fields[0].name).toBe("id");
-      expect(schema.fields[0].type).toBe("string");
+      expect(schema.columns).toHaveLength(2);
+      expect(schema.columns[0]).toBe("id");
+      expect(schema.columnTypes["id"]).toBe("string");
     });
   });
 
@@ -69,11 +67,12 @@ describe("Connector Types", () => {
       const types: DataType[] = [
         "string",
         "number",
+        "integer",
         "boolean",
         "date",
-        "object",
-        "array",
-        "null",
+        "datetime",
+        "json",
+        "unknown",
       ];
 
       expect(types).toContain("string");
@@ -86,28 +85,23 @@ describe("Connector Types", () => {
   describe("ConnectorCapabilities", () => {
     it("should define capability flags", () => {
       const capabilities: ConnectorCapabilities = {
-        pagination: true,
-        filtering: true,
-        sorting: false,
-        realtime: false,
+        supportsPagination: true,
+        supportsFiltering: true,
+        supportsSorting: false,
+        supportsRealtime: false,
+        supportedFormats: ["csv"],
       };
 
-      expect(capabilities.pagination).toBe(true);
-      expect(capabilities.sorting).toBe(false);
+      expect(capabilities.supportsPagination).toBe(true);
+      expect(capabilities.supportsSorting).toBe(false);
     });
   });
 
   describe("ConnectorResult", () => {
     it("should define result structure", () => {
-      const result: ConnectorResult<Record<string, unknown>> = {
+      const result: ConnectorResult<Record<string, unknown>[]> = {
         data: [{ id: 1, name: "Test" }],
-        schema: {
-          fields: [
-            { name: "id", type: "number", required: true },
-            { name: "name", type: "string", required: true },
-          ],
-        },
-        metadata: {
+        meta: {
           source: "test",
           fetchedAt: new Date().toISOString(),
           rowCount: 1,
@@ -115,8 +109,7 @@ describe("Connector Types", () => {
       };
 
       expect(result.data).toHaveLength(1);
-      expect(result.schema.fields).toHaveLength(2);
-      expect(result.metadata.rowCount).toBe(1);
+      expect(result.meta).toBeDefined();
     });
   });
 
@@ -124,31 +117,32 @@ describe("Connector Types", () => {
     it("should define pagination structure", () => {
       const result: PaginatedResult<Record<string, unknown>> = {
         data: [{ id: 1 }],
-        pagination: {
+        meta: {
           page: 1,
           pageSize: 10,
-          totalCount: 100,
+          total: 100,
           totalPages: 10,
           hasNext: true,
           hasPrevious: false,
         },
       };
 
-      expect(result.pagination.totalCount).toBe(100);
-      expect(result.pagination.hasNext).toBe(true);
+      expect(result.meta?.total).toBe(100);
+      expect(result.meta?.hasNext).toBe(true);
     });
   });
 
   describe("HealthCheckResult", () => {
     it("should define health check structure", () => {
       const health: HealthCheckResult = {
-        status: "healthy",
+        healthy: true,
+        message: "OK",
         timestamp: new Date().toISOString(),
-        latency: 100,
+        details: { latency: 100 },
       };
 
-      expect(health.status).toBe("healthy");
-      expect(health.latency).toBeDefined();
+      expect(health.healthy).toBe(true);
+      expect(health.details).toBeDefined();
     });
   });
 });
@@ -214,23 +208,22 @@ describe("ConnectorErrorCode", () => {
 describe("IDataConnector Interface", () => {
   it("should define required methods", () => {
     // Type check - this will fail at compile time if interface is wrong
-    const connector: IDataConnector<Record<string, unknown>> = {
-      id: "test",
-      name: "Test",
+    const connector: IDataConnector<BaseConnectorConfig> = {
+      config: { id: "test", name: "Test" },
+      capabilities: {
+        supportsPagination: false,
+        supportsFiltering: false,
+        supportsSorting: false,
+        supportsRealtime: false,
+        supportedFormats: [],
+      },
       fetch: async () => ({
         data: [],
-        schema: { fields: [] },
-        metadata: { source: "test", fetchedAt: "", rowCount: 0 },
       }),
-      getSchema: async () => ({ fields: [] }),
-      getCapabilities: () => ({
-        pagination: false,
-        filtering: false,
-        sorting: false,
-        realtime: false,
-      }),
+      getSchema: async () => ({ columns: [], columnTypes: {} }),
       healthCheck: async () => ({
-        status: "healthy",
+        healthy: true,
+        message: "OK",
         timestamp: "",
       }),
       destroy: async () => {},
@@ -238,8 +231,8 @@ describe("IDataConnector Interface", () => {
 
     expect(typeof connector.fetch).toBe("function");
     expect(typeof connector.getSchema).toBe("function");
-    expect(typeof connector.getCapabilities).toBe("function");
     expect(typeof connector.healthCheck).toBe("function");
     expect(typeof connector.destroy).toBe("function");
+    expect(connector.capabilities).toBeDefined();
   });
 });

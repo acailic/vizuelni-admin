@@ -5,9 +5,8 @@
  * for geospatial visualizations.
  */
 
-import { MapChart } from "./exports/charts/MapChart";
-
-import type { MapData, MapPoint } from "./exports/charts/MapChart";
+import { MapChart } from "@/exports/charts/MapChart";
+import type { MapData, MapPoint } from "@/exports/charts/MapChart";
 
 // Example 1: Basic choropleth map with Serbian regions
 export function BasicChoroplethExample() {
@@ -273,7 +272,7 @@ export function CustomColorPaletteExample() {
 
 // Example 5: Interactive map with click handlers
 export function InteractiveMapExample() {
-  const handleRegionClick = (properties: any, index: number) => {
+  const handleRegionClick = (properties: any, _index: number) => {
     console.log("Clicked region:", properties.name);
     alert(
       `You clicked on ${
@@ -409,7 +408,6 @@ export function MapComparisonExample() {
             yAxis: "value",
             colorScale: ["#f0f9ff", "#0ea5e9"],
           }}
-          title="Blue Theme"
         />
       </div>
       <div style={{ flex: 1, minWidth: "300px" }}>
@@ -420,7 +418,6 @@ export function MapComparisonExample() {
             yAxis: "value",
             colorScale: ["#fef2f2", "#ef4444"],
           }}
-          title="Red Theme"
         />
       </div>
       <div style={{ flex: 1, minWidth: "300px" }}>
@@ -431,7 +428,6 @@ export function MapComparisonExample() {
             yAxis: "value",
             colorScale: ["#f0fdf4", "#22c55e"],
           }}
-          title="Green Theme"
         />
       </div>
     </div>

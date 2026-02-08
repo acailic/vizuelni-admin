@@ -187,8 +187,12 @@ const ProfileVisualizationsRow = ({
 }) => {
   const { dataSource } = config.data;
   const dataSets = Array.from(
-    new Set(config.data.chartConfigs.flatMap((d) => d.cubes.map((d) => d.iri)))
-  );
+    new Set(
+      config.data.chartConfigs.flatMap((d: { cubes: Array<{ iri: string }> }) =>
+        d.cubes.map((c: { iri: string }) => c.iri)
+      )
+    )
+  ) as string[];
   const dataSet = dataSets.length === 1 ? dataSets[0] : null;
   const locale = useLocale();
   const [{ data, fetching }] = useDataCubesMetadataQuery({

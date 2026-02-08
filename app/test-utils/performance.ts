@@ -3,11 +3,11 @@
  * Provides tools for bundle analysis, render performance, and memory leak detection
  */
 
-
-import { render, RenderResult } from '@testing-library/react';
-import { ReactElement } from 'react';
+import { render, RenderResult } from "@testing-library/react";
+import { ReactElement } from "react";
 
 // Performance measurement types
+type MemoryInfo = any;
 export interface PerformanceMetrics {
   renderTime: number;
   componentCount: number;
@@ -78,9 +78,13 @@ export async function measureRenderPerformance(
   const average = renderTimes.reduce((a, b) => a + b, 0) / renderTimes.length;
   const min = Math.min(...renderTimes);
   const max = Math.max(...renderTimes);
-  const median = renderTimes.sort((a, b) => a - b)[Math.floor(renderTimes.length / 2)];
+  const median = renderTimes.sort((a, b) => a - b)[
+    Math.floor(renderTimes.length / 2)
+  ];
 
-  const variance = renderTimes.reduce((sum, time) => sum + Math.pow(time - average, 2), 0) / renderTimes.length;
+  const variance =
+    renderTimes.reduce((sum, time) => sum + Math.pow(time - average, 2), 0) /
+    renderTimes.length;
   const standardDeviation = Math.sqrt(variance);
 
   return {
@@ -122,7 +126,7 @@ export async function detectMemoryLeaks(
     const { unmount } = renderComponent();
 
     // Perform some interactions that might cause leaks
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     // Unmount component
     unmount();
@@ -196,9 +200,7 @@ export class BundleAnalyzer {
     const gzippedSize = this.bundleStats.gzipSize || 0;
 
     // Sort assets by size
-    const largestAssets = assets
-      .sort((a, b) => b.size - a.size)
-      .slice(0, 10);
+    const largestAssets = assets.sort((a, b) => b.size - a.size).slice(0, 10);
 
     return {
       totalSize,
@@ -212,7 +214,7 @@ export class BundleAnalyzer {
    * Identify potential bundle optimization opportunities
    */
   identifyOptimizations(): {
-    type: 'code-splitting' | 'tree-shaking' | 'compression' | 'dependencies';
+    type: "code-splitting" | "tree-shaking" | "compression" | "dependencies";
     description: string;
     potentialSavings: number;
     recommendation: string;
@@ -221,13 +223,16 @@ export class BundleAnalyzer {
     const analysis = this.analyzeBundle();
 
     // Check for large chunks that could be split
-    const largeChunks = analysis.chunks.filter(chunk => chunk.size > 200 * 1024); // > 200KB
+    const largeChunks = analysis.chunks.filter(
+      (chunk) => chunk.size > 200 * 1024
+    ); // > 200KB
     if (largeChunks.length > 0) {
       optimizations.push({
-        type: 'code-splitting',
+        type: "code-splitting",
         description: `${largeChunks.length} chunks are larger than 200KB`,
-        potentialSavings: largeChunks.reduce((sum, chunk) => sum + chunk.size, 0) * 0.3,
-        recommendation: 'Consider dynamic imports for large components',
+        potentialSavings:
+          largeChunks.reduce((sum, chunk) => sum + chunk.size, 0) * 0.3,
+        recommendation: "Consider dynamic imports for large components",
       });
     }
 
@@ -235,10 +240,10 @@ export class BundleAnalyzer {
     const compressionRatio = analysis.gzippedSize / analysis.totalSize;
     if (compressionRatio > 0.4) {
       optimizations.push({
-        type: 'compression',
+        type: "compression",
         description: `Compression ratio ${(compressionRatio * 100).toFixed(1)}% could be improved`,
         potentialSavings: analysis.totalSize * 0.2,
-        recommendation: 'Enable better compression algorithms (Brotli)',
+        recommendation: "Enable better compression algorithms (Brotli)",
       });
     }
 
@@ -246,11 +251,11 @@ export class BundleAnalyzer {
   }
 
   private getAssetType(filename: string): string {
-    if (filename.endsWith('.js')) return 'javascript';
-    if (filename.endsWith('.css')) return 'stylesheet';
-    if (filename.match(/\.(png|jpg|jpeg|gif|svg|webp)$/)) return 'image';
-    if (filename.match(/\.(woff|woff2|ttf|eot)$/)) return 'font';
-    return 'other';
+    if (filename.endsWith(".js")) return "javascript";
+    if (filename.endsWith(".css")) return "stylesheet";
+    if (filename.match(/\.(png|jpg|jpeg|gif|svg|webp)$/)) return "image";
+    if (filename.match(/\.(woff|woff2|ttf|eot)$/)) return "font";
+    return "other";
   }
 }
 
@@ -266,15 +271,19 @@ export class ComponentPerformanceMonitor {
    */
   monitorRender(component: ReactElement): {
     component: ReactElement;
-    metrics: () => { renderCount: number; averageRenderTime: number; lastRenderTime: number };
+    metrics: () => {
+      renderCount: number;
+      averageRenderTime: number;
+      lastRenderTime: number;
+    };
   } {
-    const startTime = performance.now();
-
     const metrics = () => ({
       renderCount: this.renderCount,
-      averageRenderTime: this.renderTimes.length > 0
-        ? this.renderTimes.reduce((a, b) => a + b, 0) / this.renderTimes.length
-        : 0,
+      averageRenderTime:
+        this.renderTimes.length > 0
+          ? this.renderTimes.reduce((a, b) => a + b, 0) /
+            this.renderTimes.length
+          : 0,
       lastRenderTime: this.renderTimes[this.renderTimes.length - 1] || 0,
     });
 
@@ -303,19 +312,22 @@ export class ComponentPerformanceMonitor {
     averageRenderTime: number;
     maxRenderTime: number;
     minRenderTime: number;
-    performanceScore: 'excellent' | 'good' | 'fair' | 'poor';
+    performanceScore: "excellent" | "good" | "fair" | "poor";
   } {
-    const averageRenderTime = this.renderTimes.length > 0
-      ? this.renderTimes.reduce((a, b) => a + b, 0) / this.renderTimes.length
-      : 0;
+    const averageRenderTime =
+      this.renderTimes.length > 0
+        ? this.renderTimes.reduce((a, b) => a + b, 0) / this.renderTimes.length
+        : 0;
     const maxRenderTime = Math.max(...this.renderTimes, 0);
     const minRenderTime = Math.min(...this.renderTimes, 0);
 
-    let performanceScore: 'excellent' | 'good' | 'fair' | 'poor';
-    if (averageRenderTime < 16) performanceScore = 'excellent'; // 60fps
-    else if (averageRenderTime < 33) performanceScore = 'good'; // 30fps
-    else if (averageRenderTime < 100) performanceScore = 'fair';
-    else performanceScore = 'poor';
+    let performanceScore: "excellent" | "good" | "fair" | "poor";
+    if (averageRenderTime < 16)
+      performanceScore = "excellent"; // 60fps
+    else if (averageRenderTime < 33)
+      performanceScore = "good"; // 30fps
+    else if (averageRenderTime < 100) performanceScore = "fair";
+    else performanceScore = "poor";
 
     return {
       totalRenders: this.renderCount,
@@ -334,19 +346,21 @@ export async function testLargeDatasetPerformance<T>(
   component: ReactElement,
   dataSizes: number[],
   generateData: (size: number) => T[]
-): Promise<{
-  dataSize: number;
-  renderTime: number;
-  memoryUsage: number;
-  interactive: boolean;
-}[]> {
+): Promise<
+  {
+    dataSize: number;
+    renderTime: number;
+    memoryUsage: number;
+    interactive: boolean;
+  }[]
+> {
   const results: any[] = [];
 
   for (const size of dataSizes) {
     console.log(`Testing with dataset size: ${size}`);
 
-    // Generate test data
-    const data = generateData(size);
+    // Generate test data (side effects for memory testing)
+    void generateData(size);
 
     // Measure memory before render
     const initialMemory = (performance as any).memory?.usedJSHeapSize || 0;
@@ -376,7 +390,7 @@ export async function testLargeDatasetPerformance<T>(
     unmount();
 
     // Allow garbage collection between tests
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
     if (global.gc) global.gc();
   }
 
@@ -393,7 +407,7 @@ async function testComponentInteractivity(): Promise<boolean> {
 
     // This would be implemented based on specific component interactions
     // For now, we'll simulate some basic interactions
-    await new Promise(resolve => setTimeout(resolve, 50));
+    await new Promise((resolve) => setTimeout(resolve, 50));
 
     const endTime = performance.now();
     const interactionTime = endTime - startTime;
@@ -428,7 +442,7 @@ export class PerformanceRegressionDetector {
   ): {
     hasRegression: boolean;
     percentageChange: number;
-    severity: 'minor' | 'moderate' | 'severe';
+    severity: "minor" | "moderate" | "severe";
   } {
     const baseline = this.baseline.get(metricName);
     if (!baseline) {
@@ -436,12 +450,12 @@ export class PerformanceRegressionDetector {
     }
 
     const percentageChange = ((currentValue - baseline) / baseline) * 100;
-    const hasRegression = percentageChange > (threshold * 100);
+    const hasRegression = percentageChange > threshold * 100;
 
-    let severity: 'minor' | 'moderate' | 'severe';
-    if (percentageChange > 50) severity = 'severe';
-    else if (percentageChange > 25) severity = 'moderate';
-    else severity = 'minor';
+    let severity: "minor" | "moderate" | "severe";
+    if (percentageChange > 50) severity = "severe";
+    else if (percentageChange > 25) severity = "moderate";
+    else severity = "minor";
 
     return {
       hasRegression,
@@ -458,21 +472,4 @@ export class PerformanceRegressionDetector {
   }
 }
 
-// Export performance testing utilities
-export {
-  measureRenderPerformance,
-  detectMemoryLeaks,
-  BundleAnalyzer,
-  ComponentPerformanceMonitor,
-  testLargeDatasetPerformance,
-  PerformanceRegressionDetector,
-};
-
-// Types for performance testing
-export type {
-  PerformanceMetrics,
-  BundleMetrics,
-  ChunkMetrics,
-  AssetMetrics,
-  RenderPerformanceResult,
-};
+// All performance testing utilities and types are already exported inline above

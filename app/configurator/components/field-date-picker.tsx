@@ -187,9 +187,7 @@ export const canRenderDatePickerField = (
 const getDateRenderProps = (
   timeUnit: DatePickerTimeUnit,
   isDateDisabled: (d: any) => boolean
-):
-  | { shouldDisableDate: DatePickerProps["shouldDisableDate"] }
-  | { shouldDisableYear: DatePickerProps["shouldDisableYear"] } => {
+): any => {
   switch (timeUnit) {
     case TimeUnit.Day:
     case TimeUnit.Week:
@@ -198,7 +196,7 @@ const getDateRenderProps = (
     case TimeUnit.Year:
       return { shouldDisableYear: isDateDisabled };
     default:
-      const _exhaustiveCheck: never = timeUnit;
+      const _exhaustiveCheck: never = timeUnit as never;
       return _exhaustiveCheck;
   }
 };

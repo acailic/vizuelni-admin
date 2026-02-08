@@ -430,12 +430,6 @@ describe("Playground Page - Code Generation", () => {
 describe("Playground Page - Dataset Switching Logic", () => {
   describe("Auto-Configuration on Dataset Change", () => {
     it("auto-configures when switching to multi-series dataset", () => {
-      const currentConfig = {
-        xAxis: "year",
-        yAxis: "value",
-        color: "#6366f1",
-      };
-
       // Simulate the auto-update logic
       const newConfig = {
         xAxis: "year",
@@ -448,12 +442,6 @@ describe("Playground Page - Dataset Switching Logic", () => {
     });
 
     it("auto-configures when switching to economy dataset", () => {
-      const currentConfig = {
-        xAxis: "year",
-        yAxis: "value",
-        color: "#6366f1",
-      };
-
       // Simulate the auto-update logic
       const newConfig = {
         xAxis: "year",
@@ -466,12 +454,6 @@ describe("Playground Page - Dataset Switching Logic", () => {
     });
 
     it("auto-configures when switching to simple dataset", () => {
-      const currentConfig = {
-        xAxis: "year",
-        yAxis: ["revenue", "expenses"],
-        color: "#6366f1",
-      };
-
       // Simulate the auto-update logic
       const newConfig = {
         xAxis: "year",
@@ -556,19 +538,10 @@ describe("Playground Page - Tab State Management", () => {
         color: "#ef4444",
       };
 
-      let activeTab = 0;
-
-      // Change config
       const updatedConfig = { ...config, color: "#ef4444" };
-
-      // Switch to code tab
-      activeTab = 1;
 
       // Config should remain unchanged
       expect(updatedConfig.color).toBe("#ef4444");
-
-      // Switch back to preview
-      activeTab = 0;
 
       // Config should still be unchanged
       expect(updatedConfig.color).toBe("#ef4444");
@@ -739,17 +712,9 @@ describe("Playground Page - Edge Cases", () => {
         showCrosshair: true,
       };
 
-      let activeTab = 0;
-
-      // Switch to code tab
-      activeTab = 1;
-
       // Config should remain at default
       expect(defaultConfig.xAxis).toBe("year");
       expect(defaultConfig.yAxis).toBe("value");
-
-      // Switch back to preview
-      activeTab = 0;
 
       // Config should still be at default
       expect(defaultConfig.xAxis).toBe("year");

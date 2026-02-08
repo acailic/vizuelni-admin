@@ -583,7 +583,8 @@ export const TextBlockInputField = ({ locale }: { locale: Locale }) => {
   const { blocks } = layout;
   const activeBlock = useMemo(() => {
     const activeBlock = blocks.find(
-      (block) => block.key === layout.activeField
+      (block: { key: string; type?: string; text?: Record<string, string> }) =>
+        block.key === layout.activeField
     );
 
     assert(
@@ -600,16 +601,17 @@ export const TextBlockInputField = ({ locale }: { locale: Locale }) => {
         type: "LAYOUT_CHANGED",
         value: {
           ...layout,
-          blocks: blocks.map((b) =>
-            b.key === activeBlock.key
-              ? {
-                  ...b,
-                  text: {
-                    ...activeBlock.text,
-                    [locale]: text,
-                  },
-                }
-              : b
+          blocks: blocks.map(
+            (b: { key: string; text?: Record<string, string> }) =>
+              b.key === activeBlock.key
+                ? {
+                    ...b,
+                    text: {
+                      ...activeBlock.text,
+                      [locale]: text,
+                    },
+                  }
+                : b
           ),
         },
       });

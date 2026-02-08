@@ -1,24 +1,29 @@
-import { Container, Typography, Box, Alert } from '@mui/material';
-import { GetStaticProps } from 'next';
-import Head from 'next/head';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { Container, Typography, Box, Alert } from "@mui/material";
+import { GetStaticProps } from "next";
+import Head from "next/head";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { Layout } from '../components/layout';
-import PerformanceDashboard from '../components/performance/Dashboard';
+import { Layout } from "../components/layout";
+import PerformanceDashboard from "../components/performance/Dashboard";
 
 interface PerformancePageProps {
   locale: string;
 }
 
-const PerformancePage: React.FC<PerformancePageProps> = ({ locale }) => {
-  const { t } = useTranslation('common');
+const PerformancePage: React.FC<PerformancePageProps> = ({
+  locale: _locale,
+}) => {
+  const { t: _t } = useTranslation("common");
 
   return (
     <Layout>
       <Head>
         <title>Performance Analytics - Vizualni Admin</title>
-        <meta name="description" content="Monitor application performance and Core Web Vitals" />
+        <meta
+          name="description"
+          content="Monitor application performance and Core Web Vitals"
+        />
         <meta name="robots" content="noindex, nofollow" />
       </Head>
 
@@ -28,16 +33,18 @@ const PerformancePage: React.FC<PerformancePageProps> = ({ locale }) => {
             Performance Analytics
           </Typography>
           <Typography variant="body1" color="text.secondary" paragraph>
-            Monitor real-time application performance, Core Web Vitals, and user experience metrics.
-            Track LCP, FID, CLS, FCP, and TTFB to ensure optimal performance for Serbian data visualization.
+            Monitor real-time application performance, Core Web Vitals, and user
+            experience metrics. Track LCP, FID, CLS, FCP, and TTFB to ensure
+            optimal performance for Serbian data visualization.
           </Typography>
         </Box>
 
-        {process.env.NODE_ENV === 'development' && (
+        {process.env.NODE_ENV === "development" && (
           <Alert severity="info" sx={{ mb: 3 }}>
             <Typography variant="body2">
-              This is the development version of the performance dashboard. In production,
-              metrics are collected from real users and aggregated for analytics.
+              This is the development version of the performance dashboard. In
+              production, metrics are collected from real users and aggregated
+              for analytics.
             </Typography>
           </Alert>
         )}
@@ -50,10 +57,10 @@ const PerformancePage: React.FC<PerformancePageProps> = ({ locale }) => {
 
 export default PerformancePage;
 
-export const getStaticProps: GetStaticProps = async ({ locale = 'en' }) => {
+export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale, ["common"])),
       locale,
     },
   };

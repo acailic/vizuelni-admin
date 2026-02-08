@@ -3,39 +3,42 @@
  * Cleans up testing environment and generates reports
  */
 
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
-import { FullConfig } from '@playwright/test';
+import { FullConfig } from "@playwright/test";
 
-async function globalTeardown(config: FullConfig) {
-  console.log('🧹 Cleaning up visual regression test environment...');
+async function globalTeardown(_config: FullConfig) {
+  console.log("🧹 Cleaning up visual regression test environment...");
 
   // Generate visual testing report
   const reportData = {
     timestamp: new Date().toISOString(),
-    testSuite: 'Visual Regression Tests',
+    testSuite: "Visual Regression Tests",
     summary: {
-      totalScreenshots: countScreenshots('./screenshots/current'),
+      totalScreenshots: countScreenshots("./screenshots/current"),
       newScreenshots: countNewScreenshots(),
       failedComparisons: countFailedComparisons(),
     },
     directories: {
-      current: './screenshots/current',
-      baseline: './screenshots/baseline',
-      diff: './screenshots/diff',
+      current: "./screenshots/current",
+      baseline: "./screenshots/baseline",
+      diff: "./screenshots/diff",
     },
   };
 
   // Save report
-  const reportPath = path.join(process.cwd(), './screenshots/visual-test-report.json');
+  const reportPath = path.join(
+    process.cwd(),
+    "./screenshots/visual-test-report.json"
+  );
   fs.writeFileSync(reportPath, JSON.stringify(reportData, null, 2));
   console.log(`📊 Visual test report generated: ${reportPath}`);
 
   // Cleanup old diff files (keep last 5 runs)
   await cleanupOldDiffs();
 
-  console.log('✅ Visual regression test environment cleaned up');
+  console.log("✅ Visual regression test environment cleaned up");
 }
 
 function countScreenshots(dir: string): number {
@@ -43,7 +46,7 @@ function countScreenshots(dir: string): number {
   if (!fs.existsSync(fullPath)) return 0;
 
   const files = fs.readdirSync(fullPath);
-  return files.filter(file => file.endsWith('.png')).length;
+  return files.filter((file) => file.endsWith(".png")).length;
 }
 
 function countNewScreenshots(): number {
@@ -53,20 +56,21 @@ function countNewScreenshots(): number {
 }
 
 function countFailedComparisons(): number {
-  const diffDir = path.join(process.cwd(), './screenshots/diff');
+  const diffDir = path.join(process.cwd(), "./screenshots/diff");
   if (!fs.existsSync(diffDir)) return 0;
 
   const files = fs.readdirSync(diffDir);
-  return files.filter(file => file.endsWith('.png')).length;
+  return files.filter((file) => file.endsWith(".png")).length;
 }
 
 async function cleanupOldDiffs(): Promise<void> {
-  const diffDir = path.join(process.cwd(), './screenshots/diff');
+  const diffDir = path.join(process.cwd(), "./screenshots/diff");
   if (!fs.existsSync(diffDir)) return;
 
-  const files = fs.readdirSync(diffDir)
-    .filter(file => file.endsWith('.png'))
-    .map(file => ({
+  const files = fs
+    .readdirSync(diffDir)
+    .filter((file) => file.endsWith(".png"))
+    .map((file) => ({
       name: file,
       path: path.join(diffDir, file),
       time: fs.statSync(path.join(diffDir, file)).mtime,

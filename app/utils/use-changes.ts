@@ -12,7 +12,7 @@ export const useChanges = <
   currentValue: T,
   computeChanges: (prev: T, cur: T) => Changes<K, U>
 ) => {
-  const prevRef = useRef<any>();
+  const prevRef = useRef<any>(undefined);
   const prevValue = prevRef.current;
   if (!prevValue) {
     prevRef.current = currentValue;

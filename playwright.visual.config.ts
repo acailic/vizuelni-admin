@@ -69,7 +69,7 @@ export default defineConfig({
         "--disable-popup-blocking",
       ],
     },
-  },
+  } as any,
 
   // Projects for different browsers and viewports
   projects: [
@@ -121,7 +121,7 @@ export default defineConfig({
         viewport: { width: 1280, height: 720 },
         colorScheme: "dark",
         reducedMotion: "reduce",
-      },
+      } as any,
     },
 
     // High contrast mode
@@ -131,7 +131,7 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
         viewport: { width: 1280, height: 720 },
         forcedColors: "active",
-      },
+      } as any,
     },
 
     // RTL layout
@@ -164,4 +164,4 @@ export default defineConfig({
     BASELINE_DIR: "./screenshots/baseline",
     DIFF_DIR: "./screenshots/diff",
   },
-});
+} as any);

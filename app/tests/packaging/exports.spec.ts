@@ -263,7 +263,7 @@ describe("Package Export Validation", () => {
     });
 
     it("should have valid TypeScript source files", () => {
-      for (const [subpath, sourcePath] of Object.entries(SOURCE_FILES)) {
+      for (const [_subpath, sourcePath] of Object.entries(SOURCE_FILES)) {
         const fullPath = join(appDir, sourcePath);
 
         if (existsSync(fullPath)) {
@@ -504,10 +504,10 @@ describe("Package Export Validation", () => {
 
       const exports = packageJson.exports;
 
-      for (const [subpath, config] of Object.entries(exports)) {
-        const typesPath = (config as any).types;
-        const importPath = (config as any).import;
-        const requirePath = (config as any).require;
+      for (const [_subpath, config] of Object.entries(exports)) {
+        const typesPath = (config as { types?: string }).types;
+        const importPath = (config as { import?: string }).import;
+        const requirePath = (config as { require?: string }).require;
 
         // Types should be .d.ts
         expect(typesPath).toMatch(/\.d\.ts$/);
@@ -528,8 +528,8 @@ describe("Package Export Validation", () => {
 
       const exports = packageJson.exports;
 
-      for (const [subpath, config] of Object.entries(exports)) {
-        const typesPath = (config as any).types;
+      for (const [_subpath, config] of Object.entries(exports)) {
+        const typesPath = (config as { types?: string }).types;
         expect(typesPath).toBeDefined();
         expect(typesPath).toMatch(/\.d\.ts$/);
       }

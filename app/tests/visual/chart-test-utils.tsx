@@ -9,7 +9,7 @@ import { Page, expect } from "@playwright/test";
 
 // Import chart components
 
-import type { ChartData } from "../../../exports/charts/types";
+import type { ChartData } from "@/exports/charts/types";
 
 /**
  * Test data fixtures for different scenarios

@@ -11,7 +11,7 @@ import Head from "next/head";
 import { useTranslation } from "next-i18next";
 import { useState } from "react";
 
-import Layout from "../../components/layout";
+import { Layout } from "../../components/layout";
 import {
   registerChartPlugin,
   getChartPlugin,
@@ -22,7 +22,7 @@ import {
 import { radarChartPlugin } from "../../exports/charts/examples/RadarChartPlugin";
 
 export default function PluginSystemDemo() {
-  const { t } = useTranslation();
+  const { t: _t } = useTranslation();
   const [isPluginRegistered, setIsPluginRegistered] = useState(false);
   const [pluginInfo, setPluginInfo] = useState<any>(null);
 

@@ -47,13 +47,9 @@ export interface UseLocaleResult {
   /** Whether current locale is RTL */
   isRtl: boolean;
   /** Get D3 time format locale */
-  getD3TimeLocale: () => ReturnType<
-    typeof import("../locales/locales").getD3TimeFormatLocale
-  >;
+  getD3TimeLocale: () => any;
   /** Get D3 format locale */
-  getD3FormatLocale: () => ReturnType<
-    typeof import("../locales/locales").getD3FormatLocale
-  >;
+  getD3FormatLocale: () => any;
 }
 
 export function useLocale(initialLocale?: Locale): UseLocaleResult {
@@ -91,7 +87,7 @@ export function useLocale(initialLocale?: Locale): UseLocaleResult {
 
   return {
     locale,
-    locales,
+    locales: locales as any,
     defaultLocale,
     setLocale,
     parseLocale,

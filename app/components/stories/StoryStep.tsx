@@ -36,7 +36,7 @@ export function StoryStep({
   onPrevious,
   isFirst,
   isLast,
-  storyId,
+  storyId: _storyId,
 }: StoryStepProps) {
   const { i18n } = useLingui();
   const ChartComponent = step.chartComponent;

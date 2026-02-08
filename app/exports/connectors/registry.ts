@@ -224,7 +224,7 @@ class ConnectorRegistryClass {
    */
   clear(): void {
     // Destroy all instances
-    for (const [id, instance] of this.instances.entries()) {
+    for (const [_id, instance] of this.instances.entries()) {
       if (instance.destroy) {
         instance.destroy();
       }

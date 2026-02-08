@@ -10,7 +10,7 @@ export const groupByParents = (hierarchy: HierarchyValue[]) => {
     depth,
   }));
 
-  return groups(allHierarchyValues, (v) => v.parents);
+  return groups(allHierarchyValues, (v: any) => v.parents);
 };
 
 /**

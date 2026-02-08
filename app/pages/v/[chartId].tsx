@@ -17,7 +17,6 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-
 import { useEmbedQueryParams } from "@/components/embed-params";
 import { HintWarning, PublishSuccess } from "@/components/hint";
 import { ContentLayout } from "@/components/layout";
@@ -32,7 +31,8 @@ import { useDataSourceStore } from "@/stores/data-source";
 import { Config as PrismaConfig, PUBLISHED_STATE } from "../../db/prisma-types";
 
 const ChartPublished = dynamic(
-  () => import("@/components/chart-published").then((mod) => mod.ChartPublished),
+  () =>
+    import("@/components/chart-published").then((mod) => mod.ChartPublished),
   {
     loading: () => (
       <Box
@@ -178,7 +178,7 @@ const VisualizationPage = (props: Serialized<PageProps>) => {
         {config.published_state === PUBLISHED_STATE.PUBLISHED && (
           <Box className={classes.actionBar}>
             <PublishActions
-              chartWrapperRef={chartWrapperRef}
+              chartWrapperRef={chartWrapperRef as any}
               configKey={key}
               locale={locale}
             />

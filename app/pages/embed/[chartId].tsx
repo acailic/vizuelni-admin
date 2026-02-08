@@ -5,18 +5,28 @@ import ErrorPage from "next/error";
 import Head from "next/head";
 import Script from "next/script";
 
-
 import { useEmbedQueryParams } from "@/components/embed-params";
-import {
-  ConfiguratorStateProvider,
-  ConfiguratorStatePublished,
-} from "@/configurator";
+import type { ConfiguratorStatePublished } from "@/config-types";
 
 import { Config as PrismaConfig } from "../../db/prisma-types";
 
-const ChartPublished = dynamic(
-  () => import("@/components/chart-published").then((mod) => mod.ChartPublished),
+const ChartPublishedWrapper = dynamic(
+  () =>
+    import("@/components/chart-published").then((mod) => {
+      const { ConfiguratorStateProvider } = require("@/configurator");
+      return {
+        default: ({ key, state, embedParams }: any) => (
+          <ConfiguratorStateProvider
+            chartId="published"
+            initialState={{ ...state, state: "PUBLISHED" }}
+          >
+            <mod.ChartPublished configKey={key} embedParams={embedParams} />
+          </ConfiguratorStateProvider>
+        ),
+      };
+    }),
   {
+    ssr: false,
     loading: () => null,
   }
 );
@@ -74,12 +84,11 @@ const EmbedPage = (props: PageProps) => {
         type="module"
         src="https://cdn.jsdelivr.net/npm/@open-iframe-resizer/core@1.6.0/dist/index.js"
       />
-      <ConfiguratorStateProvider
-        chartId="published"
-        initialState={{ ...state, state: "PUBLISHED" }}
-      >
-        <ChartPublished configKey={key} embedParams={embedParams} />
-      </ConfiguratorStateProvider>
+      <ChartPublishedWrapper
+        key={key}
+        state={state}
+        embedParams={embedParams}
+      />
     </>
   );
 };

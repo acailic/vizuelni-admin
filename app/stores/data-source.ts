@@ -17,6 +17,11 @@ type DataSourceStore = {
 
 const PARAM_KEY = "dataSource";
 
+/**
+ * Saves data source to localStorage for persistence.
+ *
+ * @param value - The data source to save
+ */
 const saveToLocalStorage = (value: DataSource) => {
   try {
     localStorage.setItem(PARAM_KEY, sourceToLabel(value));
@@ -25,6 +30,11 @@ const saveToLocalStorage = (value: DataSource) => {
   }
 };
 
+/**
+ * Retrieves data source from localStorage.
+ *
+ * @returns The saved data source, or undefined if not found
+ */
 export const getDataSourceFromLocalStorage = () => {
   try {
     const dataSourceLabel = localStorage.getItem(PARAM_KEY);
@@ -37,6 +47,12 @@ export const getDataSourceFromLocalStorage = () => {
   }
 };
 
+/**
+ * Checks if the data source should be persisted in URL for a given path.
+ *
+ * @param pathname - The current route pathname
+ * @returns true if source should be in URL, false otherwise
+ */
 const shouldKeepSourceInURL = (pathname: string) => {
   return !pathname.includes("__test");
 };
@@ -51,11 +67,15 @@ const saveToURL = (dataSource: DataSource) => {
 };
 
 /**
- * Custom middleware that saves data source to localStorage.
+ * Custom middleware that saves data source to localStorage and URL.
  *
  * On initialization it tries to first retrieve data source from the
- * URL (stored as label: Prod, Int, Test); if it's not here, tries with
+ * URL (stored as label: Prod, Int, Test); if it's not there, tries with
  * localStorage (also stored as label), otherwise uses a default data source.
+ *
+ * @param config - Zustand state creator
+ * @param router - Next.js router instance
+ * @returns Zustand middleware function with data source persistence
  */
 const dataSourceStoreMiddleware =
   (config: StateCreator<DataSourceStore>, router: SingletonRouter) =>
@@ -75,8 +95,7 @@ const dataSourceStoreMiddleware =
         }
       },
       get,
-      api,
-      []
+      api
     );
 
     let dataSource = DEFAULT_DATA_SOURCE;
@@ -119,6 +138,12 @@ const dataSourceStoreMiddleware =
     return { ...state, dataSource };
   };
 
+/**
+ * Creates a Zustand store for managing data source state.
+ *
+ * @param router - Next.js router instance
+ * @returns Zustand store with dataSource state and setDataSource action
+ */
 export const createUseDataSourceStore = (router: SingletonRouter) =>
   create<DataSourceStore>(
     dataSourceStoreMiddleware(

@@ -195,7 +195,7 @@ export const JoinBy = () => {
           iri: cube.iri,
           joinBy: cube.joinBy,
           filters: cube.filters,
-        })),
+        })) as any,
       },
     });
 
@@ -222,7 +222,7 @@ export const JoinBy = () => {
           iri: cube.iri,
           joinBy: cube.joinBy,
           filters: cube.filters,
-        })),
+        })) as any,
       },
     });
 

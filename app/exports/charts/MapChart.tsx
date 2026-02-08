@@ -35,9 +35,9 @@ import { extent } from "d3-array";
 import { easeCubicOut } from "d3-ease";
 import { geoMercator, geoEqualEarth, geoPath, GeoProjection } from "d3-geo";
 import { scaleSequential, scaleThreshold } from "d3-scale";
-import { select, pointer } from "d3-selection";
+import { select } from "d3-selection";
 import "d3-transition";
-import { zoom, zoomIdentity, ZoomTransform } from "d3-zoom";
+import { zoom, zoomIdentity, type ZoomTransform } from "d3-zoom";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 
 import type { BaseChartConfig } from "./types";
@@ -130,9 +130,14 @@ export interface MapChartProps {
   /** Additional styles */
   style?: React.CSSProperties;
   /** Callback when data point is clicked */
-  onDataPointClick?: (data: MapFeature['properties'] | MapPoint, index: number) => void;
+  onDataPointClick?: (
+    data: MapFeature["properties"] | MapPoint,
+    index: number
+  ) => void;
   /** Custom tooltip renderer */
-  renderTooltip?: (data: MapFeature['properties'] | MapPoint) => React.ReactNode;
+  renderTooltip?: (
+    data: MapFeature["properties"] | MapPoint
+  ) => React.ReactNode;
   /** Show tooltip on hover */
   showTooltip?: boolean;
   /** Enable animations */
@@ -372,7 +377,7 @@ export const MapChart = memo(
 
       // Create groups for layers
       const regionsGroup = g.append("g").attr("class", "regions");
-      const bordersGroup = g.append("g").attr("class", "borders");
+      g.append("g").attr("class", "borders"); // borders group created but not used yet
       const pointsGroup = g.append("g").attr("class", "points");
       const labelsGroup = g.append("g").attr("class", "labels");
 
@@ -402,7 +407,7 @@ export const MapChart = memo(
 
       // Add hover effects
       regions
-        .on("mouseenter", function (event, d) {
+        .on("mouseenter", function (_event, d) {
           select(this)
             .transition()
             .duration(200)
@@ -410,7 +415,6 @@ export const MapChart = memo(
             .attr("stroke-width", borderWidth + 1);
 
           if (showTooltip) {
-            const [x, y] = pointer(event);
             const centroid = pathGenerator.centroid(d);
 
             setTooltip({
@@ -421,17 +425,16 @@ export const MapChart = memo(
             });
           }
         })
-        .on("mousemove", function (event, d) {
+        .on("mousemove", function (_event, d) {
           if (showTooltip) {
-            const [x, y] = pointer(event);
             const centroid = pathGenerator.centroid(d);
 
             setTooltip(
               (prev) =>
                 ({
                   ...prev,
-                  x: x + margin.left + 15,
-                  y: y + margin.top,
+                  x: centroid[0] + margin.left + 15,
+                  y: centroid[1] + margin.top,
                   feature: d,
                   position: { x: centroid[0], y: centroid[1] },
                 }) as TooltipData
@@ -447,7 +450,7 @@ export const MapChart = memo(
 
           setTooltip(null);
         })
-        .on("click", (event, d) => {
+        .on("click", (_event, d) => {
           if (onDataPointClick) {
             onDataPointClick(d.properties, mapData().features.indexOf(d));
           }
@@ -479,7 +482,7 @@ export const MapChart = memo(
 
         // Point hover effects
         points
-          .on("mouseenter", function (event, d) {
+          .on("mouseenter", function (_event, d) {
             select(this)
               .transition()
               .duration(200)
@@ -501,7 +504,7 @@ export const MapChart = memo(
 
             setTooltip(null);
           })
-          .on("click", (event, d) => {
+          .on("click", (_event, d) => {
             if (onDataPointClick) {
               onDataPointClick(d, pointData.indexOf(d));
             }
@@ -534,9 +537,9 @@ export const MapChart = memo(
 
       // Add zoom behavior
       if (zoomEnabled) {
-        const zoomBehavior = zoom<SVGSVGElement, unknown>()
+        const zoomBehavior = zoom()
           .scaleExtent([1, 8])
-          .on("zoom", (event) => {
+          .on("zoom", (event: { transform: any }) => {
             transformRef.current = event.transform;
             g.attr("transform", event.transform);
           });
@@ -651,8 +654,7 @@ export const MapChart = memo(
       }
 
       // Add info text
-      const infoText = g
-        .append("text")
+      g.append("text")
         .attr("x", innerWidth - 20)
         .attr("y", innerHeight - 10)
         .attr("text-anchor", "end")
@@ -743,7 +745,7 @@ export const MapChart = memo(
             {renderTooltip ? (
               renderTooltip(
                 "properties" in tooltip.feature
-                  ? (tooltip.feature.properties as MapFeature['properties'])
+                  ? (tooltip.feature.properties as MapFeature["properties"])
                   : tooltip.feature
               )
             ) : (
@@ -759,11 +761,14 @@ export const MapChart = memo(
                   }}
                 >
                   {"properties" in tooltip.feature
-                    ? ((tooltip.feature.properties as MapFeature['properties']).name ?? "Nepoznata regija")
+                    ? ((tooltip.feature.properties as MapFeature["properties"])
+                        .name ?? "Nepoznata regija")
                     : tooltip.feature.name}
                 </div>
                 {"properties" in tooltip.feature &&
-                  Object.entries(tooltip.feature.properties as MapFeature['properties'])
+                  Object.entries(
+                    tooltip.feature.properties as MapFeature["properties"]
+                  )
                     .filter(([key]) => key !== "name" && !key.startsWith("_"))
                     .map(([key, value]) => (
                       <div

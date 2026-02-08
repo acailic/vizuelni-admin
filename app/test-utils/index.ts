@@ -3,17 +3,17 @@
  * Provides common testing patterns, mocks, and utilities for unit and integration tests
  */
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render, RenderOptions } from '@testing-library/react';
-import { configureAxe } from 'jest-axe';
-import React, { ReactElement, ReactNode } from 'react';
-import { vi } from 'vitest';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { render, RenderOptions } from "@testing-library/react";
+import { configureAxe } from "jest-axe";
+import React, { ReactElement, ReactNode } from "react";
+import { vi } from "vitest";
 
 // Mock state management (Zustand)
-vi.mock('@/store', () => ({
+vi.mock("@/store", () => ({
   useAppStore: () => ({
-    theme: 'light',
-    language: 'sr',
+    theme: "light",
+    language: "sr",
     setTheme: vi.fn(),
     setLanguage: vi.fn(),
     // Add other store methods as needed
@@ -21,7 +21,7 @@ vi.mock('@/store', () => ({
 }));
 
 // Mock API client
-vi.mock('@/lib/api/client', () => ({
+vi.mock("@/lib/api/client", () => ({
   apiClient: {
     get: vi.fn(),
     post: vi.fn(),
@@ -37,12 +37,12 @@ vi.mock('@/lib/api/client', () => ({
 }));
 
 // Mock Next.js router
-vi.mock('next/router', () => ({
+vi.mock("next/router", () => ({
   useRouter: () => ({
-    route: '/',
-    pathname: '/',
+    route: "/",
+    pathname: "/",
     query: {},
-    asPath: '/',
+    asPath: "/",
     push: vi.fn(),
     replace: vi.fn(),
     prefetch: vi.fn(),
@@ -57,7 +57,7 @@ vi.mock('next/router', () => ({
     isFallback: false,
     isLocaleDomain: true,
     isReady: true,
-    defaultLocale: 'sr',
+    defaultLocale: "sr",
     domainLocales: [],
     isPreview: false,
   }),
@@ -67,13 +67,13 @@ vi.mock('next/router', () => ({
 const axe = configureAxe({
   rules: {
     // WCAG 2.1 AA compliance
-    'color-contrast': { enabled: true },
-    'keyboard-navigation': { enabled: true },
-    'aria-labels': { enabled: true },
-    'heading-order': { enabled: true },
-    'alt-text': { enabled: true },
-    'form-field-multiple-labels': { enabled: true },
-    'focus-order-semantics': { enabled: true },
+    "color-contrast": { enabled: true },
+    "keyboard-navigation": { enabled: true },
+    "aria-labels": { enabled: true },
+    "heading-order": { enabled: true },
+    "alt-text": { enabled: true },
+    "form-field-multiple-labels": { enabled: true },
+    "focus-order-semantics": { enabled: true },
   },
 });
 
@@ -101,43 +101,43 @@ const AllTheProviders = ({ children }: { children: ReactNode }) => {
 // Custom render function with providers
 const customRender = (
   ui: ReactElement,
-  options?: Omit<RenderOptions, 'wrapper'>
+  options?: Omit<RenderOptions, "wrapper">
 ) => render(ui, { wrapper: AllTheProviders, ...options });
 
 // Mock data generators
 export const createMockChartConfig = (overrides = {}) => ({
-  id: 'test-chart-1',
-  type: 'bar',
-  title: 'Test Chart',
-  description: 'A test chart for unit testing',
+  id: "test-chart-1",
+  type: "bar",
+  title: "Test Chart",
+  description: "A test chart for unit testing",
   cubes: [],
   filters: [],
   ...overrides,
 });
 
 export const createMockDataset = (overrides = {}) => ({
-  id: 'test-dataset-1',
-  name: 'Test Dataset',
-  description: 'A test dataset for unit testing',
+  id: "test-dataset-1",
+  name: "Test Dataset",
+  description: "A test dataset for unit testing",
   columns: [
-    { name: 'year', type: 'number' },
-    { name: 'value', type: 'number' },
-    { name: 'region', type: 'string' },
+    { name: "year", type: "number" },
+    { name: "value", type: "number" },
+    { name: "region", type: "string" },
   ],
   rows: [
-    { year: 2020, value: 100, region: 'Beograd' },
-    { year: 2021, value: 150, region: 'Beograd' },
-    { year: 2020, value: 80, region: 'Novi Sad' },
-    { year: 2021, value: 120, region: 'Novi Sad' },
+    { year: 2020, value: 100, region: "Beograd" },
+    { year: 2021, value: 150, region: "Beograd" },
+    { year: 2020, value: 80, region: "Novi Sad" },
+    { year: 2021, value: 120, region: "Novi Sad" },
   ],
   ...overrides,
 });
 
 export const createMockUser = (overrides = {}) => ({
-  id: 'test-user-1',
-  email: 'test@example.com',
-  name: 'Test User',
-  role: 'user',
+  id: "test-user-1",
+  email: "test@example.com",
+  name: "Test User",
+  role: "user",
   ...overrides,
 });
 
@@ -151,7 +151,10 @@ export const createMockGraphQLResponse = (data: any, errors?: any[]) => ({
 });
 
 // Performance testing utilities
-export const measureRenderTime = async (component: ReactElement, iterations = 1) => {
+export const measureRenderTime = async (
+  component: ReactElement,
+  iterations = 1
+) => {
   const times: number[] = [];
 
   for (let i = 0; i < iterations; i++) {
@@ -176,11 +179,15 @@ export const testAccessibility = async (container: HTMLElement) => {
 };
 
 // Form testing utilities
-export const fillForm = async (user: any, formData: Record<string, string | number>) => {
+export const fillForm = async (
+  user: any,
+  formData: Record<string, string | number>
+) => {
   for (const [field, value] of Object.entries(formData)) {
-    const element = user.getByLabelText(new RegExp(field, 'i')) ||
-                   user.getByPlaceholderText(new RegExp(field, 'i')) ||
-                   user.getByDisplayValue(new RegExp(field, 'i'));
+    const element =
+      user.getByLabelText(new RegExp(field, "i")) ||
+      user.getByPlaceholderText(new RegExp(field, "i")) ||
+      user.getByDisplayValue(new RegExp(field, "i"));
 
     if (element) {
       await user.clear(element);
@@ -205,20 +212,20 @@ export const mockIntersectionObserver = () => {
 };
 
 // Internationalization testing utilities
-export const createMockTranslations = (locale = 'sr') => {
+export const createMockTranslations = (locale = "sr") => {
   const translations = {
     sr: {
-      'common.save': 'Sačuvaj',
-      'common.cancel': 'Otkaži',
-      'common.delete': 'Obriši',
-      'common.edit': 'Izmeni',
+      "common.save": "Sačuvaj",
+      "common.cancel": "Otkaži",
+      "common.delete": "Obriši",
+      "common.edit": "Izmeni",
       // Add more translations as needed
     },
     en: {
-      'common.save': 'Save',
-      'common.cancel': 'Cancel',
-      'common.delete': 'Delete',
-      'common.edit': 'Edit',
+      "common.save": "Save",
+      "common.cancel": "Cancel",
+      "common.delete": "Delete",
+      "common.edit": "Edit",
       // Add more translations as needed
     },
   };
@@ -227,13 +234,13 @@ export const createMockTranslations = (locale = 'sr') => {
 };
 
 // Re-export testing library utilities
-export * from '@testing-library/react';
-export * from '@testing-library/user-event';
+export * from "@testing-library/react";
+export * from "@testing-library/user-event";
 export { customRender as render };
 export { axe };
 
 // Export all mock data generators
-export { createMockChartConfig, createMockDataset, createMockUser };
+// All mock functions are already exported inline above
 
 // Performance and accessibility utilities
-export { measureRenderTime, testAccessibility, fillForm, mockIntersectionObserver, createMockTranslations };
+// All utility functions are already exported inline above

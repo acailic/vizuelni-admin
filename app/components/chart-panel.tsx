@@ -94,7 +94,7 @@ export const ChartWrapper = forwardRef<HTMLDivElement, ChartWrapperProps>(
 
 type ChartPanelLayoutProps = PropsWithChildren<{
   layoutType: LayoutDashboard["layout"];
-  renderBlock: (block: LayoutBlock) => JSX.Element;
+  renderBlock: (block: LayoutBlock) => any;
 }> &
   HTMLProps<HTMLDivElement>;
 
@@ -105,14 +105,14 @@ export type ChartPanelLayoutTypeProps = {
   /** Layout blocks to render (charts or text blocks) */
   blocks: LayoutBlock[];
   /** Function to render each individual block */
-  renderBlock: (block: LayoutBlock) => JSX.Element;
+  renderBlock: (block: LayoutBlock) => any;
   /** Optional CSS class name */
   className?: string;
 };
 
 const Wrappers: Record<
   LayoutDashboard["layout"],
-  (props: ChartPanelLayoutTypeProps) => JSX.Element
+  (props: ChartPanelLayoutTypeProps) => any
 > = {
   vertical: ChartPanelLayoutVertical,
   tall: ChartPanelLayoutTall,
@@ -138,7 +138,7 @@ export const ChartPanelLayout = ({
       {state.layout.type === "dashboard" ? (
         <DashboardInteractiveFilters
           // We want to completely remount this component if chartConfigs change
-          key={state.chartConfigs.map((x) => x.key).join(",")}
+          key={state.chartConfigs.map((x: { key: string }) => x.key).join(",")}
         />
       ) : null}
       <Wrapper blocks={blocks} renderBlock={renderBlock} />

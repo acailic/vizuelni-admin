@@ -11,12 +11,11 @@ import { Flex } from "@/components/flex";
 import { HintError } from "@/components/hint";
 import { InfoIconTooltip } from "@/components/info-icon-tooltip";
 import { MaybeTooltip } from "@/components/maybe-tooltip";
-import { ChartType, ConfiguratorStatePublished } from "@/config-types";
+import { ChartType } from "@/config-types";
 import { getChartConfig } from "@/config-utils";
 import { ControlSectionSkeleton } from "@/configurator/components/chart-controls/section";
 import { IconButton } from "@/configurator/components/icon-button";
 import { useAddOrEditChartType } from "@/configurator/config-form";
-import { ConfiguratorStateWithChartConfigs } from "@/configurator/configurator-state";
 import { useDataCubesComponentsQuery } from "@/graphql/hooks";
 import { useLocale } from "@/locales/use-locale";
 
@@ -28,7 +27,7 @@ export const ChartTypeSelector = ({
   chartKey,
   ...rest
 }: {
-  state: Exclude<ConfiguratorStateWithChartConfigs, ConfiguratorStatePublished>;
+  state: any;
   type?: "add" | "edit";
   showHelp?: boolean;
   showComparisonCharts?: boolean;
@@ -42,11 +41,13 @@ export const ChartTypeSelector = ({
       sourceType: state.dataSource.type,
       sourceUrl: state.dataSource.url,
       locale,
-      cubeFilters: chartConfig.cubes.map((cube) => ({
-        iri: cube.iri,
-        joinBy: cube.joinBy,
-        loadValues: true,
-      })),
+      cubeFilters: chartConfig.cubes.map(
+        (cube: { iri: string; joinBy?: string[] }) => ({
+          iri: cube.iri,
+          joinBy: cube.joinBy,
+          loadValues: true,
+        })
+      ),
     },
   });
   const dimensions = data?.dataCubesComponents?.dimensions ?? [];
@@ -196,7 +197,8 @@ const ChartTypeSelectorMenu = ({
         }}
       >
         {chartTypes.map((chartType) => {
-          const { enabled, message } = possibleChartTypesDict[chartType];
+          const chartTypeKey = chartType as keyof typeof possibleChartTypesDict;
+          const { enabled, message } = possibleChartTypesDict[chartTypeKey];
 
           return (
             <MaybeTooltip

@@ -2,7 +2,10 @@ import { createTheme } from "@mui/material/styles";
 
 import { components } from "@/themes/components";
 import { breakpoints, shadows, spacing } from "@/themes/constants";
-import { CRITICAL_FONTS, initializeOptimizedFonts } from "@/themes/optimized-fonts";
+import {
+  CRITICAL_FONTS,
+  initializeOptimizedFonts,
+} from "@/themes/optimized-fonts";
 import { palette } from "@/themes/palette";
 import { typography } from "@/themes/typography";
 
@@ -15,7 +18,7 @@ export const theme = createTheme({
   },
   shadows,
   typography,
-  components,
+  components: components as any,
 });
 
 /**
@@ -23,9 +26,9 @@ export const theme = createTheme({
  * Critical fonts only - reduced from 6 to 2 fonts (67% reduction)
  * Other fonts load on demand
  */
-export const preloadFonts = CRITICAL_FONTS.map(font => font.url);
+export const preloadFonts = CRITICAL_FONTS.map((font) => font.url);
 
 // Initialize optimized font loading on client side
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   initializeOptimizedFonts();
 }

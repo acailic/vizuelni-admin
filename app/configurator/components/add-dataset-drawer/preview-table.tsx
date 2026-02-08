@@ -42,10 +42,7 @@ import {
   joinDimensions,
 } from "@/graphql/join";
 import { VersionedJoinBy } from "@/graphql/join";
-import {
-  DataCubeComponentsQuery,
-  useDataCubeComponentsQuery,
-} from "@/graphql/query-hooks";
+import { useDataCubeComponentsQuery } from "@/graphql/query-hooks";
 import { useLocale } from "@/locales/use-locale";
 
 const NewAnnotation = (props: TypographyProps) => {
@@ -77,10 +74,7 @@ export const PreviewDataTable = ({
   chartConfig: ChartConfig;
   dataSource: DataSource;
   existingCubes: { iri: string }[];
-  currentComponents:
-    | DataCubeComponentsQuery["dataCubeComponents"]
-    | undefined
-    | null;
+  currentComponents: any | undefined | null;
   searchDimensionsSelected: SearchOptions[];
   otherCube: PartialSearchCube;
   onClickBack: () => void;
@@ -126,7 +120,9 @@ export const PreviewDataTable = ({
       sourceType: dataSource.type,
       sourceUrl: dataSource.url,
       locale: locale,
-      cubeFilters: existingCubes.map((cube) => ({ iri: cube.iri })),
+      cubeFilters: existingCubes.map((cube: { iri: string }) => ({
+        iri: cube.iri,
+      })),
     },
   });
 
@@ -137,16 +133,16 @@ export const PreviewDataTable = ({
     const shouldIncludeColumnInPreview = (d: Dimension | Measure) =>
       !isStandardErrorDimension(d);
     const currentDimensions = (currentComponents?.dimensions ?? []).filter(
-      (x) => shouldIncludeColumnInPreview(x)
+      (x: Dimension) => shouldIncludeColumnInPreview(x)
     );
-    const currentMeasures = (currentComponents?.measures ?? []).filter((x) =>
-      shouldIncludeColumnInPreview(x)
+    const currentMeasures = (currentComponents?.measures ?? []).filter(
+      (x: Measure) => shouldIncludeColumnInPreview(x)
     );
     const otherDimensions = (otherCubeComponents?.dimensions ?? []).filter(
-      (x) => shouldIncludeColumnInPreview(x)
+      (x: Dimension) => shouldIncludeColumnInPreview(x)
     );
-    const otherMeasures = (otherCubeComponents?.measures ?? []).filter((x) =>
-      shouldIncludeColumnInPreview(x)
+    const otherMeasures = (otherCubeComponents?.measures ?? []).filter(
+      (x: Measure) => shouldIncludeColumnInPreview(x)
     );
 
     const joinedColumns = joinDimensions({

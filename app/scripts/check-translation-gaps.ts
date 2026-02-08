@@ -8,7 +8,7 @@ const fs = require("fs");
 const path = require("path");
 
 // Extract keys from the compiled message files
-function extractKeys(filePath) {
+function extractKeys(filePath: string) {
   try {
     const content = fs.readFileSync(filePath, "utf-8");
 
@@ -17,7 +17,7 @@ function extractKeys(filePath) {
 
     // Find all occurrences of "key":"value" patterns
     const keyPattern = /"([^"]+)":/g;
-    const keys = [];
+    const keys: string[] = [];
     let match;
 
     while ((match = keyPattern.exec(content)) !== null) {
@@ -26,17 +26,17 @@ function extractKeys(filePath) {
 
     return keys;
   } catch (e) {
-    console.error(`Error reading ${filePath}:`, e.message);
+    console.error(`Error reading ${filePath}:`, (e as any).message);
     return [];
   }
 }
 
-function findMissingKeys(sourceKeys, targetKeys) {
-  return sourceKeys.filter((key) => !targetKeys.includes(key));
+function findMissingKeys(sourceKeys: string[], targetKeys: string[]) {
+  return sourceKeys.filter((key: string) => !targetKeys.includes(key));
 }
 
-function findExtraKeys(sourceKeys, targetKeys) {
-  return targetKeys.filter((key) => !sourceKeys.includes(key));
+function findExtraKeys(sourceKeys: string[], targetKeys: string[]) {
+  return targetKeys.filter((key: string) => !sourceKeys.includes(key));
 }
 
 async function main() {

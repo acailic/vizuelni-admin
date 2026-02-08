@@ -180,7 +180,8 @@ export const moveFilterField = produce(
     }
   ) => {
     const cube = chartConfig.cubes.find(
-      (cube) => cube.iri === dimension.cubeIri
+      (cube: { iri: string; filters: Record<string, unknown> }) =>
+        cube.iri === dimension.cubeIri
     );
 
     if (!cube) {
@@ -242,8 +243,8 @@ export const isLayoutingFreeCanvas = (
 ): s is ConfiguratorStateLayouting => {
   return (
     !isConfiguring(s) &&
-    s.layout.type === "dashboard" &&
-    s.layout.layout === "canvas"
+    (s as any).layout.type === "dashboard" &&
+    (s as any).layout.layout === "canvas"
   );
 };
 
@@ -294,7 +295,7 @@ export const addDatasetInConfig = function (
   // Need to go over fields, and replace any IRI part of the joinBy by "joinBy__<index>"
   const { encodings } = getChartSpec(chartConfig);
   const encodingAndFields = encodings.map(
-    (e) =>
+    (e: { field: string; idAttributes: string[] }) =>
       [
         e,
         chartConfig.fields[e.field as keyof typeof chartConfig.fields] as any,
@@ -332,11 +333,13 @@ export const removeDatasetInConfig = function (
 ) {
   const { locale, iri: removedCubeIri } = options;
   const chartConfig = getChartConfig(draft);
-  const newCubes = chartConfig.cubes.filter((c) => c.iri !== removedCubeIri);
+  const newCubes = chartConfig.cubes.filter(
+    (c: { iri: string }) => c.iri !== removedCubeIri
+  );
   const dataCubesComponents = getCachedComponents({
     locale,
     dataSource: draft.dataSource,
-    cubeFilters: newCubes.map((cube) => ({
+    cubeFilters: newCubes.map((cube: { iri: string; joinBy?: string[] }) => ({
       iri: cube.iri,
       joinBy: newCubes.length > 1 ? cube.joinBy : undefined,
     })),
@@ -350,8 +353,8 @@ export const removeDatasetInConfig = function (
 
   const { dimensions, measures } = dataCubesComponents;
   const remainingCubeIris = chartConfig.cubes
-    .filter((c) => c.iri !== removedCubeIri)
-    .map(({ iri }) => ({ iri }));
+    .filter((c: { iri: string }) => c.iri !== removedCubeIri)
+    .map(({ iri }: { iri: string }) => ({ iri }));
   const { enabledChartTypes } = getEnabledChartTypes({
     dimensions,
     measures,
@@ -377,12 +380,17 @@ export const removeDatasetInConfig = function (
     ...initConfig.chartConfigs[0],
     key: chartConfig.key,
   } as ChartConfig;
-  const index = draft.chartConfigs.findIndex((d) => d.key === chartConfig.key);
+  const index = draft.chartConfigs.findIndex(
+    (d: { key: string }) => d.key === chartConfig.key
+  );
   const withFilters = deriveFiltersFromFields(newConfig, { dimensions });
 
   // Re-put the join by inside the cubes
   const joinByByCubes = Object.fromEntries(
-    chartConfig.cubes.map((cube) => [cube.iri, cube.joinBy] as const)
+    chartConfig.cubes.map(
+      (cube: { iri: string; joinBy?: string[] }) =>
+        [cube.iri, cube.joinBy] as const
+    )
   );
 
   for (const cube of withFilters.cubes) {

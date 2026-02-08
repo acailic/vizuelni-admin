@@ -8,7 +8,7 @@ const FIFTEEN_MINUTES_MS = 15 * 60 * 1000;
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
 
 function getSecurityHeaders(isDevelopment: boolean) {
-  const headers = {
+  const headers: Record<string, string> = {
     "X-DNS-Prefetch-Control": "off",
     "X-Frame-Options": "DENY",
     "X-Content-Type-Options": "nosniff",
@@ -31,7 +31,7 @@ function getSecurityHeaders(isDevelopment: boolean) {
 }
 
 function buildCSPHeader(isDevelopment: boolean): string {
-  const policies = {
+  const policies: Record<string, string[]> = {
     "default-src": ["'self'"],
     "script-src": [
       "'self'",
@@ -96,7 +96,7 @@ function getClientIdentifier(request: NextRequest): string {
     return cfConnectingIp;
   }
 
-  return request.ip || "unknown";
+  return "unknown";
 }
 
 function checkRateLimit(

@@ -115,7 +115,7 @@ export const useLinesStateData = (
     sortData,
     chartConfig,
     axisDimensionId: xDimension.id,
-    limits: limits.limits.map((limit) => limit.measureLimit),
+    limits: limits.limits.map((limit: any) => limit.measureLimit),
     timeRangeDimensionId: xDimension.id,
     getAxisValueAsDate: getX,
     getSegmentAbbreviationOrLabel,

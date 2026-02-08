@@ -1,6 +1,12 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
-import { ReactNode, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  ReactNode,
+  useEffect,
+  useState,
+} from "react";
 
 import { EncodingFieldType } from "@/charts/chart-config-ui-options";
 import { Flex } from "@/components/flex";
@@ -204,7 +210,7 @@ export const ConversionUnitsField = ({
         case "animation":
           return null;
         default:
-          const _exhaustiveCheck: never = activeField;
+          const _exhaustiveCheck: never = activeField as never;
           return _exhaustiveCheck;
       }
     }
@@ -363,7 +369,7 @@ export const ConversionUnitsField = ({
       );
     }
     default:
-      const _exhaustiveCheck: never = chartConfig;
+      const _exhaustiveCheck: never = chartConfig as never;
       return _exhaustiveCheck;
   }
 };
@@ -508,7 +514,9 @@ const ConversionUnitContent = ({
             label={getFieldLabel(locale)}
             name={`unit-label-${locale}`}
             value={definedConversionUnit.labels[locale]}
-            onChange={(e) => handleLabelChange(locale, e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              handleLabelChange(locale, e.target.value)
+            }
           />
         ))}
       </Flex>
@@ -568,9 +576,11 @@ const MultiplierInput = ({
       })}
       name="multiplier"
       value={inputValue}
-      onChange={(e) => setInputValue(e.currentTarget.value)}
+      onChange={(e: ChangeEvent<HTMLInputElement>) =>
+        setInputValue(e.currentTarget.value)
+      }
       onBlur={handleCommit}
-      onKeyDown={(e) => {
+      onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
           handleCommit();
         }

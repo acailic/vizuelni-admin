@@ -8,7 +8,7 @@ import { Flex } from "@/components/flex";
 import { RadioGroup } from "@/components/form";
 import { Input, Radio } from "@/components/form";
 import { BackButton, CustomPaletteType } from "@/configurator";
-import { ColorItem, ColorsByType, getDefaultColorValues } from "@/palettes";
+import { ColorItem, getDefaultColorValues } from "@/palettes";
 import { theme } from "@/themes/theme";
 import {
   createCustomColorPalette,
@@ -65,7 +65,7 @@ export const ProfileColorPaletteForm = ({
     getDefaultColorValues(type, palette?.colors || [])
   );
 
-  const colorsByTypeRef = useRef<ColorsByType>({
+  const colorsByTypeRef = useRef<any>({
     categorical: getDefaultColorValues("categorical", palette?.colors || []),
     sequential: getDefaultColorValues("sequential", palette?.colors || []),
     diverging: getDefaultColorValues("diverging", palette?.colors || []),
@@ -206,7 +206,9 @@ export const ProfileColorPaletteForm = ({
               label={t({ id: "controls.custom-color-palettes.title" })}
               name="custom-color-palette-title"
               value={titleInput}
-              onChange={(e) => setTitleInput(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setTitleInput(e.target.value)
+              }
             />
             {isNotAvailable && (
               <Typography color="error.main" variant="caption">

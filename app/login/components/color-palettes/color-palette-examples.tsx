@@ -56,7 +56,7 @@ export const ColorPaletteExample = ({ type }: ColorPaletteExampleProps) => {
       break;
 
     default:
-      const _exhaustiveCheck: never = type;
+      const _exhaustiveCheck: never = type as never;
       return _exhaustiveCheck;
   }
 

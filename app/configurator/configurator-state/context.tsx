@@ -111,24 +111,30 @@ const preparePublishingState = (
   return {
     ...state,
     chartConfigs: [
-      ...chartConfigs.map((chartConfig) => {
-        return {
-          ...chartConfig,
-          cubes: chartConfig.cubes.map((cube) => {
-            return {
-              ...cube,
-              // Ensure that the filters are in the correct order, as JSON
-              // does not guarantee order (and we need this as interactive
-              // filters are dependent on the order of the filters).
-              filters: Object.fromEntries(
-                Object.entries(cube.filters).map(([k, v], i) => {
-                  return [k, { ...v, position: i }];
-                })
-              ),
-            };
-          }),
-        };
-      }),
+      ...chartConfigs.map(
+        (chartConfig: {
+          cubes: Array<{ filters: Record<string, unknown> }>;
+        }) => {
+          return {
+            ...chartConfig,
+            cubes: chartConfig.cubes.map(
+              (cube: { filters: Record<string, unknown> }) => {
+                return {
+                  ...cube,
+                  // Ensure that the filters are in the correct order, as JSON
+                  // does not guarantee order (and we need this as interactive
+                  // filters are dependent on the order of the filters).
+                  filters: Object.fromEntries(
+                    Object.entries(cube.filters).map(([k, v], i) => {
+                      return [k, { ...(v as any), position: i }];
+                    })
+                  ),
+                };
+              }
+            ),
+          };
+        }
+      ),
     ],
     // Technically, we do not need to store the active chart key, as
     // it's only used in the edit mode, but it makes it easier to manage
@@ -216,15 +222,17 @@ export async function publishState(
               activeField: undefined,
             },
           },
-          state.chartConfigs.filter((d) => d.key === chartKey) as ChartConfig[],
-          chartKey
+          state.chartConfigs.filter(
+            (d: { key: string }) => d.key === chartKey
+          ) as ChartConfig[],
+          chartKey as string | undefined
         );
 
         const result = await createConfig({
           data: preparedConfig,
           published_state: PUBLISHED_STATE.PUBLISHED,
         });
-        onSaveConfig(result, i + 1, reversedChartKeys.length);
+        onSaveConfig(result as any, i + 1, reversedChartKeys.length);
 
         return result;
       });
@@ -234,8 +242,8 @@ export async function publishState(
       if (key && user) {
         const config = await fetchChartConfig(key);
 
-        if (config && config.user_id === user.id) {
-          dbConfig = config;
+        if (config && (config as any).user_id === user.id) {
+          dbConfig = config as any;
         }
       }
 
@@ -252,7 +260,7 @@ export async function publishState(
             published_state: PUBLISHED_STATE.PUBLISHED,
           }));
 
-      onSaveConfig(result, 0, 1);
+      onSaveConfig(result as any, 0, 1);
       return result;
   }
 }
@@ -261,7 +269,7 @@ const allSequential = async <TInput, TOutput>(
   input: TInput[],
   cb: (item: TInput, i: number) => TOutput
 ) => {
-  const res = [];
+  const res = [] as any[];
   for (let i = 0; i < input.length; i++) {
     const r = input[i];
     const result = await cb(r, i);

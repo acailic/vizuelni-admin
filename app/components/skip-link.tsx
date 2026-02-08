@@ -1,13 +1,10 @@
-import { Box } from '@mui/material';
-import { useRouter } from 'next/router';
-import React from 'react';
+import { Box } from "@mui/material";
+import React from "react";
 
 const SkipLink = () => {
-  const router = useRouter();
-
   const handleSkip = (e: React.MouseEvent) => {
     e.preventDefault();
-    const main = document.querySelector('#main-content');
+    const main = document.querySelector("#main-content") as HTMLElement;
     if (main) {
       main.focus();
       main.scrollIntoView();
@@ -20,16 +17,16 @@ const SkipLink = () => {
       href="#main-content"
       onClick={handleSkip}
       sx={{
-        position: 'absolute',
-        top: '-40px',
+        position: "absolute",
+        top: "-40px",
         left: 6,
-        backgroundColor: 'primary.main',
-        color: 'white',
-        padding: '8px',
-        textDecoration: 'none',
+        backgroundColor: "primary.main",
+        color: "white",
+        padding: "8px",
+        textDecoration: "none",
         borderRadius: 1,
         zIndex: 9999,
-        '&:focus': {
+        "&:focus": {
           top: 6,
         },
       }}

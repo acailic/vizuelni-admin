@@ -42,7 +42,7 @@ export const ChartMapVisualization = (props: VisualizationProps<MapConfig>) => {
       sourceType: dataSource.type,
       sourceUrl: dataSource.url,
       locale,
-      cubeFilters: chartConfig.cubes.map((cube) => ({
+      cubeFilters: chartConfig.cubes.map((cube: any) => ({
         iri: cube.iri,
         componentIds,
         joinBy: cube.joinBy,
@@ -61,7 +61,9 @@ export const ChartMapVisualization = (props: VisualizationProps<MapConfig>) => {
           componentsQuery.data?.dataCubesComponents.dimensions.find(
             (d) => d.id === layerComponent.componentId
           )?.cubeIri;
-        const cube = chartConfig.cubes.find((c) => c.iri === cubeIri) as Cube;
+        const cube = chartConfig.cubes.find(
+          (c: any) => c.iri === cubeIri
+        ) as Cube;
 
         if (isJoinById(layerComponent.componentId)) {
           return {

@@ -1,5 +1,5 @@
 import { Box, Card } from "@mui/material";
-import { motion, Transition } from "framer-motion";
+import { motion } from "framer-motion";
 
 export const MotionBox = motion(Box);
 export const MotionCard = motion(Card) as typeof Card;
@@ -36,7 +36,7 @@ export const navPresenceProps = {
 export const __BANNER_MARGIN_CSS_VAR = "--banner-margin";
 const BANNER_MARGIN_CSS_VAR = `var(${__BANNER_MARGIN_CSS_VAR}, -420px)`;
 
-export const bannerPresenceProps: Transition = {
+export const bannerPresenceProps = {
   transition: {
     duration: DURATION,
   },

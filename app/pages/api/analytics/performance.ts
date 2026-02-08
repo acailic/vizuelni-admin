@@ -1,13 +1,13 @@
-import { getServerSession } from 'next-auth/next';
+import { getServerSession } from "next-auth/next";
 
-import { nextAuthOptions as authOptions } from '../auth/[...nextauth]';
+import { nextAuthOptions as authOptions } from "../auth/[...nextauth]";
 
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from "next";
 
 interface PerformanceMetricData {
   name: string;
   value: number;
-  rating: 'good' | 'needs-improvement' | 'poor';
+  rating: "good" | "needs-improvement" | "poor";
   metadata: {
     userAgent: string;
     url: string;
@@ -38,9 +38,9 @@ export default async function handler(
   res: NextApiResponse
 ) {
   // Only allow POST requests
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', ['POST']);
-    return res.status(405).json({ error: 'Method not allowed' });
+  if (req.method !== "POST") {
+    res.setHeader("Allow", ["POST"]);
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
@@ -50,29 +50,30 @@ export default async function handler(
     const metricData: PerformanceMetricData = req.body;
 
     // Validate required fields
-    if (!metricData.name || typeof metricData.value !== 'number') {
+    if (!metricData.name || typeof metricData.value !== "number") {
       return res.status(400).json({
-        error: 'Invalid metric data. Required: name, value'
+        error: "Invalid metric data. Required: name, value",
       });
     }
 
     // Validate metric name
-    const validMetrics = ['LCP', 'FID', 'CLS', 'FCP', 'TTFB'];
+    const validMetrics = ["LCP", "FID", "CLS", "FCP", "TTFB"];
     if (!validMetrics.includes(metricData.name)) {
       return res.status(400).json({
-        error: 'Invalid metric name. Must be one of: ' + validMetrics.join(', ')
+        error:
+          "Invalid metric name. Must be one of: " + validMetrics.join(", "),
       });
     }
 
     // Generate or get session identifier
-    const sessionId = req.headers['x-session-id'] as string ||
-                     generateSessionId(req);
+    const sessionId =
+      (req.headers["x-session-id"] as string) || generateSessionId(req);
 
     const storedMetric: StoredMetrics = {
       timestamp: Date.now(),
       metrics: [metricData],
       sessionId,
-      userId: session?.user?.id,
+      userId: session?.user?.id?.toString(),
     };
 
     // Store the metric
@@ -89,8 +90,8 @@ export default async function handler(
     }
 
     // Log for debugging (remove in production)
-    if (process.env.NODE_ENV === 'development') {
-      console.log('Performance metric received:', {
+    if (process.env.NODE_ENV === "development") {
+      console.log("Performance metric received:", {
         sessionId,
         userId: session?.user?.id,
         metric: metricData.name,
@@ -107,37 +108,37 @@ export default async function handler(
 
     res.status(200).json({
       success: true,
-      message: 'Performance metric recorded',
+      message: "Performance metric recorded",
       sessionId,
       summary,
     });
-
   } catch (error) {
-    console.error('Error processing performance metric:', error);
+    console.error("Error processing performance metric:", error);
     res.status(500).json({
-      error: 'Internal server error'
+      error: "Internal server error",
     });
   }
 }
 
 function generateSessionId(req: NextApiRequest): string {
   // Generate a session ID based on IP and user agent
-  const ip = req.headers['x-forwarded-for'] ||
-            req.headers['x-real-ip'] ||
-            req.connection.remoteAddress ||
-            'unknown';
+  const ip =
+    req.headers["x-forwarded-for"] ||
+    req.headers["x-real-ip"] ||
+    req.connection.remoteAddress ||
+    "unknown";
 
-  const userAgent = req.headers['user-agent'] || 'unknown';
+  const userAgent = req.headers["user-agent"] || "unknown";
 
-  return Buffer.from(`${ip}-${userAgent}-${Date.now()}`).toString('base64');
+  return Buffer.from(`${ip}-${userAgent}-${Date.now()}`).toString("base64");
 }
 
 function cleanupOldMetrics(): void {
-  const cutoffTime = Date.now() - (RETENTION_DAYS * 24 * 60 * 60 * 1000);
+  const cutoffTime = Date.now() - RETENTION_DAYS * 24 * 60 * 60 * 1000;
 
   for (const [sessionId, metrics] of metricsStore.entries()) {
     const filteredMetrics = metrics.filter(
-      metric => metric.timestamp > cutoffTime
+      (metric) => metric.timestamp > cutoffTime
     );
 
     if (filteredMetrics.length === 0) {
@@ -148,13 +149,13 @@ function cleanupOldMetrics(): void {
   }
 }
 
-function calculateAnalyticsSummary(sessionId: string, metricName: string) {
+function calculateAnalyticsSummary(_sessionId: string, metricName: string) {
   const allMetrics: PerformanceMetricData[] = [];
 
   // Collect all metrics of the same type from all sessions
   for (const metrics of metricsStore.values()) {
     for (const metric of metrics) {
-      const matchingMetric = metric.metrics.find(m => m.name === metricName);
+      const matchingMetric = metric.metrics.find((m) => m.name === metricName);
       if (matchingMetric) {
         allMetrics.push(matchingMetric);
       }
@@ -166,7 +167,7 @@ function calculateAnalyticsSummary(sessionId: string, metricName: string) {
   }
 
   // Calculate statistics
-  const values = allMetrics.map(m => m.value);
+  const values = allMetrics.map((m) => m.value);
   const sum = values.reduce((acc, val) => acc + val, 0);
   const mean = sum / values.length;
   const sortedValues = values.sort((a, b) => a - b);
@@ -175,9 +176,11 @@ function calculateAnalyticsSummary(sessionId: string, metricName: string) {
   const p75 = sortedValues[Math.floor(sortedValues.length * 0.75)];
 
   const ratingCounts = {
-    good: allMetrics.filter(m => m.rating === 'good').length,
-    'needs-improvement': allMetrics.filter(m => m.rating === 'needs-improvement').length,
-    poor: allMetrics.filter(m => m.rating === 'poor').length,
+    good: allMetrics.filter((m) => m.rating === "good").length,
+    "needs-improvement": allMetrics.filter(
+      (m) => m.rating === "needs-improvement"
+    ).length,
+    poor: allMetrics.filter((m) => m.rating === "poor").length,
   };
 
   const performanceThresholds = {
@@ -188,7 +191,8 @@ function calculateAnalyticsSummary(sessionId: string, metricName: string) {
     TTFB: { good: 800, needsImprovement: 1800 },
   };
 
-  const threshold = performanceThresholds[metricName as keyof typeof performanceThresholds];
+  const threshold =
+    performanceThresholds[metricName as keyof typeof performanceThresholds];
 
   return {
     metric: metricName,
@@ -203,7 +207,9 @@ function calculateAnalyticsSummary(sessionId: string, metricName: string) {
     },
     ratingDistribution: {
       good: Math.round((ratingCounts.good / allMetrics.length) * 100),
-      'needs-improvement': Math.round((ratingCounts['needs-improvement'] / allMetrics.length) * 100),
+      "needs-improvement": Math.round(
+        (ratingCounts["needs-improvement"] / allMetrics.length) * 100
+      ),
       poor: Math.round((ratingCounts.poor / allMetrics.length) * 100),
     },
     threshold,
@@ -211,29 +217,36 @@ function calculateAnalyticsSummary(sessionId: string, metricName: string) {
   };
 }
 
-function calculateRecentTrend(metrics: PerformanceMetricData[]): 'improving' | 'stable' | 'degrading' {
-  if (metrics.length < 10) return 'stable';
+function calculateRecentTrend(
+  metrics: PerformanceMetricData[]
+): "improving" | "stable" | "degrading" {
+  if (metrics.length < 10) return "stable";
 
   // Compare recent (last 25%) with earlier (first 25%)
   const quarterPoint = Math.floor(metrics.length * 0.25);
   const recentMetrics = metrics.slice(-quarterPoint);
   const earlierMetrics = metrics.slice(0, quarterPoint);
 
-  const recentAvg = recentMetrics.reduce((sum, m) => sum + m.value, 0) / recentMetrics.length;
-  const earlierAvg = earlierMetrics.reduce((sum, m) => sum + m.value, 0) / earlierMetrics.length;
+  const recentAvg =
+    recentMetrics.reduce((sum, m) => sum + m.value, 0) / recentMetrics.length;
+  const earlierAvg =
+    earlierMetrics.reduce((sum, m) => sum + m.value, 0) / earlierMetrics.length;
 
   const changePercent = ((earlierAvg - recentAvg) / earlierAvg) * 100;
 
-  if (changePercent > 5) return 'improving';
-  if (changePercent < -5) return 'degrading';
-  return 'stable';
+  if (changePercent > 5) return "improving";
+  if (changePercent < -5) return "degrading";
+  return "stable";
 }
 
 // Helper endpoint to get analytics data
-export async function getAnalyticsData(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'GET') {
-    res.setHeader('Allow', ['GET']);
-    return res.status(405).json({ error: 'Method not allowed' });
+export async function getAnalyticsData(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method !== "GET") {
+    res.setHeader("Allow", ["GET"]);
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
@@ -242,7 +255,10 @@ export async function getAnalyticsData(req: NextApiRequest, res: NextApiResponse
 
     if (!sessionId) {
       // Return overall analytics
-      const allSessionMetrics: { sessionId: string; metrics: StoredMetrics[] }[] = [];
+      const allSessionMetrics: {
+        sessionId: string;
+        metrics: StoredMetrics[];
+      }[] = [];
 
       for (const [sessionId, metrics] of metricsStore.entries()) {
         allSessionMetrics.push({ sessionId, metrics });
@@ -255,20 +271,19 @@ export async function getAnalyticsData(req: NextApiRequest, res: NextApiResponse
     }
 
     if (!metricsStore.has(sessionId)) {
-      return res.status(404).json({ error: 'Session not found' });
+      return res.status(404).json({ error: "Session not found" });
     }
 
     const sessionMetrics = metricsStore.get(sessionId)!;
-    const summary = calculateAnalyticsSummary(sessionId, metricName || 'LCP');
+    const summary = calculateAnalyticsSummary(sessionId, metricName || "LCP");
 
     res.status(200).json({
       sessionId,
       metrics: sessionMetrics,
       summary,
     });
-
   } catch (error) {
-    console.error('Error fetching analytics data:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error fetching analytics data:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 }

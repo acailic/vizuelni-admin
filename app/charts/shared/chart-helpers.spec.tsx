@@ -7,7 +7,7 @@ import {
   prepareCubeQueryFilters,
   useQueryFilters,
 } from "@/charts/shared/chart-helpers";
-import { ChartConfig, Filters, InteractiveFiltersConfig } from "@/configurator";
+import { ChartConfig, Filters, InteractiveFiltersConfig } from "@/config-types";
 import { FIELD_VALUE_NONE } from "@/configurator/constants";
 import { mkJoinById } from "@/graphql/join";
 import {

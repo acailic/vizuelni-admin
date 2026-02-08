@@ -149,7 +149,7 @@ class ChartRegistry implements IChartRegistry {
     const warnings: string[] = [];
 
     // Validate metadata
-    const validation = validatePluginMetadata(plugin);
+    const validation = validatePluginMetadata(plugin as any);
 
     if (!validation.valid && !options.force) {
       return {
@@ -180,7 +180,7 @@ class ChartRegistry implements IChartRegistry {
     };
 
     // Store the plugin
-    this.plugins.set(plugin.id, entry);
+    this.plugins.set(plugin.id, entry as any);
 
     // Call onRegister hook if provided
     if (plugin.hooks?.onRegister) {

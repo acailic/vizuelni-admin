@@ -51,15 +51,11 @@ export const Select: React.FC<SelectProps> = ({
         onChange={onChange}
         multiple={multiple}
         input={
-          <OutlinedInput
-            id={id}
-            label={label}
-            placeholder={placeholder}
-          />
+          <OutlinedInput id={id} label={label} placeholder={placeholder} />
         }
         renderValue={(selected) => {
           if (multiple) {
-            const selectedValues = selected as string[];
+            const selectedValues = selected as unknown as string[];
             return (
               <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                 {selectedValues.map((value) => {
@@ -108,6 +104,7 @@ export const SelectTrigger = ({
   className?: string;
 } & React.HTMLAttributes<HTMLDivElement>) => {
   return (
+    // @ts-expect-error - OutlinedInput doesn't accept children but we need them for SelectTrigger
     <OutlinedInput
       className={className}
       endAdornment={
@@ -130,11 +127,7 @@ export const SelectValue = ({
   placeholder?: string;
   children?: React.ReactNode;
 } & React.HTMLAttributes<HTMLSpanElement>) => {
-  return (
-    <span {...props}>
-      {children || placeholder}
-    </span>
-  );
+  return <span {...props}>{children || placeholder}</span>;
 };
 
 export const SelectContent = ({

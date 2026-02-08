@@ -50,12 +50,14 @@ export const useAddDataset = () => {
           locale,
           sourceType,
           sourceUrl,
-          cubeFilters: chartConfig.cubes.map((cube) => ({
-            iri: cube.iri,
-            joinBy: cube.joinBy,
-            componentIds: undefined,
-            loadValues: true,
-          })),
+          cubeFilters: chartConfig.cubes.map(
+            (cube: { iri: string; joinBy?: string[] }) => ({
+              iri: cube.iri,
+              joinBy: cube.joinBy,
+              componentIds: undefined,
+              loadValues: true,
+            })
+          ),
         });
 
         if (res.error || !res.data) {

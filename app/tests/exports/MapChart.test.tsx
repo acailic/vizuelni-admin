@@ -3,6 +3,7 @@
  */
 
 import { render, screen } from "@testing-library/react";
+import { describe, it, expect, vi } from "vitest";
 
 import { MapChart } from "../../exports/charts/MapChart";
 
@@ -182,7 +183,7 @@ describe("MapChart", () => {
   });
 
   it("handles click events on regions", () => {
-    const handleClick = jest.fn();
+    const handleClick = vi.fn();
     const { container } = render(
       <MapChart
         data={mockGeoData}

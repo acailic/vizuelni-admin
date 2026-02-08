@@ -4,6 +4,8 @@ import { describe, expect, it } from "vitest";
 import { TimeInput } from "@/configurator/components/field";
 import { getD3TimeFormatLocale } from "@/locales/locales";
 
+import type { ChangeEvent } from "react";
+
 describe("TimeInput", () => {
   const expectedValue = "2020-05-24";
   const setup = ({ isOptional, id }: { isOptional: boolean; id: string }) => {
@@ -17,7 +19,9 @@ describe("TimeInput", () => {
         timeFormat="%Y-%m-%d"
         formatLocale={getD3TimeFormatLocale("en")}
         isOptional={isOptional}
-        onChange={(e) => (currentValue = e.currentTarget.value)}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          currentValue = e.currentTarget.value;
+        }}
       />
     );
 

@@ -151,7 +151,7 @@ export const ChartPublished = ({
       switch (block.type) {
         case "chart":
           const chartConfig = state.chartConfigs.find(
-            (c) => c.key === block.key
+            (c: { key: string }) => c.key === block.key
           ) as ChartConfig;
           return renderChart(chartConfig);
         case "text":

@@ -3,13 +3,24 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-
 import { AppLayout } from "@/components/layout";
-import { ConfiguratorStateProvider } from "@/configurator";
-import { AddNewDatasetPanel } from "@/configurator/components/add-new-dataset-panel";
 
-const Configurator = dynamic(
-  () => import("@/configurator/components/configurator").then((m) => m.Configurator),
+const ConfiguratorWithProvider = dynamic(
+  () =>
+    import("@/configurator/components/configurator").then((m) => {
+      const { ConfiguratorStateProvider } = require("@/configurator");
+      const {
+        AddNewDatasetPanel,
+      } = require("@/configurator/components/add-new-dataset-panel");
+      return {
+        default: ({ chartId }: { chartId: string }) => (
+          <ConfiguratorStateProvider chartId={chartId}>
+            <m.Configurator />
+            <AddNewDatasetPanel />
+          </ConfiguratorStateProvider>
+        ),
+      };
+    }),
   {
     ssr: false,
     loading: () => null,
@@ -26,10 +37,7 @@ const ChartConfiguratorPage: NextPage = () => {
         <meta name="viewport" content="width=1280"></meta>
       </Head>
       <AppLayout editing>
-        <ConfiguratorStateProvider chartId={chartId}>
-          <Configurator />
-          <AddNewDatasetPanel />
-        </ConfiguratorStateProvider>
+        <ConfiguratorWithProvider chartId={chartId} />
       </AppLayout>
     </>
   );

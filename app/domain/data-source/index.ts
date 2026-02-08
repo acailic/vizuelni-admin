@@ -53,5 +53,8 @@ export const dataSourceToSparqlEditorUrl = (dataSource: DataSource): string => {
       return `${url.origin}/sparql`;
     case "sql":
       throw Error("Not implemented yet.");
+    default:
+      const _exhaustiveCheck: never = dataSource as never;
+      return _exhaustiveCheck;
   }
 };

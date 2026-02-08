@@ -32,7 +32,7 @@ export const getFiltersByComponentIris = <T extends Filters | SingleFilters>(
   filters: T
 ) => {
   return mapKeys(
-    filters,
+    filters as any,
     (_, k) => parseComponentId(k as ComponentId).unversionedComponentIri ?? k
   );
 };

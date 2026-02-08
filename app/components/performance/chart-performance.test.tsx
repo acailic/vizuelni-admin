@@ -3,19 +3,20 @@
  * Tests render performance, memory usage, and large dataset handling
  */
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render, screen, waitFor } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { render, screen, waitFor } from "@testing-library/react";
+import * as React from "react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import {
   measureRenderPerformance,
   detectMemoryLeaks,
   testLargeDatasetPerformance,
   PerformanceRegressionDetector,
-} from '@/test-utils/performance';
+} from "@/test-utils/performance";
 
 // Mock chart components for performance testing
-vi.mock('@/charts', () => ({
+vi.mock("@/charts", () => ({
   Chart: ({ data, config }: any) => (
     <div data-testid="chart">
       <div data-testid="chart-type">{config.type}</div>
@@ -29,7 +30,7 @@ vi.mock('@/charts', () => ({
   ),
 }));
 
-describe('Chart Component Performance', () => {
+describe("Chart Component Performance", () => {
   let queryClient: QueryClient;
   let performanceDetector: PerformanceRegressionDetector;
 
@@ -51,13 +52,13 @@ describe('Chart Component Performance', () => {
     );
   };
 
-  describe('Render Performance', () => {
-    it('should render small datasets within performance thresholds', async () => {
+  describe("Render Performance", () => {
+    it("should render small datasets within performance thresholds", async () => {
       const SmallChart = () => {
         const data = Array.from({ length: 10 }, (_, i) => ({
           year: 2020 + i,
           value: Math.random() * 100,
-          region: 'Beograd',
+          region: "Beograd",
         }));
 
         return (
@@ -75,7 +76,7 @@ describe('Chart Component Performance', () => {
       expect(performance.standardDeviation).toBeLessThan(5); // Consistent performance
     });
 
-    it('should handle medium datasets efficiently', async () => {
+    it("should handle medium datasets efficiently", async () => {
       const MediumChart = () => {
         const data = Array.from({ length: 100 }, (_, i) => ({
           year: 2020 + Math.floor(i / 10),
@@ -96,43 +97,50 @@ describe('Chart Component Performance', () => {
       expect(performance.maxTime).toBeLessThan(100); // Maximum acceptable time
     });
 
-    it('should maintain consistent performance across multiple renders', async () => {
+    it("should maintain consistent performance across multiple renders", async () => {
       const ChartComponent = () => (
         <div data-testid="chart">
           <div data-testid="chart-type">bar</div>
         </div>
       );
 
-      const performance = await measureRenderPerformance(<ChartComponent />, 10);
+      const performance = await measureRenderPerformance(
+        <ChartComponent />,
+        10
+      );
 
       // Performance should be consistent (low standard deviation)
-      expect(performance.standardDeviation).toBeLessThan(performance.averageTime * 0.3);
+      expect(performance.standardDeviation).toBeLessThan(
+        performance.averageTime * 0.3
+      );
 
       // No single render should be dramatically slower than average
       expect(performance.maxTime).toBeLessThan(performance.averageTime * 2);
     });
   });
 
-  describe('Memory Management', () => {
-    it('should not leak memory during repeated mount/unmount', async () => {
+  describe("Memory Management", () => {
+    it("should not leak memory during repeated mount/unmount", async () => {
       let renderCount = 0;
 
       const renderChart = () => {
         renderCount++;
         return renderWithProviders(
-          <div data-testid="chart-container">
-            Chart Component {renderCount}
-          </div>
+          <div data-testid="chart-container">Chart Component {renderCount}</div>
         );
       };
 
-      const memoryTest = await detectMemoryLeaks(renderChart, 5, 10 * 1024 * 1024); // 10MB threshold
+      const memoryTest = await detectMemoryLeaks(
+        renderChart,
+        5,
+        10 * 1024 * 1024
+      ); // 10MB threshold
 
       expect(memoryTest.hasLeaks).toBe(false);
       expect(memoryTest.leakRate).toBeLessThan(1024 * 1024); // Less than 1MB per iteration
     });
 
-    it('should clean up large datasets properly', async () => {
+    it("should clean up large datasets properly", async () => {
       const LargeChart = ({ data }: { data: any[] }) => (
         <div data-testid="chart">
           <div data-testid="data-count">{data.length}</div>
@@ -153,14 +161,18 @@ describe('Chart Component Performance', () => {
         return renderWithProviders(<LargeChart data={largeData} />);
       };
 
-      const memoryTest = await detectMemoryLeaks(renderLargeChart, 3, 50 * 1024 * 1024); // 50MB threshold
+      const memoryTest = await detectMemoryLeaks(
+        renderLargeChart,
+        3,
+        50 * 1024 * 1024
+      ); // 50MB threshold
 
       expect(memoryTest.hasLeaks).toBe(false);
     });
   });
 
-  describe('Large Dataset Performance', () => {
-    it('should scale performance with data size', async () => {
+  describe("Large Dataset Performance", () => {
+    it("should scale performance with data size", async () => {
       const generateChartData = (size: number) =>
         Array.from({ length: size }, (_, i) => ({
           id: i,
@@ -192,10 +204,10 @@ describe('Chart Component Performance', () => {
       expect(largeResult.memoryUsage).toBeLessThan(100 * 1024 * 1024); // 100MB limit
 
       // Should remain interactive even with large datasets
-      expect(results.every(result => result.interactive)).toBe(true);
+      expect(results.every((result) => result.interactive)).toBe(true);
     });
 
-    it('should handle virtualized data efficiently', async () => {
+    it("should handle virtualized data efficiently", async () => {
       // This would test chart components with virtualization
       const VirtualizedChart = () => (
         <div data-testid="virtualized-chart">
@@ -204,59 +216,74 @@ describe('Chart Component Performance', () => {
         </div>
       );
 
-      const performance = await measureRenderPerformance(<VirtualizedChart />, 3);
+      const performance = await measureRenderPerformance(
+        <VirtualizedChart />,
+        3
+      );
 
       // Virtualized component should render quickly regardless of total data size
       expect(performance.averageTime).toBeLessThan(50);
     });
   });
 
-  describe('Performance Regression Detection', () => {
-    it('should detect performance regressions', () => {
+  describe("Performance Regression Detection", () => {
+    it("should detect performance regressions", () => {
       // Set baseline
-      performanceDetector.setBaseline('chart-render-time', 25);
+      performanceDetector.setBaseline("chart-render-time", 25);
 
       // Test with degraded performance
-      const result = performanceDetector.checkRegression('chart-render-time', 35, 0.2);
+      const result = performanceDetector.checkRegression(
+        "chart-render-time",
+        35,
+        0.2
+      );
 
       expect(result.hasRegression).toBe(true);
       expect(result.percentageChange).toBe(40); // 40% increase
-      expect(result.severity).toBe('moderate');
+      expect(result.severity).toBe("moderate");
     });
 
-    it('should pass when performance is acceptable', () => {
+    it("should pass when performance is acceptable", () => {
       // Set baseline
-      performanceDetector.setBaseline('chart-render-time', 30);
+      performanceDetector.setBaseline("chart-render-time", 30);
 
       // Test with similar or better performance
-      const result = performanceDetector.checkRegression('chart-render-time', 32, 0.2);
+      const result = performanceDetector.checkRegression(
+        "chart-render-time",
+        32,
+        0.2
+      );
 
       expect(result.hasRegression).toBe(false);
       expect(result.percentageChange).toBeLessThan(10);
     });
 
-    it('should detect severe regressions', () => {
+    it("should detect severe regressions", () => {
       // Set baseline
-      performanceDetector.setBaseline('chart-render-time', 20);
+      performanceDetector.setBaseline("chart-render-time", 20);
 
       // Test with severely degraded performance
-      const result = performanceDetector.checkRegression('chart-render-time', 50, 0.2);
+      const result = performanceDetector.checkRegression(
+        "chart-render-time",
+        50,
+        0.2
+      );
 
       expect(result.hasRegression).toBe(true);
-      expect(result.severity).toBe('severe');
+      expect(result.severity).toBe("severe");
       expect(result.percentageChange).toBe(150); // 150% increase
     });
   });
 
-  describe('Interaction Performance', () => {
-    it('should respond to filter changes quickly', async () => {
+  describe("Interaction Performance", () => {
+    it("should respond to filter changes quickly", async () => {
       const InteractiveChart = () => {
         const [filters, setFilters] = React.useState({});
 
         const applyFilter = (key: string, value: string) => {
           // Simulate filter processing time
           const startTime = performance.now();
-          setFilters(prev => ({ ...prev, [key]: value }));
+          setFilters((prev) => ({ ...prev, [key]: value }));
           const endTime = performance.now();
           return endTime - startTime;
         };
@@ -264,7 +291,7 @@ describe('Chart Component Performance', () => {
         return (
           <div data-testid="interactive-chart">
             <button
-              onClick={() => applyFilter('region', 'Beograd')}
+              onClick={() => applyFilter("region", "Beograd")}
               data-testid="filter-button"
             >
               Apply Filter
@@ -278,14 +305,16 @@ describe('Chart Component Performance', () => {
 
       renderWithProviders(<InteractiveChart />);
 
-      const filterButton = screen.getByTestId('filter-button');
+      const filterButton = screen.getByTestId("filter-button");
       const startTime = performance.now();
 
       // Simulate user clicking filter
       filterButton.click();
 
       await waitFor(() => {
-        expect(screen.getByTestId('applied-filters')).toHaveTextContent('1 filters applied');
+        expect(screen.getByTestId("applied-filters")).toHaveTextContent(
+          "1 filters applied"
+        );
       });
 
       const endTime = performance.now();
@@ -295,14 +324,14 @@ describe('Chart Component Performance', () => {
       expect(interactionTime).toBeLessThan(100);
     });
 
-    it('should handle rapid user interactions gracefully', async () => {
+    it("should handle rapid user interactions gracefully", async () => {
       const RapidInteractionChart = () => {
         const [count, setCount] = React.useState(0);
 
         return (
           <div data-testid="rapid-chart">
             <button
-              onClick={() => setCount(c => c + 1)}
+              onClick={() => setCount((c) => c + 1)}
               data-testid="increment-button"
             >
               Click Count: {count}
@@ -313,7 +342,7 @@ describe('Chart Component Performance', () => {
 
       renderWithProviders(<RapidInteractionChart />);
 
-      const button = screen.getByTestId('increment-button');
+      const button = screen.getByTestId("increment-button");
       const startTime = performance.now();
 
       // Simulate rapid clicks
@@ -329,8 +358,8 @@ describe('Chart Component Performance', () => {
     });
   });
 
-  describe('Accessibility Performance', () => {
-    it('should maintain screen reader performance', async () => {
+  describe("Accessibility Performance", () => {
+    it("should maintain screen reader performance", async () => {
       const AccessibleChart = () => (
         <div
           role="img"
@@ -341,7 +370,10 @@ describe('Chart Component Performance', () => {
         </div>
       );
 
-      const performance = await measureRenderPerformance(<AccessibleChart />, 5);
+      const performance = await measureRenderPerformance(
+        <AccessibleChart />,
+        5
+      );
 
       // Accessibility features shouldn't significantly impact performance
       expect(performance.averageTime).toBeLessThan(20);

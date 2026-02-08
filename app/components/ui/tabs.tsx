@@ -3,11 +3,7 @@ import {
   TabList as MuiTabList,
   TabPanel as MuiTabPanel,
 } from "@mui/lab";
-import {
-  Tab as MuiTab,
-  TabProps as MuiTabProps,
-  Box,
-} from "@mui/material";
+import { Tab as MuiTab, TabProps as MuiTabProps, Box } from "@mui/material";
 import React from "react";
 
 export interface TabsProps {
@@ -22,7 +18,10 @@ export interface TabsListProps {
   className?: string;
 }
 
-export interface TabsTriggerProps extends Omit<MuiTabProps, "value"> {
+export interface TabsTriggerProps extends Omit<
+  MuiTabProps,
+  "value" | "children"
+> {
   value: string;
   children: React.ReactNode;
   className?: string;
@@ -54,11 +53,9 @@ export const Tabs: React.FC<TabsProps> = ({
   );
 };
 
-export const TabsList: React.FC<TabsListProps & { onValueChange?: (value: string) => void }> = ({
-  children,
-  onValueChange,
-  className,
-}) => {
+export const TabsList: React.FC<
+  TabsListProps & { onValueChange?: (value: string) => void }
+> = ({ children, onValueChange, className }) => {
   const handleChange = (_: React.SyntheticEvent, newValue: string) => {
     if (onValueChange) {
       onValueChange(newValue);
@@ -71,6 +68,7 @@ export const TabsList: React.FC<TabsListProps & { onValueChange?: (value: string
   ) as any;
 
   return (
+    // @ts-expect-error - MuiTabList doesn't have value prop but we use it for controlled tabs
     <MuiTabList
       onChange={handleChange}
       className={className}
@@ -88,12 +86,7 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({
   ...props
 }) => {
   return (
-    <MuiTab
-      value={value}
-      label={children}
-      className={className}
-      {...props}
-    />
+    <MuiTab value={value} label={children} className={className} {...props} />
   );
 };
 
@@ -103,11 +96,7 @@ export const TabsContent: React.FC<TabsContentProps> = ({
   className,
 }) => {
   return (
-    <MuiTabPanel
-      value={value}
-      className={className}
-      sx={{ padding: 0 }}
-    >
+    <MuiTabPanel value={value} className={className} sx={{ padding: 0 }}>
       {children}
     </MuiTabPanel>
   );

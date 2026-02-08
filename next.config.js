@@ -128,12 +128,12 @@ module.exports = withMDX({
   },
 
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false,
     dirs: ["app"],
   },
 
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
 
   logging: {

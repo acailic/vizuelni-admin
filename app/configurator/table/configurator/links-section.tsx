@@ -1,7 +1,13 @@
 import { sanitizeUrl } from "@braintree/sanitize-url";
 import { t, Trans } from "@lingui/macro";
 import { SelectChangeEvent } from "@mui/material";
-import { KeyboardEvent, useEffect, useMemo, useState } from "react";
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 import { Input, Select } from "@/components/form";
 import { TableConfig } from "@/config-types";
@@ -207,7 +213,9 @@ const BaseUrlInput = ({
         id: "controls.tableSettings.baseUrlInvalid",
         message: "Please enter a valid URL",
       })}
-      onChange={(e) => setInputValue(e.target.value)}
+      onChange={(e: ChangeEvent<HTMLInputElement>) =>
+        setInputValue(e.target.value)
+      }
       onBlur={handleCommit}
       onKeyDown={handleKeyDown}
     />

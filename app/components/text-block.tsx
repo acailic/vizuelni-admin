@@ -205,9 +205,9 @@ export const useSyncTextBlockHeight = () => {
         const h = Math.ceil(contentEl.clientHeight / ROW_HEIGHT) || 1;
 
         const newLayouts = Object.fromEntries(
-          Object.entries(layout.layouts).map(([bp, layouts]) => [
+          Object.entries(layout.layouts).map(([bp, layouts]: [string, any]) => [
             bp,
-            layouts.map((b) => {
+            layouts.map((b: { i: string; h: number; minH?: number }) => {
               return b.i === key ? { ...b, h, minH: h } : b;
             }),
           ])

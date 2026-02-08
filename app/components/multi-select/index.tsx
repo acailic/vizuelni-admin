@@ -13,9 +13,9 @@ import { ReactNode, useCallback, useMemo, useRef, useState } from "react";
 import {
   getSelectOptions,
   Label,
+  selectSizeToTypography,
   SelectOption,
   SelectOptionGroup,
-  selectSizeToTypography,
 } from "@/components/form";
 import { MultiSelectInput } from "@/components/multi-select/input";
 import { MultiSelectOption } from "@/components/multi-select/option";
@@ -82,7 +82,7 @@ export const MultiSelect = ({
       return flatten(
         optionGroups.map(([group, values]) => {
           const normalized = getSelectOptions(values, { sort, locale }).map(
-            (o) => ({
+            (o: SelectOption) => ({
               ...o,
               group: group?.label,
             })

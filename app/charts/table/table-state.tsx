@@ -33,6 +33,7 @@ import {
   useTableStateData,
   useTableStateVariables,
 } from "@/charts/table/table-state-props";
+import { TableColumn } from "@/config-types";
 import {
   ColumnStyleCategory,
   ColumnStyleHeatmap,
@@ -169,7 +170,7 @@ const useTableState = (
     chartHeight,
   };
 
-  const orderedTableColumns = useOrderedTableColumns(fields);
+  const orderedTableColumns = useOrderedTableColumns(fields) as TableColumn[];
 
   /**
    * REACT-TABLE CONFIGURATION
@@ -382,7 +383,7 @@ const useTableState = (
           return {
             ...common,
             colorScale,
-          } as HeatmapColumnMeta;
+          } as unknown as HeatmapColumnMeta;
         } else if (columnStyleType === "bar") {
           // The column width depends on the estimated width of the
           // longest value in the column, with a minimum of 150px.

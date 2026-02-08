@@ -81,7 +81,6 @@ export const BarChart = memo(
     config,
     height = 400,
     width = "100%",
-    locale = "sr-Latn",
     className = "",
     style = {},
     onDataPointClick,
@@ -287,13 +286,13 @@ export const BarChart = memo(
           .attr("fill", showArea ? `url(#${gradientId})` : seriesColor)
           .style("cursor", onDataPointClick ? "pointer" : "default")
           .style("filter", "drop-shadow(0 1px 2px rgba(0,0,0,0.1))")
-          .on("click", (event, d) => {
+          .on("click", (_event, d) => {
             if (onDataPointClick) {
               onDataPointClick(d, data.indexOf(d));
             }
           })
           .transition()
-          .delay(animated ? (_, i) => i * 50 : 0)
+          .delay((animated ? (_: unknown, i: number) => i * 50 : 0) as any)
           .duration(animated ? animationDuration : 0)
           .ease(easeCubicOut)
           .attr("x", (d) => Math.min(xScale(0), xScale(Number(d[key]) || 0)))

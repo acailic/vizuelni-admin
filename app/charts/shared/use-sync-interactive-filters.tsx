@@ -2,6 +2,7 @@ import isEqual from "lodash/isEqual";
 import { useEffect, useMemo, useRef } from "react";
 
 import {
+  Annotation,
   ChartConfig,
   DashboardFiltersConfig,
   FilterValue,
@@ -82,7 +83,7 @@ export const useSyncInteractiveFilters = (
 
     const currentDataFilters = getInteractiveFiltersState().dataFilters;
     const next = newPotentialInteractiveDataFilters.reduce(
-      (acc, iri) => {
+      (acc: Record<string, FilterValue>, iri: string) => {
         const dashboardFilter = dashboardFilters?.dataFilters.filters[iri];
         if (dashboardFilter?.type === "single") {
           acc[iri] = dashboardFilter;
@@ -250,10 +251,12 @@ export const useSyncInteractiveFilters = (
     }
 
     const [dimensionId, prev, next] = changes[0];
-    if (prev?.type === "single" || next?.type === "single") {
+    if ((prev as any)?.type === "single" || (next as any)?.type === "single") {
       updateDataFilter(
-        dimensionId,
-        next?.type === "single" ? next.value : FIELD_VALUE_NONE
+        dimensionId as string,
+        ((next as any)?.type === "single"
+          ? (next as any).value
+          : FIELD_VALUE_NONE) as any
       );
     }
   }, [changes, updateDataFilter]);
@@ -293,7 +296,7 @@ export const useSyncInteractiveFilters = (
   );
   useEffect(() => {
     if (!annotationsInitializedRef.current) {
-      annotations.forEach((annotation) => {
+      annotations.forEach((annotation: Annotation) => {
         if (interactiveAnnotations[annotation.key] !== annotation.defaultOpen) {
           updateAnnotation(annotation.key, annotation.defaultOpen);
         }

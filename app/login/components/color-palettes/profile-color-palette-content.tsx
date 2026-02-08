@@ -212,7 +212,7 @@ const ColorPaletteDisplay = ({
     case "categorical":
       return (
         <>
-          {colors.map((color, i) => (
+          {colors.map((color: string, i: number) => (
             <Grid item key={`${paletteId}-${color}-${i}`}>
               <ColorSquare color={color} />
             </Grid>
@@ -249,7 +249,7 @@ const ColorPaletteDisplay = ({
         />
       );
     default:
-      const _exhaustiveCheck: never = type;
+      const _exhaustiveCheck: never = type as never;
       return _exhaustiveCheck;
   }
 };

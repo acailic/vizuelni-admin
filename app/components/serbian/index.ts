@@ -24,8 +24,7 @@ export {
   formatSerbianCurrency,
   isCyrillic,
   detectSerbianScript,
-  SerbianLanguageVariant,
-  serbianTranslations
+  serbianTranslations,
 } from "./serbian-language-utils";
 
 // Types

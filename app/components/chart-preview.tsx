@@ -102,7 +102,9 @@ export const ChartPreview = ({ dataSource }: { dataSource: DataSource }) => {
         <>
           {!isConfiguring(state) ? (
             <DashboardInteractiveFilters
-              key={state.chartConfigs.map((x) => x.key).join(",")}
+              key={(state as any).chartConfigs
+                .map((x: { key: string }) => x.key)
+                .join(",")}
               sx={{ mb: 4 }}
             />
           ) : null}
@@ -187,7 +189,7 @@ const DashboardPreview = ({
       switch (block.type) {
         case "chart":
           const chartConfig = state.chartConfigs.find(
-            (c) => c.key === block.key
+            (c: { key: string }) => c.key === block.key
           ) as ChartConfig;
           return renderChart(chartConfig);
         case "text":
@@ -204,7 +206,9 @@ const DashboardPreview = ({
     return (
       // Force re-rendering of the canvas layout when the chart configs change
       // to properly initialize the height of the new charts
-      <div key={state.chartConfigs.map((c) => c.key).join(",")}>
+      <div
+        key={state.chartConfigs.map((c: { key: string }) => c.key).join(",")}
+      >
         <ChartPanelLayout
           renderBlock={renderBlock}
           layoutType={layoutType}
@@ -222,7 +226,7 @@ const DashboardPreview = ({
         transition.setEnable(false);
         setIsDragging(true);
         const block = state.layout.blocks.find(
-          (b) => b.key === e.active.id
+          (b: LayoutBlock) => b.key === e.active.id
         ) as LayoutBlock;
         setActiveBlock(block);
       }}
@@ -246,8 +250,12 @@ const DashboardPreview = ({
         dispatch({
           type: "LAYOUT_BLOCK_SWAP",
           value: {
-            oldIndex: state.layout.blocks.findIndex((b) => b.key === active.id),
-            newIndex: state.layout.blocks.findIndex((b) => b.key === over.id),
+            oldIndex: state.layout.blocks.findIndex(
+              (b: LayoutBlock) => b.key === active.id
+            ),
+            newIndex: state.layout.blocks.findIndex(
+              (b: LayoutBlock) => b.key === over.id
+            ),
           },
         });
       }}
@@ -401,10 +409,12 @@ const SingleURLsPreview = ({
                       value: {
                         ...layout,
                         publishableChartKeys: checked
-                          ? keys.filter((k) => k !== key)
+                          ? keys.filter((k: string) => k !== key)
                           : state.chartConfigs
-                              .map((c) => c.key)
-                              .filter((k) => keys.includes(k) || k === key),
+                              .map((c: { key: string }) => c.key)
+                              .filter(
+                                (k: string) => keys.includes(k) || k === key
+                              ),
                       },
                     });
                   }}
@@ -447,7 +457,9 @@ const ChartPreviewInner = ({
   const [{ data: metadata }] = useDataCubesMetadataQuery({
     variables: {
       ...commonQueryVariables,
-      cubeFilters: chartConfig.cubes.map((cube) => ({ iri: cube.iri })),
+      cubeFilters: chartConfig.cubes.map(
+        (cube: ChartConfig["cubes"][number]) => ({ iri: cube.iri })
+      ),
     },
   });
   const componentIds = undefined;
@@ -455,12 +467,14 @@ const ChartPreviewInner = ({
     chartConfig,
     variables: {
       ...commonQueryVariables,
-      cubeFilters: chartConfig.cubes.map((cube) => ({
-        iri: cube.iri,
-        componentIds,
-        filters: cube.filters,
-        joinBy: cube.joinBy,
-      })),
+      cubeFilters: chartConfig.cubes.map(
+        (cube: ChartConfig["cubes"][number]) => ({
+          iri: cube.iri,
+          componentIds,
+          filters: cube.filters,
+          joinBy: cube.joinBy,
+        })
+      ),
     },
   });
   const { isTable } = useChartTablePreview();

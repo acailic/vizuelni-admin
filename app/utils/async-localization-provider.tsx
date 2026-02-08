@@ -1,4 +1,3 @@
-
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { PropsWithChildren, useEffect, useState } from "react";
@@ -13,11 +12,6 @@ const localeImportMap: Record<Locale, string> = {
 
 type AsyncLocalizationProviderProps = {
   locale: Locale;
-};
-
-// Simple fallback locale object that works during SSR
-const fallbackLocale = {
-  code: "en-GB",
 };
 
 export const AsyncLocalizationProvider = (
@@ -59,7 +53,10 @@ export const AsyncLocalizationProvider = (
   // On client, wrap with LocalizationProvider if locale is loaded
   if (dateFnsLocale) {
     return (
-      <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={dateFnsLocale}>
+      <LocalizationProvider
+        dateAdapter={AdapterDateFns}
+        adapterLocale={dateFnsLocale}
+      >
         {children}
       </LocalizationProvider>
     );

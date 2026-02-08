@@ -17,7 +17,10 @@ const tokens = {
   "<BASE_VECTOR_TILE>": BASE_VECTOR_TILE_URL,
 };
 
-const greyStyle = replaceStyleTokens(greyStyleBase as MapboxStyle, tokens);
+const greyStyle = replaceStyleTokens(
+  greyStyleBase as unknown as MapboxStyle,
+  tokens
+);
 
 const emptyStyle = {
   version: 8,
@@ -51,7 +54,7 @@ const getBaseLayerStyle = ({
   const textOpacity = showLabels ? 1 : 0;
   const textLayersVisibility = showLabels ? "visible" : "none";
 
-  const greyStyleTextAdjusted = mapLayers(greyStyle, (layer) => {
+  const greyStyleTextAdjusted = mapLayers(greyStyle as any, (layer) => {
     if (!hasLayout(layer)) {
       return;
     }

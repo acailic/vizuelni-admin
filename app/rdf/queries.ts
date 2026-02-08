@@ -1,5 +1,4 @@
 import { ascending, index } from "d3-array";
-import { Maybe } from "graphql-tools";
 import keyBy from "lodash/keyBy";
 import mapKeys from "lodash/mapKeys";
 import { CubeDimension, Filter, LookupSource, View } from "rdf-cube-view-query";
@@ -41,6 +40,8 @@ import {
 import { loadUnits } from "@/rdf/query-unit-labels";
 import { getQueryLocales } from "@/rdf/query-utils";
 
+type Maybe<T> = T | undefined;
+
 const DIMENSION_VALUE_UNDEFINED = ns.cube.Undefined.value;
 
 /** Adds a suffix to an iri to mark its label */
@@ -50,7 +51,9 @@ const unversionedDimensionIri = (iri: string) => `${iri}/__unversioned__`;
 
 const getDimensionUnits = (d: CubeDimension) => {
   // Keeping qudt:unit format for backwards compatibility.
-  const t = d.out(ns.qudt.unit).term ?? d.out(ns.qudt.hasUnit).term;
+  const t =
+    (d.out as any)((ns.qudt as any).unit).term ??
+    (d.out as any)((ns.qudt as any).hasUnit).term;
 
   return t ? [t] : [];
 };
@@ -115,7 +118,10 @@ export const getCubeDimensions = async ({
       })
       .sort((a, b) => ascending(a.data.order, b.data.order));
   } catch (e) {
-    console.error(`Failed to get cube dimensions for ${unversionedCubeIri}:`, e);
+    console.error(
+      `Failed to get cube dimensions for ${unversionedCubeIri}:`,
+      e
+    );
 
     return [];
   }
@@ -400,15 +406,16 @@ export const getCubeObservations = async ({
   let dbFilters: typeof filters = {};
 
   for (const [k, v] of Object.entries(filters ?? {})) {
-    if (v.type !== "multi") {
-      dbFilters[k] = v;
+    const filterValue = v as any;
+    if (filterValue.type !== "multi") {
+      dbFilters[k] = filterValue;
     } else {
-      const count = Object.keys(v.values).length;
+      const count = Object.keys(filterValue.values).length;
       if (count > 100) {
         // Apply server-side filter when filter values count exceeds threshold
-        serverFilters[k] = v;
+        serverFilters[k] = filterValue;
       } else {
-        dbFilters[k] = v;
+        dbFilters[k] = filterValue;
       }
     }
   }
@@ -510,7 +517,6 @@ const makeServerFilter = (
   };
 };
 
-
 export const hasHierarchy = (dim: CubeDimension) => {
   return dim.out(ns.cubeMeta.inHierarchy).values.length > 0;
 };
@@ -535,6 +541,7 @@ const buildFilters = async ({
 
   return await Promise.all(
     Object.entries(filters).flatMap(async ([filterComponentId, filter]) => {
+      const f = filter as any;
       const iri =
         parseComponentId(filterComponentId as ComponentId)
           .unversionedComponentIri ?? filterComponentId;
@@ -601,9 +608,9 @@ const buildFilters = async ({
           : rdf.namedNode(d);
       };
 
-      switch (filter.type) {
+      switch (f.type) {
         case "single": {
-          if (isMostRecentValue(filter.value)) {
+          if (isMostRecentValue(f.value)) {
             const maxValue = await loadMaxDimensionValue(cube.term?.value!, {
               dimensionIri: resolvedDimension.data.iri,
               cubeDimensions: cube.dimensions,
@@ -615,14 +622,14 @@ const buildFilters = async ({
             return [filterDimension.filter.eq(toRDFValue(maxValue))];
           }
 
-          return [filterDimension.filter.eq(toRDFValue(`${filter.value}`))];
+          return [filterDimension.filter.eq(toRDFValue(`${f.value}`))];
         }
         case "multi": {
           // If values is an empty object, we filter by something that doesn't exist
           return [
             filterDimension.filter.in(
-              Object.keys(filter.values).length > 0
-                ? Object.entries(filter.values).flatMap(([iri, selected]) =>
+              Object.keys(f.values).length > 0
+                ? Object.entries(f.values).flatMap(([iri, selected]) =>
                     selected ? [toRDFValue(iri)] : []
                   )
                 : [rdf.namedNode("EMPTY_VALUE")]
@@ -632,7 +639,7 @@ const buildFilters = async ({
         case "range": {
           const isTemporalEntityDimension =
             dimensionType === "TemporalEntityDimension";
-          const maxValue = isMostRecentValue(filter.to)
+          const maxValue = isMostRecentValue(f.to)
             ? await loadMaxDimensionValue(cube.term?.value!, {
                 dimensionIri: resolvedDimension.data.iri,
                 cubeDimensions: cube.dimensions,
@@ -640,11 +647,11 @@ const buildFilters = async ({
                 filters,
                 cache,
               })
-            : filter.to;
+            : f.to;
 
           if (!isTemporalEntityDimension) {
             return [
-              filterDimension.filter.gte(toRDFValue(filter.from)),
+              filterDimension.filter.gte(toRDFValue(f.from)),
               filterDimension.filter.lte(toRDFValue(maxValue)),
             ];
           }
@@ -658,7 +665,7 @@ const buildFilters = async ({
 
           return [
             filterDimensionPosition.filter.gte(
-              rdf.literal(filter.from, ns.xsd.string)
+              rdf.literal(f.from, ns.xsd.string)
             ),
             filterDimensionPosition.filter.lte(
               rdf.literal(maxValue, ns.xsd.string)
@@ -666,7 +673,7 @@ const buildFilters = async ({
           ];
         }
         default:
-          const _exhaustiveCheck: never = filter;
+          const _exhaustiveCheck: never = f as never;
           return _exhaustiveCheck;
       }
     })

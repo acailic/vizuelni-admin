@@ -103,13 +103,13 @@ export function useDataGovRs(options: UseDataGovRsOptions): UseDataGovRsResult {
 
       // Update cache
       cache.set(cacheKey, {
-        data: result.results,
-        count: result.count,
+        data: result.data,
+        count: result.total,
         timestamp: Date.now(),
       });
 
-      setData(result.results);
-      setCount(result.count);
+      setData(result.data);
+      setCount(result.total);
     } catch (e) {
       setError(e instanceof Error ? e : new Error("Unknown error"));
     } finally {

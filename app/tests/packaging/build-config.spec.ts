@@ -300,7 +300,7 @@ describe("Build Configuration Validation", () => {
     it("export paths should be relative to dist", () => {
       const exports = packageJson.exports;
 
-      for (const [subpath, config] of Object.entries(exports)) {
+      for (const [_subpath, config] of Object.entries(exports)) {
         const exportConfig = config as {
           import?: string;
           require?: string;

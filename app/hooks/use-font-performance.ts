@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 interface FontMetrics {
   firstPaint: number;
@@ -27,18 +27,17 @@ export const useFontPerformance = () => {
   });
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !('fonts' in document)) {
-      setState(prev => ({
+    if (typeof window === "undefined" || !("fonts" in document)) {
+      setState((prev) => ({
         ...prev,
         isLoading: false,
-        error: 'Font loading API not supported',
+        error: "Font loading API not supported",
       }));
       return;
     }
 
     const startTime = performance.now();
     let fontsLoaded = 0;
-    const totalFonts = document.fonts.size;
 
     // Monitor font loading
     const fontLoadPromise = document.fonts.ready.then(() => {
@@ -55,13 +54,15 @@ export const useFontPerformance = () => {
     const getPerformanceMetrics = async () => {
       try {
         // First Paint and First Contentful Paint
-        const navigationEntries = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
-        const firstPaint = performance.getEntriesByName('first-paint')[0]?.startTime || 0;
-        const firstContentfulPaint = performance.getEntriesByName('first-contentful-paint')[0]?.startTime || 0;
+        const firstPaint =
+          performance.getEntriesByName("first-paint")[0]?.startTime || 0;
+        const firstContentfulPaint =
+          performance.getEntriesByName("first-contentful-paint")[0]
+            ?.startTime || 0;
 
         // Largest Contentful Paint
         let largestContentfulPaint = 0;
-        if ('PerformanceObserver' in window) {
+        if ("PerformanceObserver" in window) {
           try {
             const observer = new PerformanceObserver((list) => {
               const entries = list.getEntries();
@@ -70,15 +71,15 @@ export const useFontPerformance = () => {
                 largestContentfulPaint = lastEntry.startTime;
               }
             });
-            observer.observe({ entryTypes: ['largest-contentful-paint'] });
+            observer.observe({ entryTypes: ["largest-contentful-paint"] });
           } catch (e) {
-            console.warn('LCP observation failed:', e);
+            console.warn("LCP observation failed:", e);
           }
         }
 
         // Cumulative Layout Shift
         let cumulativeLayoutShift = 0;
-        if ('PerformanceObserver' in window) {
+        if ("PerformanceObserver" in window) {
           try {
             const observer = new PerformanceObserver((list) => {
               list.getEntries().forEach((entry) => {
@@ -87,9 +88,9 @@ export const useFontPerformance = () => {
                 }
               });
             });
-            observer.observe({ entryTypes: ['layout-shift'] });
+            observer.observe({ entryTypes: ["layout-shift"] });
           } catch (e) {
-            console.warn('CLS observation failed:', e);
+            console.warn("CLS observation failed:", e);
           }
         }
 
@@ -97,10 +98,11 @@ export const useFontPerformance = () => {
           firstPaint: Math.round(firstPaint),
           firstContentfulPaint: Math.round(firstContentfulPaint),
           largestContentfulPaint: Math.round(largestContentfulPaint),
-          cumulativeLayoutShift: Math.round(cumulativeLayoutShift * 1000) / 1000,
+          cumulativeLayoutShift:
+            Math.round(cumulativeLayoutShift * 1000) / 1000,
         };
       } catch (error) {
-        console.warn('Performance metrics collection failed:', error);
+        console.warn("Performance metrics collection failed:", error);
         return {
           firstPaint: 0,
           firstContentfulPaint: 0,
@@ -125,11 +127,11 @@ export const useFontPerformance = () => {
         });
 
         // Log performance for debugging
-        console.log('Font Performance Metrics:', metrics);
+        console.log("Font Performance Metrics:", metrics);
 
         // Send to analytics if available
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'font_performance', {
+        if (typeof window.gtag !== "undefined") {
+          window.gtag("event", "font_performance", {
             font_load_time: metrics.fontLoadTime,
             fcp: metrics.firstContentfulPaint,
             lcp: metrics.largestContentfulPaint,
@@ -138,7 +140,7 @@ export const useFontPerformance = () => {
         }
       })
       .catch((error) => {
-        console.error('Font performance monitoring failed:', error);
+        console.error("Font performance monitoring failed:", error);
         setState({
           isLoading: false,
           metrics: null,
@@ -151,20 +153,22 @@ export const useFontPerformance = () => {
       const currentFonts = document.fonts.size;
       if (currentFonts !== fontsLoaded) {
         fontsLoaded = currentFonts;
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          metrics: prev.metrics ? {
-            ...prev.metrics,
-            fontsLoaded,
-          } : null,
+          metrics: prev.metrics
+            ? {
+                ...prev.metrics,
+                fontsLoaded,
+              }
+            : null,
         }));
       }
     };
 
-    document.fonts.addEventListener('loadingdone', handleFontLoading);
+    document.fonts.addEventListener("loadingdone", handleFontLoading);
 
     return () => {
-      document.fonts.removeEventListener('loadingdone', handleFontLoading);
+      document.fonts.removeEventListener("loadingdone", handleFontLoading);
     };
   }, []);
 
@@ -172,12 +176,17 @@ export const useFontPerformance = () => {
   const loadOptionalFont = async (fontUrl: string) => {
     try {
       const startTime = performance.now();
-      const fontFace = new FontFace('NotoSans', `url(${fontUrl}) format('woff2')`);
+      const fontFace = new FontFace(
+        "NotoSans",
+        `url(${fontUrl}) format('woff2')`
+      );
       await fontFace.load();
       (document.fonts as any).add(fontFace);
 
       const loadTime = performance.now() - startTime;
-      console.log(`Optional font loaded in ${Math.round(loadTime)}ms: ${fontUrl}`);
+      console.log(
+        `Optional font loaded in ${Math.round(loadTime)}ms: ${fontUrl}`
+      );
 
       return loadTime;
     } catch (error) {
@@ -199,7 +208,7 @@ export const useLazyFontLoading = () => {
   const [hasInteracted, setHasInteracted] = useState(false);
 
   useEffect(() => {
-    const interactions = ['click', 'scroll', 'keydown', 'touchstart'];
+    const interactions = ["click", "scroll", "keydown", "touchstart"];
 
     const handleInteraction = () => {
       if (!hasInteracted) {
@@ -207,28 +216,31 @@ export const useLazyFontLoading = () => {
 
         // Load secondary fonts after first interaction
         const secondaryFonts = [
-          '/static/fonts/NotoSans-Italic.woff2',
-          '/static/fonts/NotoSans-BoldItalic.woff2',
+          "/static/fonts/NotoSans-Italic.woff2",
+          "/static/fonts/NotoSans-BoldItalic.woff2",
         ];
 
-        secondaryFonts.forEach(fontUrl => {
-          const link = document.createElement('link');
-          link.rel = 'preload';
+        secondaryFonts.forEach((fontUrl) => {
+          const link = document.createElement("link");
+          link.rel = "preload";
           link.href = fontUrl;
-          link.as = 'font';
-          link.type = 'font/woff2';
-          link.crossOrigin = 'anonymous';
+          link.as = "font";
+          link.type = "font/woff2";
+          link.crossOrigin = "anonymous";
           document.head.appendChild(link);
         });
       }
     };
 
-    interactions.forEach(event => {
-      document.addEventListener(event, handleInteraction, { once: true, passive: true });
+    interactions.forEach((event) => {
+      document.addEventListener(event, handleInteraction, {
+        once: true,
+        passive: true,
+      });
     });
 
     return () => {
-      interactions.forEach(event => {
+      interactions.forEach((event) => {
         document.removeEventListener(event, handleInteraction);
       });
     };

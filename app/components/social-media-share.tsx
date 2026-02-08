@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro";
+import { Trans } from "@lingui/macro";
 import {
   Box,
   Button,
@@ -82,18 +82,12 @@ export const SocialMediaShare = ({
   };
 
   const shareViaEmail = () => {
-    const subject = i18n._(
-      t({
-        id: "social.share.mail.subject",
-        message: chartTitle || "Visualization from visualize.admin.ch",
-      })
-    );
-    const body = i18n._(
-      t({
-        id: "social.share.mail.body",
-        message: `I'd like to share this visualization with you:\n\n${chartTitle || "Visualization"}\n${chartDescription ? `\n${chartDescription}\n` : ""}\n${shareUrl}`,
-      })
-    );
+    const defaultTitle = i18n._("Visualization from visualize.admin.ch");
+    const defaultVis = i18n._("Visualization");
+    const shareIntro = i18n._("I'd like to share this visualization with you:");
+
+    const subject = chartTitle || defaultTitle;
+    const body = `${shareIntro}\n\n${chartTitle || defaultVis}\n${chartDescription ? `\n${chartDescription}\n` : ""}\n${shareUrl}`;
     window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
@@ -115,22 +109,10 @@ export const SocialMediaShare = ({
             </Trans>
           </Typography>
           <Flex sx={{ gap: 1 }}>
-            <Tooltip
-              title={i18n._(
-                t({
-                  id: "social.share.linkedin",
-                  message: "Share on LinkedIn",
-                })
-              )}
-            >
+            <Tooltip title={"Share on LinkedIn"}>
               <IconButton
                 onClick={shareOnLinkedIn}
-                aria-label={i18n._(
-                  t({
-                    id: "social.share.linkedin",
-                    message: "Share on LinkedIn",
-                  })
-                )}
+                aria-label={"Share on LinkedIn"}
                 sx={{
                   border: 1,
                   borderColor: "divider",
@@ -141,21 +123,17 @@ export const SocialMediaShare = ({
               </IconButton>
             </Tooltip>
             <Tooltip
-              title={i18n._(
-                t({
-                  id: "social.share.x",
-                  message: "Share on X (Twitter)",
-                })
-              )}
+              title={i18n._({
+                id: "social.share.x",
+                message: "Share on X (Twitter)",
+              })}
             >
               <IconButton
                 onClick={shareOnX}
-                aria-label={i18n._(
-                  t({
-                    id: "social.share.x",
-                    message: "Share on X (Twitter)",
-                  })
-                )}
+                aria-label={i18n._({
+                  id: "social.share.x",
+                  message: "Share on X (Twitter)",
+                })}
                 sx={{
                   border: 1,
                   borderColor: "divider",
@@ -166,21 +144,17 @@ export const SocialMediaShare = ({
               </IconButton>
             </Tooltip>
             <Tooltip
-              title={i18n._(
-                t({
-                  id: "social.share.facebook",
-                  message: "Share on Facebook",
-                })
-              )}
+              title={i18n._({
+                id: "social.share.facebook",
+                message: "Share on Facebook",
+              })}
             >
               <IconButton
                 onClick={shareOnFacebook}
-                aria-label={i18n._(
-                  t({
-                    id: "social.share.facebook",
-                    message: "Share on Facebook",
-                  })
-                )}
+                aria-label={i18n._({
+                  id: "social.share.facebook",
+                  message: "Share on Facebook",
+                })}
                 sx={{
                   border: 1,
                   borderColor: "divider",
@@ -191,21 +165,17 @@ export const SocialMediaShare = ({
               </IconButton>
             </Tooltip>
             <Tooltip
-              title={i18n._(
-                t({
-                  id: "social.share.email",
-                  message: "Share via email",
-                })
-              )}
+              title={i18n._({
+                id: "social.share.email",
+                message: "Share via email",
+              })}
             >
               <IconButton
                 onClick={shareViaEmail}
-                aria-label={i18n._(
-                  t({
-                    id: "social.share.email",
-                    message: "Share via email",
-                  })
-                )}
+                aria-label={i18n._({
+                  id: "social.share.email",
+                  message: "Share via email",
+                })}
                 sx={{
                   border: 1,
                   borderColor: "divider",
@@ -223,9 +193,7 @@ export const SocialMediaShare = ({
         {/* Download as Image for Manual Sharing */}
         <Box>
           <Typography variant="h6" sx={{ mb: 1, fontWeight: 700 }}>
-            <Trans id="social.share.download.title">
-              Download as Image
-            </Trans>
+            <Trans id="social.share.download.title">Download as Image</Trans>
           </Typography>
           <Typography variant="body2" sx={{ mb: 2, color: "text.secondary" }}>
             <Trans id="social.share.download.description">
@@ -282,12 +250,10 @@ export const SocialMediaShare = ({
             rows={3}
             value={shareText}
             onChange={(e) => setShareText(e.target.value)}
-            placeholder={i18n._(
-              t({
-                id: "social.share.text.placeholder",
-                message: "Enter your share text here...",
-              })
-            )}
+            placeholder={i18n._({
+              id: "social.share.text.placeholder",
+              message: "Enter your share text here...",
+            })}
             variant="outlined"
           />
           <Box sx={{ mt: 1 }}>

@@ -1,5 +1,6 @@
 import { t, Trans } from "@lingui/macro";
 import { Stack, Typography } from "@mui/material";
+import { ChangeEvent } from "react";
 
 import { EncodingFieldType } from "@/charts/chart-config-ui-options";
 import { RadioGroup } from "@/components/form";
@@ -43,7 +44,7 @@ export const ShowDotsField = ({
           <ChartOptionSwitchField
             path="showDots"
             field={field}
-            onChange={(e) => {
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
               const { checked } = e.target;
 
               if ("y" in fields && !("showDots" in fields.y)) {

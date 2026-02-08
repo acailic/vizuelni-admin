@@ -1,8 +1,9 @@
 import mapValues from "lodash/mapValues";
 
-import type { AnySourceData, StyleSpecification } from "maplibre-gl";
+import type { StyleSpecification } from "maplibre-gl";
 
 type MapboxStyle = StyleSpecification;
+type AnySourceData = any;
 
 type AnyLayer = MapboxStyle["layers"][number];
 
@@ -12,8 +13,7 @@ function hasUrl(obj: AnySourceData): obj is HasUrl<AnySourceData> {
   return Object.prototype.hasOwnProperty.call(obj, "url");
 }
 
-type HasLayout<T> = T extends { layout?: infer T } ? T : never;
-export function hasLayout(obj: AnyLayer): obj is HasLayout<AnySourceData> {
+export function hasLayout(obj: AnyLayer): boolean {
   return Object.prototype.hasOwnProperty.call(obj, "layout");
 }
 
@@ -45,7 +45,9 @@ export const replaceStyleTokens = (
       };
     }),
     glyphs: replaceStringTokens(style.glyphs, tokens),
-    sprite: replaceStringTokens(style.sprite, tokens),
+    sprite: (style.sprite as any)
+      ? replaceStringTokens(style.sprite as any, tokens)
+      : undefined,
   };
 };
 

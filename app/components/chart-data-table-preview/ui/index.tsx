@@ -39,7 +39,9 @@ export const ChartDataTablePreview = ({
   const [{ data: metadataData }] = useDataCubesMetadataQuery({
     variables: {
       ...commonQueryVariables,
-      cubeFilters: chartConfig.cubes.map((cube) => ({ iri: cube.iri })),
+      cubeFilters: chartConfig.cubes.map(
+        (cube: ChartConfig["cubes"][number]) => ({ iri: cube.iri })
+      ),
     },
   });
   const [{ data: componentsData, fetching: fetchingComponents }] =
@@ -47,11 +49,13 @@ export const ChartDataTablePreview = ({
       chartConfig,
       variables: {
         ...commonQueryVariables,
-        cubeFilters: chartConfig.cubes.map((cube) => ({
-          iri: cube.iri,
-          componentIds,
-          joinBy: cube.joinBy,
-        })),
+        cubeFilters: chartConfig.cubes.map(
+          (cube: ChartConfig["cubes"][number]) => ({
+            iri: cube.iri,
+            componentIds,
+            joinBy: cube.joinBy,
+          })
+        ),
       },
     });
   const queryFilters = useQueryFilters({

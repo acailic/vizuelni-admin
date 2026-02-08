@@ -5,6 +5,7 @@ import {
   useIsEditingAnnotation,
 } from "@/charts/shared/annotation-utils";
 import { useInteraction } from "@/charts/shared/use-interaction";
+import { Annotation } from "@/config-types";
 import { getChartConfig, useDefinitiveFilters } from "@/config-utils";
 import { useConfiguratorState } from "@/configurator/configurator-state";
 import { Observation } from "@/domain/data";
@@ -21,7 +22,9 @@ export const useAnnotationInteractions = ({
   const { activeField, annotations } = chartConfig;
   const definitiveFilters = useDefinitiveFilters();
   const isEditingAnnotation = useIsEditingAnnotation();
-  const activeAnnotation = annotations.find((a) => a.key === activeField);
+  const activeAnnotation = annotations.find(
+    (a: Annotation) => a.key === activeField
+  );
 
   const onClick = useEvent(
     (observation: Observation, { segment }: { segment?: string }) => {

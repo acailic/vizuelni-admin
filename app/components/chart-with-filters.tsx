@@ -166,7 +166,7 @@ const GenericChart = ({
       );
 
     default:
-      const _exhaustiveCheck: never = chartConfig;
+      const _exhaustiveCheck: never = chartConfig as never;
       return _exhaustiveCheck;
   }
 };

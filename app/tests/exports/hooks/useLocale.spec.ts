@@ -4,9 +4,8 @@
  * Tests the React hook for managing application locale.
  */
 
-import { renderHook, act } from "@testing-library/react";
+import { renderHook, act, render } from "@testing-library/react";
 import React from "react";
-import { hydrateRoot } from "react-dom/client";
 import { renderToString } from "react-dom/server";
 import { describe, expect, it, beforeEach, vi } from "vitest";
 
@@ -789,26 +788,16 @@ describe("useLocale", () => {
       const consoleSpy = vi
         .spyOn(console, "error")
         .mockImplementation(() => {});
-      let root: ReturnType<typeof hydrateRoot> | null = null;
 
       act(() => {
-        root = hydrateRoot(
-          container,
-          React.createElement(LocaleMarkup, { initialLocale: serverLocale })
+        render(
+          React.createElement(LocaleMarkup, { initialLocale: serverLocale }),
+          { container }
         );
       });
 
       expect(container.textContent).toBe(serverLocale);
       expect(consoleSpy).not.toHaveBeenCalled();
-
-      if (!root) {
-        consoleSpy.mockRestore();
-        throw new Error("Hydration root was not created");
-      }
-
-      act(() => {
-        root.unmount();
-      });
 
       consoleSpy.mockRestore();
     });

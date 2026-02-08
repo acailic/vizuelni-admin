@@ -1,16 +1,12 @@
 import ParsingClient from "sparql-http-client/ParsingClient";
 import { Client } from "urql";
 
-import { ConfiguratorState, DataSource } from "@/config-types/config-types";
+import { ConfiguratorState, DataSource } from "@/config-types";
 import { hasChartConfigs } from "@/configurator";
 import { getMaybeCachedSparqlUrl } from "@/graphql/caching-utils";
 import {
   DataCubeLatestIriDocument,
-  DataCubeLatestIriQuery,
-  DataCubeLatestIriQueryVariables,
   DataCubeUnversionedIriDocument,
-  DataCubeUnversionedIriQuery,
-  DataCubeUnversionedIriQueryVariables,
 } from "@/graphql/query-hooks";
 import { queryCubeUnversionedIri } from "@/rdf/query-cube-unversioned-iri";
 import { queryLatestCubeIri } from "@/rdf/query-latest-cube-iri";
@@ -27,9 +23,9 @@ const makeUpgradeConfiguratorState =
     }
 
     return {
-      ...state,
+      ...(state as any),
       chartConfigs: await Promise.all(
-        state.chartConfigs.map(async (chartConfig: any) => ({
+        (state as any).chartConfigs.map(async (chartConfig: any) => ({
           ...chartConfig,
           cubes: await Promise.all(
             chartConfig.cubes.map(async (cube: any) => ({
@@ -51,14 +47,11 @@ export const getLatestCubeIri = async (
 ) => {
   const { client, dataSource } = options;
   const { data } = await client
-    .query<DataCubeLatestIriQuery, DataCubeLatestIriQueryVariables>(
-      DataCubeLatestIriDocument,
-      {
-        sourceUrl: dataSource.url,
-        sourceType: dataSource.type,
-        cubeFilter: { iri },
-      }
-    )
+    .query<any, any>(DataCubeLatestIriDocument, {
+      sourceUrl: dataSource.url,
+      sourceType: dataSource.type,
+      cubeFilter: { iri },
+    })
     .toPromise();
 
   return data?.dataCubeLatestIri ?? iri;
@@ -73,14 +66,11 @@ export const getUnversionedCubeIri = async (
 ) => {
   const { client, dataSource } = options;
   const { data } = await client
-    .query<DataCubeUnversionedIriQuery, DataCubeUnversionedIriQueryVariables>(
-      DataCubeUnversionedIriDocument,
-      {
-        sourceUrl: dataSource.url,
-        sourceType: dataSource.type,
-        cubeFilter: { iri },
-      }
-    )
+    .query<any, any>(DataCubeUnversionedIriDocument, {
+      sourceUrl: dataSource.url,
+      sourceType: dataSource.type,
+      cubeFilter: { iri },
+    })
     .toPromise();
 
   return data?.dataCubeUnversionedIri ?? iri;

@@ -2,7 +2,6 @@ import {
   createContext,
   Dispatch,
   ReactNode,
-  Reducer,
   useContext,
   useReducer,
 } from "react";
@@ -83,9 +82,10 @@ export const useInteraction = () => {
 };
 
 export const InteractionProvider = ({ children }: { children: ReactNode }) => {
-  const [state, dispatch] = useReducer<
-    Reducer<InteractionState, InteractionStateAction>
-  >(InteractionStateReducer, INTERACTION_INITIAL_STATE);
+  const [state, dispatch] = useReducer(
+    InteractionStateReducer as any,
+    INTERACTION_INITIAL_STATE
+  );
 
   return (
     <InteractionStateContext.Provider value={[state, dispatch]}>

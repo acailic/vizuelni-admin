@@ -14,7 +14,7 @@ import {
   useEventCallback,
 } from "@mui/material";
 import uniq from "lodash/uniq";
-import { ReactNode, useCallback, useMemo, useState } from "react";
+import { ChangeEvent, ReactNode, useCallback, useMemo, useState } from "react";
 
 import { RemoteLayer } from "@/charts/map/types";
 import { RemoteWMSLayer } from "@/charts/map/wms-utils";
@@ -76,13 +76,15 @@ export const CustomLayersSelector = () => {
   const chartConfig = getChartConfig(state) as MapConfig;
   const configLayers = chartConfig.baseLayer.customLayers;
   const endpoints = useMemo(() => {
-    return uniq(configLayers.map((layer) => layer.endpoint)).filter(truthy);
+    return uniq(
+      configLayers.map((layer: { endpoint?: string }) => layer.endpoint)
+    ).filter(truthy);
   }, [configLayers]);
   const {
     data: groupedLayers,
     error,
     status: layersStatus,
-  } = useWMTSorWMSLayers(endpoints);
+  } = useWMTSorWMSLayers(endpoints as string[]);
   const {
     wms: wmsLayers,
     wmts: wmtsLayers,
@@ -175,7 +177,7 @@ export const CustomLayersSelector = () => {
     interactive: true,
   });
   const selectedLayers = useMemo(() => {
-    return configLayers.map((layer) => {
+    return configLayers.map((layer: WMTSCustomLayer | WMSCustomLayer) => {
       return makeKey(layer);
     });
   }, [configLayers]);
@@ -287,7 +289,7 @@ const DraggableLayer = ({
           parsedLayer.availableDimensionValues.length > 1
         );
       default:
-        const _exhaustiveCheck: never = configLayer;
+        const _exhaustiveCheck: never = configLayer as never;
         return _exhaustiveCheck;
     }
   }, [configLayer, parsedLayer?.availableDimensionValues]);
@@ -333,7 +335,7 @@ const DraggableLayer = ({
                 message: "Behind area layer",
               })}
               checked={configLayer.isBehindAreaLayer}
-              onChange={(e) => {
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 dispatch({
                   type: "CUSTOM_LAYER_UPDATE",
                   value: {
@@ -353,7 +355,7 @@ const DraggableLayer = ({
                 })}
                 checked={configLayer.syncTemporalFilters}
                 disabled={!enableTemporalFiltering}
-                onChange={(e) => {
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
                   dispatch({
                     type: "CUSTOM_LAYER_UPDATE",
                     value: {

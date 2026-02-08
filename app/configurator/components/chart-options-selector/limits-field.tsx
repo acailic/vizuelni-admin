@@ -2,7 +2,7 @@ import { t, Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
 import get from "lodash/get";
 import dynamic from "next/dynamic";
-import { useMemo } from "react";
+import { ChangeEvent, useMemo } from "react";
 
 import { LegendItem } from "@/charts/shared/legend-color";
 import { Flex } from "@/components/flex";
@@ -160,9 +160,9 @@ export const LimitsField = ({
                         message: "Show target",
                       })}
                       checked={!!maybeLimit}
-                      onChange={(e) => {
-                        onToggle(e.target.checked, limit);
-                      }}
+                      onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                        onToggle(e.target.checked, limit)
+                      }
                     />
                   </Box>
                   <Flex
