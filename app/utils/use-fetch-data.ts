@@ -60,9 +60,19 @@ class QueryCache {
         1
       );
   }
+
+  reset() {
+    this.cache.clear();
+    this.listeners = [];
+    this.version = 0;
+  }
 }
 
 const cache = new QueryCache();
+
+export const __resetQueryCacheForTests = () => {
+  cache.reset();
+};
 
 const useCacheKey = (cache: QueryCache, queryKey: QueryKey) => {
   const [version, setVersion] = useState(cache.version);

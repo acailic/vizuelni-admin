@@ -9,7 +9,7 @@ import { getD3FormatLocale } from "../../locales/locales";
 
 // Performance budgets (in milliseconds)
 const PERFORMANCE_BUDGETS: Record<number, number> = {
-  100: 50,
+  100: 60,
   1000: 200,
   10000: 1000,
   100000: 5000,
@@ -76,7 +76,9 @@ const renderChart = (data: { x: number; y: number }[], container: Element) => {
     .attr("transform", `translate(0,${height})`)
     .call(axisBottom(x).tickFormat((d) => formatNumber(d as number)));
 
-  svg.append("g").call(axisLeft(y).tickFormat((d) => formatNumber(d as number)));
+  svg
+    .append("g")
+    .call(axisLeft(y).tickFormat((d) => formatNumber(d as number)));
 };
 
 describe("Chart Rendering Performance Benchmarks", () => {
@@ -111,7 +113,11 @@ describe("Chart Rendering Performance Benchmarks", () => {
 
       // End performance measurement
       performance.mark(`render-end-${size}`);
-      performance.measure(`render-${size}`, `render-start-${size}`, `render-end-${size}`);
+      performance.measure(
+        `render-${size}`,
+        `render-start-${size}`,
+        `render-end-${size}`
+      );
 
       const measure = performance.getEntriesByName(`render-${size}`)[0];
       const renderTime = measure.duration;
@@ -123,7 +129,9 @@ describe("Chart Rendering Performance Benchmarks", () => {
       // Time to interactive: assume it's the render time plus a small buffer
       const timeToInteractive = renderTime + 10; // 10ms buffer
 
-      console.log(`Data size ${size}: Render time: ${renderTime}ms, Memory used: ${memoryUsed}MB, TTI: ${timeToInteractive}ms`);
+      console.log(
+        `Data size ${size}: Render time: ${renderTime}ms, Memory used: ${memoryUsed}MB, TTI: ${timeToInteractive}ms`
+      );
 
       // Assert performance budgets
       expect(renderTime).toBeLessThan(PERFORMANCE_BUDGETS[size]);

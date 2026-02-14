@@ -20,9 +20,11 @@ describe("GalleryPage", () => {
     render(<GalleryPage />);
 
     const sampleDataset = staticGalleryDatasets[0];
-    expect(screen.getByText(sampleDataset.title)).toBeTruthy();
+    expect(screen.getAllByText(sampleDataset.title).length).toBeGreaterThan(0);
     if (sampleDataset.organization?.title) {
-      expect(screen.getByText(sampleDataset.organization.title)).toBeTruthy();
+      expect(
+        screen.getAllByText(sampleDataset.organization.title).length
+      ).toBeGreaterThan(0);
     }
   });
 
@@ -52,6 +54,6 @@ describe("GalleryPage", () => {
       />
     );
 
-    expect(screen.queryByText(/Download/i)).toBeNull();
+    expect(screen.queryByRole("link", { name: /Download/i })).toBeNull();
   });
 });

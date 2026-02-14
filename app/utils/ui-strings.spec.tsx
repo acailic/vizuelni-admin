@@ -20,7 +20,8 @@ it("should replace markdown-style links with React nodes", () => {
   expect(isValidElement(linkNode)).toBe(true);
 
   if (isValidElement(linkNode)) {
-    expect(linkNode.props.href).toBe("/profile");
-    expect(linkNode.props.children).toBe("My visualizations");
+    const element = linkNode as React.ReactElement<any, any>;
+    expect((element.props as any).href).toBe("/profile");
+    expect((element.props as any).children).toBe("My visualizations");
   }
 });

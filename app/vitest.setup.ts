@@ -1,6 +1,6 @@
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
-import { render as rtlRender } from "@testing-library/react";
+import { cleanup, render as rtlRender } from "@testing-library/react";
 import { createClient, cacheExchange, fetchExchange } from "@urql/core";
 import clownface, { AnyPointer } from "clownface";
 import { configureAxe, toHaveNoViolations } from "jest-axe";
@@ -9,18 +9,28 @@ import DatasetExt from "rdf-ext/lib/Dataset";
 import DefaultGraphExt from "rdf-ext/lib/DefaultGraph";
 import { NamedNode, Term } from "rdf-js";
 import * as React from "react";
-import { vi, expect } from "vitest";
+import { afterEach, vi, expect } from "vitest";
 
 import { GRAPHQL_ENDPOINT } from "@/domain/env";
 import * as ns from "@/rdf/namespace";
+import { __resetQueryCacheForTests } from "@/utils/use-fetch-data";
 
 // Since it's a macro, it's not defined at runtime, maybe in the future
 // we should add a transformer so that test files are transformed the same
 // way as app files so that the macro is defined inside files that are ran by vitest.
 vi.mock("@lingui/macro", () => {
+  const resolveMessage = (value: unknown) => {
+    if (typeof value === "string") return value;
+    if (value && typeof value === "object") {
+      const maybeMessage = value as { message?: string; id?: string };
+      return maybeMessage.message || maybeMessage.id || "";
+    }
+    return "";
+  };
+
   return {
-    defineMessage: (d: string) => d,
-    t: (d: string) => d,
+    defineMessage: (d: unknown) => d,
+    t: resolveMessage,
   };
 });
 
@@ -144,6 +154,13 @@ vi.mock("next/router", () => {
   };
 });
 
+afterEach(() => {
+  cleanup();
+  if (typeof __resetQueryCacheForTests === "function") {
+    __resetQueryCacheForTests();
+  }
+});
+
 // Accessibility testing setup
 
 // Configure axe with recommended rules
@@ -183,6 +200,26 @@ if (typeof SVGPathElement !== "undefined") {
       return 100;
     },
   });
+}
+
+if (typeof ResizeObserver === "undefined") {
+  class ResizeObserverMock {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  }
+
+  vi.stubGlobal("ResizeObserver", ResizeObserverMock);
+}
+
+if (typeof IntersectionObserver === "undefined") {
+  class IntersectionObserverMock {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  }
+
+  vi.stubGlobal("IntersectionObserver", IntersectionObserverMock);
 }
 
 // Setup I18n for tests

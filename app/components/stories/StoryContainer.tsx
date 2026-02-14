@@ -2,6 +2,7 @@ import { useLingui } from "@lingui/react";
 import { Box, Container, Paper } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCallback, useEffect } from "react";
+import { useStore } from "zustand";
 
 import { useStoryStore } from "@/lib/stories/store";
 import type { StoryConfig } from "@/types/stories";
@@ -19,10 +20,13 @@ export function StoryContainer({ storyId, config }: StoryContainerProps) {
   const storyStore = useStoryStore((state) =>
     state.createStory(config, storyId)
   );
-  const currentStep = useStoryStore((state) => state.currentStep);
-  const completedSteps = useStoryStore((state) => state.completedSteps);
-  const setCurrentStep = useStoryStore((state) => state.setCurrentStep);
-  const markStepComplete = useStoryStore((state) => state.markStepComplete);
+  const currentStep = useStore(storyStore, (state) => state.currentStep);
+  const completedSteps = useStore(storyStore, (state) => state.completedSteps);
+  const setCurrentStep = useStore(storyStore, (state) => state.setCurrentStep);
+  const markStepComplete = useStore(
+    storyStore,
+    (state) => state.markStepComplete
+  );
 
   const step = config.steps[currentStep];
   const isLastStep = currentStep === config.steps.length - 1;

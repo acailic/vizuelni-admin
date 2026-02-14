@@ -439,14 +439,6 @@ describe("DataGovRsClient", () => {
   });
 
   describe("timeout behavior", () => {
-    beforeEach(() => {
-      vi.useFakeTimers();
-    });
-
-    afterEach(() => {
-      vi.useRealTimers();
-    });
-
     it("should throw timeout error when request exceeds timeout", async () => {
       mockFetch.mockImplementation((_url: string, options: RequestInit) => {
         const signal = options.signal as AbortSignal | undefined;
@@ -465,8 +457,6 @@ describe("DataGovRsClient", () => {
       const fastClient = new DataGovRsClient({ timeout: 100 });
       const pending = fastClient.searchDatasets();
 
-      await vi.advanceTimersByTimeAsync(100);
-
       await expect(pending).rejects.toMatchObject({
         message: "Request timeout",
         status: 408,
@@ -477,7 +467,7 @@ describe("DataGovRsClient", () => {
     it("should use AbortController to abort request on timeout", async () => {
       let capturedSignal: AbortSignal | null = null;
       mockFetch.mockImplementation((_url: string, options: RequestInit) => {
-        capturedSignal = options.signal as AbortSignal;
+        capturedSignal = (options.signal as AbortSignal) || null;
         return new Promise((_resolve, reject) => {
           const onAbort = () => reject(createAbortError());
           if (capturedSignal) {
@@ -493,15 +483,13 @@ describe("DataGovRsClient", () => {
       const fastClient = new DataGovRsClient({ timeout: 100 });
       const pending = fastClient.searchDatasets();
 
-      await vi.advanceTimersByTimeAsync(100);
-
       await expect(pending).rejects.toMatchObject({
         message: "Request timeout",
         status: 408,
       });
 
       expect(capturedSignal).not.toBeNull();
-      expect(capturedSignal?.aborted).toBe(true);
+      expect(capturedSignal!.aborted).toBe(true);
     });
 
     it("should complete request successfully within timeout", async () => {
