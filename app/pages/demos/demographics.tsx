@@ -53,7 +53,7 @@ export default function DemographicsDemo() {
 
   const description =
     locale === "sr"
-      ? "Analiza starosne strukture stanovnistva Srbije po polu, sa projekcijama do 2050. godine"
+      ? "Analiza starosne strukture stanovništva Srbije po polu, sa projekcijama do 2050. godine"
       : "Analysis of Serbia's population structure by age and gender, with projections to 2050";
 
   const dashboardContent = (
@@ -62,7 +62,7 @@ export default function DemographicsDemo() {
         demoId="demographics"
         title={
           locale === "sr"
-            ? "Zivi podaci (demografija)"
+            ? "Živi podaci (demografija)"
             : "Live data (demographics)"
         }
       />
@@ -73,7 +73,7 @@ export default function DemographicsDemo() {
       >
         {locale === "sr" ? (
           <>
-            <strong>DEMOGRAFSKO UPOZORENJE:</strong> Stanovnistvo Srbije opada.
+            <strong>DEMOGRAFSKO UPOZORENJE:</strong> Stanovništvo Srbije opada.
             Projekcije pokazuju smanjenje od{" "}
             <strong>{Math.abs(parseFloat(percentageChange))}%</strong> do 2050.
             godine (sa {population2024.total.toFixed(2)}M na{" "}
@@ -109,7 +109,7 @@ export default function DemographicsDemo() {
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 {locale === "sr"
-                  ? `Muskarci: ${malePercent}% • Zene: ${femalePercent}%`
+                  ? `Muškarci: ${malePercent}% • Žene: ${femalePercent}%`
                   : `Male: ${malePercent}% • Female: ${femalePercent}%`}
               </Typography>
             </CardContent>
@@ -183,12 +183,12 @@ export default function DemographicsDemo() {
       <Paper elevation={2} sx={{ p: 3, mb: 4 }}>
         <Typography variant="h5" sx={{ mb: 3, fontWeight: 600 }}>
           {locale === "sr"
-            ? "Starosna piramida stanovnistva (2024)"
+            ? "Starosna piramida stanovništva (2024)"
             : "Population Age Pyramid (2024)"}
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
           {locale === "sr"
-            ? "Raspodela stanovnistva po starosti i polu pokazuje starenje populacije sa znatno manje mladih u odnosu na starije generacije."
+            ? "Raspodela stanovništva po starosti i polu pokazuje starenje populacije sa znatno manje mladih u odnosu na starije generacije."
             : "Population distribution by age and gender shows an aging population with significantly fewer young people compared to older generations."}
         </Typography>
         <PopulationPyramid
@@ -202,7 +202,7 @@ export default function DemographicsDemo() {
       <Paper elevation={2} sx={{ p: 3, mb: 4 }}>
         <Typography variant="h5" sx={{ mb: 3, fontWeight: 600 }}>
           {locale === "sr"
-            ? "Trendovi stanovnistva (1950-2050)"
+            ? "Trendovi stanovništva (1950-2050)"
             : "Population Trends (1950-2050)"}
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
@@ -221,7 +221,7 @@ export default function DemographicsDemo() {
       <Paper elevation={2} sx={{ p: 3, mb: 4 }}>
         <Typography variant="h5" sx={{ mb: 3, fontWeight: 600 }}>
           {locale === "sr"
-            ? "Regionalna raspodela stanovnistva (2024)"
+            ? "Regionalna raspodela stanovništva (2024)"
             : "Regional Population Distribution (2024)"}
         </Typography>
         <Grid container spacing={2}>
@@ -241,7 +241,7 @@ export default function DemographicsDemo() {
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
                     {locale === "sr"
-                      ? `${((region.population / (totalPopulation / 1000)) * 100).toFixed(1)}% od ukupnog stanovnistva`
+                      ? `${((region.population / (totalPopulation / 1000)) * 100).toFixed(1)}% od ukupnog stanovništva`
                       : `${((region.population / (totalPopulation / 1000)) * 100).toFixed(1)}% of total population`}
                   </Typography>
                 </CardContent>
@@ -254,7 +254,7 @@ export default function DemographicsDemo() {
       <Paper elevation={2} sx={{ p: 3 }}>
         <Typography variant="h5" sx={{ mb: 3, fontWeight: 600 }}>
           {locale === "sr"
-            ? "Kljucni demografski izazovi"
+            ? "Ključni demografski izazovi"
             : "Key Demographic Challenges"}
         </Typography>
         <Grid container spacing={2}>
@@ -271,21 +271,21 @@ export default function DemographicsDemo() {
               />
               <Typography variant="body2" sx={{ mt: 1 }}>
                 {locale === "sr"
-                  ? `Stopa rasta: ${demographicStats.populationGrowthRate}% godisnje`
+                  ? `Stopa rasta: ${demographicStats.populationGrowthRate}% godišnje`
                   : `Growth rate: ${demographicStats.populationGrowthRate}% annually`}
               </Typography>
             </Box>
             <Box sx={{ mb: 2 }}>
               <Chip
                 label={
-                  locale === "sr" ? "Niska stopa radjananja" : "Low birth rate"
+                  locale === "sr" ? "Niska stopa rađanja" : "Low birth rate"
                 }
                 color="error"
                 sx={{ mr: 1, mb: 1 }}
               />
               <Typography variant="body2" sx={{ mt: 1 }}>
                 {locale === "sr"
-                  ? `Stopa radjananja: ${demographicStats.birthRate} na 1.000 stanovnika`
+                  ? `Stopa rađanja: ${demographicStats.birthRate} na 1.000 stanovnika`
                   : `Birth rate: ${demographicStats.birthRate} per 1,000 population`}
               </Typography>
             </Box>
@@ -308,7 +308,7 @@ export default function DemographicsDemo() {
             <Box sx={{ mb: 2 }}>
               <Chip
                 label={
-                  locale === "sr" ? "Starenje stanovnistva" : "Aging population"
+                  locale === "sr" ? "Starenje stanovništva" : "Aging population"
                 }
                 color="warning"
                 sx={{ mr: 1, mb: 1 }}
@@ -322,14 +322,14 @@ export default function DemographicsDemo() {
             <Box sx={{ mb: 2 }}>
               <Chip
                 label={
-                  locale === "sr" ? "Ocekivani zivotni vek" : "Life expectancy"
+                  locale === "sr" ? "Očekivani životni vek" : "Life expectancy"
                 }
                 color="info"
                 sx={{ mr: 1, mb: 1 }}
               />
               <Typography variant="body2" sx={{ mt: 1 }}>
                 {locale === "sr"
-                  ? `Muskarci: ${demographicStats.lifeExpectancyMale} god. • Zene: ${demographicStats.lifeExpectancyFemale} god.`
+                  ? `Muškarci: ${demographicStats.lifeExpectancyMale} god. • Žene: ${demographicStats.lifeExpectancyFemale} god.`
                   : `Males: ${demographicStats.lifeExpectancyMale} yrs • Females: ${demographicStats.lifeExpectancyFemale} yrs`}
               </Typography>
             </Box>
@@ -341,7 +341,7 @@ export default function DemographicsDemo() {
               />
               <Typography variant="body2" sx={{ mt: 1 }}>
                 {locale === "sr"
-                  ? `${demographicStats.urbanPopulation}% stanovnika zivi u gradskim podrucjima`
+                  ? `${demographicStats.urbanPopulation}% stanovnika živi u gradskim područjima`
                   : `${demographicStats.urbanPopulation}% of population lives in urban areas`}
               </Typography>
             </Box>
@@ -377,12 +377,12 @@ export default function DemographicsDemo() {
         },
         {
           key: "male",
-          header: locale === "sr" ? "Muskarci (mil)" : "Male (mil)",
+          header: locale === "sr" ? "Muškarci (mil)" : "Male (mil)",
           width: 150,
         },
         {
           key: "female",
-          header: locale === "sr" ? "Zene (mil)" : "Female (mil)",
+          header: locale === "sr" ? "Žene (mil)" : "Female (mil)",
           width: 150,
         },
       ]}
