@@ -829,27 +829,30 @@ export default function DemoShowcasePage() {
               )}
             </Typography>
           </Box>
-          <Box
-            component="a"
-            href="/vizualni-admin/demos"
-            sx={{
-              textDecoration: "none",
-              padding: "12px 24px",
-              borderRadius: "12px",
-              background: "#0ea5e9",
-              color: "white",
-              fontWeight: 600,
-              boxShadow: "0 4px 6px -1px rgba(14, 165, 233, 0.3)",
-              transition: "all 0.2s",
-              "&:hover": {
-                background: "#0284c7",
-                transform: "translateY(-1px)",
-                boxShadow: "0 6px 8px -1px rgba(14, 165, 233, 0.4)",
-              },
-            }}
-          >
-            {text.cta}
-          </Box>
+          <Link href="/demos" passHref legacyBehavior>
+            <Box
+              component="a"
+              sx={{
+                textDecoration: "none",
+                padding: "12px 24px",
+                borderRadius: "12px",
+                background: "#0ea5e9",
+                color: "white",
+                fontWeight: 600,
+                boxShadow: "0 4px 6px -1px rgba(14, 165, 233, 0.3)",
+                transition: "all 0.2s",
+                display: "inline-flex",
+                alignItems: "center",
+                "&:hover": {
+                  background: "#0284c7",
+                  transform: "translateY(-1px)",
+                  boxShadow: "0 6px 8px -1px rgba(14, 165, 233, 0.4)",
+                },
+              }}
+            >
+              {text.cta}
+            </Box>
+          </Link>
         </Stack>
       </Card>
     </DemoLayout>
