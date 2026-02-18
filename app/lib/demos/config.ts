@@ -380,6 +380,116 @@ export const DEMO_CONFIGS: Record<string, DemoConfig> = {
   },
 };
 
+export const FEATURED_CHARTS: Array<{
+  id: string;
+  demoId: string;
+  title: { sr: string; en: string };
+  description: { sr: string; en: string };
+  featuredReason: { sr: string; en: string };
+  thumbnail?: string;
+}> = [
+  {
+    id: "demographics-trends",
+    demoId: "demographics",
+    title: {
+      sr: "Demografski trendovi Srbije",
+      en: "Serbia Demographics Trends",
+    },
+    description: {
+      sr: "Starosna struktura i projekcije stanovništva do 2050. godine",
+      en: "Age structure and population projections through 2050",
+    },
+    featuredReason: {
+      sr: "Ključni podaci o populaciji",
+      en: "Key population data",
+    },
+  },
+  {
+    id: "energy-mix",
+    demoId: "energy",
+    title: {
+      sr: "Energetski miks Srbije",
+      en: "Serbia Energy Mix",
+    },
+    description: {
+      sr: "Izvori proizvodnje električne energije i tranzicija ka obnovljivim izvorima",
+      en: "Electricity generation sources and renewable transition",
+    },
+    featuredReason: {
+      sr: "Važni podaci o energetici",
+      en: "Important energy data",
+    },
+  },
+  {
+    id: "education-enrollment",
+    demoId: "education",
+    title: {
+      sr: "Upis u obrazovne ustanove",
+      en: "Education Enrollment",
+    },
+    description: {
+      sr: "Trendovi upisa učenika i studenata kroz vreme",
+      en: "Student enrollment trends over time",
+    },
+    featuredReason: {
+      sr: "Obrazovna statistika",
+      en: "Education statistics",
+    },
+  },
+  {
+    id: "healthcare-capacity",
+    demoId: "healthcare",
+    title: {
+      sr: "Kapacitet zdravstvenog sistema",
+      en: "Healthcare System Capacity",
+    },
+    description: {
+      sr: "Bolnice, lekari i dostupnost zdravstvenih usluga",
+      en: "Hospitals, doctors, and healthcare availability",
+    },
+    featuredReason: {
+      sr: "Zdravstveni podaci",
+      en: "Healthcare data",
+    },
+  },
+  {
+    id: "transport-safety",
+    demoId: "transport",
+    title: {
+      sr: "Bezbednost u saobraćaju",
+      en: "Road Safety",
+    },
+    description: {
+      sr: "Saobraćajne nezgode i mere prevencije",
+      en: "Traffic accidents and prevention measures",
+    },
+    featuredReason: {
+      sr: "Bezbednosni podaci",
+      en: "Safety data",
+    },
+  },
+  {
+    id: "economic-indicators",
+    demoId: "economy",
+    title: {
+      sr: "Ekonomski pokazatelji",
+      en: "Economic Indicators",
+    },
+    description: {
+      sr: "BDP, inflacija i spoljna trgovina",
+      en: "GDP, inflation, and foreign trade",
+    },
+    featuredReason: {
+      sr: "Ekonomski podaci",
+      en: "Economic data",
+    },
+  },
+];
+
+export function getFeaturedCharts() {
+  return FEATURED_CHARTS;
+}
+
 /**
  * Get demo config by ID
  */
