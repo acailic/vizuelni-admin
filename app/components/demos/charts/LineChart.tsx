@@ -316,6 +316,12 @@ export const LineChart = memo(
           .attr("width", innerWidth)
           .attr("height", innerHeight)
           .attr("fill", "transparent")
+          .attr("tabindex", 0)
+          .attr("role", "application")
+          .attr(
+            "aria-label",
+            `Interactive chart. Use Tab to focus, data points: ${data.length}`
+          )
           .style("cursor", "crosshair")
           .on("mousemove", function (event) {
             const [mouseX] = pointer(event, this);
@@ -374,6 +380,50 @@ export const LineChart = memo(
             }
           })
           .on("mouseleave", function () {
+            crosshair.style("display", "none");
+            setTooltip(null);
+          })
+          .on("focus", function () {
+            // Show first data point tooltip on focus
+            if (data.length > 0) {
+              const d = data[0];
+              const xPosSnapped = xScale(String(d[xKey])) || 0;
+              crosshair.style("display", null);
+              crosshair
+                .select(".crosshair-line")
+                .attr("x1", xPosSnapped)
+                .attr("x2", xPosSnapped);
+
+              const tooltipValues: Array<{
+                key: string;
+                value: number;
+                color: string;
+              }> = [];
+              seriesKeys.forEach((key, index) => {
+                const value = Number(d[key]) || 0;
+                const seriesColor =
+                  seriesKeys.length > 1 ? colors[index % colors.length] : color;
+                crosshair
+                  .select(`.hover-dot-${index}`)
+                  .attr("cx", xPosSnapped)
+                  .attr("cy", yScale(value));
+                tooltipValues.push({ key, value, color: seriesColor });
+              });
+
+              if (showTooltip && containerRef.current) {
+                setTooltip({
+                  x: xPosSnapped + margin.left + 15,
+                  y: Math.min(
+                    yScale(Number(d[seriesKeys[0]]) || 0) + margin.top,
+                    innerHeight / 2 + margin.top
+                  ),
+                  xValue: String(d[xKey]),
+                  values: tooltipValues,
+                });
+              }
+            }
+          })
+          .on("blur", function () {
             crosshair.style("display", "none");
             setTooltip(null);
           });
