@@ -31,6 +31,7 @@ import {
 import { DemoErrorBoundary } from "@/components/demos/DemoErrorBoundary";
 import { ExportControls } from "@/components/demos/ExportControls";
 import { SimpleChart } from "@/components/demos/simple-chart";
+import { StickyShareBar } from "@/components/demos/sticky-share-bar";
 import type { DatasetMetadata } from "@/domain/data-gov-rs/types";
 import { useDataGovRs } from "@/hooks/use-data-gov-rs";
 import { DEMO_CONFIGS, getDemoConfig } from "@/lib/demos/config";
@@ -60,6 +61,8 @@ export default function DemoPage() {
   const router = useRouter();
   const { category } = router.query;
   const [activeTab, setActiveTab] = useState(0);
+  const [_shareOpen, setShareOpen] = useState(false);
+  const [_embedOpen, setEmbedOpen] = useState(false);
   const { i18n } = useLingui();
 
   // Get demo configuration
@@ -340,6 +343,14 @@ export default function DemoPage() {
           <DemoEmpty message="Podaci nisu pronađeni. Pokušajte kasnije." />
         )}
       </DemoErrorBoundary>
+
+      {/* Sticky Share Bar */}
+      <StickyShareBar
+        chartTitle={config?.title[locale] || ""}
+        shareUrl={typeof window !== "undefined" ? window.location.href : ""}
+        onShare={() => setShareOpen(true)}
+        onEmbed={() => setEmbedOpen(true)}
+      />
     </DemoLayout>
   );
 }
