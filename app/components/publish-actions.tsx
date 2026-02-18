@@ -35,6 +35,7 @@ import {
   useEmbedQueryParams,
 } from "@/components/embed-params";
 import { Flex } from "@/components/flex";
+import { QRCodeShare } from "@/components/qr-code-share";
 import { Icon } from "@/icons";
 import { useI18n } from "@/utils/use-i18n";
 import { useResizeObserver } from "@/utils/use-resize-observer";
@@ -518,6 +519,9 @@ export const ShareContent = ({
       >
         {linkCopied ? "Copied!" : "Copy Link"}
       </Button>
+      <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
+        <QRCodeShare url={shareUrl} size={100} />
+      </Box>
       <Flex sx={{ justifyContent: "center", gap: 1 }}>
         <IconButton
           title={i18n._(

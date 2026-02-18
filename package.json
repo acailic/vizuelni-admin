@@ -171,6 +171,7 @@
     "nextkit": "^3.4.3",
     "notistack": "^3.0.2",
     "prism-react-renderer": "^2.4.1",
+    "qrcode.react": "^4.2.0",
     "rdf-cube-view-query": "^2.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
