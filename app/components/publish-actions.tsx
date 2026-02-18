@@ -492,6 +492,7 @@ export const ShareContent = ({
   locale,
 }: Omit<PublishActionProps, "chartWrapperRef">) => {
   const [shareUrl, setShareUrl] = useState("");
+  const [linkCopied, setLinkCopied] = useState(false);
   const i18n = useI18n();
 
   useEffect(() => {
@@ -567,6 +568,20 @@ export const ShareContent = ({
           </IconButton>
         </Flex>
       </Flex>
+      <Button
+        variant="contained"
+        color="primary"
+        fullWidth
+        startIcon={<Icon name="link" size={20} />}
+        onClick={() => {
+          navigator.clipboard.writeText(shareUrl);
+          setLinkCopied(true);
+          setTimeout(() => setLinkCopied(false), 2000);
+        }}
+        sx={{ mb: 2, py: 1.5, fontWeight: 700 }}
+      >
+        {linkCopied ? "Copied!" : "Copy Link"}
+      </Button>
       <div>
         <Typography
           variant="h6"
