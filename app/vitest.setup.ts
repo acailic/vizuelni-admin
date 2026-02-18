@@ -31,6 +31,28 @@ vi.mock("@lingui/macro", () => {
   return {
     defineMessage: (d: unknown) => d,
     t: resolveMessage,
+    Trans: ({ children }: { children: React.ReactNode }) => children,
+    Plural: ({
+      children,
+      value,
+    }: {
+      children: React.ReactNode;
+      value: number;
+    }) => (typeof children === "function" ? children(value) : children),
+    Select: ({
+      children,
+      value,
+    }: {
+      children: React.ReactNode;
+      value: string;
+    }) => (typeof children === "function" ? children(value) : children),
+    SelectOrdinal: ({
+      children,
+      value,
+    }: {
+      children: React.ReactNode;
+      value: number;
+    }) => (typeof children === "function" ? children(value) : children),
   };
 });
 
