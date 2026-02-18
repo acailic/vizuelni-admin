@@ -222,6 +222,12 @@ if (typeof IntersectionObserver === "undefined") {
   vi.stubGlobal("IntersectionObserver", IntersectionObserverMock);
 }
 
+// Mock requestIdleCallback for jsdom environment
+if (typeof requestIdleCallback === "undefined") {
+  vi.stubGlobal("requestIdleCallback", (cb: () => void) => setTimeout(cb, 0));
+  vi.stubGlobal("cancelIdleCallback", (id: number) => clearTimeout(id));
+}
+
 // Setup I18n for tests
 i18n.load("en", {});
 i18n.activate("en");

@@ -7,15 +7,8 @@ import {
 } from "@/browse/lib/filters";
 import { BrowseParams } from "@/browse/lib/params";
 import { useUrlSyncState } from "@/browse/lib/use-url-sync-state";
-// Import the enum directly with type assertion to work around TypeScript resolution issue
-const SearchCubeResultOrder = (() => {
-  const queryHooks = require("@/graphql/query-hooks");
-  return queryHooks.SearchCubeResultOrder;
-})();
+import { SearchCubeResultOrder } from "@/graphql/query-hooks";
 import { useEvent } from "@/utils/use-event";
-
-// Re-export for compatibility
-export { SearchCubeResultOrder };
 
 /**
  * Creates a hook that provides the current browse state and actions to update it.

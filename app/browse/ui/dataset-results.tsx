@@ -14,10 +14,9 @@ import {
   DatasetResultProps,
   PartialSearchCube,
 } from "@/browse/ui/dataset-result";
+import { LoadingDataError } from "@/components/hint";
 
 export type DatasetResultsProps = ComponentProps<typeof DatasetResults>;
-
-const { LoadingDataError } = require("@/components/hint") as any;
 type SearchCubeResult = {
   cube: PartialSearchCube;
   highlightedTitle?: string | null;

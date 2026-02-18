@@ -13,19 +13,19 @@ import { FirstTenRowsCaption } from "@/browse/ui/first-ten-rows-caption";
 import { useFootnotesStyles } from "@/components/chart-footnotes";
 import { DataDownloadMenu } from "@/components/data-download";
 import { Flex } from "@/components/flex";
+import { HintError, Loading, LoadingDataError } from "@/components/hint";
+import {
+  DataCubeMetadataQuery,
+  DataCubePublicationStatus,
+  useDataCubePreviewQuery,
+} from "@/graphql/query-hooks";
+import { useLocale } from "@/locales/use-locale";
+
 // Temporary type definition to work around import issue
 type DataSource = {
   type: "sql" | "sparql";
   url: string;
 };
-// Work around TypeScript module resolution issues
-const queryHooks = require("@/graphql/query-hooks") as any;
-const DataCubeMetadataQuery = queryHooks.DataCubeMetadataQuery;
-const useDataCubePreviewQuery = queryHooks.useDataCubePreviewQuery;
-type DataCubeMetadataQuery = any; // Temporary type definition
-const { HintError, Loading, LoadingDataError } = require("@/components/hint") as any;
-import { DataCubePublicationStatus } from "@/graphql/resolver-types";
-import { useLocale } from "@/locales/use-locale";
 
 export type DataSetPreviewProps = ComponentProps<typeof DataSetPreview>;
 
@@ -91,9 +91,7 @@ export const DataSetPreview = ({
           sx={{ justifyContent: odsIframe ? "end" : "space-between" }}
         >
           <Head>
-            <title key="title">
-              {dataCubeMetadata.title} - data.gov.rs
-            </title>
+            <title key="title">{dataCubeMetadata.title} - data.gov.rs</title>
           </Head>
           {!odsIframe && (
             <Typography variant="h1" fontWeight={700}>
