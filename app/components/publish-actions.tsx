@@ -26,9 +26,7 @@ import {
   useEmbedQueryParams,
 } from "@/components/embed-params";
 import { Flex } from "@/components/flex";
-import { Radio } from "@/components/form";
 import { Icon } from "@/icons";
-import { useEvent } from "@/utils/use-event";
 import { useI18n } from "@/utils/use-i18n";
 import { useResizeObserver } from "@/utils/use-resize-observer";
 
@@ -90,18 +88,7 @@ export const TriggeredPopover = (props: TriggeredPopoverProps) => {
   );
 };
 
-const Embed = ({ chartWrapperRef, configKey, locale }: PublishActionProps) => {
-  const [iframeHeight, setIframeHeight] = useState(0);
-
-  const handlePopoverOpen = useEvent(() => {
-    if (chartWrapperRef?.current) {
-      const height = Math.ceil(
-        chartWrapperRef.current.getBoundingClientRect().height
-      );
-      setIframeHeight(height);
-    }
-  });
-
+const Embed = ({ configKey, locale }: PublishActionProps) => {
   return (
     <TriggeredPopover
       popoverProps={{
@@ -113,7 +100,6 @@ const Embed = ({ chartWrapperRef, configKey, locale }: PublishActionProps) => {
           vertical: -4,
           horizontal: "right",
         },
-        onClick: handlePopoverOpen,
       }}
       renderTrigger={(setAnchorEl) => (
         <Button
@@ -125,40 +111,8 @@ const Embed = ({ chartWrapperRef, configKey, locale }: PublishActionProps) => {
         </Button>
       )}
     >
-      <EmbedContent
-        iframeHeight={iframeHeight}
-        configKey={configKey}
-        locale={locale}
-      />
+      <EmbedContent configKey={configKey} locale={locale} />
     </TriggeredPopover>
-  );
-};
-
-const EmbedRadio = ({
-  infoMessage,
-  ...rest
-}: {
-  value: string;
-  checked: boolean;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  label: string;
-  infoMessage?: string;
-}) => {
-  return (
-    <Flex sx={{ alignItems: "center", gap: 1 }}>
-      <Radio {...rest} />
-      {infoMessage && (
-        <Tooltip
-          arrow
-          title={infoMessage}
-          PopperProps={{ sx: { width: 190, p: 0 } }}
-        >
-          <div style={{ fontSize: 0 }}>
-            <Icon name="infoCircle" size={16} />
-          </div>
-        </Tooltip>
-      )}
-    </Flex>
   );
 };
 
@@ -229,15 +183,11 @@ const Share = ({ configKey, locale }: PublishActionProps) => {
 export const EmbedContent = ({
   locale,
   configKey,
-  iframeHeight: _iframeHeight,
-}: {
-  iframeHeight?: number;
-} & Omit<PublishActionProps, "chartWrapperRef" | "state">) => {
+}: Omit<PublishActionProps, "chartWrapperRef" | "state">) => {
   const router = useRouter();
   const [embedUrl, setEmbedUrl] = useState("");
   const [embedAEMUrl, setEmbedAEMUrl] = useState("");
   const { embedParams, setEmbedQueryParam } = useEmbedQueryParams();
-  const [responsive, setResponsive] = useState(true);
 
   type EmbedSizePreset = "small" | "medium" | "large" | "responsive";
 
@@ -301,36 +251,6 @@ export const EmbedContent = ({
             Use this link to embed the chart into other webpages.
           </Trans>
         </Typography>
-        <Flex sx={{ alignItems: "center", gap: 4, mt: 3, mb: 2 }}>
-          <EmbedRadio
-            value="responsive"
-            checked={responsive}
-            onChange={() => setResponsive(true)}
-            label={t({
-              id: "publication.embed.iframe.responsive",
-              message: "Responsive iframe",
-            })}
-            infoMessage={t({
-              id: "publication.embed.iframe.responsive.warn",
-              message:
-                "For embedding visualizations in web pages without CMS support. The iframe will be responsive. The JavaScript part of the embed code ensures that the iframe always maintains the correct size.",
-            })}
-          />
-          <EmbedRadio
-            value="static"
-            checked={!responsive}
-            onChange={() => setResponsive(false)}
-            label={t({
-              id: "publication.embed.iframe.static",
-              message: "Static iframe",
-            })}
-            infoMessage={t({
-              id: "publication.embed.iframe.static.warn",
-              message:
-                "For embedding visualizations in systems without JavaScript support (e.g. WordPress).",
-            })}
-          />
-        </Flex>
         <Accordion
           defaultExpanded={Object.values(embedParams).some((d) => d)}
           sx={{
