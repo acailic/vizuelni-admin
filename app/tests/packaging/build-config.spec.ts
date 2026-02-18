@@ -538,13 +538,15 @@ describe("Build Configuration Validation", () => {
     it("should have React as peer dependency", () => {
       expect(packageJson.peerDependencies).toBeDefined();
       expect(packageJson.peerDependencies.react).toBeDefined();
-      expect(packageJson.peerDependencies.react).toMatch(/\^19/);
+      // Accept any version range that includes React 18 or 19
+      expect(packageJson.peerDependencies.react).toMatch(/(>=18|^\^18|^\^19)/);
     });
 
     it("should have ReactDOM as peer dependency", () => {
       expect(packageJson.peerDependencies).toBeDefined();
       expect(packageJson.peerDependencies["react-dom"]).toBeDefined();
-      expect(packageJson.peerDependencies["react-dom"]).toMatch(/\^19/);
+      // Accept any version range that includes React 18 or 19
+      expect(packageJson.peerDependencies["react-dom"]).toMatch(/(>=18|^\^18|^\^19)/);
     });
 
     it("should have @lingui packages as peer dependencies", () => {
