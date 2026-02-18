@@ -5,9 +5,31 @@ import DemographicsDemo from "@/pages/demos/demographics";
 import { render, screen } from "@/test-utils";
 
 vi.mock("next/router", () => ({
+  __esModule: true,
   default: {
-    useRouter: () => ({ locale: "sr" }),
-    Router: () => ({}),
+    locale: "sr",
+    route: "/",
+    pathname: "/",
+    query: {},
+    asPath: "/",
+    push: vi.fn(),
+    replace: vi.fn(),
+    prefetch: vi.fn(),
+    isReady: true,
+    ready: (cb: () => void) => setTimeout(cb, 0),
+    events: { on: vi.fn(), off: vi.fn(), emit: vi.fn() },
+    router: {
+      locale: "sr",
+      route: "/",
+      pathname: "/",
+      query: {},
+      asPath: "/",
+      push: vi.fn(),
+      replace: vi.fn(),
+      prefetch: vi.fn(),
+      isReady: true,
+      events: { on: vi.fn(), off: vi.fn(), emit: vi.fn() },
+    },
   },
   useRouter: () => ({ locale: "sr" }),
 }));
