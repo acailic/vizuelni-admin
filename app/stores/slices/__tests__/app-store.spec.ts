@@ -1,8 +1,11 @@
-import { describe, it, expect } from "vitest";
+import { afterEach, describe, it, expect } from "vitest";
 
 import { useAppStore } from "@/stores/app-store";
 
 describe("appStore", () => {
+  afterEach(() => {
+    useAppStore.getState().reset();
+  });
   it("exposes configurator slice actions", () => {
     const state = useAppStore.getState();
     expect(typeof state.selectDataset).toBe("function");
