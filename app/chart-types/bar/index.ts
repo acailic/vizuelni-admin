@@ -5,9 +5,9 @@ import {
   getInitialBarConfig,
 } from "@/chart-types/bar/config";
 
-export const barChart: ChartDefinition<BarChartConfig> = {
+export const barChart = {
   type: "bar",
   label: { en: "Bar chart", sr: "Trakasti grafikon" },
   schema: barChartSchema,
   getInitialConfig: getInitialBarConfig,
-};
+} satisfies ChartDefinition<BarChartConfig>;

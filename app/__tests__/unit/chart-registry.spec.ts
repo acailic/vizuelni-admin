@@ -26,4 +26,10 @@ describe("chartRegistry", () => {
   it("isRegisteredChartType returns false for unknown type", () => {
     expect(isRegisteredChartType("unknown-type")).toBe(false);
   });
+
+  it("getChartDefinition throws for unknown type", () => {
+    expect(() => getChartDefinition("unknown-type")).toThrow(
+      "No chart definition registered for type: unknown-type"
+    );
+  });
 });

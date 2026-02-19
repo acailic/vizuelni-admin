@@ -9,8 +9,10 @@ export type ChartDefinition<TConfig = unknown> = {
   getInitialConfig: (cubeIri: string) => TConfig;
 };
 
-export const chartRegistry: ChartDefinition[] = [barChart];
+export const chartRegistry = [barChart] satisfies ChartDefinition[];
 
+// Returns ChartDefinition<unknown>. Callers that need the concrete TConfig
+// must narrow via the chart-specific module directly.
 export const getChartDefinition = (type: string): ChartDefinition => {
   const def = chartRegistry.find((c) => c.type === type);
   if (!def) throw new Error(`No chart definition registered for type: ${type}`);
