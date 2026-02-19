@@ -31,10 +31,11 @@ const DEFAULT_MARGINS: Margins = {
 
 /**
  * Headless hook that computes chart scales and layout
+ * @template TConfig - The specific chart config type (e.g., LineChartConfig, BarChartConfig)
  */
-export function useChart(
+export function useChart<TConfig extends ChartConfig>(
   data: Datum[],
-  config: ChartConfig,
+  config: TConfig,
   options: UseChartOptions
 ): ChartResult {
   const { width, height, margins: customMargins } = options;

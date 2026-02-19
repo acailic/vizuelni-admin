@@ -1,4 +1,5 @@
 import React from "react";
+import type { ScaleBand } from "d3-scale";
 import { useChart } from "../hooks/useChart";
 import { YAxis } from "../svg/Axes";
 import type { BarChartConfig, Datum } from "@vizualni/core";
@@ -18,15 +19,13 @@ export function BarChart({
   height,
   className,
 }: BarChartProps) {
-  const { scales, layout } = useChart(data, config as BarChartConfig, {
+  const { scales, layout } = useChart(data, config, {
     width,
     height,
   });
 
-  // Get band scale methods
-  const xScale = scales.x as ReturnType<
-    typeof import("d3-scale").scaleBand<string>
-  >;
+  // Bar charts always use a band scale for x-axis (categorical data)
+  const xScale = scales.x as ScaleBand<string>;
   const bandwidth = xScale.bandwidth();
 
   // Get color if segment exists

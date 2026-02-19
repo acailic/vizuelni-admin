@@ -22,7 +22,7 @@ export function PieChart({
   className,
   innerRadius: innerRadiusProp,
 }: PieChartProps) {
-  const { scales } = useChart(data, config as PieConfig, { width, height });
+  const { scales } = useChart(data, config, { width, height });
 
   // Dimensions
   const cx = width / 2;
