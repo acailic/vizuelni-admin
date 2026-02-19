@@ -48,6 +48,10 @@ function App() {
 
 **[→ Try the Modern API Demo](https://acailic.github.io/vizualni-admin/demos/modern-api)**
 
+**[→ Try the Interactive Playground](https://acailic.github.io/vizualni-admin/demos/playground-v2)**
+
+**[→ Open Example in CodeSandbox](https://codesandbox.io/s/github/acailic/vizualni-admin/tree/main/examples/basic-usage)**
+
 ---
 
 ## 📋 Table of Contents / Садржај

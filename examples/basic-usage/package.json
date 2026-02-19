@@ -1,16 +1,29 @@
 {
-  "name": "vizualni-admin-basic-usage",
+  "name": "vizualni-basic-example",
   "version": "1.0.0",
-  "description": "Basic usage example for vizualni-admin. This example demonstrates how to set up and use vizualni-admin for Serbian open data visualization. To get started: 1. Install dependencies with `npm install` or `yarn install`. 2. Run `npm run dev` to start the development server. 3. Open http://localhost:3000 in your browser. 4. Customize the configuration in pages/index.tsx.",
-  "private": true,
+  "description": "Basic example using @vizualni/react charts",
+  "main": "src/index.tsx",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "start": "react-scripts start",
+    "build": "react-scripts build"
   },
   "dependencies": {
-    "vizualni-admin": "file:../../app",
+    "@vizualni/core": "latest",
+    "@vizualni/react": "latest",
     "react": "^18.2.0",
-    "next": "^14.2.26"
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
