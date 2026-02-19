@@ -290,7 +290,8 @@
   },
   "workspaces": [
     ".",
-    "app"
+    "app",
+    "packages/*"
   ],
   "preconstruct": {
     "packages": [
