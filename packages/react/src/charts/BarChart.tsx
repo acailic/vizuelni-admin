@@ -1,4 +1,3 @@
-import React from "react";
 import type { ScaleBand } from "d3-scale";
 import { useChart } from "../hooks/useChart";
 import { YAxis } from "../svg/Axes";

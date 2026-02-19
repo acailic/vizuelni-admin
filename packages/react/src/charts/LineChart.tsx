@@ -1,4 +1,3 @@
-import React from "react";
 import type { ScaleTime } from "d3-scale";
 import { useChart } from "../hooks/useChart";
 import { XAxis, YAxis } from "../svg/Axes";

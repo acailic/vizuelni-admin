@@ -1,4 +1,3 @@
-import React from "react";
 import type { ScaleLinear, ScaleTime } from "d3-scale";
 
 export interface XAxisProps {
