@@ -75,12 +75,24 @@ export const ErrorWhiskers = () => {
     chartHeight,
   ]);
 
-  useD3Render(ref, renderErrorWhiskers, renderData, {
-    transition: { enable: enableTransition, duration: transitionDuration },
-  });
+  const renderOpts = useMemo(
+    () => ({
+      transition: { enable: enableTransition, duration: transitionDuration },
+    }),
+    [enableTransition, transitionDuration]
+  );
+
+  useD3Render(ref, renderErrorWhiskers, renderData, renderOpts);
 
   return (
-    <g ref={ref} transform={`translate(${margins.left} ${margins.top})`} />
+    // Note: transform is React-controlled (no animation on margin change).
+    // The original renderContainer applied this via D3 transition. Acceptable
+    // tradeoff for first useD3Render adoption; revisit if animated resize matters.
+    <g
+      id="bars-error-whiskers"
+      ref={ref}
+      transform={`translate(${margins.left} ${margins.top})`}
+    />
   );
 };
 
