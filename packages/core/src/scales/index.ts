@@ -70,10 +70,17 @@ function computeLineScales(
     nice: true,
   });
 
-  // Y scale (linear)
-  const yMax = max(data, (d) => d[config.y.field] as number) ?? 0;
+  // Y scale (linear) - handle negative values
+  const yExtent = extent(data, (d) => d[config.y.field] as number);
+  const yMin = yExtent[0] ?? 0;
+  const yMax = yExtent[1] ?? 0;
+
+  // Include 0 in domain if all values are positive, otherwise use actual extent
+  const yDomain: [number, number] =
+    yMin >= 0 ? [0, yMax] : [yMin, Math.max(yMax, 0)];
+
   const yScale = createLinearScale({
-    domain: [0, yMax],
+    domain: yDomain,
     range: [chartHeight, 0],
     nice: true,
   });
@@ -107,10 +114,17 @@ function computeBarScales(
     padding: 0.2,
   });
 
-  // Y scale (linear)
-  const yMax = max(data, (d) => d[config.y.field] as number) ?? 0;
+  // Y scale (linear) - handle negative values
+  const yExtent = extent(data, (d) => d[config.y.field] as number);
+  const yMin = yExtent[0] ?? 0;
+  const yMax = yExtent[1] ?? 0;
+
+  // Include 0 in domain if all values are positive, otherwise use actual extent
+  const yDomain: [number, number] =
+    yMin >= 0 ? [0, yMax] : [yMin, Math.max(yMax, 0)];
+
   const yScale = createLinearScale({
-    domain: [0, yMax],
+    domain: yDomain,
     range: [chartHeight, 0],
     nice: true,
   });

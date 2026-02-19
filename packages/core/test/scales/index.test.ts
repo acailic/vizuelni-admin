@@ -39,4 +39,177 @@ describe("computeScales", () => {
     expect(scales.color).toBeDefined();
     expect(scales.color?.domain()).toEqual(["A", "B"]);
   });
+
+  describe("edge cases", () => {
+    it("should handle single data point", () => {
+      const singleData: Datum[] = [
+        { date: new Date("2024-01-01"), value: 50, category: "A" },
+      ];
+      const config: ChartConfig = {
+        type: "line",
+        x: { field: "date", type: "date" },
+        y: { field: "value", type: "number" },
+      };
+
+      const scales = computeScales(singleData, config, {
+        width: 600,
+        height: 400,
+      });
+
+      expect(scales.x).toBeDefined();
+      expect(scales.y).toBeDefined();
+      // Single point should still have valid domain
+      expect(scales.x.domain().length).toBe(2);
+    });
+
+    it("should handle zero values", () => {
+      const zeroData: Datum[] = [
+        { category: "A", value: 0 },
+        { category: "B", value: 0 },
+        { category: "C", value: 0 },
+      ];
+      const config: ChartConfig = {
+        type: "bar",
+        x: { field: "category", type: "string" },
+        y: { field: "value", type: "number" },
+      };
+
+      const scales = computeScales(zeroData, config, {
+        width: 600,
+        height: 400,
+      });
+
+      expect(scales.y).toBeDefined();
+      expect(scales.y.domain()[0]).toBe(0);
+      expect(scales.y.domain()[1]).toBeGreaterThanOrEqual(0);
+    });
+
+    it("should handle negative values", () => {
+      const negativeData: Datum[] = [
+        { category: "A", value: -10 },
+        { category: "B", value: 20 },
+        { category: "C", value: -5 },
+      ];
+      const config: ChartConfig = {
+        type: "bar",
+        x: { field: "category", type: "string" },
+        y: { field: "value", type: "number" },
+      };
+
+      const scales = computeScales(negativeData, config, {
+        width: 600,
+        height: 400,
+      });
+
+      expect(scales.y).toBeDefined();
+      // Should handle negative values gracefully
+      const [yMin, yMax] = scales.y.domain();
+      expect(yMin).toBeLessThanOrEqual(-10);
+      expect(yMax).toBeGreaterThanOrEqual(20);
+    });
+
+    it("should handle same date values", () => {
+      const sameDateData: Datum[] = [
+        { date: new Date("2024-01-01"), value: 10 },
+        { date: new Date("2024-01-01"), value: 20 },
+        { date: new Date("2024-01-01"), value: 30 },
+      ];
+      const config: ChartConfig = {
+        type: "line",
+        x: { field: "date", type: "date" },
+        y: { field: "value", type: "number" },
+      };
+
+      const scales = computeScales(sameDateData, config, {
+        width: 600,
+        height: 400,
+      });
+
+      expect(scales.x).toBeDefined();
+      // Should still produce a valid domain
+      expect(scales.x.domain().length).toBe(2);
+    });
+
+    it("should handle large number of categories in bar chart", () => {
+      const manyCategories: Datum[] = Array.from({ length: 50 }, (_, i) => ({
+        category: `Cat${i}`,
+        value: i * 10,
+      }));
+      const config: ChartConfig = {
+        type: "bar",
+        x: { field: "category", type: "string" },
+        y: { field: "value", type: "number" },
+      };
+
+      const scales = computeScales(manyCategories, config, {
+        width: 1000,
+        height: 400,
+      });
+
+      expect(scales.x).toBeDefined();
+      // Band scale should handle many categories
+      expect(typeof scales.x("Cat0")).toBe("number");
+    });
+
+    it("should handle pie chart with zero values", () => {
+      const zeroPieData: Datum[] = [
+        { category: "A", value: 0 },
+        { category: "B", value: 0 },
+      ];
+      const config: ChartConfig = {
+        type: "pie",
+        value: { field: "value", type: "number" },
+        category: { field: "category", type: "string" },
+      };
+
+      const scales = computeScales(zeroPieData, config, {
+        width: 400,
+        height: 400,
+      });
+
+      expect(scales.color).toBeDefined();
+    });
+
+    it("should handle very small values", () => {
+      const smallData: Datum[] = [
+        { category: "A", value: 0.0001 },
+        { category: "B", value: 0.0002 },
+        { category: "C", value: 0.0003 },
+      ];
+      const config: ChartConfig = {
+        type: "bar",
+        x: { field: "category", type: "string" },
+        y: { field: "value", type: "number" },
+      };
+
+      const scales = computeScales(smallData, config, {
+        width: 600,
+        height: 400,
+      });
+
+      expect(scales.y).toBeDefined();
+      const [yMin, yMax] = scales.y.domain();
+      expect(yMax).toBeGreaterThanOrEqual(0.0003);
+    });
+
+    it("should handle very large values", () => {
+      const largeData: Datum[] = [
+        { category: "A", value: 1000000000 },
+        { category: "B", value: 2000000000 },
+      ];
+      const config: ChartConfig = {
+        type: "bar",
+        x: { field: "category", type: "string" },
+        y: { field: "value", type: "number" },
+      };
+
+      const scales = computeScales(largeData, config, {
+        width: 600,
+        height: 400,
+      });
+
+      expect(scales.y).toBeDefined();
+      expect(scales.y.domain()[1]).toBeGreaterThanOrEqual(2000000000);
+    });
+  });
 });
