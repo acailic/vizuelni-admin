@@ -1,5 +1,7 @@
 import React from "react";
 import { useChart } from "../hooks/useChart";
+import { XAxis, YAxis } from "../svg/Axes";
+import { LinePath } from "../svg/LinePath";
 import type { LineChartConfig, Datum } from "@vizualni/core";
 
 export interface LineChartProps {
@@ -22,6 +24,9 @@ export function LineChart({
 }: LineChartProps) {
   const { scales, layout } = useChart(data, config as any, { width, height });
 
+  const getX = (d: Datum) => scales.x(d[config.x.field] as Date) as number;
+  const getY = (d: Datum) => scales.y(d[config.y.field] as number) as number;
+
   return (
     <svg
       role="img"
@@ -30,15 +35,11 @@ export function LineChart({
       className={className}
       aria-label="Line chart"
     >
-      {/* Chart content will be added in Task 14 */}
-      <rect
-        x={layout.chartArea.x}
-        y={layout.chartArea.y}
-        width={layout.chartArea.width}
-        height={layout.chartArea.height}
-        fill="none"
-        stroke="#e0e0e0"
-      />
+      <g transform={`translate(${layout.chartArea.x}, ${layout.chartArea.y})`}>
+        <LinePath data={data} x={getX} y={getY} />
+      </g>
+      <XAxis scale={scales.x as any} height={layout.chartArea.height} />
+      <YAxis scale={scales.y} />
     </svg>
   );
 }
