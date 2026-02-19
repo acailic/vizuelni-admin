@@ -7,6 +7,12 @@ export {
   type ChartResult,
 } from "./hooks/useChart";
 
+export {
+  useConnector,
+  type ConnectorState,
+  type UseConnectorReturn,
+} from "./hooks/useConnector";
+
 // Charts
 export { LineChart, type LineChartProps } from "./charts/LineChart";
 export { BarChart, type BarChartProps } from "./charts/BarChart";

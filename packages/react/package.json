@@ -26,6 +26,7 @@
     "react-dom": ">=18.0.0"
   },
   "dependencies": {
+    "@vizualni/connectors": "^0.1.0-alpha.0",
     "@vizualni/core": "^0.1.0-alpha.0",
     "zustand": "^4.5.0"
   },

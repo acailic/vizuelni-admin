@@ -1,4 +1,21 @@
 // @vizualni/connectors - Data connectors for fetching data from various sources
-// This package will provide connectors for WMS, WFS, WMTS, and other data sources
+// This package provides connectors for CSV, JSON, and other data sources
 
-export {};
+// Types
+export type {
+  DataConnector,
+  ConnectorResult,
+  DataSchema,
+  FieldSchema,
+  FieldType,
+  SchemaInferenceOptions,
+  UseConnectorOptions,
+} from "./types";
+
+// CSV Connector
+export { csvConnector } from "./csv";
+export type { CsvConfig } from "./csv";
+
+// JSON Connector
+export { jsonConnector } from "./json";
+export type { JsonConfig } from "./json";
