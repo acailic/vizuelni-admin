@@ -10,7 +10,7 @@ describe("useD3Render", () => {
     const data = [{ key: "a", value: 1 }];
     const opts = { transition: { enable: false, duration: 0 } };
 
-    const { result } = renderHook(() => {
+    renderHook(() => {
       const ref = useRef<SVGGElement>(null);
       // Attach a real element so the ref is not null
       Object.defineProperty(ref, "current", {
