@@ -62,4 +62,19 @@ describe("configuratorSlice", () => {
     expect(store.getState().phase).toBe("selecting-dataset");
     expect(store.getState().chartConfigs).toHaveLength(0);
   });
+
+  it("setField updates fields on the chart", () => {
+    store.getState().selectDataset("https://example.com/cube");
+    const key = store.getState().chartConfigs[0].key;
+    store.getState().setField(key, "x", "dimension-1");
+    const chart = store.getState().chartConfigs.find((c) => c.key === key);
+    expect(chart?.fields["x"]).toEqual({ componentId: "dimension-1" });
+  });
+
+  it("setField with unknown key does not throw", () => {
+    store.getState().selectDataset("https://example.com/cube");
+    expect(() =>
+      store.getState().setField("nonexistent-key", "x", "dimension-1")
+    ).not.toThrow();
+  });
 });
