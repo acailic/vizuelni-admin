@@ -1,5 +1,11 @@
-// Core types
+// Types
 export * from "./types";
 
-// Chart config schemas
+// Config
 export * from "./config";
+
+// Scales
+export * from "./scales";
+
+// Layout
+export * from "./layout";
