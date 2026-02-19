@@ -1,6 +1,6 @@
 // app/charts/shared/interaction/guidance-hint.tsx
 import { Box, Typography } from "@mui/material";
-import { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 const GUIDANCE_STORAGE_KEY = "vizualni-guidance-seen";
 
