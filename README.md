@@ -17,6 +17,10 @@
 | `@vizualni/react`      | [![npm](https://img.shields.io/badge/size-8kb-green)](packages/react)      | React components and hooks               |
 | `@vizualni/connectors` | [![npm](https://img.shields.io/badge/size-3kb-green)](packages/connectors) | CSV, JSON, REST data connectors          |
 
+### Architecture
+
+![Architecture](docs/assets/architecture.svg)
+
 ### Quick Start with New Packages
 
 ```bash
