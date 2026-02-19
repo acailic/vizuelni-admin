@@ -53,4 +53,49 @@ describe("useChart", () => {
     rerender({ data, config, options: { width: 600, height: 400 } });
     expect(result.current).toBe(firstResult);
   });
+
+  describe("error handling", () => {
+    it("should return error for empty data", () => {
+      const { result } = renderHook(() =>
+        useChart([], config, { width: 600, height: 400 })
+      );
+
+      expect(result.current.error).toBe("Data array is empty");
+    });
+
+    it("should return error for missing required field", () => {
+      const badData: Datum[] = [{ date: new Date("2024-01-01") }]; // missing 'value'
+      const { result } = renderHook(() =>
+        useChart(badData, config, { width: 600, height: 400 })
+      );
+
+      expect(result.current.error).toBe(
+        'Required field "value" not found in data'
+      );
+    });
+
+    it("should return error for pie chart missing value field", () => {
+      const pieConfig: ChartConfig = {
+        type: "pie",
+        value: { field: "count", type: "number" },
+        category: { field: "category", type: "string" },
+      };
+      const badData: Datum[] = [{ category: "A" }]; // missing 'count'
+      const { result } = renderHook(() =>
+        useChart(badData, pieConfig, { width: 400, height: 400 })
+      );
+
+      expect(result.current.error).toBe(
+        'Required field "count" not found in data'
+      );
+    });
+
+    it("should not return error for valid data", () => {
+      const { result } = renderHook(() =>
+        useChart(data, config, { width: 600, height: 400 })
+      );
+
+      expect(result.current.error).toBeUndefined();
+    });
+  });
 });
