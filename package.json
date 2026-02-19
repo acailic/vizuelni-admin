@@ -102,7 +102,10 @@
     "performance:bundle": "cd app && npx bundle-analyzer",
     "pwa:manifest": "echo '✅ PWA manifest is available at /public/manifest.json'",
     "pwa:service-worker": "echo '✅ Service worker is available at /public/sw.js'",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "pnpm build && changeset publish"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
