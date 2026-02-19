@@ -10,6 +10,25 @@ export enum PALETTE_TYPE {
   CATEGORICAL = "CATEGORICAL",
 }
 
+// Chart Theme Variants
+export type ChartThemeVariant = "default" | "modern" | "minimal" | "dark";
+
+export const CHART_THEME_VARIANTS: ChartThemeVariant[] = [
+  "default",
+  "modern",
+  "minimal",
+  "dark",
+];
+
+export function isChartThemeVariant(
+  value: unknown
+): value is ChartThemeVariant {
+  return (
+    typeof value === "string" &&
+    CHART_THEME_VARIANTS.includes(value as ChartThemeVariant)
+  );
+}
+
 const DimensionType = t.union([
   t.literal("NominalDimension"),
   t.literal("OrdinalDimension"),
