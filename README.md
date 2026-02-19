@@ -7,6 +7,49 @@
 [![License](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](https://github.com/acailic/vizualni-admin/blob/main/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/acailic/vizualni-admin.svg)](https://github.com/acailic/vizualni-admin/stargazers)
 
+## 🚀 NEW: Modern NPM Packages
+
+**Framework-agnostic visualization packages are now available!**
+
+| Package                | Size                                                                       | Description                              |
+| ---------------------- | -------------------------------------------------------------------------- | ---------------------------------------- |
+| `@vizualni/core`       | [![npm](https://img.shields.io/badge/size-11kb-green)](packages/core)      | Pure TypeScript: scales, layouts, shapes |
+| `@vizualni/react`      | [![npm](https://img.shields.io/badge/size-8kb-green)](packages/react)      | React components and hooks               |
+| `@vizualni/connectors` | [![npm](https://img.shields.io/badge/size-3kb-green)](packages/connectors) | CSV, JSON, REST data connectors          |
+
+### Quick Start with New Packages
+
+```bash
+npm install @vizualni/react @vizualni/core
+```
+
+```tsx
+import { LineChart } from "@vizualni/react";
+
+function App() {
+  return (
+    <LineChart
+      data={[
+        { date: new Date("2024-01-01"), value: 100 },
+        { date: new Date("2024-02-01"), value: 150 },
+        { date: new Date("2024-03-01"), value: 200 },
+      ]}
+      config={{
+        type: "line",
+        x: { field: "date", type: "date" },
+        y: { field: "value", type: "number" },
+      }}
+      width={600}
+      height={400}
+    />
+  );
+}
+```
+
+**[→ Try the Modern API Demo](https://acailic.github.io/vizualni-admin/demos/modern-api)**
+
+---
+
 ## 📋 Table of Contents / Садржај
 
 - [What is Vizualni Admin?](#what-is-vizualni-admin)
