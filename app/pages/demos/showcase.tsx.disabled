@@ -35,64 +35,64 @@ export default function DemoShowcasePage() {
   const text = {
     title: i18n._(
       defineMessage({
-        id: "demos.showcase.title",
+        id: "demos.showcase.page.title",
         message: "Demo Showcase Visualizations",
       })
     ),
     description: i18n._(
       defineMessage({
-        id: "demos.showcase.description",
+        id: "demos.showcase.page.description",
         message:
           "A quick look at multiple chart types using representative datasets.",
       })
     ),
     hero: i18n._(
       defineMessage({
-        id: "demos.showcase.hero",
+        id: "demos.showcase.page.hero",
         message:
           "A bundle of high-signal indicators across economy, mobility, energy, and digitalization.",
       })
     ),
     cta: i18n._(
       defineMessage({
-        id: "demos.showcase.cta",
+        id: "demos.showcase.page.cta",
         message: "Browse all demo pages",
       })
     ),
     economyTitle: i18n._(
       defineMessage({
-        id: "demos.showcase.economy.title",
+        id: "demos.showcase.page.economy.title",
         message: "Regional GDP Growth",
       })
     ),
     economyDesc: i18n._(
       defineMessage({
-        id: "demos.showcase.economy.description",
+        id: "demos.showcase.page.economy.description",
         message: "Year-over-year GDP growth by region.",
       })
     ),
     transportTitle: i18n._(
       defineMessage({
-        id: "demos.showcase.transport.title",
+        id: "demos.showcase.page.transport.title",
         message: "Public Transport Momentum",
       })
     ),
     transportDesc: i18n._(
       defineMessage({
-        id: "demos.showcase.transport.description",
+        id: "demos.showcase.page.transport.description",
         message:
           "Trips in millions – COVID dip in 2020, then a steady recovery.",
       })
     ),
     energyTitle: i18n._(
       defineMessage({
-        id: "demos.showcase.energy.title",
+        id: "demos.showcase.page.energy.title",
         message: "Energy Mix Snapshot",
       })
     ),
     energyDesc: i18n._(
       defineMessage({
-        id: "demos.showcase.energy.description",
+        id: "demos.showcase.page.energy.description",
         message: "Share of electricity generation by source.",
       })
     ),
