@@ -3,11 +3,12 @@
  * Provides consistent navigation across the application
  */
 
-import BarChartIcon from '@mui/icons-material/BarChart';
-import DescriptionIcon from '@mui/icons-material/Description';
-import HomeIcon from '@mui/icons-material/Home';
-import MenuIcon from '@mui/icons-material/Menu';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
+import BarChartIcon from "@mui/icons-material/BarChart";
+import DescriptionIcon from "@mui/icons-material/Description";
+import ExploreIcon from "@mui/icons-material/Explore";
+import HomeIcon from "@mui/icons-material/Home";
+import MenuIcon from "@mui/icons-material/Menu";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
 import {
   AppBar,
   Toolbar,
@@ -23,23 +24,40 @@ import {
   ListItemButton,
   ListItemText,
   ListItemIcon,
-} from '@mui/material';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
+} from "@mui/material";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 const navigationItems = [
-  { label: { sr: 'Početna', en: 'Home' }, href: '/', icon: <HomeIcon /> },
-  { label: { sr: 'Demo', en: 'Demos' }, href: '/demos', icon: <BarChartIcon /> },
-  { label: { sr: 'Tutorijali', en: 'Tutorials' }, href: '/tutorials', icon: <MenuBookIcon /> },
-  { label: { sr: 'Dokumentacija', en: 'Docs' }, href: '/docs', icon: <DescriptionIcon /> },
+  { label: { sr: "Početna", en: "Home" }, href: "/", icon: <HomeIcon /> },
+  {
+    label: { sr: "Istraži", en: "Explore" },
+    href: "/topics",
+    icon: <ExploreIcon />,
+  },
+  {
+    label: { sr: "Demo", en: "Demos" },
+    href: "/demos",
+    icon: <BarChartIcon />,
+  },
+  {
+    label: { sr: "Tutorijali", en: "Tutorials" },
+    href: "/tutorials",
+    icon: <MenuBookIcon />,
+  },
+  {
+    label: { sr: "Dokumentacija", en: "Docs" },
+    href: "/docs",
+    icon: <DescriptionIcon />,
+  },
 ];
 
 export function NavBar() {
   const router = useRouter();
-  const locale = (router.locale || 'sr') as 'sr' | 'en';
+  const locale = (router.locale || "sr") as "sr" | "en";
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -58,11 +76,11 @@ export function NavBar() {
           component="a"
           color="inherit"
           sx={{
-            textTransform: 'none',
+            textTransform: "none",
             fontWeight: 500,
             mx: 1,
-            '&:hover': {
-              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+            "&:hover": {
+              backgroundColor: "rgba(255, 255, 255, 0.1)",
             },
           }}
           startIcon={item.icon}
@@ -78,9 +96,7 @@ export function NavBar() {
       <ListItem key={item.href} disablePadding>
         <Link href={item.href} passHref legacyBehavior>
           <ListItemButton component="a" onClick={handleMobileMenuClose}>
-            <ListItemIcon sx={{ color: 'inherit' }}>
-              {item.icon}
-            </ListItemIcon>
+            <ListItemIcon sx={{ color: "inherit" }}>{item.icon}</ListItemIcon>
             <ListItemText primary={item.label[locale]} />
           </ListItemButton>
         </Link>
@@ -90,7 +106,7 @@ export function NavBar() {
 
   return (
     <>
-      <AppBar position="static" sx={{ backgroundColor: 'primary.main' }}>
+      <AppBar position="static" sx={{ backgroundColor: "primary.main" }}>
         <Toolbar>
           {/* Logo/Title */}
           <Typography
@@ -103,7 +119,7 @@ export function NavBar() {
 
           {/* Desktop Navigation */}
           {!isMobile && (
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
               {renderNavigationItems()}
             </Box>
           )}
@@ -135,9 +151,7 @@ export function NavBar() {
           onClick={handleMobileMenuClose}
           onKeyDown={handleMobileMenuClose}
         >
-          <List>
-            {renderMobileNavigationItems()}
-          </List>
+          <List>{renderMobileNavigationItems()}</List>
         </Box>
       </Drawer>
     </>
