@@ -38,21 +38,30 @@ vi.mock("@lingui/macro", () => {
     }: {
       children: React.ReactNode;
       value: number;
-    }) => (typeof children === "function" ? children(value) : children),
+    }) =>
+      typeof children === "function"
+        ? (children as (v: number) => React.ReactNode)(value)
+        : children,
     Select: ({
       children,
       value,
     }: {
       children: React.ReactNode;
       value: string;
-    }) => (typeof children === "function" ? children(value) : children),
+    }) =>
+      typeof children === "function"
+        ? (children as (v: string) => React.ReactNode)(value)
+        : children,
     SelectOrdinal: ({
       children,
       value,
     }: {
       children: React.ReactNode;
       value: number;
-    }) => (typeof children === "function" ? children(value) : children),
+    }) =>
+      typeof children === "function"
+        ? (children as (v: number) => React.ReactNode)(value)
+        : children,
   };
 });
 
