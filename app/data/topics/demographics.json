@@ -61,5 +61,21 @@
       "format": "CSV",
       "recommendedChart": "line"
     }
+  ],
+  "visualizations": [
+    {
+      "id": "age-distribution",
+      "title": {
+        "sr": "Старосна структура становништва",
+        "en": "Population Age Distribution"
+      },
+      "description": {
+        "sr": "Тракасти графикон који приказује расподелу по старосним групама",
+        "en": "Bar chart showing distribution by age groups"
+      },
+      "chartType": "bar",
+      "dataSource": "age-structure",
+      "embedUrl": "/embed?type=bar&dataset=age"
+    }
   ]
 }

@@ -61,5 +61,35 @@
       "format": "CSV",
       "recommendedChart": "bar"
     }
+  ],
+  "visualizations": [
+    {
+      "id": "budget-breakdown",
+      "title": {
+        "sr": "Расподела буџета по категоријама",
+        "en": "Budget Breakdown by Category"
+      },
+      "description": {
+        "sr": "Тракасти графикон који приказује расподелу буџетских средстава",
+        "en": "Bar chart showing the distribution of budget funds"
+      },
+      "chartType": "bar",
+      "dataSource": "republic-budget-2024",
+      "embedUrl": "/embed?type=bar&dataset=budget"
+    },
+    {
+      "id": "debt-trend",
+      "title": {
+        "sr": "Тренд јавног дуга",
+        "en": "Public Debt Trend"
+      },
+      "description": {
+        "sr": "Линијски графикон који приказује кретање јавног дуга током времена",
+        "en": "Line chart showing public debt movement over time"
+      },
+      "chartType": "line",
+      "dataSource": "public-debt",
+      "embedUrl": "/embed?type=line&dataset=debt"
+    }
   ]
 }

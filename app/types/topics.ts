@@ -26,11 +26,21 @@ export interface Dataset {
   recommendedChart?: "bar" | "line" | "pie" | "map" | "area";
 }
 
+export interface Visualization {
+  id: string;
+  title: LocalizedString;
+  description: LocalizedString;
+  chartType: "bar" | "line" | "pie" | "area" | "column";
+  dataSource: string;
+  embedUrl?: string;
+}
+
 export interface TopicData {
   id: string;
   title: LocalizedString;
   description: LocalizedString;
   datasets: Dataset[];
+  visualizations?: Visualization[];
 }
 
 export interface TopicIndex {

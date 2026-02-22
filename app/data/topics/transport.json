@@ -61,5 +61,21 @@
       "format": "CSV",
       "recommendedChart": "pie"
     }
+  ],
+  "visualizations": [
+    {
+      "id": "accidents-by-region",
+      "title": {
+        "sr": "Саобраћајне незгоде по регионима",
+        "en": "Traffic Accidents by Region"
+      },
+      "description": {
+        "sr": "Тракасти графикон који приказује број незгода по регионима",
+        "en": "Bar chart showing accidents by region"
+      },
+      "chartType": "bar",
+      "dataSource": "traffic-accidents",
+      "embedUrl": "/embed?type=bar&dataset=accidents"
+    }
   ]
 }

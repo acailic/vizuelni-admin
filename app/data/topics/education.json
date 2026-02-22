@@ -61,5 +61,21 @@
       "format": "CSV",
       "recommendedChart": "bar"
     }
+  ],
+  "visualizations": [
+    {
+      "id": "student-enrollment-trend",
+      "title": {
+        "sr": "Тренд уписа студената",
+        "en": "Student Enrollment Trend"
+      },
+      "description": {
+        "sr": "Линијски графикон који приказује кретање броја уписаних студената",
+        "en": "Line chart showing the trend of enrolled students"
+      },
+      "chartType": "line",
+      "dataSource": "university-enrollment",
+      "embedUrl": "/embed?type=line&dataset=students"
+    }
   ]
 }

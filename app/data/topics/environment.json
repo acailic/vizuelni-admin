@@ -61,5 +61,21 @@
       "format": "CSV",
       "recommendedChart": "pie"
     }
+  ],
+  "visualizations": [
+    {
+      "id": "air-quality-trend",
+      "title": {
+        "sr": "Тренд квалитета ваздуха",
+        "en": "Air Quality Trend"
+      },
+      "description": {
+        "sr": "Линијски графикон који приказује кретање квалитета ваздуха",
+        "en": "Line chart showing air quality trend"
+      },
+      "chartType": "line",
+      "dataSource": "air-quality-index",
+      "embedUrl": "/embed?type=line&dataset=air"
+    }
   ]
 }

@@ -61,5 +61,21 @@
       "format": "CSV",
       "recommendedChart": "bar"
     }
+  ],
+  "visualizations": [
+    {
+      "id": "vaccination-rates",
+      "title": {
+        "sr": "Степен вакцинације по старосним групама",
+        "en": "Vaccination Rates by Age Group"
+      },
+      "description": {
+        "sr": "Тракасти графикон који приказује степен обухвата вакцинацијом",
+        "en": "Bar chart showing vaccination coverage rates"
+      },
+      "chartType": "bar",
+      "dataSource": "vaccination-coverage",
+      "embedUrl": "/embed?type=bar&dataset=vaccination"
+    }
   ]
 }
