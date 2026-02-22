@@ -226,21 +226,6 @@
     }
   },
   "preconstruct": {
-    "entrypoints": [
-      "./index.ts",
-      "./exports/core.ts",
-      "./exports/client.ts",
-      "./exports/charts/index.ts",
-      "./exports/charts/LineChart.tsx",
-      "./exports/charts/BarChart.tsx",
-      "./exports/charts/ColumnChart.tsx",
-      "./exports/charts/PieChart.tsx",
-      "./exports/charts/AreaChart.tsx",
-      "./exports/charts/MapChart.tsx",
-      "./exports/hooks/index.ts",
-      "./exports/utils/index.ts",
-      "./exports/connectors/index.ts"
-    ],
     "___experimentalFlags_WILL_CHANGE_IN_PATCH": {
       "importsConditions": true
     }

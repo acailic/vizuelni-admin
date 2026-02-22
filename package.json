@@ -14,9 +14,9 @@
   "license": "BSD-3-Clause",
   "private": true,
   "scripts": {
-    "dev": "preconstruct dev && NODE_OPTIONS=\"--inspect --openssl-legacy-provider \" next ./app",
-    "dev:ssl": "preconstruct dev && NODE_OPTIONS=\"--inspect --openssl-legacy-provider \" next dev --experimental-https ./app",
-    "dev:mitmproxy": "preconstruct dev && HTTP_PROXY=http://localhost:8080 NODE_EXTRA_CA_CERTS=~/.mitmproxy/mitmproxy-ca-cert.pem GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE='' NO_PROXY='localhost,127.0.0.1' next ./app",
+    "dev": "NODE_OPTIONS=\"--inspect --openssl-legacy-provider \" next ./app",
+    "dev:ssl": "NODE_OPTIONS=\"--inspect --openssl-legacy-provider \" next dev --experimental-https ./app",
+    "dev:mitmproxy": "HTTP_PROXY=http://localhost:8080 NODE_EXTRA_CA_CERTS=~/.mitmproxy/mitmproxy-ca-cert.pem GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE='' NO_PROXY='localhost,127.0.0.1' next ./app",
     "dev:rollup": "rollup -c rollup.config.js --watch",
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
@@ -293,11 +293,6 @@
     "app",
     "packages/*"
   ],
-  "preconstruct": {
-    "packages": [
-      "app"
-    ]
-  },
   "cacheDirectories": [
     "node_modules",
     "app/.next/cache"
