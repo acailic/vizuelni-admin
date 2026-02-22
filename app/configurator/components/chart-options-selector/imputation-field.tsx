@@ -72,7 +72,7 @@ export const ImputationField = ({
             ? t({
                 id: "controls.section.imputation.explanation",
                 message:
-                  "For this chart type, replacement values should be assigned to missing values. Decide on the imputation logic or switch to another chart type.",
+                  "For this chart type, replacement values should be assigned to missing values. Decide on an imputation logic or switch to another chart type.",
               })
             : undefined
         }

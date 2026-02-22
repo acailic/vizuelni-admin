@@ -17,9 +17,7 @@ type NavigationEntry = {
   label?: string | null;
 };
 
-const getIconName = (
-  item: NavigationEntry
-): string | undefined => {
+const getIconName = (item: NavigationEntry): string | undefined => {
   if ("__typename" in item) {
     switch (item.__typename) {
       case "DataCubeTheme":
@@ -97,41 +95,41 @@ export const NavigationSection = ({
             onReorder={() => {}}
             values={isOpen ? items : topItems}
           >
-          {(isOpen ? items : topItems).map((item) => {
-            return (
-              <Reorder.Item key={item.iri} as="div" value={item}>
-                <NavigationItem
-                  active={currentFilter?.iri === item.iri}
-                  filters={filters}
-                  next={item as any}
-                  count={counts[item.iri]}
-                  disableLink={disableLinks}
-                  countBg="white"
-                >
-                  {item.label}
-                </NavigationItem>
-              </Reorder.Item>
-            );
-          })}
-          {topItems.length !== items.length ? (
-            <Button
-              variant="outlined"
-              color="primary"
-              size="medium"
-              onClick={isOpen ? close : open}
-              endIcon={
-                <Icon name={isOpen ? "arrowUp" : "arrowDown"} size={20} />
-              }
-              sx={{ width: "100%", mt: 1, transition: "all 0.2s" }}
-            >
-              {isOpen ? (
-                <Trans id="show.less">Show less</Trans>
-              ) : (
-                <Trans id="show.all">Show all ({hiddenCount})</Trans>
-              )}
-            </Button>
-          ) : null}
-        </Reorder.Group>
+            {(isOpen ? items : topItems).map((item) => {
+              return (
+                <Reorder.Item key={item.iri} as="div" value={item}>
+                  <NavigationItem
+                    active={currentFilter?.iri === item.iri}
+                    filters={filters}
+                    next={item as any}
+                    count={counts[item.iri]}
+                    disableLink={disableLinks}
+                    countBg="white"
+                  >
+                    {item.label}
+                  </NavigationItem>
+                </Reorder.Item>
+              );
+            })}
+            {topItems.length !== items.length ? (
+              <Button
+                variant="outlined"
+                color="primary"
+                size="medium"
+                onClick={isOpen ? close : open}
+                endIcon={
+                  <Icon name={isOpen ? "arrowUp" : "arrowDown"} size={20} />
+                }
+                sx={{ width: "100%", mt: 1, transition: "all 0.2s" }}
+              >
+                {isOpen ? (
+                  <Trans id="show.less">Show less</Trans>
+                ) : (
+                  <Trans id="show.all.count">Show all ({hiddenCount})</Trans>
+                )}
+              </Button>
+            ) : null}
+          </Reorder.Group>
         </Box>
         {extra}
       </Box>
