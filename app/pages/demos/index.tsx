@@ -8,12 +8,16 @@ import {
   CardContent,
   Chip,
   Grid,
-  Typography
+  Typography,
+  alpha,
 } from "@mui/material";
 import Link from "next/link";
 
 import { DemoLayout } from "@/components/demos/demo-layout";
 import { DEMO_CONFIGS } from "@/lib/demos/config";
+
+// Working demos that have pages
+const WORKING_DEMOS = ["playground"];
 
 export default function DemosIndex() {
   const { i18n } = useLingui();
@@ -25,40 +29,40 @@ export default function DemosIndex() {
   const pageDescription = i18n._(
     defineMessage({
       id: "demos.index.description",
-      message: "Explore different visualizations of Serbian open data"
+      message: "Explore different visualizations of Serbian open data",
     })
   );
   const heroTitle = i18n._(
     defineMessage({
       id: "demos.index.hero.title",
-      message: "📊 Demo Visualization Gallery"
+      message: "📊 Demo Visualization Gallery",
     })
   );
   const heroIntro = i18n._(
     defineMessage({
       id: "demos.index.hero.intro",
       message:
-        "Welcome to the demo visualization gallery using data from data.gov.rs. Each demo showcases different ways to visualize open data from the Republic of Serbia."
+        "Welcome to the demo visualization gallery using data from data.gov.rs. Each demo showcases different ways to visualize open data from the Republic of Serbia.",
     })
   );
   const heroBody = i18n._(
     defineMessage({
       id: "demos.index.hero.body",
       message:
-        "Click on any demo below to see an interactive visualization with real data."
+        "Click on any demo below to see an interactive visualization with real data.",
     })
   );
   const showcaseTitle = i18n._(
     defineMessage({
       id: "demos.index.showcase.title",
-      message: "New Demo Showcase"
+      message: "New Demo Showcase",
     })
   );
   const showcaseDesc = i18n._(
     defineMessage({
       id: "demos.index.showcase.description",
       message:
-        "A compact set of highlight charts across economy, transport, energy, and digitalization."
+        "A compact set of highlight charts across economy, transport, energy, and digitalization.",
     })
   );
   const showcaseCta = i18n._(
@@ -67,39 +71,39 @@ export default function DemosIndex() {
   const aboutTitle = i18n._(
     defineMessage({
       id: "demos.index.about.title",
-      message: "💡 About Demo Visualizations"
+      message: "💡 About Demo Visualizations",
     })
   );
   const aboutParagraph1 = i18n._(
     defineMessage({
       id: "demos.index.about.paragraph1",
       message:
-        "These visualizations use real data from the Republic of Serbia open data portal (data.gov.rs). Data is loaded in real-time directly from the API."
+        "These visualizations use real data from the Republic of Serbia open data portal (data.gov.rs). Data is loaded in real-time directly from the API.",
     })
   );
   const aboutParagraph2 = i18n._(
     defineMessage({
       id: "demos.index.about.paragraph2",
       message:
-        "The project is built with Next.js and optimized for GitHub Pages deployment with static export."
+        "The project is built with Next.js and optimized for GitHub Pages deployment with static export.",
     })
   );
   const statsAvailable = i18n._(
     defineMessage({
       id: "demos.index.stats.available",
-      message: "Available Demos"
+      message: "Available Demos",
     })
   );
   const statsResources = i18n._(
     defineMessage({
       id: "demos.index.stats.resources",
-      message: "Resources on data.gov.rs"
+      message: "Resources on data.gov.rs",
     })
   );
   const statsOrganizations = i18n._(
     defineMessage({
       id: "demos.index.stats.organizations",
-      message: "Organizations"
+      message: "Organizations",
     })
   );
 
@@ -111,7 +115,7 @@ export default function DemosIndex() {
     pie: { sr: "Kružni grafikon", en: "Pie chart" },
     map: { sr: "Mapa", en: "Map" },
     scatterplot: { sr: "Raspršeni grafikon", en: "Scatterplot" },
-    comboLineColumn: { sr: "Kombinovani grafikon", en: "Combo chart" }
+    comboLineColumn: { sr: "Kombinovani grafikon", en: "Combo chart" },
   };
 
   const getChartTypeLabel = (chartType: string) =>
@@ -140,8 +144,8 @@ export default function DemosIndex() {
             background:
               "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
             opacity: 0.4,
-            zIndex: 0
-          }
+            zIndex: 0,
+          },
         }}
       >
         <Box sx={{ position: "relative", zIndex: 1 }}>
@@ -170,6 +174,69 @@ export default function DemosIndex() {
       <Box
         sx={{
           mb: 5,
+          p: 4,
+          borderRadius: 3,
+          background:
+            "linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%)",
+          color: "white",
+          boxShadow: "0 10px 40px rgba(16, 185, 129, 0.3)",
+        }}
+      >
+        <Typography
+          variant="h5"
+          sx={{
+            fontWeight: 700,
+            mb: 2,
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+          }}
+        >
+          📊 Истражите отворене податке по темама
+        </Typography>
+        <Typography variant="body1" sx={{ mb: 3, opacity: 0.95 }}>
+          Нова функција "Истражите по темама" нуди куриран списак скупова
+          података из економије, здравства, образовања, демографије, животне
+          средине и транспорта.
+        </Typography>
+        <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
+          <Link href="/topics" passHref legacyBehavior>
+            <Button
+              component="a"
+              variant="contained"
+              sx={{
+                bgcolor: "white",
+                color: "#059669",
+                fontWeight: 700,
+                "&:hover": { bgcolor: alpha("#fff", 0.9) },
+              }}
+            >
+              Отворите теме
+            </Button>
+          </Link>
+          <Link href="/browse" passHref legacyBehavior>
+            <Button
+              component="a"
+              variant="outlined"
+              sx={{
+                borderColor: "white",
+                color: "white",
+                fontWeight: 700,
+                "&:hover": {
+                  borderColor: "white",
+                  bgcolor: alpha("#fff", 0.1),
+                },
+              }}
+            >
+              Претражите све скупове података
+            </Button>
+          </Link>
+        </Box>
+      </Box>
+
+      <Box
+        sx={{
+          mb: 5,
           p: 3,
           borderRadius: 3,
           border: "1px solid",
@@ -179,7 +246,7 @@ export default function DemosIndex() {
           display: "flex",
           flexDirection: { xs: "column", md: "row" },
           alignItems: { xs: "flex-start", md: "center" },
-          gap: 2
+          gap: 2,
         }}
       >
         <Box sx={{ flex: 1 }}>
@@ -187,7 +254,8 @@ export default function DemosIndex() {
             Pitch-ready walkthrough
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            A new /demos/pitch page with curated charts, embeds, and npm quickstarts designed for live presentations.
+            A new /demos/pitch page with curated charts, embeds, and npm
+            quickstarts designed for live presentations.
           </Typography>
         </Box>
         <Link href="/demos/pitch" passHref legacyBehavior>
@@ -214,7 +282,7 @@ export default function DemosIndex() {
           display: "flex",
           flexDirection: { xs: "column", md: "row" },
           alignItems: { xs: "flex-start", md: "center" },
-          gap: 2
+          gap: 2,
         }}
       >
         <Box sx={{ flex: 1 }}>
@@ -237,138 +305,123 @@ export default function DemosIndex() {
         </Link>
       </Box>
 
-      <Grid container spacing={3}>
-        {Object.entries(DEMO_CONFIGS).map(([key, config]) => {
-          const title = config.title[locale];
-          const description = config.description[locale];
-
-          return (
-            <Grid item xs={12} sm={6} md={4} key={key}>
-              <Link href={`/demos/${key}`} passHref legacyBehavior>
-                <Card
-                  component="a"
-                  sx={{
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    textDecoration: "none",
-                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                    borderRadius: 3,
-                    overflow: "hidden",
-                    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
-                    position: "relative",
-                    "&:hover": {
-                      transform: "translateY(-8px)",
-                      boxShadow: "0 20px 40px rgba(14, 165, 233, 0.25)"
-                    },
-                    "&::before": {
-                      content: '""',
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      height: "5px",
-                      background:
-                        "linear-gradient(90deg, #0ea5e9 0%, #2563eb 100%)",
-                      opacity: 0,
-                      transition: "opacity 0.3s ease"
-                    },
-                    "&:hover::before": {
-                      opacity: 1
-                    }
-                  }}
-                >
-                  <CardActionArea
+      {/* Working Demos */}
+      <Typography variant="h5" sx={{ mb: 3, fontWeight: 700 }}>
+        🎮 Интерактивни алати
+      </Typography>
+      <Grid container spacing={3} sx={{ mb: 5 }}>
+        <Grid item xs={12} sm={6} md={4}>
+          <Link href="/demos/playground" passHref legacyBehavior>
+            <Card
+              component="a"
+              sx={{
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                textDecoration: "none",
+                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                borderRadius: 3,
+                overflow: "hidden",
+                boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
+                position: "relative",
+                "&:hover": {
+                  transform: "translateY(-8px)",
+                  boxShadow: "0 20px 40px rgba(14, 165, 233, 0.25)",
+                },
+                "&::before": {
+                  content: '""',
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: "5px",
+                  background:
+                    "linear-gradient(90deg, #10b981 0%, #059669 100%)",
+                  opacity: 1,
+                },
+              }}
+            >
+              <CardActionArea sx={{ height: "100%" }}>
+                <CardContent sx={{ p: 3 }}>
+                  <Box
                     sx={{
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "stretch",
-                      justifyContent: "flex-start"
+                      fontSize: "3rem",
+                      mb: 2,
+                      textAlign: "center",
+                      p: 2,
+                      borderRadius: 3,
+                      background:
+                        "linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%)",
                     }}
                   >
-                    <CardContent sx={{ flexGrow: 1, p: 3 }}>
-                      <Box
-                        sx={{
-                          fontSize: "3rem",
-                          mb: 2,
-                          textAlign: "center",
-                          p: 2,
-                          borderRadius: 3,
-                          background:
-                            "linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%)",
-                          display: "inline-flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          width: "100%"
-                        }}
-                      >
-                        {config.icon}
-                      </Box>
+                    🎮
+                  </Box>
+                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 1.5 }}>
+                    Интерактивни Playground
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Експериментишите са различитим типовима графикона и подацима
+                    у реалном времену.
+                  </Typography>
+                  <Chip
+                    label="Ради"
+                    size="small"
+                    sx={{
+                      mt: 2,
+                      background:
+                        "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+                      color: "white",
+                      fontWeight: 600,
+                    }}
+                  />
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Link>
+        </Grid>
+      </Grid>
 
-                      <Typography
-                        variant="h6"
-                        component="h2"
-                        sx={{
-                          fontWeight: 600,
-                          mb: 1.5,
-                          color: "text.primary"
-                        }}
-                      >
-                        {title}
-                      </Typography>
-
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{ mb: 2, lineHeight: 1.6 }}
-                      >
-                        {description}
-                      </Typography>
-
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexWrap: "wrap",
-                          gap: 1,
-                          mt: "auto"
-                        }}
-                      >
-                        <Chip
-                          label={getChartTypeLabel(config.chartType)}
-                          size="small"
-                          sx={{
-                            background:
-                              "linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%)",
-                            color: "white",
-                            fontWeight: 600,
-                            fontSize: "0.75rem",
-                            textTransform: "uppercase",
-                            letterSpacing: "0.5px"
-                          }}
-                        />
-
-                        {config.tags && config.tags.length > 0 && (
-                          <Chip
-                            label={config.tags[0]}
-                            size="small"
-                            sx={{
-                              fontSize: "0.75rem",
-                              borderColor: "#0ea5e9",
-                              color: "#0ea5e9",
-                              fontWeight: 500
-                            }}
-                            variant="outlined"
-                          />
-                        )}
-                      </Box>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Link>
+      {/* Coming Soon Section */}
+      <Typography
+        variant="h5"
+        sx={{ mb: 2, fontWeight: 700, color: "text.secondary" }}
+      >
+        Ускоро
+      </Typography>
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+        Следеће демо визуализације су у развоју и биће доступне ускоро:
+      </Typography>
+      <Grid container spacing={2} sx={{ mb: 5 }}>
+        {Object.entries(DEMO_CONFIGS)
+          .filter(([key]) => !WORKING_DEMOS.includes(key))
+          .slice(0, 8)
+          .map(([key, config]) => (
+            <Grid item xs={6} sm={4} md={3} key={key}>
+              <Card
+                sx={{
+                  p: 2,
+                  opacity: 0.7,
+                  borderRadius: 2,
+                  bgcolor: "grey.50",
+                  border: "1px dashed",
+                  borderColor: "divider",
+                }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <Typography sx={{ fontSize: "1.5rem" }}>
+                    {config.icon}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ fontWeight: 500 }}
+                  >
+                    {config.title[locale]}
+                  </Typography>
+                </Box>
+              </Card>
             </Grid>
-          );
-        })}
+          ))}
       </Grid>
 
       <Box
@@ -381,7 +434,7 @@ export default function DemosIndex() {
           textAlign: "center",
           border: "2px solid",
           borderColor: "rgba(67, 233, 123, 0.2)",
-          boxShadow: "0 10px 40px rgba(67, 233, 123, 0.1)"
+          boxShadow: "0 10px 40px rgba(67, 233, 123, 0.1)",
         }}
       >
         <Typography
@@ -420,8 +473,8 @@ export default function DemosIndex() {
                 boxShadow: "0 10px 30px rgba(102, 126, 234, 0.3)",
                 transition: "transform 0.3s ease",
                 "&:hover": {
-                  transform: "translateY(-5px)"
-                }
+                  transform: "translateY(-5px)",
+                },
               }}
             >
               <Typography variant="h3" sx={{ fontWeight: 800, mb: 1 }}>
@@ -446,8 +499,8 @@ export default function DemosIndex() {
                 boxShadow: "0 10px 30px rgba(245, 87, 108, 0.3)",
                 transition: "transform 0.3s ease",
                 "&:hover": {
-                  transform: "translateY(-5px)"
-                }
+                  transform: "translateY(-5px)",
+                },
               }}
             >
               <Typography variant="h3" sx={{ fontWeight: 800, mb: 1 }}>
@@ -472,8 +525,8 @@ export default function DemosIndex() {
                 boxShadow: "0 10px 30px rgba(79, 172, 254, 0.3)",
                 transition: "transform 0.3s ease",
                 "&:hover": {
-                  transform: "translateY(-5px)"
-                }
+                  transform: "translateY(-5px)",
+                },
               }}
             >
               <Typography variant="h3" sx={{ fontWeight: 800, mb: 1 }}>
@@ -497,7 +550,6 @@ export async function getStaticProps() {
   // Pre-build the demo index page for instant loading
   // Demo configs are static at build time, but we may want to refresh occasionally
   return {
-    props: {}
-
+    props: {},
   };
 }
