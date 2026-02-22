@@ -10,7 +10,9 @@ import Link from "next/link";
 
 import type { Topic, LocalizedString } from "@/types/topics";
 
-const iconMap: Record<string, React.ComponentType> = {
+import type { SvgIconProps } from "@mui/material/SvgIcon";
+
+const iconMap: Record<string, React.ComponentType<SvgIconProps>> = {
   AttachMoney: AttachMoneyIcon,
   LocalHospital: LocalHospitalIcon,
   School: SchoolIcon,
