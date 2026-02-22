@@ -69,7 +69,7 @@ export default function TopicsPage({ topics }: TopicsPageProps) {
 }
 
 export const getStaticProps: GetStaticProps<TopicsPageProps> = async ({
-  locale,
+  locale: _locale,
 }) => {
   const data = topicIndex as TopicIndex;
 

@@ -106,7 +106,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<TopicPageProps> = async ({
   params,
-  locale,
+  locale: _locale,
 }) => {
   const topicId = params?.topic as string;
 
