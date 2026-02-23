@@ -50,6 +50,28 @@ export default function ShowcasePage() {
     })
   );
 
+  const featuredChartsTitle = i18n._(
+    defineMessage({
+      id: "demos.showcase.featured.title",
+      message: "Featured Charts",
+    })
+  );
+
+  const dataSourceTitle = i18n._(
+    defineMessage({
+      id: "demos.showcase.datasource.title",
+      message: "Data Source",
+    })
+  );
+
+  const dataSourceDescription = i18n._(
+    defineMessage({
+      id: "demos.showcase.datasource.description",
+      message:
+        "All data displayed on this page comes from the Republic of Serbia open data portal (data.gov.rs).",
+    })
+  );
+
   return (
     <DemoLayout title={pageTitle} description={pageDescription}>
       <Box
@@ -68,8 +90,8 @@ export default function ShowcasePage() {
         </Typography>
       </Box>
 
-      <Typography variant="h5" sx={{ mb: 3, fontWeight: 700 }}>
-        {locale === "sr" ? "Istaknuti grafikoni" : "Featured Charts"}
+      <Typography variant="h5" component="h2" sx={{ mb: 3, fontWeight: 700 }}>
+        {featuredChartsTitle}
       </Typography>
 
       <Grid container spacing={3}>
@@ -148,14 +170,13 @@ export default function ShowcasePage() {
       >
         <Typography
           variant="subtitle1"
+          component="h3"
           sx={{ fontWeight: 700, mb: 1, color: "text.primary" }}
         >
-          {locale === "sr" ? "Izvor podataka" : "Data Source"}
+          {dataSourceTitle}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {locale === "sr"
-            ? "Svi podaci prikazani na ovoj stranici dolaze sa portala otvorenih podataka Republike Srbije (data.gov.rs)."
-            : "All data displayed on this page comes from the Republic of Serbia open data portal (data.gov.rs)."}
+          {dataSourceDescription}
         </Typography>
       </Box>
     </DemoLayout>

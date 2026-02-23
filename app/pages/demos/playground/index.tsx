@@ -342,9 +342,6 @@ function MyChart() {
                     ),
                   }}
                 />
-
-                {/* Quick Actions */}
-                <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}></Box>
               </Stack>
             </Paper>
           </Grid>

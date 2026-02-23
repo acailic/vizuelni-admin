@@ -137,6 +137,7 @@ export default function DemosIndex() {
         <Box sx={{ position: "relative", zIndex: 1 }}>
           <Typography
             variant="h4"
+            component="h1"
             sx={{ fontWeight: 700, mb: 2, textAlign: "center" }}
           >
             {heroTitle}
@@ -170,6 +171,7 @@ export default function DemosIndex() {
       >
         <Typography
           variant="h5"
+          component="h2"
           sx={{
             fontWeight: 700,
             mb: 2,
@@ -178,12 +180,21 @@ export default function DemosIndex() {
             gap: 1,
           }}
         >
-          📊 Истражите отворене податке по темама
+          {i18n._(
+            defineMessage({
+              id: "demos.index.topics.title",
+              message: "📊 Explore Open Data by Topics",
+            })
+          )}
         </Typography>
         <Typography variant="body1" sx={{ mb: 3, opacity: 0.95 }}>
-          Нова функција "Истражите по темама" нуди куриран списак скупова
-          података из економије, здравства, образовања, демографије, животне
-          средине и транспорта.
+          {i18n._(
+            defineMessage({
+              id: "demos.index.topics.description",
+              message:
+                'The new "Explore by Topics" feature offers a curated list of datasets from economy, health, education, demographics, environment, and transport.',
+            })
+          )}
         </Typography>
         <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
           <Link href="/topics" passHref legacyBehavior>
@@ -197,7 +208,12 @@ export default function DemosIndex() {
                 "&:hover": { bgcolor: alpha("#fff", 0.9) },
               }}
             >
-              Отворите теме
+              {i18n._(
+                defineMessage({
+                  id: "demos.index.topics.cta",
+                  message: "Open Topics",
+                })
+              )}
             </Button>
           </Link>
           <Link href="/browse" passHref legacyBehavior>
@@ -214,46 +230,15 @@ export default function DemosIndex() {
                 },
               }}
             >
-              Претражите све скупове података
+              {i18n._(
+                defineMessage({
+                  id: "demos.index.topics.browse",
+                  message: "Browse All Datasets",
+                })
+              )}
             </Button>
           </Link>
         </Box>
-      </Box>
-
-      <Box
-        sx={{
-          mb: 5,
-          p: 3,
-          borderRadius: 3,
-          border: "1px solid",
-          borderColor: "divider",
-          background:
-            "linear-gradient(120deg, rgba(15,23,42,0.08), rgba(14,165,233,0.08))",
-          display: "flex",
-          flexDirection: { xs: "column", md: "row" },
-          alignItems: { xs: "flex-start", md: "center" },
-          gap: 2,
-        }}
-      >
-        <Box sx={{ flex: 1 }}>
-          <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 0.5 }}>
-            Pitch-ready walkthrough
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            A new /demos/pitch page with curated charts, embeds, and npm
-            quickstarts designed for live presentations.
-          </Typography>
-        </Box>
-        <Link href="/demos/pitch" passHref legacyBehavior>
-          <Button
-            component="a"
-            variant="outlined"
-            color="primary"
-            sx={{ textTransform: "none", fontWeight: 700, px: 2.5 }}
-          >
-            Open pitch demo
-          </Button>
-        </Link>
       </Box>
 
       <Box
@@ -292,8 +277,13 @@ export default function DemosIndex() {
       </Box>
 
       {/* Working Demos */}
-      <Typography variant="h5" sx={{ mb: 3, fontWeight: 700 }}>
-        🎮 Интерактивни алати
+      <Typography variant="h5" component="h2" sx={{ mb: 3, fontWeight: 700 }}>
+        {i18n._(
+          defineMessage({
+            id: "demos.index.tools.title",
+            message: "🎮 Interactive Tools",
+          })
+        )}
       </Typography>
       <Grid container spacing={3} sx={{ mb: 5 }}>
         <Grid item xs={12} sm={6} md={4}>
@@ -343,14 +333,29 @@ export default function DemosIndex() {
                     🎮
                   </Box>
                   <Typography variant="h6" sx={{ fontWeight: 600, mb: 1.5 }}>
-                    Интерактивни Playground
+                    {i18n._(
+                      defineMessage({
+                        id: "demos.index.playground.title",
+                        message: "Interactive Playground",
+                      })
+                    )}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Експериментишите са различитим типовима графикона и подацима
-                    у реалном времену.
+                    {i18n._(
+                      defineMessage({
+                        id: "demos.index.playground.description",
+                        message:
+                          "Experiment with different chart types and data in real-time.",
+                      })
+                    )}
                   </Typography>
                   <Chip
-                    label="Ради"
+                    label={i18n._(
+                      defineMessage({
+                        id: "demos.index.playground.status",
+                        message: "Working",
+                      })
+                    )}
                     size="small"
                     sx={{
                       mt: 2,
@@ -370,12 +375,24 @@ export default function DemosIndex() {
       {/* Coming Soon Section */}
       <Typography
         variant="h5"
+        component="h2"
         sx={{ mb: 2, fontWeight: 700, color: "text.secondary" }}
       >
-        Ускоро
+        {i18n._(
+          defineMessage({
+            id: "demos.index.comingsoon.title",
+            message: "Coming Soon",
+          })
+        )}
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-        Следеће демо визуализације су у развоју и биће доступне ускоро:
+        {i18n._(
+          defineMessage({
+            id: "demos.index.comingsoon.description",
+            message:
+              "The following demo visualizations are in development and will be available soon:",
+          })
+        )}
       </Typography>
       <Grid container spacing={2} sx={{ mb: 5 }}>
         {Object.entries(DEMO_CONFIGS)
@@ -425,6 +442,7 @@ export default function DemosIndex() {
       >
         <Typography
           variant="h5"
+          component="h2"
           sx={{ mb: 3, fontWeight: 700, color: "text.primary" }}
         >
           {aboutTitle}
