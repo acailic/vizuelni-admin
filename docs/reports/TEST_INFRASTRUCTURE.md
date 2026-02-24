@@ -2,7 +2,10 @@
 
 ## Overview
 
-This document describes the comprehensive test infrastructure implemented for the vizualni-admin project to achieve Phase 2 quality standards. The infrastructure supports unit tests, integration tests, accessibility tests, visual regression tests, and CI/CD quality gates.
+This document describes the comprehensive test infrastructure implemented for
+the vizualni-admin project to achieve Phase 2 quality standards. The
+infrastructure supports unit tests, integration tests, accessibility tests,
+visual regression tests, and CI/CD quality gates.
 
 ## Coverage Targets (Phase 2)
 
@@ -14,11 +17,13 @@ This document describes the comprehensive test infrastructure implemented for th
 ## Test Types
 
 ### 1. Unit Tests
+
 - **Framework**: Vitest 3.1.4
 - **Location**: `app/tests/unit/` and `app/**/*.{test,spec}.{ts,tsx}`
 - **Purpose**: Test individual components and functions in isolation
 
 ### 2. Integration Tests
+
 - **Framework**: Vitest + MSW for API mocking
 - **Location**: `app/tests/integration/`
 - **Purpose**: Test component interactions and user journeys
@@ -29,6 +34,7 @@ This document describes the comprehensive test infrastructure implemented for th
   - Performance measurement
 
 ### 3. Accessibility Tests
+
 - **Tools**: axe-core + jest-axe
 - **Location**: Integrated with unit tests
 - **Purpose**: WCAG 2.1 AA compliance
@@ -39,6 +45,7 @@ This document describes the comprehensive test infrastructure implemented for th
   - ARIA attribute validation
 
 ### 4. Visual Regression Tests
+
 - **Framework**: Playwright with custom configuration
 - **Location**: `app/tests/visual/`
 - **Purpose**: Detect visual changes across browsers and viewports
@@ -52,6 +59,7 @@ This document describes the comprehensive test infrastructure implemented for th
 ## Configuration
 
 ### Vitest Configuration
+
 ```typescript
 // app/vitest.config.ts
 export default defineConfig({
@@ -71,13 +79,14 @@ export default defineConfig({
 ```
 
 ### Playwright Visual Configuration
+
 ```typescript
 // playwright.visual.config.ts
 export default defineConfig({
   projects: [
-    { name: 'chrome-desktop', use: { ...devices['Desktop Chrome'] } },
-    { name: 'chrome-mobile', use: { ...devices['Pixel 5'] } },
-    { name: 'chrome-dark', use: { colorScheme: 'dark' } },
+    { name: "chrome-desktop", use: { ...devices["Desktop Chrome"] } },
+    { name: "chrome-mobile", use: { ...devices["Pixel 5"] } },
+    { name: "chrome-dark", use: { colorScheme: "dark" } },
     // ... more configurations
   ],
 });
@@ -86,6 +95,7 @@ export default defineConfig({
 ## Testing Utilities
 
 ### Accessibility Testing
+
 ```typescript
 import { runComprehensiveA11yTests } from '@/test-utils/accessibility';
 
@@ -94,27 +104,33 @@ await runComprehensiveA11yTests(<MyComponent />);
 ```
 
 ### Integration Testing
+
 ```typescript
-import { testUserFlow, mockApiHandlers } from '@/test-utils/integration';
+import { testUserFlow, mockApiHandlers } from "@/test-utils/integration";
 
 // Test user journey
 await testUserFlow([
   { action: () => user.click(loginButton), description: "Click login" },
-  { expectation: () => expect(screen.getByText("Welcome")).toBeInTheDocument(), description: "Verify welcome" }
+  {
+    expectation: () => expect(screen.getByText("Welcome")).toBeInTheDocument(),
+    description: "Verify welcome",
+  },
 ]);
 ```
 
 ### Visual Testing
+
 ```typescript
-import { testResponsiveDesign } from '@/test-utils/visual-regression';
+import { testResponsiveDesign } from "@/test-utils/visual-regression";
 
 // Test responsive design
-await testResponsiveDesign(page, '/dashboard', 'dashboard');
+await testResponsiveDesign(page, "/dashboard", "dashboard");
 ```
 
 ## CI/CD Integration
 
 ### Quality Gates
+
 1. **Linting**: ESLint must pass
 2. **Type Checking**: TypeScript compilation must pass
 3. **Coverage**: All thresholds must be met
@@ -124,6 +140,7 @@ await testResponsiveDesign(page, '/dashboard', 'dashboard');
 7. **Performance**: Lighthouse score above threshold
 
 ### Workflows
+
 1. **Test Quality Gate** (`.github/workflows/test-quality-gate.yml`)
    - Runs on all PRs and pushes
    - Enforces coverage thresholds
@@ -185,18 +202,21 @@ ai_working/vizualni-admin/
 ## Best Practices
 
 ### Writing Tests
+
 1. **Unit Tests**: Test one thing at a time
 2. **Integration Tests**: Test complete user flows
 3. **Accessibility Tests**: Use semantic HTML and ARIA
 4. **Visual Tests**: Test multiple states and viewports
 
 ### Test Organization
+
 1. Group related tests in `describe` blocks
 2. Use descriptive test names
 3. Follow AAA pattern (Arrange, Act, Assert)
 4. Mock external dependencies
 
 ### Coverage
+
 1. Focus on critical paths first
 2. Test error conditions
 3. Test edge cases and boundaries
@@ -205,12 +225,14 @@ ai_working/vizualni-admin/
 ## Performance Considerations
 
 ### Test Performance
+
 - Parallel test execution where possible
 - Use test isolation to prevent cross-test interference
 - Optimize API mocking for faster tests
 - Use proper cleanup in test teardown
 
 ### Application Performance
+
 - Performance benchmarks in integration tests
 - Lighthouse audits in CI/CD
 - Bundle size analysis
@@ -219,12 +241,14 @@ ai_working/vizualni-admin/
 ## Troubleshooting
 
 ### Common Issues
+
 1. **Coverage Below Threshold**: Add tests for uncovered paths
 2. **Flaky Visual Tests**: Increase wait times or stabilize dynamic content
 3. **Mock API Failures**: Verify MSW handlers are correctly configured
 4. **Accessibility Violations**: Check semantic HTML and ARIA attributes
 
 ### Debugging
+
 1. Use `--reporter=verbose` for detailed test output
 2. Check test artifacts in CI/CD
 3. Run tests locally with same configuration as CI
@@ -233,12 +257,14 @@ ai_working/vizualni-admin/
 ## Maintenance
 
 ### Regular Updates
+
 1. Update test dependencies monthly
 2. Review and update baseline screenshots
 3. Audit and update mock API responses
 4. Review coverage thresholds periodically
 
 ### Monitoring
+
 1. Monitor test execution times
 2. Track flaky test rates
 3. Review coverage trends
@@ -246,12 +272,13 @@ ai_working/vizualni-admin/
 
 ## Phase 2 Goals Achievement
 
-✅ **Coverage Thresholds**: Increased to 80% (lines, functions, statements) and 75% (branches)
-✅ **Accessibility Testing**: Comprehensive WCAG 2.1 AA compliance testing
-✅ **Visual Regression**: Multi-browser, multi-viewport testing
-✅ **Integration Testing**: End-to-end user journey testing
-✅ **CI/CD Quality Gates**: Automated quality enforcement
-✅ **Performance Monitoring**: Lighthouse audits and benchmarks
-✅ **Security Testing**: Automated vulnerability scanning
+✅ **Coverage Thresholds**: Increased to 80% (lines, functions, statements) and
+75% (branches) ✅ **Accessibility Testing**: Comprehensive WCAG 2.1 AA
+compliance testing ✅ **Visual Regression**: Multi-browser, multi-viewport
+testing ✅ **Integration Testing**: End-to-end user journey testing ✅ **CI/CD
+Quality Gates**: Automated quality enforcement ✅ **Performance Monitoring**:
+Lighthouse audits and benchmarks ✅ **Security Testing**: Automated
+vulnerability scanning
 
-The test infrastructure now provides comprehensive quality assurance suitable for Phase 2 development standards.
+The test infrastructure now provides comprehensive quality assurance suitable
+for Phase 2 development standards.

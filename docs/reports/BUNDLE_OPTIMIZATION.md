@@ -2,16 +2,19 @@
 
 ## Summary
 
-Implemented comprehensive bundle size optimization for the vizualni-admin project to reduce the total bundle from 1.39GB to under 10MB with individual chunks under 250KB.
+Implemented comprehensive bundle size optimization for the vizualni-admin
+project to reduce the total bundle from 1.39GB to under 10MB with individual
+chunks under 250KB.
 
 ## Changes Made
 
 ### 1. Optimized Next.js Configuration (`next.config.optimized.js`)
 
-- **Vendor Chunk Splitting**: Implemented aggressive code splitting with specialized cache groups:
+- **Vendor Chunk Splitting**: Implemented aggressive code splitting with
+  specialized cache groups:
   - Framework chunks (React, Next.js)
   - Material-UI chunks (@mui, @emotion)
-  - Chart/D3 chunks (d3-*, @deck.gl)
+  - Chart/D3 chunks (d3-\*, @deck.gl)
   - Utility chunks (lodash, date-fns)
   - Animation chunks (framer-motion)
   - Map chunks (mapbox, maplibre)
@@ -31,19 +34,24 @@ Implemented comprehensive bundle size optimization for the vizualni-admin projec
 ### 2. Build Scripts
 
 Created new npm scripts:
+
 - `build:optimized` - Runs optimized build with performance checks
 - `build:analyze` - Builds and analyzes bundle sizes
 - `build:gh-pages:optimized` - Optimized build for GitHub Pages
 
 ### 3. Bundle Analysis Tools
 
-- **`scripts/analyze-bundle.js`**: Analyzes bundle sizes and checks against performance budgets
-- **`scripts/build-optimized.js`**: Runs optimized build with cleanup and analysis
-- **`scripts/remove-dev-artifacts.js`**: Webpack plugin to remove development artifacts
+- **`scripts/analyze-bundle.js`**: Analyzes bundle sizes and checks against
+  performance budgets
+- **`scripts/build-optimized.js`**: Runs optimized build with cleanup and
+  analysis
+- **`scripts/remove-dev-artifacts.js`**: Webpack plugin to remove development
+  artifacts
 
 ### 4. Performance Budgets
 
 Set strict limits:
+
 - Total bundle: <10MB
 - Individual chunks: <250KB
 - Maximum async requests: 25
@@ -51,6 +59,7 @@ Set strict limits:
 ## Usage
 
 ### Build and Analyze
+
 ```bash
 # Run optimized build
 yarn build:optimized
@@ -63,6 +72,7 @@ yarn build:gh-pages:optimized
 ```
 
 ### Bundle Analysis
+
 ```bash
 # Analyze existing build
 node scripts/analyze-bundle.js
@@ -85,12 +95,16 @@ node scripts/analyze-bundle.js
 ## Troubleshooting
 
 ### MDX Loader Issues
+
 The project uses an older version of @mdx-js/loader. If build errors occur:
+
 1. Update to latest @mdx-js/loader
 2. Or use Next.js built-in MDX support with @next/mdx
 
 ### Memory Issues
+
 If build fails due to memory:
+
 ```bash
 export NODE_OPTIONS="--max-old-space-size=4096"
 yarn build:optimized

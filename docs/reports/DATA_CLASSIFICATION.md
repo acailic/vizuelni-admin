@@ -1,7 +1,9 @@
 # Data Classification Guide
 
 ## Overview
-This document clarifies the distinction between **demo/sample data** and **real data** in the Vizualni Admin application.
+
+This document clarifies the distinction between **demo/sample data** and **real
+data** in the Vizualni Admin application.
 
 ---
 
@@ -12,36 +14,41 @@ This document clarifies the distinction between **demo/sample data** and **real 
 **Purpose:** Demonstrate chart capabilities and visualization types
 
 **Characteristics:**
+
 - ✅ Small, curated datasets
 - ✅ Simplified for illustration
 - ✅ Not from official sources
 - ✅ Used for UI/UX demonstration
 
 **Location:**
+
 ```
 app/data/demo-showcase.ts
 ```
 
 **Pages Using Demo Data:**
+
 - ✅ `/demos/showcase` - Showcase page (main demo gallery)
 
 **Visual Indicators:**
+
 1. **🎨 Demo Data** badge (yellow/warning color)
 2. **Blue info box** with explanation
 3. **Links to real data** pages
 4. **Clear warning** in file header comments
 
 **Example:**
+
 ```tsx
 <Chip
   icon={<span>🎨</span>}
   label="Demo Data"
   sx={{
-    bgcolor: 'warning.lighter',
-    color: 'warning.main',
+    bgcolor: "warning.lighter",
+    color: "warning.main",
     fontWeight: 700,
-    border: '2px solid',
-    borderColor: 'warning.light',
+    border: "2px solid",
+    borderColor: "warning.light",
   }}
 />
 ```
@@ -53,12 +60,14 @@ app/data/demo-showcase.ts
 **Purpose:** Actual data visualization from data.gov.rs and official sources
 
 **Characteristics:**
+
 - ✅ From data.gov.rs
 - ✅ Real government statistics
 - ✅ Regularly updated
 - ✅ Traceable to source
 
 **Location:**
+
 ```
 app/data/serbian-*.ts
 - serbian-budget.ts
@@ -68,6 +77,7 @@ app/data/serbian-*.ts
 ```
 
 **Pages Using Real Data:**
+
 - ✅ `/serbian-data` - Serbian data dashboard
 - ✅ `/demos/economy` - Real economic data
 - ✅ `/demos/transport` - Real transport statistics
@@ -76,19 +86,21 @@ app/data/serbian-*.ts
 - ✅ `/demos/demographics` - Real demographic data
 
 **Visual Indicators:**
+
 1. **📊 Real Data** badge (green/success color)
 2. **Data source link** to data.gov.rs
 3. **Last updated** timestamp
 4. **Organization name** displayed
 
 **Example:**
+
 ```tsx
 <Chip
   icon={<span>📊</span>}
   label="Real Data"
   sx={{
-    bgcolor: 'success.lighter',
-    color: 'success.main',
+    bgcolor: "success.lighter",
+    color: "success.main",
     fontWeight: 700,
   }}
 />
@@ -101,13 +113,14 @@ app/data/serbian-*.ts
 ### Demo Data Page (`/demos/showcase`)
 
 **Header Badges:**
+
 ```tsx
-<Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+<Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
   {/* Demo Data Badge */}
   <Chip
     icon={<span>🎨</span>}
     label="Demo Data"
-    sx={{ bgcolor: 'warning.lighter', color: 'warning.main' }}
+    sx={{ bgcolor: "warning.lighter", color: "warning.main" }}
   />
 
   {/* Last Updated */}
@@ -119,24 +132,25 @@ app/data/serbian-*.ts
 ```
 
 **Prominent Notice Box:**
+
 ```tsx
 <Box
   sx={{
     p: 2.5,
-    bgcolor: 'info.lighter',
-    border: '1px solid',
-    borderColor: 'info.light',
-    borderLeft: '4px solid',
-    borderLeftColor: 'info.main',
+    bgcolor: "info.lighter",
+    border: "1px solid",
+    borderColor: "info.light",
+    borderLeft: "4px solid",
+    borderLeftColor: "info.main",
   }}
 >
   <Typography variant="body2" sx={{ fontWeight: 600 }}>
     Demonstration Data
   </Typography>
   <Typography variant="body2">
-    The charts on this page use simulated data to demonstrate
-    different visualization types. For real data from data.gov.rs,
-    visit the dedicated pages for each category.
+    The charts on this page use simulated data to demonstrate different
+    visualization types. For real data from data.gov.rs, visit the dedicated
+    pages for each category.
   </Typography>
 
   {/* Links to Real Data */}
@@ -148,20 +162,18 @@ app/data/serbian-*.ts
 ### Real Data Pages (`/serbian-data`, `/demos/*`)
 
 **Header Badges:**
+
 ```tsx
-<Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+<Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
   {/* Real Data Badge */}
   <Chip
     icon={<span>📊</span>}
     label="Real Data"
-    sx={{ bgcolor: 'success.lighter', color: 'success.main' }}
+    sx={{ bgcolor: "success.lighter", color: "success.main" }}
   />
 
   {/* Data Source */}
-  <Chip
-    label="Source: data.gov.rs"
-    sx={{ bgcolor: 'primary.lighter' }}
-  />
+  <Chip label="Source: data.gov.rs" sx={{ bgcolor: "primary.lighter" }} />
 
   {/* Last Updated */}
   <Chip label="Last updated: Dec 31, 2024" />
@@ -169,12 +181,11 @@ app/data/serbian-*.ts
 ```
 
 **Data Source Footer:**
+
 ```tsx
 <Typography variant="body2" color="text.secondary">
   Izvor podataka: data.gov.rs
-  <Link href="https://data.gov.rs">
-    Visit data source
-  </Link>
+  <Link href="https://data.gov.rs">Visit data source</Link>
 </Typography>
 ```
 
@@ -183,6 +194,7 @@ app/data/serbian-*.ts
 ## 📁 File Organization
 
 ### Demo Data Files
+
 ```
 app/data/
 ├── demo-showcase.ts          // 🎨 Demo data for showcase
@@ -190,6 +202,7 @@ app/data/
 ```
 
 **File Header:**
+
 ```typescript
 /**
  * DEMO/SAMPLE DATASETS - FOR ILLUSTRATION PURPOSES ONLY
@@ -204,6 +217,7 @@ app/data/
 ```
 
 ### Real Data Files
+
 ```
 app/data/
 ├── serbian-budget.ts          // 📊 Real budget data
@@ -213,6 +227,7 @@ app/data/
 ```
 
 **File Header:**
+
 ```typescript
 /**
  * Real Serbian Government Data
@@ -230,25 +245,27 @@ app/data/
 
 ### Color Coding
 
-| Data Type | Background | Border | Icon |
-|-----------|------------|--------|------|
-| Demo Data | `warning.lighter` (#FFF7ED) | `warning.light` (#FFEDD5) | 🎨 |
-| Real Data | `success.lighter` (#ECFDF5) | `success.light` (#D1FAE5) | 📊 |
-| Stale Data Alert | `warning.lighter` | `warning.light` | ⚠️ |
-| Info Notice | `info.lighter` | `info.light` | ℹ️ |
+| Data Type        | Background                  | Border                    | Icon |
+| ---------------- | --------------------------- | ------------------------- | ---- |
+| Demo Data        | `warning.lighter` (#FFF7ED) | `warning.light` (#FFEDD5) | 🎨   |
+| Real Data        | `success.lighter` (#ECFDF5) | `success.light` (#D1FAE5) | 📊   |
+| Stale Data Alert | `warning.lighter`           | `warning.light`           | ⚠️   |
+| Info Notice      | `info.lighter`              | `info.light`              | ℹ️   |
 
 ### Typography
 
 **Demo Data Notice:**
+
 ```tsx
-<Typography variant="body2" sx={{ fontWeight: 600, color: 'warning.main' }}>
+<Typography variant="body2" sx={{ fontWeight: 600, color: "warning.main" }}>
   Demonstration Data
 </Typography>
 ```
 
 **Real Data Source:**
+
 ```tsx
-<Typography variant="body2" sx={{ fontWeight: 600, color: 'success.main' }}>
+<Typography variant="body2" sx={{ fontWeight: 600, color: "success.main" }}>
   Official Government Data
 </Typography>
 ```
@@ -260,6 +277,7 @@ app/data/
 ### Discovery Path
 
 **1. User lands on `/demos/showcase`**
+
 ```
 ✅ Sees prominent "🎨 Demo Data" badge
 ✅ Reads info box explaining demo nature
@@ -267,6 +285,7 @@ app/data/
 ```
 
 **2. User clicks "→ Real economy data"**
+
 ```
 ✅ Navigates to `/demos/economy`
 ✅ Sees "📊 Real Data" badge
@@ -275,6 +294,7 @@ app/data/
 ```
 
 **3. User explores real data**
+
 ```
 ✅ All charts show real statistics
 ✅ Footer links to data.gov.rs
@@ -285,26 +305,23 @@ app/data/
 ### Accessibility Considerations
 
 **Screen Reader Announcement:**
+
 ```tsx
-<Box
-  role="note"
-  aria-label="Demo data notice"
->
-  <Typography>
-    This page uses demonstration data...
-  </Typography>
+<Box role="note" aria-label="Demo data notice">
+  <Typography>This page uses demonstration data...</Typography>
 </Box>
 ```
 
 **Keyboard Navigation:**
+
 ```tsx
 <Button
   href="/demos/economy"
   sx={{
-    '&:focus': {
-      outline: '2px solid #0ea5e9',
-      outlineOffset: '2px'
-    }
+    "&:focus": {
+      outline: "2px solid #0ea5e9",
+      outlineOffset: "2px",
+    },
   }}
 >
   → Real economy data
@@ -316,6 +333,7 @@ app/data/
 ## 📋 Implementation Checklist
 
 ### For Demo Data Pages
+
 - [ ] Add `🎨 Demo Data` badge
 - [ ] Include prominent info box
 - [ ] Provide links to real data pages
@@ -324,6 +342,7 @@ app/data/
 - [ ] Set `aria-label="Demo data notice"`
 
 ### For Real Data Pages
+
 - [ ] Add `📊 Real Data` badge
 - [ ] Include `Source: data.gov.rs` chip
 - [ ] Link to actual data source
@@ -337,44 +356,51 @@ app/data/
 ## 🚀 Best Practices
 
 ### 1. **Always Label Data Type**
+
 Every page with charts must clearly indicate whether data is demo or real.
 
 ### 2. **Provide Data Source Links**
+
 For real data, always link to the original source on data.gov.rs.
 
 ### 3. **Show Last Updated Date**
+
 Display when the data was last refreshed, especially for real data.
 
 ### 4. **Warn About Stale Data**
+
 If data is older than 90 days, show a warning message.
 
 ### 5. **Use Consistent Colors**
+
 - Demo = Yellow/Warning
 - Real = Green/Success
 - Stale = Orange/Warning
 - Info = Blue/Info
 
 ### 6. **Make It Obvious**
+
 Don't hide important information. Make data classification immediately visible.
 
 ---
 
 ## 📊 Current Page Status
 
-| Page | Data Type | Badge | Notice | Source Link | Status |
-|------|-----------|-------|--------|-------------|--------|
-| `/demos/showcase` | Demo | ✅ | ✅ | ✅ | Complete |
-| `/serbian-data` | Real | ⏳ | N/A | ✅ | Needs badge |
-| `/demos/economy` | Real | ⏳ | N/A | ⏳ | Needs implementation |
-| `/demos/transport` | Real | ⏳ | N/A | ⏳ | Needs implementation |
-| `/demos/energy` | Real | ⏳ | N/A | ⏳ | Needs implementation |
-| `/demos/air-quality` | Real | ⏳ | N/A | ⏳ | Needs implementation |
+| Page                 | Data Type | Badge | Notice | Source Link | Status               |
+| -------------------- | --------- | ----- | ------ | ----------- | -------------------- |
+| `/demos/showcase`    | Demo      | ✅    | ✅     | ✅          | Complete             |
+| `/serbian-data`      | Real      | ⏳    | N/A    | ✅          | Needs badge          |
+| `/demos/economy`     | Real      | ⏳    | N/A    | ⏳          | Needs implementation |
+| `/demos/transport`   | Real      | ⏳    | N/A    | ⏳          | Needs implementation |
+| `/demos/energy`      | Real      | ⏳    | N/A    | ⏳          | Needs implementation |
+| `/demos/air-quality` | Real      | ⏳    | N/A    | ⏳          | Needs implementation |
 
 ---
 
 ## 🔄 Maintenance
 
 ### When Adding New Demo Data
+
 1. Add file to `app/data/`
 2. Include warning comment in file header
 3. Add `🎨 Demo Data` badge to page
@@ -382,6 +408,7 @@ Don't hide important information. Make data classification immediately visible.
 5. Link to corresponding real data page
 
 ### When Adding New Real Data
+
 1. Add file to `app/data/serbian-*.ts`
 2. Include source attribution in file header
 3. Add `📊 Real Data` badge to page
@@ -390,6 +417,7 @@ Don't hide important information. Make data classification immediately visible.
 6. Show organization name
 
 ### Regular Updates
+
 - [ ] Check data.gov.rs monthly for updates
 - [ ] Update last-modified timestamps
 - [ ] Refresh demo data if visualization types change
@@ -401,6 +429,7 @@ Don't hide important information. Make data classification immediately visible.
 ## 📝 Examples
 
 ### Demo Data File Header
+
 ```typescript
 /**
  * DEMO/SAMPLE DATASETS - FOR ILLUSTRATION PURPOSES ONLY
@@ -417,13 +446,14 @@ Don't hide important information. Make data classification immediately visible.
  */
 
 export const showcaseEnergyMix = [
-  { source: 'Ugalj', share: 64 },
-  { source: 'Hidro', share: 24 },
+  { source: "Ugalj", share: 64 },
+  { source: "Hidro", share: 24 },
   // ... demo values
 ];
 ```
 
 ### Real Data File Header
+
 ```typescript
 /**
  * Serbian Energy Data - REAL DATA
@@ -453,6 +483,7 @@ export const serbianEnergyData = [
 ## 🎯 Summary
 
 **Key Principles:**
+
 1. ✅ **Transparency** - Always disclose data type
 2. ✅ **Clarity** - Use clear visual indicators
 3. ✅ **Traceability** - Link to original sources
@@ -460,6 +491,7 @@ export const serbianEnergyData = [
 5. ✅ **Accessibility** - Support screen readers and keyboard navigation
 
 **User Benefits:**
+
 - Users know exactly what data they're looking at
 - Demo data clearly separated from real data
 - Easy navigation to official sources
@@ -468,6 +500,5 @@ export const serbianEnergyData = [
 
 ---
 
-**Document Version:** 1.0
-**Last Updated:** 2025-01-12
-**Applies To:** All data visualization pages
+**Document Version:** 1.0 **Last Updated:** 2025-01-12 **Applies To:** All data
+visualization pages

@@ -44,11 +44,14 @@
 - **Priority:** high
 - **Blocked by:** TASK-001 (completed ✅)
 - **Commits Created:**
-  - `e509fff` - "refactor: split chart-config-ui-options into focused modules" (9 files)
-  - `b5987a6` - "refactor: update imports and fix type errors from modularization" (9 files)
+  - `e509fff` - "refactor: split chart-config-ui-options into focused modules"
+    (9 files)
+  - `b5987a6` - "refactor: update imports and fix type errors from
+    modularization" (9 files)
 - **Acceptance Criteria:**
   - [x] Stage only refactoring-related files (not Storybook bundles)
-  - [x] Create commit: "refactor: split chart-config-ui-options into focused modules"
+  - [x] Create commit: "refactor: split chart-config-ui-options into focused
+        modules"
   - [x] Push to branch `refactor/chart-config-modules` (ready to push)
 - **Notes:**
   - Storybook bundles remain unstaged (TASK-003 to handle)
@@ -196,7 +199,7 @@
   - Created 6 focused modules from 47,928-line monolith
   - Extracted chartConfigOptionsUISpec → chart-config-spec.ts (915 lines)
   - All exports properly configured and typecheck/lint passing
-- **Commits:** 
+- **Commits:**
   - `e509fff` - "refactor: split chart-config-ui-options into focused modules"
 
 ### TASK-002: Commit refactoring work ✅
@@ -205,10 +208,13 @@
 - **Work done:**
   - Created 2 commits for refactoring changes
   - Pushed to remote branch: `refactor/chart-config-modules`
-  - Branch URL: https://github.com/acailic/vizualni-admin/pull/new/refactor/chart-config-modules
+  - Branch URL:
+    https://github.com/acailic/vizualni-admin/pull/new/refactor/chart-config-modules
 - **Commits:**
-  - `e509fff` - "refactor: split chart-config-ui-options into focused modules" (9 files)
-  - `b5987a6` - "refactor: update imports and fix type errors from modularization" (9 files)
+  - `e509fff` - "refactor: split chart-config-ui-options into focused modules"
+    (9 files)
+  - `b5987a6` - "refactor: update imports and fix type errors from
+    modularization" (9 files)
 
 ---
 
