@@ -8,7 +8,7 @@ import commonjs from "rollup-plugin-commonjs";
 import json from "@rollup/plugin-json";
 import babel from "rollup-plugin-babel";
 import builtins from "rollup-plugin-node-builtins";
-import { terser } from "rollup-plugin-terser";
+import terser from "@rollup/plugin-terser";
 
 const extensions = [".js", ".jsx", ".ts", ".tsx"];
 
