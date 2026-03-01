@@ -13686,14 +13686,7 @@ fast-xml-parser@^4.2.5:
   dependencies:
     strnum "^1.1.1"
 
-fast-xml-parser@^5.3.2:
-  version "5.3.5"
-  resolved "https://registry.npmjs.org/fast-xml-parser/-/fast-xml-parser-5.3.5.tgz"
-  integrity sha512-JeaA2Vm9ffQKp9VjvfzObuMCjUYAp5WDYhRYL5LrBPY/jUDlUtOvDfot0vKSkB9tuX885BDHjtw4fZadD95wnA==
-  dependencies:
-    strnum "^2.1.2"
-
-fast-xml-parser@^5.3.6:
+fast-xml-parser@^5.3.6, fast-xml-parser@^5.3.8:
   version "5.4.1"
   resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-5.4.1.tgz#0c81b8ecfb3021e5ad83aa3df904af19a05bc601"
   integrity sha512-BQ30U1mKkvXQXXkAGcuyUA/GA26oEB7NzOtsxCDtyu62sjGw5QraKFhx2Em3WQNjPw9PG6MQ9yuIIgkSDfGu5A==
@@ -15792,14 +15785,6 @@ isobject@^3.0.1:
   version "3.0.1"
   resolved "https://registry.npmjs.org/isobject/-/isobject-3.0.1.tgz"
   integrity sha512-WhB9zCku7EGTj/HQQRz5aUQEUeoQZH2bWcltRErOpymJ4boYE6wL9Tbr23krRPSZ+C5zqNSrSw+Cc7sZZ4b7vg==
-
-isomorphic-unfetch@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.npmjs.org/isomorphic-unfetch/-/isomorphic-unfetch-4.0.2.tgz"
-  integrity sha512-1Yd+CF/7al18/N2BDbsLBcp6RO3tucSW+jcLq24dqdX5MNbCNTw1z4BsGsp4zNmjr/Izm2cs/cEqZPp4kvWSCA==
-  dependencies:
-    node-fetch "^3.2.0"
-    unfetch "^5.0.0"
 
 isomorphic-ws@^5.0.0:
   version "5.0.0"
@@ -18018,7 +18003,7 @@ node-fetch@^2.0.0, node-fetch@^2.6.7, node-fetch@^2.7.0:
   dependencies:
     whatwg-url "^5.0.0"
 
-node-fetch@^3.2.0, node-fetch@^3.2.10, node-fetch@^3.3.2:
+node-fetch@^3.2.10, node-fetch@^3.3.2:
   version "3.3.2"
   resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-3.3.2.tgz"
   integrity sha512-dRB78srN/l6gqWulah9SrxeYnxeddIG30+GOqK/9OlLVyLg3HPnr6SqOWTWOXKRwC2eGYCkZ59NNuSgvSrpgOA==
@@ -18922,11 +18907,6 @@ pluralize@^8.0.0:
   version "8.0.0"
   resolved "https://registry.npmjs.org/pluralize/-/pluralize-8.0.0.tgz"
   integrity sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==
-
-pngjs@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.npmjs.org/pngjs/-/pngjs-7.0.0.tgz"
-  integrity sha512-LKWqWJRhstyYo9pGvgor/ivk2w94eSjE3RGVuzLGlr3NmD8bf7RcYGze1mNdEHRP6TRP6rMuDHk5t44hnTRyow==
 
 pnp-webpack-plugin@^1.7.0:
   version "1.7.0"
@@ -22558,11 +22538,6 @@ undici@^6.23.0:
   version "6.23.0"
   resolved "https://registry.npmjs.org/undici/-/undici-6.23.0.tgz"
   integrity sha512-VfQPToRA5FZs/qJxLIinmU59u0r7LXqoJkCzinq3ckNJp3vKEh7jTWN589YQ5+aoAC/TGRLyJLCPKcLQbM8r9g==
-
-unfetch@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.npmjs.org/unfetch/-/unfetch-5.0.0.tgz"
-  integrity sha512-3xM2c89siXg0nHvlmYsQ2zkLASvVMBisZm5lF3gFDqfF2xonNStDJyMpvaOBe0a1Edxmqrf2E0HBdmy9QyZaeg==
 
 unherit@^1.0.4:
   version "1.1.3"
