@@ -5,9 +5,12 @@ import { ADFS } from "@/auth-providers/adfs";
 import { ensureUserFromSub } from "@/db/user";
 import { ADFS_ID, ADFS_ISSUER } from "@/domain/env";
 import { truthy } from "@/domain/types";
+import { createLogger } from "@/lib/logger";
 import { enforceRateLimit, handleSecurityError } from "@/server/security";
 
 import type { NextApiRequest, NextApiResponse } from "next";
+
+const logger = createLogger({ component: "auth" });
 
 const nextAuthSecret = process.env.NEXTAUTH_SECRET;
 const isProduction = process.env.NODE_ENV === "production";
@@ -111,7 +114,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
     await NextAuth(req, res, nextAuthOptions);
   } catch (e) {
     if (!handleSecurityError(res, e)) {
-      console.error(e);
+      logger.error("Authentication error", { error: e });
       throw e;
     }
   }
