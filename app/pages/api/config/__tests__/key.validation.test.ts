@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+
 import { validateConfigKey } from '@/server/validation';
 
 describe('Config API Input Validation', () => {

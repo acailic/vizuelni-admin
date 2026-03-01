@@ -130,7 +130,6 @@ declare module "@/config-types" {
   export type InteractiveFiltersLegend = any;
   export type InteractiveFiltersDataConfig = any;
   export type InteractiveFiltersTimeRange = any;
-  export const isAnimationInConfig: any;
   export type ConfiguratorState = any;
 
   // Additional exports to support compilation
@@ -194,8 +193,6 @@ declare module "@/config-types" {
   export const addDatasetInConfig: any;
   export const removeDatasetFromConfig: any;
   export type ColumnStyleCategory = any;
-  export const canUseAbbreviations: any;
-  export const isSegmentInConfig: any;
   export type ComboChartConfig = any;
   export type ConversionUnit = any;
   export type CalculationType = any;
@@ -490,8 +487,7 @@ declare module "@/components/chart-shared" {
 }
 
 declare module "@/utils/use-event" {
-  const useEvent: any;
-  export { useEvent };
+  export const useEvent: any;
 }
 
 declare module "@/config-utils" {

@@ -4,8 +4,8 @@
  * Tests that malicious HTML is properly sanitized while preserving safe content
  */
 
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
+import { describe, it, expect, vi } from "vitest";
 
 import { DatasetMetadata } from "../dataset-metadata";
 
@@ -108,7 +108,7 @@ describe("DatasetMetadata XSS Prevention", () => {
     const link = document.querySelector("a");
     const href = link?.getAttribute("href");
     // href should either be null (removed) or not contain javascript:
-    expect(href === null || !href.includes("javascript:")).toBe(true);
+    expect(href === null || !href?.includes("javascript:")).toBe(true);
   });
 
   it("should add safe rel attributes to links", () => {

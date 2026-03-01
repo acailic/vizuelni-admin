@@ -13,11 +13,15 @@ import { isDataSourceUrlAllowed } from "@/domain/data-source";
 import { nextAuthOptions } from "@/pages/api/auth/[...nextauth]";
 import { controller } from "@/server/nextkit";
 import { enforceCsrfProtection } from "@/server/security";
+import { validateConfigKey } from "@/server/validation";
 
 export const ConfigController = controller({
   create: withAuth(async ({ userId }, req) => {
     enforceCsrfProtection(req);
     const { data, published_state } = req.body;
+
+    // Validate the config key
+    validateConfigKey(data.key);
 
     if (!isDataSourceUrlAllowed((data as ConfiguratorState).dataSource.url)) {
       throw Error("Invalid data source!");
@@ -33,6 +37,10 @@ export const ConfigController = controller({
   remove: withAuth(async ({ userId }, req) => {
     enforceCsrfProtection(req);
     const { key } = req.body;
+
+    // Validate the config key
+    validateConfigKey(key);
+
     const config = await getConfig(key);
 
     if (userId !== config?.user_id) {
@@ -44,6 +52,9 @@ export const ConfigController = controller({
   update: withAuth(async ({ userId }, req) => {
     enforceCsrfProtection(req);
     const { key, data, published_state } = req.body;
+
+    // Validate the config key
+    validateConfigKey(key);
 
     if (!userId) {
       throw Error(
