@@ -99,64 +99,81 @@ export default function PitchPage() {
       <Grid container spacing={3}>
         {pitchDemos.map((demo) => (
           <Grid item xs={12} sm={6} md={4} key={demo.id}>
-            <Card
-              sx={{
-                height: "100%",
-                display: "flex",
-                flexDirection: "column",
-                borderRadius: 3,
-                overflow: "hidden",
-                boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
-                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                position: "relative",
-                "&:hover": {
-                  transform: "translateY(-8px)",
-                  boxShadow: "0 20px 40px rgba(99, 102, 241, 0.25)",
-                },
-                "&::before": {
-                  content: '""',
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  height: "5px",
-                  background:
-                    "linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%)",
-                  opacity: 1,
-                },
-              }}
-            >
-              <CardContent
-                sx={{ p: 3, flex: 1, display: "flex", flexDirection: "column" }}
+            <Link href={`/demos/${demo.id}`} passHref legacyBehavior>
+              <Card
+                component="a"
+                sx={{
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  borderRadius: 3,
+                  overflow: "hidden",
+                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
+                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                  position: "relative",
+                  cursor: "pointer",
+                  textDecoration: "none",
+                  "&:hover": {
+                    transform: "translateY(-8px)",
+                    boxShadow: "0 20px 40px rgba(99, 102, 241, 0.25)",
+                  },
+                  "&::before": {
+                    content: '""',
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: "5px",
+                    background:
+                      "linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%)",
+                    opacity: 1,
+                  },
+                }}
               >
-                <Box
-                  sx={{
-                    fontSize: "2.5rem",
-                    mb: 2,
-                    textAlign: "center",
-                    p: 1.5,
-                    borderRadius: 2,
-                    background: alpha("#6366f1", 0.08),
-                    display: "inline-block",
-                  }}
+                <CardContent
+                  sx={{ p: 3, flex: 1, display: "flex", flexDirection: "column" }}
                 >
-                  {demo.icon}
-                </Box>
-                <Typography
-                  variant="h6"
-                  sx={{ fontWeight: 600, mb: 1.5, lineHeight: 1.3 }}
-                >
-                  {demo.title[locale]}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ flex: 1 }}
-                >
-                  {demo.description[locale]}
-                </Typography>
-              </CardContent>
-            </Card>
+                  <Box
+                    sx={{
+                      fontSize: "2.5rem",
+                      mb: 2,
+                      textAlign: "center",
+                      p: 1.5,
+                      borderRadius: 2,
+                      background: alpha("#6366f1", 0.08),
+                      display: "inline-block",
+                    }}
+                  >
+                    {demo.icon}
+                  </Box>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: 600, mb: 1.5, lineHeight: 1.3 }}
+                  >
+                    {demo.title[locale]}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ flex: 1 }}
+                  >
+                    {demo.description[locale]}
+                  </Typography>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    sx={{
+                      mt: 2,
+                      textTransform: "none",
+                      fontWeight: 600,
+                      borderColor: "primary.main",
+                    }}
+                  >
+                    {locale === "sr" ? "Pogledaj" : "View Demo"}
+                  </Button>
+                </CardContent>
+              </Card>
+            </Link>
           </Grid>
         ))}
       </Grid>
