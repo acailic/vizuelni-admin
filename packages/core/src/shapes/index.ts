@@ -134,14 +134,27 @@ function computeBarShapes(
   const bandwidth = xScale.bandwidth();
   const shapes: Shape[] = [];
 
+  // Get the y position of zero (the baseline for bars)
+  const yZero = scales.y(0);
+
   data.forEach((d, i) => {
     const category = String(d[config.x.field]);
     const value = d[config.y.field] as number;
 
     const x = chartArea.x + (xScale(category) ?? 0);
-    const yRange = scales.y.range();
-    const y = scales.y(Math.max(0, value));
-    const height = Math.abs(yRange[0] - yRange[1]) - scales.y(value);
+
+    let barY: number;
+    let barHeight: number;
+
+    if (value >= 0) {
+      // Positive values: bar goes from value down to zero
+      barY = scales.y(value);
+      barHeight = yZero - barY;
+    } else {
+      // Negative values: bar goes from zero down to value
+      barY = yZero;
+      barHeight = scales.y(value) - yZero;
+    }
 
     const color = scales.color
       ? scales.color(
@@ -152,9 +165,9 @@ function computeBarShapes(
     shapes.push({
       type: "bar",
       x,
-      y: y,
+      y: barY,
       width: bandwidth,
-      height,
+      height: barHeight,
       category,
       fill: color,
       stroke: "#fff",
