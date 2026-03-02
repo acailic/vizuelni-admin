@@ -3144,9 +3144,9 @@
     ts-pattern "^5.6.2"
 
 "@iconify-json/simple-icons@^1.2.21":
-  version "1.2.70"
-  resolved "https://registry.npmjs.org/@iconify-json/simple-icons/-/simple-icons-1.2.70.tgz"
-  integrity sha512-CYNRCgN6nBTjN4dNkrBCjHXNR2e4hQihdsZUs/afUNFOWLSYjfihca4EFN05rRvDk4Xoy2n8tym6IxBZmcn+Qg==
+  version "1.2.71"
+  resolved "https://registry.yarnpkg.com/@iconify-json/simple-icons/-/simple-icons-1.2.71.tgz#c1f0b403688b0bd4b49d24929ab1e6634bd31ccb"
+  integrity sha512-rNoDFbq1fAYiEexBvrw613/xiUOPEu5MKVV/X8lI64AgdTzLQUUemr9f9fplxUMPoxCBP2rWzlhOEeTHk/Sf0Q==
   dependencies:
     "@iconify/types" "*"
 
