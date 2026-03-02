@@ -71,3 +71,38 @@ Bob,30,87.0`;
     ).rejects.toThrow("Failed to fetch CSV: 404 Not Found");
   });
 });
+
+describe("edge cases", () => {
+  it("should throw on excessively long field", async () => {
+    // Create a CSV with a very long field (200KB)
+    const longValue = "a".repeat(200000);
+    const mockCsv = `name,value\n"${longValue}",100`;
+
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      text: () => Promise.resolve(mockCsv),
+    });
+
+    await expect(
+      csvConnector.fetch({ url: "https://example.com/data.csv" })
+    ).rejects.toThrow("CSV field exceeds maximum length");
+  });
+
+  it("should accept fields at maximum length", async () => {
+    // Create a CSV with a field at the limit (100KB - some margin for header)
+    const longValue = "a".repeat(90000);
+    const mockCsv = `name,value\n"${longValue}",100`;
+
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      text: () => Promise.resolve(mockCsv),
+    });
+
+    const result = await csvConnector.fetch({
+      url: "https://example.com/data.csv",
+    });
+
+    expect(result.data).toHaveLength(1);
+    expect(result.data[0].name).toBe(longValue);
+  });
+});

@@ -6,6 +6,9 @@ import type {
 } from "../types";
 import type { Datum } from "@vizualni/core";
 
+/** Maximum allowed length for a single CSV field (100KB) */
+const MAX_FIELD_LENGTH = 100000;
+
 export interface CsvConfig {
   /** URL to fetch CSV from */
   url: string;
@@ -17,10 +20,11 @@ export interface CsvConfig {
 
 /**
  * Parse CSV text into rows
+ * @throws Error if a field exceeds MAX_FIELD_LENGTH
  */
 function parseCsv(text: string, delimiter = ","): string[][] {
   const lines = text.trim().split(/\r?\n/);
-  return lines.map((line) => {
+  return lines.map((line, lineIndex) => {
     const result: string[] = [];
     let current = "";
     let inQuotes = false;
@@ -34,6 +38,11 @@ function parseCsv(text: string, delimiter = ","): string[][] {
         current = "";
       } else {
         current += char;
+        if (current.length > MAX_FIELD_LENGTH) {
+          throw new Error(
+            `CSV field exceeds maximum length of ${MAX_FIELD_LENGTH} characters at line ${lineIndex + 1}`
+          );
+        }
       }
     }
     result.push(current);
