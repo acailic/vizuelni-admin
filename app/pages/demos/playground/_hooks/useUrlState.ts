@@ -7,15 +7,54 @@ import { useCallback } from "react";
 
 import type { PlaygroundState } from "../_types";
 
+/**
+ * Shareable state interface for URL serialization.
+ * Uses short property names to minimize URL length.
+ * yAxis is stored as array for consistent handling of single/multi-series.
+ */
 interface ShareableState {
   t: PlaygroundState["chartType"];
   d: PlaygroundState["data"];
   c: {
     x: string;
-    y: string;
-    color: string;
+    y: string | string[];
+    color?: string;
   };
   th: string;
+}
+
+/**
+ * Type guard to validate that a parsed object is a valid ShareableState
+ */
+function isShareableState(value: unknown): value is ShareableState {
+  if (typeof value !== "object" || value === null) return false;
+
+  const obj = value as Record<string, unknown>;
+
+  // Validate required fields
+  if (typeof obj.t !== "string") return false;
+  if (!Array.isArray(obj.d)) return false;
+  if (typeof obj.th !== "string") return false;
+
+  // Validate config object
+  if (typeof obj.c !== "object" || obj.c === null) return false;
+  const config = obj.c as Record<string, unknown>;
+  if (typeof config.x !== "string") return false;
+
+  // yAxis can be string or string[]
+  if (typeof config.y !== "string" && !Array.isArray(config.y)) return false;
+  if (
+    Array.isArray(config.y) &&
+    !config.y.every((y) => typeof y === "string")
+  ) {
+    return false;
+  }
+
+  // color is optional but must be string if present
+  if (config.color !== undefined && typeof config.color !== "string")
+    return false;
+
+  return true;
 }
 
 export function compressState(state: PlaygroundState): string {
@@ -39,16 +78,20 @@ export function decompressState(
     const decompressed = decompressFromEncodedURIComponent(compressed);
     if (!decompressed) return null;
 
-    const shareable: ShareableState = JSON.parse(decompressed);
+    const parsed: unknown = JSON.parse(decompressed);
+
+    // Validate the structure before using it
+    if (!isShareableState(parsed)) return null;
+
     return {
-      chartType: shareable.t,
-      data: shareable.d,
+      chartType: parsed.t,
+      data: parsed.d,
       config: {
-        xAxis: shareable.c.x,
-        yAxis: shareable.c.y,
-        color: shareable.c.color,
+        xAxis: parsed.c.x,
+        yAxis: parsed.c.y,
+        color: parsed.c.color,
       },
-      themeId: shareable.th,
+      themeId: parsed.th,
     };
   } catch {
     return null;
