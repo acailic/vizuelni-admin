@@ -1,11 +1,12 @@
 import { t } from "@lingui/macro";
-import { Trans, useLingui } from "@lingui/react";
+import { Trans } from "@lingui/react";
 import { Box, Button, Container, Typography } from "@mui/material";
 import Link from "next/link";
 import { ReactNode } from "react";
 
 import { Flex } from "@/components/flex";
 import { Header } from "@/components/header";
+import { useDemoLocale } from "@/hooks/use-demo-locale";
 import type { DemoDatasetInfo } from "@/types/demos";
 
 interface DemoLayoutProps {
@@ -23,8 +24,7 @@ export function DemoLayout({
   datasetInfo,
   hideBackButton = false,
 }: DemoLayoutProps) {
-  const { i18n } = useLingui();
-  const locale = i18n.locale?.startsWith("sr") ? "sr" : "en";
+  const locale = useDemoLocale();
   const dateLocale = locale === "sr" ? "sr-RS" : "en-US";
 
   const formattedUpdatedAt = datasetInfo?.updatedAt
@@ -50,29 +50,25 @@ export function DemoLayout({
         <Container maxWidth="xl">
           {!hideBackButton && (
             <Box sx={{ mb: 4 }}>
-              <Link href="/demos" passHref legacyBehavior>
-                <Button
-                  component="a"
-                  startIcon={<span>←</span>}
-                  sx={{
-                    textTransform: "none",
-                    fontWeight: 600,
-                    color: "text.secondary",
-                    "&:hover": {
-                      color: "primary.main",
-                      backgroundColor: "transparent",
-                      transform: "translateX(-4px)",
-                    },
-                    transition: "all 0.2s",
-                    pl: 0,
-                  }}
-                >
-                  <Trans
-                    id="demos.layout.back"
-                    message="Back to demo gallery"
-                  />
-                </Button>
-              </Link>
+              <Button
+                component={Link}
+                href="/demos"
+                startIcon={<span>←</span>}
+                sx={{
+                  textTransform: "none",
+                  fontWeight: 600,
+                  color: "text.secondary",
+                  "&:hover": {
+                    color: "primary.main",
+                    backgroundColor: "transparent",
+                    transform: "translateX(-4px)",
+                  },
+                  transition: "all 0.2s",
+                  pl: 0,
+                }}
+              >
+                <Trans id="demos.layout.back" message="Back to demo gallery" />
+              </Button>
             </Box>
           )}
 

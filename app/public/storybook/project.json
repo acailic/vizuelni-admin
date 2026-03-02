@@ -1,5 +1,6 @@
 {
-  "generatedAt": 1770385246062,
+  "generatedAt": 1772418280011,
+  "userSince": 1771464003921,
   "hasCustomBabel": false,
   "hasCustomWebpack": true,
   "hasStaticDirs": false,
@@ -8,21 +9,21 @@
   "metaFramework": {
     "name": "Next",
     "packageName": "next",
-    "version": "15.5.9"
+    "version": "15.5.12"
   },
   "testPackages": {
     "@argos-ci/playwright": "3.10.0",
-    "@playwright/test": "1.57.0",
+    "@playwright/test": "1.58.2",
     "@testing-library/dom": "10.4.1",
     "@testing-library/jest-dom": "6.9.1",
     "@testing-library/react": "16.3.2",
     "@testing-library/user-event": null,
-    "@vitest/coverage-v8": "3.1.4",
-    "@vitest/ui": "3.1.4",
+    "@vitest/coverage-v8": "3.2.4",
+    "@vitest/ui": "3.2.4",
     "jest-axe": "9.0.0",
-    "msw": "2.12.7",
-    "playwright": "1.57.0",
-    "vitest": "3.1.4"
+    "msw": "2.12.9",
+    "playwright": "1.58.2",
+    "vitest": "3.2.4"
   },
   "hasRouterPackage": true,
   "monorepo": "Workspaces",
@@ -32,21 +33,21 @@
   "framework": { "name": "@storybook/nextjs", "options": {} },
   "builder": "@storybook/builder-webpack5",
   "renderer": "@storybook/react",
-  "portableStoriesFileCount": 3,
-  "applicationFileCount": 116,
-  "storybookVersion": "8.6.12",
-  "storybookVersionSpecifier": "8.6.12",
+  "portableStoriesFileCount": 4,
+  "applicationFileCount": 100,
+  "storybookVersion": "8.6.15",
+  "storybookVersionSpecifier": "8.6.15",
   "language": "typescript",
   "storybookPackages": {
-    "@storybook/addon-essentials": { "version": "8.6.12" },
-    "@storybook/addon-interactions": { "version": "8.6.12" },
-    "@storybook/addon-links": { "version": "8.6.12" },
-    "@storybook/blocks": { "version": "8.6.12" },
-    "@storybook/nextjs": { "version": "8.6.12" },
-    "@storybook/react": { "version": "8.6.12" },
-    "@storybook/types": { "version": "8.6.12" },
-    "eslint-plugin-storybook": { "version": "0.11.6" },
-    "storybook": { "version": "8.6.12" }
+    "@storybook/addon-essentials": { "version": "8.6.14" },
+    "@storybook/addon-interactions": { "version": "8.6.14" },
+    "@storybook/addon-links": { "version": "8.6.15" },
+    "@storybook/blocks": { "version": "8.6.14" },
+    "@storybook/nextjs": { "version": "8.6.15" },
+    "@storybook/react": { "version": "8.6.15" },
+    "@storybook/types": { "version": "8.6.14" },
+    "eslint-plugin-storybook": { "version": "0.12.0" },
+    "storybook": { "version": "8.6.15" }
   },
   "addons": {
     "$SNIP/node_modules/@storybook/addon-links": { "version": null },

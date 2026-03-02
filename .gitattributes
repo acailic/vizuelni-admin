@@ -47,5 +47,5 @@
 *.flv binary
 
 # Configuration files (keep as text for readability)
-.* text
-!.gitignore
+.gitignore text
+.gitattributes text
