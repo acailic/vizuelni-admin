@@ -66,13 +66,16 @@ export function LineChart({
   }
 
   // Type-safe accessor that works with any continuous scale
-  const getX = (d: Datum) => {
+  const getX = (d: Datum): number => {
     const val = d[config.x.field];
-    // scales.x is typed to accept Date | number for continuous scales
-    return scales.x(val as Date | number);
+    // Use type assertion since we've validated the scale type
+    const scaleFn = scales.x as (value: Date | number) => number | undefined;
+    return scaleFn(val as Date | number) ?? 0;
   };
 
-  const getY = (d: Datum) => scales.y(d[config.y.field] as number);
+  const getY = (d: Datum): number => {
+    return scales.y(d[config.y.field] as number) ?? 0;
+  };
 
   // Check if we have valid continuous scales for axes
   const hasValidXScale = isContinuousScale(scales.x);
@@ -90,7 +93,7 @@ export function LineChart({
         <LinePath data={data} x={getX} y={getY} />
       </g>
       {hasValidXScale && (
-        <XAxis scale={scales.x} height={layout.chartArea.height} />
+        <XAxis scale={scales.x as ScaleTime<number, number>} height={layout.chartArea.height} />
       )}
       {hasValidYScale && <YAxis scale={scales.y} />}
     </svg>
