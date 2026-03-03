@@ -10,12 +10,17 @@ import {
   Chip,
   Button,
   Grid,
+  useTheme,
+  alpha,
 } from "@mui/material";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
 
+import { DemoErrorBoundary } from "@/components/demos/DemoErrorBoundary";
+import DemoSkeleton from "@/components/demos/DemoSkeleton";
 import { AppLayout } from "@/components/layout";
 import { DatasetCard } from "@/components/topics/DatasetCard";
 import topicIndex from "@/data/topics/index.json";
@@ -51,6 +56,7 @@ function VisualizationCard({
   viz: Visualization;
   locale: string;
 }) {
+  const theme = useTheme();
   const title = getLocalizedText(viz.title, locale);
   const description = getLocalizedText(viz.description, locale);
   const icon = chartTypeIcons[viz.chartType] || "📊";
@@ -66,7 +72,7 @@ function VisualizationCard({
         transition: "all 0.3s ease",
         "&:hover": {
           transform: "translateY(-4px)",
-          boxShadow: "0 12px 40px rgba(14, 165, 233, 0.2)",
+          boxShadow: `0 12px 40px ${alpha(theme.palette.primary.main, 0.2)}`,
         },
       }}
     >
@@ -85,7 +91,7 @@ function VisualizationCard({
             label={viz.chartType.toUpperCase()}
             size="small"
             sx={{
-              background: "linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%)",
+              background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
               color: "white",
               fontWeight: 600,
             }}
@@ -114,7 +120,15 @@ function VisualizationCard({
 
 export default function TopicPage({ topic }: TopicPageProps) {
   const router = useRouter();
+  const theme = useTheme();
   const locale = (router.locale || "sr") as string;
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate loading for content
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 300);
+    return () => clearTimeout(timer);
+  }, []);
 
   const title = getLocalizedText(topic.title, locale);
   const description = getLocalizedText(topic.description, locale);
@@ -145,6 +159,23 @@ export default function TopicPage({ topic }: TopicPageProps) {
         ? "Istražite sve skupove podataka"
         : "Explore all datasets";
 
+  // Show skeleton while loading
+  if (isLoading) {
+    return (
+      <>
+        <Head>
+          <title>{pageTitle}</title>
+          <meta name="description" content={description} />
+        </Head>
+        <AppLayout>
+          <Container sx={{ py: 6 }}>
+            <DemoSkeleton variant="cards" cards={3} showChart={true} />
+          </Container>
+        </AppLayout>
+      </>
+    );
+  }
+
   return (
     <>
       <Head>
@@ -153,107 +184,112 @@ export default function TopicPage({ topic }: TopicPageProps) {
       </Head>
       <AppLayout>
         <Container sx={{ py: 6 }}>
-          <Breadcrumbs sx={{ mb: 3 }}>
-            <Link href="/topics" passHref legacyBehavior>
-              <MuiLink
-                underline="hover"
-                color="inherit"
-                sx={{ cursor: "pointer" }}
-              >
-                {backLabel}
-              </MuiLink>
-            </Link>
-            <Typography color="text.primary">{title}</Typography>
-          </Breadcrumbs>
+          <DemoErrorBoundary>
+            <Breadcrumbs sx={{ mb: 3 }}>
+              <Link href="/topics" passHref legacyBehavior>
+                <MuiLink
+                  underline="hover"
+                  color="inherit"
+                  sx={{ cursor: "pointer" }}
+                >
+                  {backLabel}
+                </MuiLink>
+              </Link>
+              <Typography color="text.primary">{title}</Typography>
+            </Breadcrumbs>
 
-          <Box sx={{ mb: 4 }}>
-            <Typography variant="h3" component="h1" gutterBottom>
-              {title}
-            </Typography>
-            <Typography variant="h6" color="text.secondary">
-              {description}
-            </Typography>
-          </Box>
-
-          {/* Visualizations Section */}
-          {topic.visualizations && topic.visualizations.length > 0 && (
-            <Box sx={{ mb: 5 }}>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  mb: 3,
-                }}
-              >
-                <Typography variant="h5" component="h2">
-                  {visualizationsLabel}
-                </Typography>
-                <Link href="/demos/playground" passHref legacyBehavior>
-                  <Button
-                    component="a"
-                    variant="text"
-                    color="primary"
-                    sx={{ textTransform: "none" }}
-                  >
-                    🎮{" "}
-                    {locale === "sr"
-                      ? "Интерактивни playground"
-                      : "Interactive Playground"}
-                  </Button>
-                </Link>
-              </Box>
-              <Grid container spacing={3}>
-                {topic.visualizations.map((viz) => (
-                  <Grid item xs={12} sm={6} md={4} key={viz.id}>
-                    <VisualizationCard viz={viz} locale={locale} />
-                  </Grid>
-                ))}
-              </Grid>
+            <Box sx={{ mb: 4 }}>
+              <Typography variant="h3" component="h1" gutterBottom>
+                {title}
+              </Typography>
+              <Typography variant="h6" color="text.secondary">
+                {description}
+              </Typography>
             </Box>
-          )}
 
-          {/* Datasets Section */}
-          <Box sx={{ mb: 3 }}>
-            <Typography variant="h5" component="h2">
-              {datasetsLabel}
-            </Typography>
-          </Box>
+            {/* Visualizations Section */}
+            {topic.visualizations && topic.visualizations.length > 0 && (
+              <Box sx={{ mb: 5 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    mb: 3,
+                  }}
+                >
+                  <Typography variant="h5" component="h2">
+                    {visualizationsLabel}
+                  </Typography>
+                  <Link href="/demos/playground" passHref legacyBehavior>
+                    <Button
+                      component="a"
+                      variant="text"
+                      color="primary"
+                      sx={{ textTransform: "none" }}
+                    >
+                      🎮{" "}
+                      {locale === "sr"
+                        ? "Интерактивни playground"
+                        : "Interactive Playground"}
+                    </Button>
+                  </Link>
+                </Box>
+                <Grid container spacing={3}>
+                  {topic.visualizations.map((viz) => (
+                    <Grid item xs={12} sm={6} md={4} key={viz.id}>
+                      <VisualizationCard viz={viz} locale={locale} />
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+            )}
 
-          <Box>
-            {topic.datasets.map((dataset) => (
-              <DatasetCard key={dataset.id} dataset={dataset} locale={locale} />
-            ))}
-          </Box>
+            {/* Datasets Section */}
+            <Box sx={{ mb: 3 }}>
+              <Typography variant="h5" component="h2">
+                {datasetsLabel}
+              </Typography>
+            </Box>
 
-          {/* Explore All CTA */}
-          <Box
-            sx={{
-              mt: 5,
-              p: 4,
-              borderRadius: 3,
-              background:
-                "linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%)",
-              textAlign: "center",
-            }}
-          >
-            <Typography variant="h6" sx={{ mb: 2 }}>
-              {locale === "sr"
-                ? "Желите да видите више скупова података?"
-                : "Want to see more datasets?"}
-            </Typography>
-            <Link href="/browse" passHref legacyBehavior>
-              <Button
-                component="a"
-                variant="contained"
-                color="primary"
-                size="large"
-                sx={{ textTransform: "none", fontWeight: 600, px: 4 }}
-              >
-                {exploreAllLabel}
-              </Button>
-            </Link>
-          </Box>
+            <Box>
+              {topic.datasets.map((dataset) => (
+                <DatasetCard
+                  key={dataset.id}
+                  dataset={dataset}
+                  locale={locale}
+                />
+              ))}
+            </Box>
+
+            {/* Explore All CTA */}
+            <Box
+              sx={{
+                mt: 5,
+                p: 4,
+                borderRadius: 3,
+                background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.1)} 0%, ${alpha(theme.palette.primary.dark, 0.1)} 100%)`,
+                textAlign: "center",
+              }}
+            >
+              <Typography variant="h6" sx={{ mb: 2 }}>
+                {locale === "sr"
+                  ? "Желите да видите више скупова података?"
+                  : "Want to see more datasets?"}
+              </Typography>
+              <Link href="/browse" passHref legacyBehavior>
+                <Button
+                  component="a"
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  sx={{ textTransform: "none", fontWeight: 600, px: 4 }}
+                >
+                  {exploreAllLabel}
+                </Button>
+              </Link>
+            </Box>
+          </DemoErrorBoundary>
         </Container>
       </AppLayout>
     </>

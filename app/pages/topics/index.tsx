@@ -3,7 +3,10 @@ import { Container, Typography, Grid, Box } from "@mui/material";
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
 
+import { DemoErrorBoundary } from "@/components/demos/DemoErrorBoundary";
+import DemoSkeleton from "@/components/demos/DemoSkeleton";
 import { AppLayout } from "@/components/layout";
 import { TopicCard } from "@/components/topics/TopicCard";
 import topicIndex from "@/data/topics/index.json";
@@ -16,6 +19,13 @@ interface TopicsPageProps {
 export default function TopicsPage({ topics }: TopicsPageProps) {
   const router = useRouter();
   const locale = (router.locale || "sr") as string;
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate loading for topic cards
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 300);
+    return () => clearTimeout(timer);
+  }, []);
 
   const pageTitle =
     locale === "sr"
@@ -38,6 +48,23 @@ export default function TopicsPage({ topics }: TopicsPageProps) {
         ? "Pronađite skupove podataka po kategorijama i vizualizujte ih"
         : "Find datasets by category and visualize them";
 
+  // Show skeleton while loading
+  if (isLoading) {
+    return (
+      <>
+        <Head>
+          <title>{pageTitle}</title>
+          <meta name="description" content={subheading} />
+        </Head>
+        <AppLayout>
+          <Container sx={{ py: 6 }}>
+            <DemoSkeleton variant="cards" cards={6} showChart={false} />
+          </Container>
+        </AppLayout>
+      </>
+    );
+  }
+
   return (
     <>
       <Head>
@@ -46,22 +73,24 @@ export default function TopicsPage({ topics }: TopicsPageProps) {
       </Head>
       <AppLayout>
         <Container sx={{ py: 6 }}>
-          <Box sx={{ mb: 4, textAlign: "center" }}>
-            <Typography variant="h3" component="h1" gutterBottom>
-              {heading}
-            </Typography>
-            <Typography variant="h6" color="text.secondary">
-              {subheading}
-            </Typography>
-          </Box>
+          <DemoErrorBoundary>
+            <Box sx={{ mb: 4, textAlign: "center" }}>
+              <Typography variant="h3" component="h1" gutterBottom>
+                {heading}
+              </Typography>
+              <Typography variant="h6" color="text.secondary">
+                {subheading}
+              </Typography>
+            </Box>
 
-          <Grid container spacing={3}>
-            {topics.map((topic) => (
-              <Grid item xs={12} sm={6} md={4} key={topic.id}>
-                <TopicCard topic={topic} locale={locale} />
-              </Grid>
-            ))}
-          </Grid>
+            <Grid container spacing={3}>
+              {topics.map((topic) => (
+                <Grid item xs={12} sm={6} md={4} key={topic.id}>
+                  <TopicCard topic={topic} locale={locale} />
+                </Grid>
+              ))}
+            </Grid>
+          </DemoErrorBoundary>
         </Container>
       </AppLayout>
     </>
