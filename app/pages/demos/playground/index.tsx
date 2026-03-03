@@ -10,7 +10,7 @@ import {
   useTheme,
 } from "@mui/material";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { CodeOutput } from "./_components/CodeOutput";
 import { ConfigPanel } from "./_components/ConfigPanel";
@@ -23,7 +23,6 @@ export default function PlaygroundPage() {
   const { i18n } = useLingui();
   const theme = useTheme();
   const locale = i18n.locale?.startsWith("sr") ? "sr" : "en";
-  const [isInitializing, setIsInitializing] = useState(true);
 
   const {
     chartType,
