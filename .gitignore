@@ -129,6 +129,7 @@ temp/
 # Git worktrees for isolated development
 .worktrees/
 .git_disabled/
+.git_config
 
 # Development tool build outputs
 .next/
