@@ -120,8 +120,7 @@ const runTest = async ({
  */
 const testFn = process.env.CI ? test.skip : test;
 
-// FIX: currently broken and will be fetched differently form #1244
-// TODO: refactor as part of #1244 changes
+// Note: Currently broken and will be refactored as part of #1244 changes
 describe.skip("multi root hierarchy retrieval", () => {
   testFn("should work for C-1029", async () => {
     await runTest({

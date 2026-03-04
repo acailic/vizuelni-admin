@@ -1,5 +1,18 @@
+/**
+ * @vizualni/core - Time Scale
+ *
+ * Time scale factory for temporal data.
+ *
+ * @module scales/time
+ */
+
 import { scaleTime } from "d3-scale";
 
+/**
+ * Options for creating a time scale.
+ *
+ * @public
+ */
 export interface TimeScaleOptions {
   /** Input domain [min date, max date] */
   domain: [Date, Date];
@@ -20,7 +33,22 @@ export interface TimeScaleOptions {
 }
 
 /**
- * Creates a time scale function
+ * Creates a time scale function.
+ *
+ * @param options - Scale configuration options
+ * @returns D3 time scale function
+ *
+ * @public
+ *
+ * @example
+ * ```typescript
+ * const scale = createTimeScale({
+ *   domain: [new Date('2024-01-01'), new Date('2024-12-31')],
+ *   range: [0, 500],
+ *   nice: 'month'
+ * });
+ * scale(new Date('2024-06-15')); // ~250
+ * ```
  */
 export function createTimeScale(options: TimeScaleOptions) {
   const { domain, range, clamp = false, nice = false } = options;

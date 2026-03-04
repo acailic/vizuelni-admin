@@ -107,8 +107,7 @@ const useScatterplotState = (
         ?.filters[segmentDimension.id]
     : undefined;
 
-  // TODO: Verify is segments creation logic is correct
-  // (it's not consistent with other charts).
+  // Note: Segments creation logic differs from other charts; verify if intentional
   const allSegments = useMemo(() => {
     const allUniqueSegments = Array.from(new Set(segmentData.map(getSegment)));
     const sorting = {

@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
+import { axe } from "jest-axe";
 import { LineChart } from "../src/charts/LineChart";
 import { BarChart } from "../src/charts/BarChart";
 import { PieChart } from "../src/charts/PieChart";
@@ -76,6 +77,24 @@ describe("Accessibility", () => {
 
       expect(container.querySelector(".custom-chart")).toBeDefined();
     });
+
+    it("should have no accessibility violations", async () => {
+      const { container } = render(
+        <LineChart
+          data={lineData}
+          config={{
+            type: "line",
+            x: { field: "date", type: "date" },
+            y: { field: "value", type: "number" },
+          }}
+          width={600}
+          height={400}
+        />
+      );
+
+      const results = await axe(container);
+      expect(results.violations).toHaveLength(0);
+    });
   });
 
   describe("BarChart", () => {
@@ -128,6 +147,42 @@ describe("Accessibility", () => {
       );
 
       expect(screen.getByLabelText("Bar chart - error")).toBeDefined();
+    });
+
+    it("should have no accessibility violations", async () => {
+      const { container } = render(
+        <BarChart
+          data={barData}
+          config={{
+            type: "bar",
+            x: { field: "category", type: "string" },
+            y: { field: "value", type: "number" },
+          }}
+          width={600}
+          height={400}
+        />
+      );
+
+      const results = await axe(container);
+      expect(results.violations).toHaveLength(0);
+    });
+
+    it("should have no accessibility violations even with error state", async () => {
+      const { container } = render(
+        <BarChart
+          data={[]}
+          config={{
+            type: "bar",
+            x: { field: "x", type: "string" },
+            y: { field: "y", type: "number" },
+          }}
+          width={600}
+          height={400}
+        />
+      );
+
+      const results = await axe(container);
+      expect(results.violations).toHaveLength(0);
     });
   });
 
@@ -184,6 +239,43 @@ describe("Accessibility", () => {
       // Should render paths for pie slices
       const paths = container.querySelectorAll("path");
       expect(paths.length).toBe(3);
+    });
+
+    it("should have no accessibility violations", async () => {
+      const { container } = render(
+        <PieChart
+          data={pieData}
+          config={{
+            type: "pie",
+            value: { field: "value", type: "number" },
+            category: { field: "category", type: "string" },
+          }}
+          width={400}
+          height={400}
+        />
+      );
+
+      const results = await axe(container);
+      expect(results.violations).toHaveLength(0);
+    });
+
+    it("should have no accessibility violations for donut chart", async () => {
+      const { container } = render(
+        <PieChart
+          data={pieData}
+          config={{
+            type: "pie",
+            value: { field: "value", type: "number" },
+            category: { field: "category", type: "string" },
+            innerRadius: 0.5,
+          }}
+          width={400}
+          height={400}
+        />
+      );
+
+      const results = await axe(container);
+      expect(results.violations).toHaveLength(0);
     });
   });
 

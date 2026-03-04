@@ -33,7 +33,7 @@ import {
   Switch as MUISwitch,
   SxProps,
   Theme,
-  Tooltip,
+  Tooltip as MuiTooltip,
   Typography,
   TypographyProps,
   TypographyVariant,
@@ -64,7 +64,7 @@ import { linkDialogPlugin } from "@/components/mdx-editor/link-dialog";
 import { LinkDialogToggle } from "@/components/mdx-editor/link-dialog-toggle";
 import { ListToggles } from "@/components/mdx-editor/list-toggles";
 import { maxLengthPlugin } from "@/components/mdx-editor/max-length-plugin";
-import { MaybeTooltip } from "@/components/ui/tooltips";
+import { Tooltip } from "@/components/ui/tooltips";
 import { VisuallyHidden } from "@/components/visually-hidden";
 import {
   FieldProps,
@@ -141,7 +141,7 @@ export const Radio = ({
   warnMessage?: string;
 } & FieldProps) => {
   return (
-    <MaybeTooltip title={warnMessage}>
+    <Tooltip variant="conditional" title={warnMessage}>
       <FormControlLabel
         label={label}
         size={size}
@@ -158,7 +158,7 @@ export const Radio = ({
           />
         }
       />
-    </MaybeTooltip>
+    </Tooltip>
   );
 };
 
@@ -515,7 +515,7 @@ export const DisabledMessageIcon = (props: DisabledMessageIconProps) => {
   const { message } = props;
 
   return (
-    <Tooltip
+    <MuiTooltip
       arrow
       title={
         <Typography variant="caption" color="secondary">
@@ -531,7 +531,7 @@ export const DisabledMessageIcon = (props: DisabledMessageIconProps) => {
       <Typography color="orange.main" style={{ lineHeight: 0 }}>
         <Icon name="warningCircle" size={20} />
       </Typography>
-    </Tooltip>
+    </MuiTooltip>
   );
 };
 

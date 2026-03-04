@@ -12,7 +12,7 @@ import {
   InputAdornment,
   SelectChangeEvent,
   Theme,
-  Tooltip,
+  Tooltip as MuiTooltip,
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -43,7 +43,6 @@ import { Flex } from "@/components/flex";
 import { Select, Switch } from "@/components/form";
 import { Loading } from "@/components/hint";
 import { MultiSelect } from "@/components/multi-select";
-import { MaybeTooltip } from "@/components/ui/tooltips";
 import { ChartConfig, ColorMapping, isColorInConfig } from "@/config-types";
 import { getChartConfig, useChartConfigFilters } from "@/config-utils";
 import { isSegmentInConfig } from "@/configurator";
@@ -456,7 +455,7 @@ const MultiFilterContent = ({
               Selected filters
             </Trans>
             {hasColorMapping && colorConfig?.paletteId === "dimension" && (
-              <Tooltip
+              <MuiTooltip
                 title={
                   <Trans id="controls.filters.select.reset-colors">
                     Reset colors
@@ -470,7 +469,7 @@ const MultiFilterContent = ({
                 >
                   <SvgIcRefresh fontSize="inherit" />
                 </IconButton>
-              </Tooltip>
+              </MuiTooltip>
             )}
           </Typography>
           <Typography variant="caption" color="text.secondary">
@@ -594,8 +593,8 @@ const InteractiveToggle = ({
     <Switch
       name={name}
       label={
-        <MaybeTooltip
-          tooltipProps={{ enterDelay: 600 }}
+        <MuiTooltip
+          enterDelay={600}
           title={
             <Trans id="controls.filters.interactive.tooltip">
               Allow users to change filters
@@ -605,7 +604,7 @@ const InteractiveToggle = ({
           <div>
             <Trans id="controls.filters.interactive.toggle">Interactive</Trans>
           </div>
-        </MaybeTooltip>
+        </MuiTooltip>
       }
       checked={checked}
       onChange={onChange}
@@ -1355,7 +1354,7 @@ export const TimeFilter = (props: TimeFilterProps) => {
                 ]);
               }}
             />
-            <Tooltip
+            <MuiTooltip
               arrow
               PopperProps={{ sx: { maxWidth: 160 } }}
               title={
@@ -1368,7 +1367,7 @@ export const TimeFilter = (props: TimeFilterProps) => {
               <Box sx={{ color: "primary.main", lineHeight: 0 }}>
                 <Icon name="infoCircle" size={16} />
               </Box>
-            </Tooltip>
+            </MuiTooltip>
           </Flex>
         )}
       </div>

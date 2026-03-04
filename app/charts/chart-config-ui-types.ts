@@ -203,8 +203,7 @@ export type EncodingOption<T extends ChartConfig = ChartConfig> =
   | {
       field: "useAbbreviations";
     }
-  // TODO: As these are quite chart type specific, they might be handled in
-  // some other way.
+  // Note: Chart type specific fields could be refactored for better type safety
   | {
       field: "lineAxisOrientation";
       onChange: OnEncodingOptionChange<"left" | "right", ComboLineColumnConfig>;

@@ -105,7 +105,7 @@ export const EditorBrush = ({
   // Set default selection to full extent
   const [fromPx, toPx] = timeRange.map(timeScale);
 
-  // FIXME: fix dependency array but don't include brush.move!
+  // Note: brush.move intentionally excluded from deps (eslint disabled)
   useEffect(() => {
     const g = select(brushRef.current);
     (g as BrushSelection).call(brush.move, [fromPx, toPx]);

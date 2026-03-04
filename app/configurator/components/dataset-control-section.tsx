@@ -15,7 +15,7 @@ import { useClient } from "urql";
 
 import { Flex } from "@/components/flex";
 import { useMetadataPanelStoreActions } from "@/components/metadata-panel-store";
-import { MaybeTooltip } from "@/components/ui/tooltips";
+import { Tooltip } from "@/components/ui/tooltips";
 import { useDisclosure } from "@/components/use-disclosure";
 import { getChartConfig } from "@/config-utils";
 import { AddDatasetDrawer } from "@/configurator/components/add-dataset-drawer/add-dataset-drawer";
@@ -88,7 +88,8 @@ const DatasetRow = ({
   const [loading, setLoading] = useState(false);
 
   return (
-    <MaybeTooltip
+    <Tooltip
+      variant="conditional"
       title={
         <Box alignItems="center" display="flex" gap="0.75rem">
           <Box color="success.main">
@@ -101,13 +102,11 @@ const DatasetRow = ({
           })}
         </Box>
       }
-      tooltipProps={{
-        open: added,
-        placement: "right",
-        PopperProps: {
-          onClick: () => onRemoveAdded?.(),
-          className: classes.tooltipPopper,
-        },
+      open={added}
+      placement="right"
+      PopperProps={{
+        onClick: () => onRemoveAdded?.(),
+        className: classes.tooltipPopper,
       }}
     >
       <div
@@ -166,7 +165,7 @@ const DatasetRow = ({
           ) : null}
         </div>
       </div>
-    </MaybeTooltip>
+    </Tooltip>
   );
 };
 

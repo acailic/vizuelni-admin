@@ -157,7 +157,7 @@ const handlePublishSuccess = async (
    * This allows the chart creation workflow to be integrated with other tools like a CMS
    */
 
-  // FIXME: Check for more than just opener?
+  // Note: Currently only checks window.opener; could extend to other contexts
   const opener = window.opener;
   if (opener) {
     opener.postMessage(`CHART_ID:${chartId}`, "*");

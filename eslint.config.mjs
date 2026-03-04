@@ -16,7 +16,6 @@ export default [
   // Ignore patterns
   {
     ignores: [
-      'rollup.config.js',
       'app/public/dist/**',
       'app/graphql/resolver-types.ts',
       'app/graphql/query-hooks.ts',

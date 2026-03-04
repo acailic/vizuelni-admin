@@ -1,3 +1,11 @@
+/**
+ * @vizualni/core - Scales
+ *
+ * Scale factories and utilities for chart data transformation.
+ *
+ * @module scales
+ */
+
 import { extent, max } from "d3-array";
 import type { ScaleBand } from "d3-scale";
 import type { ChartConfig } from "../config";
@@ -13,6 +21,11 @@ export * from "./linear";
 export * from "./time";
 export * from "./ordinal";
 
+/**
+ * Computed scales for chart rendering.
+ *
+ * @public
+ */
 export interface Scales {
   x:
     | ReturnType<typeof createTimeScale>
@@ -22,10 +35,31 @@ export interface Scales {
   color?: ReturnType<typeof createColorScale>;
 }
 
+/**
+ * Options for computing scales.
+ *
+ * @public
+ */
 export interface ComputeScalesOptions extends Dimensions {}
 
 /**
- * Computes all scales needed for a chart based on data and config
+ * Computes all scales needed for a chart based on data and config.
+ *
+ * @param data - Array of data points
+ * @param config - Chart configuration
+ * @param options - Dimensions and layout options
+ * @returns Computed scales for x, y, and optionally color
+ *
+ * @public
+ *
+ * @example
+ * ```typescript
+ * const scales = computeScales(
+ *   [{ date: new Date('2024-01-01'), value: 10 }],
+ *   { type: 'line', x: { field: 'date', type: 'date' }, y: { field: 'value', type: 'number' } },
+ *   { width: 600, height: 400, margins: { top: 30, right: 30, bottom: 50, left: 60 }, chartArea: { x: 60, y: 30, width: 510, height: 320 } }
+ * );
+ * ```
  */
 export function computeScales(
   data: Datum[],
@@ -56,6 +90,11 @@ export function computeScales(
   throw new Error(`Unknown chart type: ${(config as { type: string }).type}`);
 }
 
+/**
+ * Computes scales for line charts.
+ *
+ * @internal
+ */
 function computeLineScales(
   data: Datum[],
   config: Extract<ChartConfig, { type: "line" }>,
@@ -113,6 +152,11 @@ function computeLineScales(
   return { x: xScale, y: yScale, color: colorScale };
 }
 
+/**
+ * Computes scales for bar charts.
+ *
+ * @internal
+ */
 function computeBarScales(
   data: Datum[],
   config: Extract<ChartConfig, { type: "bar" }>,
@@ -171,6 +215,11 @@ function computeBarScales(
   return { x: xScale, y: yScale, color: colorScale };
 }
 
+/**
+ * Computes scales for pie charts.
+ *
+ * @internal
+ */
 function computePieScales(
   data: Datum[],
   config: Extract<ChartConfig, { type: "pie" }>

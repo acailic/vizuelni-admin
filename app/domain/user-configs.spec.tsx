@@ -1,7 +1,7 @@
-// @ts-nocheck
 import { renderHook, waitFor } from "@testing-library/react";
-import { describe, expect, it, vi, beforeEach } from "vitest";
+import { describe, expect, it, vi, beforeEach, Mock } from "vitest";
 
+import { PUBLISHED_STATE } from "@/db/prisma-types";
 import { useUserConfig, useUserConfigs } from "@/domain/user-configs";
 import {
   fetchChartConfig,
@@ -17,9 +17,9 @@ vi.mock("@/utils/chart-config/api", () => ({
   fetchChartViewCount: vi.fn(),
 }));
 
-const mockFetchChartConfigs = fetchChartConfigs as ReturnType<typeof vi.fn>;
-const mockFetchChartConfig = fetchChartConfig as ReturnType<typeof vi.fn>;
-const mockFetchChartViewCount = fetchChartViewCount as ReturnType<typeof vi.fn>;
+const mockFetchChartConfigs = fetchChartConfigs as Mock;
+const mockFetchChartConfig = fetchChartConfig as Mock;
+const mockFetchChartViewCount = fetchChartViewCount as Mock;
 
 describe("Domain - User Configs", () => {
   beforeEach(() => {
@@ -102,7 +102,16 @@ describe("Domain - User Configs", () => {
 
     it("should return default data while loading", () => {
       const defaultData = [
-        { key: "default", title: "Default", data: {}, viewCount: 0 },
+        {
+          id: 0,
+          key: "default",
+          data: {},
+          created_at: new Date(),
+          updated_at: new Date(),
+          user_id: null,
+          published_state: PUBLISHED_STATE.DRAFT,
+          viewCount: 0,
+        },
       ];
       mockFetchChartConfigs.mockImplementation(
         () => new Promise(() => {}) // Never resolves
@@ -168,9 +177,7 @@ describe("Domain - User Configs", () => {
       mockFetchChartConfig.mockResolvedValue(mockConfig);
       mockFetchChartViewCount.mockResolvedValue(mockViewCount);
 
-      const { result } = renderHook(() =>
-        useUserConfig("config1", { defaultData: null })
-      );
+      const { result } = renderHook(() => useUserConfig("config1"));
 
       await waitFor(() => {
         expect(result.current.status).toBe("success");
@@ -189,9 +196,7 @@ describe("Domain - User Configs", () => {
       mockFetchChartConfig.mockResolvedValue(null);
       mockFetchChartViewCount.mockResolvedValue(0);
 
-      const { result } = renderHook(() =>
-        useUserConfig("nonexistent", { defaultData: null })
-      );
+      const { result } = renderHook(() => useUserConfig("nonexistent"));
 
       await waitFor(() => {
         expect(result.current.status).toBe("error");
@@ -203,9 +208,7 @@ describe("Domain - User Configs", () => {
     it("should pause fetching when chartId is undefined", async () => {
       mockFetchChartConfig.mockResolvedValue({});
 
-      const { result } = renderHook(() =>
-        useUserConfig(undefined, { defaultData: null })
-      );
+      const { result } = renderHook(() => useUserConfig(undefined));
 
       await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -225,7 +228,7 @@ describe("Domain - User Configs", () => {
         .mockResolvedValueOnce(20);
 
       const { result, rerender } = renderHook(
-        ({ chartId }) => useUserConfig(chartId, { defaultData: null }),
+        ({ chartId }) => useUserConfig(chartId),
         { initialProps: { chartId: "config1" } }
       );
 
@@ -262,9 +265,7 @@ describe("Domain - User Configs", () => {
         return 100;
       });
 
-      const { result } = renderHook(() =>
-        useUserConfig("config1", { defaultData: null })
-      );
+      const { result } = renderHook(() => useUserConfig("config1"));
 
       await waitFor(() => {
         expect(result.current.status).toBe("success");
@@ -280,9 +281,7 @@ describe("Domain - User Configs", () => {
       mockFetchChartConfig.mockRejectedValue(error);
       mockFetchChartViewCount.mockRejectedValue(error);
 
-      const { result } = renderHook(() =>
-        useUserConfig("config1", { defaultData: null })
-      );
+      const { result } = renderHook(() => useUserConfig("config1"));
 
       await waitFor(() => {
         expect(result.current.status).toBe("error");
@@ -295,25 +294,23 @@ describe("Domain - User Configs", () => {
       let fetchCount = 0;
       mockFetchChartConfig.mockImplementation(async () => {
         fetchCount++;
-        return { key: "config1", title: `Chart ${fetchCount}`, data: {} };
+        return { key: `config${fetchCount}`, data: {} };
       });
       mockFetchChartViewCount.mockResolvedValue(100);
 
-      const { result } = renderHook(() =>
-        useUserConfig("config1", { defaultData: null })
-      );
+      const { result } = renderHook(() => useUserConfig("config1"));
 
       await waitFor(() => {
         expect(result.current.status).toBe("success");
       });
 
-      expect(result.current.data?.title).toBe("Chart 1");
+      expect(result.current.data?.key).toBe("config1");
 
       // Invalidate and refetch
       result.current.invalidate();
 
       await waitFor(() => {
-        expect(result.current.data?.title).toBe("Chart 2");
+        expect(result.current.data?.key).toBe("config2");
       });
 
       expect(fetchCount).toBe(2);
@@ -351,9 +348,7 @@ describe("Domain - User Configs", () => {
       );
       mockFetchChartViewCount.mockResolvedValue(0);
 
-      const { result } = renderHook(() =>
-        useUserConfig("config1", { defaultData: null })
-      );
+      const { result } = renderHook(() => useUserConfig("config1"));
 
       await waitFor(
         () => {
@@ -393,18 +388,14 @@ describe("Domain - User Configs", () => {
       mockFetchChartConfig.mockResolvedValue(mockConfig);
       mockFetchChartViewCount.mockResolvedValue(100);
 
-      const { result: result1 } = renderHook(() =>
-        useUserConfig("config1", { defaultData: null })
-      );
+      const { result: result1 } = renderHook(() => useUserConfig("config1"));
 
       await waitFor(() => {
         expect(result1.current.status).toBe("success");
       });
 
       // Second instance should use cache
-      const { result: result2 } = renderHook(() =>
-        useUserConfig("config1", { defaultData: null })
-      );
+      const { result: result2 } = renderHook(() => useUserConfig("config1"));
 
       expect(result2.current.data).toEqual(result1.current.data);
       expect(mockFetchChartConfig).toHaveBeenCalledTimes(1);

@@ -1,19 +1,19 @@
 import * as React from "react";
-function SvgIcCircle(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      width="1em"
-      height="1em"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M12.292 4a8.292 8.292 0 108.291 8.292A8.301 8.301 0 0012.293 4z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
+
+import type { SVGProps } from "react";
+const SvgIcCircle = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="1em"
+    height="1em"
+    fill="none"
+    viewBox="0 0 24 24"
+    {...props}
+  >
+    <path
+      fill="currentColor"
+      d="M12.292 4a8.292 8.292 0 1 0 8.291 8.292A8.3 8.3 0 0 0 12.293 4"
+    />
+  </svg>
+);
 export default SvgIcCircle;

@@ -3,16 +3,29 @@ import type {
   ConnectorResult,
   DataSchema,
   FieldSchema,
+  BaseConnectorConfig,
+} from "../types";
+import {
+  ConnectorFetchError,
+  ConnectorParseError,
+  ConnectorValidationError,
 } from "../types";
 import type { Datum } from "@vizualni/core";
 
-/** Maximum allowed length for a single CSV field (100KB) */
+/**
+ * Maximum allowed length for a single CSV field (100KB)
+ *
+ * @internal
+ */
 const MAX_FIELD_LENGTH = 100000;
 
-export interface CsvConfig {
-  /** URL to fetch CSV from */
-  url: string;
-  /** CSV delimiter (default: comma) */
+/**
+ * Configuration for the CSV connector
+ *
+ * @public
+ */
+export interface CsvConfig extends BaseConnectorConfig {
+  /** CSV delimiter character (default: comma ",") */
   delimiter?: string;
   /** Whether first row contains headers (default: true) */
   header?: boolean;
@@ -20,7 +33,13 @@ export interface CsvConfig {
 
 /**
  * Parse CSV text into rows
- * @throws Error if a field exceeds MAX_FIELD_LENGTH
+ *
+ * @param text - Raw CSV text to parse
+ * @param delimiter - Character used to separate fields
+ * @returns Array of rows, each row being an array of string values
+ * @throws {@link ConnectorParseError} if a field exceeds MAX_FIELD_LENGTH
+ *
+ * @internal
  */
 function parseCsv(text: string, delimiter = ","): string[][] {
   const lines = text.trim().split(/\r?\n/);
@@ -39,7 +58,8 @@ function parseCsv(text: string, delimiter = ","): string[][] {
       } else {
         current += char;
         if (current.length > MAX_FIELD_LENGTH) {
-          throw new Error(
+          throw new ConnectorParseError(
+            "csv://inline",
             `CSV field exceeds maximum length of ${MAX_FIELD_LENGTH} characters at line ${lineIndex + 1}`
           );
         }
@@ -51,7 +71,12 @@ function parseCsv(text: string, delimiter = ","): string[][] {
 }
 
 /**
- * Infer field type from values
+ * Infer field type from sample values
+ *
+ * @param values - Array of string values to analyze
+ * @returns The inferred field type
+ *
+ * @internal
  */
 function inferFieldType(values: string[]): FieldSchema["type"] {
   const sample = values.slice(0, 100);
@@ -73,7 +98,13 @@ function inferFieldType(values: string[]): FieldSchema["type"] {
 }
 
 /**
- * Convert string value to appropriate type
+ * Convert string value to appropriate type based on schema
+ *
+ * @param value - String value to convert
+ * @param type - Target type for conversion
+ * @returns Converted value
+ *
+ * @internal
  */
 function convertValue(
   value: string,
@@ -86,6 +117,26 @@ function convertValue(
 
 /**
  * CSV data connector
+ *
+ * @remarks
+ * Fetches CSV data from a URL and parses it into structured data.
+ * Supports automatic type inference for numeric and date fields.
+ *
+ * @example
+ * ```typescript
+ * import { csvConnector } from "@vizualni/connectors";
+ *
+ * const result = await csvConnector.fetch({
+ *   url: "https://example.com/data.csv",
+ *   delimiter: ",",
+ *   header: true,
+ * });
+ *
+ * console.log(result.data);    // Array of parsed records
+ * console.log(result.schema);  // Inferred field types
+ * ```
+ *
+ * @public
  */
 export const csvConnector: DataConnector<CsvConfig> = {
   type: "csv",
@@ -93,16 +144,33 @@ export const csvConnector: DataConnector<CsvConfig> = {
   async fetch(config: CsvConfig): Promise<ConnectorResult> {
     const { url, delimiter = ",", header = true } = config;
 
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch CSV: ${response.status} ${response.statusText}`
+    // Validate configuration
+    if (!url || url.trim() === "") {
+      throw new ConnectorValidationError(
+        url || "",
+        "url",
+        "URL cannot be empty"
       );
     }
 
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new ConnectorFetchError(url, response.status, response.statusText);
+    }
+
     const text = await response.text();
-    const rows = parseCsv(text, delimiter);
+
+    let rows: string[][];
+    try {
+      rows = parseCsv(text, delimiter);
+    } catch (error) {
+      if (error instanceof ConnectorParseError) {
+        // Re-throw with the actual URL
+        throw new ConnectorParseError(url, error.reason, { cause: error });
+      }
+      throw error;
+    }
 
     if (rows.length === 0) {
       return { data: [], schema: { fields: [] } };

@@ -1085,7 +1085,7 @@ const chartConfigOptionsUISpec = {
     interactiveFilters: ["legend", "animation"],
   },
   table: {
-    // TODO: Add abbreviations here.
+    // Note: Abbreviations could be added for table chart type
     chartType: "table",
     encodings: [],
     interactiveFilters: [],
@@ -1097,7 +1097,7 @@ const chartConfigOptionsUISpec = {
         idAttributes: ["componentIds"],
         field: "y",
         optional: false,
-        // TODO: maybe we should even create the components here?
+        // Note: Components could be created here for consistency
         customComponent: true,
         componentTypes: ["NumericalMeasure"],
         filters: false,

@@ -1,7 +1,7 @@
 import { Trans } from "@lingui/macro";
 
 import { RadioGroup } from "@/components/form";
-import { MaybeTooltip } from "@/components/ui/tooltips";
+import { Tooltip } from "@/components/ui/tooltips";
 import {
   ControlSection,
   ControlSectionContent,
@@ -44,8 +44,9 @@ export const CalculationField = ({
         </RadioGroup>
         <ChartOptionSwitchField
           label={
-            <MaybeTooltip
-              tooltipProps={{ enterDelay: 600 }}
+            <Tooltip
+              variant="conditional"
+              enterDelay={600}
               title={
                 <Trans id="controls.filters.interactive.calculation">
                   Allow users to change chart mode
@@ -57,7 +58,7 @@ export const CalculationField = ({
                   Interactive
                 </Trans>
               </div>
-            </MaybeTooltip>
+            </Tooltip>
           }
           field={null}
           path="interactiveFiltersConfig.calculation.active"

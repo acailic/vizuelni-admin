@@ -9,8 +9,7 @@ import {
 } from "@/charts";
 import { Flex } from "@/components/flex";
 import { HintError } from "@/components/hint";
-import { InfoIconTooltip } from "@/components/ui/tooltips";
-import { MaybeTooltip } from "@/components/ui/tooltips";
+import { Tooltip } from "@/components/ui/tooltips";
 import { ChartType } from "@/config-types";
 import { getChartConfig } from "@/config-utils";
 import { ControlSectionSkeleton } from "@/configurator/components/chart-controls/section";
@@ -185,7 +184,9 @@ const ChartTypeSelectorMenu = ({
         }}
       >
         {title}
-        {titleHint && <InfoIconTooltip title={titleHint} size={16} />}
+        {titleHint && (
+          <Tooltip variant="info-icon" title={titleHint} size={16} />
+        )}
       </Typography>
       <Box
         data-testid={testId}
@@ -201,10 +202,11 @@ const ChartTypeSelectorMenu = ({
           const { enabled, message } = possibleChartTypesDict[chartTypeKey];
 
           return (
-            <MaybeTooltip
+            <Tooltip
+              variant="conditional"
               key={chartType}
               title={!enabled && message ? message : undefined}
-              tooltipProps={{ placement: "right" }}
+              placement="right"
             >
               <div>
                 <IconButton
@@ -217,7 +219,7 @@ const ChartTypeSelectorMenu = ({
                   onClick={onClick}
                 />
               </div>
-            </MaybeTooltip>
+            </Tooltip>
           );
         })}
       </Box>

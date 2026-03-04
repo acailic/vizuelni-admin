@@ -17,11 +17,11 @@ import { describe, expect, it, vi } from "vitest";
 import { PieChart } from "../../../exports/charts/PieChart";
 
 // Polyfill ResizeObserver for jsdom
-global.ResizeObserver = vi.fn().mockImplementation(() => ({
-  observe: vi.fn(),
-  unobserve: vi.fn(),
-  disconnect: vi.fn(),
-}));
+global.ResizeObserver = vi.fn().mockImplementation(function () {
+  this.observe = vi.fn();
+  this.unobserve = vi.fn();
+  this.disconnect = vi.fn();
+});
 
 describe("PieChart", () => {
   const mockData = [

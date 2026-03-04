@@ -179,7 +179,7 @@ export const dataCubeDimensionGeoShapes: NonNullable<
   };
 };
 
-// TODO: could be refactored to not fetch the whole cube shape.
+// Note: Currently fetches whole cube shape; could be optimized to fetch only needed dimensions
 const getResolvedDimension = async (
   iri: string,
   options: {

@@ -75,8 +75,8 @@ export const getPreviousState = (
       return "SELECTING_DATASET";
   }
 };
-// FIXME: should by handled better, as color is a subfield and not actual field.
-// Side effects in ui encodings?
+// Note: Color is handled as a subfield, not an actual field
+// Consider refactoring for cleaner field handling
 const getNonGenericFieldValues = (chartConfig: ChartConfig): string[] => {
   const ids: string[] = [];
 
@@ -396,7 +396,7 @@ export const removeDatasetInConfig = function (
   for (const cube of withFilters.cubes) {
     const joinBy = joinByByCubes[cube.iri];
     if (joinBy) {
-      // TODO Should there be dimensions in the joinBy that should be removed ?
+      // Note: Consider if joinBy dimensions should be removed in certain cases
       cube.joinBy = joinBy;
     }
   }

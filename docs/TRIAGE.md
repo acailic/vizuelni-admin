@@ -254,7 +254,7 @@ docs/  @acailic
 
 # Build and packaging
 app/package.json  @acailic
-rollup.config.js  @acailic
+scripts/build-embed.js  @acailic
 ```
 
 ### Manual Assignment Guidelines

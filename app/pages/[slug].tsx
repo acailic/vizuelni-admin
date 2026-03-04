@@ -8,12 +8,10 @@ import { staticPages } from "@/static-pages";
 const { defaultLocale, locales } = localesConfig;
 
 /**
- * TODO: this page can be combined with index.tsx into [[...slug]].tsx,
- * once these issues are resolved:
- *
+ * Note: This page could be combined with index.tsx into [[...slug]].tsx
+ * once these Next.js issues are resolved:
  * - https://github.com/vercel/next.js/issues/19934
  * - https://github.com/vercel/next.js/issues/19950
- *
  */
 
 interface ContentPageProps {
@@ -96,7 +94,7 @@ export const getStaticProps: GetStaticProps<ContentPageProps> = async ({
   ];
   const path = candidates.find((p) => staticPages[p]);
 
-  // FIXME: this check should not be needed when fallback: false can be used
+  // Note: Extra check needed until fallback: false is fully supported
   const pageExists = !!path && !!staticPages[path];
 
   if (!pageExists) {

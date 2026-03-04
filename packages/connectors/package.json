@@ -1,6 +1,6 @@
 {
   "name": "@vizualni/connectors",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.0-beta.1",
   "description": "Data connectors for @vizualni - CSV, JSON, and custom data sources",
   "type": "module",
   "license": "MIT",
@@ -37,7 +37,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@vizualni/core": "^0.1.0-alpha.0"
+    "@vizualni/core": "^0.1.0-beta.1"
   },
   "devDependencies": {
     "tsup": "^8.0.0",

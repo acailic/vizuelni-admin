@@ -1,16 +1,16 @@
 import * as React from "react";
-function SvgIcItalic(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      width="1em"
-      height="1em"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path d="M11.44 18H10l2.56-12H14l-2.56 12z" fill="currentColor" />
-    </svg>
-  );
-}
+
+import type { SVGProps } from "react";
+const SvgIcItalic = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="1em"
+    height="1em"
+    fill="none"
+    viewBox="0 0 24 24"
+    {...props}
+  >
+    <path fill="currentColor" d="M11.44 18H10l2.56-12H14z" />
+  </svg>
+);
 export default SvgIcItalic;

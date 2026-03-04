@@ -1,7 +1,18 @@
+/**
+ * @vizualni/core - Config
+ *
+ * Chart configuration schemas and types using Zod for runtime validation.
+ *
+ * @module config
+ * @public
+ */
+
 import { z } from "zod";
 
 /**
- * Encoding field schema (x, y, segment, etc.)
+ * Encoding field schema (x, y, segment, etc.).
+ *
+ * @internal
  */
 const EncodingFieldSchema = z.object({
   /** Field name in data */
@@ -14,10 +25,17 @@ const EncodingFieldSchema = z.object({
   format: z.string().optional(),
 });
 
+/**
+ * Encoding field configuration.
+ *
+ * @public
+ */
 export type EncodingField = z.infer<typeof EncodingFieldSchema>;
 
 /**
- * Line chart configuration
+ * Line chart configuration schema.
+ *
+ * @internal
  */
 export const LineChartConfigSchema = z.object({
   type: z.literal("line"),
@@ -30,10 +48,17 @@ export const LineChartConfigSchema = z.object({
   curve: z.enum(["linear", "step", "cardinal", "monotone"]).optional(),
 });
 
+/**
+ * Line chart configuration.
+ *
+ * @public
+ */
 export type LineChartConfig = z.infer<typeof LineChartConfigSchema>;
 
 /**
- * Bar chart configuration
+ * Bar chart configuration schema.
+ *
+ * @internal
  */
 export const BarChartConfigSchema = z.object({
   type: z.literal("bar"),
@@ -49,10 +74,17 @@ export const BarChartConfigSchema = z.object({
   stack: z.enum(["none", "stacked", "grouped"]).optional().default("none"),
 });
 
+/**
+ * Bar chart configuration.
+ *
+ * @public
+ */
 export type BarChartConfig = z.infer<typeof BarChartConfigSchema>;
 
 /**
- * Pie chart configuration
+ * Pie chart configuration schema.
+ *
+ * @internal
  */
 export const PieConfigSchema = z.object({
   type: z.literal("pie"),
@@ -62,10 +94,17 @@ export const PieConfigSchema = z.object({
   innerRadius: z.number().min(0).max(1).optional(),
 });
 
+/**
+ * Pie chart configuration.
+ *
+ * @public
+ */
 export type PieConfig = z.infer<typeof PieConfigSchema>;
 
 /**
- * Union of all chart configuration types
+ * Union of all chart configuration schemas.
+ *
+ * @internal
  */
 export const ChartConfigSchema = z.discriminatedUnion("type", [
   LineChartConfigSchema,
@@ -73,4 +112,9 @@ export const ChartConfigSchema = z.discriminatedUnion("type", [
   PieConfigSchema,
 ]);
 
+/**
+ * Union of all chart configuration types.
+ *
+ * @public
+ */
 export type ChartConfig = z.infer<typeof ChartConfigSchema>;

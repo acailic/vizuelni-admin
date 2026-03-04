@@ -1,3 +1,11 @@
+/**
+ * @vizualni/core - Chart
+ *
+ * Main chart computation API - the primary entry point for the library.
+ *
+ * @module chart
+ */
+
 import type { Datum, Shape, Margins } from "../types";
 import type { ChartConfig } from "../config";
 import type { Scales, ComputeScalesOptions } from "../scales";
@@ -6,6 +14,11 @@ import { computeScales } from "../scales";
 import { computeLayout } from "../layout";
 import { computeShapes } from "../shapes";
 
+/**
+ * Options for computing a chart.
+ *
+ * @public
+ */
 export interface ChartOptions {
   /** Chart width in pixels */
   width: number;
@@ -15,6 +28,11 @@ export interface ChartOptions {
   margins?: ComputeLayoutOptions["margins"];
 }
 
+/**
+ * Result of chart computation containing all rendering data.
+ *
+ * @public
+ */
 export interface ChartResult {
   /** Computed scales for the chart */
   scales: Scales;
@@ -32,6 +50,8 @@ export interface ChartResult {
  * @param config - Chart configuration
  * @param options - Chart dimensions and options
  * @returns Scales, layout, and shapes ready for rendering
+ *
+ * @public
  *
  * @example
  * ```typescript

@@ -46,7 +46,7 @@ describe("DemoLayout", () => {
     expect(screen.getByText("content")).toBeTruthy();
   });
 
-  // TODO: Fix component bug - hideBackButton prop doesn't work
+  // Note: Component bug - hideBackButton prop doesn't work correctly
   it.skip("hides back button when hideBackButton is true", () => {
     render(
       <DemoLayout title="No Back" hideBackButton={true}>

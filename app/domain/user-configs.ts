@@ -40,7 +40,7 @@ export const useUserConfigs = (
 
 export const useUserConfig = (
   chartId: string | undefined,
-  options?: UseFetchDataOptions
+  options?: UseFetchDataOptions<ParsedConfigWithViewCount | undefined>
 ) => {
   const queryFn = useCallback(async () => {
     const [config, viewCount] = await Promise.all([
@@ -55,10 +55,10 @@ export const useUserConfig = (
     return {
       ...config,
       viewCount,
-    };
+    } as ParsedConfigWithViewCount;
   }, [chartId]);
 
-  const result = useFetchData({
+  const result = useFetchData<ParsedConfigWithViewCount | undefined>({
     queryKey: userConfigKey(chartId!),
     queryFn,
     options: {

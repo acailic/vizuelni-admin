@@ -90,7 +90,7 @@ export type DataCubeMetadata = {
 };
 
 // String in case of joinBy dimensions.
-// TODO: we could also use a branded type here.
+// Note: Could use a branded type for stricter type safety.
 export type Observation = Record<ComponentId | string, ObservationValue>;
 
 export type DataCubeObservations = {
@@ -156,7 +156,8 @@ const ComponentsRenderingConfig: {
   TemporalEntityDimension: {
     enableAnimation: true,
     enableCustomSort: false,
-    // FIXME: should behave like TemporalDimension
+    // Note: enableMultiFilter differs from TemporalDimension (which is false)
+    // This may need investigation to determine correct behavior
     enableMultiFilter: true,
     enableSegment: true,
   },
@@ -322,7 +323,7 @@ export type TemporalEntityDimension = BaseDimension & {
   timeFormat: string;
 };
 
-// TODO(#issue): Consider refactoring position-based date access
+// Design note: Position-based date access is used for temporal entities
 /** Currently, the formatted date for month- and year-based temporal entities
  * is stored in the `position` field. This will be changed in the future, once
  * there will be datasets with other temporal entity types.

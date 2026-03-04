@@ -90,7 +90,7 @@ export const SortingField = ({
     DEFAULT_SORTING["sortingType"]
   );
 
-  // FIXME: Remove this once it's properly encoded in chart-config-ui-options
+  // Note: Sorting order options should be encoded in chart-config-ui-options
   const sortingOrderOptions = sortingOptions.find(
     (o: EncodingSortingOptionLike) => o.sortingType === activeSortingType
   )?.sortingOrder;

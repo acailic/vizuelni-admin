@@ -1,3 +1,11 @@
+/**
+ * @vizualni/core - Shapes
+ *
+ * Shape computation for chart rendering instructions.
+ *
+ * @module shapes
+ */
+
 import { line, pie, arc } from "d3-shape";
 import type { PieArcDatum } from "d3-shape";
 import type { ScaleBand } from "d3-scale";
@@ -7,13 +15,35 @@ import type { Scales } from "../scales";
 import type { Layout } from "../layout";
 import { getDefaultColor } from "../utils/colors";
 
+/**
+ * Options for computing shapes.
+ *
+ * @public
+ */
 export interface ComputeShapesOptions {
   scales: Scales;
   layout: Layout;
 }
 
 /**
- * Computes shape rendering instructions for a chart
+ * Computes shape rendering instructions for a chart.
+ *
+ * @param data - Array of data points
+ * @param config - Chart configuration
+ * @param options - Computed scales and layout
+ * @returns Array of shape objects ready for rendering
+ *
+ * @public
+ *
+ * @example
+ * ```typescript
+ * const shapes = computeShapes(data, config, { scales, layout });
+ * shapes.forEach(shape => {
+ *   if (shape.type === 'bar') {
+ *     // render rectangle at (shape.x, shape.y)
+ *   }
+ * });
+ * ```
  */
 export function computeShapes(
   data: Datum[],
@@ -37,6 +67,11 @@ export function computeShapes(
   return [];
 }
 
+/**
+ * Computes shapes for line charts.
+ *
+ * @internal
+ */
 function computeLineShapes(
   data: Datum[],
   config: Extract<ChartConfig, { type: "line" }>,
@@ -88,6 +123,11 @@ function computeLineShapes(
   return shapes;
 }
 
+/**
+ * Computes SVG path for a line.
+ *
+ * @internal
+ */
 function computeLinePath(
   data: Datum[],
   config: Extract<ChartConfig, { type: "line" }>,
@@ -123,6 +163,11 @@ function computeLinePath(
   return lineGenerator(sortedData) ?? "";
 }
 
+/**
+ * Computes shapes for bar charts.
+ *
+ * @internal
+ */
 function computeBarShapes(
   data: Datum[],
   config: Extract<ChartConfig, { type: "bar" }>,
@@ -180,6 +225,11 @@ function computeBarShapes(
   return shapes;
 }
 
+/**
+ * Computes shapes for pie charts.
+ *
+ * @internal
+ */
 function computePieShapes(
   data: Datum[],
   config: Extract<ChartConfig, { type: "pie" }>,

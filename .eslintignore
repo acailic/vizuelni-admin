@@ -1,4 +1,3 @@
-/rollup.config.js
 # Generated files
 /app/public/dist/*
 app/public/storybook/**

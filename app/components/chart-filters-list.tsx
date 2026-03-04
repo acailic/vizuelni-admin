@@ -50,7 +50,7 @@ export const ChartFiltersList = ({
   const cubeQueryFilters = useMemo(() => {
     return queryFilters.filter((d) => d.iri === cubeIri);
   }, [queryFilters, cubeIri]);
-  // TODO: Refactor to somehow access current filter labels instead of fetching them again
+  // Note: Could be refactored to access current filter labels without re-fetching
   const [{ data, fetching }] = useDataCubesComponentsQuery({
     chartConfig,
     variables: {

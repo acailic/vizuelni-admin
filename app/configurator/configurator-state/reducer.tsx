@@ -221,8 +221,7 @@ export const applyTableDimensionToFilters = (props: {
   } else if (shouldBecomeSingleFilter && dimension.isKeyDimension) {
     filters[originalIri] = {
       type: "single",
-      // TODO, possibly in case of join by dimensions, we could get a value that is not part
-      // of the full range of values
+      // Note: For join-by dimensions, value might not be in full range
       value: possibleFilter?.value ?? dimension.values[0].value,
     };
   }

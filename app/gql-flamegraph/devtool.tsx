@@ -39,7 +39,7 @@ import { Exchange, Operation, OperationResult } from "urql";
 import { pipe, tap } from "wonka";
 
 import { Switch } from "@/components/form";
-import { MaybeTooltip } from "@/components/ui/tooltips";
+import { Tooltip } from "@/components/ui/tooltips";
 import { useDisclosure } from "@/components/use-disclosure";
 import { flag, useFlag, useFlags } from "@/flags";
 import { FlagName, FLAGS } from "@/flags/types";
@@ -574,7 +574,8 @@ const FlagSwitch = ({ flagName }: { flagName: FlagName }) => {
   });
 
   return (
-    <MaybeTooltip
+    <Tooltip
+      variant="conditional"
       title={
         isTextFlag ? "This flag can only be set through the URL" : undefined
       }
@@ -587,6 +588,6 @@ const FlagSwitch = ({ flagName }: { flagName: FlagName }) => {
           onChange={handleChange}
         />
       </div>
-    </MaybeTooltip>
+    </Tooltip>
   );
 };

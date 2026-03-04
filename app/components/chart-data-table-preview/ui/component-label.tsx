@@ -2,7 +2,7 @@ import { TooltipProps, Typography } from "@mui/material";
 
 import { getLabelWithUnit } from "@/charts/shared/chart-helpers";
 import { OpenMetadataPanelWrapper } from "@/components/metadata-panel";
-import { MaybeTooltip } from "@/components/ui/tooltips";
+import { Tooltip } from "@/components/ui/tooltips";
 import { Component } from "@/domain/data";
 
 export const ComponentLabel = ({
@@ -19,11 +19,15 @@ export const ComponentLabel = ({
       <ComponentLabelInner component={component} />
     </OpenMetadataPanelWrapper>
   ) : component.description ? (
-    <MaybeTooltip title={component.description} tooltipProps={tooltipProps}>
+    <Tooltip
+      variant="conditional"
+      title={component.description}
+      {...tooltipProps}
+    >
       <div>
         <ComponentLabelInner component={component} />
       </div>
-    </MaybeTooltip>
+    </Tooltip>
   ) : (
     <ComponentLabelInner component={component} />
   );

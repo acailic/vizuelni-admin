@@ -3,9 +3,8 @@ import { HierarchyValue } from "@/domain/data";
 const IGNORE = {};
 
 /**
- * TODO check if can be deduplicated with visitHierarchy
- * ⚠️ visitHierarchy is a depth-first-search while we have
- * a bread-first-search here.
+ * Note: This BFS implementation differs from visitHierarchy (which is DFS).
+ * Keep both as they serve different traversal needs.
  */
 export const bfs = function <T extends unknown>(
   tree: HierarchyValue[],

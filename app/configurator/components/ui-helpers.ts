@@ -31,7 +31,7 @@ import { IconName } from "@/icons";
 import { getTimeInterval } from "@/intervals";
 import { getPalette } from "@/palettes";
 
-// FIXME: We should cover more time formats
+// Note: Additional time formats could be added as needed
 export const timeUnitToParser: Record<
   TimeUnit,
   (dateStr: string) => Date | null

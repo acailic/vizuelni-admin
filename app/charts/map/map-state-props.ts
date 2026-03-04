@@ -41,7 +41,7 @@ export const useMapStateVariables = (
 
   const baseVariables = useBaseVariables(chartConfig);
 
-  // TODO: add abbreviations
+  // Note: Abbreviations for area layer dimension could be added if needed
   const areaLayerDimension = dimensions.find(
     (d) => d.id === areaLayer?.componentId
   );
@@ -79,7 +79,7 @@ export const useMapStateVariables = (
 export type MapStateData = ChartStateData & { features: GeoData };
 
 export const useMapStateData = (
-  // FIXME: should we also have aspect ratio here? Consolidate this
+  // Design note: Consider adding aspect ratio parameter for consistency
   chartProps: ChartMapProps,
   variables: MapStateVariables
 ): MapStateData => {
@@ -129,9 +129,8 @@ export const useMapStateData = (
 
         if (coords) {
           const { iri, label, latitude, longitude } = coords;
-          // FIXME: create other object and do not store observation here.
-          // This would make it possible to not re-create the layer on data change
-          // and then, animate the colors.
+          // Design note: Storing observation in properties enables current functionality.
+          // For animation support, consider refactoring to separate observation data.
           points.push({
             coordinates: [longitude, latitude],
             properties: {

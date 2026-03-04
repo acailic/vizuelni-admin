@@ -15,8 +15,8 @@ import { useEvent } from "@/utils/use-event";
  *
  * It will persist/recover this state from the URL if `syncWithUrl` is true.
  *
- * TODO(#issue): Consider using a zustand store where persistency is controlled
- * via syncWithUrl. It would be more explicit and easier to understand.
+ * Architecture note: Could use a zustand store where persistency is controlled
+ * via syncWithUrl for more explicit state management.
  */
 export const createUseBrowseState = ({
   syncWithUrl,

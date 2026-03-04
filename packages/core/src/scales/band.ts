@@ -1,5 +1,18 @@
+/**
+ * @vizualni/core - Band Scale
+ *
+ * Band scale factory for categorical data.
+ *
+ * @module scales/band
+ */
+
 import { scaleBand } from "d3-scale";
 
+/**
+ * Options for creating a band scale.
+ *
+ * @public
+ */
 export interface BandScaleOptions {
   /** Input domain (categories) */
   domain: string[];
@@ -16,7 +29,23 @@ export interface BandScaleOptions {
 }
 
 /**
- * Creates a band scale for categorical data
+ * Creates a band scale for categorical data.
+ *
+ * @param options - Scale configuration options
+ * @returns D3 band scale function
+ *
+ * @public
+ *
+ * @example
+ * ```typescript
+ * const scale = createBandScale({
+ *   domain: ['A', 'B', 'C'],
+ *   range: [0, 100],
+ *   padding: 0.2
+ * });
+ * scale('A'); // 0
+ * scale.bandwidth(); // bar width
+ * ```
  */
 export function createBandScale(options: BandScaleOptions) {
   const {

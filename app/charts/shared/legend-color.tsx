@@ -11,7 +11,7 @@ import { getLegendGroups } from "@/charts/shared/legend-color-helpers";
 import { Flex } from "@/components/flex";
 import { Checkbox, CheckboxProps } from "@/components/form";
 import { OpenMetadataPanelWrapper } from "@/components/metadata-panel";
-import { MaybeTooltip } from "@/components/ui/tooltips";
+import { Tooltip } from "@/components/ui/tooltips";
 import { Limit as ConfigLimit } from "@/config-types";
 import { useChartConfigFilters } from "@/config-utils";
 import {
@@ -520,7 +520,8 @@ export const LegendItem = ({
   );
 
   return interactive && onToggle ? (
-    <MaybeTooltip
+    <Tooltip
+      variant="conditional"
       title={
         disabled
           ? t({
@@ -541,7 +542,7 @@ export const LegendItem = ({
           size={smaller ? "sm" : "md"}
         />
       </div>
-    </MaybeTooltip>
+    </Tooltip>
   ) : (
     <Flex
       data-testid="legendItem"

@@ -13,7 +13,7 @@ import {
   RemoteWMTSLayer,
 } from "@/charts/map/wmts-utils";
 import { Error, InlineLoading } from "@/components/hint";
-import { InfoIconTooltip } from "@/components/ui/tooltips";
+import { Tooltip } from "@/components/ui/tooltips";
 import {
   BaseLayer,
   MapConfig,
@@ -102,7 +102,8 @@ export const MapCustomLayersLegend = ({
                   {layer.title} {layerValue ? `(${layerValue})` : ""}
                 </Typography>
                 {layer.description ? (
-                  <InfoIconTooltip
+                  <Tooltip
+                    variant="info-icon"
                     title={
                       <Box
                         sx={{

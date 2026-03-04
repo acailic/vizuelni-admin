@@ -11,7 +11,7 @@ import { useBrowseContext } from "@/browse/model/context";
 import { NavigationSection } from "@/browse/ui/navigation-section";
 import { SubthemeFilters } from "@/browse/ui/subtheme-filters";
 import { Flex } from "@/components/flex";
-import { InfoIconTooltip } from "@/components/ui/tooltips";
+import { Tooltip } from "@/components/ui/tooltips";
 import { truthy } from "@/domain/types";
 import {
   DataCubeOrganization,
@@ -192,7 +192,8 @@ export const SearchFilters = ({
             width="100%"
           >
             <Trans id="browse-panel.termsets">Concepts</Trans>
-            <InfoIconTooltip
+            <Tooltip
+              variant="info-icon"
               title={
                 <Trans id="browse-panel.termsets.explanation">
                   Concepts represent values that can be shared across different

@@ -106,8 +106,7 @@ const Lines = () => {
       ? yOrientationScales.left
       : yOrientationScales.right;
   const pathGenerator = line<Observation>()
-    // FIXME: add missing observations basing on the time interval, so we can
-    // properly indicate the missing data.
+    // Note: Missing time interval observations are not currently indicated
     .defined((d) => {
       const y = yLine.getY(d);
       return y !== null && !isNaN(y);

@@ -341,7 +341,7 @@ describe("DashboardInteractiveFilters", () => {
   });
 
   it("should maintain accessibility compliance", async () => {
-    // TODO: Fix axe accessibility testing setup
+    // Note: Axe accessibility testing needs setup
     // const { axe } = await import("jest-axe");
     const onFiltersChange = vi.fn();
 

@@ -27,7 +27,7 @@ export const getTimeFilterOptions = ({
 
   for (const dimensionValue of [
     ...dimension.values,
-    // TODO: could be improved to be scoped to only currently activated limits
+    // Note: Could be scoped to only currently activated limits for efficiency
     ...dimension.relatedLimitValues,
   ]) {
     let value: DimensionValue["value"];
@@ -48,8 +48,7 @@ export const getTimeFilterOptions = ({
 
     if (date) {
       options.push({
-        // By formatting the date, we remove potential timezone.
-        // FIXME: This might lead to issues with SPARQL filtering.
+        // Note: Formatting removes timezone info, which may affect SPARQL filtering
         value: formatDate(date),
         label: timeFormatUnit(date, timeUnit),
         date,

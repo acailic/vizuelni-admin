@@ -958,7 +958,7 @@ export type MapColorField =
 
 const MapAreaLayer = t.type({
   componentId: t.string,
-  // FIXME: convert to new color field type
+  // Note: Consider converting to single color field type for consistency
   color: t.union([CategoricalColorField, NumericalColorField]),
 });
 export type MapAreaLayer = t.TypeOf<typeof MapAreaLayer>;
@@ -967,7 +967,7 @@ const MapSymbolLayer = t.type({
   componentId: t.string,
   /** Symbol radius (size) */
   measureId: t.string,
-  // FIXME: convert to new color field type
+  // Note: Consider converting to single color field type for consistency
   color: t.union([FixedColorField, CategoricalColorField, NumericalColorField]),
 });
 export type MapSymbolLayer = t.TypeOf<typeof MapSymbolLayer>;

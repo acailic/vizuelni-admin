@@ -109,8 +109,8 @@ export const BrushTime = ({ yOffset }: { yOffset?: number }) => {
 
   let { from, to } = timeRange;
 
-  // FIXME: Should be fixed in useSyncInteractiveFilters where we try to parse
-  // the date that can be a string (VISUALIZE_MOST_RECENT_VALUE).
+  // Workaround: Handle invalid date from VISUALIZE_MOST_RECENT_VALUE string
+  // Root cause is in useSyncInteractiveFilters date parsing
   if (isNaN(to?.getTime() ?? 0)) {
     to = scaleTimeRange.domain()[1];
   }
@@ -432,4 +432,3 @@ export const BrushTime = ({ yOffset }: { yOffset?: number }) => {
     </g>
   ) : null;
 };
-

@@ -559,7 +559,8 @@ const buildFilters = async ({
         return [];
       }
 
-      // FIXME: Adding this dimension will make the query return nothing for dimensions that don't have it (no way to make it optional)
+      // Known limitation: Adding this dimension will make the query return nothing
+      // for dimensions that don't have it (no way to make it optional in current API)
 
       /**
        * When dealing with a versioned dimension, the value provided from the config is unversioned

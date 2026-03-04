@@ -167,7 +167,7 @@ export const TableColumnOptions = ({
 
   const activeFieldComponentId = chartConfig.fields[activeField]?.componentId;
   // It's a dimension which is not mapped to an encoding field, so we show the filter!
-  // FIXME: activeField and encodingField should match? to remove type assertion
+  // Note: activeField and encodingField should ideally match to avoid type assertion
   if (!activeFieldComponentId) {
     return null;
   }

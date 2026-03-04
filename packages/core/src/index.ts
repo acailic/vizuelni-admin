@@ -1,3 +1,11 @@
+/**
+ * @vizualni/core
+ *
+ * Framework-agnostic visualization library providing core scales, layouts, and shapes.
+ *
+ * @packageDocumentation
+ */
+
 // Types
 export * from "./types";
 

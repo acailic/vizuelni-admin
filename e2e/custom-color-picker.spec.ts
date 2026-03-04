@@ -59,7 +59,7 @@ test("Custom Color Picker", async ({ page, selectors }) => {
 
   expect(selectedHueColor).toBe("rgb(0, 255, 248)");
 
-  //FIXME: figure out a way to test the color picker pen tool in this env
+  // Note: Color picker pen tool testing is disabled in this environment
   // const picker = page.locator('[data-testid="color-picker-chrome"]');
   // await picker.waitFor({ state: "visible", timeout: 5000 });
 

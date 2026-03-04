@@ -10,20 +10,71 @@ import {
   type Rect,
 } from "@vizualni/core";
 
+/**
+ * Options for the useChart hook.
+ *
+ * Controls the dimensions and margins of the chart rendering area.
+ */
 export interface UseChartOptions {
+  /**
+   * Total width of the chart in pixels.
+   * This includes the chart area plus margins.
+   */
   width: number;
+
+  /**
+   * Total height of the chart in pixels.
+   * This includes the chart area plus margins.
+   */
   height: number;
+
+  /**
+   * Optional custom margins to override defaults.
+   * Default margins are: { top: 30, right: 30, bottom: 50, left: 60 }
+   *
+   * @example
+   * ```tsx
+   * const options = {
+   *   width: 600,
+   *   height: 400,
+   *   margins: { top: 20, left: 80 }, // Override only some margins
+   * };
+   * ```
+   */
   margins?: Partial<Margins>;
 }
 
+/**
+ * Result returned by the useChart hook.
+ *
+ * Contains all computed values needed to render a chart.
+ */
 export interface ChartResult {
+  /**
+   * Computed D3 scales for X, Y, and optionally color.
+   * Use these scales to position data points within the chart area.
+   */
   scales: Scales;
+
+  /**
+   * Computed layout dimensions including chart area and margins.
+   * Use these to position axes, legends, and other chart elements.
+   */
   layout: Layout;
-  /** Error if data validation failed */
+
+  /**
+   * Error message if data validation failed.
+   * When this is set, the scales may contain dummy values.
+   * Check this before rendering data-dependent elements.
+   */
   error?: string;
 }
 
-/** Default margins for charts */
+/**
+ * @internal
+ * Default margins for charts.
+ * Can be overridden via UseChartOptions.margins.
+ */
 const DEFAULT_MARGINS: Margins = {
   top: 30,
   right: 30,
@@ -32,7 +83,9 @@ const DEFAULT_MARGINS: Margins = {
 };
 
 /**
- * Validates that required fields exist in data
+ * @internal
+ * Validates that required fields exist in data.
+ * Returns an error message if validation fails.
  */
 function validateData(
   data: Datum[],
@@ -67,8 +120,51 @@ function validateData(
 }
 
 /**
- * Headless hook that computes chart scales and layout
- * @template TConfig - The specific chart config type (e.g., LineChartConfig, BarChartConfig)
+ * Headless hook that computes chart scales and layout.
+ *
+ * This is the core hook for building custom chart components.
+ * It handles all the computational heavy lifting:
+ * - Scale computation based on data and config
+ * - Layout calculation with proper margins
+ * - Data validation with error handling
+ *
+ * The hook is designed to be used with any chart type that
+ * conforms to the ChartConfig interface.
+ *
+ * @typeParam TConfig - The specific chart config type (e.g., LineChartConfig, BarChartConfig)
+ *
+ * @param data - Array of data points to visualize
+ * @param config - Chart configuration defining scales and mappings
+ * @param options - Chart dimensions and margin options
+ *
+ * @returns ChartResult containing scales, layout, and optional error
+ *
+ * @example
+ * ```tsx
+ * import { useChart } from "@vizualni/react";
+ * import type { LineChartConfig } from "@vizualni/core";
+ *
+ * function CustomLineChart({ data, config, width, height }: Props) {
+ *   const { scales, layout, error } = useChart(data, config, { width, height });
+ *
+ *   if (error) {
+ *     return <div>Error: {error}</div>;
+ *   }
+ *
+ *   // Use scales and layout to render custom chart
+ *   return (
+ *     <svg width={width} height={height}>
+ *       <g transform={`translate(${layout.chartArea.x}, ${layout.chartArea.y})`}>
+ *         {/* Custom rendering using scales.x and scales.y *\/}
+ *       </g>
+ *     </svg>
+ *   );
+ * }
+ * ```
+ *
+ * @remarks
+ * The hook memoizes all computations for performance.
+ * It will only recompute when data, config, or dimensions change.
  */
 export function useChart<TConfig extends ChartConfig>(
   data: Datum[],

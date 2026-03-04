@@ -20,7 +20,7 @@ import {
   useMemo,
 } from "react";
 
-import { MaybeTooltip } from "@/components/ui/tooltips";
+import { Tooltip } from "@/components/ui/tooltips";
 import { useDisclosure } from "@/components/use-disclosure";
 import { isConfiguring, isLayouting } from "@/configurator/configurator-state";
 import { Icon, IconName } from "@/icons";
@@ -348,10 +348,10 @@ export const ControlSectionSkeleton = ({
 
 const Warning = ({ title }: { title: string | ReactNode }) => {
   return (
-    <MaybeTooltip title={title}>
+    <Tooltip variant="conditional" title={title}>
       <Typography sx={{ mr: 2, lineHeight: "0 !important" }}>
         <Icon name="warningCircle" />
       </Typography>
-    </MaybeTooltip>
+    </Tooltip>
   );
 };

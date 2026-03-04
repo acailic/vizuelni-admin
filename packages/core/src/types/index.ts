@@ -1,15 +1,30 @@
 /**
- * A single data point - a record of arbitrary values
+ * @vizualni/core - Types
+ *
+ * Core type definitions for the visualization library.
+ *
+ * @module types
+ * @public
+ */
+
+/**
+ * A single data point - a record of arbitrary values.
+ *
+ * @public
  */
 export type Datum = Record<string, unknown>;
 
 /**
- * Field type enumeration
+ * Field type enumeration.
+ *
+ * @public
  */
 export type FieldType = "string" | "number" | "date" | "boolean";
 
 /**
- * Schema for a single field/column
+ * Schema for a single field/column.
+ *
+ * @public
  */
 export interface Field {
   /** Field name/key in data */
@@ -23,14 +38,18 @@ export interface Field {
 }
 
 /**
- * Schema describing data structure
+ * Schema describing data structure.
+ *
+ * @public
  */
 export interface DataSchema {
   fields: Field[];
 }
 
 /**
- * Chart data with schema
+ * Chart data with schema.
+ *
+ * @public
  */
 export interface ChartData {
   /** Array of data records */
@@ -40,7 +59,9 @@ export interface ChartData {
 }
 
 /**
- * Margin dimensions
+ * Margin dimensions.
+ *
+ * @public
  */
 export interface Margins {
   top: number;
@@ -50,7 +71,9 @@ export interface Margins {
 }
 
 /**
- * Rectangle dimensions
+ * Rectangle dimensions.
+ *
+ * @public
  */
 export interface Rect {
   x: number;
@@ -60,7 +83,9 @@ export interface Rect {
 }
 
 /**
- * Chart dimensions
+ * Chart dimensions.
+ *
+ * @public
  */
 export interface Dimensions {
   /** Total width */
@@ -78,7 +103,9 @@ export interface Dimensions {
 // =============================================================================
 
 /**
- * Base properties for all shapes
+ * Base properties for all shapes.
+ *
+ * @public
  */
 export interface BaseShape {
   /** Shape type identifier */
@@ -100,7 +127,9 @@ export interface BaseShape {
 }
 
 /**
- * Line shape for line charts
+ * Line shape for line charts.
+ *
+ * @public
  */
 export interface LineShape extends BaseShape {
   type: "line";
@@ -111,7 +140,9 @@ export interface LineShape extends BaseShape {
 }
 
 /**
- * Bar shape for bar charts
+ * Bar shape for bar charts.
+ *
+ * @public
  */
 export interface BarShape extends BaseShape {
   type: "bar";
@@ -125,7 +156,9 @@ export interface BarShape extends BaseShape {
 }
 
 /**
- * Arc shape for pie/donut charts
+ * Arc shape for pie/donut charts.
+ *
+ * @public
  */
 export interface ArcShape extends BaseShape {
   type: "arc";
@@ -146,7 +179,9 @@ export interface ArcShape extends BaseShape {
 }
 
 /**
- * Dot shape for scatter plots and line chart markers
+ * Dot shape for scatter plots and line chart markers.
+ *
+ * @public
  */
 export interface DotShape extends BaseShape {
   type: "dot";
@@ -159,6 +194,8 @@ export interface DotShape extends BaseShape {
 }
 
 /**
- * Union of all shape types
+ * Union of all shape types.
+ *
+ * @public
  */
 export type Shape = LineShape | BarShape | ArcShape | DotShape;

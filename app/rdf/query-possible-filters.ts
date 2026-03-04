@@ -180,7 +180,7 @@ export const getQueryFilters = async (
         value: isMostRecentValue(filterValue)
           ? await loadMaxDimensionValue(cubeIri, {
               dimensionIri: iri,
-              // TODO: refactor dimension parsing to avoid "mocking" the cubeDimensions
+              // Note: Mocking cubeDimensions structure for dimension parsing
               cubeDimensions: Object.keys(filters).map((iri) => ({
                 path: { value: iri },
                 datatype: isLiteral ? { value: ns.xsd.string } : null,

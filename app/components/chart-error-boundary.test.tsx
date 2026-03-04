@@ -145,7 +145,7 @@ describe("ChartErrorBoundary", () => {
   });
 
   it("should preserve accessibility when error occurs", async () => {
-    // TODO: Fix axe accessibility testing setup
+    // Note: Axe accessibility testing needs setup
     // const { axe } = await import("jest-axe");
 
     render(

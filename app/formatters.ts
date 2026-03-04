@@ -47,7 +47,8 @@ const currencyFormatter = (d: NumericalMeasure) => {
     const formatted = baseFormatter(v);
     const l = formatted.length;
 
-    // TODO Decimal separator should be based on locale
+    // Note: Decimal separator is currently hardcoded to "."
+    // For full i18n support, this should be based on locale
     const dot = formatted.indexOf(".");
 
     let lastSignificantIndex = formatted.length - maxDecimals + minDecimals - 1;

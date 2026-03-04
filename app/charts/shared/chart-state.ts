@@ -1092,7 +1092,7 @@ export const useChartData = (
   };
 };
 
-// TODO: base this on UI encodings?
+// Note: Consider basing on UI encodings for consistency
 export type InteractiveXTimeRangeState = {
   xScaleTimeRange: ScaleTime<number, number>;
 };

@@ -13,7 +13,7 @@ import {
 import { useQueryFilters } from "@/charts/shared/chart-helpers";
 import { Flex } from "@/components/flex";
 import { SelectOption } from "@/components/form";
-import { InfoIconTooltip } from "@/components/ui/tooltips";
+import { Tooltip } from "@/components/ui/tooltips";
 import {
   ChartConfig,
   GenericField,
@@ -437,7 +437,8 @@ const EncodingOptionsPanel = ({
                   defaultValue
                   label={t({ id: "controls.section.show-standard-error" })}
                 />
-                <InfoIconTooltip
+                <Tooltip
+                  variant="info-icon"
                   enterDelay={600}
                   PopperProps={{ sx: { maxWidth: 160 } }}
                   title={
@@ -467,7 +468,8 @@ const EncodingOptionsPanel = ({
                       id: "controls.section.show-confidence-interval",
                     })}
                   />
-                  <InfoIconTooltip
+                  <Tooltip
+                    variant="info-icon"
                     enterDelay={600}
                     PopperProps={{ sx: { maxWidth: 160 } }}
                     title={

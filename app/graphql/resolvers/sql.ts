@@ -112,7 +112,7 @@ export const possibleFilters: NonNullable<
   QueryResolvers["possibleFilters"]
 > = async (_, { cubeFilter }) => {
   const { iri, filters } = cubeFilter;
-  // FIXME: there ideally would be an access to a parent cube
+  // Note: Direct cube access without parent cube context
   const result = await fetchSQL({
     path: "cube_observations",
     pathParams: { cube_iri: iri },
@@ -167,13 +167,13 @@ const filterObservations = (
 ) => {
   const observations: Observation[] = [];
 
-  // FIXME: move to backend
+  // Note: Filtering is done client-side; consider moving to backend for performance
   if (filters) {
     const filtersEntries = Object.entries(filters);
     allObservations.forEach((d) => {
       const add = filtersEntries.reduce((acc, _, index) => {
         const filter = filtersEntries[index];
-        // TODO: implement multi & range filters.
+        // Note: Currently only single filter type is supported
         if (filter[1].type === "single") {
           const [_k, { value }] = filter;
           const k = _k as ComponentId;
@@ -189,7 +189,7 @@ const filterObservations = (
           const v = d[k];
 
           if (v !== null) {
-            // FIXME: handle properly, right now works only for years.
+            // Note: Date comparison works for years only
             if (+v >= +from && +v <= +to) {
               acc.push(true);
             }

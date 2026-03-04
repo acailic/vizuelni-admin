@@ -1,19 +1,19 @@
 import * as React from "react";
-function SvgIcChevronLeft(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      width="1em"
-      height="1em"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M14.716 5.375l-3.85 6.669 3.85 6.669-.649.375L10 12.044 14.067 5l.649.375z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
+
+import type { SVGProps } from "react";
+const SvgIcChevronLeft = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="1em"
+    height="1em"
+    fill="none"
+    viewBox="0 0 24 24"
+    {...props}
+  >
+    <path
+      fill="currentColor"
+      d="m14.716 5.375-3.85 6.669 3.85 6.669-.649.375L10 12.044 14.067 5z"
+    />
+  </svg>
+);
 export default SvgIcChevronLeft;

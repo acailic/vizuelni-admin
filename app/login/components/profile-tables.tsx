@@ -29,7 +29,7 @@ import {
 } from "@/components/publish-actions";
 import { RenameDialog } from "@/components/rename-dialog";
 import { RowActions } from "@/components/row-actions";
-import { OverflowTooltip } from "@/components/ui/tooltips";
+import { Tooltip } from "@/components/ui/tooltips";
 import { useDisclosure } from "@/components/use-disclosure";
 import { CONFIGURATOR_STATE_LAYOUTING } from "@/config-types";
 import { ParsedConfigWithViewCount } from "@/db/config";
@@ -374,7 +374,8 @@ const ProfileVisualizationsRow = ({
           legacyBehavior
         >
           <Link>
-            <OverflowTooltip
+            <Tooltip
+              variant="overflow"
               arrow
               title={<Markdown>{chartTitle}</Markdown>}
               color="primary.main"
@@ -382,7 +383,7 @@ const ProfileVisualizationsRow = ({
               <Typography variant="body2" component="p" noWrap>
                 <InlineMarkdown>{chartTitle}</InlineMarkdown>
               </Typography>
-            </OverflowTooltip>
+            </Tooltip>
           </Link>
         </NextLink>
       </TableCell>
@@ -398,7 +399,8 @@ const ProfileVisualizationsRow = ({
             legacyBehavior
           >
             <Link>
-              <OverflowTooltip
+              <Tooltip
+                variant="overflow"
                 arrow
                 title={data?.dataCubesMetadata[0]?.title ?? ""}
                 color="primary.main"
@@ -406,7 +408,7 @@ const ProfileVisualizationsRow = ({
                 <Typography variant="body2" component="p" noWrap>
                   {data?.dataCubesMetadata[0]?.title ?? ""}
                 </Typography>
-              </OverflowTooltip>
+              </Tooltip>
             </Link>
           </NextLink>
         ) : (

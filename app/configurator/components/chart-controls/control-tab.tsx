@@ -4,7 +4,7 @@ import { makeStyles } from "@mui/styles";
 import { ReactNode } from "react";
 
 import { Flex } from "@/components/flex";
-import { MaybeTooltip } from "@/components/ui/tooltips";
+import { Tooltip } from "@/components/ui/tooltips";
 import {
   ChartConfig,
   FieldProps,
@@ -128,11 +128,11 @@ const WarnIconTooltip = (props: WarnIconTooltipProps) => {
   const iconStyles = useIconStyles({ isActive: false });
 
   return (
-    <MaybeTooltip title={title}>
+    <Tooltip variant="conditional" title={title}>
       <Typography>
         <SvgIcWarningCircle className={iconStyles.warn} />
       </Typography>
-    </MaybeTooltip>
+    </Tooltip>
   );
 };
 

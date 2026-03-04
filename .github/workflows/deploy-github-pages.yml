@@ -76,8 +76,8 @@ jobs:
           yarn run generate-json-schema &
           wait
 
-      - name: Build Rollup bundle
-        run: yarn exec rollup -c rollup.config.js
+      - name: Build embed bundle
+        run: node scripts/build-embed.js
 
       - name: Build static export
         run: |

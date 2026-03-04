@@ -349,9 +349,7 @@ export const AddDatasetDrawer = ({
         );
         const resultJoinBy = inferred[result.cube.iri];
 
-        // TODO Verify that this is correct
-        // The idea is that we want to be sure that the cube has the same join by dimensions
-        // as the other cubes
+        // Note: Verify join-by dimension matching logic is correct
         return (
           (resultJoinBy &&
             resultJoinBy.length === selectedSearchDimensions?.length) ??

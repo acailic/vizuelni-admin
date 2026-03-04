@@ -7,7 +7,7 @@ type AnySourceData = any;
 
 type AnyLayer = MapboxStyle["layers"][number];
 
-// @TODO Find a way to make those guards generic
+// Note: These type guards could be made generic for better type safety
 type HasUrl<T> = T extends { url?: string | undefined } ? T : never;
 function hasUrl(obj: AnySourceData): obj is HasUrl<AnySourceData> {
   return Object.prototype.hasOwnProperty.call(obj, "url");

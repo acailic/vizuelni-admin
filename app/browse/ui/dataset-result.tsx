@@ -17,7 +17,7 @@ import { DateFormat } from "@/browse/ui/date-format";
 import { Flex } from "@/components/flex";
 import { MotionCard, smoothPresenceProps } from "@/components/presence";
 import { Tag } from "@/components/tag";
-import { MaybeTooltip } from "@/components/ui/tooltips";
+import { Tooltip } from "@/components/ui/tooltips";
 import { DataCubePublicationStatus } from "@/graphql/resolver-types";
 import { sanitizeHtml } from "@/utils/sanitize-html";
 import { useEvent } from "@/utils/use-event";
@@ -247,7 +247,8 @@ export const DatasetResult = ({
                       const termsets = dimension.termsets ?? [];
 
                       return (
-                        <MaybeTooltip
+                        <Tooltip
+                          variant="conditional"
                           key={dimension.id ?? dimension.label ?? "dimension"}
                           title={
                             termsets.length > 0 ? (
@@ -279,7 +280,7 @@ export const DatasetResult = ({
                           <Tag style={{ cursor: "default" }} type="dimension">
                             {dimension.label}
                           </Tag>
-                        </MaybeTooltip>
+                        </Tooltip>
                       );
                     })}
                     {dimensions.length > 2 && (

@@ -50,7 +50,7 @@ import {
   useMetadataPanelStoreActions,
 } from "@/components/metadata-panel-store";
 import { MotionBox } from "@/components/presence";
-import { InfoIconTooltip } from "@/components/ui/tooltips";
+import { Tooltip } from "@/components/ui/tooltips";
 import { getChartConfig } from "@/config-utils";
 import {
   BackButton,
@@ -821,7 +821,8 @@ const ComponentTabPanel = ({
                 <JoinByChip
                   label={<Trans id="dimension.joined">Joined</Trans>}
                 />
-                <InfoIconTooltip
+                <Tooltip
+                  variant="info-icon"
                   title={
                     <Trans id="dimension.joined-info-icon">
                       Joined dimensions integrate data from multiple datasets

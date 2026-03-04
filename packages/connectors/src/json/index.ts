@@ -3,20 +3,35 @@ import type {
   ConnectorResult,
   DataSchema,
   FieldSchema,
+  BaseConnectorConfig,
+} from "../types";
+import {
+  ConnectorFetchError,
+  ConnectorParseError,
+  ConnectorValidationError,
 } from "../types";
 import type { Datum } from "@vizualni/core";
 
-export interface JsonConfig {
-  /** URL to fetch JSON from */
-  url: string;
+/**
+ * Configuration for the JSON connector
+ *
+ * @public
+ */
+export interface JsonConfig extends BaseConnectorConfig {
   /** Path to extract data array from response (e.g., "data.items") */
   dataPath?: string;
-  /** HTTP headers to send */
+  /** HTTP headers to send with the request */
   headers?: Record<string, string>;
 }
 
 /**
- * Get value from nested object by path
+ * Get value from nested object by dot-separated path
+ *
+ * @param obj - Object to traverse
+ * @param path - Dot-separated path (e.g., "data.items")
+ * @returns Value at the path, or undefined if not found
+ *
+ * @internal
  */
 function getValueByPath(obj: unknown, path: string): unknown {
   const parts = path.split(".");
@@ -37,7 +52,12 @@ function getValueByPath(obj: unknown, path: string): unknown {
 }
 
 /**
- * Infer field type from value
+ * Infer field type from a single value
+ *
+ * @param value - Value to analyze
+ * @returns The inferred field type
+ *
+ * @internal
  */
 function inferType(value: unknown): FieldSchema["type"] {
   if (typeof value === "number") return "number";
@@ -53,7 +73,12 @@ function inferType(value: unknown): FieldSchema["type"] {
 }
 
 /**
- * Infer schema from data
+ * Infer schema from array of data records
+ *
+ * @param data - Array of data records to analyze
+ * @returns Inferred data schema
+ *
+ * @internal
  */
 function inferSchema(data: Datum[]): DataSchema {
   if (data.length === 0) {
@@ -85,12 +110,46 @@ function inferSchema(data: Datum[]): DataSchema {
 
 /**
  * JSON data connector
+ *
+ * @remarks
+ * Fetches JSON data from a URL and converts it to structured data.
+ * Supports extracting nested data arrays using dot-separated paths.
+ *
+ * @example
+ * ```typescript
+ * import { jsonConnector } from "@vizualni/connectors";
+ *
+ * // Simple JSON array
+ * const result = await jsonConnector.fetch({
+ *   url: "https://api.example.com/users",
+ * });
+ *
+ * // Nested data extraction
+ * const nested = await jsonConnector.fetch({
+ *   url: "https://api.example.com/data",
+ *   dataPath: "results.items",
+ *   headers: {
+ *     Authorization: "Bearer token",
+ *   },
+ * });
+ * ```
+ *
+ * @public
  */
 export const jsonConnector: DataConnector<JsonConfig> = {
   type: "json",
 
   async fetch(config: JsonConfig): Promise<ConnectorResult> {
     const { url, dataPath, headers } = config;
+
+    // Validate configuration
+    if (!url || url.trim() === "") {
+      throw new ConnectorValidationError(
+        url || "",
+        "url",
+        "URL cannot be empty"
+      );
+    }
 
     const response = await fetch(url, {
       headers: {
@@ -100,16 +159,27 @@ export const jsonConnector: DataConnector<JsonConfig> = {
     });
 
     if (!response.ok) {
-      throw new Error(
-        `Failed to fetch JSON: ${response.status} ${response.statusText}`
-      );
+      throw new ConnectorFetchError(url, response.status, response.statusText);
     }
 
-    let json = await response.json();
+    let json: unknown;
+    try {
+      json = await response.json();
+    } catch (error) {
+      throw new ConnectorParseError(url, "Response is not valid JSON", {
+        cause: error,
+      });
+    }
 
     // Extract data from nested path if specified
     if (dataPath) {
       json = getValueByPath(json, dataPath);
+      if (json === undefined) {
+        throw new ConnectorParseError(
+          url,
+          `Data path "${dataPath}" not found in response`
+        );
+      }
     }
 
     // Ensure we have an array

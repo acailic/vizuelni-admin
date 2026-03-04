@@ -3,7 +3,6 @@
  * Tests responsive design and interactive states
  */
 
-// @ts-nocheck
 import {
   test,
   VIEWPORTS,
@@ -18,7 +17,7 @@ test.describe("Landing Page Visual Tests", () => {
   });
 
   test("should render correctly on desktop", async ({
-    page,
+    page: _page,
     takeScreenshot,
   }) => {
     await takeScreenshot("landing-page-desktop");
