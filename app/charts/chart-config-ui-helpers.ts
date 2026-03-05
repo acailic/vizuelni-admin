@@ -6,7 +6,6 @@
  * different chart types.
  */
 
-import { DEFAULT_SORTING } from "@/charts";
 import type {
   AreaConfig,
   BarConfig,
@@ -16,13 +15,22 @@ import type {
   ScatterPlotConfig,
   TableConfig,
   ChartSegmentField,
+  FilterValueMulti,
 } from "@/config-types";
-import { makeMultiFilter } from "@/config-utils";
 import { mapValueIrisToColor } from "@/configurator/components/ui-helpers";
 import type { Component } from "@/domain/data";
 import { getDefaultCategoricalPaletteId } from "@/palettes";
 
+import { DEFAULT_SORTING } from "./chart-config-ui-constants";
+
 import type { OnEncodingChange } from "./chart-config-ui-types";
+
+const makeMultiFilter = (values: Array<string | number>): FilterValueMulti => {
+  return {
+    type: "multi",
+    values: Object.fromEntries(values.map((value) => [value, true])),
+  };
+};
 
 /**
  * Checks if stacking should be disabled for a given component.

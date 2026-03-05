@@ -19,6 +19,14 @@ import { getAnimationField } from "@/config-types";
 import type { EncodingSortingOption } from "./chart-config-ui-types";
 
 /**
+ * Default sorting value used when initializing segment fields.
+ */
+export const DEFAULT_SORTING = {
+  sortingType: "byAuto" as const,
+  sortingOrder: "asc" as const,
+};
+
+/**
  * Default segment sorting configuration generator.
  *
  * Creates a base sorting configuration that can be customized per chart type.

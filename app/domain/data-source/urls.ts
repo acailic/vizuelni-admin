@@ -1,8 +1,7 @@
 import { SOURCE_OPTIONS } from "@/domain/data-source/constants";
+import { WHITELISTED_DATA_SOURCES } from "@/domain/env";
 
-const allowedSourceLabels = JSON.parse(
-  process.env.WHITELISTED_DATA_SOURCES ?? "[]"
-);
+const allowedSourceLabels = WHITELISTED_DATA_SOURCES;
 
 const allowedSources = SOURCE_OPTIONS.filter((o) =>
   allowedSourceLabels.includes(o.label)

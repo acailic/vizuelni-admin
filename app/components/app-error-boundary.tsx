@@ -1,4 +1,3 @@
-import { Trans } from "@lingui/macro";
 import { Alert, AlertTitle, Box, Button, Typography } from "@mui/material";
 import * as Sentry from "@sentry/nextjs";
 import { ReactNode } from "react";
@@ -23,13 +22,9 @@ const ErrorFallback = ({ error, resetErrorBoundary }: ErrorFallbackProps) => {
       }}
     >
       <Alert severity="error" sx={{ maxWidth: 600, mb: 3 }}>
-        <AlertTitle>
-          <Trans id="error.boundary.title">Something went wrong</Trans>
-        </AlertTitle>
+        <AlertTitle>Something went wrong</AlertTitle>
         <Typography variant="body2" sx={{ mt: 2 }}>
-          <Trans id="error.boundary.message">
-            An unexpected error occurred. Please try refreshing the page.
-          </Trans>
+          An unexpected error occurred. Please try refreshing the page.
         </Typography>
         {process.env.NODE_ENV === "development" && (
           <Box
@@ -65,7 +60,7 @@ const ErrorFallback = ({ error, resetErrorBoundary }: ErrorFallbackProps) => {
         onClick={resetErrorBoundary}
         sx={{ mt: 2 }}
       >
-        <Trans id="error.boundary.retry">Try again</Trans>
+        Try again
       </Button>
     </Box>
   );
