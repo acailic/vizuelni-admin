@@ -317,7 +317,7 @@
     "follow-redirects": "^1.15.9",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "vitest": "^3.2.4"
+    "vitest": "^4.0.0"
   },
   "bugs": {
     "url": "https://github.com/acailic/vizualni-admin/issues"

@@ -18,6 +18,7 @@ export default defineConfig({
     include: ["**/*.{test,spec}.{js,jsx,ts,tsx}"],
     exclude: [
       "node_modules/**",
+      ".git/**",
       ".next/**",
       "out/**",
       "dist/**",
@@ -34,6 +35,11 @@ export default defineConfig({
       provider: "v8",
       reporter: ["text", "json", "html", "lcov"],
       reportsDirectory: "./coverage",
+      // Vitest 4: coverage.all and coverage.extensions are removed
+      // Use include to specify source files for coverage
+      include: [
+        "**/*.{js,jsx,ts,tsx}",
+      ],
       exclude: [
         "node_modules/**",
         ".next/**",
