@@ -15,7 +15,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "center",
     alignItems: "center",
     width: 91,
-    height: 64,
+    // WCAG minimum 44px touch target with responsive padding
+    minHeight: 44,
+    padding: `${theme.spacing(2)} ${theme.spacing(3)}`,
+    [theme.breakpoints.up("md")]: {
+      padding: `${theme.spacing(1.5)} ${theme.spacing(2)}`,
+    },
     borderRadius: 2,
     transition: theme.transitions.create(["background-color", "color"], {
       duration: theme.transitions.duration.shorter,

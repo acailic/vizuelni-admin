@@ -17,5 +17,10 @@ const useStyles = makeStyles<Theme>((theme) => ({
     marginTop: theme.spacing(2),
     paddingLeft: theme.spacing(5),
     paddingRight: theme.spacing(5),
+    // WCAG minimum 44px touch target - responsive padding
+    minHeight: 44,
+    [theme.breakpoints.up("md")]: {
+      minHeight: 44,
+    },
   },
 }));

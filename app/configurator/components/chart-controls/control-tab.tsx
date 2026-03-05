@@ -264,7 +264,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   controlTabButton: {
     width: "100%",
     minWidth: 160,
-    padding: `${theme.spacing(2)} ${theme.spacing(4)}`,
+    // WCAG minimum 44px touch target - responsive padding
+    minHeight: 44,
+    padding: `${theme.spacing(3)} ${theme.spacing(4)}`,
+    [theme.breakpoints.up("md")]: {
+      padding: `${theme.spacing(2)} ${theme.spacing(4)}`,
+    },
     borderColor: theme.palette.primary.main,
     borderRadius: 1.5,
     fontWeight: "normal",

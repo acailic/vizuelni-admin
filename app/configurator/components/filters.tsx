@@ -134,8 +134,11 @@ const useStyles = makeStyles((theme: Theme) => {
       margin: `${theme.spacing(4)} 0px`,
       padding: "0px 12px",
       width: "100%",
-      height: 40,
-      minHeight: 40,
+      // WCAG minimum 44px touch target
+      minHeight: 44,
+      [theme.breakpoints.up("md")]: {
+        minHeight: 40,
+      },
     },
     optionColor: {
       width: "var(--colorBoxSize)",
@@ -227,6 +230,7 @@ const FilterControls = ({
         size="sm"
         disabled={activeKeysLength === allKeysLength}
         onClick={selectAll}
+        sx={{ minHeight: 44, py: { xs: 2, md: 1.5 } }}
       >
         <Trans id="controls.filter.select.all">Select all</Trans>
       </Button>
@@ -235,6 +239,7 @@ const FilterControls = ({
         size="sm"
         disabled={activeKeysLength === 0}
         onClick={selectNone}
+        sx={{ minHeight: 44, py: { xs: 2, md: 1.5 } }}
       >
         <Trans id="controls.filter.select.none">Select none</Trans>
       </Button>
@@ -445,7 +450,7 @@ const MultiFilterContent = ({
           variant="outlined"
           size="sm"
           onClick={handleOpenAutocomplete}
-          sx={{ width: "fit-content" }}
+          sx={{ width: "fit-content", minHeight: 44, py: { xs: 2, md: 1.5 } }}
         >
           <Trans id="controls.set-filters">Edit filters</Trans>
         </Button>
@@ -463,9 +468,13 @@ const MultiFilterContent = ({
                 }
               >
                 <IconButton
-                  size="small"
                   onClick={handleResetColorMapping}
-                  sx={{ ml: 1, my: -2 }}
+                  sx={{
+                    ml: 1,
+                    my: -2,
+                    // WCAG minimum 44px touch target with responsive padding
+                    p: { xs: 1.5, md: 1 },
+                  }}
                 >
                   <SvgIcRefresh fontSize="inherit" />
                 </IconButton>
@@ -486,6 +495,7 @@ const MultiFilterContent = ({
             variant="text"
             color="primary"
             size="xs"
+            sx={{ minHeight: 44, py: { xs: 2, md: 1.5 } }}
             disabled={
               sum(showValuesMappingBooleans, (d) => +d) === values.length
             }
@@ -520,6 +530,7 @@ const MultiFilterContent = ({
                 },
               });
             }}
+            sx={{ minHeight: 44, py: { xs: 2, md: 1.5 } }}
           >
             <Trans id="controls.filter.show-values.none">Show no values</Trans>
           </Button>
@@ -778,7 +789,8 @@ const TreeAccordion = ({
               visibility: expandable ? "visible" : "hidden",
               ml: 2,
               mr: 1,
-              p: 1,
+              // WCAG minimum 44px touch target with responsive padding
+              p: { xs: 1.5, md: 1 },
 
               "&:hover": {
                 backgroundColor: "cobalt.100", // default hover color is the same
@@ -1017,7 +1029,14 @@ const DrawerContent = forwardRef<
                 <Trans id="controls.set-filters">Edit filters</Trans>
               </Typography>
             </Flex>
-            <IconButton sx={{ mt: "-0.5rem" }} size="small" onClick={onClose}>
+            <IconButton
+              onClick={onClose}
+              sx={{
+                mt: "-0.5rem",
+                // WCAG minimum 44px touch target with responsive padding
+                p: { xs: 1.5, md: 1 },
+              }}
+            >
               <SvgIcClose fontSize="inherit" />
             </IconButton>
           </Flex>

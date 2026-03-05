@@ -109,6 +109,7 @@ export const BackButton = ({
       size={size}
       startIcon={<Icon name="arrowLeft" size={20} />}
       onClick={onClick}
+      sx={{ minHeight: 44, py: { xs: 2, md: 1.5 }, ...props.sx }}
       {...props}
     >
       {children}
@@ -181,6 +182,7 @@ const NextStepButton = ({ children }: PropsWithChildren<{}>) => {
       size="sm"
       endIcon={<Icon name="arrowRight" size={20} />}
       onClick={handleClick}
+      sx={{ minHeight: 44, py: { xs: 2, md: 1.5 } }}
     >
       {children}
     </Button>
@@ -318,6 +320,7 @@ const SaveDraftButton = ({ chartId }: { chartId: string | undefined }) => {
           ) : null
         }
         onClick={handleClick}
+        sx={{ minHeight: 44, py: { xs: 2, md: 1.5 } }}
       >
         <Trans id="button.save-draft">Save draft</Trans>
       </Button>
@@ -350,7 +353,7 @@ const CopyPreviewLinkButton = () => {
       })}
       disableInteractive
     >
-      <Button size="sm" variant="outlined" onClick={handleClick}>
+      <Button size="sm" variant="outlined" onClick={handleClick} sx={{ minHeight: 44, py: { xs: 2, md: 1.5 } }}>
         <Trans id="button.copy-preview-link">Copy preview link</Trans>
       </Button>
     </Tooltip>

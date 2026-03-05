@@ -101,6 +101,12 @@ export const FormControlLabel = (
           variant: sizeToVariant[size],
         },
       }}
+      sx={{
+        // WCAG minimum 44px touch target
+        minHeight: 44,
+        py: { xs: 2, md: 1.5 },
+        ...rest.sx,
+      }}
     />
   );
 };
@@ -403,7 +409,17 @@ export const Select = ({
             );
           }}
           MenuProps={selectMenuProps}
-          sx={{ maxWidth: sideControls ? "calc(100% - 28px)" : "100%" }}
+          sx={{ 
+            maxWidth: sideControls ? "calc(100% - 28px)" : "100%",
+            // WCAG minimum 44px touch target
+            minHeight: 44,
+            "& .MuiSelect-select": {
+              minHeight: 44,
+              display: "flex",
+              alignItems: "center",
+              py: { xs: 2, md: 1.5 },
+            },
+          }}
         >
           {sortedOptions.map((opt) => {
             if (!opt.value && !opt.isGroupHeader) {
@@ -846,6 +862,12 @@ export const Switch = ({
           checked={checked}
           disabled={disabled}
           onChange={onChange}
+          sx={{
+            // WCAG minimum 44px touch target for switch
+            "& .MuiSwitch-switchBase": {
+              py: { xs: 1.5, md: 1 },
+            },
+          }}
         />
       }
     />

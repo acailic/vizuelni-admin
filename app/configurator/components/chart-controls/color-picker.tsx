@@ -69,6 +69,14 @@ const ColorPickerButton = styled(Button)({
   padding: 0,
   minWidth: 16,
   minHeight: 16,
+  // WCAG minimum 44px touch target - use padding for clickable area
+  "&.MuiButton-root": {
+    minHeight: 44,
+    minWidth: 44,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   backgroundColor: "transparent !important",
 });
 

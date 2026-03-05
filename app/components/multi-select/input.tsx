@@ -42,7 +42,14 @@ export const MultiSelectInput = ({
           },
         },
       }}
-      sx={{ p: 0 }}
+      sx={{
+        p: 0,
+        // WCAG minimum 44px touch target
+        "& .MuiInputBase-root": {
+          minHeight: 44,
+          py: { xs: 2, md: 1.5 },
+        },
+      }}
     />
   );
 };

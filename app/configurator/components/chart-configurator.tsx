@@ -882,6 +882,7 @@ const AddFilterButton = ({ dims }: { dims: Dimension[] }) => {
         ref={ref}
         onClick={openMenu}
         startIcon={<Icon name="plus" size={20} />}
+        sx={{ minHeight: 44, py: { xs: 2, md: 1.5 } }}
       >
         <Trans id="controls.add-filter">Add filter</Trans>
       </Button>

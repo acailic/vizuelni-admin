@@ -9,8 +9,9 @@ const useStyles = makeStyles<Theme>((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    width: 42,
-    height: 32,
+    // WCAG minimum 44px touch target
+    minWidth: 44,
+    minHeight: 44,
     background: theme.palette.background.paper,
     color: theme.palette.primary.main,
     "&:hover": {

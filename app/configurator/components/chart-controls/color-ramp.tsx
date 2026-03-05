@@ -298,7 +298,8 @@ const PaletteSection = (props: PaletteSectionProps) => {
         variant="text"
         sx={{
           width: "100%",
-          paddingY: 3,
+          minHeight: 44,
+          paddingY: { xs: 2, md: 1.5 },
           paddingX: 4,
         }}
       >

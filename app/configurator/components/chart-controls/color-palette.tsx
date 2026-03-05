@@ -549,6 +549,7 @@ const ColorPaletteControls = ({
           size="xs"
           disabled={same}
           onClick={resetColorPalette}
+          sx={{ minHeight: 44, py: { xs: 2, md: 1.5 } }}
         >
           <Trans id="controls.color.palette.reset">Reset color palette</Trans>
         </Button>
@@ -558,6 +559,7 @@ const ColorPaletteControls = ({
           color="primary"
           size="xs"
           onClick={shuffleColors}
+          sx={{ minHeight: 44, py: { xs: 2, md: 1.5 } }}
         >
           <Trans id="controls.filters.select.refresh-colors">
             Shuffle colors

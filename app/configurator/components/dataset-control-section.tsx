@@ -121,6 +121,7 @@ const DatasetRow = ({
             color="primary"
             size="sm"
             onClick={handleDatasetClick}
+            sx={{ minHeight: 44, py: { xs: 2, md: 1.5 } }}
           >
             <Trans id="dataset.footnotes.dataset">Dataset</Trans>
           </Button>
@@ -250,6 +251,7 @@ export const DatasetsControlSection = () => {
             color="primary"
             startIcon={<Icon name="plus" size={20} />}
             onClick={openDatasetDialog}
+            sx={{ minHeight: 44, py: { xs: 2, md: 1.5 } }}
           >
             {t({ id: "chart.datasets.add", message: "Add dataset" })}
           </Button>

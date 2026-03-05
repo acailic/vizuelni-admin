@@ -258,7 +258,7 @@ export const CustomLayersSelector = () => {
         ) : null}
 
         <div>
-          <Button variant="contained" onClick={() => setAddingLayer(true)}>
+          <Button variant="contained" onClick={() => setAddingLayer(true)} sx={{ minHeight: 44, py: { xs: 2, md: 1.5 } }}>
             <Trans id="chart.map.layers.add-layer">Add map</Trans>
           </Button>
         </div>
