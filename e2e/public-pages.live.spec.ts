@@ -355,3 +355,43 @@ test.describe("Public pages E2E", () => {
     expect(bodyText).toMatch(/\d{1,3}(?:\.\d{3})*,\d{2}\s?RSD/);
   });
 });
+
+test.describe("Embed datasets", () => {
+  test("embed preview with air dataset renders line chart", async ({
+    page,
+  }) => {
+    await page.goto(
+      withPrefix(
+        "/embed/demo?type=line&dataset=air&dataSource=Prod&theme=light&lang=en"
+      )
+    );
+
+    // Wait for chart to render
+    await expect(page.getByText(/Dataset:\s*air/)).toBeVisible({
+      timeout: 15_000,
+    });
+    await expect(page.getByText(/Source:\s*Prod/)).toBeVisible();
+
+    // Verify line chart renders (SVG)
+    await expect(page.locator("svg").first()).toBeVisible({ timeout: 10_000 });
+  });
+
+  test("embed preview with students dataset renders bar chart", async ({
+    page,
+  }) => {
+    await page.goto(
+      withPrefix(
+        "/embed/demo?type=bar&dataset=students&dataSource=Prod&theme=light&lang=en"
+      )
+    );
+
+    // Wait for chart to render
+    await expect(page.getByText(/Dataset:\s*students/)).toBeVisible({
+      timeout: 15_000,
+    });
+    await expect(page.getByText(/Source:\s*Prod/)).toBeVisible();
+
+    // Verify bar chart renders (SVG)
+    await expect(page.locator("svg").first()).toBeVisible({ timeout: 10_000 });
+  });
+});
