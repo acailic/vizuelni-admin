@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Script from "next/script";
-import { useEffect, useMemo, useState } from "react";
 
 import {
   BarChart,
@@ -108,13 +107,11 @@ function getDataset(dataset: string | null) {
 }
 
 export default function DemoEmbed() {
-  const [search, setSearch] = useState("");
+  const params =
+    typeof window === "undefined"
+      ? new URLSearchParams()
+      : new URLSearchParams(window.location.search);
 
-  useEffect(() => {
-    setSearch(window.location.search);
-  }, []);
-
-  const params = useMemo(() => new URLSearchParams(search), [search]);
   const theme = parseTheme(params.get("theme"));
   const lang = parseLang(params.get("lang"));
   const chartType = parseChartType(params.get("type"));
