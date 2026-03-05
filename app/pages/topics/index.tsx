@@ -2,7 +2,6 @@
 import { Container, Typography, Grid, Box } from "@mui/material";
 import { GetStaticProps } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
 import { DemoErrorBoundary } from "@/components/demos/DemoErrorBoundary";
@@ -10,6 +9,7 @@ import DemoSkeleton from "@/components/demos/DemoSkeleton";
 import { AppLayout } from "@/components/layout";
 import { TopicCard } from "@/components/topics/TopicCard";
 import topicIndex from "@/data/topics/index.json";
+import { useLocale } from "@/locales/use-locale";
 import type { Topic, TopicIndex } from "@/types/topics";
 
 interface TopicsPageProps {
@@ -17,8 +17,7 @@ interface TopicsPageProps {
 }
 
 export default function TopicsPage({ topics }: TopicsPageProps) {
-  const router = useRouter();
-  const locale = (router.locale || "sr") as string;
+  const locale = useLocale();
   const [isLoading, setIsLoading] = useState(true);
 
   // Simulate loading for topic cards
@@ -28,21 +27,21 @@ export default function TopicsPage({ topics }: TopicsPageProps) {
   }, []);
 
   const pageTitle =
-    locale === "sr"
+    locale === "sr-Cyrl"
       ? "Истражите отворене податке | Vizualni Admin"
       : locale === "sr-Latn"
         ? "Istražite otvorene podatke | Vizualni Admin"
         : "Explore Open Data | Vizualni Admin";
 
   const heading =
-    locale === "sr"
+    locale === "sr-Cyrl"
       ? "Истражите отворене податке"
       : locale === "sr-Latn"
         ? "Istražite otvorene podatke"
         : "Explore Open Data";
 
   const subheading =
-    locale === "sr"
+    locale === "sr-Cyrl"
       ? "Пронађите скупове података по категоријама и визуализујте их"
       : locale === "sr-Latn"
         ? "Pronađite skupove podataka po kategorijama i vizualizujte ih"

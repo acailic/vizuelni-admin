@@ -20,9 +20,6 @@ import { DemoErrorBoundary } from "@/components/demos/DemoErrorBoundary";
 import DemoSkeleton from "@/components/demos/DemoSkeleton";
 import { DEMO_CONFIGS } from "@/lib/demos/config";
 
-// Working demos that have pages
-const WORKING_DEMOS = ["playground"];
-
 export default function DemosIndex() {
   const { i18n } = useLingui();
   const theme = useTheme();
@@ -395,60 +392,22 @@ export default function DemosIndex() {
           </Grid>
         </Grid>
 
-        {/* Coming Soon Section */}
-        <Typography
-          variant="h5"
-          component="h2"
-          sx={{ mb: 2, fontWeight: 700, color: "text.secondary" }}
-        >
-          {i18n._(
-            defineMessage({
-              id: "demos.index.comingsoon.title",
-              message: "Coming Soon",
-            })
-          )}
-        </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-          {i18n._(
-            defineMessage({
-              id: "demos.index.comingsoon.description",
-              message:
-                "The following demo visualizations are in development and will be available soon:",
-            })
-          )}
-        </Typography>
-        <Grid container spacing={2} sx={{ mb: 5 }}>
-          {Object.entries(DEMO_CONFIGS)
-            .filter(([key]) => !WORKING_DEMOS.includes(key))
-            .slice(0, 8)
-            .map(([key, config]) => (
-              <Grid item xs={6} sm={4} md={3} key={key}>
-                <Card
-                  sx={{
-                    p: 2,
-                    opacity: 0.7,
-                    borderRadius: 2,
-                    bgcolor: "grey.50",
-                    border: "1px dashed",
-                    borderColor: "divider",
-                  }}
-                >
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                    <Typography sx={{ fontSize: "1.5rem" }}>
-                      {config.icon}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      sx={{ fontWeight: 500 }}
-                    >
-                      {config.title[locale]}
-                    </Typography>
-                  </Box>
-                </Card>
-              </Grid>
-            ))}
-        </Grid>
+        <Box sx={{ mb: 5 }}>
+          <Typography
+            variant="h6"
+            component="h2"
+            sx={{ mb: 1, fontWeight: 700, color: "text.primary" }}
+          >
+            {locale === "sr"
+              ? "Više kategorija je dostupno kroz Topics i Showcase stranice"
+              : "More categories are available through Topics and Showcase"}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {locale === "sr"
+              ? "Za stabilne primere i dataset putanje koristite Explore by Topics, Demo Showcase i Embed generator."
+              : "For stable examples and dataset-oriented flows, use Explore by Topics, Demo Showcase, and the Embed generator."}
+          </Typography>
+        </Box>
 
         <Box
           sx={{

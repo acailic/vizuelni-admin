@@ -4,7 +4,16 @@
  * Enhanced card with thumbnail, gradient, and click handler for modal preview.
  */
 
-import { Box, Card, CardContent, Chip, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardActionArea,
+  CardContent,
+  Chip,
+  Typography,
+} from "@mui/material";
+import Link from "next/link";
 
 import { DEMO_CONFIGS } from "@/lib/demos/config";
 
@@ -19,12 +28,14 @@ interface FeaturedChartCardProps {
     featuredReason: { sr: string; en: string };
   };
   locale: "sr" | "en";
+  href: string;
   onClick: () => void;
 }
 
 export function FeaturedChartCard({
   chart,
   locale,
+  href,
   onClick,
 }: FeaturedChartCardProps) {
   const demoConfig = DEMO_CONFIGS[chart.demoId];
@@ -35,7 +46,6 @@ export function FeaturedChartCard({
 
   return (
     <Card
-      onClick={onClick}
       sx={{
         height: "100%",
         display: "flex",
@@ -52,25 +62,27 @@ export function FeaturedChartCard({
         },
       }}
     >
-      {/* Thumbnail area with gradient */}
-      <Box
-        sx={{
-          height: 120,
-          background: gradient,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
+      <CardActionArea onClick={onClick} sx={{ display: "block" }}>
+        {/* Thumbnail area with gradient */}
         <Box
           sx={{
-            fontSize: "3rem",
-            filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.2))",
+            height: 120,
+            background: gradient,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          {icon}
+          <Box
+            sx={{
+              fontSize: "3rem",
+              filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.2))",
+            }}
+          >
+            {icon}
+          </Box>
         </Box>
-      </Box>
+      </CardActionArea>
 
       <CardContent
         sx={{ p: 3, flex: 1, display: "flex", flexDirection: "column" }}
@@ -100,6 +112,11 @@ export function FeaturedChartCard({
           }}
         />
       </CardContent>
+      <Box sx={{ px: 3, pb: 3 }}>
+        <Button component={Link} href={href} size="small" variant="outlined">
+          {locale === "sr" ? "Otvori stranicu" : "Open page"}
+        </Button>
+      </Box>
     </Card>
   );
 }

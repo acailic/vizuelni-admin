@@ -16,7 +16,6 @@ import {
 import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
 import { DemoErrorBoundary } from "@/components/demos/DemoErrorBoundary";
@@ -24,20 +23,22 @@ import DemoSkeleton from "@/components/demos/DemoSkeleton";
 import { AppLayout } from "@/components/layout";
 import { DatasetCard } from "@/components/topics/DatasetCard";
 import topicIndex from "@/data/topics/index.json";
+import { useLocale } from "@/locales/use-locale";
 import type {
   TopicData,
   TopicIndex,
   LocalizedString,
   Visualization,
 } from "@/types/topics";
+import { cyrillicToLatin } from "@/utils/serbian-script";
 
 interface TopicPageProps {
   topic: TopicData;
 }
 
 function getLocalizedText(text: LocalizedString, locale: string): string {
-  if (locale === "sr") return text.sr;
-  if (locale === "sr-Latn") return text["sr-Latn"] || text.sr;
+  if (locale === "sr-Cyrl") return text.sr;
+  if (locale === "sr-Latn") return text["sr-Latn"] || cyrillicToLatin(text.sr);
   return text.en;
 }
 
@@ -110,7 +111,11 @@ function VisualizationCard({
             fullWidth
             sx={{ textTransform: "none", fontWeight: 600 }}
           >
-            {locale === "sr" ? "Отвори визуализацију" : "Open Visualization"}
+            {locale === "sr-Cyrl"
+              ? "Отвори визуализацију"
+              : locale === "sr-Latn"
+                ? "Otvori vizualizaciju"
+                : "Open Visualization"}
           </Button>
         </Link>
       </Box>
@@ -119,9 +124,8 @@ function VisualizationCard({
 }
 
 export default function TopicPage({ topic }: TopicPageProps) {
-  const router = useRouter();
   const theme = useTheme();
-  const locale = (router.locale || "sr") as string;
+  const locale = useLocale();
   const [isLoading, setIsLoading] = useState(true);
 
   // Simulate loading for content
@@ -136,24 +140,24 @@ export default function TopicPage({ topic }: TopicPageProps) {
   const pageTitle = `${title} | Vizualni Admin`;
 
   const backLabel =
-    locale === "sr" ? "Теме" : locale === "sr-Latn" ? "Teme" : "Topics";
+    locale === "sr-Cyrl" ? "Теме" : locale === "sr-Latn" ? "Teme" : "Topics";
 
   const datasetsLabel =
-    locale === "sr"
+    locale === "sr-Cyrl"
       ? "Скупови података"
       : locale === "sr-Latn"
         ? "Skupovi podataka"
         : "Datasets";
 
   const visualizationsLabel =
-    locale === "sr"
+    locale === "sr-Cyrl"
       ? "Визуализације"
       : locale === "sr-Latn"
         ? "Vizualizacije"
         : "Visualizations";
 
   const exploreAllLabel =
-    locale === "sr"
+    locale === "sr-Cyrl"
       ? "Истражите све скупове података"
       : locale === "sr-Latn"
         ? "Istražite sve skupove podataka"
@@ -229,9 +233,11 @@ export default function TopicPage({ topic }: TopicPageProps) {
                       sx={{ textTransform: "none" }}
                     >
                       🎮{" "}
-                      {locale === "sr"
+                      {locale === "sr-Cyrl"
                         ? "Интерактивни playground"
-                        : "Interactive Playground"}
+                        : locale === "sr-Latn"
+                          ? "Interaktivni playground"
+                          : "Interactive Playground"}
                     </Button>
                   </Link>
                 </Box>
@@ -273,9 +279,11 @@ export default function TopicPage({ topic }: TopicPageProps) {
               }}
             >
               <Typography variant="h6" sx={{ mb: 2 }}>
-                {locale === "sr"
+                {locale === "sr-Cyrl"
                   ? "Желите да видите више скупова података?"
-                  : "Want to see more datasets?"}
+                  : locale === "sr-Latn"
+                    ? "Želite da vidite više skupova podataka?"
+                    : "Want to see more datasets?"}
               </Typography>
               <Link href="/browse" passHref legacyBehavior>
                 <Button

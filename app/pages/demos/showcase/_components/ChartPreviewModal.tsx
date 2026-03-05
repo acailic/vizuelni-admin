@@ -33,6 +33,18 @@ interface ChartPreviewModalProps {
   } | null;
 }
 
+const TOPIC_ROUTE_IDS = new Set([
+  "economy",
+  "health",
+  "education",
+  "demographics",
+  "environment",
+  "transport",
+]);
+
+const getChartDestination = (demoId: string) =>
+  TOPIC_ROUTE_IDS.has(demoId) ? `/topics/${demoId}` : `/demos/${demoId}`;
+
 export function ChartPreviewModal({
   open,
   onClose,
@@ -124,7 +136,7 @@ export function ChartPreviewModal({
         </Button>
         <Button
           component={Link}
-          href={`/topics/${chart.demoId}`}
+          href={getChartDestination(chart.demoId)}
           variant="contained"
           sx={{
             textTransform: "none",

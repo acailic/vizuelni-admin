@@ -11,10 +11,11 @@ import {
 import Link from "next/link";
 
 import type { Dataset, LocalizedString } from "@/types/topics";
+import { cyrillicToLatin } from "@/utils/serbian-script";
 
 function getLocalizedText(text: LocalizedString, locale: string): string {
-  if (locale === "sr") return text.sr;
-  if (locale === "sr-Latn") return text["sr-Latn"] || text.sr;
+  if (locale === "sr-Cyrl") return text.sr;
+  if (locale === "sr-Latn") return text["sr-Latn"] || cyrillicToLatin(text.sr);
   return text.en;
 }
 
@@ -27,11 +28,17 @@ export function DatasetCard({ dataset, locale }: DatasetCardProps) {
   const title = getLocalizedText(dataset.title, locale);
   const description = getLocalizedText(dataset.description, locale);
   const openLabel =
-    locale === "sr"
+    locale === "sr-Cyrl"
       ? "Отвори на data.gov.rs"
       : locale === "sr-Latn"
         ? "Otvori na data.gov.rs"
         : "Open on data.gov.rs";
+  const updatedLabel =
+    locale === "sr-Cyrl"
+      ? "Ажурирано"
+      : locale === "sr-Latn"
+        ? "Ažurirano"
+        : "Updated";
 
   return (
     <Card sx={{ mb: 2 }}>
@@ -55,10 +62,7 @@ export function DatasetCard({ dataset, locale }: DatasetCardProps) {
             <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
               <Chip label={dataset.format} size="small" variant="outlined" />
               <Typography variant="caption" color="text.secondary">
-                {locale === "sr" || locale === "sr-Latn"
-                  ? "Ажурирано"
-                  : "Updated"}
-                : {dataset.lastUpdated}
+                {updatedLabel}: {dataset.lastUpdated}
               </Typography>
             </Box>
           </Box>

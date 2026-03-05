@@ -21,6 +21,18 @@ import { FEATURED_CHARTS } from "@/lib/demos/config";
 import { ChartPreviewModal } from "./_components/ChartPreviewModal";
 import { FeaturedChartCard } from "./_components/FeaturedChartCard";
 
+const TOPIC_ROUTE_IDS = new Set([
+  "economy",
+  "health",
+  "education",
+  "demographics",
+  "environment",
+  "transport",
+]);
+
+const getChartDestination = (demoId: string) =>
+  TOPIC_ROUTE_IDS.has(demoId) ? `/topics/${demoId}` : `/demos/${demoId}`;
+
 export default function ShowcasePage() {
   const { i18n } = useLingui();
   const theme = useTheme();
@@ -134,6 +146,7 @@ export default function ShowcasePage() {
               <FeaturedChartCard
                 chart={chart}
                 locale={locale}
+                href={getChartDestination(chart.demoId)}
                 onClick={() => handleCardClick(chart)}
               />
             </Grid>

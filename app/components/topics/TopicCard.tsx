@@ -9,6 +9,7 @@ import { Card, CardContent, Typography, Box } from "@mui/material";
 import Link from "next/link";
 
 import type { Topic, LocalizedString } from "@/types/topics";
+import { cyrillicToLatin } from "@/utils/serbian-script";
 
 import type { SvgIconProps } from "@mui/material/SvgIcon";
 
@@ -22,8 +23,8 @@ const iconMap: Record<string, React.ComponentType<SvgIconProps>> = {
 };
 
 function getLocalizedText(text: LocalizedString, locale: string): string {
-  if (locale === "sr") return text.sr;
-  if (locale === "sr-Latn") return text["sr-Latn"] || text.sr;
+  if (locale === "sr-Cyrl") return text.sr;
+  if (locale === "sr-Latn") return text["sr-Latn"] || cyrillicToLatin(text.sr);
   return text.en;
 }
 
@@ -37,7 +38,11 @@ export function TopicCard({ topic, locale }: TopicCardProps) {
   const title = getLocalizedText(topic.title, locale);
   const description = getLocalizedText(topic.description, locale);
   const datasetLabel =
-    locale === "sr" || locale === "sr-Latn" ? "скупова података" : "datasets";
+    locale === "sr-Cyrl"
+      ? "скупова података"
+      : locale === "sr-Latn"
+        ? "skupova podataka"
+        : "datasets";
 
   return (
     <Link href={`/topics/${topic.id}`} passHref legacyBehavior>

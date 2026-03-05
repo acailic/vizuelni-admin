@@ -2,6 +2,8 @@ import { GetStaticProps } from "next";
 import Head from "next/head";
 import { useState, useEffect } from "react";
 
+import { Header } from "@/components/header";
+
 interface PriceData {
   id: string;
   naziv: string;
@@ -24,6 +26,14 @@ interface ApiResponse {
     retailers: string[];
   };
 }
+
+const formatRsd = (value: number) =>
+  new Intl.NumberFormat("sr-RS", {
+    style: "currency",
+    currency: "RSD",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
 
 export default function CenePage({
   initialData,
@@ -110,6 +120,7 @@ export default function CenePage({
         />
       </Head>
 
+      <Header />
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
@@ -135,7 +146,7 @@ export default function CenePage({
               Просечна цена
             </h3>
             <p className="text-2xl font-bold text-gray-900">
-              {averagePrice.toFixed(2)} RSD
+              {formatRsd(averagePrice)}
             </p>
           </div>
           <div className="bg-white rounded-lg shadow p-6">
@@ -302,13 +313,12 @@ export default function CenePage({
                       {item.kategorija}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {item.cenaRegular.toLocaleString("sr-RS")} {item.valuta}
+                      {formatRsd(item.cenaRegular)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {item.cenaPopust > 0 ? (
                         <span className="text-green-600 font-semibold">
-                          {item.cenaPopust.toLocaleString("sr-RS")}{" "}
-                          {item.valuta}
+                          {formatRsd(item.cenaPopust)}
                         </span>
                       ) : (
                         "-"

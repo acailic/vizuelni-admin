@@ -9,6 +9,19 @@ import Typography from "@mui/material/Typography";
 import { Loading, LoadingDataError } from "@/components";
 import { DatasetMetadata } from "@/domain/data-gov-rs";
 
+const formatFrequency = (frequency: string) => {
+  const normalized = frequency.trim().toLowerCase();
+  const map: Record<string, string> = {
+    daily: "dnevno",
+    weekly: "nedeljno",
+    monthly: "mesečno",
+    quarterly: "kvartalno",
+    yearly: "godišnje",
+    annual: "godišnje",
+  };
+  return map[normalized] || frequency;
+};
+
 export const DataGovDatasetResults = ({
   results,
   fetching,
@@ -55,7 +68,10 @@ export const DataGovDatasetResults = ({
                 </Typography>
                 <Button
                   component="a"
-                  href={dataset.page || `https://data.gov.rs/sr/datasets/${dataset.id}`}
+                  href={
+                    dataset.page ||
+                    `https://data.gov.rs/sr/datasets/${dataset.id}`
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                   size="small"
@@ -85,7 +101,7 @@ export const DataGovDatasetResults = ({
                 {dataset.frequency ? (
                   <TagPill>
                     <Trans id="browse.dataset.frequency">Ažuriranje</Trans>:{" "}
-                    {dataset.frequency}
+                    {formatFrequency(dataset.frequency)}
                   </TagPill>
                 ) : null}
               </Stack>
@@ -109,6 +125,7 @@ const TagPill = ({ children }: { children: React.ReactNode }) => {
         backgroundColor: "monochrome.100",
         color: "text.primary",
         fontSize: 12,
+        whiteSpace: "nowrap",
       }}
     >
       {children}

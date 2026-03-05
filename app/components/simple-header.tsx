@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import Link from "next/link";
 import { useRouter } from "next/router";
 
 export const SimpleHeader = ({
@@ -25,45 +26,46 @@ export const SimpleHeader = ({
         ...sx,
       }}
     >
-      <Box
-        component="a"
-        href={rootHref}
-        data-testid="nav-home"
-        onClick={(e) => {
-          e.preventDefault();
-          router.push(rootHref);
-        }}
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          textDecoration: "none",
-          cursor: "pointer",
-          "&:hover": {
-            opacity: 0.8,
-          },
-        }}
-      >
-        <Typography
-          variant="h4"
+      <Link href={rootHref} passHref legacyBehavior>
+        <Box
+          component="a"
+          data-testid="nav-home"
+          onClick={(e) => {
+            e.preventDefault();
+            router.push(rootHref);
+          }}
           sx={{
-            color: "#0C4076",
-            fontWeight: 700,
-            display: { xs: "none", sm: "block" },
+            display: "flex",
+            alignItems: "center",
+            textDecoration: "none",
+            cursor: "pointer",
+            "&:hover": {
+              opacity: 0.8,
+            },
           }}
         >
-          {longTitle}
-        </Typography>
-        <Typography
-          variant="h4"
-          sx={{
-            color: "#0C4076",
-            fontWeight: 700,
-            display: { xs: "block", sm: "none" },
-          }}
-        >
-          {shortTitle}
-        </Typography>
-      </Box>
+          <Typography
+            variant="h4"
+            sx={{
+              color: "#0C4076",
+              fontWeight: 700,
+              display: { xs: "none", sm: "block" },
+            }}
+          >
+            {longTitle}
+          </Typography>
+          <Typography
+            variant="h4"
+            sx={{
+              color: "#0C4076",
+              fontWeight: 700,
+              display: { xs: "block", sm: "none" },
+            }}
+          >
+            {shortTitle}
+          </Typography>
+        </Box>
+      </Link>
     </Box>
   );
 };

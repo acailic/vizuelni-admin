@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Trans } from "@lingui/react";
+import { Trans, useLingui } from "@lingui/react";
 import { Box, Button, Container, Typography } from "@mui/material";
 import Link from "next/link";
 import { ReactNode } from "react";
@@ -67,7 +67,10 @@ export function DemoLayout({
                   pl: 0,
                 }}
               >
-                <Trans id="demos.layout.back" message="Back to demo gallery" />
+                <Trans
+                  id="demos.layout.backLabel"
+                  message="Back to demo gallery"
+                />
               </Button>
             </Box>
           )}

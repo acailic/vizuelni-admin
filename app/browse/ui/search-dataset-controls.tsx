@@ -3,6 +3,7 @@ import {
   Card,
   Button,
   CircularProgress,
+  IconButton,
   Typography,
   Switch,
 } from "@mui/material";
@@ -91,27 +92,16 @@ export const SearchDatasetControls = ({
               Popular
             </Button>
           </Flex>
-          <span
-            role="button"
-            tabIndex={0}
+          <IconButton
+            size="small"
             aria-label="Pretraži obrazovanje"
             onClick={prefillEducation}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                prefillEducation();
-              }
-            }}
-            style={{
-              display: "inline-flex",
-              cursor: "pointer",
-              color: isSearching
-                ? "var(--mui-palette-primary-main)"
-                : "var(--mui-palette-monochrome-700)",
+            sx={{
+              color: isSearching ? "primary.main" : "monochrome.700",
             }}
           >
             <Icon name="search" size={20} />
-          </span>
+          </IconButton>
           <Typography variant="body2" sx={{ mr: 1 }}>
             Include drafts
           </Typography>

@@ -20,6 +20,11 @@ import {
 } from "@/graphql/query-hooks";
 import { SearchCubeResult } from "@/graphql/resolver-types";
 
+const readableLabelFromIri = (iri: string) => {
+  const tail = decodeURIComponent(iri.split("/").filter(Boolean).pop() || iri);
+  return tail.replace(/[-_]+/g, " ").replace(/\s+/g, " ").trim();
+};
+
 const navigationOrder: Record<BrowseFilter["__typename"], number> = {
   DataCubeTheme: 1,
   DataCubeOrganization: 2,
@@ -264,7 +269,10 @@ export const SearchFilters = ({
             {filters.map((filter) => (
               <Chip
                 key={filter.iri}
-                label={"label" in filter ? filter.label : filter.iri}
+                label={
+                  ("label" in filter && filter.label?.trim()) ||
+                  readableLabelFromIri(filter.iri)
+                }
                 onDelete={() => {
                   const newFilters = filters.filter(
                     (f) => f.iri !== filter.iri

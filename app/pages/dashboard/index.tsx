@@ -2,16 +2,25 @@ import { Grid } from "@mui/material";
 import { NextPage } from "next";
 import { useEffect, useMemo, useState } from "react";
 
-import { CategoryOverview, CategoryStatus } from "@/components/dashboard/CategoryOverview";
+import {
+  CategoryOverview,
+  CategoryStatus,
+} from "@/components/dashboard/CategoryOverview";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
-import { DatasetHealth, DatasetStatus } from "@/components/dashboard/DatasetHealth";
+import {
+  DatasetHealth,
+  DatasetStatus,
+} from "@/components/dashboard/DatasetHealth";
 import { QuickActions } from "@/components/dashboard/QuickActions";
 import { QuickStats, StatItem } from "@/components/dashboard/QuickStats";
 import {
   RecentVisualization,
   RecentVisualizations,
 } from "@/components/dashboard/RecentVisualizations";
-import { TutorialCarousel, TutorialItem } from "@/components/dashboard/TutorialCarousel";
+import {
+  TutorialCarousel,
+  TutorialItem,
+} from "@/components/dashboard/TutorialCarousel";
 import { WelcomeCard } from "@/components/dashboard/WelcomeCard";
 
 const LOCAL_STORAGE_KEY = "vizualni-admin/recent-visualizations";
@@ -51,29 +60,40 @@ const categories: CategoryStatus[] = [
 
 const datasets: DatasetStatus[] = [
   { name: "Air quality (PM10/PM2.5)", status: "healthy" },
-  { name: "Budget execution 2024", status: "warning", issues: "Missing Q4 update" },
+  {
+    name: "Budget execution 2024",
+    status: "warning",
+    issues: "Missing Q4 update",
+  },
   { name: "Employment rates", status: "healthy" },
-  { name: "Healthcare facilities", status: "offline", issues: "API unreachable" },
+  {
+    name: "Healthcare facilities",
+    status: "offline",
+    issues: "API unreachable",
+  },
 ];
 
 const tutorials: TutorialItem[] = [
   {
     title: "Create your first visualization",
-    summary: "Import a dataset, pick a chart type, and customize the axes and legend.",
+    summary:
+      "Import a dataset, pick a chart type, and customize the axes and legend.",
     actionLabel: "Open tutorial",
-    href: "/tutorials/create-visualization",
+    href: "/tutorials/your-first-visualization",
   },
   {
     title: "Connect to data.gov.rs",
-    summary: "Use dataset discovery to pull official sources with tags and search filters.",
+    summary:
+      "Use dataset discovery to pull official sources with tags and search filters.",
     actionLabel: "View guide",
-    href: "/docs/dataset-discovery",
+    href: "/tutorials/using-data-gov-rs-api",
   },
   {
     title: "Embed dashboards anywhere",
-    summary: "Generate embed codes with responsive sizing and language options.",
+    summary:
+      "Generate embed codes with responsive sizing and language options.",
     actionLabel: "See how",
-    href: "/docs/embedding",
+    href: "/tutorials/basic-embedding",
   },
 ];
 
@@ -98,8 +118,18 @@ const DashboardPage: NextPage = () => {
   const stats: StatItem[] = useMemo(
     () => [
       { label: "Visualizations", value: 18, delta: "+2 this week" },
-      { label: "Datasets connected", value: 12, delta: "3 pending", color: "warning" },
-      { label: "Auto updates", value: "9 active", delta: "All healthy", color: "success" },
+      {
+        label: "Datasets connected",
+        value: 12,
+        delta: "3 pending",
+        color: "warning",
+      },
+      {
+        label: "Auto updates",
+        value: "9 active",
+        delta: "All healthy",
+        color: "success",
+      },
     ],
     []
   );

@@ -341,7 +341,6 @@ const SelectDatasetStepInner = ({
                     ključne reči, a izbor dataset-a vodi direktno na portal.
                   </Trans>
                 </Typography>
-                <SearchDatasetInput browseState={browseState} />
                 <SearchDatasetControls browseState={browseState} cubes={[]} />
                 <DataGovDatasetResults
                   results={dataGovSearch?.results ?? []}
