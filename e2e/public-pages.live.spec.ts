@@ -395,3 +395,51 @@ test.describe("Embed datasets", () => {
     await expect(page.locator("svg").first()).toBeVisible({ timeout: 10_000 });
   });
 });
+
+test.describe("Locale/i18n", () => {
+  test("topics page with sr-Cyrl locale shows Cyrillic script", async ({
+    page,
+  }) => {
+    // Navigate with sr-Cyrl locale prefix
+    await page.goto(withPrefix("/sr-Cyrl/topics/environment?dataSource=Prod"));
+
+    await expect(page.locator("h1").first()).toBeVisible({ timeout: 15_000 });
+
+    // Verify Cyrillic characters are present in the heading
+    const headingText = await page.locator("h1").first().innerText();
+    expect(headingText).toMatch(/[А-Яа-яЉЊЋЏЂЈ]/);
+  });
+
+  test("dataset cards show correct locale labels for sr-Latn", async ({
+    page,
+  }) => {
+    // Default locale is sr-Latn
+    await page.goto(withDataSource("/topics/environment"));
+
+    // Verify "Ažurirano:" label (Latin script, not English or Cyrillic)
+    const updatedLine = page.getByTestId("dataset-updated").first();
+    await expect(updatedLine).toBeVisible({ timeout: 15_000 });
+
+    const updatedText = await updatedLine.innerText();
+    // Should contain "Ažurirano:" (Latin) not "Updated:" (English) or "Ажурирано:" (Cyrillic)
+    expect(updatedText).toContain("Ažurirano:");
+    expect(updatedText).not.toContain("Updated:");
+    expect(updatedText).not.toContain("Ажурирано:");
+  });
+
+  test("dataset cards show correct locale labels for sr-Cyrl", async ({
+    page,
+  }) => {
+    await page.goto(withPrefix("/sr-Cyrl/topics/environment?dataSource=Prod"));
+
+    // Verify "Ажурирано:" label (Cyrillic script)
+    const updatedLine = page.getByTestId("dataset-updated").first();
+    await expect(updatedLine).toBeVisible({ timeout: 15_000 });
+
+    const updatedText = await updatedLine.innerText();
+    // Should contain "Ажурирано:" (Cyrillic) not "Updated:" (English) or "Ažurirano:" (Latin)
+    expect(updatedText).toContain("Ажурирано:");
+    expect(updatedText).not.toContain("Updated:");
+    expect(updatedText).not.toContain("Ažurirano:");
+  });
+});
