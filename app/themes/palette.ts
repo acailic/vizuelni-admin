@@ -49,7 +49,99 @@ const green: PaletteOptions["green"] = {
 // Serbian blue as primary color
 export const PRIMARY_COLOR = blue[700];
 
-export const palette = {
+// Shared Serbian red overrides (used in both light and dark palettes)
+const serbianRed = {
+  ...colors.red,
+  main: "#C6363C",
+  700: "#C6363C",
+  800: "#B42F35",
+  900: "#9E2A2F",
+};
+
+// Shared yellow palette (main differs between modes)
+const yellowBase = {
+  50: "#FFFBEB",
+  100: "#FEF3C7",
+  200: "#FDE68A",
+  300: "#FCD34D",
+  400: "#FBBF24",
+  500: "#F59E0B",
+  600: "#D97706",
+  700: "#B45309",
+  800: "#92400E",
+  900: "#78350F",
+};
+
+// Shared color extensions
+const cobaltExtension = {
+  main: colors.cobalt[600],
+  ...colors.cobalt,
+};
+
+const monochromeExtension = {
+  main: colors.monochrome[500],
+  ...colors.monochrome,
+};
+
+// Light mode palette
+export const lightPalette = {
+  mode: "light" as const,
+  primary: {
+    main: blue[700],
+    light: blue[500],
+    dark: blue[900],
+    contrastText: "#fff",
+  },
+  secondary: {
+    main: colors.cobalt[500],
+    light: colors.cobalt[300],
+    dark: colors.cobalt[700],
+    contrastText: "#fff",
+  },
+  text: {
+    primary: colors.monochrome[900],
+    secondary: colors.monochrome[700],
+  },
+  background: {
+    default: "#FAFAFA",
+    paper: "#FFFFFF",
+  },
+  divider: colors.monochrome[200],
+  error: {
+    main: colors.red[600],
+    light: colors.red[100],
+    dark: colors.red[800],
+    contrastText: "#fff",
+  },
+  warning: {
+    main: orange[600],
+    light: orange[100],
+    dark: orange[800],
+    contrastText: "#fff",
+  },
+  info: {
+    main: blue[600],
+    light: blue[100],
+    dark: blue[800],
+    contrastText: "#fff",
+  },
+  success: {
+    main: green[600],
+    light: green[100],
+    dark: green[800],
+    contrastText: "#fff",
+  },
+  cobalt: cobaltExtension,
+  monochrome: monochromeExtension,
+  red: serbianRed,
+  orange,
+  yellow: { ...yellowBase, main: "#D97706" },
+  green,
+  blue,
+} satisfies ThemeOptions["palette"];
+
+// Dark mode palette (default/existing)
+export const darkPalette = {
   mode: "dark",
   primary: {
     main: PRIMARY_COLOR,
@@ -98,27 +190,12 @@ export const palette = {
     main: colors.monochrome[700],
     ...colors.monochrome,
   },
-  red: {
-    ...colors.red,
-    main: "#C6363C", // Serbian red
-    700: "#C6363C",
-    800: "#B42F35",
-    900: "#9E2A2F",
-  },
+  red: serbianRed,
   orange,
-  yellow: {
-    main: "#92400E",
-    50: "#FFFBEB",
-    100: "#FEF3C7",
-    200: "#FDE68A",
-    300: "#FCD34D",
-    400: "#FBBF24",
-    500: "#F59E0B",
-    600: "#D97706",
-    700: "#B45309",
-    800: "#92400E",
-    900: "#78350F",
-  },
+  yellow: { ...yellowBase, main: "#92400E" },
   green,
   blue,
 } satisfies ThemeOptions["palette"];
+
+// Keep the default export as darkPalette for backward compatibility
+export const palette = darkPalette;
