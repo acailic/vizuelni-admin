@@ -2,9 +2,12 @@
 import { compressToEncodedURIComponent } from "lz-string";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
-import { compressState, decompressState } from "../_hooks/useUrlState";
+import {
+  compressState,
+  decompressState,
+} from "@/demos/playground/_hooks/useUrlState";
 
-import type { PlaygroundState } from "../_types";
+import type { PlaygroundState } from "@/demos/playground/_types";
 
 describe("URL State", () => {
   // Complete sample state for testing

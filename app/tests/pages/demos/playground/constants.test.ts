@@ -1,7 +1,11 @@
 // app/pages/demos/playground/__tests__/constants.test.ts
 import { describe, it, expect } from "vitest";
 
-import { THEME_PRESETS, SAMPLE_DATASETS, getThemeById } from "../_constants";
+import {
+  THEME_PRESETS,
+  SAMPLE_DATASETS,
+  getThemeById,
+} from "@/demos/playground/_constants";
 
 describe("Playground Constants", () => {
   it("should have 5 theme presets", () => {

@@ -2,7 +2,11 @@
 
 import { describe, it, expect } from "vitest";
 
-import type { PlaygroundState, ChartType, ThemePreset } from "../_types";
+import type {
+  PlaygroundState,
+  ChartType,
+  ThemePreset,
+} from "@/demos/playground/_types";
 
 describe("Playground Types", () => {
   it("should accept valid chart types", () => {

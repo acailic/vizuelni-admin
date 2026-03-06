@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
-import { generateCode } from "../_components/CodeOutput";
-import { SAMPLE_DATASETS } from "../_constants";
+import { generateCode } from "@/demos/playground/_components/CodeOutput";
+import { SAMPLE_DATASETS } from "@/demos/playground/_constants";
 
 describe("CodeOutput", () => {
   it("should generate code with LineChart", () => {

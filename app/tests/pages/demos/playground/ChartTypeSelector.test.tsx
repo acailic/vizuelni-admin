@@ -2,7 +2,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
-import { ChartTypeSelector } from "../_components/ConfigPanel/ChartTypeSelector";
+import { ChartTypeSelector } from "@/demos/playground/_components/ConfigPanel/ChartTypeSelector";
 
 describe("ChartTypeSelector", () => {
   it("should render all chart types", () => {

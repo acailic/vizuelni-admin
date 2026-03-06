@@ -2,8 +2,8 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 
-import { ConfigPanel } from "../_components/ConfigPanel";
-import { SAMPLE_DATASETS } from "../_constants";
+import { ConfigPanel } from "@/demos/playground/_components/ConfigPanel";
+import { SAMPLE_DATASETS } from "@/demos/playground/_constants";
 
 describe("ConfigPanel", () => {
   it("should render all config sections", () => {

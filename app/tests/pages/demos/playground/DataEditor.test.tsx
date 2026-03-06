@@ -2,8 +2,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
-import { DataEditor } from "../_components/ConfigPanel/DataEditor";
-import { SAMPLE_DATASETS } from "../_constants";
+import { DataEditor } from "@/demos/playground/_components/ConfigPanel/DataEditor";
+import { SAMPLE_DATASETS } from "@/demos/playground/_constants";
 
 describe("DataEditor", () => {
   const defaultProps = {

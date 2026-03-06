@@ -2,7 +2,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
-import { ThemeSelector } from "../_components/ConfigPanel/ThemeSelector";
+import { ThemeSelector } from "@/demos/playground/_components/ConfigPanel/ThemeSelector";
 
 describe("ThemeSelector", () => {
   it("should render all theme options", () => {

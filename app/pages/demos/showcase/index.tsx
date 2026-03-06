@@ -18,8 +18,8 @@ import { DemoErrorBoundary } from "@/components/demos/DemoErrorBoundary";
 import DemoSkeleton from "@/components/demos/DemoSkeleton";
 import { FEATURED_CHARTS } from "@/lib/demos/config";
 
-import { ChartPreviewModal } from "./_components/ChartPreviewModal";
-import { FeaturedChartCard } from "./_components/FeaturedChartCard";
+import { ChartPreviewModal } from "@/demos/showcase/_components/ChartPreviewModal";
+import { FeaturedChartCard } from "@/demos/showcase/_components/FeaturedChartCard";
 
 const TOPIC_ROUTE_IDS = new Set([
   "economy",

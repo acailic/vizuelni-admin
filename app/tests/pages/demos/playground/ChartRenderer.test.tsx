@@ -14,8 +14,8 @@ vi.mock("next/dynamic", () => ({
 }));
 
 // Import after mocking
-import { ChartRenderer } from "../_components/PreviewPane/ChartRenderer";
-import { SAMPLE_DATASETS } from "../_constants";
+import { ChartRenderer } from "@/demos/playground/_components/PreviewPane/ChartRenderer";
+import { SAMPLE_DATASETS } from "@/demos/playground/_constants";
 
 describe("ChartRenderer", () => {
   const defaultProps = {

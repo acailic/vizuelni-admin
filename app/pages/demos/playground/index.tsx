@@ -14,12 +14,12 @@ import { useEffect } from "react";
 
 import { DemoErrorBoundary } from "@/components/demos/DemoErrorBoundary";
 
-import { CodeOutput } from "./_components/CodeOutput";
-import { ConfigPanel } from "./_components/ConfigPanel";
-import { PreviewPane } from "./_components/PreviewPane";
-import { SAMPLE_DATASETS, getThemeById } from "./_constants";
-import { usePlaygroundStore } from "./_hooks/usePlaygroundStore";
-import { useUrlState } from "./_hooks/useUrlState";
+import { CodeOutput } from "@/demos/playground/_components/CodeOutput";
+import { ConfigPanel } from "@/demos/playground/_components/ConfigPanel";
+import { PreviewPane } from "@/demos/playground/_components/PreviewPane";
+import { SAMPLE_DATASETS, getThemeById } from "@/demos/playground/_constants";
+import { usePlaygroundStore } from "@/demos/playground/_hooks/usePlaygroundStore";
+import { useUrlState } from "@/demos/playground/_hooks/useUrlState";
 
 export default function PlaygroundPage() {
   const { i18n } = useLingui();

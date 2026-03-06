@@ -2,7 +2,7 @@
 import { act } from "@testing-library/react";
 import { describe, it, expect, beforeEach } from "vitest";
 
-import { usePlaygroundStore } from "../_hooks/usePlaygroundStore";
+import { usePlaygroundStore } from "@/demos/playground/_hooks/usePlaygroundStore";
 
 describe("Playground Store", () => {
   beforeEach(() => {
