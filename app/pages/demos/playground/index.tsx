@@ -13,7 +13,6 @@ import Head from "next/head";
 import { useEffect } from "react";
 
 import { DemoErrorBoundary } from "@/components/demos/DemoErrorBoundary";
-
 import { CodeOutput } from "@/demos/playground/_components/CodeOutput";
 import { ConfigPanel } from "@/demos/playground/_components/ConfigPanel";
 import { PreviewPane } from "@/demos/playground/_components/PreviewPane";

@@ -6,7 +6,6 @@ import {
   compressState,
   decompressState,
 } from "@/demos/playground/_hooks/useUrlState";
-
 import type { PlaygroundState } from "@/demos/playground/_types";
 
 describe("URL State", () => {

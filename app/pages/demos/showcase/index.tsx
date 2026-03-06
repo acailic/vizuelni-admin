@@ -16,11 +16,9 @@ import { useState, useEffect } from "react";
 import { DemoLayout } from "@/components/demos/demo-layout";
 import { DemoErrorBoundary } from "@/components/demos/DemoErrorBoundary";
 import DemoSkeleton from "@/components/demos/DemoSkeleton";
-import { FEATURED_CHARTS } from "@/lib/demos/config";
-
 import { ChartPreviewModal } from "@/demos/showcase/_components/ChartPreviewModal";
 import { FeaturedChartCard } from "@/demos/showcase/_components/FeaturedChartCard";
-
+import { FEATURED_CHARTS } from "@/lib/demos/config";
 const TOPIC_ROUTE_IDS = new Set([
   "economy",
   "health",
