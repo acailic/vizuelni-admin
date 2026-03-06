@@ -207,11 +207,11 @@ export function setupIntersectionObserverMock(): void {
  * Mock ResizeObserver for tests
  */
 export function setupResizeObserverMock(): void {
-  const mockResizeObserver = vi.fn().mockImplementation(function () {
-    this.observe = vi.fn();
-    this.unobserve = vi.fn();
-    this.disconnect = vi.fn();
-  });
+  const mockResizeObserver = vi.fn().mockImplementation(() => ({
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn(),
+  }));
 
   vi.stubGlobal("ResizeObserver", mockResizeObserver);
 }

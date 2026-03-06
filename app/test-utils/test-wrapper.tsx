@@ -3,15 +3,18 @@
  * Including I18nProvider for Lingui and other common providers
  */
 
-import { i18n } from '@lingui/core';
-import { I18nProvider } from '@lingui/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render, RenderOptions } from '@testing-library/react';
-import { ReactElement, ReactNode } from 'react';
+import { i18n } from "@lingui/core";
+import { I18nProvider } from "@lingui/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { render, RenderOptions } from "@testing-library/react";
+import { ComponentProps, ReactElement, ReactNode } from "react";
 
 // Initialize i18n for tests
-i18n.load('en', {});
-i18n.activate('en');
+i18n.load("en", {});
+i18n.activate("en");
+const providerI18n = i18n as unknown as ComponentProps<
+  typeof I18nProvider
+>["i18n"];
 
 // Create a test query client with disabled retries
 const createTestQueryClient = () =>
@@ -39,7 +42,7 @@ export function TestWrapper({ children, queryClient }: TestWrapperProps) {
   const client = queryClient || createTestQueryClient();
 
   return (
-    <I18nProvider i18n={i18n}>
+    <I18nProvider i18n={providerI18n}>
       <QueryClientProvider client={client}>{children}</QueryClientProvider>
     </I18nProvider>
   );
@@ -50,7 +53,7 @@ export function TestWrapper({ children, queryClient }: TestWrapperProps) {
  */
 export function renderWithProviders(
   ui: ReactElement,
-  options?: Omit<RenderOptions, 'wrapper'> & { queryClient?: QueryClient }
+  options?: Omit<RenderOptions, "wrapper"> & { queryClient?: QueryClient }
 ) {
   const { queryClient, ...renderOptions } = options || {};
 
@@ -63,5 +66,5 @@ export function renderWithProviders(
 }
 
 // Re-export everything from testing library
-export * from '@testing-library/react';
+export * from "@testing-library/react";
 export { renderWithProviders as render };

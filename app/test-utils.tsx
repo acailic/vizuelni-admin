@@ -11,9 +11,12 @@ i18n.load("en", {});
 i18n.load("sr-Latn", {});
 i18n.load("sr-Cyrl", {});
 i18n.activate("sr-Latn");
+const providerI18n = i18n as unknown as React.ComponentProps<
+  typeof I18nProvider
+>["i18n"];
 
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
-  return <I18nProvider i18n={i18n}>{children}</I18nProvider>;
+  return <I18nProvider i18n={providerI18n}>{children}</I18nProvider>;
 };
 
 export const render = (ui: React.ReactElement, options?: any) =>

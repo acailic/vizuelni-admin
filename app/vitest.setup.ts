@@ -278,10 +278,13 @@ if (typeof requestIdleCallback === "undefined") {
 // Setup I18n for tests
 i18n.load("en", {});
 i18n.activate("en");
+const providerI18n = i18n as unknown as React.ComponentProps<
+  typeof I18nProvider
+>["i18n"];
 
 // Setup I18nProvider wrapper for all RTL renders
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
-  return React.createElement(I18nProvider, { i18n }, children);
+  return React.createElement(I18nProvider, { i18n: providerI18n }, children);
 };
 
 // Override RTL render with providers
