@@ -4,7 +4,11 @@ import {
   Card,
   CardContent,
   CardHeader,
+  Checkbox,
   Container,
+  Divider,
+  FormControlLabel,
+  FormGroup,
   Grid,
   MenuItem,
   Stack,
@@ -25,8 +29,41 @@ import {
 } from "@/lib/embed-url";
 import { useLocale } from "@/locales/use-locale";
 
-// Params that are UI-only and should not be passed through to embed
-const EXCLUDED_PARAMS = new Set(["theme", "lang", "width", "height"]);
+const UI_ONLY_PARAMS = new Set(["theme", "lang", "width", "height"]);
+const CHART_PARAMS = new Set(["type", "dataset", "dataSource"]);
+const EMBED_LAYOUT_PARAMS = [
+  "removeBorder",
+  "optimizeSpace",
+  "removeMoreOptionsButton",
+  "removeLabelsInteractivity",
+  "removeFootnotes",
+  "removeFilters",
+] as const;
+type EmbedLayoutParam = (typeof EMBED_LAYOUT_PARAMS)[number];
+
+const DEFAULT_LAYOUT_PARAMS: Record<EmbedLayoutParam, boolean> = {
+  removeBorder: false,
+  optimizeSpace: false,
+  removeMoreOptionsButton: false,
+  removeLabelsInteractivity: false,
+  removeFootnotes: false,
+  removeFilters: false,
+};
+
+const LAYOUT_PARAM_LABELS: Record<EmbedLayoutParam, string> = {
+  removeBorder: "Remove border",
+  optimizeSpace: "Optimize space",
+  removeMoreOptionsButton: "Remove more options button",
+  removeLabelsInteractivity: "Disable label interactivity",
+  removeFootnotes: "Remove footnotes",
+  removeFilters: "Remove filters",
+};
+
+const FORM_MANAGED_PARAMS = new Set([
+  ...UI_ONLY_PARAMS,
+  ...CHART_PARAMS,
+  ...EMBED_LAYOUT_PARAMS,
+]);
 
 export default function EmbedGeneratorPage() {
   const router = useRouter();
@@ -37,6 +74,12 @@ export default function EmbedGeneratorPage() {
   const [height, setHeight] = useState("520px");
   const [theme, setTheme] = useState<EmbedTheme>("light");
   const [lang, setLang] = useState<EmbedLang>(defaultLang);
+  const [chartType, setChartType] = useState("line");
+  const [dataset, setDataset] = useState("");
+  const [dataSource, setDataSource] = useState("");
+  const [layoutParams, setLayoutParams] = useState<
+    Record<EmbedLayoutParam, boolean>
+  >(() => ({ ...DEFAULT_LAYOUT_PARAMS }));
 
   const resolvedQuery = useMemo<Record<string, string>>(() => {
     const queryFromRouter = Object.fromEntries(
@@ -75,6 +118,9 @@ export default function EmbedGeneratorPage() {
     const urlTheme = resolvedQuery.theme;
     const urlWidth = resolvedQuery.width;
     const urlHeight = resolvedQuery.height;
+    const urlType = resolvedQuery.type;
+    const urlDataset = resolvedQuery.dataset;
+    const urlDataSource = resolvedQuery.dataSource;
 
     if (urlLang === "en" || urlLang === "sr") {
       setLang(urlLang);
@@ -88,10 +134,31 @@ export default function EmbedGeneratorPage() {
     if (urlHeight && urlHeight.trim() !== "") {
       setHeight(urlHeight);
     }
+    setChartType(urlType && urlType.trim() !== "" ? urlType : "line");
+    setDataset(urlDataset ?? "");
+    setDataSource(urlDataSource ?? "");
+    setLayoutParams({
+      removeBorder: resolvedQuery.removeBorder === "true",
+      optimizeSpace: resolvedQuery.optimizeSpace === "true",
+      removeMoreOptionsButton: resolvedQuery.removeMoreOptionsButton === "true",
+      removeLabelsInteractivity:
+        resolvedQuery.removeLabelsInteractivity === "true",
+      removeFootnotes: resolvedQuery.removeFootnotes === "true",
+      removeFilters: resolvedQuery.removeFilters === "true",
+    });
   }, [
+    resolvedQuery.dataSource,
+    resolvedQuery.dataset,
     resolvedQuery.height,
     resolvedQuery.lang,
+    resolvedQuery.removeBorder,
+    resolvedQuery.removeFilters,
+    resolvedQuery.removeFootnotes,
+    resolvedQuery.removeLabelsInteractivity,
+    resolvedQuery.removeMoreOptionsButton,
+    resolvedQuery.optimizeSpace,
     resolvedQuery.theme,
+    resolvedQuery.type,
     resolvedQuery.width,
   ]);
 
@@ -110,15 +177,36 @@ export default function EmbedGeneratorPage() {
   }, [embedPreviewPath]);
 
   const passthroughParams = useMemo(() => {
-    // Exclude UI-only params, pass through chart params (type, dataset, dataSource, etc.)
-    return Object.fromEntries(
+    const additionalParams = Object.fromEntries(
       Object.entries(resolvedQuery)
-        .filter(([key]) => !EXCLUDED_PARAMS.has(key))
+        .filter(([key]) => !FORM_MANAGED_PARAMS.has(key))
         .filter(
           ([, value]) => value !== undefined && value !== null && value !== ""
         )
     );
-  }, [resolvedQuery]);
+
+    const fromForm: Record<string, string> = {
+      ...additionalParams,
+    };
+
+    if (chartType.trim() !== "") {
+      fromForm.type = chartType.trim();
+    }
+    if (dataset.trim() !== "") {
+      fromForm.dataset = dataset.trim();
+    }
+    if (dataSource.trim() !== "") {
+      fromForm.dataSource = dataSource.trim();
+    }
+
+    EMBED_LAYOUT_PARAMS.forEach((param) => {
+      if (layoutParams[param]) {
+        fromForm[param] = "true";
+      }
+    });
+
+    return fromForm;
+  }, [chartType, dataSource, dataset, layoutParams, resolvedQuery]);
 
   const iframeSrc = useMemo(() => {
     return buildEmbedUrl(baseEmbedUrl, {
@@ -169,9 +257,9 @@ export default function EmbedGeneratorPage() {
           color="text.secondary"
           sx={{ mb: 4, maxWidth: 800 }}
         >
-          Customize size, theme, and language, then copy/paste the embed
-          snippet. Chart settings from the current URL (for example `type`,
-          `dataset`, `dataSource`) are included automatically.
+          Customize size, theme, language, chart params, and layout options,
+          then copy/paste the embed snippet. The preview is embedded on this
+          same screen and updates live.
         </Typography>
 
         <Grid container spacing={3}>
@@ -212,11 +300,57 @@ export default function EmbedGeneratorPage() {
                     <MenuItem value="en">English</MenuItem>
                     <MenuItem value="sr">Serbian</MenuItem>
                   </TextField>
-                  {/* Show current passthrough params */}
+                  <Divider />
+                  <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                    Chart parameters
+                  </Typography>
+                  <TextField
+                    label="Chart type"
+                    value={chartType}
+                    onChange={(e) => setChartType(e.target.value)}
+                    helperText='Examples: "bar", "line", "column", "pie"'
+                  />
+                  <TextField
+                    label="Dataset"
+                    value={dataset}
+                    onChange={(e) => setDataset(e.target.value)}
+                    helperText='Examples: "age", "budget", "air"'
+                  />
+                  <TextField
+                    label="Data source"
+                    value={dataSource}
+                    onChange={(e) => setDataSource(e.target.value)}
+                    helperText='Example: "Prod"'
+                  />
+                  <Divider />
+                  <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                    Layout options
+                  </Typography>
+                  <FormGroup>
+                    {EMBED_LAYOUT_PARAMS.map((param) => (
+                      <FormControlLabel
+                        key={param}
+                        control={
+                          <Checkbox
+                            checked={layoutParams[param]}
+                            onChange={(e) =>
+                              setLayoutParams((prev) => ({
+                                ...prev,
+                                [param]: e.target.checked,
+                              }))
+                            }
+                          />
+                        }
+                        label={LAYOUT_PARAM_LABELS[param]}
+                      />
+                    ))}
+                  </FormGroup>
+
+                  {/* Show current params that will be included in embed URL */}
                   {Object.keys(passthroughParams).length > 0 && (
                     <Box sx={{ mt: 1 }}>
                       <Typography variant="caption" color="text.secondary">
-                        Chart params from URL:
+                        Parameters in embed URL:
                       </Typography>
                       <Box
                         sx={{
