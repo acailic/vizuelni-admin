@@ -297,7 +297,7 @@ export default function DynamicDemoPage({ demoConfig }: DemoPageProps) {
  * Generate static paths for all demo IDs
  */
 export async function getStaticPaths() {
-  const demoIds = getAllDemoIds();
+  const demoIds = getAllDemoIds().filter((id) => id !== "demographics");
 
   const paths = demoIds.map((id) => ({
     params: { demoId: id },
