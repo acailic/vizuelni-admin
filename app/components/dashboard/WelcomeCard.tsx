@@ -26,7 +26,7 @@ export const WelcomeCard = ({
     <Card
       elevation={2}
       sx={{
-        background: `linear-gradient(135deg, ${theme.palette.grey[900]}, ${theme.palette.teal?.[700] || theme.palette.success.dark})`,
+        background: `linear-gradient(135deg, ${theme.palette.grey[900]}, ${theme.palette.success.dark})`,
         color: "common.white",
       }}
     >
