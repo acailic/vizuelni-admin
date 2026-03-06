@@ -96,12 +96,10 @@ export default function EmbedGeneratorPage() {
   ]);
 
   const embedPreviewPath = useMemo(() => {
-    const resolvedChartId = resolvedQuery.chartId;
-    if (resolvedChartId) {
-      return `${PUBLIC_URL}/embed/${resolvedChartId}`.replace(/\/{2,}/g, "/");
-    }
+    // Keep generator preview pinned to a stable embed-safe route.
+    // Dynamic chart routes are not pre-rendered in static builds.
     return `${PUBLIC_URL}/embed/demo`.replace(/\/{2,}/g, "/");
-  }, [resolvedQuery.chartId]);
+  }, []);
 
   const baseEmbedUrl = useMemo(() => {
     const embedPath = embedPreviewPath;
@@ -290,6 +288,8 @@ export default function EmbedGeneratorPage() {
                     component="iframe"
                     title="Embed preview"
                     src={iframeSrc}
+                    sandbox="allow-scripts allow-same-origin"
+                    referrerPolicy="no-referrer"
                     sx={{
                       width,
                       height,

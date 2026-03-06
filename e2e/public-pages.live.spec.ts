@@ -256,9 +256,7 @@ test.describe("Public pages E2E", () => {
     await expect(page.getByText("type: bar")).toBeVisible();
     await expect(page.getByText("dataset: budget")).toBeVisible();
     await expect(page.getByText("dataSource: Prod")).toBeVisible();
-    await expect(page.getByText(/Target route:/)).toContainText(
-      "/embed/budget"
-    );
+    await expect(page.getByText(/Target route:/)).toContainText("/embed/demo");
     await expect(
       page.getByRole("button", { name: /Copy embed code|Code copied/i })
     ).toBeVisible();
@@ -266,7 +264,7 @@ test.describe("Public pages E2E", () => {
     const previewLink = page.getByRole("link", { name: "Preview embed" });
     const previewHref = (await previewLink.getAttribute("href")) ?? "";
 
-    expect(previewHref).toContain("/embed/budget?");
+    expect(previewHref).toContain("/embed/demo?");
     expect(previewHref).toContain("chartId=budget");
     expect(previewHref).toContain("type=bar");
     expect(previewHref).toContain("dataset=budget");
@@ -278,9 +276,13 @@ test.describe("Public pages E2E", () => {
 
     const inlinePreview = page.locator('iframe[title="Embed preview"]');
     await expect(inlinePreview).toBeVisible();
+    await expect(inlinePreview).toHaveAttribute(
+      "sandbox",
+      "allow-scripts allow-same-origin"
+    );
     const inlineSrc = (await inlinePreview.getAttribute("src")) ?? "";
 
-    expect(inlineSrc).toContain("/embed/budget?");
+    expect(inlineSrc).toContain("/embed/demo?");
     expect(inlineSrc).toContain("chartId=budget");
     expect(inlineSrc).toContain("type=bar");
     expect(inlineSrc).toContain("dataset=budget");
@@ -313,6 +315,23 @@ test.describe("Public pages E2E", () => {
 
     await expect(page.getByText("Runtime Error")).toHaveCount(0);
     await expect(page.locator("body")).toContainText(/Dataset:/i);
+  });
+
+  test("embed generator route remains stable while adjusting controls", async ({
+    page,
+  }) => {
+    await page.goto(
+      withPrefix("/embed?type=line&dataset=air&dataSource=Prod&lang=en")
+    );
+
+    await expect(page).toHaveURL(/\/embed(\?|$)/);
+    await page.waitForTimeout(1200);
+    await expect(page).toHaveURL(/\/embed(\?|$)/);
+
+    await page.getByLabel("Width").fill("85%");
+    await page.getByLabel("Height").fill("480px");
+
+    await expect(page).toHaveURL(/\/embed(\?|$)/);
   });
 
   test("topics dataset timestamp keeps the colon attached to the updated label", async ({
