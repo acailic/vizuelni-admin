@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 
+import { DemoErrorBoundary } from "@/components/demos/DemoErrorBoundary";
 import { DEMO_CONFIGS } from "@/lib/demos/config";
 
 import { CATEGORY_GRADIENTS } from "../_constants/gradients";
@@ -93,67 +94,87 @@ export function ChartPreviewModal({
       </DialogTitle>
 
       <DialogContent>
-        {/* Preview area with gradient placeholder */}
-        <Box
-          sx={{
-            height: 200,
-            background: gradient,
-            borderRadius: 2,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            mb: 3,
-          }}
+        <DemoErrorBoundary
+          fallback={
+            <Box
+              sx={{
+                height: 200,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 2,
+                bgcolor: "grey.100",
+                mb: 3,
+              }}
+            >
+              <Typography color="text.secondary">
+                Chart preview unavailable
+              </Typography>
+            </Box>
+          }
         >
-          <svg
-            width="180"
-            height="100"
-            viewBox="0 0 180 100"
-            aria-hidden="true"
+          {/* Preview area with gradient placeholder */}
+          <Box
+            sx={{
+              height: 200,
+              background: gradient,
+              borderRadius: 2,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              mb: 3,
+            }}
           >
-            <rect x="20" y="54" width="18" height="26" rx="4" fill="white" />
-            <rect
-              x="48"
-              y="34"
-              width="18"
-              height="46"
-              rx="4"
-              fill="white"
-              opacity="0.9"
-            />
-            <rect
-              x="76"
-              y="18"
-              width="18"
-              height="62"
-              rx="4"
-              fill="white"
-              opacity="0.85"
-            />
-            <rect
-              x="104"
-              y="42"
-              width="18"
-              height="38"
-              rx="4"
-              fill="white"
-              opacity="0.8"
-            />
-            <polyline
-              points="20,40 56,24 88,12 120,28 154,20"
-              fill="none"
-              stroke="rgba(255,255,255,0.8)"
-              strokeWidth="4"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <circle cx="20" cy="40" r="4" fill="white" />
-            <circle cx="56" cy="24" r="4" fill="white" />
-            <circle cx="88" cy="12" r="4" fill="white" />
-            <circle cx="120" cy="28" r="4" fill="white" />
-            <circle cx="154" cy="20" r="4" fill="white" />
-          </svg>
-        </Box>
+            <svg
+              width="180"
+              height="100"
+              viewBox="0 0 180 100"
+              aria-hidden="true"
+            >
+              <rect x="20" y="54" width="18" height="26" rx="4" fill="white" />
+              <rect
+                x="48"
+                y="34"
+                width="18"
+                height="46"
+                rx="4"
+                fill="white"
+                opacity="0.9"
+              />
+              <rect
+                x="76"
+                y="18"
+                width="18"
+                height="62"
+                rx="4"
+                fill="white"
+                opacity="0.85"
+              />
+              <rect
+                x="104"
+                y="42"
+                width="18"
+                height="38"
+                rx="4"
+                fill="white"
+                opacity="0.8"
+              />
+              <polyline
+                points="20,40 56,24 88,12 120,28 154,20"
+                fill="none"
+                stroke="rgba(255,255,255,0.8)"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <circle cx="20" cy="40" r="4" fill="white" />
+              <circle cx="56" cy="24" r="4" fill="white" />
+              <circle cx="88" cy="12" r="4" fill="white" />
+              <circle cx="120" cy="28" r="4" fill="white" />
+              <circle cx="154" cy="20" r="4" fill="white" />
+            </svg>
+          </Box>
+        </DemoErrorBoundary>
 
         <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
           {chart.description[locale]}
