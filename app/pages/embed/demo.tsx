@@ -13,11 +13,14 @@ const ChartErrorFallback = ({
   error,
   resetErrorBoundary,
 }: {
-  error: Error;
+  error: unknown;
   resetErrorBoundary: () => void;
 }) => (
   <div style={{ padding: 20, color: "#dc2626" }}>
-    <p>Chart failed to load: {error.message}</p>
+    <p>
+      Chart failed to load:{" "}
+      {error instanceof Error ? error.message : String(error)}
+    </p>
     <button onClick={resetErrorBoundary}>Retry</button>
   </div>
 );

@@ -24,13 +24,14 @@ export function DemoLayout({
   datasetInfo,
   hideBackButton = false,
 }: DemoLayoutProps) {
-  const locale = useDemoLocale();
-  const dateLocale = locale === "sr" ? "sr-RS" : "en-US";
+  const demoLocale = useDemoLocale();
+  const { i18n } = useLingui();
+  const dateLocale = demoLocale === "sr" ? "sr-RS" : "en-US";
   const backLabel =
-    locale === "sr"
-      ? "Nazad na demo galeriju"
-      : locale === "sr-Cyrl"
-        ? "Назад на демо галерију"
+    i18n.locale === "sr-Cyrl"
+      ? "Назад на демо галерију"
+      : demoLocale === "sr"
+        ? "Nazad na demo galeriju"
         : "Back to demo gallery";
 
   const formattedUpdatedAt = datasetInfo?.updatedAt
@@ -208,7 +209,7 @@ export function DemoLayout({
           >
             <Typography variant="body2" color="text.secondary">
               <Box component="span" sx={{ whiteSpace: "nowrap" }}>
-                {locale === "sr" ? "Izvor podataka" : "Data source"}:
+                {demoLocale === "sr" ? "Izvor podataka" : "Data source"}:
               </Box>{" "}
               <Link href="https://data.gov.rs" passHref legacyBehavior>
                 <a
