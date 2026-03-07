@@ -11,11 +11,12 @@ export const isStaticExportMode = Boolean(BASE_PATH);
 
 export const buildPublicPath = (path: string) => {
   const normalizedPath = normalizePath(path);
-  if (!PUBLIC_URL) {
+  // Use PUBLIC_URL if available, otherwise fall back to BASE_PATH
+  const basePath = PUBLIC_URL || BASE_PATH;
+  if (!basePath) {
     return normalizedPath;
   }
-
-  return `${PUBLIC_URL}${normalizedPath}`;
+  return `${basePath}${normalizedPath}`;
 };
 
 export const buildAbsolutePublicUrl = (origin: string, path: string) => {
