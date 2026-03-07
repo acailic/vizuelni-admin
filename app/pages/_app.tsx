@@ -25,6 +25,7 @@ import { EventEmitterProvider } from "@/utils/event-emitter";
 import { Flashes } from "@/utils/flashes";
 import { analyticsPageView } from "@/utils/google-analytics";
 import "@/utils/nprogress.css";
+import { isStaticExportMode } from "@/utils/public-paths";
 import { useNProgress } from "@/utils/use-nprogress";
 
 import "@/configurator/components/color-picker.css";
@@ -70,6 +71,22 @@ export default function App({
   const canonicalUrl = `${PUBLIC_URL}${canonicalPath}`;
 
   useNProgress();
+
+  // Suppress next-auth errors in static mode
+  useEffect(() => {
+    if (isStaticExportMode) {
+      const originalError = console.error;
+      console.error = (...args) => {
+        if (args[0]?.includes?.("CLIENT_FETCH_ERROR")) {
+          return;
+        }
+        originalError.apply(console, args);
+      };
+      return () => {
+        console.error = originalError;
+      };
+    }
+  }, []);
 
   // Immediately activate locale to avoid re-render
   if (i18n.locale !== locale) {
