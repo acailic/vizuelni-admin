@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Script from "next/script";
+import { ErrorBoundary } from "react-error-boundary";
 
 import {
   BarChart,
@@ -7,6 +8,19 @@ import {
   LineChart,
   PieChart,
 } from "@/components/demos/charts";
+
+const ChartErrorFallback = ({
+  error,
+  resetErrorBoundary,
+}: {
+  error: Error;
+  resetErrorBoundary: () => void;
+}) => (
+  <div style={{ padding: 20, color: "#dc2626" }}>
+    <p>Chart failed to load: {error.message}</p>
+    <button onClick={resetErrorBoundary}>Retry</button>
+  </div>
+);
 
 function parseTheme(value: string | null): "light" | "dark" {
   return value === "dark" ? "dark" : "light";
@@ -262,53 +276,58 @@ export default function DemoEmbed() {
               : `Dataset "${dataset}" was not found, showing demo fallback data.`}
           </div>
         ) : null}
-        {chartType === "line" ? (
-          <LineChart
-            data={data}
-            xKey="label"
-            yKey="value"
-            title={chartTitle}
-            width={720}
-            height={420}
-            showTooltip
-            showCrosshair
-            color={accent}
-            colors={[accent, "#22d3ee", "#a855f7", "#fbbf24"]}
-          />
-        ) : null}
-        {chartType === "bar" ? (
-          <BarChart
-            data={data}
-            xKey="label"
-            yKey="value"
-            title={chartTitle}
-            width={720}
-            height={420}
-            color={accent}
-          />
-        ) : null}
-        {chartType === "column" ? (
-          <ColumnChart
-            data={data}
-            xKey="label"
-            yKey="value"
-            title={chartTitle}
-            width={720}
-            height={420}
-            color={accent}
-          />
-        ) : null}
-        {chartType === "pie" ? (
-          <PieChart
-            data={data}
-            labelKey="label"
-            valueKey="value"
-            title={chartTitle}
-            width={720}
-            height={420}
-            colors={[accent, "#22d3ee", "#a855f7", "#fbbf24", "#94a3b8"]}
-          />
-        ) : null}
+        <ErrorBoundary
+          FallbackComponent={ChartErrorFallback}
+          resetKeys={[chartType, data]}
+        >
+          {chartType === "line" ? (
+            <LineChart
+              data={data}
+              xKey="label"
+              yKey="value"
+              title={chartTitle}
+              width={720}
+              height={420}
+              showTooltip
+              showCrosshair
+              color={accent}
+              colors={[accent, "#22d3ee", "#a855f7", "#fbbf24"]}
+            />
+          ) : null}
+          {chartType === "bar" ? (
+            <BarChart
+              data={data}
+              xKey="label"
+              yKey="value"
+              title={chartTitle}
+              width={720}
+              height={420}
+              color={accent}
+            />
+          ) : null}
+          {chartType === "column" ? (
+            <ColumnChart
+              data={data}
+              xKey="label"
+              yKey="value"
+              title={chartTitle}
+              width={720}
+              height={420}
+              color={accent}
+            />
+          ) : null}
+          {chartType === "pie" ? (
+            <PieChart
+              data={data}
+              labelKey="label"
+              valueKey="value"
+              title={chartTitle}
+              width={720}
+              height={420}
+              colors={[accent, "#22d3ee", "#a855f7", "#fbbf24", "#94a3b8"]}
+            />
+          ) : null}
+        </ErrorBoundary>
         <div style={{ marginTop: 8, fontSize: 12, opacity: 0.8 }}>
           {footnote}
         </div>
