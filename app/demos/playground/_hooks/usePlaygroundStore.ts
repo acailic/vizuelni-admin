@@ -2,6 +2,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+import { SAMPLE_DATASETS } from "../_constants";
+
 import type {
   PlaygroundState,
   PlaygroundConfig,
@@ -23,8 +25,8 @@ interface PlaygroundActions {
 
 const initialState: PlaygroundState = {
   chartType: "line",
-  data: [],
-  config: { xAxis: "", yAxis: "", color: "#6366f1" },
+  data: SAMPLE_DATASETS.sales.data,
+  config: { xAxis: "label", yAxis: "value", color: "#6366f1" },
   themeId: "indigo",
   ui: {
     activeTab: "preview",
