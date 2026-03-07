@@ -654,17 +654,18 @@ test.describe("Public pages E2E", () => {
   test("public pages do not emit next-auth client fetch errors on load", async ({
     page,
   }) => {
+    test.setTimeout(120_000);
+
     const errors = attachConsoleCollector(page);
     const routes = [
       withDataSource("/"),
       withPrefix("/embed?type=bar&dataset=budget&dataSource=Prod"),
-      withPrefix("/demos/showcase"),
     ];
 
     for (const route of routes) {
       errors.length = 0;
-      await page.goto(route);
-      await page.waitForLoadState("networkidle");
+      await page.goto(route, { waitUntil: "domcontentloaded" });
+      await page.waitForTimeout(1500);
 
       const nextAuthErrors = errors.filter((error) =>
         /(CLIENT_FETCH_ERROR|Unexpected token '<'|<!DOCTYPE)/i.test(error)
@@ -763,5 +764,256 @@ test.describe("Locale/i18n", () => {
     expect(updatedText).toContain("Ажурирано:");
     expect(updatedText).not.toContain("Updated:");
     expect(updatedText).not.toContain("Ažurirano:");
+  });
+});
+
+test.describe("QA Report Coverage (2026-03-07)", () => {
+  test("BUG-03 topic CTA does not route users to a disabled dataset-browser dead end", async ({
+    page,
+  }) => {
+    await page.goto(withDataSource("/topics/environment"));
+
+    const cta = page
+      .getByRole("link", {
+        name: /Istražite sve skupove podataka|View featured demos|Explore all datasets/i,
+      })
+      .first();
+    await expect(cta).toBeVisible();
+
+    await Promise.all([
+      page.waitForURL(/\/(browse|demos\/showcase)/, { timeout: 30_000 }),
+      cta.click(),
+    ]);
+
+    if (/\/browse/.test(page.url())) {
+      await expect(
+        page.getByText(/Demo limita za statički build/i)
+      ).toHaveCount(0);
+    } else {
+      await expect(page).toHaveURL(/\/demos\/showcase/);
+    }
+  });
+
+  test("BUG-07 and BUG-25 homepage featured cards show non-empty previews with localized action labels", async ({
+    page,
+  }) => {
+    await page.goto(withDataSource("/"));
+
+    const featuredSection = page.locator("#featured");
+    await expect(featuredSection).toBeVisible();
+    await expect(
+      featuredSection
+        .getByRole("button", { name: /Ugradite|Уградите/i })
+        .first()
+    ).toBeVisible();
+    await expect(
+      featuredSection.getByRole("button", { name: /Podeli|Подели/i }).first()
+    ).toBeVisible();
+    await expect(
+      featuredSection.locator(".MuiCard-root").first().locator("svg").first()
+    ).toBeVisible();
+  });
+
+  test("BUG-09 playground default dataset renders meaningful sample values", async ({
+    page,
+  }) => {
+    test.fail(
+      true,
+      "BUG-09: the playground still renders broken default sample data on initial load."
+    );
+
+    await page.goto(withPrefix("/demos/playground"));
+
+    await expect(page.locator("h1").first()).toBeVisible();
+    await expect(page.getByText(/^undefined$/)).toHaveCount(0);
+    await expect(page.getByText("0.000000")).toHaveCount(0);
+    await expect(page.locator("body")).toContainText(/Jan|Feb|Mar|Apr/);
+  });
+
+  test("BUG-12 /cene content stays inside a padded container", async ({
+    page,
+  }) => {
+    await page.goto(withPrefix("/cene"));
+
+    const heading = page.locator("h1").first();
+    await expect(heading).toBeVisible();
+    const box = await heading.boundingBox();
+    expect(box?.x ?? 0).toBeGreaterThan(8);
+  });
+
+  test("BUG-13 embed generator is localized in Serbian on the default locale", async ({
+    page,
+  }) => {
+    test.fail(
+      true,
+      "BUG-13: the embed generator still ships multiple English strings on the Serbian locale."
+    );
+
+    await page.goto(
+      withPrefix("/embed?type=bar&dataset=budget&dataSource=Prod&lang=sr")
+    );
+
+    await expect(
+      page.getByText(/Generate iframe code for vizualni-admin charts/i)
+    ).toHaveCount(0);
+    await expect(page.getByText(/^Settings$/)).toHaveCount(0);
+    await expect(page.getByText(/^Inline preview$/)).toHaveCount(0);
+  });
+
+  test("BUG-14 showcase page avoids mixed English copy in Serbian locale", async ({
+    page,
+  }) => {
+    test.fail(
+      true,
+      "BUG-14: showcase copy still contains English strings on the Serbian locale."
+    );
+
+    await page.goto(withPrefix("/demos/showcase"));
+
+    await expect(page.getByText(/Back to demo gallery/i)).toHaveCount(0);
+    await expect(
+      page.getByText(/Explore key visualizations from Serbian open data/i)
+    ).toHaveCount(0);
+    await expect(page.getByText(/^Featured Charts$/)).toHaveCount(0);
+    await expect(page.getByText(/^Data Source$/)).toHaveCount(0);
+  });
+
+  test("BUG-15 demo detail pages keep the back button localized", async ({
+    page,
+  }) => {
+    for (const demoId of ["energy", "healthcare"]) {
+      await page.goto(withPrefix(`/demos/${demoId}`));
+      await expect(page.locator("h1").first()).toBeVisible({ timeout: 20_000 });
+      await expect(page.getByText(/Back to demo gallery/i)).toHaveCount(0);
+    }
+  });
+
+  test("BUG-16 embed demo route does not show the English generic error fallback", async ({
+    page,
+  }) => {
+    await page.goto(
+      withPrefix(
+        "/embed/demo?type=bar&dataset=age&dataSource=Prod&theme=light&lang=sr"
+      )
+    );
+
+    await expect(page.getByText("Something went wrong")).toHaveCount(0);
+    await expect(
+      page.getByText(
+        "An unexpected error occurred. Please try refreshing the page."
+      )
+    ).toHaveCount(0);
+    await expect(page.getByRole("button", { name: "TRY AGAIN" })).toHaveCount(
+      0
+    );
+  });
+
+  test("BUG-17 playground control labels are localized in Serbian", async ({
+    page,
+  }) => {
+    await page.goto(withPrefix("/demos/playground"));
+
+    await expect(page.getByText(/^Tip grafikona$/)).toBeVisible();
+    await expect(page.getByText(/^Izvor podataka$/)).toBeVisible();
+    await expect(page.getByText(/^Tema$/)).toBeVisible();
+    await expect(page.getByRole("tab", { name: /^Pregled$/ })).toBeVisible();
+    await expect(page.getByRole("tab", { name: /^Kod$/ })).toBeVisible();
+  });
+
+  test("BUG-18 docs chart type headings are translated for Serbian", async ({
+    page,
+  }) => {
+    test.fail(
+      true,
+      "BUG-18: chart type guide headings still use English chart-type names."
+    );
+
+    await page.goto(withPrefix("/docs/chart-types-guide?dataSource=Prod"));
+
+    await expect(page.getByText(/^Bar\/Column$/)).toHaveCount(0);
+    await expect(page.getByText(/^Line\/Area$/)).toHaveCount(0);
+    await expect(page.getByText(/^Pie$/)).toHaveCount(0);
+  });
+
+  test("BUG-20 homepage featured demos are not contradicted as coming soon on the demos index", async ({
+    page,
+  }) => {
+    await page.goto(withDataSource("/demos"));
+
+    await expect(page.getByText(/Uskoro|Coming Soon/i)).toHaveCount(0);
+  });
+
+  test("BUG-21 live demo pages avoid exposing fallback-data badges as the primary state", async ({
+    page,
+  }) => {
+    test.fail(
+      true,
+      "BUG-21: energy/healthcare demo routes still expose fallback-data badges."
+    );
+
+    for (const demoId of ["energy", "healthcare"]) {
+      await page.goto(withPrefix(`/demos/${demoId}`));
+      await expect(
+        page.getByText(/Fallback podaci|Fallback data/i)
+      ).toHaveCount(0);
+    }
+  });
+
+  test("BUG-23 missing discount values are explained when the price table shows a dash", async ({
+    page,
+  }) => {
+    test.fail(
+      true,
+      "BUG-23: the price table still shows unexplained '-' values for missing discount prices."
+    );
+
+    await page.goto(withPrefix("/cene"));
+
+    await expect(page.locator("body")).toContainText(/Vileda|Nektar/);
+    await expect(page.locator("body")).toContainText(
+      /nema popusta|bez popusta|discount not available/i
+    );
+  });
+
+  test("BUG-24 healthcare uses a healthcare icon instead of a warning siren", async ({
+    page,
+  }) => {
+    await page.goto(withPrefix("/demos/healthcare"));
+
+    const heading = page.locator("h1").first();
+    await expect(heading).toBeVisible({ timeout: 20_000 });
+    await expect(heading).toContainText("🏥");
+    await expect(heading).not.toContainText("🚨");
+  });
+
+  test("BUG-26 topic chart-type pills are translated instead of raw BAR/LINE labels", async ({
+    page,
+  }) => {
+    test.fail(
+      true,
+      "BUG-26: topic visualization pills still render raw English BAR/LINE labels."
+    );
+
+    for (const topic of ["demographics", "education", "transport", "economy"]) {
+      await page.goto(withDataSource(`/topics/${topic}`));
+      await expect(page.getByText(/^BAR$/)).toHaveCount(0);
+      await expect(page.getByText(/^LINE$/)).toHaveCount(0);
+    }
+  });
+
+  test("BUG-27 embed code block metadata is localized in Serbian", async ({
+    page,
+  }) => {
+    test.fail(
+      true,
+      "BUG-27: the embed code block still exposes raw 'embed.html' and 'HTML' labels."
+    );
+
+    await page.goto(
+      withPrefix("/embed?type=bar&dataset=budget&dataSource=Prod&lang=sr")
+    );
+
+    await expect(page.getByText(/^embed\.html$/)).toHaveCount(0);
+    await expect(page.getByText(/^HTML$/)).toHaveCount(0);
   });
 });

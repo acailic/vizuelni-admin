@@ -2,24 +2,28 @@
 import { act } from "@testing-library/react";
 import { describe, it, expect, beforeEach } from "vitest";
 
+import { SAMPLE_DATASETS } from "@/demos/playground/_constants";
 import { usePlaygroundStore } from "@/demos/playground/_hooks/usePlaygroundStore";
 
 describe("Playground Store", () => {
   beforeEach(() => {
-    // Reset store state
+    // Reset store state to initial state with default data
     usePlaygroundStore.setState({
       chartType: "line",
-      data: [],
-      config: { xAxis: "", yAxis: "", color: "#6366f1" },
+      data: SAMPLE_DATASETS.sales.data,
+      config: { xAxis: "label", yAxis: "value", color: "#6366f1" },
       themeId: "indigo",
       ui: { activeTab: "preview", showOnboarding: true, panelCollapsed: false },
     });
   });
 
-  it("should have initial state", () => {
+  it("should have initial state with default data", () => {
     const state = usePlaygroundStore.getState();
     expect(state.chartType).toBe("line");
     expect(state.themeId).toBe("indigo");
+    expect(state.data).toEqual(SAMPLE_DATASETS.sales.data);
+    expect(state.config.xAxis).toBe("label");
+    expect(state.config.yAxis).toBe("value");
   });
 
   it("should set chart type", () => {
