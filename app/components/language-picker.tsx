@@ -7,6 +7,7 @@ import type { Locale } from "@/locales/locales";
 import localeConfig from "@/locales/locales.json";
 import { useLocale } from "@/locales/use-locale";
 import { persistAppLocale } from "@/utils/app-locale";
+import { isStaticExportMode } from "@/utils/public-paths";
 
 // Simple Language/Globe icon component
 const LanguageIcon = () => (
@@ -65,6 +66,27 @@ export const LanguagePicker = () => {
   const handleLocaleChange = (locale: Locale) => {
     persistAppLocale(locale);
 
+    if (isStaticExportMode) {
+      // In static mode, use URL query params with full page reload
+      const nextQuery = {
+        ...query,
+        uiLocale: locale,
+      };
+      const queryString = new URLSearchParams(
+        Object.entries(nextQuery).reduce(
+          (acc, [k, v]) => {
+            acc[k] = String(v);
+            return acc;
+          },
+          {} as Record<string, string>
+        )
+      ).toString();
+      window.location.href = `${pathname}?${queryString}`;
+      handleClose();
+      return;
+    }
+
+    // Dynamic mode: use Next.js i18n routing
     if (Array.isArray(routerLocales) && routerLocales.length > 0) {
       push({ pathname, query }, undefined, { locale });
       handleClose();
