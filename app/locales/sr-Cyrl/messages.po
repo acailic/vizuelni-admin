@@ -1171,6 +1171,12 @@ msgstr ""
 msgid "demos.showcase.title"
 msgstr "Галерија демо визуализација"
 
+msgid "demos.showcase.modal.close"
+msgstr "Затвори"
+
+msgid "demos.showcase.modal.viewDemo"
+msgstr "Погледај демо"
+
 #: app/login/components/login-menu.tsx
 msgid "login.profile.feedback"
 msgstr ""

@@ -1171,6 +1171,12 @@ msgstr "Featured Charts"
 msgid "demos.showcase.title"
 msgstr "Demo Showcase Visualizations"
 
+msgid "demos.showcase.modal.close"
+msgstr "Close"
+
+msgid "demos.showcase.modal.viewDemo"
+msgstr "View demo"
+
 #: app/login/components/login-menu.tsx
 msgid "login.profile.feedback"
 msgstr "Feedback"
