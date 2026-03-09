@@ -33,6 +33,30 @@ export function DemoLayout({
       : demoLocale === "sr"
         ? "Nazad na demo galeriju"
         : "Back to demo gallery";
+  const labels =
+    i18n.locale === "sr-Cyrl"
+      ? {
+          demoData: "Demo podaci",
+          organization: "Организација",
+          updated: "Ажурирано",
+          viewDataset: "Погледај на data.gov.rs",
+          dataSource: "Извор података",
+        }
+      : demoLocale === "sr"
+        ? {
+            demoData: "Demo podaci",
+            organization: "Organizacija",
+            updated: "Ažurirano",
+            viewDataset: "Pogledaj na data.gov.rs",
+            dataSource: "Izvor podataka",
+          }
+        : {
+            demoData: "Demo data",
+            organization: "Organization",
+            updated: "Updated",
+            viewDataset: "View on data.gov.rs",
+            dataSource: "Data source",
+          };
 
   const formattedUpdatedAt = datasetInfo?.updatedAt
     ? new Date(datasetInfo.updatedAt).toLocaleDateString(dateLocale, {
@@ -129,7 +153,7 @@ export function DemoLayout({
                     variant="body2"
                     sx={{ color: "warning.main", fontWeight: 600, mb: 1 }}
                   >
-                    <Trans id="demos.layout.demo-data" message="Demo Data" />
+                    {labels.demoData}
                   </Typography>
                 )}
                 {datasetInfo.organization && (
@@ -139,7 +163,7 @@ export function DemoLayout({
                       color="text.secondary"
                       fontWeight={600}
                     >
-                      {"Organization"}:
+                      {labels.organization}:
                     </Typography>
                     <Typography variant="body2" color="text.primary">
                       {datasetInfo.organization}
@@ -160,7 +184,7 @@ export function DemoLayout({
                       color="text.secondary"
                       fontWeight={600}
                     >
-                      {"Updated"}:
+                      {labels.updated}:
                     </Typography>
                     <Typography variant="body2" color="text.primary">
                       {formattedUpdatedAt}
@@ -187,7 +211,7 @@ export function DemoLayout({
                           gap: "4px",
                         }}
                       >
-                        {"View on data.gov.rs"} ↗
+                        {labels.viewDataset} ↗
                       </a>
                     </Link>
                   </>
@@ -209,7 +233,7 @@ export function DemoLayout({
           >
             <Typography variant="body2" color="text.secondary">
               <Box component="span" sx={{ whiteSpace: "nowrap" }}>
-                {demoLocale === "sr" ? "Izvor podataka" : "Data source"}:
+                {labels.dataSource}:
               </Box>{" "}
               <Link href="https://data.gov.rs" passHref legacyBehavior>
                 <a
@@ -278,7 +302,7 @@ export function DemoError({
   const isStackTrace =
     errorMessage.includes("is not a function") ||
     errorMessage.includes("Cannot read propert") ||
-    errorMessage.includes("at ") ||
+    /\n\s+at\s/.test(errorMessage) ||
     errorMessage.length > 200;
 
   const displayMessage = isStackTrace ? undefined : errorMessage;
