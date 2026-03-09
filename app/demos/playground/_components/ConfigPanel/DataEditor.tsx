@@ -35,7 +35,7 @@ export function DataEditor({ data, onChange }: DataEditorProps) {
     const dataset = SAMPLE_DATASETS[datasetKey];
     if (dataset) {
       onChange(dataset.data);
-      setCustomJson("");
+      setCustomJson(JSON.stringify(dataset.data, null, 2));
       setJsonError(null);
     }
   };
