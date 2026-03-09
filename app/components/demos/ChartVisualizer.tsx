@@ -6,15 +6,80 @@
 import { Alert, Box, Typography } from "@mui/material";
 import { useMemo } from "react";
 
+import { useDemoLocale } from "@/hooks/use-demo-locale";
 import {
   profileData,
   selectColumns,
   suggestChartType,
   type ChartKind,
 } from "@/lib/demos/schema-profiler";
+import type { DemoLocale } from "@/types/demos";
 
 import { BarChart, ColumnChart, LineChart, PieChart } from "./charts";
 import { CHART_DATA_LIMITS } from "./charts/constants";
+
+// Translation strings
+const translations = {
+  noData: {
+    sr: "Nema dostupnih podataka za vizualizaciju",
+    en: "No data available for visualization",
+  },
+  columnDetectionError: {
+    sr: "Nije moguće automatski detektovati kolone za vizualizaciju. Podaci nisu u odgovarajućem formatu.",
+    en: "Unable to automatically detect columns for visualization. Data is not in the correct format.",
+  },
+  showing: {
+    sr: "Prikazano",
+    en: "Showing",
+  },
+  of: {
+    sr: "od",
+    en: "of",
+  },
+  rows: {
+    sr: "redova",
+    en: "rows",
+  },
+  category: {
+    sr: "Kategorija",
+    en: "Category",
+  },
+  value: {
+    sr: "Vrednost",
+    en: "Value",
+  },
+  map: {
+    sr: "Mapa",
+    en: "Map",
+  },
+  areaChart: {
+    sr: "Area grafik",
+    en: "Area chart",
+  },
+  chartTypeInDevelopment: {
+    sr: "Ovaj tip vizualizacije je u razvoju.",
+    en: "This visualization type is in development.",
+  },
+  showingFallback: {
+    sr: "Trenutno prikazujemo stubičasti grafik kao zamenu:",
+    en: "Currently showing a column chart as fallback:",
+  },
+  datasetContains: {
+    sr: "Dataset sadrži",
+    en: "Dataset contains",
+  },
+  representativeSamples: {
+    sr: "reprezentativnih uzoraka.",
+    en: "representative samples.",
+  },
+};
+
+function getTranslation<T extends keyof typeof translations>(
+  key: T,
+  locale: DemoLocale
+): string {
+  return translations[key][locale];
+}
 
 export interface ChartVisualizerProps {
   data: any[];
@@ -91,6 +156,7 @@ export const ChartVisualizer = ({
   title,
   description,
 }: ChartVisualizerProps) => {
+  const locale = useDemoLocale();
   const { columns, preparedData, resolvedChartType } = useMemo(() => {
     const columns = detectVisualizationColumns(data);
     const preparedData = prepareDataForVisualization(
@@ -116,16 +182,13 @@ export const ChartVisualizer = ({
     (resolvedChartType === "scatterplot" ? "scatterplot" : null);
 
   if (!data || data.length === 0) {
-    return (
-      <Alert severity="info">Nema dostupnih podataka za vizualizaciju</Alert>
-    );
+    return <Alert severity="info">{getTranslation("noData", locale)}</Alert>;
   }
 
   if (!columns.categoryColumn || !columns.valueColumn) {
     return (
       <Alert severity="warning">
-        Nije moguće automatski detektovati kolone za vizualizaciju. Podaci nisu
-        u odgovarajućem formatu.
+        {getTranslation("columnDetectionError", locale)}
       </Alert>
     );
   }
@@ -156,12 +219,15 @@ export const ChartVisualizer = ({
 
       <Box sx={{ mb: 2, p: 2, backgroundColor: "grey.100", borderRadius: 1 }}>
         <Typography variant="body2" color="text.secondary">
-          <strong>Prikazano:</strong> {preparedData.length} od {data.length}{" "}
-          redova
+          <strong>{getTranslation("showing", locale)}:</strong>{" "}
+          {preparedData.length} {getTranslation("of", locale)} {data.length}{" "}
+          {getTranslation("rows", locale)}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          <strong>Kategorija:</strong> {columns.categoryColumn} |{" "}
-          <strong>Vrednost:</strong> {columns.valueColumn}
+          <strong>{getTranslation("category", locale)}:</strong>{" "}
+          {columns.categoryColumn} |{" "}
+          <strong>{getTranslation("value", locale)}:</strong>{" "}
+          {columns.valueColumn}
         </Typography>
       </Box>
 
@@ -200,16 +266,16 @@ export const ChartVisualizer = ({
             <Typography variant="h6" color="text.secondary" gutterBottom>
               📊{" "}
               {fallbackChartType === "map"
-                ? "Mapa"
+                ? getTranslation("map", locale)
                 : fallbackChartType === "area"
-                  ? "Area grafik"
+                  ? getTranslation("areaChart", locale)
                   : "Scatterplot"}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Ovaj tip vizualizacije je u razvoju.
+              {getTranslation("chartTypeInDevelopment", locale)}
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-              Trenutno prikazujemo stubičasti grafik kao zamenu:
+              {getTranslation("showingFallback", locale)}
             </Typography>
             <Box sx={{ mt: 3 }}>
               <ColumnChart data={preparedData} {...commonProps} />
@@ -220,8 +286,10 @@ export const ChartVisualizer = ({
 
       {data.length > preparedData.length && (
         <Alert severity="info" sx={{ mt: 2 }}>
-          Dataset sadrži {data.length} redova. Prikazano je{" "}
-          {preparedData.length} reprezentativnih uzoraka.
+          {getTranslation("datasetContains", locale)} {data.length}{" "}
+          {getTranslation("rows", locale)}. {getTranslation("showing", locale)}{" "}
+          {preparedData.length}{" "}
+          {getTranslation("representativeSamples", locale)}
         </Alert>
       )}
     </Box>

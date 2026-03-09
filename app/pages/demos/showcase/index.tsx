@@ -10,6 +10,7 @@
 
 import { useLingui } from "@lingui/react";
 import { Box, Grid, Typography, alpha, useTheme } from "@mui/material";
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
 import { DemoLayout } from "@/components/demos/demo-layout";
@@ -18,6 +19,8 @@ import DemoSkeleton from "@/components/demos/DemoSkeleton";
 import { ChartPreviewModal } from "@/demos/showcase/_components/ChartPreviewModal";
 import { FeaturedChartCard } from "@/demos/showcase/_components/FeaturedChartCard";
 import { FEATURED_CHARTS } from "@/lib/demos/config";
+import { resolveAppLocale } from "@/utils/app-locale";
+
 const TOPIC_ROUTE_IDS = new Set([
   "economy",
   "health",
@@ -32,8 +35,11 @@ const getChartDestination = (demoId: string) =>
 
 export default function ShowcasePage() {
   const { i18n } = useLingui();
+  const router = useRouter();
   const theme = useTheme();
-  const locale = i18n.locale?.startsWith("sr") ? "sr" : "en";
+  // Use resolveAppLocale to properly handle uiLocale query param in static mode
+  const resolvedLocale = resolveAppLocale(i18n.locale, router.query);
+  const locale = resolvedLocale?.startsWith("sr") ? "sr" : "en";
   const [selectedChart, setSelectedChart] = useState<
     (typeof FEATURED_CHARTS)[0] | null
   >(null);
@@ -46,7 +52,7 @@ export default function ShowcasePage() {
     return () => clearTimeout(timer);
   }, []);
 
-  const isCyrillic = i18n.locale === "sr-Cyrl";
+  const isCyrillic = resolvedLocale === "sr-Cyrl";
   const isSerbian = locale === "sr";
 
   const pageTitle = isCyrillic

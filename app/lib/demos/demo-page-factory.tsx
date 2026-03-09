@@ -3,10 +3,11 @@
  * Reduces boilerplate across demo category pages
  */
 
-import { useLingui } from "@lingui/react";
+import { useRouter } from "next/router";
 import { ReactNode } from "react";
 
 import type { DemoConfig, DemoLocale } from "@/types/demos";
+import { resolveAppLocale } from "@/utils/app-locale";
 
 export interface DemoPageConfig {
   demoId: string;
@@ -27,8 +28,7 @@ export function useDemoPageText(
   _demoId: string,
   config: DemoConfig
 ): DemoPageText {
-  const { i18n } = useLingui();
-  const locale: DemoLocale = i18n.locale?.startsWith("sr") ? "sr" : "en";
+  const locale = useDemoLocale();
 
   return {
     title: config.title[locale],
@@ -40,8 +40,9 @@ export function useDemoPageText(
  * Hook to get current demo locale
  */
 export function useDemoLocale(): DemoLocale {
-  const { i18n } = useLingui();
-  return i18n.locale?.startsWith("sr") ? "sr" : "en";
+  const { locale: routerLocale, query } = useRouter();
+  const resolvedLocale = resolveAppLocale(routerLocale, query);
+  return resolvedLocale?.startsWith("sr") ? "sr" : "en";
 }
 
 /**

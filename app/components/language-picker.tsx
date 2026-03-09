@@ -7,7 +7,7 @@ import type { Locale } from "@/locales/locales";
 import localeConfig from "@/locales/locales.json";
 import { useLocale } from "@/locales/use-locale";
 import { persistAppLocale } from "@/utils/app-locale";
-import { isStaticExportMode } from "@/utils/public-paths";
+import { buildPublicPath, isStaticExportMode } from "@/utils/public-paths";
 
 // Simple Language/Globe icon component
 const LanguageIcon = () => (
@@ -81,7 +81,7 @@ export const LanguagePicker = () => {
           {} as Record<string, string>
         )
       ).toString();
-      window.location.href = `${pathname}?${queryString}`;
+      window.location.href = `${buildPublicPath(pathname)}?${queryString}`;
       handleClose();
       return;
     }
