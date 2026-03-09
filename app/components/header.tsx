@@ -5,6 +5,7 @@ import { DataSourceMenu } from "@/components/data-source-menu";
 import { Flex } from "@/components/flex";
 import { __HEADER_HEIGHT_CSS_VAR } from "@/components/header-constants";
 import { LanguagePicker } from "@/components/language-picker";
+import { MainNav } from "@/components/navigation";
 import { SimpleHeader } from "@/components/simple-header";
 import { SOURCE_OPTIONS } from "@/domain/data-source/constants";
 import { useLocale } from "@/locales/use-locale";
@@ -46,6 +47,7 @@ export const Header = ({
         }}
       >
         {SOURCE_OPTIONS.length > 1 && <DataSourceMenu />}
+        <MainNav locale={locale} />
         <Flex alignItems="center" gap={3} marginLeft="auto">
           <Link href="/demos/showcase" passHref legacyBehavior>
             <Box
