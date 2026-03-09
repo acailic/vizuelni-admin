@@ -25,6 +25,33 @@ const normalizePathname = (value: string) => value.replace(/\/+$/, "") || "/";
 const escapeRegExp = (value: string) =>
   value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
+const QA_ENGLISH_DEMO_CASES = [
+  {
+    demoId: "energy",
+    heading: /Energy mix and transition/i,
+    forbiddenDatasetTitle: /Proizvodnja i uvoz energije \(primer podaci\)/i,
+    forbiddenChartLabels: [/Godina/, /Ugalj/, /Obnovljivi/, /Uvoz/],
+  },
+  {
+    demoId: "education",
+    heading: /Education Statistics/i,
+    forbiddenDatasetTitle: /Upis učenika i studenata \(primer podaci\)/i,
+    forbiddenChartLabels: [/Godina/, /Osnovno/, /Srednje/, /Visoko/],
+  },
+  {
+    demoId: "healthcare",
+    heading: /Healthcare system/i,
+    forbiddenDatasetTitle: /Zdravstveni kapaciteti \(primer podaci\)/i,
+    forbiddenChartLabels: [/Godina/, /PacijentiNaCekanju/, /Lekari/],
+  },
+  {
+    demoId: "economy",
+    heading: /Economic indicators/i,
+    forbiddenDatasetTitle: /Makroekonomski indikatori \(primer podaci\)/i,
+    forbiddenChartLabels: [/Godina/, /Period/, /BDPRealniRast/],
+  },
+] as const;
+
 const attachConsoleCollector = (page: Page) => {
   const errors: string[] = [];
 
@@ -564,6 +591,99 @@ test.describe("Public pages E2E", () => {
     await expect(page).toHaveURL(/(\/sr-Cyrl(?:\/|\?|$)|uiLocale=sr-Cyrl)/);
   });
 
+  test("showcase language switch preserves the static base path", async ({
+    page,
+  }) => {
+    test.fail(
+      true,
+      "BUG-01: switching locales on showcase drops the /vizualni-admin static base path."
+    );
+
+    await page.goto(withDataSource("/demos/showcase"));
+
+    const languageButton = page.getByRole("button", {
+      name: /Language selector/i,
+    });
+    await expect(languageButton).toBeVisible({ timeout: 20_000 });
+
+    const initialUrl = new URL(page.url());
+    const expectedPathname = normalizePathname(withPrefix("/demos/showcase"));
+    expect(normalizePathname(initialUrl.pathname)).toBe(expectedPathname);
+
+    await page.locator("#language-picker-button").click();
+    const englishOption = page.getByRole("menuitem", { name: "English" });
+    await expect(englishOption).toBeVisible();
+    await Promise.all([
+      page.waitForURL(/uiLocale=en/, { timeout: 20_000 }),
+      englishOption.click({ force: true }),
+    ]);
+
+    await expect(page.locator("h1").first()).toBeVisible();
+
+    const switchedUrl = new URL(page.url());
+    expect(switchedUrl.origin).toBe(initialUrl.origin);
+    expect(normalizePathname(switchedUrl.pathname)).toBe(expectedPathname);
+    expect(switchedUrl.pathname.startsWith(`${PATH_PREFIX}/`)).toBe(
+      Boolean(PATH_PREFIX)
+    );
+  });
+
+  test("BUG-02/08/09 English demo pages localize back link, dataset title, and chart info labels", async ({
+    page,
+  }) => {
+    test.fail(
+      true,
+      "BUG-02/08/09: English demo pages still expose Serbian back-link, dataset-title, or chart info copy."
+    );
+
+    for (const demoCase of QA_ENGLISH_DEMO_CASES) {
+      await page.goto(
+        withDataSource(`/demos/${demoCase.demoId}`, { uiLocale: "en" })
+      );
+
+      await expect(page.locator("h1").first()).toContainText(demoCase.heading, {
+        timeout: 20_000,
+      });
+      await expect(
+        page.getByRole("link", { name: /Back to demo gallery/i }).first()
+      ).toBeVisible();
+      await expect(page.getByText(/Nazad na demo galeriju/i)).toHaveCount(0);
+
+      await expect(page.getByText(/^Showing:/)).toBeVisible();
+      await expect(page.getByText(/^Category:/)).toBeVisible();
+      await expect(page.getByText(/^Value:/)).toBeVisible();
+      await expect(page.getByText(/^Data source:/)).toBeVisible();
+      await expect(page.getByText(/^Prikazano:/)).toHaveCount(0);
+      await expect(page.getByText(/^Kategorija:/)).toHaveCount(0);
+      await expect(page.getByText(/^Vrednost:/)).toHaveCount(0);
+      await expect(page.getByText(/^Izvor podataka:/)).toHaveCount(0);
+
+      await expect(page.getByText(demoCase.forbiddenDatasetTitle)).toHaveCount(
+        0
+      );
+    }
+  });
+
+  test("BUG-03/04/05/06/07 English demo pages translate chart labels instead of showing Serbian field names", async ({
+    page,
+  }) => {
+    for (const demoCase of QA_ENGLISH_DEMO_CASES) {
+      await page.goto(
+        withDataSource(`/demos/${demoCase.demoId}`, { uiLocale: "en" })
+      );
+
+      await expect(page.locator("h1").first()).toContainText(demoCase.heading, {
+        timeout: 20_000,
+      });
+      await expect(page.locator("svg").first()).toBeVisible();
+
+      const body = page.locator("body");
+      for (const forbiddenLabel of demoCase.forbiddenChartLabels) {
+        await expect(body).not.toContainText(forbiddenLabel);
+      }
+    }
+  });
+
   test("showcase modal uses localized action copy and keeps a rendered preview", async ({
     page,
   }) => {
@@ -649,6 +769,45 @@ test.describe("Public pages E2E", () => {
       .toBe("1");
     await expect.poll(() => getStatCardValue(page, "Kategorije")).toBe("1");
     await expect.poll(() => getStatCardValue(page, "Proizvođači")).toBe("1");
+  });
+
+  test("BUG-10 English landing page translates the price-analysis CTA", async ({
+    page,
+  }) => {
+    test.fail(
+      true,
+      "BUG-10: the price-analysis CTA remains Serbian on the English landing page."
+    );
+
+    await page.goto(withDataSource("/", { uiLocale: "en" }));
+
+    await expect(page.locator("h1").first()).toContainText(/Transform/i, {
+      timeout: 20_000,
+    });
+    await expect(
+      page.getByRole("link", { name: /Price Analysis/i })
+    ).toBeVisible();
+    await expect(page.getByRole("link", { name: "Analiza cena" })).toHaveCount(
+      0
+    );
+  });
+
+  test("BUG-11 /demos/traffic resolves to the traffic demo instead of a fallback page", async ({
+    page,
+  }) => {
+    test.fail(
+      true,
+      "BUG-11: /demos/traffic does not resolve to the transport demo route."
+    );
+
+    await page.goto(withDataSource("/demos/traffic", { uiLocale: "en" }));
+
+    await expect(page).toHaveURL(/\/demos\/transport(?:\/|\?|$)/);
+    await expect(page.locator("h1").first()).toContainText(/Road safety/i, {
+      timeout: 20_000,
+    });
+    await expect(page.getByText(/Redirecting/i)).toHaveCount(0);
+    await expect(page.getByText(/^404$/)).toHaveCount(0);
   });
 
   test("public pages do not emit next-auth client fetch errors on load", async ({
