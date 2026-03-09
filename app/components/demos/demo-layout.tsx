@@ -272,10 +272,16 @@ export function DemoError({
   error: Error | string;
   onRetry?: () => void;
 }) {
-  // i18n hook kept for potential future use
   useLingui();
   const errorMessage = typeof error === "string" ? error : error.message;
   const isNoDatasetsError = errorMessage.includes("No datasets found");
+  const isStackTrace =
+    errorMessage.includes("is not a function") ||
+    errorMessage.includes("Cannot read propert") ||
+    errorMessage.includes("at ") ||
+    errorMessage.length > 200;
+
+  const displayMessage = isStackTrace ? undefined : errorMessage;
 
   return (
     <Box
@@ -291,9 +297,11 @@ export function DemoError({
       <Typography variant="h6" color="error.main" sx={{ mb: 2 }}>
         <Trans id="demos.layout.error-title" message="Error loading data" />
       </Typography>
-      <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-        {errorMessage}
-      </Typography>
+      {displayMessage && (
+        <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+          {displayMessage}
+        </Typography>
+      )}
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
         {isNoDatasetsError ? (
           <Trans
