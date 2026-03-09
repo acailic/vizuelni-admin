@@ -257,9 +257,11 @@ export default function EmbedGeneratorPage() {
         width: effectiveWidth,
         height: effectiveHeight,
         removeBorder: effectiveLayoutParams.removeBorder,
+        optimizeSpace: effectiveLayoutParams.optimizeSpace,
       }),
     [
       effectiveHeight,
+      effectiveLayoutParams.optimizeSpace,
       effectiveLayoutParams.removeBorder,
       effectiveWidth,
       iframeSrc,

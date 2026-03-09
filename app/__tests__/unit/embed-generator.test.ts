@@ -70,6 +70,7 @@ describe("embed generator helpers", () => {
         width: "100%",
         height: "520px",
         removeBorder: false,
+        optimizeSpace: false,
       })
     ).toContain("border: 1px solid rgba(15, 23, 42, 0.16);");
 
@@ -79,6 +80,7 @@ describe("embed generator helpers", () => {
         width: "100%",
         height: "520px",
         removeBorder: true,
+        optimizeSpace: false,
       })
     ).toContain("border: 0;");
 
@@ -88,6 +90,7 @@ describe("embed generator helpers", () => {
         width: "100%",
         height: "520px",
         removeBorder: true,
+        optimizeSpace: false,
       }).trim()
     ).toMatch(/<\/iframe>$/);
   });
