@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -23,32 +24,19 @@ import { Header } from "@/components/header";
 import CodeBlock from "@/components/tutorials/CodeBlock";
 import { PUBLIC_URL } from "@/domain/env";
 import {
+  buildEmbedPassthroughParams,
+  buildIframeSnippet,
+  DEFAULT_LAYOUT_PARAMS,
+  EMBED_LAYOUT_PARAMS,
+  type EmbedLayoutParam,
+  resolveEmbedStateFromQuery,
+} from "@/lib/embed-generator";
+import {
   buildEmbedUrl,
   type EmbedLang,
   type EmbedTheme,
 } from "@/lib/embed-url";
 import { useLocale } from "@/locales/use-locale";
-
-const UI_ONLY_PARAMS = new Set(["theme", "lang", "width", "height"]);
-const CHART_PARAMS = new Set(["type", "dataset", "dataSource"]);
-const EMBED_LAYOUT_PARAMS = [
-  "removeBorder",
-  "optimizeSpace",
-  "removeMoreOptionsButton",
-  "removeLabelsInteractivity",
-  "removeFootnotes",
-  "removeFilters",
-] as const;
-type EmbedLayoutParam = (typeof EMBED_LAYOUT_PARAMS)[number];
-
-const DEFAULT_LAYOUT_PARAMS: Record<EmbedLayoutParam, boolean> = {
-  removeBorder: false,
-  optimizeSpace: false,
-  removeMoreOptionsButton: false,
-  removeLabelsInteractivity: false,
-  removeFootnotes: false,
-  removeFilters: false,
-};
 
 const LAYOUT_PARAM_LABELS: Record<EmbedLayoutParam, string> = {
   removeBorder: "Remove border",
@@ -58,12 +46,6 @@ const LAYOUT_PARAM_LABELS: Record<EmbedLayoutParam, string> = {
   removeFootnotes: "Remove footnotes",
   removeFilters: "Remove filters",
 };
-
-const FORM_MANAGED_PARAMS = new Set([
-  ...UI_ONLY_PARAMS,
-  ...CHART_PARAMS,
-  ...EMBED_LAYOUT_PARAMS,
-]);
 
 export default function EmbedGeneratorPage() {
   const router = useRouter();
@@ -80,6 +62,7 @@ export default function EmbedGeneratorPage() {
   const [layoutParams, setLayoutParams] = useState<
     Record<EmbedLayoutParam, boolean>
   >(() => ({ ...DEFAULT_LAYOUT_PARAMS }));
+  const [isInitializedFromUrl, setIsInitializedFromUrl] = useState(false);
 
   const resolvedQuery = useMemo<Record<string, string>>(() => {
     const queryFromRouter = Object.fromEntries(
@@ -107,46 +90,20 @@ export default function EmbedGeneratorPage() {
     return { ...queryFromSearch, ...queryFromRouter };
   }, [router.asPath, router.query]);
 
-  // Update lang when locale changes
-  useEffect(() => {
-    setLang(defaultLang);
-  }, [defaultLang]);
-
   // Respect UI params from URL when available.
   useEffect(() => {
-    const urlLang = resolvedQuery.lang;
-    const urlTheme = resolvedQuery.theme;
-    const urlWidth = resolvedQuery.width;
-    const urlHeight = resolvedQuery.height;
-    const urlType = resolvedQuery.type;
-    const urlDataset = resolvedQuery.dataset;
-    const urlDataSource = resolvedQuery.dataSource;
-
-    if (urlLang === "en" || urlLang === "sr") {
-      setLang(urlLang);
-    }
-    if (urlTheme === "light" || urlTheme === "dark") {
-      setTheme(urlTheme);
-    }
-    if (urlWidth && urlWidth.trim() !== "") {
-      setWidth(urlWidth);
-    }
-    if (urlHeight && urlHeight.trim() !== "") {
-      setHeight(urlHeight);
-    }
-    setChartType(urlType && urlType.trim() !== "" ? urlType : "line");
-    setDataset(urlDataset ?? "");
-    setDataSource(urlDataSource ?? "");
-    setLayoutParams({
-      removeBorder: resolvedQuery.removeBorder === "true",
-      optimizeSpace: resolvedQuery.optimizeSpace === "true",
-      removeMoreOptionsButton: resolvedQuery.removeMoreOptionsButton === "true",
-      removeLabelsInteractivity:
-        resolvedQuery.removeLabelsInteractivity === "true",
-      removeFootnotes: resolvedQuery.removeFootnotes === "true",
-      removeFilters: resolvedQuery.removeFilters === "true",
-    });
+    const nextState = resolveEmbedStateFromQuery(resolvedQuery, defaultLang);
+    setLang(nextState.lang);
+    setTheme(nextState.theme);
+    setWidth(nextState.width);
+    setHeight(nextState.height);
+    setChartType(nextState.chartType);
+    setDataset(nextState.dataset);
+    setDataSource(nextState.dataSource);
+    setLayoutParams(nextState.layoutParams);
+    setIsInitializedFromUrl(true);
   }, [
+    defaultLang,
     resolvedQuery.dataSource,
     resolvedQuery.dataset,
     resolvedQuery.height,
@@ -162,7 +119,36 @@ export default function EmbedGeneratorPage() {
     resolvedQuery.width,
   ]);
 
-  const isSerbian = lang === "sr";
+  const effectiveWidth = isInitializedFromUrl
+    ? width
+    : resolvedQuery.width?.trim() || width;
+  const effectiveHeight = isInitializedFromUrl
+    ? height
+    : resolvedQuery.height?.trim() || height;
+  const effectiveTheme =
+    isInitializedFromUrl ||
+    !(resolvedQuery.theme === "light" || resolvedQuery.theme === "dark")
+      ? theme
+      : (resolvedQuery.theme as EmbedTheme);
+  const effectiveLang =
+    isInitializedFromUrl ||
+    !(resolvedQuery.lang === "en" || resolvedQuery.lang === "sr")
+      ? lang
+      : (resolvedQuery.lang as EmbedLang);
+  const effectiveChartType = isInitializedFromUrl
+    ? chartType
+    : resolvedQuery.type?.trim() || chartType;
+  const effectiveDataset = isInitializedFromUrl
+    ? dataset
+    : (resolvedQuery.dataset ?? dataset);
+  const effectiveDataSource = isInitializedFromUrl
+    ? dataSource
+    : (resolvedQuery.dataSource ?? dataSource);
+  const effectiveLayoutParams = isInitializedFromUrl
+    ? layoutParams
+    : resolveEmbedStateFromQuery(resolvedQuery, defaultLang).layoutParams;
+
+  const isSerbian = effectiveLang === "sr";
 
   const labels = {
     overline: isSerbian ? "Ugrađivanje" : "Embeds",
@@ -173,7 +159,9 @@ export default function EmbedGeneratorPage() {
       ? "Prilagodite veličinu, temu, jezik, parametre grafikona i opcije rasporeda, zatim kopirajte kod za ugrađivanje."
       : "Customize size, theme, language, chart params, and layout options, then copy/paste the embed snippet. The preview is embedded on this same screen and updates live.",
     settingsTitle: isSerbian ? "Podešavanja" : "Settings",
-    settingsSub: isSerbian ? "Podesite parametre" : "Tweak embed parameters",
+    settingsSub: isSerbian
+      ? "Podesite parametre iframe-a. Jezik u vrhu stranice menja samo interfejs generatora."
+      : "Configure the iframe parameters. The language picker in the header only changes the generator UI.",
     widthLabel: isSerbian ? "Širina" : "Width",
     widthHelper: isSerbian
       ? 'Bilo koja CSS dužina (npr. "100%" ili "720px")'
@@ -182,8 +170,11 @@ export default function EmbedGeneratorPage() {
     heightHelper: isSerbian
       ? 'Bilo koja CSS dužina (npr. "520px")'
       : 'Any CSS length (e.g., "520px")',
-    themeLabel: isSerbian ? "Tema" : "Theme",
-    languageLabel: isSerbian ? "Jezik" : "Language",
+    themeLabel: isSerbian ? "Tema embed-a" : "Embed theme",
+    languageLabel: isSerbian ? "Jezik embed-a" : "Embed language",
+    localeNote: isSerbian
+      ? "Zaglavlje kontroliše jezik generatora. Ovo polje menja jezik grafikona unutar iframe-a."
+      : "The header controls the generator language. This field controls the language rendered inside the iframe.",
     chartParamsTitle: isSerbian ? "Parametri grafikona" : "Chart parameters",
     chartTypeLabel: isSerbian ? "Tip grafikona" : "Chart type",
     chartTypeHelper: isSerbian
@@ -201,9 +192,13 @@ export default function EmbedGeneratorPage() {
     copyDescription: isSerbian
       ? "Zalepite ovaj iframe u bilo koji sajt ili CMS."
       : "Paste this iframe into any site or CMS. The generated `src` mirrors the selected chart parameters and locale/theme options.",
+    copiedLabel: isSerbian ? "Kod je kopiran." : "Embed code copied.",
     targetRoute: isSerbian ? "Ciljna ruta" : "Target route",
     inlinePreview: isSerbian ? "Pregled uživo" : "Inline preview",
     paramsInUrl: isSerbian ? "Parametri u URL-u:" : "Parameters in embed URL:",
+    staticBannerTitle: isSerbian
+      ? "Generator i ugrađeni prikaz mogu koristiti različite jezike."
+      : "The generator UI and the embedded chart can use different languages.",
   };
 
   const layoutParamLabels: Record<EmbedLayoutParam, string> = isSerbian
@@ -232,53 +227,43 @@ export default function EmbedGeneratorPage() {
   }, [embedPreviewPath]);
 
   const passthroughParams = useMemo(() => {
-    const additionalParams = Object.fromEntries(
-      Object.entries(resolvedQuery)
-        .filter(([key]) => !FORM_MANAGED_PARAMS.has(key))
-        .filter(
-          ([, value]) => value !== undefined && value !== null && value !== ""
-        )
-    );
-
-    const fromForm: Record<string, string> = {
-      ...additionalParams,
-    };
-
-    if (chartType.trim() !== "") {
-      fromForm.type = chartType.trim();
-    }
-    if (dataset.trim() !== "") {
-      fromForm.dataset = dataset.trim();
-    }
-    if (dataSource.trim() !== "") {
-      fromForm.dataSource = dataSource.trim();
-    }
-
-    EMBED_LAYOUT_PARAMS.forEach((param) => {
-      if (layoutParams[param]) {
-        fromForm[param] = "true";
-      }
+    return buildEmbedPassthroughParams({
+      chartType: effectiveChartType,
+      dataset: effectiveDataset,
+      dataSource: effectiveDataSource,
+      layoutParams: effectiveLayoutParams,
+      resolvedQuery,
     });
-
-    return fromForm;
-  }, [chartType, dataSource, dataset, layoutParams, resolvedQuery]);
+  }, [
+    effectiveChartType,
+    effectiveDataSource,
+    effectiveDataset,
+    effectiveLayoutParams,
+    resolvedQuery,
+  ]);
 
   const iframeSrc = useMemo(() => {
     return buildEmbedUrl(baseEmbedUrl, {
-      theme,
-      lang,
+      theme: effectiveTheme,
+      lang: effectiveLang,
       params: passthroughParams,
     });
-  }, [baseEmbedUrl, lang, passthroughParams, theme]);
+  }, [baseEmbedUrl, effectiveLang, effectiveTheme, passthroughParams]);
 
   const iframeSnippet = useMemo(
-    () => `<iframe
-  src="${iframeSrc}"
-  style="width: ${width}; height: ${height}; border: 0;"
-  loading="lazy"
-  referrerpolicy="no-referrer"
-></iframe>`,
-    [height, iframeSrc, width]
+    () =>
+      buildIframeSnippet({
+        iframeSrc,
+        width: effectiveWidth,
+        height: effectiveHeight,
+        removeBorder: effectiveLayoutParams.removeBorder,
+      }),
+    [
+      effectiveHeight,
+      effectiveLayoutParams.removeBorder,
+      effectiveWidth,
+      iframeSrc,
+    ]
   );
 
   return (
@@ -318,22 +303,28 @@ export default function EmbedGeneratorPage() {
               />
               <CardContent>
                 <Stack spacing={2}>
+                  <Alert severity="info" variant="outlined">
+                    <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                      {labels.staticBannerTitle}
+                    </Typography>
+                    <Typography variant="body2">{labels.localeNote}</Typography>
+                  </Alert>
                   <TextField
                     label={labels.widthLabel}
-                    value={width}
+                    value={effectiveWidth}
                     onChange={(e) => setWidth(e.target.value)}
                     helperText={labels.widthHelper}
                   />
                   <TextField
                     label={labels.heightLabel}
-                    value={height}
+                    value={effectiveHeight}
                     onChange={(e) => setHeight(e.target.value)}
                     helperText={labels.heightHelper}
                   />
                   <TextField
                     select
                     label={labels.themeLabel}
-                    value={theme}
+                    value={effectiveTheme}
                     onChange={(e) =>
                       setTheme(e.target.value as "light" | "dark")
                     }
@@ -344,8 +335,9 @@ export default function EmbedGeneratorPage() {
                   <TextField
                     select
                     label={labels.languageLabel}
-                    value={lang}
+                    value={effectiveLang}
                     onChange={(e) => setLang(e.target.value as "en" | "sr")}
+                    helperText={labels.localeNote}
                   >
                     <MenuItem value="en">English</MenuItem>
                     <MenuItem value="sr">Serbian</MenuItem>
@@ -356,19 +348,19 @@ export default function EmbedGeneratorPage() {
                   </Typography>
                   <TextField
                     label={labels.chartTypeLabel}
-                    value={chartType}
+                    value={effectiveChartType}
                     onChange={(e) => setChartType(e.target.value)}
                     helperText={labels.chartTypeHelper}
                   />
                   <TextField
                     label={labels.datasetLabel}
-                    value={dataset}
+                    value={effectiveDataset}
                     onChange={(e) => setDataset(e.target.value)}
                     helperText={labels.datasetHelper}
                   />
                   <TextField
                     label={labels.dataSourceLabel}
-                    value={dataSource}
+                    value={effectiveDataSource}
                     onChange={(e) => setDataSource(e.target.value)}
                     helperText={labels.dataSourceHelper}
                   />
@@ -382,7 +374,7 @@ export default function EmbedGeneratorPage() {
                         key={param}
                         control={
                           <Checkbox
-                            checked={layoutParams[param]}
+                            checked={effectiveLayoutParams[param]}
                             onChange={(e) =>
                               setLayoutParams((prev) => ({
                                 ...prev,
@@ -457,6 +449,7 @@ export default function EmbedGeneratorPage() {
                   fileName="embed.html"
                   maxLines={10}
                   copyLabel={labels.copyTitle}
+                  copiedLabel={labels.copiedLabel}
                 />
 
                 <Box sx={{ mt: 3 }}>
@@ -473,10 +466,14 @@ export default function EmbedGeneratorPage() {
                     sandbox="allow-scripts allow-same-origin"
                     referrerPolicy="no-referrer"
                     sx={{
-                      width,
-                      height,
-                      border: "1px solid",
-                      borderColor: "divider",
+                      width: effectiveWidth,
+                      height: effectiveHeight,
+                      border: effectiveLayoutParams.removeBorder
+                        ? 0
+                        : "1px solid",
+                      borderColor: effectiveLayoutParams.removeBorder
+                        ? "transparent"
+                        : "divider",
                       borderRadius: 1,
                       maxWidth: "100%",
                       bgcolor: "background.paper",

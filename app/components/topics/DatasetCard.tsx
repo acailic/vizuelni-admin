@@ -7,6 +7,7 @@ import {
   Box,
   Chip,
   Button,
+  Stack,
 } from "@mui/material";
 import Link from "next/link";
 
@@ -28,7 +29,13 @@ interface DatasetCardProps {
 
 export function DatasetCard({ dataset, locale }: DatasetCardProps) {
   const title = getLocalizedText(dataset.title, locale);
-  const description = getLocalizedText(dataset.description, locale);
+  const description =
+    getLocalizedText(dataset.description, locale).trim() ||
+    (locale === "sr-Cyrl"
+      ? "Опис није доступан за овај скуп података."
+      : locale.startsWith("sr")
+        ? "Opis nije dostupan za ovaj skup podataka."
+        : "Description is not available for this dataset.");
   const openLabel =
     locale === "sr-Cyrl"
       ? "Отвори на data.gov.rs"
@@ -41,6 +48,12 @@ export function DatasetCard({ dataset, locale }: DatasetCardProps) {
       : locale.startsWith("sr")
         ? "Ažurirano"
         : "Updated";
+  const unknownLabel =
+    locale === "en"
+      ? "Unknown"
+      : locale === "sr-Cyrl"
+        ? "Непознато"
+        : "Nepoznato";
 
   return (
     <Card sx={{ mb: 2 }}>
@@ -61,18 +74,16 @@ export function DatasetCard({ dataset, locale }: DatasetCardProps) {
             <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
               {description}
             </Typography>
-            <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              spacing={1}
+              alignItems={{ xs: "flex-start", sm: "center" }}
+            >
               <Chip
-                label={
-                  dataset.format ||
-                  (locale === "en"
-                    ? "Unknown"
-                    : locale === "sr-Cyrl"
-                      ? "Непознато"
-                      : "Nepoznato")
-                }
+                label={dataset.format || unknownLabel}
                 size="small"
                 variant="outlined"
+                data-testid="dataset-format"
               />
               <Typography
                 variant="caption"
@@ -89,15 +100,10 @@ export function DatasetCard({ dataset, locale }: DatasetCardProps) {
               >
                 <Box component="span">{`${updatedLabel}:`}</Box>
                 <Box component="span">
-                  {dataset.lastUpdated ||
-                    (locale === "en"
-                      ? "Unknown"
-                      : locale === "sr-Cyrl"
-                        ? "Непознато"
-                        : "Nepoznato")}
+                  {dataset.lastUpdated || unknownLabel}
                 </Box>
               </Typography>
-            </Box>
+            </Stack>
           </Box>
           <Box sx={{ display: "flex", gap: 1, flexDirection: "column" }}>
             <Link href={dataset.dataGovRsUrl} passHref legacyBehavior>

@@ -1,7 +1,7 @@
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Box, Button, Typography, Chip } from "@mui/material";
+import { Alert, Box, Button, Chip, Snackbar, Typography } from "@mui/material";
 import { Highlight, themes } from "prism-react-renderer";
 import React, { useState } from "react";
 
@@ -12,6 +12,7 @@ interface CodeBlockProps {
   maxLines?: number;
   showLineNumbers?: boolean;
   copyLabel?: string;
+  copiedLabel?: string;
 }
 
 const CodeBlock: React.FC<CodeBlockProps> = ({
@@ -21,6 +22,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
   maxLines = 20,
   showLineNumbers = true,
   copyLabel = "Copy code",
+  copiedLabel = "Copied!",
 }) => {
   const [copied, setCopied] = useState(false);
   const [expanded, setExpanded] = useState(false);
@@ -171,6 +173,21 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
           </Box>
         )}
       </Box>
+      <Snackbar
+        open={copied}
+        autoHideDuration={2000}
+        onClose={() => setCopied(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert
+          onClose={() => setCopied(false)}
+          severity="success"
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {copiedLabel}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

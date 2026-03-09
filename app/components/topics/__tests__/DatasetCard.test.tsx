@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import React from "react";
 import { describe, it, expect } from "vitest";
 
 import type { Dataset } from "@/types/topics";
@@ -62,5 +63,24 @@ describe("DatasetCard", () => {
     expect(
       screen.getByRole("link", { name: /отвори на data.gov.rs/i })
     ).toBeInTheDocument();
+  });
+
+  it("renders fallback metadata when description, format, or date are blank", () => {
+    const incompleteDataset = {
+      ...mockDataset,
+      description: { sr: "", en: "" },
+      format: "" as Dataset["format"],
+      lastUpdated: "",
+    };
+
+    render(<DatasetCard dataset={incompleteDataset} locale="en" />);
+
+    expect(
+      screen.getByText("Description is not available for this dataset.")
+    ).toBeInTheDocument();
+    expect(screen.getByTestId("dataset-format")).toHaveTextContent("Unknown");
+    expect(screen.getByTestId("dataset-updated")).toHaveTextContent(
+      /Updated:\s*Unknown/
+    );
   });
 });

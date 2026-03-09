@@ -1,5 +1,6 @@
 // app/pages/topics/[topic].tsx
 import {
+  Alert,
   Container,
   Typography,
   Box,
@@ -243,6 +244,32 @@ export default function TopicPage({ topic }: TopicPageProps) {
                 {description}
               </Typography>
             </Box>
+
+            {isStaticExportMode && (
+              <Alert
+                severity="info"
+                variant="outlined"
+                sx={{ mb: 4, alignItems: "flex-start" }}
+              >
+                <Typography
+                  variant="subtitle2"
+                  sx={{ fontWeight: 700, mb: 0.5 }}
+                >
+                  {locale === "sr-Cyrl"
+                    ? "Statičko izdanje prikazuje demo i showcase sadržaj."
+                    : locale.startsWith("sr")
+                      ? "Statičko izdanje prikazuje demo i showcase sadržaj."
+                      : "This static build shows demo and showcase content instead of the live dataset browser."}
+                </Typography>
+                <Typography variant="body2">
+                  {locale === "sr-Cyrl"
+                    ? "Za potpuno pretraživanje skupova podataka koristite live okruženje, a ovde možete otvoriti istaknute primere i embede."
+                    : locale.startsWith("sr")
+                      ? "Za potpuno pretraživanje skupova podataka koristite live okruženje, a ovde možete otvoriti istaknute primere i embede."
+                      : "Use the live deployment for the full dataset browser. This page focuses on featured examples and embeddable demos."}
+                </Typography>
+              </Alert>
+            )}
 
             {/* Visualizations Section */}
             {topic.visualizations && topic.visualizations.length > 0 && (
