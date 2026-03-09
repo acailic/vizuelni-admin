@@ -28,6 +28,9 @@ export const FORM_MANAGED_PARAMS = new Set([
   ...EMBED_LAYOUT_PARAMS,
 ]);
 
+const DEFAULT_EMBED_HEIGHT = "520px";
+const OPTIMIZED_EMBED_HEIGHT = "320px";
+
 interface EmbedPassthroughOptions {
   chartType: string;
   dataset: string;
@@ -89,7 +92,7 @@ export const resolveEmbedStateFromQuery = (
 
   return {
     width: resolvedQuery.width?.trim() || "100%",
-    height: resolvedQuery.height?.trim() || "520px",
+    height: resolvedQuery.height?.trim() || DEFAULT_EMBED_HEIGHT,
     theme,
     lang,
     chartType: resolvedQuery.type?.trim() || "line",
@@ -112,19 +115,27 @@ export const buildIframeSnippet = ({
   width,
   height,
   removeBorder,
+  optimizeSpace,
 }: {
   iframeSrc: string;
   width: string;
   height: string;
   removeBorder: boolean;
+  optimizeSpace: boolean;
 }) => {
   const borderStyle = removeBorder
     ? "border: 0;"
     : "border: 1px solid rgba(15, 23, 42, 0.16);";
 
+  // Reduce height when optimizeSpace is true and height is the default
+  const effectiveHeight =
+    optimizeSpace && height === DEFAULT_EMBED_HEIGHT
+      ? OPTIMIZED_EMBED_HEIGHT
+      : height;
+
   return `<iframe
   src="${iframeSrc}"
-  style="width: ${width}; height: ${height}; ${borderStyle}"
+  style="width: ${width}; height: ${effectiveHeight}; ${borderStyle}"
   loading="lazy"
   referrerpolicy="no-referrer"
 ></iframe>`;
