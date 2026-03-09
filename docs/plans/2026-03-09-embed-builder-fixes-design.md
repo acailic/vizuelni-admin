@@ -1,4 +1,4 @@
-# Embed Builder QA Fixes Design
+# Embed Builder QA Fixes Implementation Plan
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to
 > implement this plan task-by-task.
@@ -6,9 +6,10 @@
 **Goal:** Fix embed builder UX issues - layout options not reflecting in
 generated code, and parameter propagation inconsistencies.
 
-**Architecture:** Direct fixes in 2 existing files - no new abstractions needed.
+**Architecture:** Direct fixes in 2 existing files - add `optimizeSpace`
+handling to snippet builder and pass it from the embed page.
 
-**Tech Stack:** React, Next.js, TypeScript
+**Tech Stack:** React, Next.js, TypeScript, Vitest
 
 ---
 
@@ -16,8 +17,8 @@ generated code, and parameter propagation inconsistencies.
 
 ### Issue 1: Layout Options UX Mismatch
 
-- **Remove border:** Toggling adds `removeBorder=true` to URL params but the
-  generated snippet always shows `border: 0;` making it appear redundant
+- **Remove border:** Working correctly - toggling changes border style in
+  generated code
 - **Optimize space:** Adds `optimizeSpace=true` to params but iframe height
   stays at default 520px, so the option appears to do nothing
 
@@ -28,13 +29,79 @@ generated code, and parameter propagation inconsistencies.
 
 ---
 
-## Design
+## Tasks
 
-### Fix 1: Optimize Space Height Reduction
+### Task 1: Add optimizeSpace test to embed-generator
 
-**File:** `app/lib/embed-generator.ts`
+**Files:**
 
-Modify `buildIframeSnippet` to handle `optimizeSpace`:
+- Modify: `app/__tests__/unit/embed-generator.test.ts`
+
+**Step 1: Add test for optimizeSpace height reduction**
+
+Add a new test case after the existing `buildIframeSnippet` tests:
+
+```ts
+it("reduces height when optimizeSpace is true and height is default", () => {
+  // With optimizeSpace=true and default height, should reduce to 320px
+  expect(
+    buildIframeSnippet({
+      iframeSrc: "https://example.com/embed/demo?type=bar",
+      width: "100%",
+      height: "520px",
+      removeBorder: false,
+      optimizeSpace: true,
+    })
+  ).toContain("height: 320px");
+
+  // With optimizeSpace=false, should keep original height
+  expect(
+    buildIframeSnippet({
+      iframeSrc: "https://example.com/embed/demo?type=bar",
+      width: "100%",
+      height: "520px",
+      removeBorder: false,
+      optimizeSpace: false,
+    })
+  ).toContain("height: 520px");
+
+  // With optimizeSpace=true but custom height, should keep custom height
+  expect(
+    buildIframeSnippet({
+      iframeSrc: "https://example.com/embed/demo?type=bar",
+      width: "100%",
+      height: "720px",
+      removeBorder: false,
+      optimizeSpace: true,
+    })
+  ).toContain("height: 720px");
+});
+```
+
+**Step 2: Run test to verify it fails**
+
+Run:
+`cd /home/nistrator/Documents/github/vizualni-admin && yarn vitest run app/__tests__/unit/embed-generator.test.ts`
+Expected: FAIL - `optimizeSpace` property does not exist on type
+
+**Step 3: Commit**
+
+```bash
+git add app/__tests__/unit/embed-generator.test.ts
+git commit -m "test: add failing test for optimizeSpace height reduction"
+```
+
+---
+
+### Task 2: Implement optimizeSpace in buildIframeSnippet
+
+**Files:**
+
+- Modify: `app/lib/embed-generator.ts:110-131`
+
+**Step 1: Add optimizeSpace parameter to buildIframeSnippet**
+
+Update the function signature and implementation:
 
 ```ts
 export const buildIframeSnippet = ({
@@ -54,7 +121,7 @@ export const buildIframeSnippet = ({
     ? "border: 0;"
     : "border: 1px solid rgba(15, 23, 42, 0.16);";
 
-  // Reduce height when optimizeSpace is true and height is default
+  // Reduce height when optimizeSpace is true and height is the default
   const effectiveHeight =
     optimizeSpace && height === "520px" ? "320px" : height;
 
@@ -67,14 +134,50 @@ export const buildIframeSnippet = ({
 };
 ```
 
-### Fix 2: Ensure Parameter Propagation on State Change
+**Step 2: Run test to verify it passes**
 
-**File:** `app/pages/embed/index.tsx`
+Run:
+`cd /home/nistrator/Documents/github/vizualni-admin && yarn vitest run app/__tests__/unit/embed-generator.test.ts`
+Expected: PASS
 
-The current `passthroughParams` useMemo has correct dependencies, but we need to
-ensure the call site passes `optimizeSpace` to the snippet builder.
+**Step 3: Commit**
 
-Update the `iframeSnippet` useMemo call:
+```bash
+git add app/lib/embed-generator.ts
+git commit -m "feat: add optimizeSpace height reduction to buildIframeSnippet"
+```
+
+---
+
+### Task 3: Pass optimizeSpace from embed page
+
+**Files:**
+
+- Modify: `app/pages/embed/index.tsx:253-267`
+
+**Step 1: Update iframeSnippet useMemo to pass optimizeSpace**
+
+Update the `iframeSnippet` useMemo from:
+
+```ts
+const iframeSnippet = useMemo(
+  () =>
+    buildIframeSnippet({
+      iframeSrc,
+      width: effectiveWidth,
+      height: effectiveHeight,
+      removeBorder: effectiveLayoutParams.removeBorder,
+    }),
+  [
+    effectiveHeight,
+    effectiveLayoutParams.removeBorder,
+    effectiveWidth,
+    iframeSrc,
+  ]
+);
+```
+
+To:
 
 ```ts
 const iframeSnippet = useMemo(
@@ -88,48 +191,61 @@ const iframeSnippet = useMemo(
     }),
   [
     effectiveHeight,
-    effectiveLayoutParams.removeBorder,
     effectiveLayoutParams.optimizeSpace,
+    effectiveLayoutParams.removeBorder,
     effectiveWidth,
     iframeSrc,
   ]
 );
 ```
 
----
+**Step 2: Run type check**
 
-## Tasks
+Run: `cd /home/nistrator/Documents/github/vizualni-admin && npx tsc --noEmit`
+Expected: No errors
 
-### Task 1: Update buildIframeSnippet to handle optimizeSpace
+**Step 3: Run all embed-related tests**
 
-**Files:**
+Run:
+`cd /home/nistrator/Documents/github/vizualni-admin && yarn vitest run app/__tests__/unit/embed-generator.test.ts`
+Expected: PASS
 
-- Modify: `app/lib/embed-generator.ts`
+**Step 4: Commit**
 
-**Step 1: Add optimizeSpace parameter to buildIframeSnippet**
-
-Add `optimizeSpace: boolean` to the function signature and implement height
-reduction logic.
-
-**Step 2: Update tests**
-
-Update `app/__tests__/unit/embed-generator.test.ts` to test the new behavior.
-
-### Task 2: Update embed page to pass optimizeSpace
-
-**Files:**
-
-- Modify: `app/pages/embed/index.tsx`
-
-**Step 1: Pass optimizeSpace to buildIframeSnippet**
-
-Update the `iframeSnippet` useMemo to include `optimizeSpace` parameter.
+```bash
+git add app/pages/embed/index.tsx
+git commit -m "fix: pass optimizeSpace to buildIframeSnippet for height reduction"
+```
 
 ---
 
-## Verification
+### Task 4: Final verification
 
-1. Run unit tests: `yarn vitest run app/__tests__/unit/embed-generator.test.ts`
-2. Type check: `npx tsc --noEmit`
-3. Manual testing: Toggle layout options in embed builder and verify generated
-   code changes
+**Step 1: Run full test suite**
+
+Run: `cd /home/nistrator/Documents/github/vizualni-admin && yarn vitest run`
+Expected: All tests pass
+
+**Step 2: Type check**
+
+Run: `cd /home/nistrator/Documents/github/vizualni-admin && npx tsc --noEmit`
+Expected: No errors
+
+**Step 3: Commit any remaining changes**
+
+```bash
+git status
+# If any uncommitted changes:
+git add -A && git commit -m "fix: embed builder layout options QA fixes"
+```
+
+---
+
+## Verification Checklist
+
+- [ ] `optimizeSpace=true` reduces iframe height from 520px to 320px in
+      generated code
+- [ ] `optimizeSpace=true` with custom height preserves custom height
+- [ ] `optimizeSpace=false` keeps default 520px height
+- [ ] All existing tests pass
+- [ ] TypeScript compiles without errors
