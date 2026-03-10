@@ -1,5 +1,5 @@
 import { select, Selection } from "d3-selection";
-import { useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { useIsEditingAnnotation } from "@/charts/shared/annotation-utils";
 import { useChartState } from "@/charts/shared/chart-state";
@@ -205,6 +205,7 @@ const renderTreemapLabels = (
 
 /**
  * Treemap component that renders the treemap visualization
+ * Supports drill-down (zoom to node) interactions
  */
 export const Treemap = () => {
   const {
@@ -221,8 +222,11 @@ export const Treemap = () => {
   const nodesRef = useRef<SVGGElement>(null);
   const labelsRef = useRef<SVGGElement>(null);
 
+  // Drill-down state: track which segment is zoomed
+  const [zoomedSegment, setZoomedSegment] = useState<string | null>(null);
+
   // Prepare render data from treemap nodes
-  const renderData = useMemo(() => {
+  const baseRenderData = useMemo(() => {
     return nodes.map((node) => {
       const segment = getSegment(node.data.observation);
       return {
@@ -240,9 +244,60 @@ export const Treemap = () => {
     });
   }, [nodes, getSegment, getRenderingKey, colors]);
 
+  // When zoomed, scale the zoomed node to fill the chart area
+  const renderData = useMemo(() => {
+    if (!zoomedSegment) {
+      return baseRenderData;
+    }
+
+    // Find the zoomed node
+    const zoomedNode = baseRenderData.find((d) => d.segment === zoomedSegment);
+    if (!zoomedNode) {
+      return baseRenderData;
+    }
+
+    // Return only the zoomed node, scaled to fill the chart area
+    return [
+      {
+        ...zoomedNode,
+        x0: 0,
+        y0: 0,
+        x1: chartWidth,
+        y1: chartHeight,
+        width: chartWidth,
+        height: chartHeight,
+      },
+    ];
+  }, [baseRenderData, zoomedSegment, chartWidth, chartHeight]);
+
   const { onClick, onHover, onHoverOut } = useAnnotationInteractions({
     focusingSegment: true,
   });
+
+  // Handle drill-down: click to zoom into a segment
+  const handleDrillDown = useCallback((segment: string) => {
+    setZoomedSegment(segment);
+  }, []);
+
+  // Handle zoom out
+  const handleZoomOut = useCallback(() => {
+    setZoomedSegment(null);
+  }, []);
+
+  const handleClick = useEvent(
+    (observation: Observation, { segment }: { segment?: string }) => {
+      if (segment) {
+        // If already zoomed on this segment, zoom out; otherwise zoom in
+        if (zoomedSegment === segment) {
+          handleZoomOut();
+        } else {
+          handleDrillDown(segment);
+        }
+      }
+      // Also trigger the annotation click handler
+      onClick(observation, { segment });
+    }
+  );
 
   const handleHover = useEvent(
     (
@@ -283,7 +338,7 @@ export const Treemap = () => {
         render: (g, opts) =>
           renderTreemapNodes(g, renderData, {
             ...opts,
-            onClick,
+            onClick: handleClick,
             onHover: handleHover,
             onHoverOut: handleHoverOut,
           }),
@@ -305,18 +360,47 @@ export const Treemap = () => {
   }, [
     enableTransition,
     fontFamily,
+    handleClick,
     handleHover,
     handleHoverOut,
     labelFontSize,
     margins.left,
     margins.top,
-    onClick,
     renderData,
     transitionDuration,
   ]);
 
   return (
     <>
+      {/* Back button when zoomed in */}
+      {zoomedSegment && (
+        <g
+          transform={`translate(${margins.left + chartWidth - 30} ${margins.top + 10})`}
+          style={{ cursor: "pointer" }}
+          onClick={handleZoomOut}
+        >
+          <rect
+            x={-5}
+            y={-5}
+            width={30}
+            height={24}
+            fill="rgba(255,255,255,0.9)"
+            rx={4}
+            stroke="#666"
+            strokeWidth={1}
+          />
+          <text
+            x={10}
+            y={12}
+            textAnchor="middle"
+            fontSize={12}
+            fill="#333"
+            fontFamily={fontFamily}
+          >
+            Back
+          </text>
+        </g>
+      )}
       <g ref={nodesRef} />
       <g ref={labelsRef} />
     </>

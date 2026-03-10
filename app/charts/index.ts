@@ -3088,3 +3088,6 @@ export const getChartSymbol = (
       return _exhaustiveCheck;
   }
 };
+
+// Re-export chart visualization components
+export { ChartTreemapVisualization } from "./treemap/chart-treemap";
