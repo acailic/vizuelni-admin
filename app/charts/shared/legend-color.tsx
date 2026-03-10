@@ -50,7 +50,8 @@ export type LegendSymbol =
   | "dashed-line"
   | "circle"
   | "cross"
-  | "triangle";
+  | "triangle"
+  | "diamond";
 
 const useStyles = makeStyles<Theme>((theme) => ({
   legendContainer: {
@@ -409,7 +410,7 @@ const LegendColorContent = ({
   );
 };
 
-const LegendIcon = ({
+export const LegendIcon = ({
   symbol,
   size,
   fill,
@@ -471,6 +472,9 @@ const LegendIcon = ({
           fill={fill}
         />
       );
+      break;
+    case "diamond":
+      node = <polygon points="0.5,0 1,0.5 0.5,1 0,0.5" fill={fill} />;
       break;
     default:
       const _exhaustiveCheck: never = symbol;
