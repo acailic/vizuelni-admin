@@ -131,6 +131,7 @@
     "@babel/standalone": "^7.26.4",
     "@braintree/sanitize-url": "^7.1.1",
     "@cozy/cli-tree": "^0.3.0",
+    "@deck.gl/aggregation-layers": "^9.2.6",
     "@deck.gl/extensions": "^9.2.10",
     "@deck.gl/geo-layers": "^9.2.2",
     "@deck.gl/layers": "^9.2.2",
