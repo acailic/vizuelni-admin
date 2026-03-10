@@ -3,6 +3,9 @@ import { fold } from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 
+// Import SankeyConfig for type guard
+import type { SankeyConfig } from "./charts/sankey/sankey-types";
+export type { SankeyConfig };
 // Import and re-export ChartThemeVariant from use-chart-theme to avoid duplication
 import type { ChartThemeVariant as ChartThemeVariantType } from "./charts/shared/use-chart-theme";
 export type ChartThemeVariant = ChartThemeVariantType;
@@ -1121,6 +1124,43 @@ export type ChartSegmentField =
   | PieSegmentField
   | ScatterPlotSegmentField;
 
+// Sankey chart types
+const SankeyNodeField = t.type({
+  componentId: t.string,
+  type: t.literal("nominal"),
+});
+export type SankeyNodeField = t.TypeOf<typeof SankeyNodeField>;
+
+const SankeyLinkFields = t.type({
+  source: t.type({ componentId: t.string }),
+  target: t.type({ componentId: t.string }),
+  value: t.type({
+    componentId: t.string,
+    type: t.literal("quantitative"),
+  }),
+});
+export type SankeyLinkFields = t.TypeOf<typeof SankeyLinkFields>;
+
+const SankeyFields = t.type({
+  nodes: SankeyNodeField,
+  links: SankeyLinkFields,
+});
+export type SankeyFields = t.TypeOf<typeof SankeyFields>;
+
+const SankeyConfigCodec = t.intersection([
+  GenericChartConfig,
+  t.type(
+    {
+      chartType: t.literal("sankey"),
+      fields: SankeyFields,
+    },
+    "SankeyConfig"
+  ),
+]);
+// Re-export the type from sankey-types.ts for use elsewhere
+// The io-ts codec type should match our TypeScript interface
+export type { SankeyConfig } from "./charts/sankey/sankey-types";
+
 const RegularChartConfig = t.union([
   AreaConfig,
   ColumnConfig,
@@ -1128,6 +1168,7 @@ const RegularChartConfig = t.union([
   LineConfig,
   MapConfigRuntime,
   PieConfig,
+  SankeyConfigCodec,
   ScatterPlotConfig,
   TableConfig,
 ]);
@@ -1262,6 +1303,12 @@ export const isTreemapConfig = (chartConfig: {
   return chartConfig.chartType === "treemap";
 };
 
+export const isSankeyConfig = (chartConfig: {
+  chartType: string;
+}): chartConfig is SankeyConfig => {
+  return chartConfig.chartType === "sankey";
+};
+
 export const canBeNormalized = (
   chartConfig: ChartConfig
 ): chartConfig is AreaConfig | ColumnConfig | BarConfig => {
@@ -1292,8 +1339,15 @@ export const isSegmentInConfig = (
 
 export const isColorInConfig = (
   chartConfig: ChartConfig
-): chartConfig is Exclude<ChartConfig, { chartType: "table" | "map" }> => {
-  return !isTableConfig(chartConfig) && !isMapConfig(chartConfig);
+): chartConfig is Exclude<
+  ChartConfig,
+  { chartType: "table" | "map" | "sankey" }
+> => {
+  return (
+    !isTableConfig(chartConfig) &&
+    !isMapConfig(chartConfig) &&
+    !isSankeyConfig(chartConfig)
+  );
 };
 
 export const isNotTableOrMap = (chartConfig: ChartConfig) => {

@@ -608,7 +608,7 @@ export const getComponentsFilteredByType = ({
   );
 };
 
-const isNominalDimension = (
+export const isNominalDimension = (
   dimension?: Component | null
 ): dimension is NominalDimension => {
   return dimension?.__typename === "NominalDimension";

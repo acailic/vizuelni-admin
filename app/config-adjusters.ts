@@ -30,6 +30,7 @@ import {
   PieConfig,
   PieFields,
   PieSegmentField,
+  SankeyConfig,
   ScatterPlotConfig,
   ScatterPlotFields,
   ScatterPlotSegmentField,
@@ -289,6 +290,17 @@ type ComboLineColumnAdjusters = BaseAdjusters<ComboLineColumnConfig> & {
   };
 };
 
+type SankeyAdjusters = BaseAdjusters<SankeyConfig> & {
+  fields: {
+    nodes: { componentId: FieldAdjuster<SankeyConfig, ComponentId> };
+    links: {
+      source: { componentId: FieldAdjuster<SankeyConfig, ComponentId> };
+      target: { componentId: FieldAdjuster<SankeyConfig, ComponentId> };
+      value: { componentId: FieldAdjuster<SankeyConfig, ComponentId> };
+    };
+  };
+};
+
 export type ChartConfigsAdjusters = {
   column: ColumnAdjusters;
   bar: BarAdjusters;
@@ -298,6 +310,7 @@ export type ChartConfigsAdjusters = {
   pie: PieAdjusters;
   table: TableAdjusters;
   map: MapAdjusters;
+  sankey: SankeyAdjusters;
   comboLineSingle: ComboLineSingleAdjusters;
   comboLineDual: ComboLineDualAdjusters;
   comboLineColumn: ComboLineColumnAdjusters;

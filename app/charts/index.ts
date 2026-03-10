@@ -52,6 +52,7 @@ import {
   HierarchyValue,
   isGeoDimension,
   isGeoShapesDimension,
+  isNominalDimension,
   isNumericalMeasure,
   isOrdinalMeasure,
   isTemporalDimension,
@@ -102,6 +103,7 @@ const chartTypes: ChartType[] = [
   "pie",
   "table",
   "map",
+  "sankey",
   "comboLineSingle",
   "comboLineDual",
   "comboLineColumn",
@@ -116,6 +118,7 @@ export const regularChartTypes: RegularChartType[] = [
   "pie",
   "table",
   "map",
+  "sankey",
 ] as string[]; // Cast to allow treemap which may not be in RegularChartType union yet
 
 const comboDifferentUnitChartTypes: ComboChartType[] = [
@@ -142,9 +145,10 @@ function getChartTypeOrder({ cubeCount }: { cubeCount: number }): ChartOrder {
     pie: 5,
     map: 6,
     table: 7,
-    comboLineSingle: 8 + multiCubeBoost,
-    comboLineDual: 9 + multiCubeBoost,
-    comboLineColumn: 10 + multiCubeBoost,
+    sankey: 8,
+    comboLineSingle: 9 + multiCubeBoost,
+    comboLineDual: 10 + multiCubeBoost,
+    comboLineColumn: 11 + multiCubeBoost,
   };
 }
 
@@ -755,6 +759,35 @@ export const getInitialConfig = (
                 })
               ),
             }),
+          },
+        },
+      };
+    }
+    case "sankey": {
+      // Sankey charts need source, target dimensions and a value measure
+      const nominalDimensions = dimensions.filter(isNominalDimension);
+
+      return {
+        ...getGenericConfig(),
+        chartType: "sankey",
+        interactiveFiltersConfig: getInitialInteractiveFiltersConfig(),
+        fields: {
+          nodes: {
+            componentId: nominalDimensions[0]?.id ?? "",
+            type: "nominal",
+          },
+          links: {
+            source: {
+              componentId: nominalDimensions[0]?.id ?? "",
+            },
+            target: {
+              componentId:
+                nominalDimensions[1]?.id ?? nominalDimensions[0]?.id ?? "",
+            },
+            value: {
+              componentId: numericalMeasures[0]?.id ?? "",
+              type: "quantitative",
+            },
           },
         },
       };
@@ -2310,6 +2343,73 @@ const chartConfigsAdjusters: ChartConfigsAdjusters = {
     },
     interactiveFiltersConfig: interactiveFiltersAdjusters,
   },
+  sankey: {
+    cubes: ({ oldValue, newChartConfig }) => {
+      return produce(newChartConfig, (draft) => {
+        draft.cubes = oldValue;
+      });
+    },
+    annotations: ({ oldValue, newChartConfig }) => {
+      return produce(newChartConfig, (draft) => {
+        draft.annotations = oldValue;
+      });
+    },
+    limits: ({ oldValue, newChartConfig }) => {
+      return produce(newChartConfig, (draft) => {
+        draft.limits = oldValue;
+      });
+    },
+    conversionUnitsByComponentId: ({ oldValue, newChartConfig }) => {
+      return produce(newChartConfig, (draft) => {
+        draft.conversionUnitsByComponentId = oldValue;
+      });
+    },
+    fields: {
+      nodes: {
+        componentId: ({ oldValue, newChartConfig, dimensions }) => {
+          if (dimensions.find((d) => d.id === oldValue)) {
+            return produce(newChartConfig, (draft) => {
+              draft.fields.nodes.componentId = oldValue;
+            });
+          }
+          return newChartConfig;
+        },
+      },
+      links: {
+        source: {
+          componentId: ({ oldValue, newChartConfig, dimensions }) => {
+            if (dimensions.find((d) => d.id === oldValue)) {
+              return produce(newChartConfig, (draft) => {
+                draft.fields.links.source.componentId = oldValue;
+              });
+            }
+            return newChartConfig;
+          },
+        },
+        target: {
+          componentId: ({ oldValue, newChartConfig, dimensions }) => {
+            if (dimensions.find((d) => d.id === oldValue)) {
+              return produce(newChartConfig, (draft) => {
+                draft.fields.links.target.componentId = oldValue;
+              });
+            }
+            return newChartConfig;
+          },
+        },
+        value: {
+          componentId: ({ oldValue, newChartConfig, measures }) => {
+            if (measures.find((m) => m.id === oldValue)) {
+              return produce(newChartConfig, (draft) => {
+                draft.fields.links.value.componentId = oldValue;
+              });
+            }
+            return newChartConfig;
+          },
+        },
+      },
+    },
+    interactiveFiltersConfig: interactiveFiltersAdjusters,
+  },
 };
 type ChartConfigAdjusters = (typeof chartConfigsAdjusters)[ChartType];
 
@@ -2719,6 +2819,54 @@ const chartConfigsPathOverrides: {
       "fields.y": [{ path: "fields.y" }],
     },
   },
+  sankey: {
+    column: {
+      "fields.y.componentId": [{ path: "fields.links.value.componentId" }],
+      "fields.x.componentId": [{ path: "fields.links.source.componentId" }],
+    },
+    bar: {
+      "fields.x.componentId": [{ path: "fields.links.value.componentId" }],
+      "fields.y.componentId": [{ path: "fields.links.source.componentId" }],
+    },
+    line: {
+      "fields.y.componentId": [{ path: "fields.links.value.componentId" }],
+      "fields.x.componentId": [{ path: "fields.links.source.componentId" }],
+    },
+    area: {
+      "fields.y.componentId": [{ path: "fields.links.value.componentId" }],
+      "fields.x.componentId": [{ path: "fields.links.source.componentId" }],
+    },
+    scatterplot: {
+      "fields.y.componentId": [{ path: "fields.links.value.componentId" }],
+      "fields.x.componentId": [{ path: "fields.links.source.componentId" }],
+    },
+    pie: {
+      "fields.y.componentId": [{ path: "fields.links.value.componentId" }],
+    },
+    map: {
+      "fields.areaLayer.color.componentId": [
+        { path: "fields.links.value.componentId" },
+      ],
+    },
+    comboLineSingle: {
+      "fields.y.componentIds": [
+        { path: "fields.links.value.componentId", oldValue: (d) => d[0] },
+      ],
+    },
+    comboLineDual: {
+      "fields.y.leftAxisComponentId": [
+        { path: "fields.links.value.componentId" },
+      ],
+    },
+    comboLineColumn: {
+      "fields.y": [
+        {
+          path: "fields.links.value.componentId",
+          oldValue: (d) => d.columnComponentId,
+        },
+      ],
+    },
+  },
 };
 type ChartConfigPathOverrides =
   (typeof chartConfigsPathOverrides)[ChartType][ChartType];
@@ -3075,6 +3223,7 @@ export const getChartSymbol = (
     case "comboLineColumn":
     case "pie":
     case "map":
+    case "sankey":
     case "table":
       return "square";
     case "comboLineDual":
