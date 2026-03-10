@@ -18,6 +18,8 @@ import { type ReactNode } from "react";
 import { ContentMDXProvider } from "@/components/content-mdx-provider";
 import { ShowcaseCard } from "@/components/demos/showcase-card";
 import { Header } from "@/components/header";
+import { OnboardingCTA } from "@/components/homepage/OnboardingCTA";
+import { StatsCounter } from "@/components/homepage/StatsCounter";
 import { DEMO_CONFIGS, FEATURED_CHARTS } from "@/lib/demos/config";
 import { useLocale } from "@/locales/use-locale";
 import { staticPages } from "@/static-pages";
@@ -68,6 +70,27 @@ const heroCopy: Record<
     primary: "Прегледај датасете",
     secondary: "Погледај демо",
   },
+};
+
+const statsCopy: Record<Locale, Array<{ value: number; label: string }>> = {
+  en: [
+    { value: 150, label: "Datasets available" },
+    { value: 42, label: "Chart types" },
+    { value: 1200, label: "Visualizations created" },
+    { value: 89, label: "Happy users" },
+  ],
+  sr: [
+    { value: 150, label: "Dostupnih skupova podataka" },
+    { value: 42, label: "Tipa grafikona" },
+    { value: 1200, label: "Kreiranih vizualizacija" },
+    { value: 89, label: "Zadovoljnih korisnika" },
+  ],
+  "sr-Cyrl": [
+    { value: 150, label: "Доступних скупова података" },
+    { value: 42, label: "Типа графикона" },
+    { value: 1200, label: "Креираних визуализација" },
+    { value: 89, label: "Задовољних корисника" },
+  ],
 };
 
 const featuresCopy: Record<
@@ -1315,6 +1338,8 @@ function ContentPage({ staticPage }: ContentPageProps) {
         <Header />
         <HeroSection locale={locale} />
         <FeaturesSection locale={locale} />
+        <StatsCounter stats={statsCopy[locale]} locale={locale} />
+        <OnboardingCTA locale={locale} />
         <FeaturedSection locale={locale} />
         <HowItWorksSection locale={locale} />
         <UseCasesSection locale={locale} />
