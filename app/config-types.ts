@@ -1236,15 +1236,25 @@ const GaugeValueField = t.type({
 });
 export type GaugeValueField = t.TypeOf<typeof GaugeValueField>;
 
-const GaugeThreshold = t.type({
-  value: t.number,
-  color: t.string,
-});
+const GaugeThreshold = t.intersection([
+  t.type({
+    value: t.number,
+    color: t.string,
+  }),
+  t.partial({
+    label: t.string,
+  }),
+]);
 export type GaugeThreshold = t.TypeOf<typeof GaugeThreshold>;
 
-const GaugeFields = t.type({
-  value: GaugeValueField,
-});
+const GaugeFields = t.intersection([
+  t.type({
+    value: GaugeValueField,
+  }),
+  t.partial({
+    animation: AnimationField,
+  }),
+]);
 export type GaugeFields = t.TypeOf<typeof GaugeFields>;
 
 const GaugeValueDisplay = t.union([
