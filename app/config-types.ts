@@ -6,6 +6,9 @@ import * as t from "io-ts";
 // Import and re-export ChartThemeVariant from use-chart-theme to avoid duplication
 import type { ChartThemeVariant as ChartThemeVariantType } from "./charts/shared/use-chart-theme";
 export type ChartThemeVariant = ChartThemeVariantType;
+// Import TreemapConfig for type guard
+import type { TreemapConfig } from "./charts/treemap/treemap-types";
+export type { TreemapConfig };
 
 // Define PALETTE_TYPE locally to avoid Prisma client dependency for static builds
 export enum PALETTE_TYPE {
@@ -1251,6 +1254,12 @@ export const isMapConfig = (
   chartConfig: ChartConfig
 ): chartConfig is MapConfigType => {
   return chartConfig.chartType === "map";
+};
+
+export const isTreemapConfig = (chartConfig: {
+  chartType: string;
+}): chartConfig is TreemapConfig => {
+  return chartConfig.chartType === "treemap";
 };
 
 export const canBeNormalized = (
