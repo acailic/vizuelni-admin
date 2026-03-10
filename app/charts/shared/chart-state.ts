@@ -31,6 +31,7 @@ import {
 } from "@/charts/shared/chart-helpers";
 import type { DimensionsById, MeasuresById } from "@/charts/shared/chart-props";
 import { Bounds } from "@/charts/shared/use-size";
+import { SunburstState } from "@/charts/sunburst/sunburst-state";
 import { TableChartState } from "@/charts/table/table-state";
 import {
   AreaFields,
@@ -94,6 +95,7 @@ export type ChartState =
   | PieState
   | SankeyState
   | ScatterplotState
+  | SunburstState
   | TableChartState
   | undefined;
 
