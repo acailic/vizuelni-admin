@@ -105,11 +105,12 @@ const chartTypes: ChartType[] = [
   "map",
   "sankey",
   "sunburst",
+  "treemap",
   "gauge",
   "comboLineSingle",
   "comboLineDual",
   "comboLineColumn",
-] as string[]; // Cast to allow treemap which may not be in ChartType union yet
+];
 
 export const regularChartTypes: RegularChartType[] = [
   "column",
@@ -122,8 +123,9 @@ export const regularChartTypes: RegularChartType[] = [
   "map",
   "sankey",
   "sunburst",
+  "treemap",
   "gauge",
-] as string[]; // Cast to allow treemap which may not be in RegularChartType union yet
+];
 
 const comboDifferentUnitChartTypes: ComboChartType[] = [
   "comboLineDual",
@@ -151,10 +153,11 @@ function getChartTypeOrder({ cubeCount }: { cubeCount: number }): ChartOrder {
     table: 7,
     sankey: 8,
     sunburst: 9,
-    gauge: 10,
-    comboLineSingle: 11 + multiCubeBoost,
-    comboLineDual: 12 + multiCubeBoost,
-    comboLineColumn: 13 + multiCubeBoost,
+    treemap: 10,
+    gauge: 11,
+    comboLineSingle: 12 + multiCubeBoost,
+    comboLineDual: 13 + multiCubeBoost,
+    comboLineColumn: 14 + multiCubeBoost,
   };
 }
 
@@ -835,6 +838,25 @@ export const getInitialConfig = (
         },
       };
     }
+    case "treemap": {
+      // Treemap charts need a dimension for x and a measure for y
+      const treemapXComponentId = dimensions[0]?.id ?? "";
+      return {
+        ...getGenericConfig(),
+        chartType: "treemap",
+        interactiveFiltersConfig: getInitialInteractiveFiltersConfig(),
+        fields: {
+          x: {
+            componentId: treemapXComponentId,
+            type: "nominal" as const,
+          },
+          y: {
+            componentId: numericalMeasures[0]?.id ?? "",
+            type: "quantitative" as const,
+          },
+        },
+      };
+    }
 
     // This code *should* be unreachable! If it's not, it means we haven't checked
     // all cases (and we should get a TS error).
@@ -1504,7 +1526,7 @@ const chartConfigsAdjusters: ChartConfigsAdjusters = {
                 "sorting" in oldSegment &&
                 oldSegment.sorting &&
                 "sortingOrder" in oldSegment.sorting
-                  ? (oldSegment.sorting ?? DEFAULT_FIXED_COLOR_FIELD)
+                  ? oldSegment.sorting ?? DEFAULT_FIXED_COLOR_FIELD
                   : DEFAULT_SORTING,
               showValuesMapping: oldSegment.showValuesMapping,
             };
@@ -2089,8 +2111,8 @@ const chartConfigsAdjusters: ChartConfigsAdjusters = {
             .filter((d) => d.unit === unit)
             .map((d) => d.id);
           const paletteId = isColorInConfig(oldChartConfig)
-            ? (oldChartConfig.fields.color.paletteId ??
-              DEFAULT_CATEGORICAL_PALETTE_ID)
+            ? oldChartConfig.fields.color.paletteId ??
+              DEFAULT_CATEGORICAL_PALETTE_ID
             : DEFAULT_CATEGORICAL_PALETTE_ID;
 
           return produce(newChartConfig, (draft) => {
@@ -2237,8 +2259,8 @@ const chartConfigsAdjusters: ChartConfigsAdjusters = {
         leftMeasure = getLeftMeasure(leftMeasure.id);
 
         const paletteId = isColorInConfig(oldChartConfig)
-          ? (oldChartConfig.fields.color.paletteId ??
-            DEFAULT_CATEGORICAL_PALETTE_ID)
+          ? oldChartConfig.fields.color.paletteId ??
+            DEFAULT_CATEGORICAL_PALETTE_ID
           : DEFAULT_CATEGORICAL_PALETTE_ID;
 
         return produce(newChartConfig, (draft) => {
@@ -2360,8 +2382,8 @@ const chartConfigsAdjusters: ChartConfigsAdjusters = {
         const lineComponentId = rightMeasure.id;
 
         const paletteId = isColorInConfig(oldChartConfig)
-          ? (oldChartConfig.fields.color.paletteId ??
-            DEFAULT_CATEGORICAL_PALETTE_ID)
+          ? oldChartConfig.fields.color.paletteId ??
+            DEFAULT_CATEGORICAL_PALETTE_ID
           : DEFAULT_CATEGORICAL_PALETTE_ID;
 
         return produce(newChartConfig, (draft) => {
@@ -2538,6 +2560,51 @@ const chartConfigsAdjusters: ChartConfigsAdjusters = {
           if (measures.find((m) => m.id === oldValue)) {
             return produce(newChartConfig, (draft) => {
               draft.fields.value.componentId = oldValue;
+            });
+          }
+          return newChartConfig;
+        },
+      },
+    },
+    interactiveFiltersConfig: interactiveFiltersAdjusters,
+  },
+  treemap: {
+    cubes: ({ oldValue, newChartConfig }) => {
+      return produce(newChartConfig, (draft) => {
+        draft.cubes = oldValue;
+      });
+    },
+    annotations: ({ oldValue, newChartConfig }) => {
+      return produce(newChartConfig, (draft) => {
+        draft.annotations = oldValue;
+      });
+    },
+    limits: ({ oldValue, newChartConfig }) => {
+      return produce(newChartConfig, (draft) => {
+        draft.limits = oldValue;
+      });
+    },
+    conversionUnitsByComponentId: ({ oldValue, newChartConfig }) => {
+      return produce(newChartConfig, (draft) => {
+        draft.conversionUnitsByComponentId = oldValue;
+      });
+    },
+    fields: {
+      x: {
+        componentId: ({ oldValue, newChartConfig, dimensions }) => {
+          if (dimensions.find((d) => d.id === oldValue)) {
+            return produce(newChartConfig, (draft) => {
+              draft.fields.x.componentId = oldValue;
+            });
+          }
+          return newChartConfig;
+        },
+      },
+      y: {
+        componentId: ({ oldValue, newChartConfig, measures }) => {
+          if (measures.find((m) => m.id === oldValue)) {
+            return produce(newChartConfig, (draft) => {
+              draft.fields.y.componentId = oldValue;
             });
           }
           return newChartConfig;
@@ -3083,6 +3150,38 @@ const chartConfigsPathOverrides: {
     sankey: {
       "fields.links.value.componentId": [{ path: "fields.value.componentId" }],
     },
+    treemap: {
+      "fields.y.componentId": [{ path: "fields.value.componentId" }],
+    },
+  },
+  treemap: {
+    column: {
+      "fields.y.componentId": [{ path: "fields.y.componentId" }],
+    },
+    bar: {
+      "fields.y.componentId": [{ path: "fields.y.componentId" }],
+    },
+    line: {
+      "fields.y.componentId": [{ path: "fields.y.componentId" }],
+    },
+    area: {
+      "fields.y.componentId": [{ path: "fields.y.componentId" }],
+    },
+    scatterplot: {
+      "fields.y.componentId": [{ path: "fields.y.componentId" }],
+    },
+    pie: {
+      "fields.y.componentId": [{ path: "fields.y.componentId" }],
+    },
+    sunburst: {
+      "fields.size.componentId": [{ path: "fields.y.componentId" }],
+    },
+    sankey: {
+      "fields.links.value.componentId": [{ path: "fields.y.componentId" }],
+    },
+    gauge: {
+      "fields.value.componentId": [{ path: "fields.y.componentId" }],
+    },
   },
 };
 type ChartConfigPathOverrides =
@@ -3443,6 +3542,7 @@ export const getChartSymbol = (
     case "sankey":
     case "table":
     case "sunburst":
+    case "treemap":
     case "gauge":
       return "square";
     case "comboLineDual":

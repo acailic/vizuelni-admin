@@ -38,13 +38,14 @@ import {
   SunburstConfig,
   TableConfig,
   TableFields,
+  TreemapConfig,
 } from "@/config-types";
 import { Dimension, Measure } from "@/domain/data";
 import { ComponentId } from "@/graphql/make-component-id";
 
 export type FieldAdjuster<
   NewChartConfigType extends ChartConfig,
-  OldValueType extends unknown,
+  OldValueType extends unknown
 > = (params: {
   oldValue: OldValueType;
   oldChartConfig: ChartConfig;
@@ -319,6 +320,13 @@ type GaugeAdjusters = BaseAdjusters<GaugeConfig> & {
   };
 };
 
+type TreemapAdjusters = BaseAdjusters<TreemapConfig> & {
+  fields: {
+    x: { componentId: FieldAdjuster<TreemapConfig, ComponentId> };
+    y: { componentId: FieldAdjuster<TreemapConfig, ComponentId> };
+  };
+};
+
 export type ChartConfigsAdjusters = {
   column: ColumnAdjusters;
   bar: BarAdjusters;
@@ -331,6 +339,7 @@ export type ChartConfigsAdjusters = {
   sankey: SankeyAdjusters;
   sunburst: SunburstAdjusters;
   gauge: GaugeAdjusters;
+  treemap: TreemapAdjusters;
   comboLineSingle: ComboLineSingleAdjusters;
   comboLineDual: ComboLineDualAdjusters;
   comboLineColumn: ComboLineColumnAdjusters;

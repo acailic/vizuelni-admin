@@ -1296,6 +1296,69 @@ const GaugeConfigCodec = t.intersection([
   }),
 ]);
 
+// Treemap chart types
+const TreemapTileType = t.union([
+  t.literal("squarify"),
+  t.literal("slice"),
+  t.literal("dice"),
+  t.literal("sliceDice"),
+]);
+export type TreemapTileType = t.TypeOf<typeof TreemapTileType>;
+
+const TreemapXField = t.type({
+  componentId: t.string,
+  type: t.literal("nominal"),
+});
+export type TreemapXField = t.TypeOf<typeof TreemapXField>;
+
+const TreemapYField = t.type({
+  componentId: t.string,
+  type: t.literal("quantitative"),
+});
+export type TreemapYField = t.TypeOf<typeof TreemapYField>;
+
+const TreemapSegmentField = t.type({
+  componentId: t.string,
+});
+export type TreemapSegmentField = t.TypeOf<typeof TreemapSegmentField>;
+
+const TreemapFields = t.intersection([
+  t.type({
+    x: TreemapXField,
+    y: TreemapYField,
+  }),
+  t.partial({
+    segment: TreemapSegmentField,
+    tile: TreemapTileType,
+  }),
+]);
+export type TreemapFields = t.TypeOf<typeof TreemapFields>;
+
+const TreemapVisualOptions = t.partial({
+  enableZoomOnClick: t.boolean,
+  showBreadcrumb: t.boolean,
+  enableAnimations: t.boolean,
+  paddingOuter: t.number,
+  paddingTop: t.number,
+  paddingRight: t.number,
+  paddingBottom: t.number,
+  paddingLeft: t.number,
+});
+
+const TreemapConfigCodec = t.intersection([
+  GenericChartConfig,
+  t.type(
+    {
+      chartType: t.literal("treemap"),
+      fields: TreemapFields,
+    },
+    "TreemapConfig"
+  ),
+  t.partial({
+    visualOptions: TreemapVisualOptions,
+  }),
+]);
+
 const RegularChartConfig = t.union([
   AreaConfig,
   ColumnConfig,
@@ -1306,6 +1369,7 @@ const RegularChartConfig = t.union([
   SankeyConfigCodec,
   SunburstConfigCodec,
   GaugeConfigCodec,
+  TreemapConfigCodec,
   ScatterPlotConfig,
   TableConfig,
 ]);
