@@ -137,16 +137,14 @@ const useSunburstState = (
         // Find or create child node
         let child = currentNode.children?.find((c) => c.name === levelValue);
         if (!child) {
+          const isLeaf = levelIndex === hierarchyLevels.length - 1;
           child = {
             id: `${currentNode.id}-${levelValue}`,
             name: levelValue,
-            value: 0,
+            value: isLeaf ? (getY(observation) ?? 0) : 0,
             depth: levelIndex,
-            children: levelIndex < hierarchyLevels.length - 1 ? [] : undefined,
-            observation:
-              levelIndex === hierarchyLevels.length - 1
-                ? observation
-                : undefined,
+            children: isLeaf ? undefined : [],
+            observation: isLeaf ? observation : undefined,
           };
           if (!currentNode.children) {
             currentNode.children = [];

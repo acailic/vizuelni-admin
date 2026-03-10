@@ -2,7 +2,6 @@ import { describe, it, expect } from "vitest";
 
 import { SunburstDataNode } from "../sunburst-state";
 import { SunburstNode, SunburstHierarchyField } from "../sunburst-types";
-import { SunburstHierarchyField } from "../sunburst-types";
 
 describe("SunburstState", () => {
   describe("SunburstNode type", () => {
