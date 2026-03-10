@@ -16,6 +16,7 @@ import { ColumnsState } from "@/charts/column/columns-state";
 import { ComboLineColumnState } from "@/charts/combo/combo-line-column-state";
 import { ComboLineDualState } from "@/charts/combo/combo-line-dual-state";
 import { ComboLineSingleState } from "@/charts/combo/combo-line-single-state";
+import { GaugeState } from "@/charts/gauge/gauge-state";
 import { LinesState } from "@/charts/line/lines-state";
 import { MapState } from "@/charts/map/map-state";
 import { PieState } from "@/charts/pie/pie-state";
@@ -90,6 +91,7 @@ export type ChartState =
   | ComboLineSingleState
   | ComboLineColumnState
   | ComboLineDualState
+  | GaugeState
   | LinesState
   | MapState
   | PieState
