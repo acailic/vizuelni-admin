@@ -1147,6 +1147,19 @@ const SankeyFields = t.type({
 });
 export type SankeyFields = t.TypeOf<typeof SankeyFields>;
 
+const SankeyVisualOptions = t.partial({
+  nodeWidth: t.number,
+  nodePadding: t.number,
+  nodeAlignment: t.union([
+    t.literal("justify"),
+    t.literal("left"),
+    t.literal("right"),
+    t.literal("center"),
+  ]),
+  enableFlowHighlight: t.boolean,
+  enableAnimations: t.boolean,
+});
+
 const SankeyConfigCodec = t.intersection([
   GenericChartConfig,
   t.type(
@@ -1156,10 +1169,10 @@ const SankeyConfigCodec = t.intersection([
     },
     "SankeyConfig"
   ),
+  t.partial({
+    visualOptions: SankeyVisualOptions,
+  }),
 ]);
-// Re-export the type from sankey-types.ts for use elsewhere
-// The io-ts codec type should match our TypeScript interface
-export type { SankeyConfig } from "./charts/sankey/sankey-types";
 
 const RegularChartConfig = t.union([
   AreaConfig,
