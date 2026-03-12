@@ -312,5 +312,17 @@
     },
     "clearAll": "Очисти све",
     "resultsCount": "{count} резултата"
+  },
+  "pdf": {
+    "reportTitle": "Извештај графика",
+    "generatedOn": "Генерисано",
+    "chartType": "Тип графика",
+    "datasets": "Скупови података",
+    "organization": "Организација",
+    "license": "Лиценца",
+    "watermark": "Визуелни Админ Србије",
+    "downloadPdf": "Преузми PDF",
+    "generateReport": "Генериши извештај",
+    "exportError": "Неуспешно генерисање PDF извештаја"
   }
 }

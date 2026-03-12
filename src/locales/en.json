@@ -312,5 +312,17 @@
     },
     "clearAll": "Clear all",
     "resultsCount": "{count} results"
+  },
+  "pdf": {
+    "reportTitle": "Chart Report",
+    "generatedOn": "Generated on",
+    "chartType": "Chart Type",
+    "datasets": "Datasets",
+    "organization": "Organization",
+    "license": "License",
+    "watermark": "Vizuelni Admin Srbije",
+    "downloadPdf": "Download PDF",
+    "generateReport": "Generate Report",
+    "exportError": "Failed to generate PDF report"
   }
 }

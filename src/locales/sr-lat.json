@@ -300,5 +300,17 @@
     },
     "clearAll": "Očisti sve",
     "resultsCount": "{count} rezultata"
+  },
+  "pdf": {
+    "reportTitle": "Izveštaj grafika",
+    "generatedOn": "Generisano",
+    "chartType": "Tip grafika",
+    "datasets": "Skupovi podataka",
+    "organization": "Organizacija",
+    "license": "Licenca",
+    "watermark": "Vizuelni Admin Srbije",
+    "downloadPdf": "Preuzmi PDF",
+    "generateReport": "Generiši izveštaj",
+    "exportError": "Neuspešno generisanje PDF izveštaja"
   }
 }

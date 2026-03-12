@@ -82,21 +82,21 @@ features:
   - id: feature-35
     name: Advanced Search with Filters
     spec: recipes/inputs/feature-35-advanced-search.md
-    status: in-progress
-    branch: goose/feature-35-advanced-search-filters
-    pr: null
-    blocked_reason: null
-    blocked_issue: null
-    started_at: 2026-03-12T20:22:00Z
-    completed_at: null
-
-  - id: feature-36
-    name: PDF Report Generation
-    spec: recipes/inputs/feature-36-pdf-reports.md
-    status: not-started
+    status: completed
     branch: null
     pr: null
     blocked_reason: null
     blocked_issue: null
-    started_at: null
-    completed_at: null
+    started_at: 2026-03-12T20:22:00Z
+    completed_at: 2026-03-12T20:45:00Z
+
+  - id: feature-36
+    name: PDF Report Generation
+    spec: recipes/inputs/feature-36-pdf-reports.md
+    status: completed
+    branch: null
+    pr: null
+    blocked_reason: null
+    blocked_issue: null
+    started_at: 2026-03-12T21:00:00Z
+    completed_at: 2026-03-12T21:15:00Z
