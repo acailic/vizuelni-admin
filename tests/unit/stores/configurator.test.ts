@@ -60,7 +60,7 @@ describe('configurator store', () => {
       expect(state.initialized).toBe(true)
     })
 
-    it('does not reinitialize if already initialized with same dataset', () => {
+    it('does not reinitialize if already initialized with same dataset (without new data)', () => {
       act(() => {
         useConfiguratorStore.getState().initialize({
           datasetId: 'dataset-1',
@@ -71,7 +71,32 @@ describe('configurator store', () => {
 
       const firstState = { ...useConfiguratorStore.getState() }
 
-      // Try to initialize again with same dataset
+      // Try to initialize again with same dataset but WITHOUT parsedDataset
+      // (simulates navigation back to same dataset)
+      act(() => {
+        useConfiguratorStore.getState().initialize({
+          datasetId: 'dataset-1',
+          initialConfig: { type: 'line', title: 'Different' },
+        })
+      })
+
+      const secondState = useConfiguratorStore.getState()
+      // Config should not have changed since no new data was provided
+      expect(secondState.config.type).toBe(firstState.config.type)
+    })
+
+    it('does reinitialize when new parsedDataset is provided', () => {
+      act(() => {
+        useConfiguratorStore.getState().initialize({
+          datasetId: 'dataset-1',
+          parsedDataset: mockParsedDataset,
+          initialConfig: mockInitialConfig,
+        })
+      })
+
+      const firstState = { ...useConfiguratorStore.getState() }
+
+      // Initialize again WITH new parsedDataset (async data load)
       act(() => {
         useConfiguratorStore.getState().initialize({
           datasetId: 'dataset-1',
@@ -81,11 +106,11 @@ describe('configurator store', () => {
       })
 
       const secondState = useConfiguratorStore.getState()
-      // Config should not have changed
-      expect(secondState.config.type).toBe(firstState.config.type)
+      // Config SHOULD have changed because new data was provided
+      expect(secondState.config.type).toBe('line')
     })
 
-    it('defaults to chartType step if not specified', () => {
+    it('defaults to dataset step if not specified', () => {
       act(() => {
         useConfiguratorStore.getState().initialize({
           datasetId: 'dataset-1',
@@ -93,7 +118,7 @@ describe('configurator store', () => {
         })
       })
 
-      expect(useConfiguratorStore.getState().step).toBe('chartType')
+      expect(useConfiguratorStore.getState().step).toBe('dataset')
     })
   })
 
@@ -109,12 +134,13 @@ describe('configurator store', () => {
     })
 
     it('advances to next step', () => {
-      expect(useConfiguratorStore.getState().step).toBe('chartType')
+      expect(useConfiguratorStore.getState().step).toBe('dataset')
 
       act(() => {
         useConfiguratorStore.getState().nextStep()
       })
 
+      // After dataset, nextStep normalizes to chartType and advances to mapping
       expect(useConfiguratorStore.getState().step).toBe('mapping')
 
       act(() => {
@@ -152,13 +178,15 @@ describe('configurator store', () => {
       expect(useConfiguratorStore.getState().step).toBe('mapping')
     })
 
-    it('goes back to dataset from chartType', () => {
-      expect(useConfiguratorStore.getState().step).toBe('chartType')
+    it('goes back to previous step from dataset', () => {
+      // After initialization, step starts at 'dataset'
+      expect(useConfiguratorStore.getState().step).toBe('dataset')
 
       act(() => {
         useConfiguratorStore.getState().prevStep()
       })
 
+      // Should stay at dataset since it's the first step
       expect(useConfiguratorStore.getState().step).toBe('dataset')
     })
 
