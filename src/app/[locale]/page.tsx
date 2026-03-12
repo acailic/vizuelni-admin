@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import { ArrowRight, Search } from 'lucide-react'
 
+import { FeaturedExamples } from '@/components/home'
 import { getBrowsePath } from '@/lib/api/browse'
 import { getMessages, resolveLocale } from '@/lib/i18n/messages'
 
@@ -36,6 +37,9 @@ export default function LocaleHomePage({ params }: { params: { locale: string } 
           </Link>
         </div>
       </section>
+
+      {/* Featured Examples section */}
+      <FeaturedExamples locale={locale} />
     </main>
   )
 }
