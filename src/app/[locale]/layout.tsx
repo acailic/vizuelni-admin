@@ -3,16 +3,17 @@ import { notFound } from 'next/navigation'
 import { getMessages, resolveLocale } from '@/lib/i18n/messages'
 import { AppShell } from '@/components/layout/AppShell'
 
-export default function LocaleLayout({
+export default async function LocaleLayout({
   children,
   params,
 }: {
   children: React.ReactNode
-  params: { locale: string }
+  params: Promise<{ locale: string }>
 }) {
-  const locale = resolveLocale(params.locale)
+  const { locale: localeParam } = await params
+  const locale = resolveLocale(localeParam)
 
-  if (locale !== params.locale) {
+  if (locale !== localeParam) {
     notFound()
   }
 
