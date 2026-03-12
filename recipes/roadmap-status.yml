@@ -60,23 +60,23 @@ features:
   - id: feature-33
     name: Progressive Web App (PWA)
     spec: recipes/inputs/feature-33-pwa.md
-    status: in-progress
-    branch: goose/feature-33-pwa
-    pr: null
-    blocked_reason: null
-    blocked_issue: null
-    started_at: 2026-03-12T17:35:00Z
-    completed_at: null
-
-  - id: feature-34
-    name: Notification System
-    spec: recipes/inputs/feature-34-notifications.md
-    status: not-started
+    status: completed
     branch: null
     pr: null
     blocked_reason: null
     blocked_issue: null
-    started_at: null
+    started_at: 2026-03-12T17:35:00Z
+    completed_at: 2026-03-12T17:50:00Z
+
+  - id: feature-34
+    name: Notification System
+    spec: recipes/inputs/feature-34-notifications.md
+    status: in-progress
+    branch: goose/feature-34-notification-system
+    pr: null
+    blocked_reason: null
+    blocked_issue: null
+    started_at: 2026-03-12T20:12:00Z
     completed_at: null
 
   - id: feature-35

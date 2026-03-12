@@ -1,4 +1,4 @@
-id: feature-33
-name: Progressive Web App (PWA)
-spec: recipes/inputs/feature-33-pwa.md
-branch: goose/feature-33-pwa
+id: feature-34
+name: Notification System
+spec: recipes/inputs/feature-34-notifications.md
+branch: goose/feature-34-notification-system
