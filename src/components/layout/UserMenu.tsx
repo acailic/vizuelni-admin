@@ -4,7 +4,6 @@ import { memo, useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { User, Settings, LogOut, ChevronDown } from 'lucide-react'
 import { signOut, useSession } from 'next-auth/react'
-import { cn } from '@/lib/utils/cn'
 
 interface UserMenuProps {
   locale: string
