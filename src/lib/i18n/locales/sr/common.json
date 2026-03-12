@@ -439,5 +439,18 @@
     "retry": "Понови",
     "retryAll": "Понови све",
     "allFailed": "Није могуће учитати примере"
+  },
+  "sidebar": {
+    "browse": "Прегледај",
+    "create": "Креирај",
+    "gallery": "Галерија",
+    "dashboard": "Контролна табла"
+  },
+  "header": {
+    "searchPlaceholder": "Претражи скупове података...",
+    "profile": "Профил",
+    "settings": "Подешавања",
+    "signOut": "Одјава",
+    "signIn": "Пријава"
   }
 }

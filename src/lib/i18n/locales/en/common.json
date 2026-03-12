@@ -412,5 +412,18 @@
     "retry": "Retry",
     "retryAll": "Retry all",
     "allFailed": "Unable to load examples"
+  },
+  "sidebar": {
+    "browse": "Browse",
+    "create": "Create",
+    "gallery": "Gallery",
+    "dashboard": "Dashboard"
+  },
+  "header": {
+    "searchPlaceholder": "Search datasets...",
+    "profile": "Profile",
+    "settings": "Settings",
+    "signOut": "Sign Out",
+    "signIn": "Sign In"
   }
 }

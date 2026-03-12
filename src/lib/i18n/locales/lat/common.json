@@ -439,5 +439,18 @@
     "retry": "Ponovi",
     "retryAll": "Ponovi sve",
     "allFailed": "Nije moguće učitati primere"
+  },
+  "sidebar": {
+    "browse": "Pregledaj",
+    "create": "Kreiraj",
+    "gallery": "Galerija",
+    "dashboard": "Kontrolna tabla"
+  },
+  "header": {
+    "searchPlaceholder": "Pretraži skupove podataka...",
+    "profile": "Profil",
+    "settings": "Podešavanja",
+    "signOut": "Odjava",
+    "signIn": "Prijava"
   }
 }
