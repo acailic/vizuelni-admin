@@ -1,0 +1,57 @@
+# Goose Auto-Implement Roadmap Status
+#
+# Application Shell Implementation - Phase 2
+# These features complete the application shell to unlock the 28 existing features.
+
+schedule:
+  interval_hours: 4
+  enabled: true
+
+features:
+  # Phase 1: Foundation - Sidebar Navigation
+  - id: feature-29
+    name: App Shell Foundation - Sidebar Navigation
+    spec: recipes/inputs/feature-29-app-shell-foundation.md
+    status: in-progress
+    branch: goose/feature-29-app-shell-foundation-sidebar-navigation
+    pr: null
+    blocked_reason: null
+    blocked_issue: null
+    started_at: 2026-03-12T12:12:00Z
+    completed_at: null
+
+  # Phase 2: Homepage
+  - id: feature-30
+    name: Homepage Landing Page
+    spec: recipes/inputs/feature-30-homepage-landing.md
+    status: not-started
+    branch: null
+    pr: null
+    blocked_reason: null
+    blocked_issue: null
+    started_at: null
+    completed_at: null
+
+  # Phase 3: Gallery
+  - id: feature-31
+    name: Public Gallery Page
+    spec: recipes/inputs/feature-31-gallery-page.md
+    status: not-started
+    branch: null
+    pr: null
+    blocked_reason: null
+    blocked_issue: null
+    started_at: null
+    completed_at: null
+
+  # Phase 4: Dashboard
+  - id: feature-32
+    name: User Dashboard
+    spec: recipes/inputs/feature-32-user-dashboard.md
+    status: not-started
+    branch: null
+    pr: null
+    blocked_reason: null
+    blocked_issue: null
+    started_at: null
+    completed_at: null
