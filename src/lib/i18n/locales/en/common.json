@@ -402,5 +402,15 @@
     "toggleMenu": "Toggle menu",
     "institutions": "Institutions",
     "usefulLinks": "Useful Links"
+  },
+  "featured": {
+    "title": "Featured Visualizations",
+    "description": "Explore visualizations created from Serbian government data",
+    "viewChart": "View chart",
+    "chartType": "Chart type",
+    "loadingError": "Unable to load data",
+    "retry": "Retry",
+    "retryAll": "Retry all",
+    "allFailed": "Unable to load examples"
   }
 }

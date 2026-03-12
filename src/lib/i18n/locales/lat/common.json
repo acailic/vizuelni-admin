@@ -429,5 +429,15 @@
     "toggleMenu": "Otvori meni",
     "institutions": "Institucije",
     "usefulLinks": "Korisni linkovi"
+  },
+  "featured": {
+    "title": "Primeri vizuelizacija",
+    "description": "Istražite vizuelizacije napravljene od podataka srpske vlade",
+    "viewChart": "Pogledaj grafikon",
+    "chartType": "Tip grafikona",
+    "loadingError": "Nije moguće učitati podatke",
+    "retry": "Ponovi",
+    "retryAll": "Ponovi sve",
+    "allFailed": "Nije moguće učitati primere"
   }
 }
