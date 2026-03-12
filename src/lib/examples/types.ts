@@ -59,7 +59,11 @@ export interface ExampleState {
 
 /**
  * Helper to get localized text from canonical Locale
+ * Falls back to English if the localized value is empty
  */
 export function getLocalizedText(text: LocalizedText, locale: Locale): string {
-  return text[LOCALE_TO_KEY[locale]] ?? text.en
+  const key = LOCALE_TO_KEY[locale]
+  const value = text[key]
+  // Fall back to English if the value is empty or undefined
+  return value || text.en
 }
