@@ -63,7 +63,7 @@ export function GalleryChartCard({ chart, locale, labels }: GalleryChartCardProp
 
   return (
     <Link
-      href={`/${locale}/gallery/${chart.id}`}
+      href={`/${locale}/v/${chart.id}`}
       className="group overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition-all hover:shadow-md hover:border-slate-300"
     >
       {/* Thumbnail */}

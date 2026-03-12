@@ -20,7 +20,7 @@ export const youthDemographicsConfig: FeaturedExampleConfig = {
   },
   // TODO: Replace with actual data.gov.rs dataset URL
   datasetId: 'youth-population-regions',
-  resourceUrl: 'https://data.gov.rs/sr/datasets/youth-population-regions.csv',
+  resourceUrl: '/api/proxy?url=https://data.gov.rs/sr/datasets/youth-population-regions.csv',
   chartConfig: parseChartConfig({
     type: 'column',
     title: 'Youth Population',

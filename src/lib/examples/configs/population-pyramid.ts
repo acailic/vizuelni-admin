@@ -20,7 +20,7 @@ export const populationPyramidConfig: FeaturedExampleConfig = {
   },
   // TODO: Replace with actual data.gov.rs dataset URL
   datasetId: 'population-age-gender',
-  resourceUrl: 'https://data.gov.rs/sr/datasets/population-age-gender.csv',
+  resourceUrl: '/api/proxy?url=https://data.gov.rs/sr/datasets/population-age-gender.csv',
   chartConfig: parseChartConfig({
     type: 'bar',
     title: 'Population by Age Group',

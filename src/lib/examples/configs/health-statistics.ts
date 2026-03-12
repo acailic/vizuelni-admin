@@ -20,7 +20,7 @@ export const healthStatisticsConfig: FeaturedExampleConfig = {
   },
   // TODO: Replace with actual data.gov.rs dataset URL
   datasetId: 'health-indicators',
-  resourceUrl: 'https://data.gov.rs/sr/datasets/health-indicators.csv',
+  resourceUrl: '/api/proxy?url=https://data.gov.rs/sr/datasets/health-indicators.csv',
   chartConfig: parseChartConfig({
     type: 'line',
     title: 'Health Indicators',
