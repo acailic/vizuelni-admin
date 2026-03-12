@@ -41,27 +41,33 @@ export function FeaturedExamples({ locale }: FeaturedExamplesProps) {
   // Track all example states
   const [globalRetryKey, setGlobalRetryKey] = useState(0)
 
-  // Create hooks for each example
+  // Create hooks for each example (must be static number of hooks)
   const example1 = useExampleData(featuredExamples[0])
   const example2 = useExampleData(featuredExamples[1])
   const example3 = useExampleData(featuredExamples[2])
+  const example4 = useExampleData(featuredExamples[3])
+  const example5 = useExampleData(featuredExamples[4])
+  const example6 = useExampleData(featuredExamples[5])
+  const example7 = useExampleData(featuredExamples[6])
+  const example8 = useExampleData(featuredExamples[7])
+  const example9 = useExampleData(featuredExamples[8])
 
-  const examples = [example1, example2, example3]
+  const examples = [example1, example2, example3, example4, example5, example6, example7, example8, example9]
 
-  // Check if all failed
-  const allFailed = examples.every((e) => e.status === 'error')
-  const anyLoading = examples.some((e) => e.status === 'loading' || e.status === 'idle')
+  // Check if all failed (only check defined examples)
+  const allFailed = examples.every((e) => e?.status === 'error')
+  const anyLoading = examples.some((e) => e?.status === 'loading' || e?.status === 'idle')
 
   // Global retry function
   const retryAll = () => {
     setGlobalRetryKey((k) => k + 1)
-    examples.forEach((e) => e.retry())
+    examples.forEach((e) => e?.retry?.())
   }
 
   return (
     <section className="py-12" aria-labelledby="featured-examples-title">
       {/* Section header */}
-      <header className="mb-8 text-center">
+    <header className="mb-8 text-center">
         <h2 id="featured-examples-title" className="text-2xl font-bold text-gray-900">
           {texts.title}
         </h2>
@@ -83,10 +89,12 @@ export function FeaturedExamples({ locale }: FeaturedExamplesProps) {
         </div>
       )}
 
-      {/* Examples grid */}
+      {/* Examples grid - 3 columns x 3 rows */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {featuredExamples.map((config, index) => {
           const exampleState = examples[index]
+          // Skip if config or state doesn't exist
+          if (!config || !exampleState) return null
           return (
             <ExampleCard
               key={`${config.id}-${globalRetryKey}`}
