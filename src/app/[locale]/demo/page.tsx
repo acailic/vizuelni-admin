@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { getMessages, resolveLocale } from '@/lib/i18n/messages'
-import { getTranslations, getTranslationsAs } from '@/lib/i18n/translations'
 import DemoPageClient from './page.client'
 import type { Locale } from '@/types'
 
@@ -11,29 +10,32 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: Locale }
+  params: Promise<{ locale: Locale }>
 }): Promise<Metadata> {
-  const locale = resolveLocale(params.locale)
-  const t = await getTranslations(locale)
+  const { locale: localeParam } = await params
+  const locale = resolveLocale(localeParam)
+  const messages = getMessages(locale)
 
   return {
-    title: `${t('demo.title', 'Demo')} | Визуелни Административни Подаци Србије`,
-    description: t(
-      'demo.description',
-      'Explore interactive visualizations of Serbian government data with sample charts and datasets.'
-    ),
+    title: `${messages.demo?.title || 'Demo'} | Визуелни Административни Подаци Србије`,
+    description: messages.demo?.description || 'Explore interactive visualizations of Serbian government data.',
   }
 }
 
-export default async function DemoPage({ params }: { params: { locale: Locale } }) {
-  const locale = resolveLocale(params.locale)
+export default async function DemoPage({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale: localeParam } = await params
+  const locale = resolveLocale(localeParam)
   const messages = getMessages(locale)
-  const translations = await getTranslationsAs(locale, ['demo'])
+
+  // Extract demo translations
+  const translations: Record<string, string> = messages.demo ? Object.entries(messages.demo).reduce((acc, [key, value]) => {
+    acc[key] = String(value)
+    return acc
+  }, {} as Record<string, string>) : {}
 
   return (
     <DemoPageClient
       locale={locale}
-      messages={messages}
       translations={translations}
     />
   )

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { SessionProvider } from 'next-auth/react'
 import { ErrorModalProvider } from '@/components/ui/ErrorModal'
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -20,9 +21,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ErrorModalProvider>
-        {children}
-      </ErrorModalProvider>
+      <SessionProvider>
+        <ErrorModalProvider>
+          {children}
+        </ErrorModalProvider>
+      </SessionProvider>
     </QueryClientProvider>
   )
 }
