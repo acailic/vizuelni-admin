@@ -12,13 +12,13 @@ features:
   - id: feature-29
     name: App Shell Foundation - Sidebar Navigation
     spec: recipes/inputs/feature-29-app-shell-foundation.md
-    status: in-progress
-    branch: goose/feature-29-app-shell-foundation-sidebar-navigation
+    status: completed
+    branch: null
     pr: null
     blocked_reason: null
     blocked_issue: null
     started_at: 2026-03-12T12:12:00Z
-    completed_at: null
+    completed_at: 2026-03-12T12:30:00Z
 
   # Phase 2: Homepage
   - id: feature-30

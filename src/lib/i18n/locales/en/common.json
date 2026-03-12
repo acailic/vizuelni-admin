@@ -59,7 +59,27 @@
     "organizations_title": "Organizations",
     "organizations_description": "Institutions and organizations publishing open data.",
     "reuses_title": "Use Cases",
-    "reuses_description": "Insight into the potential of open data — from web applications to visualizations and maps."
+    "reuses_description": "Insight into the potential of open data — from web applications to visualizations and maps.",
+    "hero": {
+      "title": "Serbian Government Data Visualization",
+      "subtitle": "Explore, visualize, and share official government data from the Republic of Serbia. Create interactive charts and gain insights from open data.",
+      "browseCta": "Browse Datasets",
+      "createCta": "Create Chart"
+    },
+    "stats": {
+      "datasets": "Datasets Available",
+      "charts": "Public Charts",
+      "users": "Registered Users"
+    },
+    "gettingStarted": {
+      "title": "Getting Started",
+      "step1Title": "Find Data",
+      "step1Description": "Browse our catalog of open government datasets and find the data you need.",
+      "step2Title": "Visualize",
+      "step2Description": "Create interactive charts and visualizations with our easy-to-use tools.",
+      "step3Title": "Share",
+      "step3Description": "Share your visualizations with others or embed them in your website."
+    }
   },
   "datasets": {
     "title": "Datasets",
@@ -389,6 +409,30 @@
     "view": "View",
     "draft": "Draft",
     "published_label": "Published"
+  },
+  "userDashboard": {
+    "title": "My Dashboard",
+    "subtitle": "Manage your visualizations and dashboards",
+    "tab_my_charts": "My Charts",
+    "tab_my_dashboards": "My Dashboards",
+    "tab_favorites": "Favorites",
+    "create_chart": "Create Chart",
+    "create_dashboard": "Create Dashboard",
+    "no_charts": "No charts yet",
+    "no_charts_hint": "Create your first visualization to get started",
+    "no_dashboards": "No dashboards yet",
+    "no_dashboards_hint": "Create a dashboard to combine multiple charts",
+    "no_favorites": "No favorites yet",
+    "no_favorites_hint": "Charts you favorite will appear here",
+    "last_updated": "Last updated",
+    "views": "views",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "delete_confirm": "Are you sure you want to delete this chart?",
+    "draft": "Draft",
+    "published": "Published",
+    "coming_soon": "Coming Soon"
   },
   "header": {
     "siteName": "OpenDataSrbija",

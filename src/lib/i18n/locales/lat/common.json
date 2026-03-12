@@ -59,7 +59,27 @@
     "organizations_title": "Organizacije",
     "organizations_description": "Institucije i organizacije koje objavljuju otvorene podatke.",
     "reuses_title": "Primeri upotrebe",
-    "reuses_description": "Uvid u potencijal otvorenih podataka — od veb-aplikacija do vizuelizacija i mapa."
+    "reuses_description": "Uvid u potencijal otvorenih podataka — od veb-aplikacija do vizuelizacija i mapa.",
+    "hero": {
+      "title": "Vizuelizacija podataka srpske vlade",
+      "subtitle": "Istražite, vizuelizujte i delite zvanične podatke vlade Republike Srbije. Kreirajte interaktivne grafikone i otkrijte uvide iz otvorenih podataka.",
+      "browseCta": "Pregledaj skupove",
+      "createCta": "Kreiraj grafikon"
+    },
+    "stats": {
+      "datasets": "Dostupnih skupova",
+      "charts": "Javnih grafikona",
+      "users": "Registrovanih korisnika"
+    },
+    "gettingStarted": {
+      "title": "Kako početi",
+      "step1Title": "Pronađi podatke",
+      "step1Description": "Pretražite naš katalog otvorenih vladinih skupova i pronađite podatke koji vam trebaju.",
+      "step2Title": "Vizuelizuj",
+      "step2Description": "Kreirajte interaktivne grafikone i vizuelizacije pomoću naših jednostavnih alata.",
+      "step3Title": "Podeli",
+      "step3Description": "Podelite svoje vizuelizacije sa drugima ili ih ugradite na svoj veb-sajt."
+    }
   },
   "datasets": {
     "title": "Skupovi podataka",
@@ -402,20 +422,44 @@
     "my_profile": "Moj profil"
   },
   "profile": {
-    "title": "M profil",
-    "subtitle": "upravljajte vašim sačuvanim vizuelizacijama",
-    "my_charts": "svi grafikoni",
-    "drafts": "nacrti",
-    "published": "objavljeni",
-    "no_charts": "još niste kreirali nijedan grafik",
-    "create_first": "napravite prvi grafik",
+    "title": "Moj profil",
+    "subtitle": "Upravljajte vašim sačuvanim vizuelizacijama",
+    "my_charts": "Svi grafikoni",
+    "drafts": "Nacrti",
+    "published": "Objavljeni",
+    "no_charts": "Još niste kreirali nijedan grafik",
+    "create_first": "Kreirajte prvi grafik",
     "views": "pregleda",
     "edit": "Uredi",
-    "delete": "obriši",
-    "delete_confirm": "Da li ste sigurni da obrišete ovaj grafik?",
+    "delete": "Obriši",
+    "delete_confirm": "Da li ste sigurni da želite da obrišete ovaj grafik?",
     "view": "Pogledaj",
-    "draft": "nacrt",
+    "draft": "Nacrt",
     "published_label": "Objavljen"
+  },
+  "userDashboard": {
+    "title": "Moja kontrolna tabla",
+    "subtitle": "Upravljajte vašim vizuelizacijama i kontrolnim tablama",
+    "tab_my_charts": "Moji grafikoni",
+    "tab_my_dashboards": "Moje kontrolne table",
+    "tab_favorites": "Omiljeno",
+    "create_chart": "Kreiraj grafikon",
+    "create_dashboard": "Kreiraj kontrolnu tablu",
+    "no_charts": "Još nema grafikona",
+    "no_charts_hint": "Kreirajte prvu vizuelizaciju da biste započeli",
+    "no_dashboards": "Još nema kontrolnih tabli",
+    "no_dashboards_hint": "Kreirajte kontrolnu tablu da biste kombinovali više grafikona",
+    "no_favorites": "Još nema omiljenih",
+    "no_favorites_hint": "Grafikoni koje označite kao omiljene pojaviće se ovde",
+    "last_updated": "Poslednja izmena",
+    "views": "pregleda",
+    "edit": "Uredi",
+    "delete": "Obriši",
+    "view": "Pogledaj",
+    "delete_confirm": "Da li ste sigurni da želite da obrišete ovaj grafikon?",
+    "draft": "Nacrt",
+    "published": "Objavljeno",
+    "coming_soon": "Uskoro"
   },
   "header": {
     "siteName": "OpenDataSrbija",
