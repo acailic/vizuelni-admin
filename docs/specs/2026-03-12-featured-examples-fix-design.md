@@ -16,8 +16,8 @@ Current broken configs:
 ## Solution
 
 Replace broken examples with 9 working examples using:
-1. **5 existing JSON files** in `src/data/` (imported directly)
-2. **4 new CSV files** in `public/data/` (statically served)
+1. **5 existing JSON files** in `src/data/` (imported and parsed at build time)
+2. **4 new CSV files** in `public/data/` (statically served, fetched at runtime)
 
 ## Data Sources
 
@@ -46,15 +46,26 @@ Replace broken examples with 9 working examples using:
 
 **Two approaches:**
 
-1. **JSON files:** Add new `inlineData` field to `FeaturedExampleConfig` type. Data is imported at build time and passed directly to the hook.
+1. **JSON files:** Import JSON, transform using `parseDatasetContent()` at module load time, store full `ParsedDataset` in config.
 
 2. **CSV files:** Keep existing `resourceUrl` approach. Files are fetched at runtime from `/data/[filename].csv`.
+
+### Key Insight: Reusing Existing Infrastructure
+
+The `parseDatasetContent()` function in `src/lib/data/loader.ts` already handles:
+- Parsing JSON/CSV content
+- Coercing observation values (numbers, dates, strings)
+- Classifying columns into dimensions and measures
+- Building complete `ParsedDataset` structure
+
+We reuse this for inline data by calling it at config definition time.
 
 ### Type Changes
 
 Add optional `inlineData` field to `FeaturedExampleConfig`:
 
 ```typescript
+// src/lib/examples/types.ts
 export interface FeaturedExampleConfig {
   id: string
   title: LocalizedText
@@ -89,10 +100,11 @@ export function useExampleData(config: FeaturedExampleConfig): UseExampleDataRes
 
 ### Why This Approach
 
-1. **No API routes needed** - Simpler architecture
-2. **Static file serving** - Fast, cacheable
-3. **Build-time bundling for JSON** - No runtime fetch overhead
-4. **Works with static export** - Compatible with Next.js static generation
+1. **Reuses existing parser** - No new transformation logic needed
+2. **No API routes needed** - Simpler architecture
+3. **Static file serving** - Fast, cacheable
+4. **Build-time processing for JSON** - Parse once at build, not at runtime
+5. **Works with static export** - Compatible with Next.js static generation
 
 ## Implementation Details
 
@@ -131,6 +143,9 @@ src/lib/examples/
 ├── index.ts                   # Update: export all 9 configs
 └── types.ts                   # Update: add inlineData field
 
+src/lib/data/
+└── loader.ts                  # Existing - parseDatasetContent() reused
+
 src/data/
 ├── serbian-population.json    # Existing
 ├── serbian-gdp.json           # Existing
@@ -150,7 +165,17 @@ public/data/
 **JSON-based config (inline data):**
 ```typescript
 // configs/population-regions.ts
-import populationData from '@/data/serbian-population.json'
+import { parseDatasetContent } from '@/lib/data/loader'
+import { parseChartConfig } from '@/types/chart-config'
+import type { FeaturedExampleConfig } from '../types'
+
+// Import JSON and transform to ParsedDataset at module load time
+import populationRaw from '@/data/serbian-population.json'
+
+const populationDataset = parseDatasetContent(
+  JSON.stringify(populationRaw),
+  { format: 'json', datasetId: 'serbian-population' }
+)
 
 export const populationRegionsConfig: FeaturedExampleConfig = {
   id: 'population-regions',
@@ -172,15 +197,16 @@ export const populationRegionsConfig: FeaturedExampleConfig = {
     x_axis: { field: 'name', type: 'category', label: 'City' },
     y_axis: { field: 'value', type: 'linear', label: 'Population' },
   }),
-  inlineData: {
-    observations: populationData.data,
-  },
+  inlineData: populationDataset,
 }
 ```
 
 **CSV-based config (URL fetch):**
 ```typescript
 // configs/health-indicators.ts
+import { parseChartConfig } from '@/types/chart-config'
+import type { FeaturedExampleConfig } from '../types'
+
 export const healthIndicatorsConfig: FeaturedExampleConfig = {
   id: 'health-indicators',
   title: {
@@ -268,6 +294,16 @@ Eastern Serbia,2.5,13.5,-0.5
 **types.ts:**
 - Add optional `inlineData?: ParsedDataset` field
 
+### Error Handling
+
+For inline data configs, errors during `parseDatasetContent()` will occur at build/import time, not runtime. This means:
+- TypeScript compilation will catch malformed imports
+- If JSON structure is invalid, build will fail (acceptable - caught in CI)
+
+For CSV-based configs, existing error handling in `useExampleData.ts` remains unchanged:
+- Network errors show retry button
+- Parse errors show error state
+
 ## Localization
 
 All titles and descriptions in three locales:
@@ -282,7 +318,8 @@ All titles and descriptions in three locales:
 3. Verify localized titles/descriptions display correctly
 4. Verify error states work (retry functionality for CSV-based)
 5. Test on all three locale routes
-6. Verify inline data configs don't trigger network requests
+6. Verify inline data configs don't trigger network requests (check Network tab)
+7. Verify build succeeds with new configs
 
 ## Rollback Plan
 
@@ -301,3 +338,4 @@ If issues arise, can quickly revert by:
 - [ ] Loading states work properly
 - [ ] Error retry functionality works for CSV-based examples
 - [ ] JSON-based examples load instantly (no network request)
+- [ ] Build succeeds without errors
