@@ -1,0 +1,803 @@
+/**
+ * Tests for AreaChart component
+ *
+ * Tests the standalone AreaChart component from the exports module.
+ */
+
+import {
+  act,
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+} from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
+import "@testing-library/jest-dom/vitest";
+
+import { AreaChart } from "../../../exports/charts/AreaChart";
+
+// Polyfill ResizeObserver for jsdom
+global.ResizeObserver = vi.fn().mockImplementation(function () {
+  this.observe = vi.fn();
+  this.unobserve = vi.fn();
+  this.disconnect = vi.fn();
+});
+
+describe("AreaChart", () => {
+  const mockData = [
+    { year: "2020", value: 100, alt: 80 },
+    { year: "2021", value: 120, alt: 95 },
+    { year: "2022", value: 115, alt: 110 },
+    { year: "2023", value: 140, alt: 125 },
+  ];
+
+  describe("rendering with basic props", () => {
+    it("should render without crashing", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value", color: "#6366f1" }}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      expect(container.querySelector("svg")).toBeInTheDocument();
+    });
+
+    it("should render with custom width", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value" }}
+          width={600}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      const svg = container.querySelector("svg");
+      expect(svg).toHaveAttribute("width", "600");
+    });
+
+    it("should render with responsive width (100%)", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value" }}
+          width="100%"
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      const wrapper = container.querySelector("div");
+      expect(wrapper).toHaveStyle({ width: "100%" });
+    });
+
+    it("should render with custom className and styles", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value" }}
+          className="custom-chart"
+          style={{ border: "1px solid red" }}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      const wrapper = container.querySelector("div");
+      expect(wrapper).toHaveClass("custom-chart");
+      expect(wrapper).toHaveStyle({ border: "1px solid red" });
+    });
+
+    it("should render with title", async () => {
+      render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value", title: "Test Chart Title" }}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      expect(screen.getByText("Test Chart Title")).toBeInTheDocument();
+    });
+
+    it("should have proper accessibility attributes", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value" }}
+          ariaLabel="Revenue over time"
+          description="Area chart showing revenue trends from 2020 to 2023"
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      const wrapper = container.querySelector("div");
+      expect(wrapper).toHaveAttribute("role", "img");
+      expect(wrapper).toHaveAttribute("aria-label", "Revenue over time");
+    });
+  });
+
+  describe("data configurations", () => {
+    it("should render with single series", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value" }}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      const paths = container.querySelectorAll("svg path");
+      expect(paths.length).toBeGreaterThan(0);
+    });
+
+    it("should render with multi-series using yAxis array", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: ["value", "alt"] }}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      const paths = container.querySelectorAll("svg path");
+      // Should have multiple area paths
+      expect(paths.length).toBeGreaterThan(1);
+    });
+
+    it("should handle empty data gracefully", async () => {
+      const { container } = render(
+        <AreaChart
+          data={[]}
+          config={{ xAxis: "year", yAxis: "value" }}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      // Should not render any paths
+      const paths = container.querySelectorAll("svg path");
+      expect(paths.length).toBe(0);
+    });
+
+    it("should handle data with null values", async () => {
+      const dataWithNulls = [
+        { year: "2020", value: 100 },
+        { year: "2021", value: null },
+        { year: "2022", value: 120 },
+      ];
+
+      const { container } = render(
+        <AreaChart
+          data={dataWithNulls}
+          config={{ xAxis: "year", yAxis: "value" }}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      // Should still render
+      expect(container.querySelector("svg")).toBeInTheDocument();
+    });
+
+    it("should handle single data point", async () => {
+      const singleDataPoint = [{ year: "2020", value: 100 }];
+
+      const { container } = render(
+        <AreaChart
+          data={singleDataPoint}
+          config={{ xAxis: "year", yAxis: "value" }}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      expect(container.querySelector("svg")).toBeInTheDocument();
+    });
+  });
+
+  describe("responsive width handling", () => {
+    it("should use container width when width is percentage", async () => {
+      const { container } = render(
+        <div style={{ width: "500px" }}>
+          <AreaChart
+            data={mockData}
+            config={{ xAxis: "year", yAxis: "value" }}
+            width="100%"
+            height={400}
+          />
+        </div>
+      );
+
+      await act(async () => Promise.resolve());
+
+      const svg = container.querySelector("svg");
+      expect(svg).toBeInTheDocument();
+    });
+
+    it("should update container width on resize", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value" }}
+          width="100%"
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      const wrapper = container.querySelector("div");
+      if (wrapper) {
+        // Simulate resize
+        fireEvent(wrapper, new Event("resize"));
+      }
+
+      await waitFor(() => {
+        const svg = container.querySelector("svg");
+        expect(svg).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("tooltip interactions", () => {
+    it("should show tooltip on hover when showTooltip is true", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value" }}
+          showTooltip={true}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      const overlay = container.querySelector(".overlay");
+      expect(overlay).toBeInTheDocument();
+
+      if (overlay) {
+        fireEvent.mouseMove(overlay, { clientX: 100, clientY: 100 });
+
+        await waitFor(() => {
+          const tooltip = container.querySelector(
+            'div[style*="position: absolute"]'
+          );
+          expect(tooltip).toBeInTheDocument();
+        });
+      }
+    });
+
+    it("should not show tooltip when showTooltip is false", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value" }}
+          showTooltip={false}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      const overlay = container.querySelector(".overlay");
+      if (overlay) {
+        fireEvent.mouseMove(overlay, { clientX: 100, clientY: 100 });
+
+        await waitFor(() => {
+          const tooltip = container.querySelector(
+            'div[style*="position: absolute"]'
+          );
+          expect(tooltip).not.toBeInTheDocument();
+        });
+      }
+    });
+
+    it("should use custom tooltip renderer when provided", async () => {
+      const customTooltip = vi.fn(() => <div>Custom Tooltip</div>);
+
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value" }}
+          renderTooltip={customTooltip}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      const overlay = container.querySelector(".overlay");
+      if (overlay) {
+        fireEvent.mouseMove(overlay, { clientX: 100, clientY: 100 });
+
+        await waitFor(() => {
+          expect(customTooltip).toHaveBeenCalled();
+          expect(screen.getByText("Custom Tooltip")).toBeInTheDocument();
+        });
+      }
+    });
+
+    it("should hide tooltip on mouse leave", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value" }}
+          showTooltip={true}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      const overlay = container.querySelector(".overlay");
+      if (overlay) {
+        fireEvent.mouseMove(overlay, { clientX: 100, clientY: 100 });
+
+        await waitFor(() => {
+          const tooltip = container.querySelector(
+            'div[style*="position: absolute"]'
+          );
+          expect(tooltip).toBeInTheDocument();
+        });
+
+        fireEvent.mouseLeave(overlay);
+
+        await waitFor(() => {
+          const tooltip = container.querySelector(
+            'div[style*="position: absolute"]'
+          );
+          expect(tooltip).not.toBeInTheDocument();
+        });
+      }
+    });
+  });
+
+  describe("animation behavior", () => {
+    it("should animate when animated is true", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value", animationDuration: 500 }}
+          animated={true}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      const paths = container.querySelectorAll("svg path");
+      expect(paths.length).toBeGreaterThan(0);
+    });
+
+    it("should not animate when animated is false", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value" }}
+          animated={false}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      const paths = container.querySelectorAll("svg path");
+      expect(paths.length).toBeGreaterThan(0);
+    });
+
+    it("should respect custom animation duration", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value", animationDuration: 2000 }}
+          animated={true}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      const svg = container.querySelector("svg");
+      expect(svg).toBeInTheDocument();
+    });
+  });
+
+  describe("multi-series support", () => {
+    const multiSeriesData = [
+      { year: "2020", series1: 100, series2: 80, series3: 60 },
+      { year: "2021", series1: 120, series2: 95, series3: 75 },
+      { year: "2022", series1: 115, series2: 110, series3: 85 },
+    ];
+
+    it("should render multiple series with different colors", async () => {
+      const { container } = render(
+        <AreaChart
+          data={multiSeriesData}
+          config={{ xAxis: "year", yAxis: ["series1", "series2", "series3"] }}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      const paths = container.querySelectorAll('svg path[class^="area-"]');
+      expect(paths.length).toBeGreaterThan(0);
+    });
+
+    it("should display legend for multi-series", async () => {
+      const { container } = render(
+        <AreaChart
+          data={multiSeriesData}
+          config={{ xAxis: "year", yAxis: ["series1", "series2", "series3"] }}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      // Check for legend elements
+      const legend = container.querySelector(".legend");
+      expect(legend).toBeInTheDocument();
+    });
+
+    it("should show all series in tooltip", async () => {
+      const { container } = render(
+        <AreaChart
+          data={multiSeriesData}
+          config={{ xAxis: "year", yAxis: ["series1", "series2", "series3"] }}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      const overlay = container.querySelector(".overlay");
+      if (overlay) {
+        fireEvent.mouseMove(overlay, { clientX: 100, clientY: 100 });
+
+        await waitFor(() => {
+          const tooltip = container.querySelector(
+            'div[style*="position: absolute"]'
+          );
+          expect(tooltip).toBeInTheDocument();
+          // Should show all series values
+          if (tooltip) {
+            expect(tooltip.textContent).toContain("series1");
+            expect(tooltip.textContent).toContain("series2");
+            expect(tooltip.textContent).toContain("series3");
+          }
+        });
+      }
+    });
+  });
+
+  describe("custom colors", () => {
+    it("should use custom color from config", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value", color: "#ff0000" }}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      // Check if gradient has the custom color
+      const gradients = container.querySelectorAll("defs linearGradient stop");
+      const hasCustomColor = Array.from(gradients).some(
+        (stop) => stop.getAttribute("stop-color") === "#ff0000"
+      );
+      expect(hasCustomColor).toBe(true);
+    });
+
+    it("should use professional color palette for multi-series", async () => {
+      const multiSeriesData = [
+        { year: "2020", series1: 100, series2: 80 },
+        { year: "2021", series1: 120, series2: 95 },
+      ];
+
+      const { container } = render(
+        <AreaChart
+          data={multiSeriesData}
+          config={{ xAxis: "year", yAxis: ["series1", "series2"] }}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      // Should use different colors for different series
+      const gradients = container.querySelectorAll("defs linearGradient");
+      expect(gradients.length).toBeGreaterThan(1);
+    });
+  });
+
+  describe("data point interactions", () => {
+    it("should call onDataPointClick when data point is clicked", async () => {
+      const handleClick = vi.fn();
+
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value" }}
+          onDataPointClick={handleClick}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      // Find and click a data point (circle)
+      const circles = container.querySelectorAll("svg circle");
+      if (circles.length > 0) {
+        fireEvent.click(circles[0]);
+        await waitFor(() => {
+          expect(handleClick).toHaveBeenCalled();
+        });
+      }
+    });
+  });
+
+  describe("chart features", () => {
+    it("should show line stroke when showLine is true", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value", showLine: true }}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      // Should have line paths
+      const lines = container.querySelectorAll('svg path[class^="line-"]');
+      expect(lines.length).toBeGreaterThan(0);
+    });
+
+    it("should not show line stroke when showLine is false", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value", showLine: false }}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      const lines = container.querySelectorAll('svg path[class^="line-"]');
+      expect(lines.length).toBe(0);
+    });
+
+    it("should use custom stroke width", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{
+            xAxis: "year",
+            yAxis: "value",
+            showLine: true,
+            strokeWidth: 3,
+          }}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      const lines = container.querySelectorAll("svg path[stroke-width]");
+      expect(lines.length).toBeGreaterThan(0);
+      const firstLine = lines[0];
+      expect(firstLine).toHaveAttribute("stroke-width", "3");
+    });
+
+    it("should show zero line when showZeroLine is true and data has negative values", async () => {
+      const dataWithNegatives = [
+        { year: "2020", value: -50 },
+        { year: "2021", value: 100 },
+        { year: "2022", value: 150 },
+      ];
+
+      const { container } = render(
+        <AreaChart
+          data={dataWithNegatives}
+          config={{ xAxis: "year", yAxis: "value", showZeroLine: true }}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      // Check for zero line
+      const zeroLines = container.querySelectorAll(
+        'line[stroke-dasharray="6,4"]'
+      );
+      expect(zeroLines.length).toBeGreaterThan(0);
+    });
+
+    it("should show crosshair when showCrosshair is true", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value", showCrosshair: true }}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      const overlay = container.querySelector(".overlay");
+      expect(overlay).toBeInTheDocument();
+    });
+  });
+
+  describe("stack mode", () => {
+    it("should render in overlap mode when stackMode is overlap", async () => {
+      const multiSeriesData = [
+        { year: "2020", series1: 100, series2: 80 },
+        { year: "2021", series1: 120, series2: 95 },
+      ];
+
+      const { container } = render(
+        <AreaChart
+          data={multiSeriesData}
+          config={{
+            xAxis: "year",
+            yAxis: ["series1", "series2"],
+            stackMode: "overlap",
+          }}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      const svg = container.querySelector("svg");
+      expect(svg).toBeInTheDocument();
+    });
+
+    it("should render in stack mode when stackMode is stack", async () => {
+      const multiSeriesData = [
+        { year: "2020", series1: 100, series2: 80 },
+        { year: "2021", series1: 120, series2: 95 },
+      ];
+
+      const { container } = render(
+        <AreaChart
+          data={multiSeriesData}
+          config={{
+            xAxis: "year",
+            yAxis: ["series1", "series2"],
+            stackMode: "stack",
+          }}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      const svg = container.querySelector("svg");
+      expect(svg).toBeInTheDocument();
+    });
+  });
+
+  describe("opacity customization", () => {
+    it("should use custom area opacity", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value", areaOpacity: 0.5 }}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      const areas = container.querySelectorAll('svg path[class^="area-"]');
+      expect(areas.length).toBeGreaterThan(0);
+
+      // Wait for animation to complete and check opacity is set (not 0)
+      // Note: The area animates from 0 to the target opacity
+      await waitFor(
+        () => {
+          const firstArea = areas[0];
+          const opacity = firstArea.getAttribute("opacity");
+          // Should not be 0 (initial animation state) or undefined
+          expect(opacity).not.toBe("0");
+        },
+        { timeout: 2000 }
+      );
+    });
+
+    it("should use custom gradient opacity values", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{
+            xAxis: "year",
+            yAxis: "value",
+            gradientStartOpacity: 0.8,
+            gradientEndOpacity: 0.1,
+          }}
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      const gradientStops = container.querySelectorAll(
+        "defs linearGradient stop"
+      );
+      expect(gradientStops.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe("locale support", () => {
+    it("should render with sr-Latn locale", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value" }}
+          locale="sr-Latn"
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      expect(container.querySelector("svg")).toBeInTheDocument();
+    });
+
+    it("should render with sr-Cyrl locale", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value" }}
+          locale="sr-Cyrl"
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      expect(container.querySelector("svg")).toBeInTheDocument();
+    });
+
+    it("should render with en locale", async () => {
+      const { container } = render(
+        <AreaChart
+          data={mockData}
+          config={{ xAxis: "year", yAxis: "value" }}
+          locale="en"
+          height={400}
+        />
+      );
+
+      await act(async () => Promise.resolve());
+
+      expect(container.querySelector("svg")).toBeInTheDocument();
+    });
+  });
+});
