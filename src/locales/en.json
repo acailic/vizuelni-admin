@@ -279,5 +279,14 @@
     },
     "copyright": "© {year} Serbian Government Data Visualization Platform. All rights reserved.",
     "madeWith": "Made with ❤️ for the citizens of the Republic of Serbia"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all as read",
+    "noNotifications": "No notifications",
+    "datasetUpdate": "Dataset update",
+    "chartSaved": "Chart saved",
+    "announcement": "Announcement",
+    "exportComplete": "Export complete"
   }
 }

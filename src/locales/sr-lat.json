@@ -267,5 +267,14 @@
     },
     "copyright": "© {year} Vizuelni Admin Srbije. Sva prava zadržana.",
     "madeWith": "Napravljeno sa ❤️ za građane Republike Srbije"
+  },
+  "notifications": {
+    "title": "Obaveštenja",
+    "markAllRead": "Označi sve kao pročitano",
+    "noNotifications": "Nema obaveštenja",
+    "datasetUpdate": "Ažuriranje skupa podataka",
+    "chartSaved": "Grafik sačuvan",
+    "announcement": "Obaveštenje",
+    "exportComplete": "Izvoz završen"
   }
 }
