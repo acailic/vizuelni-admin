@@ -112,11 +112,13 @@ NEXT_PUBLIC_MAPBOX_TOKEN=your-mapbox-token
 ### Интеграција са data.gov.rs API
 
 Пројекат је интегрисан са [data.gov.rs API](https://data.gov.rs) који пружа приступ:
+
 - 3,412+ скупова података
 - 6,589+ ресурса
 - Подаци из 155 организација
 
 Проект интегрирован с [data.gov.rs API](https://data.gov.rs) который предоставляет доступ к:
+
 - 3,412+ наборов данных
 - 6,589+ ресурсов
 - Данные из 155 организаций
@@ -222,3 +224,61 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 ---
 
 **Made with ❤️ for Serbia's Open Data Initiative**
+
+---
+
+## Demo Deployment
+
+### Quick Start for Demo
+
+```bash
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Deploy to Vercel
+npm run deploy:vercel
+```
+
+### Demo Features
+
+- **8+ Chart Types**: Line, Bar, Column, Area, Pie, Scatterplot, Table, Combo, Map
+- **Interactive Filters**: Real-time filtering and annotations
+- **Multi-dataset Support**: Combine up to 3 datasets
+- **Serbian Government Branding**: Official colors (#0D4077, #C6363C)
+- **Accessibility**: WCAG 2.1 AA compliant
+- **Multi-language**: Serbian Cyrillic, Latin, English
+
+### Sample Data
+
+Demo datasets are located in `public/data/sample-datasets/`:
+
+- `serbian-population.json` - Regional population data
+- `serbian-gdp.json` - GDP by region
+- `serbian-unemployment.json` - Unemployment rates
+- `serbian-budget.json` - Budget allocation
+- `serbian-time-series.json` - Time series data
+
+### Deployment Options
+
+#### Vercel (Recommended)
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy to production
+vercel --prod
+```
+
+#### Static Export
+
+```bash
+# Build static site
+npm run build:demo
+```
