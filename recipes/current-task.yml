@@ -1,4 +1,4 @@
-id: feature-34
-name: Notification System
-spec: recipes/inputs/feature-34-notifications.md
-branch: goose/feature-34-notification-system
+id: feature-35
+name: Advanced Search with Filters
+spec: recipes/inputs/feature-35-advanced-search.md
+branch: goose/feature-35-advanced-search-filters

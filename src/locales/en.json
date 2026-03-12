@@ -288,5 +288,29 @@
     "chartSaved": "Chart saved",
     "announcement": "Announcement",
     "exportComplete": "Export complete"
+  },
+  "search": {
+    "placeholder": "Search datasets...",
+    "recentSearches": "Recent searches",
+    "suggestions": "Suggestions",
+    "noResults": "No results",
+    "sortLabel": "Sort by",
+    "sortBy": {
+      "relevance": "Relevance",
+      "newest": "Newest",
+      "oldest": "Oldest",
+      "popular": "Most popular",
+      "title": "Title"
+    },
+    "filters": {
+      "organization": "Organization",
+      "topic": "Topic",
+      "format": "Format",
+      "frequency": "Frequency",
+      "dateRange": "Date range",
+      "license": "License"
+    },
+    "clearAll": "Clear all",
+    "resultsCount": "{count} results"
   }
 }

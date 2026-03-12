@@ -288,5 +288,29 @@
     "chartSaved": "График сачуван",
     "announcement": "Обавештење",
     "exportComplete": "Извоз завршен"
+  },
+  "search": {
+    "placeholder": "Претражи скупове података...",
+    "recentSearches": "Недавне претраге",
+    "suggestions": "Предлози",
+    "noResults": "Нема резултата",
+    "sortLabel": "Сортирај",
+    "sortBy": {
+      "relevance": "Релевантност",
+      "newest": "Најновије",
+      "oldest": "Најстарије",
+      "popular": "Најпопуларније",
+      "title": "Наслов"
+    },
+    "filters": {
+      "organization": "Организација",
+      "topic": "Тема",
+      "format": "Формат",
+      "frequency": "Учесталост",
+      "dateRange": "Временски период",
+      "license": "Лиценца"
+    },
+    "clearAll": "Очисти све",
+    "resultsCount": "{count} резултата"
   }
 }

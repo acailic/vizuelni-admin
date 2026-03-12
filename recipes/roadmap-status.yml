@@ -71,23 +71,23 @@ features:
   - id: feature-34
     name: Notification System
     spec: recipes/inputs/feature-34-notifications.md
-    status: in-progress
-    branch: goose/feature-34-notification-system
-    pr: null
-    blocked_reason: null
-    blocked_issue: null
-    started_at: 2026-03-12T20:12:00Z
-    completed_at: null
-
-  - id: feature-35
-    name: Advanced Search with Filters
-    spec: recipes/inputs/feature-35-advanced-search.md
-    status: not-started
+    status: completed
     branch: null
     pr: null
     blocked_reason: null
     blocked_issue: null
-    started_at: null
+    started_at: 2026-03-12T20:12:00Z
+    completed_at: 2026-03-12T20:30:00Z
+
+  - id: feature-35
+    name: Advanced Search with Filters
+    spec: recipes/inputs/feature-35-advanced-search.md
+    status: in-progress
+    branch: goose/feature-35-advanced-search-filters
+    pr: null
+    blocked_reason: null
+    blocked_issue: null
+    started_at: 2026-03-12T20:22:00Z
     completed_at: null
 
   - id: feature-36
