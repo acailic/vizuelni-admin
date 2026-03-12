@@ -1,0 +1,12 @@
+{
+  "data": [
+    { "region": "Београд", "quarter": "Q1 2023", "gdp": 5.1 },
+    { "region": "Београд", "quarter": "Q2 2023", "gdp": 5.3 },
+    { "region": "Београд", "quarter": "Q3 2023", "gdp": 5.0 },
+    { "region": "Београд", "quarter": "Q4 2023", "gdp": 5.2 },
+    { "region": "Војводина", "quarter": "Q1 2023", "gdp": 4.5 },
+    { "region": "Војводина", "quarter": "Q2 2023", "gdp": 4.8 },
+    { "region": "Војводина", "quarter": "Q3 2023", "gdp": 4.6 },
+    { "region": "Војводина", "quarter": "Q4 2023", "gdp": 4.9 }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "data": [
+    { "category": "Образовање", "allocated": 185000, "spent": 172000 },
+    { "category": "Здравство", "allocated": 220000, "spent": 205000 },
+    { "category": "Инфраструктура", "allocated": 150000, "spent": 128000 },
+    { "category": "Одбрана", "allocated": 95000, "spent": 89000 },
+    { "category": "Култура", "allocated": 25000, "spent": 22000 },
+    { "category": "Спорт", "allocated": 15000, "spent": 13000 }
+  ]
+}
