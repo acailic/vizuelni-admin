@@ -1,6 +1,4 @@
-# Current Goose Task
-# This file is cleared after task completion
-id: null
-name: null
-spec: null
-branch: null
+id: feature-33
+name: Progressive Web App (PWA)
+spec: recipes/inputs/feature-33-pwa.md
+branch: goose/feature-33-pwa

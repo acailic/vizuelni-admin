@@ -24,18 +24,53 @@ features:
   - id: feature-30
     name: Homepage Landing Page
     spec: recipes/inputs/feature-30-homepage-landing.md
-    status: not-started
+    status: completed
     branch: null
     pr: null
     blocked_reason: null
     blocked_issue: null
-    started_at: null
-    completed_at: null
+    started_at: 2026-03-12T12:30:00Z
+    completed_at: 2026-03-12T13:00:00Z
 
   # Phase 3: Gallery
   - id: feature-31
     name: Public Gallery Page
     spec: recipes/inputs/feature-31-gallery-page.md
+    status: completed
+    branch: null
+    pr: null
+    blocked_reason: null
+    blocked_issue: null
+    started_at: 2026-03-12T12:30:00Z
+    completed_at: 2026-03-12T13:00:00Z
+
+  # Phase 4: Dashboard
+  - id: feature-32
+    name: User Dashboard
+    spec: recipes/inputs/feature-32-user-dashboard.md
+    status: completed
+    branch: null
+    pr: null
+    blocked_reason: null
+    blocked_issue: null
+    started_at: 2026-03-12T12:30:00Z
+    completed_at: 2026-03-12T13:00:00Z
+
+  # Phase 5: Enhanced Features
+  - id: feature-33
+    name: Progressive Web App (PWA)
+    spec: recipes/inputs/feature-33-pwa.md
+    status: in-progress
+    branch: goose/feature-33-pwa
+    pr: null
+    blocked_reason: null
+    blocked_issue: null
+    started_at: 2026-03-12T17:35:00Z
+    completed_at: null
+
+  - id: feature-34
+    name: Notification System
+    spec: recipes/inputs/feature-34-notifications.md
     status: not-started
     branch: null
     pr: null
@@ -44,10 +79,20 @@ features:
     started_at: null
     completed_at: null
 
-  # Phase 4: Dashboard
-  - id: feature-32
-    name: User Dashboard
-    spec: recipes/inputs/feature-32-user-dashboard.md
+  - id: feature-35
+    name: Advanced Search with Filters
+    spec: recipes/inputs/feature-35-advanced-search.md
+    status: not-started
+    branch: null
+    pr: null
+    blocked_reason: null
+    blocked_issue: null
+    started_at: null
+    completed_at: null
+
+  - id: feature-36
+    name: PDF Report Generation
+    spec: recipes/inputs/feature-36-pdf-reports.md
     status: not-started
     branch: null
     pr: null
