@@ -130,3 +130,6 @@ PLATFORMS_RESEARCH.md
 
 # Recipes/automation
 recipes/
+
+# Prevent conflicting app directory at root
+/app/
