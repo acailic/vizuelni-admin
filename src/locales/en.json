@@ -246,6 +246,19 @@
     "required": "Required",
     "completed": "Completed"
   },
+  "sidebar": {
+    "browse": "Browse",
+    "create": "Create",
+    "gallery": "Gallery",
+    "dashboard": "Dashboard"
+  },
+  "header": {
+    "searchPlaceholder": "Search datasets...",
+    "profile": "Profile",
+    "settings": "Settings",
+    "signOut": "Sign Out",
+    "signIn": "Sign In"
+  },
   "footer": {
     "about": "About",
     "aboutText": "Serbian Government Data Visualization Platform is an open-source platform for visualizing open data from the Republic of Serbia.",

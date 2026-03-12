@@ -42,7 +42,7 @@
     },
     "featured": {
       "title": "Istaknuti podaci",
-      "subtitle": "Najpopularniji skupovi podataka",
+      "subtitle": "Najpopularniji skupovi podataka"
     },
     "categories": {
       "title": "Kategorije",
@@ -233,6 +233,19 @@
     "columns": "kolona",
     "required": "Obavezno",
     "completed": "Završeno"
+  },
+  "sidebar": {
+    "browse": "Pregledaj",
+    "create": "Kreiraj",
+    "gallery": "Galerija",
+    "dashboard": "Kontrolna tabla"
+  },
+  "header": {
+    "searchPlaceholder": "Pretraži skupove podataka...",
+    "profile": "Profil",
+    "settings": "Podešavanja",
+    "signOut": "Odjava",
+    "signIn": "Prijava"
   },
   "footer": {
     "about": "O platformi",
