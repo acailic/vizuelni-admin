@@ -43,19 +43,26 @@ export function HeroSection({
 
       {/* Content with enhanced typography */}
       <div className="relative z-10">
-        <p className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.15em] text-white/70">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#C6363C]" aria-hidden="true" />
+        <p className="inline-flex items-center gap-2.5 text-sm font-semibold uppercase tracking-[0.2em] text-white/80"
+           style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
+          <span className="h-2 w-2 rounded-full bg-[#C6363C] shadow-lg shadow-red-500/30" aria-hidden="true" />
           data.gov.rs
         </p>
 
         <h1
           id="hero-title"
-          className="mt-5 max-w-3xl text-3xl font-bold leading-[1.15] tracking-tight md:text-4xl lg:text-5xl"
+          className="mt-5 max-w-3xl text-3xl font-extrabold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl"
+          style={{
+            fontFamily: "'Noto Serif', 'Times New Roman', Georgia, serif",
+            textShadow: '0 1px 3px rgba(0,0,0,0.4)',
+            letterSpacing: '-0.02em',
+          }}
         >
           {title}
         </h1>
 
-        <p className="mt-5 max-w-2xl text-base leading-[1.7] text-white/85 md:text-lg">
+        <p className="mt-6 max-w-2xl text-base leading-[1.75] text-white/90 md:text-lg"
+           style={{ fontFamily: "'Inter', system-ui, sans-serif", fontWeight: 450 }}>
           {subtitle}
         </p>
 
