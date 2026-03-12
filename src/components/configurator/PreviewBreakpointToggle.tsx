@@ -54,7 +54,7 @@ function PreviewBreakpointToggleComponent({
           type="button"
           onClick={() => onChange(value === key ? null : key)}
           className={cn(
-            'flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition',
+            'flex items-center justify-center rounded-md p-2 text-sm font-medium transition',
             value === key
               ? 'bg-white text-gov-primary shadow-sm'
               : 'text-slate-600 hover:text-slate-900'
@@ -63,7 +63,6 @@ function PreviewBreakpointToggleComponent({
           aria-pressed={value === key}
         >
           <Icon className="h-4 w-4" aria-hidden="true" />
-          <span className="hidden sm:inline">{title}</span>
         </button>
       ))}
     </div>
