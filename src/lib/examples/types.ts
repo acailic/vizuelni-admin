@@ -40,6 +40,8 @@ export interface FeaturedExampleConfig {
   resourceUrl: string
   /** Chart configuration using existing ChartConfig type */
   chartConfig: ChartConfig
+  /** Pre-parsed dataset for inline data (bypasses fetch) */
+  inlineData?: ParsedDataset
 }
 
 /**

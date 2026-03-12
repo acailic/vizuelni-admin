@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { getCachedDataset, setCachedDataset } from '@/lib/examples/cache'
 import type { FeaturedExampleConfig, LoadingStatus } from '@/lib/examples/types'
@@ -20,8 +20,22 @@ const MAX_RETRIES = 2
 
 /**
  * Hook for fetching example dataset with caching and retry logic
+ * Supports inline data (bypasses fetch) or URL-based fetch
  */
 export function useExampleData(config: FeaturedExampleConfig): UseExampleDataResult {
+  // For inline data, return immediately without using hooks that depend on fetch
+  const inlineResult = useMemo((): UseExampleDataResult | null => {
+    if (config.inlineData) {
+      return {
+        dataset: config.inlineData,
+        status: 'success' as const,
+        error: null,
+        retry: () => {}, // No-op for inline data
+      }
+    }
+    return null
+  }, [config.inlineData])
+
   const [dataset, setDataset] = useState<ParsedDataset | null>(null)
   const [status, setStatus] = useState<LoadingStatus>('idle')
   const [error, setError] = useState<Error | null>(null)
@@ -105,6 +119,11 @@ export function useExampleData(config: FeaturedExampleConfig): UseExampleDataRes
   }, [fetchData])
 
   useEffect(() => {
+    // Skip fetch if inline data is provided
+    if (inlineResult) {
+      return
+    }
+
     const controller = new AbortController()
     abortControllerRef.current = controller
     fetchData(controller.signal)
@@ -115,7 +134,8 @@ export function useExampleData(config: FeaturedExampleConfig): UseExampleDataRes
         clearTimeout(retryTimeoutRef.current)
       }
     }
-  }, [fetchData])
+  }, [fetchData, inlineResult])
 
-  return { dataset, status, error, retry }
+  // Return inline result if available, otherwise return fetch result
+  return inlineResult ?? { dataset, status, error, retry }
 }
