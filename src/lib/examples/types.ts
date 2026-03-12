@@ -1,8 +1,10 @@
+import type { Locale } from '@/lib/i18n/config'
 import type { ChartConfig } from '@/types/chart-config'
 import type { ParsedDataset } from '@/types/observation'
 
 /**
- * Localized text structure matching project's locale keys
+ * Localized text structure with shorthand locale keys
+ * Used for storing localized strings in configuration files
  * - sr: Serbian Cyrillic
  * - lat: Serbian Latin
  * - en: English
@@ -11,6 +13,15 @@ export interface LocalizedText {
   sr: string
   lat: string
   en: string
+}
+
+/**
+ * Mapping from canonical Locale to LocalizedText shorthand keys
+ */
+const LOCALE_TO_KEY: Record<Locale, keyof LocalizedText> = {
+  'sr-Cyrl': 'sr',
+  'sr-Latn': 'lat',
+  en: 'en',
 }
 
 /**
@@ -47,8 +58,8 @@ export interface ExampleState {
 }
 
 /**
- * Helper to get localized text
+ * Helper to get localized text from canonical Locale
  */
-export function getLocalizedText(text: LocalizedText, locale: 'sr' | 'lat' | 'en'): string {
-  return text[locale] ?? text.en
+export function getLocalizedText(text: LocalizedText, locale: Locale): string {
+  return text[LOCALE_TO_KEY[locale]] ?? text.en
 }
