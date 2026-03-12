@@ -1,3 +1,3 @@
 export { ChartShowcase } from './ChartShowcase'
-export { ChartPreviewCard } from './Chart-preview-card'
+export { default as ChartPreviewCard } from './ChartPreviewCard'
 export type { ChartRendererDataRow } from '@/types'

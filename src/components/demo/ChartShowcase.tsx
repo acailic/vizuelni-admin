@@ -2,11 +2,11 @@
 
 import { BarChart, Bar, LineChart, PieChart, AreaChart, MapChart, ComboChart, TableChart, ScatterplotChart } from '@/components/charts'
 import { ChartFrame } from '@/components/charts/shared/ChartFrame'
-import populationData from '@/public/data/sample-datasets/serbian-population.json'
-import gdpData from '@/public/data/sample-datasets/serbian-gdp.json'
-import unemploymentData from '@/public/data/sample-datasets/serbian-unemployment.json'
-import budgetData from '@/public/data/sample-datasets/serbian-budget.json'
-import timeSeriesData from '@/public/data/sample-datasets/serbian-time-series.json'
+import populationData from '@/data/serbian-population.json'
+import gdpData from '@/data/serbian-gdp.json'
+import unemploymentData from '@/data/serbian-unemployment.json'
+import budgetData from '@/data/serbian-budget.json'
+import timeSeriesData from '@/data/serbian-time-series.json'
 
 // Chart configurations
 const populationConfig = {
