@@ -1,8 +1,9 @@
 import { FeaturedExamples, GettingStartedGuide, HeroSection, QuickStats } from '@/components/home'
 import { getMessages, resolveLocale } from '@/lib/i18n/messages'
 
-export default function LocaleHomePage({ params }: { params: { locale: string } }) {
-  const locale = resolveLocale(params.locale)
+export default async function LocaleHomePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale: localeParam } = await params
+  const locale = resolveLocale(localeParam)
   const messages = getMessages(locale)
 
   return (
