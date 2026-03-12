@@ -2,6 +2,11 @@ import { notFound } from 'next/navigation'
 
 import { getMessages, resolveLocale } from '@/lib/i18n/messages'
 import { AppShell } from '@/components/layout/AppShell'
+import { locales } from '@/lib/i18n/config'
+
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }))
+}
 
 export default async function LocaleLayout({
   children,
