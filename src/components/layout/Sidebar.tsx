@@ -1,6 +1,7 @@
 'use client'
 
 import { memo } from 'react'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
   Database,
@@ -62,7 +63,8 @@ function SidebarComponent({ locale, messages }: SidebarProps) {
       )}
     >
       {/* Logo */}
-      <div
+      <Link
+        href={`/${locale}`}
         className={cn(
           'flex h-16 items-center border-b border-slate-200 px-4',
           isCollapsed ? 'justify-center' : 'gap-3'
@@ -79,7 +81,7 @@ function SidebarComponent({ locale, messages }: SidebarProps) {
         {!isCollapsed && (
           <span className="text-sm font-bold text-[#0C1E42]">Vizuelni Admin</span>
         )}
-      </div>
+      </Link>
 
       {/* Navigation */}
       <nav className="flex-1 space-y-1 p-3">
