@@ -464,6 +464,7 @@
     "dashboard": "Dashboard"
   },
   "gallery": {
+    "featuredTitle": "Featured Examples",
     "title": "Gallery",
     "description": "Explore visualizations created by the community",
     "searchPlaceholder": "Search charts...",

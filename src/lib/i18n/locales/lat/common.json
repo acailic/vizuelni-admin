@@ -491,6 +491,7 @@
     "dashboard": "Kontrolna tabla"
   },
   "gallery": {
+    "featuredTitle": "Izdvojeni primeri",
     "title": "Galerija",
     "description": "Istražite vizuelizacije koje je napravila zajednica",
     "searchPlaceholder": "Pretraži grafikone...",
