@@ -23,79 +23,114 @@ A showcase gallery of pre-built demo charts using Serbian government data. The g
 - User-uploaded templates
 - Template sharing between users
 
+## Existing Infrastructure
+
+The project already has a demo chart system that we will extend:
+
+- **`src/lib/examples/types.ts`** - `FeaturedExampleConfig` interface with inlineData support
+- **`src/components/gallery/`** - Gallery components for user-saved charts (GalleryPage, GalleryChartCard, etc.)
+- **`src/data/*.json`** - Data files imported at build time
+
+We will **extend the existing FeaturedExampleConfig** rather than create a parallel system.
+
 ## Architecture
 
 ### Directory Structure
 
 ```
 src/
+├── lib/
+│   └── examples/
+│       ├── types.ts                    # EXTEND FeaturedExampleConfig
+│       └── showcase-examples.ts        # NEW: Showcase chart configs
+│
 ├── components/
-│   └── gallery/
+│   └── showcase/                       # NEW directory (not gallery/)
 │       ├── index.ts                    # Exports
-│       ├── GalleryGrid.tsx             # Landing page grid (2-3 columns)
-│       ├── GalleryCard.tsx             # Single chart card with title/desc
-│       ├── GalleryCarousel.tsx         # Optional carousel variant
-│       ├── TemplatesBrowser.tsx        # Full-page browser for configurator
-│       ├── TemplatePreview.tsx         # Preview modal in configurator
-│       └── charts/                     # Pre-configured demo charts
-│           ├── index.ts                # Exports all demos
-│           ├── PopulationTrend.tsx     # Line chart
-│           ├── RegionalGDP.tsx         # Bar chart
-│           ├── MigrationBalance.tsx    # Area chart
-│           ├── DiasporaDestinations.tsx # Horizontal bar
-│           ├── HealthcareComparison.tsx # Grouped bar
-│           ├── LifeExpectancy.tsx      # Column chart
-│           ├── SerbiaMap.tsx           # Choropleth map
-│           └── CancerScreening.tsx     # Column chart
+│       ├── ShowcaseGrid.tsx            # Landing page grid
+│       ├── ShowcaseCard.tsx            # Single chart card
+│       ├── TemplatesPanel.tsx          # Configurator templates browser
+│       └── TemplatePreviewModal.tsx    # Preview modal
 │
 ├── data/
-│   └── demo-charts/                    # JSON datasets for templates
-│       ├── serbia-population.json
-│       ├── serbia-regions.json
-│       ├── serbia-migration.json
-│       └── ...
+│   ├── serbian-population.json         # EXISTING pattern
+│   ├── serbia-migration.json           # NEW
+│   ├── serbia-regions.json             # NEW
+│   └── ...                             # More data files
 │
-└── config/
-    └── demo-charts.ts                  # Metadata registry (title, desc, category)
+└── app/
+    └── [locale]/
+        └── create/
+            └── templates/
+                └── page.tsx            # NEW: Templates browser page
 ```
 
 ### Key Design Decisions
 
-1. **Component-based approach** - Each demo chart is a self-contained component wrapping existing chart types
-2. **Mix data strategy** - Hardcoded data for landing page (fast), JSON files for configurator (loadable)
-3. **Config-driven metadata** - Single registry file for titles, descriptions, categories
-4. **Reuses existing charts** - No new chart types, just pre-configured instances
+1. **Extend existing types** - Add fields to `FeaturedExampleConfig` instead of creating `DemoChartConfig`
+2. **Use inlineData pattern** - Data imported at build time for fast loading (existing pattern)
+3. **Separate directory** - `src/components/showcase/` to avoid conflict with `src/components/gallery/`
+4. **Reuses ChartRenderer** - Same rendering pipeline as existing examples
+
+## Type Extensions
+
+### Extend FeaturedExampleConfig
+
+```typescript
+// src/lib/examples/types.ts - ADD these fields
+
+export interface FeaturedExampleConfig {
+  // ... existing fields ...
+  id: string;
+  title: LocalizedText;
+  description: LocalizedText;
+  datasetId: string;
+  resourceUrl: string;
+  chartConfig: ChartConfig;
+  inlineData?: ParsedDataset;
+  preselectedFilters?: PreselectedFilters;
+
+  // NEW fields for showcase:
+  /** Category for filtering/grouping */
+  category?: 'demographics' | 'healthcare' | 'economy' | 'migration';
+  /** Tags for search */
+  tags?: string[];
+  /** Show on landing page? */
+  featured?: boolean;
+  /** Data source attribution */
+  dataSource?: string;
+  /** Last updated date */
+  lastUpdated?: string;
+}
+```
 
 ## Component Specifications
 
-### GalleryCard
+### ShowcaseCard
 
 ```typescript
-interface GalleryCardProps {
-  chartId: string;
-  title: string;
-  description: string;
-  category: 'demographics' | 'healthcare' | 'economy' | 'migration';
-  chart: React.ReactNode;
+interface ShowcaseCardProps {
+  example: FeaturedExampleConfig;
   showEditButton?: boolean;
-  onEdit?: () => void;
+  locale: Locale;
 }
 ```
 
 **Behavior:**
 
-- Renders card with chart preview, title, description, category badge
+- Renders card with chart preview (using ChartRenderer), title, description, category badge
 - Hover effect to highlight the card
-- Optional "Edit in Configurator" button
+- "Edit in Configurator" button navigates to `/create?template={id}`
 
-### GalleryGrid
+### ShowcaseGrid
 
 ```typescript
-interface GalleryGridProps {
-  charts: DemoChartConfig[];
+interface ShowcaseGridProps {
+  examples: FeaturedExampleConfig[];
   columns?: 2 | 3 | 4;
   showEditButton?: boolean;
   categoryFilter?: boolean;
+  locale: Locale;
 }
 ```
 
@@ -103,30 +138,33 @@ interface GalleryGridProps {
 
 - Responsive grid layout (1 col mobile, 2 col tablet, 3 col desktop)
 - Optional category filter pills at top
-- Lazy loads charts as they scroll into view
+- Lazy loads charts as they scroll into view using IntersectionObserver
 
-### TemplatesBrowser
+### TemplatesPanel
 
 ```typescript
-interface TemplatesBrowserProps {
-  onSelectTemplate: (templateId: string, data: any) => void;
+interface TemplatesPanelProps {
+  onSelectTemplate: (example: FeaturedExampleConfig) => void;
+  locale: Locale;
 }
 ```
 
 **Behavior:**
 
-- Full-page view for use inside configurator
+- Full-height panel for use inside configurator
 - Sidebar with category navigation
 - Grid of template cards
-- Click loads template data into chart builder
+- Click calls `onSelectTemplate` with the full config
 
-### TemplatePreview
+### TemplatePreviewModal
 
 ```typescript
-interface TemplatePreviewProps {
-  templateId: string;
+interface TemplatePreviewModalProps {
+  example: FeaturedExampleConfig;
+  isOpen: boolean;
   onClose: () => void;
   onUseTemplate: () => void;
+  locale: Locale;
 }
 ```
 
@@ -134,88 +172,149 @@ interface TemplatePreviewProps {
 
 - Modal overlay showing larger chart preview
 - "Use this template" button
-- Shows data preview table
+- Shows data preview table (first 10 rows)
 
-## Data Structure
+## Data Strategy
 
-### Config Registry
+Use the **existing inlineData pattern** for all showcase charts:
 
 ```typescript
-export interface DemoChartConfig {
-  id: string;
-  title: string;
-  titleKey?: string; // i18n key
-  description: string;
-  descriptionKey?: string; // i18n key
-  category: 'demographics' | 'healthcare' | 'economy' | 'migration';
-  chartType:
-    | 'bar'
-    | 'line'
-    | 'area'
-    | 'pie'
-    | 'map'
-    | 'column'
-    | 'combo'
-    | 'table';
-  tags?: string[];
-  featured?: boolean; // Show on landing page?
-  dataSource?: string;
-  lastUpdated?: string;
-  component: React.ComponentType;
-  jsonDataPath?: string; // For loading into configurator
-}
-```
+// src/lib/examples/showcase-examples.ts
+import populationData from '@/data/serbian-population.json';
+import migrationData from '@/data/serbia-migration.json';
+// ...
 
-### JSON Data Format
-
-```json
-{
-  "meta": {
-    "title": "Serbia Population Trend",
-    "source": "Statistical Office of Serbia",
-    "lastUpdated": "2024-12-01"
+export const showcaseExamples: FeaturedExampleConfig[] = [
+  {
+    id: 'population-trend',
+    title: {
+      sr: 'Тренд популације',
+      lat: 'Trend populacije',
+      en: 'Population Trend',
+    },
+    description: {
+      sr: 'Пад популације са 7.5M (1991) на 6.6M (2024)',
+      lat: 'Pad populacije sa 7.5M (1991) na 6.6M (2024)',
+      en: 'Population decline from 7.5M (1991) to 6.6M (2024)',
+    },
+    datasetId: 'showcase-population',
+    resourceUrl: '', // Not needed for inline data
+    chartConfig: {
+      /* ... */
+    },
+    inlineData: populationData,
+    category: 'demographics',
+    featured: true,
+    dataSource: 'Statistical Office of Serbia',
+    lastUpdated: '2024-12-01',
   },
-  "data": [
-    { "year": 1991, "population": 7580000 },
-    { "year": 2002, "population": 7498001 }
-  ],
-  "chartConfig": {
-    "xField": "year",
-    "yField": "population",
-    "chartType": "line"
-  }
-}
+  // ... more examples
+];
 ```
+
+**Why inlineData?**
+
+- Fast loading (imported at build time, no fetch)
+- Works offline
+- Same pattern as existing featured examples
+- Simplifies configurator integration
 
 ## Integration Points
 
 ### Landing Page
 
-Add a gallery section to the home page featuring 5 highlighted charts:
+Add a showcase section to the home page featuring 5 highlighted charts:
 
 ```tsx
 // src/app/[locale]/page.tsx
-<section className='py-16'>
-  <h2>Explore Serbian Data</h2>
-  <GalleryGrid charts={featuredCharts} columns={3} showEditButton={true} />
-</section>
+import { ShowcaseGrid } from '@/components/showcase';
+import { showcaseExamples } from '@/lib/examples/showcase-examples';
+
+export default function HomePage({ params: { locale } }) {
+  const featuredCharts = showcaseExamples.filter((e) => e.featured);
+
+  return (
+    <main>
+      <HeroSection />
+      <section className='py-16'>
+        <h2>Explore Serbian Data</h2>
+        <ShowcaseGrid
+          examples={featuredCharts}
+          columns={3}
+          showEditButton={true}
+          locale={locale}
+        />
+      </section>
+    </main>
+  );
+}
 ```
 
-### Configurator Templates Tab
+### Configurator Integration
 
-Add a "Templates" tab to the configurator that opens TemplatesBrowser:
+**Option A: Templates Panel in Sidebar**
+
+Add a "Templates" button to `ConfiguratorSidebar.tsx` that opens a slide-out panel:
 
 ```tsx
-// New tab in configurator
-<TemplatesPanel onApplyTemplate={handleApplyTemplate} />
+// src/components/configurator/ConfiguratorSidebar.tsx
+// Add after dataset selection buttons:
+<Button onClick={() => setShowTemplates(true)}>
+  <FileTextIcon /> Browse Templates
+</Button>;
+
+{
+  showTemplates && (
+    <TemplatesPanel onSelectTemplate={handleApplyTemplate} locale={locale} />
+  );
+}
 ```
 
-When a template is selected:
+**handleApplyTemplate behavior:**
 
-1. Fetch the JSON data file
-2. Extract `data` and `chartConfig`
-3. Load into configurator state
-4. Navigate to preview step
+1. Receive `FeaturedExampleConfig` from TemplatesPanel
+2. Set configurator state with `example.chartConfig`
+3. Set dataset with `example.inlineData`
+4. Apply any `example.preselectedFilters`
+5. Navigate to Preview step
+
+**Option B: Separate Templates Page**
+
+Create `/create/templates` page with full templates browser, then link from configurator.
+
+**Recommendation:** Option A for simpler UX - templates accessible without leaving configurator.
+
+### "Edit in Configurator" Behavior
+
+When user clicks "Edit in Configurator" on a showcase card:
+
+1. Navigate to `/create?template={exampleId}`
+2. On configurator load, check URL for `template` param
+3. If present, find the example in `showcaseExamples`
+4. Load `inlineData` and `chartConfig` into configurator state
+5. Apply `preselectedFilters` if any
+6. Start at Preview step (user can go back to customize)
+
+```tsx
+// src/app/[locale]/create/page.tsx
+import { showcaseExamples } from '@/lib/examples/showcase-examples';
+
+export default function CreatePage({ searchParams, params: { locale } }) {
+  const templateId = searchParams.template;
+
+  useEffect(() => {
+    if (templateId) {
+      const example = showcaseExamples.find((e) => e.id === templateId);
+      if (example) {
+        // Load into configurator state
+        setChartData(example.inlineData);
+        setChartConfig(example.chartConfig);
+        setCurrentStep('preview');
+      }
+    }
+  }, [templateId]);
+}
+```
 
 ## Initial Demo Charts
 
@@ -242,9 +341,9 @@ When a template is selected:
 
 ## i18n Considerations
 
-- All titles and descriptions support i18n via `titleKey` and `descriptionKey`
-- JSON data files remain locale-agnostic
-- Category labels use existing i18n keys
+- All titles and descriptions use `LocalizedText` with sr/lat/en keys
+- Category labels use existing i18n system
+- Data values remain locale-agnostic
 
 ## Accessibility
 
@@ -256,10 +355,9 @@ When a template is selected:
 
 The system is designed to easily add new charts:
 
-1. Create component in `src/components/gallery/charts/`
-2. Add JSON data file in `public/data/demo-charts/`
-3. Register in `src/config/demo-charts.ts`
-4. Add i18n keys if needed
+1. Add data file to `src/data/`
+2. Add config to `showcaseExamples` array in `src/lib/examples/showcase-examples.ts`
+3. Set `featured: true` to show on landing page
 
 ## Open Questions
 
