@@ -1,0 +1,12 @@
+{
+  "data": [
+    { "year": 2018, "unemployment": 12.9, "employment": 47.4, "salary": 46335 },
+    { "year": 2019, "unemployment": 10.5, "employment": 49.0, "salary": 51128 },
+    { "year": 2020, "unemployment": 9.9, "employment": 48.4, "salary": 54356 },
+    { "year": 2021, "unemployment": 10.0, "employment": 49.2, "salary": 62021 },
+    { "year": 2022, "unemployment": 9.0, "employment": 50.5, "salary": 76904 },
+    { "year": 2023, "unemployment": 9.3, "employment": 51.0, "salary": 91712 },
+    { "year": 2024, "unemployment": 8.2, "employment": 51.4, "salary": 107486 },
+    { "year": 2025, "unemployment": 8.2, "employment": 51.3, "salary": 124089 }
+  ]
+}

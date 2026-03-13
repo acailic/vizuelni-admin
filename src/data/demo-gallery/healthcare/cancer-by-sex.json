@@ -1,0 +1,10 @@
+{
+  "data": [
+    { "type": "Lung", "male": 2800, "female": 1400 },
+    { "type": "Colorectal", "male": 1800, "female": 1400 },
+    { "type": "Breast", "male": 0, "female": 3200 },
+    { "type": "Prostate", "male": 2200, "female": 0 },
+    { "type": "Skin", "male": 900, "female": 700 },
+    { "type": "Bladder", "male": 1100, "female": 400 }
+  ]
+}

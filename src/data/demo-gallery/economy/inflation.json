@@ -1,0 +1,12 @@
+{
+  "data": [
+    { "year": 2018, "inflation": 2.0, "gdp": 4.4, "industrial": 2.8 },
+    { "year": 2019, "inflation": 1.9, "gdp": 4.2, "industrial": 0.5 },
+    { "year": 2020, "inflation": 1.6, "gdp": -0.9, "industrial": -2.3 },
+    { "year": 2021, "inflation": 4.1, "gdp": 7.7, "industrial": 5.8 },
+    { "year": 2022, "inflation": 11.9, "gdp": 2.5, "industrial": -1.1 },
+    { "year": 2023, "inflation": 12.4, "gdp": 2.1, "industrial": -3.5 },
+    { "year": 2024, "inflation": 4.2, "gdp": 3.0, "industrial": 3.0 },
+    { "year": 2025, "inflation": 3.5, "gdp": 3.5, "industrial": 2.2 }
+  ]
+}

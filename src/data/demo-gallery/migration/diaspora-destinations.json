@@ -1,0 +1,14 @@
+{
+  "data": [
+    { "country": "Germany", "population": 350000 },
+    { "country": "Austria", "population": 180000 },
+    { "country": "Switzerland", "population": 120000 },
+    { "country": "USA", "population": 100000 },
+    { "country": "France", "population": 80000 },
+    { "country": "Sweden", "population": 60000 },
+    { "country": "Italy", "population": 50000 },
+    { "country": "Canada", "population": 40000 },
+    { "country": "UK", "population": 35000 },
+    { "country": "Australia", "population": 25000 }
+  ]
+}

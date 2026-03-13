@@ -1,0 +1,12 @@
+{
+  "data": [
+    { "year": 2018, "salary": 46335 },
+    { "year": 2019, "salary": 51128 },
+    { "year": 2020, "salary": 54356 },
+    { "year": 2021, "salary": 62021 },
+    { "year": 2022, "salary": 76904 },
+    { "year": 2023, "salary": 91712 },
+    { "year": 2024, "salary": 107486 },
+    { "year": 2025, "salary": 124089 }
+  ]
+}

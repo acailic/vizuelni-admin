@@ -1,0 +1,10 @@
+{
+  "data": [
+    { "ageGroup": "0-14", "percentage": 14.2 },
+    { "ageGroup": "15-29", "percentage": 15.8 },
+    { "ageGroup": "30-44", "percentage": 18.5 },
+    { "ageGroup": "45-59", "percentage": 21.3 },
+    { "ageGroup": "60-74", "percentage": 19.2 },
+    { "ageGroup": "75+", "percentage": 11.0 }
+  ]
+}

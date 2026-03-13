@@ -1,0 +1,10 @@
+{
+  "data": [
+    { "region": "Belgrade", "gdpPerCapita": 12000, "population": 1700000 },
+    { "region": "Novi Sad", "gdpPerCapita": 9500, "population": 350000 },
+    { "region": "Niš", "gdpPerCapita": 6500, "population": 260000 },
+    { "region": "Kragujevac", "gdpPerCapita": 6000, "population": 180000 },
+    { "region": "Subotica", "gdpPerCapita": 5800, "population": 140000 },
+    { "region": "Other", "gdpPerCapita": 5000, "population": 4100000 }
+  ]
+}
