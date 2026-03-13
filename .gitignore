@@ -111,9 +111,6 @@ test-results/
 *.png
 !public/**/*.png
 
-# Superpowers docs
-docs/superpowers/
-
 # Husky
 .husky/
 
