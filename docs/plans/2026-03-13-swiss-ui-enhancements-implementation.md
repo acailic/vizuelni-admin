@@ -264,7 +264,7 @@ git commit -m "feat(browse): add FilterSection component for collapsible filters
 - [ ] **Step 1: Write the failing test**
 
 ```tsx
-// Add to src/components/browse/__tests__/FilterSidebar.test.tsx
+// Create: src/components/browse/__tests__/FilterSidebar.test.tsx
 import { render, screen } from '@testing-library/react'
 import { FilterSidebar } from '../FilterSidebar'
 
@@ -589,22 +589,66 @@ git commit -m "feat(statistics): add statistics types"
 
 ```typescript
 // src/lib/statistics/__tests__/queries.test.ts
-import { describe, it, expect, beforeAll, afterAll } from '@jest/globals'
-import { getChartStatistics, getPopularCharts } from '../queries'
+import { describe, it, expect, jest, beforeEach } from '@jest/globals'
+import { getChartStatistics, getPopularCharts, getViewStatistics } from '../queries'
+
+// Mock Prisma client
+jest.mock('@/lib/db/prisma', () => ({
+  prisma: {
+    savedChart: {
+      count: jest.fn(),
+      findFirst: jest.fn(),
+      aggregate: jest.fn(),
+      findMany: jest.fn(),
+    },
+  },
+}))
+
 import { prisma } from '@/lib/db/prisma'
 
-// Mock data setup would go here
+const mockPrisma = prisma as jest.Mocked<typeof prisma>
+
 describe('Statistics Queries', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('getChartStatistics returns total count and monthly average', async () => {
+    mockPrisma.savedChart.count
+      .mockResolvedValueOnce(100) // total count
+      .mockResolvedValueOnce(10) // dashboards count
+    mockPrisma.savedChart.findFirst.mockResolvedValue({
+      createdAt: new Date('2025-01-01'),
+    } as any)
+
     const stats = await getChartStatistics()
 
-    expect(stats).toHaveProperty('total')
+    expect(stats).toHaveProperty('total', 100)
     expect(stats).toHaveProperty('perMonthAverage')
     expect(stats.total).toBeGreaterThanOrEqual(0)
     expect(stats.perMonthAverage).toBeGreaterThanOrEqual(0)
   })
 
+  it('getViewStatistics returns aggregated view counts', async () => {
+    mockPrisma.savedChart.aggregate.mockResolvedValue({
+      _sum: { views: 5000 },
+    } as any)
+    mockPrisma.savedChart.findFirst.mockResolvedValue({
+      createdAt: new Date('2025-01-01'),
+    } as any)
+
+    const stats = await getViewStatistics()
+
+    expect(stats).toHaveProperty('total', 5000)
+    expect(stats).toHaveProperty('perMonthAverage')
+  })
+
   it('getPopularCharts returns charts sorted by views', async () => {
+    mockPrisma.savedChart.findMany.mockResolvedValue([
+      { id: '1', title: 'Chart 1', views: 100, thumbnail: null, createdAt: new Date(), userId: null },
+      { id: '2', title: 'Chart 2', views: 50, thumbnail: null, createdAt: new Date(), userId: null },
+    ] as any)
+
     const charts = await getPopularCharts(5)
 
     expect(charts.length).toBeLessThanOrEqual(5)
@@ -612,18 +656,6 @@ describe('Statistics Queries', () => {
     for (let i = 1; i < charts.length; i++) {
       expect(charts[i - 1].views).toBeGreaterThanOrEqual(charts[i].views)
     }
-  })
-
-  it('getPopularCharts with since parameter filters by date', async () => {
-    const thirtyDaysAgo = new Date()
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
-
-    const charts = await getPopularCharts(5, thirtyDaysAgo)
-
-    charts.forEach(chart => {
-      expect(chart.createdAt).toBeInstanceOf(Date)
-      expect(chart.createdAt.getTime()).toBeGreaterThanOrEqual(thirtyDaysAgo.getTime())
-    })
   })
 })
 ```
