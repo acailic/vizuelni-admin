@@ -3,6 +3,9 @@
 import { RefreshCw } from 'lucide-react'
 import { useState } from 'react'
 
+import { cn } from '@/lib/utils/cn'
+import type { ShowcaseCategory } from '@/lib/examples/types'
+
 import { featuredExamples } from '@/lib/examples'
 import type { Locale } from '@/lib/i18n/config'
 
@@ -13,25 +16,65 @@ interface FeaturedExamplesProps {
   locale: Locale
 }
 
-// Localized section titles
-const sectionTitles: Record<Locale, { title: string; description: string; errorTitle: string; retry: string }> = {
+// Localized section titles with categories
+const sectionTitles: Record<
+  Locale,
+  {
+    title: string
+    description: string
+    errorTitle: string
+    retry: string
+    categories: {
+      all: string
+      demographics: string
+      economy: string
+      healthcare: string
+      migration: string
+    }
+    emptyCategory: string
+  }
+> = {
   'sr-Cyrl': {
     title: 'Примери визуелизација',
     description: 'Истражите визуелизације направљене од података српске владе',
     errorTitle: 'Није могуће учитати примере',
     retry: 'Понови све',
+    categories: {
+      all: 'Сви',
+      demographics: 'Демографија',
+      economy: 'Економија',
+      healthcare: 'Здравство',
+      migration: 'Миграције',
+    },
+    emptyCategory: 'Нема примера у овој категорији',
   },
   'sr-Latn': {
     title: 'Primeri vizuelizacija',
     description: 'Istražite vizuelizacije napravljene od podataka srpske vlade',
     errorTitle: 'Nije moguće učitati primere',
     retry: 'Ponovi sve',
+    categories: {
+      all: 'Svi',
+      demographics: 'Demografija',
+      economy: 'Ekonomija',
+      healthcare: 'Zdravstvo',
+      migration: 'Migracije',
+    },
+    emptyCategory: 'Nema primera u ovoj kategoriji',
   },
   en: {
     title: 'Featured Visualizations',
     description: 'Explore visualizations created from Serbian government data',
     errorTitle: 'Unable to load examples',
     retry: 'Retry all',
+    categories: {
+      all: 'All',
+      demographics: 'Demographics',
+      economy: 'Economy',
+      healthcare: 'Healthcare',
+      migration: 'Migration',
+    },
+    emptyCategory: 'No examples in this category',
   },
 }
 
@@ -40,6 +83,7 @@ export function FeaturedExamples({ locale }: FeaturedExamplesProps) {
 
   // Track all example states
   const [globalRetryKey, setGlobalRetryKey] = useState(0)
+  const [selectedCategory, setSelectedCategory] = useState<ShowcaseCategory | 'all'>('all')
 
   // Create hooks for each example (must be static number of hooks)
   const example1 = useExampleData(featuredExamples[0])
@@ -52,11 +96,31 @@ export function FeaturedExamples({ locale }: FeaturedExamplesProps) {
   const example8 = useExampleData(featuredExamples[7])
   const example9 = useExampleData(featuredExamples[8])
 
-  const examples = [example1, example2, example3, example4, example5, example6, example7, example8, example9]
+  const examples = [
+    example1,
+    example2,
+    example3,
+    example4,
+    example5,
+    example6,
+    example7,
+    example8,
+    example9,
+  ]
 
-  // Check if all failed (only check defined examples)
-  const allFailed = examples.every((e) => e?.status === 'error')
-  const anyLoading = examples.some((e) => e?.status === 'loading' || e?.status === 'idle')
+  // Filter by category
+  const categoryExamples = featuredExamples.filter(
+    (config) =>
+      selectedCategory === 'all' || config.category === selectedCategory
+  )
+
+  // Get example states for filtered configs and filter out failed cards
+  const visibleExamples = categoryExamples
+    .map((config) => {
+      const index = featuredExamples.indexOf(config)
+      return { config, state: examples[index] }
+    })
+    .filter(({ state }) => state?.status !== 'error')
 
   // Global retry function
   const retryAll = () => {
@@ -67,42 +131,53 @@ export function FeaturedExamples({ locale }: FeaturedExamplesProps) {
   return (
     <section className="py-12" aria-labelledby="featured-examples-title">
       {/* Section header */}
-    <header className="mb-8 text-center">
+      <header className="mb-8 text-center">
         <h2 id="featured-examples-title" className="text-2xl font-bold text-gray-900">
           {texts.title}
         </h2>
         <p className="mt-2 text-gray-600">{texts.description}</p>
       </header>
 
-      {/* Global error state */}
-      {allFailed && !anyLoading && (
-        <div className="mb-8 rounded-xl border border-red-200 bg-red-50 p-6 text-center">
-          <p className="text-red-600">{texts.errorTitle}</p>
+      {/* Category filter tabs */}
+      <div className="mb-6 flex flex-wrap justify-center gap-2">
+        {(
+          ['all', 'demographics', 'economy', 'healthcare', 'migration'] as const
+        ).map((cat) => (
           <button
+            key={cat}
             type="button"
-            onClick={retryAll}
-            className="mt-4 inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+            onClick={() => setSelectedCategory(cat)}
+            className={cn(
+              'rounded-full px-4 py-1.5 text-sm font-medium transition-colors',
+              selectedCategory === cat
+                ? 'bg-gov-primary text-white'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            )}
           >
-            <RefreshCw className="h-4 w-4" />
-            {texts.retry}
+            {texts.categories[cat]}
           </button>
+        ))}
+      </div>
+
+      {/* Empty state for category */}
+      {visibleExamples.length === 0 && categoryExamples.length > 0 && (
+        <div className="rounded-xl border border-gray-200 bg-gray-50 p-8 text-center">
+          <p className="text-gray-500">{texts.emptyCategory}</p>
         </div>
       )}
 
-      {/* Examples grid - 3 columns x 3 rows */}
+      {/* Examples grid */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {featuredExamples.map((config, index) => {
-          const exampleState = examples[index]
-          // Skip if config or state doesn't exist
-          if (!config || !exampleState) return null
+        {visibleExamples.map(({ config, state }) => {
+          if (!config || !state) return null
           return (
             <ExampleCard
               key={`${config.id}-${globalRetryKey}`}
               config={config}
               locale={locale}
-              dataset={exampleState.dataset}
-              status={exampleState.status}
-              onRetry={exampleState.retry}
+              dataset={state.dataset}
+              status={state.status}
+              onRetry={state.retry}
             />
           )
         })}
