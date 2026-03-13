@@ -218,6 +218,17 @@
     "decreaseFont": "Смањи фонт",
     "increaseFont": "Повећај фонт"
   },
+  "statistics": {
+    "title": "Статистике",
+    "chartsCreated": "Креирано графикона",
+    "totalViews": "Укупно прегледа",
+    "perMonth": "~{{count}}/месечно",
+    "popularChartsAllTime": "Најпопуларнији графикони (икада)",
+    "popularChartsLast30Days": "Најпопуларнији графикони (последњих 30 дана)",
+    "views": "прегледа",
+    "dashboards": "Контролне табле",
+    "datasetsUsed": "Коришћени скупови података"
+  },
   "persistence": {
     "save": "Сачувај",
     "saved": "Сачувано",
@@ -424,5 +435,31 @@
     "showTable": "Прикажи као табелу",
     "hideTable": "Сакриј табелу",
     "noData": "Нема доступних података"
+  },
+  "browse": {
+    "filters": {
+      "title": "Филтери",
+      "themes": "Теме",
+      "organizations": "Организације",
+      "formats": "Формати",
+      "frequencies": "Учесталост",
+      "showAll": "Прикажи све",
+      "clear": "Очисти",
+      "sortBy": "Сортирај по",
+      "newest": "Најновије",
+      "popular": "Популарно",
+      "name": "Назив"
+    }
+  },
+  "feedback": {
+    "foundBug": "Пронашли сте грешку?",
+    "reportBugDescription": "Пријавите је да бисмо је брзо исправили",
+    "reportBug": "Пријави грешку",
+    "newFeature": "Нова функција?",
+    "featureDescription": "Пошаљите предлоге да обликујете будућност",
+    "submit": "Пошаљи"
+  },
+  "footer": {
+    "furtherInfo": "Додатне информације"
   }
 }

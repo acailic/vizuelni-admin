@@ -286,6 +286,17 @@
     "selectGeoField": "Izaberite geografsko polje",
     "selectMeasureField": "Izaberite polje mere"
   },
+  "statistics": {
+    "title": "Statistike",
+    "chartsCreated": "Kreirano grafikona",
+    "totalViews": "Ukupno pregleda",
+    "perMonth": "~{{count}}/mesečno",
+    "popularChartsAllTime": "Najpopularniji grafikoni (ikada)",
+    "popularChartsLast30Days": "Najpopularniji grafikoni (poslednjih 30 dana)",
+    "views": "pregleda",
+    "dashboards": "Kontrolne table",
+    "datasetsUsed": "Korišćeni skupovi podataka"
+  },
   "persistence": {
     "save": "Sačuvaj",
     "saved": "Sačuvano",
@@ -492,5 +503,31 @@
     "showTable": "Prikaži kao tabelu",
     "hideTable": "Sakrij tabelu",
     "noData": "Nema dostupnih podataka"
+  },
+  "browse": {
+    "filters": {
+      "title": "Filteri",
+      "themes": "Teme",
+      "organizations": "Organizacije",
+      "formats": "Formati",
+      "frequencies": "Učestalost",
+      "showAll": "Prikaži sve",
+      "clear": "Očisti",
+      "sortBy": "Sortiraj po",
+      "newest": "Najnovije",
+      "popular": "Popularno",
+      "name": "Naziv"
+    }
+  },
+  "feedback": {
+    "foundBug": "Pronašli ste grešku?",
+    "reportBugDescription": "Prijavite je da bismo je brzo ispravili",
+    "reportBug": "Prijavi grešku",
+    "newFeature": "Nova funkcija?",
+    "featureDescription": "Pošaljite predloge da oblikujite budućnost",
+    "submit": "Pošalji"
+  },
+  "footer": {
+    "furtherInfo": "Dodatne informacije"
   }
 }
