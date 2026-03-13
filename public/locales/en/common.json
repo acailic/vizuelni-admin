@@ -492,5 +492,20 @@
     "showTable": "Show as table",
     "hideTable": "Hide table",
     "noData": "No data available"
+  },
+  "browse": {
+    "filters": {
+      "title": "Filters",
+      "themes": "Themes",
+      "organizations": "Organizations",
+      "formats": "Formats",
+      "frequencies": "Frequency",
+      "showAll": "Show all",
+      "clear": "Clear",
+      "sortBy": "Sort by",
+      "newest": "Newest",
+      "popular": "Popular",
+      "name": "Name"
+    }
   }
 }

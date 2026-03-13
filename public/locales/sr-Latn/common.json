@@ -492,5 +492,20 @@
     "showTable": "Prikaži kao tabelu",
     "hideTable": "Sakrij tabelu",
     "noData": "Nema dostupnih podataka"
+  },
+  "browse": {
+    "filters": {
+      "title": "Filteri",
+      "themes": "Teme",
+      "organizations": "Organizacije",
+      "formats": "Formati",
+      "frequencies": "Učestalost",
+      "showAll": "Prikaži sve",
+      "clear": "Očisti",
+      "sortBy": "Sortiraj po",
+      "newest": "Najnovije",
+      "popular": "Popularno",
+      "name": "Naziv"
+    }
   }
 }
