@@ -100,3 +100,14 @@ features:
     blocked_issue: null
     started_at: 2026-03-12T21:00:00Z
     completed_at: 2026-03-12T21:15:00Z
+
+  - id: feature-37
+    name: Serbian Government Data Library
+    spec: recipes/inputs/feature-37-serbian-data-library.md
+    status: not-started
+    branch: null
+    pr: null
+    blocked_reason: null
+    blocked_issue: null
+    started_at: null
+    completed_at: null
