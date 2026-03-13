@@ -133,7 +133,27 @@
     "back_to_browse": "Back to dataset browse",
     "metadata": "Metadata",
     "page": "Page",
-    "of": "of"
+    "of": "of",
+    "serbianDataLibrary": {
+      "title": "Serbian Government Data Library",
+      "description": "Curated datasets from official Serbian statistical sources",
+      "useDataset": "Use Dataset",
+      "viewDetails": "View Details",
+      "categories": {
+        "all": "All",
+        "demographics": "Demographics",
+        "regional": "Regional",
+        "healthcare": "Healthcare",
+        "economic": "Economic"
+      },
+      "chartTypes": {
+        "bar": "Bar Chart",
+        "line": "Line Chart"
+      },
+      "tags": "Tags",
+      "source": "Source",
+      "lastUpdated": "Last Updated"
+    }
   },
   "charts": {
     "title": "Charts",

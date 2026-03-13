@@ -36,6 +36,9 @@ export interface PreselectedFilters {
   calculation?: 'absolute' | 'percent';
 }
 
+/** Category for showcase filtering/grouping */
+export type ShowcaseCategory = 'demographics' | 'healthcare' | 'economy' | 'migration';
+
 /**
  * Configuration for a single featured example chart
  */
@@ -56,6 +59,16 @@ export interface FeaturedExampleConfig {
   inlineData?: ParsedDataset;
   /** Preselected filters to apply in preview mode */
   preselectedFilters?: PreselectedFilters;
+  /** Category for filtering/grouping (showcase feature) */
+  category?: ShowcaseCategory;
+  /** Tags for search (showcase feature) */
+  tags?: string[];
+  /** Show on landing page? (showcase feature) */
+  featured?: boolean;
+  /** Data source attribution (showcase feature) */
+  dataSource?: string;
+  /** Last updated date (showcase feature) */
+  lastUpdated?: string;
 }
 
 /**

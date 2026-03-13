@@ -1,0 +1,7 @@
+{
+  "data": [
+    { "category": "Doctors", "serbia": 297, "eu": 405 },
+    { "category": "Nurses", "serbia": 653, "eu": 828 },
+    { "category": "Hospital Beds", "serbia": 550, "eu": 500 }
+  ]
+}

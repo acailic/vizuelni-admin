@@ -1,0 +1,85 @@
+{
+  "id": "serbia-population-pyramid",
+  "title": {
+    "sr": "Пирамида становништва 2024",
+    "lat": "Piramida stanovništva 2024",
+    "en": "Population Pyramid 2024"
+  },
+  "description": {
+    "sr": "Старосна и полна структура становништва Србије",
+    "lat": "Starosna i polna struktura stanovništva Srbije",
+    "en": "Age and gender structure of Serbia's population"
+  },
+  "category": "demographics",
+  "tags": ["population", "age-structure", "gender", "demographics", "pyramid"],
+  "source": {
+    "name": "Statistical Office of Serbia",
+    "url": "https://www.stat.gov.rs/"
+  },
+  "lastUpdated": "2024-12-01",
+  "suggestedChartType": "bar",
+  "observations": [
+    { "ageGroup": "0-4", "male": 160000, "female": 152000 },
+    { "ageGroup": "5-9", "male": 175000, "female": 166000 },
+    { "ageGroup": "10-14", "male": 185000, "female": 176000 },
+    { "ageGroup": "15-19", "male": 195000, "female": 186000 },
+    { "ageGroup": "20-24", "male": 210000, "female": 200000 },
+    { "ageGroup": "25-29", "male": 230000, "female": 220000 },
+    { "ageGroup": "30-34", "male": 245000, "female": 235000 },
+    { "ageGroup": "35-39", "male": 260000, "female": 250000 },
+    { "ageGroup": "40-44", "male": 275000, "female": 268000 },
+    { "ageGroup": "45-49", "male": 290000, "female": 285000 },
+    { "ageGroup": "50-54", "male": 300000, "female": 298000 },
+    { "ageGroup": "55-59", "male": 280000, "female": 290000 },
+    { "ageGroup": "60-64", "male": 250000, "female": 270000 },
+    { "ageGroup": "65-69", "male": 220000, "female": 250000 },
+    { "ageGroup": "70-74", "male": 180000, "female": 220000 },
+    { "ageGroup": "75-79", "male": 130000, "female": 175000 },
+    { "ageGroup": "80-84", "male": 85000, "female": 125000 },
+    { "ageGroup": "85+", "male": 55000, "female": 95000 }
+  ],
+  "dimensions": [
+    {
+      "key": "ageGroup",
+      "label": "Age Group",
+      "type": "ordinal",
+      "values": [
+        "0-4",
+        "5-9",
+        "10-14",
+        "15-19",
+        "20-24",
+        "25-29",
+        "30-34",
+        "35-39",
+        "40-44",
+        "45-49",
+        "50-54",
+        "55-59",
+        "60-64",
+        "65-69",
+        "70-74",
+        "75-79",
+        "80-84",
+        "85+"
+      ],
+      "cardinality": 18
+    }
+  ],
+  "measures": [
+    {
+      "key": "male",
+      "label": "Male Population",
+      "min": 55000,
+      "max": 300000,
+      "hasNulls": false
+    },
+    {
+      "key": "female",
+      "label": "Female Population",
+      "min": 95000,
+      "max": 298000,
+      "hasNulls": false
+    }
+  ]
+}

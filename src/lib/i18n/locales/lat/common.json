@@ -133,7 +133,27 @@
     "back_to_browse": "Nazad na pregled skupova",
     "metadata": "Metapodaci",
     "page": "Strana",
-    "of": "od"
+    "of": "od",
+    "serbianDataLibrary": {
+      "title": "Biblioteka podataka Vlade Srbije",
+      "description": "Odabrani skupovi podataka iz zvaničnih statističkih izvora Srbije",
+      "useDataset": "Koristi skup",
+      "viewDetails": "Vidi detalje",
+      "categories": {
+        "all": "Svi",
+        "demographics": "Demografija",
+        "regional": "Regionalno",
+        "healthcare": "Zdravstvo",
+        "economic": "Ekonomija"
+      },
+      "chartTypes": {
+        "bar": "Stubčasti grafikon",
+        "line": "Linijski grafikon"
+      },
+      "tags": "Oznake",
+      "source": "Izvor",
+      "lastUpdated": "Poslednja izmena"
+    }
   },
   "charts": {
     "title": "Grafikoni",

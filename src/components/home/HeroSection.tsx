@@ -26,10 +26,10 @@ export function HeroSection({
       aria-labelledby="hero-title"
     >
       {/* Refined gradient background with subtle texture */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0D4077] via-[#1a5290] to-[#0C1E42]" />
+      <div className="absolute inset-0 bg-gradient-to-br from-gov-primary via-serbia-blue to-[#0C1E42]" />
 
-      {/* Decorative accent elements */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-[#C6363C]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" aria-hidden="true" />
+      {/* Decorative accent elements - Serbian red used sparingly */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-serbia-red/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" aria-hidden="true" />
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-gov-secondary/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" aria-hidden="true" />
 
       {/* Subtle grid pattern overlay */}
@@ -44,8 +44,8 @@ export function HeroSection({
       {/* Content with enhanced typography */}
       <div className="relative z-10">
         <p className="inline-flex items-center gap-2.5 text-sm font-semibold uppercase tracking-[0.2em] text-white/80"
-           style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
-          <span className="h-2 w-2 rounded-full bg-[#C6363C] shadow-lg shadow-red-500/30" aria-hidden="true" />
+           style={{ fontFamily: "var(--font-family-body)" }}>
+          <span className="h-2 w-2 rounded-full bg-serbia-red shadow-lg shadow-red-500/30" aria-hidden="true" />
           data.gov.rs
         </p>
 
@@ -53,22 +53,21 @@ export function HeroSection({
           id="hero-title"
           className="mt-5 max-w-3xl text-3xl font-extrabold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl"
           style={{
-            fontFamily: "'Noto Serif', 'Times New Roman', Georgia, serif",
-            textShadow: '0 1px 3px rgba(0,0,0,0.4)',
+            fontFamily: "var(--font-family-display)",
             letterSpacing: '-0.02em',
           }}
         >
           {title}
         </h1>
 
-        <p className="mt-6 max-w-2xl text-base leading-[1.75] text-white/90 md:text-lg"
-           style={{ fontFamily: "'Inter', system-ui, sans-serif", fontWeight: 450 }}>
+        <p className="mt-6 max-w-2xl text-base leading-[1.75] text-white md:text-lg"
+           style={{ fontFamily: "var(--font-family-body)" }}>
           {subtitle}
         </p>
 
         <div className="mt-8 flex flex-wrap gap-4">
           <Link
-            className="group inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-3.5 text-sm font-semibold text-gov-primary shadow-lg transition-all duration-200 hover:bg-gray-50 hover:shadow-xl hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#0D4077]"
+            className="group inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-3.5 text-sm font-semibold text-gov-primary shadow-lg transition-all duration-200 hover:bg-gray-50 hover:shadow-xl hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gov-primary"
             href={getBrowsePath(locale)}
           >
             <Search className="h-4 w-4 transition-transform group-hover:scale-110" />
@@ -76,7 +75,7 @@ export function HeroSection({
           </Link>
 
           <Link
-            className="group inline-flex items-center gap-2 rounded-2xl border border-white/25 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-200 hover:bg-white/15 hover:border-white/40 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#0D4077]"
+            className="group inline-flex items-center gap-2 rounded-2xl border border-white/25 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-200 hover:bg-white/15 hover:border-white/40 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gov-primary"
             href={`/${locale}/create`}
           >
             {secondaryCta}

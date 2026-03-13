@@ -1,0 +1,14 @@
+{
+  "data": [
+    { "country": "Germany", "percentage": 32, "emigrants": 308258 },
+    { "country": "Austria", "percentage": 15, "emigrants": 144496 },
+    { "country": "France", "percentage": 10, "emigrants": 96331 },
+    { "country": "Italy", "percentage": 9, "emigrants": 86698 },
+    { "country": "Switzerland", "percentage": 7, "emigrants": 67431 },
+    { "country": "USA", "percentage": 6, "emigrants": 57798 },
+    { "country": "Canada", "percentage": 5, "emigrants": 48165 },
+    { "country": "Australia", "percentage": 4, "emigrants": 38532 },
+    { "country": "Sweden", "percentage": 3, "emigrants": 28899 },
+    { "country": "Other", "percentage": 9, "emigrants": 86698 }
+  ]
+}

@@ -6,6 +6,7 @@ import { DatasetList } from '@/components/browse/DatasetList'
 import { FilterSidebar } from '@/components/browse/FilterSidebar'
 import { Pagination } from '@/components/browse/Pagination'
 import { SearchBar } from '@/components/browse/SearchBar'
+import { SerbianDataLibrary } from '@/components/browse/SerbianDataLibrary'
 import { useErrorModal } from '@/components/ui/ErrorModal'
 import { formatMessage, type Messages } from '@/lib/i18n/messages'
 import type { Locale } from '@/lib/i18n/config'
@@ -54,6 +55,24 @@ export function BrowseClient({
           </h1>
           <p className="max-w-3xl text-sm leading-7 text-gray-600">{messages.browse.description}</p>
         </header>
+
+        {/* Serbian Government Data Library Section */}
+        <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+          <SerbianDataLibrary
+            locale={locale}
+            labels={{
+              title: messages.browse.serbianDataLibrary.title,
+              description: messages.browse.serbianDataLibrary.description,
+              useDataset: messages.browse.serbianDataLibrary.useDataset,
+              viewDetails: messages.browse.serbianDataLibrary.viewDetails,
+              categories: messages.browse.serbianDataLibrary.categories,
+              chartTypes: messages.browse.serbianDataLibrary.chartTypes,
+              tags: messages.browse.serbianDataLibrary.tags,
+              source: messages.browse.serbianDataLibrary.source,
+              lastUpdated: messages.browse.serbianDataLibrary.lastUpdated,
+            }}
+          />
+        </div>
 
         <SearchBar
           clearLabel={messages.browse.clear_search}

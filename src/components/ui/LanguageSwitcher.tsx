@@ -9,9 +9,9 @@ interface LanguageSwitcherProps {
 }
 
 const languages = [
-  { code: 'sr' as const, label: 'Ћирилица', shortLabel: 'Ћир', flag: '🇷🇸' },
-  { code: 'lat' as const, label: 'Latinica', shortLabel: 'Lat', flag: '🇷🇸' },
-  { code: 'en' as const, label: 'English', shortLabel: 'EN', flag: '🇬🇧' },
+  { code: 'sr' as const, label: 'Ћирилица', shortLabel: 'ЋИР', flag: 'SRB' },
+  { code: 'lat' as const, label: 'Latinica', shortLabel: 'LAT', flag: 'SRB' },
+  { code: 'en' as const, label: 'English', shortLabel: 'EN', flag: 'ENG' },
 ]
 
 export function LanguageSwitcher({ currentLang, onLanguageChange }: LanguageSwitcherProps) {
@@ -45,8 +45,10 @@ export function LanguageSwitcher({ currentLang, onLanguageChange }: LanguageSwit
         aria-haspopup="listbox"
         aria-label="Select language"
       >
-        <span className="text-base">{currentLanguage.flag}</span>
-        <span className="hidden sm:inline">{currentLanguage.shortLabel}</span>
+        <span className="flex h-5 w-5 items-center justify-center rounded bg-slate-100 text-[10px] font-bold text-slate-600">
+          {currentLanguage.shortLabel}
+        </span>
+        <span className="hidden sm:inline text-slate-600">{currentLanguage.label}</span>
         <ChevronDown className={`h-4 w-4 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
@@ -66,7 +68,9 @@ export function LanguageSwitcher({ currentLang, onLanguageChange }: LanguageSwit
               role="option"
               aria-selected={currentLang === lang.code}
             >
-              <span className="text-base">{lang.flag}</span>
+              <span className="flex h-5 w-5 items-center justify-center rounded bg-slate-100 text-[10px] font-bold text-slate-600">
+                {lang.shortLabel}
+              </span>
               <span className="flex-1">{lang.label}</span>
               {currentLang === lang.code && (
                 <Check className="h-4 w-4 text-gov-primary" />

@@ -9,68 +9,57 @@ const config: Config = {
   darkMode: 'class',
   theme: {
     extend: {
-      // Serbian Government Color Palette
+      // ===========================================
+      // SERBIAN GOVERNMENT COLOR SYSTEM
+      // National colors used with restraint
+      // ===========================================
       colors: {
-        primary: {
-          50: '#e3f2fd',
-          100: '#bbdefb',
-          200: '#90caf9',
-          300: '#64b5f6',
-          400: '#42a5f5',
-          500: '#2196f3', // Main Serbian Blue
-          600: '#1e88e5',
-          700: '#1976d2',
-          800: '#1565c0',
-          900: '#0d47a1',
-          950: '#0a3d91',
+        // Government brand colors (reference CSS custom properties)
+        gov: {
+          primary: 'rgb(var(--color-gov-primary) / <alpha-value>)',
+          secondary: 'rgb(var(--color-gov-secondary) / <alpha-value>)',
+          accent: 'rgb(var(--color-gov-accent) / <alpha-value>)',
         },
-        secondary: {
-          50: '#fff3e0',
-          100: '#ffe0b2',
-          200: '#ffcc80',
-          300: '#ffb74d',
-          400: '#ffa726',
-          500: '#ff9800', // Serbian Orange
-          600: '#fb8c00',
-          700: '#f57c00',
-          800: '#ef6c00',
-          900: '#e65100',
-          950: '#d84315',
+        // Serbian national colors
+        serbia: {
+          red: 'rgb(var(--color-serbia-red) / <alpha-value>)',
+          blue: 'rgb(var(--color-serbia-blue) / <alpha-value>)',
+          white: 'rgb(var(--color-serbia-white) / <alpha-value>)',
         },
-        accent: {
-          50: '#fce4ec',
-          100: '#f8bbd0',
-          200: '#f48fb1',
-          300: '#f06292',
-          400: '#ec407a',
-          500: '#e91e63',
-          600: '#d81b60',
-          700: '#c2185b',
-          800: '#ad1457',
-          900: '#880e4f',
-          950: '#6a0a3d',
-        },
-        neutral: {
-          50: '#fafafa',
-          100: '#f5f5f5',
-          200: '#eeeeee',
-          300: '#e0e0e0',
-          400: '#bdbdbd',
-          500: '#9e9e9e',
-          600: '#757575',
-          700: '#616161',
-          800: '#424242',
-          900: '#212121',
-          950: '#0a0a0a',
+        // Neutral scale for UI (Swiss-inspired)
+        slate: {
+          50: '#f8fafc',
+          100: '#f1f5f9',
+          200: '#e2e8f0',
+          300: '#cbd5e1',
+          400: '#94a3b8',
+          500: '#64748b',
+          600: '#475569',
+          700: '#334155',
+          800: '#1e293b',
+          900: '#0f172a',
+          950: '#020617',
         },
       },
 
-      // Typography
+      // ===========================================
+      // TYPOGRAPHY SYSTEM
+      // IBM Plex Sans: Swiss-inspired, excellent Cyrillic
+      // Noto Serif: Authoritative headings
+      // JetBrains Mono: Data precision
+      // ===========================================
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        serif: ['Merriweather', 'Georgia', 'serif'],
-        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
-        cyrillic: ['Noto Sans', 'Open Sans', 'sans-serif'],
+        sans: [
+          '"IBM Plex Sans"',
+          '"Noto Sans"',
+          'system-ui',
+          '-apple-system',
+          'sans-serif',
+        ],
+        serif: ['"Noto Serif"', '"Source Serif 4"', 'Georgia', 'serif'],
+        mono: ['"JetBrains Mono"', '"IBM Plex Mono"', 'monospace'],
+        // Fallback for Cyrillic-heavy content
+        cyrillic: ['"IBM Plex Sans"', '"Noto Sans"', 'sans-serif'],
       },
 
       // Font sizes

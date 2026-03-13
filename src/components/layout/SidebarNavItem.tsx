@@ -11,6 +11,8 @@ interface SidebarNavItemProps {
   label: string
   isCollapsed: boolean
   isActive: boolean
+  /** Callback fired when navigation occurs */
+  onNavigate?: () => void
 }
 
 function SidebarNavItemComponent({
@@ -19,16 +21,20 @@ function SidebarNavItemComponent({
   label,
   isCollapsed,
   isActive,
+  onNavigate,
 }: SidebarNavItemProps) {
   const [showTooltip, setShowTooltip] = useState(false)
 
   return (
     <Link
       href={href}
+      onClick={onNavigate}
       className={cn(
-        'group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200',
+        'group relative flex items-center gap-3 rounded-lg px-3 text-sm font-medium transition-all duration-200',
+        // Touch target: minimum 44px height for mobile accessibility (WCAG 2.1)
+        isCollapsed ? 'min-h-[44px] py-3 justify-center' : 'py-3',
         isActive
-          ? 'bg-[#C6363C] text-white shadow-md'
+          ? 'bg-serbia-red text-white shadow-md'
           : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
       )}
       onMouseEnter={() => setShowTooltip(true)}

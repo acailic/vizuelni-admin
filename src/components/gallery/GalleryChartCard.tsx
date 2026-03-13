@@ -88,12 +88,12 @@ export function GalleryChartCard({ chart, locale, labels }: GalleryChartCardProp
 
       {/* Content */}
       <div className="p-4">
-        <h3 className="mb-2 line-clamp-1 font-semibold text-slate-900 group-hover:text-blue-600 transition-colors">
+        <h3 className="mb-2 line-clamp-1 font-semibold text-slate-900 group-hover:text-blue-600 transition-colors md:break-words" title={chart.title}>
           {chart.title}
         </h3>
 
         {chart.description && (
-          <p className="mb-3 line-clamp-2 text-sm text-slate-600">
+          <p className="mb-3 line-clamp-2 text-sm text-slate-600 md:break-words" title={chart.description}>
             {chart.description}
           </p>
         )}

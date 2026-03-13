@@ -26,9 +26,11 @@ interface SidebarProps {
     gallery: string
     dashboard: string
   }
+  /** Callback fired when navigation occurs (used to close mobile menu) */
+  onNavigate?: () => void
 }
 
-function SidebarComponent({ locale, messages }: SidebarProps) {
+function SidebarComponent({ locale, messages, onNavigate }: SidebarProps) {
   const pathname = usePathname()
   const { isCollapsed, toggle } = useSidebarState()
 
@@ -58,8 +60,10 @@ function SidebarComponent({ locale, messages }: SidebarProps) {
   return (
     <aside
       className={cn(
-        'flex h-screen flex-col border-r border-slate-200 bg-white transition-all duration-300',
-        isCollapsed ? 'w-16' : 'w-64'
+        'flex h-screen w-64 flex-col border-r border-slate-200 bg-white',
+        // On desktop, respect collapse state; on mobile always full width
+        'lg:transition-all lg:duration-300',
+        isCollapsed && 'lg:w-16'
       )}
     >
       {/* Logo */}
@@ -67,8 +71,9 @@ function SidebarComponent({ locale, messages }: SidebarProps) {
         href={`/${locale}`}
         className={cn(
           'flex h-16 items-center border-b border-slate-200 px-4',
-          isCollapsed ? 'justify-center' : 'gap-3'
+          isCollapsed ? 'lg:justify-center' : 'gap-3'
         )}
+        onClick={onNavigate}
       >
         <Image
           src="/serbia-logo.png"
@@ -78,7 +83,7 @@ function SidebarComponent({ locale, messages }: SidebarProps) {
           className="h-8 w-auto"
           priority
         />
-        {!isCollapsed && (
+        {(!isCollapsed) && (
           <span className="text-sm font-bold text-[#0C1E42]">Vizuelni Admin</span>
         )}
       </Link>
@@ -91,14 +96,15 @@ function SidebarComponent({ locale, messages }: SidebarProps) {
             {...item}
             isCollapsed={isCollapsed}
             isActive={pathname.startsWith(item.href)}
+            onNavigate={onNavigate}
           />
         ))}
       </nav>
 
-      {/* Collapse toggle */}
+      {/* Collapse toggle - desktop only */}
       <button
         onClick={toggle}
-        className="flex h-12 items-center justify-center border-t border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-700"
+        className="hidden lg:flex h-12 items-center justify-center border-t border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-700"
         aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
       >
         {isCollapsed ? (

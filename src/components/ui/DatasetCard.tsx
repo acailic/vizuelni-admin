@@ -68,7 +68,7 @@ export function DatasetCard({
               </div>
             )}
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-400">
+              <p className="truncate text-xs font-semibold uppercase tracking-[0.14em] text-gray-400" title={dataset.organization?.name ?? 'data.gov.rs'}>
                 {dataset.organization?.name ?? 'data.gov.rs'}
               </p>
               {dataset.last_modified ? (
@@ -90,7 +90,7 @@ export function DatasetCard({
           </div>
         </div>
 
-        <h3 className="mb-2 text-lg font-bold transition-colors group-hover:text-gov-secondary">
+        <h3 className="mb-2 line-clamp-2 text-lg font-bold transition-colors group-hover:text-gov-secondary md:break-words">
           {dataset.title}
         </h3>
 
