@@ -518,5 +518,16 @@
       "popular": "Popularno",
       "name": "Naziv"
     }
+  },
+  "feedback": {
+    "foundBug": "Pronašli ste grešku?",
+    "reportBugDescription": "Prijavite je da bismo je brzo ispravili",
+    "reportBug": "Prijavi grešku",
+    "newFeature": "Nova funkcija?",
+    "featureDescription": "Pošaljite predloge da oblikujite budućnost",
+    "submit": "Pošalji"
+  },
+  "footer": {
+    "furtherInfo": "Dodatne informacije"
   }
 }

@@ -518,5 +518,16 @@
       "popular": "Popular",
       "name": "Name"
     }
+  },
+  "feedback": {
+    "foundBug": "Found a bug?",
+    "reportBugDescription": "Report it so we can fix it fast",
+    "reportBug": "Report a bug",
+    "newFeature": "New feature?",
+    "featureDescription": "Submit requests to shape the future",
+    "submit": "Submit"
+  },
+  "footer": {
+    "furtherInfo": "Further Information"
   }
 }
