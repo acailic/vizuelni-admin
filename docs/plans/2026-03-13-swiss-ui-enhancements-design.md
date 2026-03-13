@@ -404,10 +404,10 @@ components:
       - public/locales/*/common.json
 
 dependencies:
-  - Existing Prisma schema (SavedChart model)
+  - Existing Prisma schema (SavedChart model with views field)
   - Existing i18n system (3 locales)
   - Existing data.gov.rs integration
-  - ChartView model (may need to add)
+  - Existing BrowseSearchParams and BrowseFacets types
 
 testing_requirements:
   - Unit tests for statistics queries
