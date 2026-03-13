@@ -86,6 +86,13 @@ const sectionTitles: Record<
 };
 ```
 
+**Accessing localized texts:**
+
+```typescript
+// In the component, after props are destructured:
+const texts = sectionTitles[locale];
+```
+
 **New state:**
 
 ```typescript
