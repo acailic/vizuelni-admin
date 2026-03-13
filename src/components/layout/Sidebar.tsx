@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import { memo } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { memo } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   Database,
   PlusCircle,
@@ -10,29 +10,31 @@ import {
   User,
   ChevronLeft,
   ChevronRight,
-} from 'lucide-react'
-import Image from 'next/image'
+  BarChart3,
+} from 'lucide-react';
+import Image from 'next/image';
 
-import { cn } from '@/lib/utils/cn'
-import { SidebarNavItem } from './SidebarNavItem'
-import { useSidebarState } from '@/lib/hooks/useSidebarState'
-import type { Locale } from '@/lib/i18n/config'
+import { cn } from '@/lib/utils/cn';
+import { SidebarNavItem } from './SidebarNavItem';
+import { useSidebarState } from '@/lib/hooks/useSidebarState';
+import type { Locale } from '@/lib/i18n/config';
 
 interface SidebarProps {
-  locale: Locale
+  locale: Locale;
   messages: {
-    browse: string
-    create: string
-    gallery: string
-    dashboard: string
-  }
+    browse: string;
+    create: string;
+    gallery: string;
+    dashboard: string;
+    demoGallery: string;
+  };
   /** Callback fired when navigation occurs (used to close mobile menu) */
-  onNavigate?: () => void
+  onNavigate?: () => void;
 }
 
 function SidebarComponent({ locale, messages, onNavigate }: SidebarProps) {
-  const pathname = usePathname()
-  const { isCollapsed, toggle } = useSidebarState()
+  const pathname = usePathname();
+  const { isCollapsed, toggle } = useSidebarState();
 
   const navItems = [
     {
@@ -51,11 +53,16 @@ function SidebarComponent({ locale, messages, onNavigate }: SidebarProps) {
       label: messages.gallery,
     },
     {
+      href: `/${locale}/demo-gallery`,
+      icon: BarChart3,
+      label: messages.demoGallery,
+    },
+    {
       href: `/${locale}/dashboard`,
       icon: User,
       label: messages.dashboard,
     },
-  ]
+  ];
 
   return (
     <aside
@@ -76,20 +83,22 @@ function SidebarComponent({ locale, messages, onNavigate }: SidebarProps) {
         onClick={onNavigate}
       >
         <Image
-          src="/serbia-logo.png"
-          alt="Serbia"
+          src='/serbia-logo.png'
+          alt='Serbia'
           width={32}
           height={38}
-          className="h-8 w-auto"
+          className='h-8 w-auto'
           priority
         />
-        {(!isCollapsed) && (
-          <span className="text-sm font-bold text-[#0C1E42]">Vizuelni Admin</span>
+        {!isCollapsed && (
+          <span className='text-sm font-bold text-[#0C1E42]'>
+            Vizuelni Admin
+          </span>
         )}
       </Link>
 
       {/* Navigation */}
-      <nav className="flex-1 space-y-1 p-3">
+      <nav className='flex-1 space-y-1 p-3'>
         {navItems.map((item) => (
           <SidebarNavItem
             key={item.href}
@@ -104,17 +113,17 @@ function SidebarComponent({ locale, messages, onNavigate }: SidebarProps) {
       {/* Collapse toggle - desktop only */}
       <button
         onClick={toggle}
-        className="hidden lg:flex h-12 items-center justify-center border-t border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-700"
+        className='hidden lg:flex h-12 items-center justify-center border-t border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-700'
         aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
       >
         {isCollapsed ? (
-          <ChevronRight className="h-5 w-5" />
+          <ChevronRight className='h-5 w-5' />
         ) : (
-          <ChevronLeft className="h-5 w-5" />
+          <ChevronLeft className='h-5 w-5' />
         )}
       </button>
     </aside>
-  )
+  );
 }
 
-export const Sidebar = memo(SidebarComponent)
+export const Sidebar = memo(SidebarComponent);
