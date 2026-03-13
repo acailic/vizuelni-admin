@@ -30,4 +30,8 @@ export const budgetAllocationConfig: FeaturedExampleConfig = {
     options: { paletteId: 'government', showLegend: true },
   },
   inlineData: budgetDataset,
+  category: 'economy',
+  preselectedFilters: {
+    dataFilters: { showTop: '5' },
+  },
 }

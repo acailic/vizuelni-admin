@@ -30,6 +30,7 @@ export const populationRegionsConfig: FeaturedExampleConfig = {
     options: { paletteId: 'government', showLegend: false, showGrid: true },
   },
   inlineData: populationDataset,
+  category: 'demographics',
   // Preselect to show only Vojvodina region cities
   preselectedFilters: {
     dataFilters: {

@@ -21,4 +21,8 @@ export const regionalComparisonConfig: FeaturedExampleConfig = {
     y_axis: { field: 'gdp_growth', type: 'linear', label: 'GDP Growth (%)' },
     options: { paletteId: 'government', showLegend: false, showGrid: true },
   },
+  category: 'economy',
+  preselectedFilters: {
+    dataFilters: { region: 'Vojvodina' },
+  },
 }

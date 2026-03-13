@@ -30,4 +30,8 @@ export const gdpRegionsConfig: FeaturedExampleConfig = {
     options: { paletteId: 'government', showLegend: false, showGrid: true },
   },
   inlineData: gdpDataset,
+  category: 'economy',
+  preselectedFilters: {
+    dataFilters: { region: 'Beogradski region' },
+  },
 }

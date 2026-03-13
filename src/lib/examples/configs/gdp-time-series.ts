@@ -35,6 +35,7 @@ export const gdpTimeSeriesConfig: FeaturedExampleConfig = {
     },
   },
   inlineData: timeSeriesDataset,
+  category: 'economy',
   // Preselect to show Belgrade region
   preselectedFilters: {
     dataFilters: {

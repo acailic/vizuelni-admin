@@ -14,6 +14,10 @@ export const healthIndicatorsConfig: FeaturedExampleConfig = {
   },
   datasetId: 'health-indicators',
   resourceUrl: '/data/health-indicators.csv',
+  category: 'healthcare',
+  preselectedFilters: {
+    dataFilters: { indicator: 'Očekivano trajanje života' },
+  },
   chartConfig: {
     type: 'line',
     title: 'Health Indicators',

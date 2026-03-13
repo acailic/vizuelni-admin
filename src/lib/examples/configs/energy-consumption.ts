@@ -21,4 +21,8 @@ export const energyConsumptionConfig: FeaturedExampleConfig = {
     y_axis: { field: 'sector', type: 'category', label: 'Sector' },
     options: { paletteId: 'government', showLegend: false, showGrid: true },
   },
+  category: 'economy',
+  preselectedFilters: {
+    dataFilters: { year: '2023' },
+  },
 }

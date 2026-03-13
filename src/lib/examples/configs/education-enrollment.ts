@@ -14,11 +14,19 @@ export const educationEnrollmentConfig: FeaturedExampleConfig = {
   },
   datasetId: 'education-enrollment',
   resourceUrl: '/data/education-enrollment.csv',
+  category: 'demographics',
+  preselectedFilters: {
+    dataFilters: { nivo: 'Visoko obrazovanje' },
+  },
   chartConfig: {
     type: 'area',
     title: 'Education Enrollment',
     x_axis: { field: 'year', type: 'category', label: 'Year' },
     y_axis: { field: 'primary', type: 'linear', label: 'Enrollment (%)' },
     options: { paletteId: 'government', showLegend: true, showGrid: true },
+  },
+  category: 'demographics',
+  preselectedFilters: {
+    dataFilters: { nivo: 'Visoko obrazovanje' },
   },
 }

@@ -30,4 +30,8 @@ export const unemploymentRateConfig: FeaturedExampleConfig = {
     options: { paletteId: 'government', showLegend: false, showGrid: true },
   },
   inlineData: unemploymentDataset,
+  category: 'economy',
+  preselectedFilters: {
+    timeRange: { from: '2020', to: '2024' },
+  },
 }
