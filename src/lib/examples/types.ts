@@ -37,7 +37,12 @@ export interface PreselectedFilters {
 }
 
 /** Category for showcase filtering/grouping */
-export type ShowcaseCategory = 'demographics' | 'healthcare' | 'economy' | 'migration';
+export type ShowcaseCategory =
+  | 'demographics'
+  | 'healthcare'
+  | 'economy'
+  | 'migration'
+  | 'society';
 
 /**
  * Configuration for a single featured example chart
