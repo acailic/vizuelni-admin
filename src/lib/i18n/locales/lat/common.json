@@ -560,5 +560,22 @@
     "newFeature": "Nova funkcija?",
     "featureDescription": "Pošaljite predloge da oblikujete budućnost",
     "submit": "Pošalji"
+  },
+  "demoGallery": {
+    "title": "Galerija podataka Srbije",
+    "subtitle": "28 interaktivnih vizualizacija sa stvarnim vladinim podacima",
+    "categories": {
+      "all": "Sve",
+      "demographics": "Demografija",
+      "healthcare": "Zdravstvo",
+      "economy": "Ekonomija",
+      "migration": "Migracija",
+      "society": "Društvo"
+    },
+    "modal": {
+      "close": "Zatvori",
+      "viewData": "Pogledaj podatke",
+      "hideData": "Sakrij podatke"
+    }
   }
 }

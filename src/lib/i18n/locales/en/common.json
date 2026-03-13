@@ -533,5 +533,22 @@
     "newFeature": "New feature?",
     "featureDescription": "Submit requests to shape the future",
     "submit": "Submit"
+  },
+  "demoGallery": {
+    "title": "Serbia Data Gallery",
+    "subtitle": "28 interactive visualizations with real government data",
+    "categories": {
+      "all": "All",
+      "demographics": "Demographics",
+      "healthcare": "Healthcare",
+      "economy": "Economy",
+      "migration": "Migration",
+      "society": "Society"
+    },
+    "modal": {
+      "close": "Close",
+      "viewData": "View Data",
+      "hideData": "Hide Data"
+    }
   }
 }
