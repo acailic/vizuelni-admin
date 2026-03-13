@@ -521,5 +521,24 @@
     "settings": "Подешавања",
     "signOut": "Одјава",
     "signIn": "Пријава"
+  },
+  "statistics": {
+    "title": "Статистике",
+    "chartsCreated": "Креирано графикона",
+    "totalViews": "Укупно прегледа",
+    "perMonth": "~{{count}}/месечно",
+    "popularChartsAllTime": "Најпопуларнији графикони (икада)",
+    "popularChartsLast30Days": "Најпопуларнији графикони (последњих 30 дана)",
+    "views": "прегледа",
+    "dashboards": "Контролне табле",
+    "datasetsUsed": "Коришћени скупови података"
+  },
+  "feedback": {
+    "foundBug": "Пронашли сте грешку?",
+    "reportBugDescription": "Пријавите је да бисмо је брзо исправили",
+    "reportBug": "Пријави грешку",
+    "newFeature": "Нова функција?",
+    "featureDescription": "Пошаљите предлоге да обликујете будућност",
+    "submit": "Пошаљи"
   }
 }
