@@ -375,26 +375,31 @@ if (isSerbianDataset) {
 
 ### Error Handling
 
-| Scenario                     | Action                                         |
-| ---------------------------- | ---------------------------------------------- |
-| Invalid dataset ID in URL    | Redirect to `/browse?error=dataset-not-found`  |
-| Dataset JSON fails to load   | Show error toast, fall back to empty state     |
-| Category has no datasets     | Show "Coming soon" message                     |
-| Network error on API refresh | Show cached data with "Last updated: X" notice |
+| Scenario                      | Action                                        |
+| ----------------------------- | --------------------------------------------- |
+| Invalid dataset ID in URL     | Redirect to `/browse?error=dataset-not-found` |
+| Dataset not found in registry | Return `undefined`, caller handles redirect   |
+| Category has no datasets      | Show "Coming soon" message                    |
+
+**Pattern:** Use simple `SerbianDataset | undefined` return type throughout. Callers check for `undefined` and handle appropriately (redirect, show toast, etc.).
 
 ```typescript
-// Error handling in registry
-export function getDatasetById(
-  id: string
-): Result<SerbianDataset, DatasetError> {
-  const dataset = ALL_DATASETS.find((d) => d.id === id);
+// Error handling - use simple undefined pattern
+export function getDatasetById(id: string): SerbianDataset | undefined {
+  return ALL_DATASETS.find((d) => d.id === id);
+}
+
+// Helper for create page error handling
+export function requireDatasetOrRedirect(
+  id: string,
+  locale: Locale
+): SerbianDataset | never {
+  const dataset = getDatasetById(id);
   if (!dataset) {
-    return {
-      ok: false,
-      error: { code: 'NOT_FOUND', message: `Dataset ${id} not found` },
-    };
+    redirect(`/${locale}/browse?error=dataset-not-found`);
+    throw new Error('Redirecting...'); // Won't be reached
   }
-  return { ok: true, value: dataset };
+  return dataset;
 }
 ```
 
