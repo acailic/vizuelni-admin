@@ -1,10 +1,10 @@
-import { prisma } from '@/lib/db/prisma'
+import { prisma } from '@/lib/db/prisma';
 import type {
   ChartStatistics,
   ViewStatistics,
   PopularChart,
   DatasetStatistics,
-} from './types'
+} from './types';
 
 /**
  * Calculate months between two dates
@@ -12,8 +12,8 @@ import type {
 function monthsBetween(start: Date, end: Date): number {
   const months =
     (end.getFullYear() - start.getFullYear()) * 12 +
-    (end.getMonth() - start.getMonth())
-  return Math.max(1, months)
+    (end.getMonth() - start.getMonth());
+  return Math.max(1, months);
 }
 
 /**
@@ -29,23 +29,23 @@ export async function getChartStatistics(): Promise<ChartStatistics> {
       orderBy: { createdAt: 'asc' },
       select: { createdAt: true },
     }),
-  ])
+  ]);
 
   const monthsActive = oldestChart
     ? monthsBetween(oldestChart.createdAt, new Date())
-    : 1
+    : 1;
 
-  const perMonthAverage = Math.round(total / monthsActive)
+  const perMonthAverage = Math.round(total / monthsActive);
 
   const dashboards = await prisma.savedChart.count({
     where: { status: 'PUBLISHED' },
-  })
+  });
 
   return {
     total,
     perMonthAverage,
     dashboards,
-  }
+  };
 }
 
 /**
@@ -55,28 +55,28 @@ export async function getViewStatistics(): Promise<ViewStatistics> {
   const result = await prisma.savedChart.aggregate({
     where: { status: 'PUBLISHED' },
     _sum: { views: true },
-  })
+  });
 
-  const total = result._sum.views || 0
+  const total = result._sum.views || 0;
 
   const oldestChart = await prisma.savedChart.findFirst({
     where: { status: 'PUBLISHED' },
     orderBy: { createdAt: 'asc' },
     select: { createdAt: true },
-  })
+  });
 
   const monthsActive = oldestChart
     ? monthsBetween(oldestChart.createdAt, new Date())
-    : 1
+    : 1;
 
-  const perMonthAverage = Math.round(total / monthsActive)
-  const previews = 0
+  const perMonthAverage = Math.round(total / monthsActive);
+  const previews = 0;
 
   return {
     total,
     perMonthAverage,
     previews,
-  }
+  };
 }
 
 /**
@@ -101,7 +101,7 @@ export async function getPopularCharts(
       createdAt: true,
       userId: true,
     },
-  })
+  });
 
   return charts.map((chart) => ({
     id: chart.id,
@@ -110,7 +110,7 @@ export async function getPopularCharts(
     views: chart.views,
     createdAt: chart.createdAt,
     createdBy: chart.userId,
-  }))
+  }));
 }
 
 /**
@@ -122,5 +122,5 @@ export async function getDatasetStatistics(): Promise<DatasetStatistics> {
     total: 0,
     usedInCharts: 0,
     organizations: 0,
-  }
+  };
 }
