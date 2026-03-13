@@ -133,3 +133,6 @@ recipes/
 
 # Prevent conflicting app directory at root
 /app/
+
+# Insights folder
+insights/
