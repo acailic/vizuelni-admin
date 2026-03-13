@@ -286,6 +286,17 @@
     "selectGeoField": "Izaberite geografsko polje",
     "selectMeasureField": "Izaberite polje mere"
   },
+  "statistics": {
+    "title": "Statistike",
+    "chartsCreated": "Kreirano grafikona",
+    "totalViews": "Ukupno pregleda",
+    "perMonth": "~{{count}}/mesečno",
+    "popularChartsAllTime": "Najpopularniji grafikoni (ikada)",
+    "popularChartsLast30Days": "Najpopularniji grafikoni (poslednjih 30 dana)",
+    "views": "pregleda",
+    "dashboards": "Kontrolne table",
+    "datasetsUsed": "Korišćeni skupovi podataka"
+  },
   "persistence": {
     "save": "Sačuvaj",
     "saved": "Sačuvano",

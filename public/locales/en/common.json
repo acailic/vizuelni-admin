@@ -286,6 +286,17 @@
     "selectGeoField": "Select geographic field",
     "selectMeasureField": "Select measure field"
   },
+  "statistics": {
+    "title": "Statistics",
+    "chartsCreated": "Charts created",
+    "totalViews": "Total views",
+    "perMonth": "~{{count}}/month",
+    "popularChartsAllTime": "Most Popular Charts (All Time)",
+    "popularChartsLast30Days": "Most Popular Charts (Last 30 Days)",
+    "views": "views",
+    "dashboards": "Dashboards",
+    "datasetsUsed": "Datasets used"
+  },
   "persistence": {
     "save": "Save",
     "saved": "Saved",
