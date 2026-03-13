@@ -27,9 +27,10 @@ Create a curated Serbian government data library that integrates real data from 
 
 ```
 src/lib/data/serbian-datasets/
-├── index.ts              # Registry and exports
+├── index.ts              # Public exports
 ├── types.ts              # Type definitions for SerbianDataset
 ├── registry.ts           # Dataset registration and lookup
+├── converter.ts          # SerbianDataset → ParsedDataset conversion
 ├── demographics/
 │   ├── population-pyramid.json
 │   ├── birth-rates.json
@@ -47,22 +48,22 @@ src/lib/data/serbian-datasets/
 ```typescript
 // src/lib/data/serbian-datasets/types.ts
 
+import type { LocalizedText } from '@/lib/examples/types';
+import type { DimensionMeta, MeasureMeta } from '@/types/observation';
+
+// Re-export LocalizedText as LocalizedString for backward compatibility
+export type LocalizedString = LocalizedText;
+
 export type DataCategory =
   | 'demographics'
   | 'regional'
   | 'healthcare'
   | 'economic';
 
-export interface LocalizedString {
-  sr: string; // Serbian Cyrillic
-  lat: string; // Serbian Latin
-  en: string; // English
-}
-
 export interface SerbianDatasetMeta {
   id: string;
-  title: LocalizedString;
-  description: LocalizedString;
+  title: LocalizedText; // Reuses existing type from @/lib/examples/types
+  description: LocalizedText;
   category: DataCategory;
   tags: string[];
   source: {
@@ -75,8 +76,110 @@ export interface SerbianDatasetMeta {
 
 export interface SerbianDataset extends SerbianDatasetMeta {
   observations: Record<string, unknown>[];
-  dimensions: DimensionMeta[];
-  measures: MeasureMeta[];
+  dimensions: DimensionMeta[]; // Uses existing type from @/types/observation
+  measures: MeasureMeta[]; // Uses existing type from @/types/observation
+}
+```
+
+### Registry Implementation
+
+```typescript
+// src/lib/data/serbian-datasets/registry.ts
+
+import type { SerbianDataset, SerbianDatasetMeta, DataCategory } from './types';
+import type { ParsedDataset } from '@/types/observation';
+import { convertToParsedDataset } from './converter';
+
+// Static imports for fast loading
+import birthRatesData from './demographics/birth-rates.json';
+import fertilityRatesData from './demographics/fertility-rates.json';
+// ... other datasets
+
+const ALL_DATASETS: SerbianDataset[] = [
+  birthRatesData as SerbianDataset,
+  fertilityRatesData as SerbianDataset,
+  // ... other datasets
+];
+
+/**
+ * Get all dataset metadata (lightweight, no observations)
+ */
+export function getAllDatasetMeta(): SerbianDatasetMeta[] {
+  return ALL_DATASETS.map(
+    ({ observations, dimensions, measures, ...meta }) => meta
+  );
+}
+
+/**
+ * Get datasets filtered by category
+ */
+export function getDatasetsByCategory(
+  category: DataCategory
+): SerbianDatasetMeta[] {
+  return getAllDatasetMeta().filter((d) => d.category === category);
+}
+
+/**
+ * Get full dataset by ID (includes observations)
+ */
+export function getDatasetById(id: string): SerbianDataset | undefined {
+  return ALL_DATASETS.find((d) => d.id === id);
+}
+
+/**
+ * Get dataset as ParsedDataset for configurator compatibility
+ */
+export function getDatasetAsParsed(
+  id: string,
+  locale: Locale
+): ParsedDataset | undefined {
+  const dataset = getDatasetById(id);
+  if (!dataset) return undefined;
+  return convertToParsedDataset(dataset, locale);
+}
+```
+
+### Conversion Utility
+
+```typescript
+// src/lib/data/serbian-datasets/converter.ts
+
+import type { SerbianDataset } from './types';
+import type {
+  ParsedDataset,
+  DimensionMeta,
+  MeasureMeta,
+} from '@/types/observation';
+import type { Locale } from '@/lib/i18n/config';
+import { getLocalizedText } from '@/lib/examples/types';
+
+/**
+ * Convert SerbianDataset to ParsedDataset for configurator
+ */
+export function convertToParsedDataset(
+  dataset: SerbianDataset,
+  locale: Locale
+): ParsedDataset {
+  const columns = [
+    ...dataset.dimensions.map((d) => d.key),
+    ...dataset.measures.map((m) => m.key),
+  ];
+
+  return {
+    observations: dataset.observations,
+    dimensions: dataset.dimensions,
+    measures: dataset.measures,
+    metadataColumns: [],
+    columns,
+    rowCount: dataset.observations.length,
+    source: {
+      datasetId: dataset.id,
+      resourceId: dataset.id,
+      format: 'json',
+      fetchedAt: dataset.lastUpdated,
+      name: getLocalizedText(dataset.title, locale),
+    },
+  };
 }
 ```
 
@@ -166,7 +269,28 @@ Each dataset from `serbia_deep_insights.py` will be converted to JSON format com
 
 ### Browse Page Changes
 
-Add `SerbianDataLibrary` component to the Browse page (`src/app/[locale]/browse/page.client.tsx`):
+Add `SerbianDataLibrary` component to the Browse page (`src/app/[locale]/browse/page.client.tsx`).
+
+**Component Hierarchy:**
+
+```tsx
+<BrowseClient>
+  <div className='grid'>
+    <FilterSidebar />
+    <section>
+      {/* NEW: Serbian Data Library at top */}
+      <SerbianDataLibrary locale={locale} />
+      <Separator />
+      {/* Existing content */}
+      <ResultsCount />
+      <DatasetList />
+      <Pagination />
+    </section>
+  </div>
+</BrowseClient>
+```
+
+**Wireframe:**
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -198,7 +322,7 @@ Add `SerbianDataLibrary` component to the Browse page (`src/app/[locale]/browse/
 **Props:**
 
 - `locale: Locale` - for i18n
-- `onSelectDataset?: (id: string) => void` - callback when dataset selected
+- `onSelectDataset?: (id: string) => void` - optional callback (defaults to navigation)
 
 **Features:**
 
@@ -206,25 +330,163 @@ Add `SerbianDataLibrary` component to the Browse page (`src/app/[locale]/browse/
 - Dataset cards with title, description, source badge
 - "Create Chart" button navigates to `/[locale]/create?dataset=<id>`
 - Responsive grid layout
+- WCAG 2.1 AA compliant (follows Feature 18 patterns)
+
+**Source Badge Design:**
+
+```
+┌─────────────────────────────────────┐
+│ Population Pyramid 2024             │
+│ Age distribution by gender          │
+│                                     │
+│ ┌─────────────────────────────────┐ │
+│ │ 📊 Statistical Office of Serbia │ │ <- Source badge
+│ └─────────────────────────────────┘ │
+│                                     │
+│            [Create Chart →]         │
+└─────────────────────────────────────┘
+```
 
 ### Create Page Integration
 
-Update create page to accept `?dataset=<id>` query parameter:
+Update create page to handle Serbian datasets via `?dataset=<id>` query parameter:
 
-1. If `dataset` param exists, load dataset from registry
-2. Pre-populate the configurator with the loaded data
-3. Skip the initial dataset selection step
+```typescript
+// In src/app/[locale]/create/page.tsx
+
+// Detect if dataset ID is a Serbian embedded dataset (prefix: serbia-)
+const isSerbianDataset = datasetId?.startsWith('serbia-');
+
+if (isSerbianDataset) {
+  // Load from local registry (no network request)
+  const parsedDataset = getDatasetAsParsed(datasetId, locale);
+  if (!parsedDataset) {
+    // Handle error: redirect to browse with error message
+    redirect(`/${locale}/browse?error=dataset-not-found`);
+  }
+  // Pass to ConfiguratorShell as preselectedParsedDataset
+  return <ConfiguratorShell preselectedParsedDataset={parsedDataset} />;
+} else {
+  // Existing flow: load from data.gov.rs API
+  const data = await getDatasetDetailData(datasetId);
+  // ...
+}
+```
+
+### Error Handling
+
+| Scenario                     | Action                                         |
+| ---------------------------- | ---------------------------------------------- |
+| Invalid dataset ID in URL    | Redirect to `/browse?error=dataset-not-found`  |
+| Dataset JSON fails to load   | Show error toast, fall back to empty state     |
+| Category has no datasets     | Show "Coming soon" message                     |
+| Network error on API refresh | Show cached data with "Last updated: X" notice |
+
+```typescript
+// Error handling in registry
+export function getDatasetById(
+  id: string
+): Result<SerbianDataset, DatasetError> {
+  const dataset = ALL_DATASETS.find((d) => d.id === id);
+  if (!dataset) {
+    return {
+      ok: false,
+      error: { code: 'NOT_FOUND', message: `Dataset ${id} not found` },
+    };
+  }
+  return { ok: true, value: dataset };
+}
+```
+
+## i18n Integration
+
+Add translations to existing locale files (`src/lib/i18n/locales/*.json`):
+
+**Keys to add:**
+
+```json
+{
+  "browse": {
+    "serbianLibrary": {
+      "title": "Serbian Government Data Library",
+      "description": "Curated datasets from official sources",
+      "createChart": "Create Chart",
+      "categories": {
+        "all": "All",
+        "demographics": "Demographics",
+        "regional": "Regional",
+        "healthcare": "Healthcare"
+      },
+      "errors": {
+        "notFound": "Dataset not found",
+        "loadFailed": "Failed to load dataset"
+      }
+    }
+  }
+}
+```
+
+## Test Specifications
+
+### Unit Tests
+
+| Test Case                                 | File                | Expected Result                                                   |
+| ----------------------------------------- | ------------------- | ----------------------------------------------------------------- |
+| Registry returns dataset by ID            | `registry.test.ts`  | `getDatasetById('serbia-birth-rates')` returns full dataset       |
+| Registry returns undefined for invalid ID | `registry.test.ts`  | `getDatasetById('invalid')` returns undefined                     |
+| Category filter works                     | `registry.test.ts`  | `getDatasetsByCategory('demographics')` returns only demographics |
+| Conversion preserves observations         | `converter.test.ts` | `convertToParsedDataset()` preserves all observation data         |
+| Conversion sets correct source            | `converter.test.ts` | Source includes localized name                                    |
+
+### Component Tests
+
+| Test Case                         | File                          | Expected Result                           |
+| --------------------------------- | ----------------------------- | ----------------------------------------- |
+| Renders all datasets by default   | `SerbianDataLibrary.test.tsx` | All 7 datasets visible                    |
+| Category filter changes displayed | `SerbianDataLibrary.test.tsx` | Only filtered category shown              |
+| Create button navigates correctly | `SerbianDataLibrary.test.tsx` | Click navigates to `/create?dataset=<id>` |
+| Locale changes card text          | `SerbianDataLibrary.test.tsx` | Title/description in correct locale       |
+
+### Integration Tests
+
+| Test Case                           | File                               | Expected Result                    |
+| ----------------------------------- | ---------------------------------- | ---------------------------------- |
+| Create page loads Serbian dataset   | `create-page.test.ts`              | No network request, dataset loaded |
+| Invalid dataset redirects to browse | `create-page.test.ts`              | Redirect to `/browse?error=...`    |
+| Chart can be created from dataset   | `e2e/serbian-dataset-flow.spec.ts` | Full flow works end-to-end         |
 
 ## Implementation Steps
 
-1. **Create type definitions** (`types.ts`)
-2. **Create dataset registry** (`registry.ts`)
-3. **Extract and convert data** from Python scripts to JSON files
-4. **Create SerbianDataLibrary component**
-5. **Update Browse page** to include the library
-6. **Update Create page** to accept dataset parameter
-7. **Add i18n translations** for UI labels
-8. **Write tests** for registry and components
+1. **Create type definitions** (`types.ts`) - reuse existing types where possible
+2. **Create conversion utility** (`converter.ts`) - SerbianDataset → ParsedDataset
+3. **Create dataset registry** (`registry.ts`) - static imports, lookup functions
+4. **Extract and convert data** from Python scripts to JSON files
+5. **Create SerbianDataLibrary component** with category filtering
+6. **Update Browse page** to include the library above existing content
+7. **Update Create page** to handle `serbia-*` dataset IDs
+8. **Add i18n translations** for UI labels
+9. **Write unit tests** for registry and converter
+10. **Write component tests** for SerbianDataLibrary
+11. **Write E2E test** for full flow
+
+## Bundle Size Budget
+
+Total embedded JSON size should not exceed **100KB** for Phase 1 (7 datasets).
+
+If size exceeds budget, implement lazy loading:
+
+```typescript
+// Lazy load dataset observations
+export async function getDatasetById(
+  id: string
+): Promise<SerbianDataset | undefined> {
+  const meta = METADATA.find((d) => d.id === id);
+  if (!meta) return undefined;
+
+  const data = await import(`./${meta.category}/${id}.json`);
+  return data.default as SerbianDataset;
+}
+```
 
 ## Future Enhancements
 
@@ -241,3 +503,5 @@ Update create page to accept `?dataset=<id>` query parameter:
 - Datasets load in < 500ms (embedded data)
 - Full i18n support (sr-Cyrl, sr-Latn, en)
 - Responsive design works on mobile
+- WCAG 2.1 AA compliance for new components
+- Test coverage > 80% for new code
