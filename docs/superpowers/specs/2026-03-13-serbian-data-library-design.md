@@ -400,7 +400,12 @@ export function getDatasetById(
 
 ## i18n Integration
 
-Add translations to existing locale files (`src/lib/i18n/locales/*.json`):
+Add translations to existing locale files. The project uses these locale file locations:
+
+- `src/locales/en.json` - English (TypeScript-based)
+- `src/locales/sr-cyr.json` - Serbian Cyrillic
+- `src/locales/sr-lat.json` - Serbian Latin
+- `public/locales/` - Runtime locales (for next-i18next)
 
 **Keys to add:**
 
