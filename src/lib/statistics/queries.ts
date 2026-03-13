@@ -9,7 +9,7 @@ import type {
 /**
  * Calculate months between two dates
  */
-function monthsBetween(start: Date, end: Date): number {
+export function monthsBetween(start: Date, end: Date): number {
   const months =
     (end.getFullYear() - start.getFullYear()) * 12 +
     (end.getMonth() - start.getMonth());
