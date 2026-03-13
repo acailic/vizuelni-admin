@@ -1,4 +1,6 @@
-id: feature-35
-name: Advanced Search with Filters
-spec: recipes/inputs/feature-35-advanced-search.md
-branch: goose/feature-35-advanced-search-filters
+id: feature-38
+name: Chart Showcase Gallery
+spec: recipes/inputs/feature-38-chart-showcase-gallery.md
+branch: null
+status: completed
+completed_at: 2026-03-13T15:30:00Z

@@ -104,10 +104,21 @@ features:
   - id: feature-37
     name: Serbian Government Data Library
     spec: recipes/inputs/feature-37-serbian-data-library.md
-    status: not-started
+    status: completed
     branch: null
     pr: null
     blocked_reason: null
     blocked_issue: null
-    started_at: null
-    completed_at: null
+    started_at: 2026-03-13T15:00:00Z
+    completed_at: 2026-03-13T15:30:00Z
+
+  - id: feature-38
+    name: Chart Showcase Gallery
+    spec: recipes/inputs/feature-38-chart-showcase-gallery.md
+    status: completed
+    branch: null
+    pr: null
+    blocked_reason: null
+    blocked_issue: null
+    started_at: 2026-03-13T15:00:00Z
+    completed_at: 2026-03-13T15:30:00Z
