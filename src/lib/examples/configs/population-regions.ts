@@ -1,12 +1,12 @@
-import { parseDatasetContent } from '@/lib/data/loader'
-import type { FeaturedExampleConfig } from '../types'
+import { parseDatasetContent } from '@/lib/data/loader';
+import type { FeaturedExampleConfig } from '../types';
 
-import populationRaw from '@/data/serbian-population.json'
+import populationRaw from '@/data/serbian-population.json';
 
-const populationDataset = parseDatasetContent(
-  JSON.stringify(populationRaw),
-  { format: 'json', datasetId: 'serbian-population' }
-)
+const populationDataset = parseDatasetContent(JSON.stringify(populationRaw), {
+  format: 'json',
+  datasetId: 'serbian-population',
+});
 
 export const populationRegionsConfig: FeaturedExampleConfig = {
   id: 'population-regions',
@@ -30,4 +30,10 @@ export const populationRegionsConfig: FeaturedExampleConfig = {
     options: { paletteId: 'government', showLegend: false, showGrid: true },
   },
   inlineData: populationDataset,
-}
+  // Preselect to show only Vojvodina region cities
+  preselectedFilters: {
+    dataFilters: {
+      region: 'Војводина',
+    },
+  },
+};

@@ -49,6 +49,9 @@
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",
+    "@babel/plugin-transform-class-properties": "^7.28.6",
+    "@babel/plugin-transform-private-methods": "^7.28.6",
+    "@babel/plugin-transform-private-property-in-object": "^7.28.6",
     "@prisma/client": "^5.22.0",
     "@radix-ui/react-collapsible": "^1.1.12",
     "@radix-ui/react-dialog": "^1.0.5",
@@ -56,6 +59,7 @@
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tabs": "^1.0.4",
+    "@react-pdf/renderer": "^4.3.2",
     "@tanstack/react-query": "^5.24.0",
     "@tanstack/react-query-devtools": "^5.24.0",
     "autoprefixer": "^10.4.17",
