@@ -67,32 +67,53 @@ Transform `/browse` from a simple dataset list into a faceted browse experience 
 
 ### Files to Create/Modify
 
-| File                                           | Purpose                            |
-| ---------------------------------------------- | ---------------------------------- |
-| `src/app/[locale]/browse/page.tsx`             | Add filter panels to existing page |
-| `src/components/browse/ThemeFilter.tsx`        | Theme categories component         |
-| `src/components/browse/OrganizationFilter.tsx` | Organizations component            |
-| `src/components/browse/BrowseFilters.tsx`      | Container for all filters          |
-| `src/components/browse/BrowseSidebar.tsx`      | Sidebar layout wrapper             |
-| `src/lib/browse/filter-categories.ts`          | Category definitions and types     |
-| `src/lib/browse/filter-queries.ts`             | Database queries for counts        |
+| File                                           | Purpose                                              |
+| ---------------------------------------------- | ---------------------------------------------------- |
+| `src/app/[locale]/browse/page.tsx`             | Add sidebar layout to existing page                  |
+| `src/components/browse/FilterSidebar.tsx`      | New sidebar wrapper (or enhance existing)            |
+| `src/components/browse/ThemeFilter.tsx`        | Theme categories component (uses BrowseFacets)       |
+| `src/components/browse/OrganizationFilter.tsx` | Organizations component (uses BrowseFacets)          |
+| `src/lib/browse/filter-queries.ts`             | Server-side queries (extends existing)               |
+| `src/types/browse.ts`                          | Add FilterSection type if needed                     |
 
 ### Data Model
 
+Uses existing types from `src/types/browse.ts`:
+
 ```typescript
-interface BrowseCategory {
-  id: string;
-  label: LocalizedText;
-  count: number;
-  type: 'theme' | 'organization' | 'termset';
+// Existing types - reuse these
+interface BrowseSearchParams {
+  q?: string;
+  page?: number;
+  pageSize?: number;
+  organization?: string;
+  topic?: string;
+  sort?: string;
+  // ... other existing fields
 }
 
-interface BrowseFilters {
-  themes: string[];
-  organizations: string[];
-  search: string;
-  includeDrafts: boolean;
-  sort: 'newest' | 'popular' | 'name';
+interface BrowseFacets {
+  organizations: FacetOption[];
+  topics: FacetOption[];
+  formats: FacetOption[];
+  frequencies: FacetOption[];
+}
+
+interface FacetOption {
+  value: string;
+  label: string;
+  count?: number;
+}
+```
+
+New types for sidebar display:
+
+```typescript
+interface FilterSection {
+  title: string; // Localized
+  type: 'theme' | 'organization';
+  options: FacetOption[];
+  expanded: boolean;
 }
 ```
 
@@ -256,8 +277,9 @@ Pre-filled `mailto:` links with structured templates:
 ### Localization
 
 - All text in 3 locales (sr-Cyrl, sr-Latn, en)
-- Email subject lines localized
-- Email body templates primarily in Serbian
+- Email subject lines follow user's current locale
+- Email body templates follow user's current locale (not fixed Serbian)
+- Uses existing i18n pattern: `src/lib/i18n/locales/*.json` and `public/locales/*.json`
 
 ### Files to Create/Modify
 
@@ -288,20 +310,26 @@ function generateFeatureRequestEmail(locale: Locale): EmailTemplate;
 
 ## Technical Implementation
 
-### Prisma Schema Additions
+### View Tracking Strategy
+
+Uses existing `views` field on `SavedChart` model (no new model needed):
 
 ```prisma
-model ChartView {
-  id        String   @id @default(cuid())
-  chartId   String
-  chart     SavedChart @relation(fields: [chartId], references: [id])
-  viewedAt  DateTime @default(now())
-  preview   Boolean  @default(false)
-
-  @@index([chartId])
-  @@index([viewedAt])
+model SavedChart {
+  // ... existing fields
+  views Int @default(0)
+  // ... other fields
 }
 ```
+
+**Rationale:**
+- The existing `views: Int` field provides total view counts
+- Per-month averages calculated from `createdAt` date
+- Avoids database bloat from individual view records
+- SQLite-friendly approach (no high-volume write concerns)
+
+**Future Enhancement (optional):**
+If detailed analytics are needed later, add a `ChartView` model in PostgreSQL production environment with proper indexing.
 
 ### Database Queries
 
@@ -432,6 +460,84 @@ testing_requirements:
 - [ ] All text localized in sr-Cyrl, sr-Latn, en
 - [ ] All components pass accessibility checks
 - [ ] All tests pass
+
+---
+
+## FilterSidebar Integration
+
+### Existing Component
+
+The existing `FilterSidebar.tsx` (if present) or browse filters will be enhanced with:
+
+1. **New Sidebar Sections** - Add collapsible panels for themes and organizations
+2. **Count Badges** - Display dataset counts from `BrowseFacets`
+3. **Swiss-Style UI** - Collapsible sections with "Show all" expansion
+
+### Integration Approach
+
+```
+BrowsePage
+└── BrowseSidebar (new wrapper)
+    ├── ThemeFilter (collapsible, uses BrowseFacets.topics)
+    ├── OrganizationFilter (collapsible, uses BrowseFacets.organizations)
+    └── [Existing filters if any]
+```
+
+---
+
+## Translation Keys
+
+### Browse Filters
+
+```json
+{
+  "browse": {
+    "filters": {
+      "themes": "Теме | Teme | Themes",
+      "organizations": "Организације | Organizacije | Organizations",
+      "showAll": "Прикажи све | Prikaži sve | Show all",
+      "includeDrafts": "Укључи нацрте | Uključi nacrte | Include drafts",
+      "sortBy": "Сортирај по | Sortiraj po | Sort by",
+      "newest": "Најновије | Najnovije | Newest",
+      "popular": "Популарно | Popularno | Popular",
+      "name": "Назив | Naziv | Name"
+    }
+  }
+}
+```
+
+### Statistics Page
+
+```json
+{
+  "statistics": {
+    "title": "Статистике | Statistike | Statistics",
+    "chartsCreated": "Креирано графикона | Kreirano grafikona | Charts created",
+    "totalViews": "Укупно прегледа | Ukupno pregleda | Total views",
+    "perMonthAverage": "~{{count}}/месечно | ~{{count}}/mesečno | ~{{count}}/month",
+    "popularChartsAllTime": "Најпопуларнији графикони (икада) | Najpopularniji grafikoni (ikada) | Most Popular Charts (All Time)",
+    "popularChartsLast30Days": "Најпопуларнији графикони (последњих 30 дана) | Najpopularniji grafikoni (poslednjih 30 dana) | Most Popular Charts (Last 30 Days)",
+    "views": "прегледа | pregleda | views",
+    "dashboards": "контролне табле | kontrolne table | dashboards",
+    "datasetsUsed": "Коришћени скупови података | Korišćeni skupovi podataka | Datasets used"
+  }
+}
+```
+
+### Feedback System
+
+```json
+{
+  "feedback": {
+    "foundBug": "Пронашли сте грешку? | Pronašli ste grešku? | Found a bug?",
+    "reportBugDescription": "Пријавите је да бисмо је брзо исправили | Prijavite je da bismo je brzo ispravili | Report it so we can fix it fast",
+    "reportBug": "Пријави грешку | Prijavi grešku | Report a bug",
+    "newFeature": "Нова функција? | Nova funkcija? | New feature?",
+    "featureDescription": "Пошаљите предлоге да обликујете будућност | Pošaljite predloge da oblikujete budućnost | Submit requests to shape the future",
+    "submit": "Пошаљи | Pošalji | Submit"
+  }
+}
+```
 
 ---
 
