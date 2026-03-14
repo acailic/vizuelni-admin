@@ -40,6 +40,25 @@ Show a complete, scaled-down miniature of each chart by:
 - Grid lines
 - Data visualization
 
+### Preview Filters
+
+Each example can optionally specify `previewFilters` to control what data is shown in the thumbnail:
+
+- **Purpose**: Show the most representative/visually appealing subset of data
+- **Optional**: If not specified, shows all data (default behavior)
+- **Not Interactive**: Filters are pre-applied, users cannot change them in preview
+
+```tsx
+interface FeaturedExampleConfig {
+  // ... existing fields
+  previewFilters?: {
+    dataFilters?: Record<string, string | string[]>;
+    timeRange?: { from: string; to: string };
+    calculation?: 'absolute' | 'percent';
+  };
+}
+```
+
 ## Implementation
 
 ### 1. ChartFrame.tsx
@@ -72,7 +91,7 @@ The `previewMode` prop already exists on `ChartRendererProps` (line 41). Only th
 
 ### 3. DemoGalleryCard.tsx
 
-Already has `previewMode={true}`. Only needs to add the `height` prop:
+Already has `previewMode={true}`. Add `height` prop and pass `previewFilters` if defined:
 
 ```tsx
 <ChartRenderer
@@ -81,6 +100,7 @@ Already has `previewMode={true}`. Only needs to add the `height` prop:
   locale={locale}
   previewMode={true}
   height={176} // h-48 (192px) minus p-2 padding (8px * 2 = 16px) = 176px
+  preselectedFilters={example.previewFilters}
 />
 ```
 
@@ -103,21 +123,22 @@ Each chart renderer (LineChart, BarChart, etc.) needs to:
 
 ## Files to Modify
 
-| File                                                     | Change                               |
-| -------------------------------------------------------- | ------------------------------------ |
-| `src/types/chart-config.ts`                              | Add `previewMode?: boolean` to props |
-| `src/components/charts/shared/ChartFrame.tsx`            | Add `previewMode` prop, hide header  |
-| `src/components/charts/ChartRenderer.tsx`                | Pass `previewMode` to renderer       |
-| `src/components/demo-gallery/DemoGalleryCard.tsx`        | Pass `height={176}`                  |
-| `src/components/charts/line/LineChart.tsx`               | Accept `previewMode`, hide legend    |
-| `src/components/charts/bar/BarChart.tsx`                 | Accept `previewMode`, hide legend    |
-| `src/components/charts/area/AreaChart.tsx`               | Accept `previewMode`, hide legend    |
-| `src/components/charts/column/ColumnChart.tsx`           | Accept `previewMode`, hide legend    |
-| `src/components/charts/pie/PieChart.tsx`                 | Accept `previewMode`, hide legend    |
-| `src/components/charts/scatterplot/ScatterplotChart.tsx` | Accept `previewMode`, hide legend    |
-| `src/components/charts/combo/ComboChart.tsx`             | Accept `previewMode`, hide legend    |
-| `src/components/charts/map/MapChart.tsx`                 | Accept `previewMode`                 |
-| `src/components/charts/table/TableChart.tsx`             | Accept `previewMode`                 |
+| File                                                     | Change                                          |
+| -------------------------------------------------------- | ----------------------------------------------- |
+| `src/lib/examples/types.ts`                              | Add `previewFilters` to `FeaturedExampleConfig` |
+| `src/types/chart-config.ts`                              | Add `previewMode?: boolean` to props            |
+| `src/components/charts/shared/ChartFrame.tsx`            | Add `previewMode` prop, hide header             |
+| `src/components/charts/ChartRenderer.tsx`                | Pass `previewMode` to renderer                  |
+| `src/components/demo-gallery/DemoGalleryCard.tsx`        | Pass `height={176}`, `preselectedFilters`       |
+| `src/components/charts/line/LineChart.tsx`               | Accept `previewMode`, hide legend               |
+| `src/components/charts/bar/BarChart.tsx`                 | Accept `previewMode`, hide legend               |
+| `src/components/charts/area/AreaChart.tsx`               | Accept `previewMode`, hide legend               |
+| `src/components/charts/column/ColumnChart.tsx`           | Accept `previewMode`, hide legend               |
+| `src/components/charts/pie/PieChart.tsx`                 | Accept `previewMode`, hide legend               |
+| `src/components/charts/scatterplot/ScatterplotChart.tsx` | Accept `previewMode`, hide legend               |
+| `src/components/charts/combo/ComboChart.tsx`             | Accept `previewMode`, hide legend               |
+| `src/components/charts/map/MapChart.tsx`                 | Accept `previewMode`                            |
+| `src/components/charts/table/TableChart.tsx`             | Accept `previewMode`                            |
 
 ## Type Changes
 
