@@ -60,7 +60,7 @@ When `previewMode={true}`:
 
 ### 2. ChartRenderer.tsx
 
-Pass `previewMode` through to chart components:
+The `previewMode` prop already exists on `ChartRendererProps` (line 41). Only the pass-through to `RendererComponent` is needed:
 
 ```tsx
 <RendererComponent
@@ -71,7 +71,7 @@ Pass `previewMode` through to chart components:
 
 ### 3. DemoGalleryCard.tsx
 
-Pass smaller height and ensure previewMode is set:
+Already has `previewMode={true}`. Only needs to add the `height` prop:
 
 ```tsx
 <ChartRenderer
@@ -119,7 +119,7 @@ Each chart renderer (LineChart, BarChart, etc.) needs to:
 
 ## Type Changes
 
-Update `ChartRendererComponentProps` in `src/types/index.ts`:
+Update `ChartRendererComponentProps` in `src/types/chart-config.ts`:
 
 ```tsx
 interface ChartRendererComponentProps {
