@@ -57,6 +57,7 @@ When `previewMode={true}`:
 
 - Skip rendering `<header>` section (title + description)
 - Set minimal padding for data area
+- Note: `filterBar` is already handled by `ChartRenderer` (not rendered in previewMode), no change needed in ChartFrame
 
 ### 2. ChartRenderer.tsx
 
@@ -79,7 +80,7 @@ Already has `previewMode={true}`. Only needs to add the `height` prop:
   data={example.inlineData.observations}
   locale={locale}
   previewMode={true}
-  height={180} // fits within h-48 (192px) with padding
+  height={176} // h-48 (192px) minus p-2 padding (8px * 2 = 16px) = 176px
 />
 ```
 
@@ -102,20 +103,21 @@ Each chart renderer (LineChart, BarChart, etc.) needs to:
 
 ## Files to Modify
 
-| File                                                     | Change                              |
-| -------------------------------------------------------- | ----------------------------------- |
-| `src/components/charts/shared/ChartFrame.tsx`            | Add `previewMode` prop, hide header |
-| `src/components/charts/ChartRenderer.tsx`                | Pass `previewMode` to renderer      |
-| `src/components/demo-gallery/DemoGalleryCard.tsx`        | Pass `height={180}`                 |
-| `src/components/charts/line/LineChart.tsx`               | Accept `previewMode`, hide legend   |
-| `src/components/charts/bar/BarChart.tsx`                 | Accept `previewMode`, hide legend   |
-| `src/components/charts/area/AreaChart.tsx`               | Accept `previewMode`, hide legend   |
-| `src/components/charts/column/ColumnChart.tsx`           | Accept `previewMode`, hide legend   |
-| `src/components/charts/pie/PieChart.tsx`                 | Accept `previewMode`, hide legend   |
-| `src/components/charts/scatterplot/ScatterplotChart.tsx` | Accept `previewMode`, hide legend   |
-| `src/components/charts/combo/ComboChart.tsx`             | Accept `previewMode`, hide legend   |
-| `src/components/charts/map/MapChart.tsx`                 | Accept `previewMode`                |
-| `src/components/charts/table/TableChart.tsx`             | Accept `previewMode`                |
+| File                                                     | Change                               |
+| -------------------------------------------------------- | ------------------------------------ |
+| `src/types/chart-config.ts`                              | Add `previewMode?: boolean` to props |
+| `src/components/charts/shared/ChartFrame.tsx`            | Add `previewMode` prop, hide header  |
+| `src/components/charts/ChartRenderer.tsx`                | Pass `previewMode` to renderer       |
+| `src/components/demo-gallery/DemoGalleryCard.tsx`        | Pass `height={176}`                  |
+| `src/components/charts/line/LineChart.tsx`               | Accept `previewMode`, hide legend    |
+| `src/components/charts/bar/BarChart.tsx`                 | Accept `previewMode`, hide legend    |
+| `src/components/charts/area/AreaChart.tsx`               | Accept `previewMode`, hide legend    |
+| `src/components/charts/column/ColumnChart.tsx`           | Accept `previewMode`, hide legend    |
+| `src/components/charts/pie/PieChart.tsx`                 | Accept `previewMode`, hide legend    |
+| `src/components/charts/scatterplot/ScatterplotChart.tsx` | Accept `previewMode`, hide legend    |
+| `src/components/charts/combo/ComboChart.tsx`             | Accept `previewMode`, hide legend    |
+| `src/components/charts/map/MapChart.tsx`                 | Accept `previewMode`                 |
+| `src/components/charts/table/TableChart.tsx`             | Accept `previewMode`                 |
 
 ## Type Changes
 
