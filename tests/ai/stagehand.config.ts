@@ -23,7 +23,8 @@ export interface StagehandConfig {
  * Get LLM configuration from environment variables
  *
  * Supports:
- * - z.ai: Set ZAI_API_KEY and ZAI_BASE_URL
+ * - GLM/z.ai: Set GLM_API_KEY and GLM_API_BASE
+ * - z.ai legacy: Set ZAI_API_KEY and ZAI_BASE_URL
  * - OpenAI: Set OPENAI_API_KEY (uses default OpenAI endpoint)
  * - Custom: Set LLM_BASE_URL and LLM_API_KEY
  */
@@ -32,7 +33,11 @@ export function getLLMConfig(): {
   apiKey?: string;
   modelName: string;
 } {
-  // Priority: z.ai > custom LLM > OpenAI default
+  // Priority: GLM/z.ai > z.ai legacy > custom LLM > OpenAI default
+  const glmApiKey = process.env.GLM_API_KEY;
+  const glmBaseUrl = process.env.GLM_API_BASE;
+  const glmModel = process.env.LEARNER_MODEL || 'glm-5';
+
   const zaiApiKey = process.env.ZAI_API_KEY;
   const zaiBaseUrl = process.env.ZAI_BASE_URL || 'https://api.z.ai/v1';
 
@@ -40,6 +45,14 @@ export function getLLMConfig(): {
   const customApiKey = process.env.LLM_API_KEY;
 
   const openaiApiKey = process.env.OPENAI_API_KEY;
+
+  if (glmApiKey && glmBaseUrl) {
+    return {
+      baseURL: glmBaseUrl,
+      apiKey: glmApiKey,
+      modelName: glmModel,
+    };
+  }
 
   if (zaiApiKey) {
     return {
@@ -66,7 +79,7 @@ export function getLLMConfig(): {
 
   // Fallback - will likely fail without API key
   return {
-    modelName: 'gpt-4o',
+    modelName: 'glm-5',
   };
 }
 
