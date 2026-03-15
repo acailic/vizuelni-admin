@@ -37,35 +37,35 @@ tests/
 
 ## Chunk 1: Setup & Configuration
 
-### Task 1.1: Install Stagehand Package
+### Task 1.1: Install Dependencies
 
 **Files:**
 - Modify: `package.json`
 - Modify: `package-lock.json`
 
-- [ ] **Step 1: Install @browserbasehq/stagehand**
+- [ ] **Step 1: Install @browserbasehq/stagehand, vitest, and tsx**
 
 Run:
 ```bash
-npm install -D @browserbasehq/stagehand
+npm install -D @browserbasehq/stagehand vitest tsx
 ```
 
-Expected: Package added to devDependencies, package-lock.json updated
+Expected: Packages added to devDependencies, package-lock.json updated
 
 - [ ] **Step 2: Verify installation**
 
 Run:
 ```bash
-npm ls @browserbasehq/stagehand
+npm ls @browserbasehq/stagehand vitest tsx
 ```
 
-Expected: Shows installed version (e.g., `@browserbasehq/stagehand@x.x.x`)
+Expected: Shows installed versions for all three packages
 
 - [ ] **Step 3: Commit**
 
 ```bash
 git add package.json package-lock.json
-git commit -m "chore: add @browserbasehq/stagehand for AI browser testing"
+git commit -m "chore: add stagehand, vitest, and tsx for AI testing framework"
 ```
 
 ---
@@ -108,11 +108,11 @@ git commit -m "chore: create AI and scrape test directory structure"
 ### Task 1.3: Add npm Scripts
 
 **Files:**
-- Modify: `package.json:30-56` (scripts section)
+- Modify: `package.json` (scripts section)
 
 - [ ] **Step 1: Add test scripts to package.json**
 
-Add after line 52 (after `"test:qa"`):
+Add after the `"test:qa"` script:
 ```json
     "test:ai": "stagehand test tests/ai/",
     "test:scrape": "tsx tests/scrape/",
@@ -140,7 +140,7 @@ git commit -m "chore: add npm scripts for AI and scrape tests"
 ### Task 1.4: Update Environment Variables
 
 **Files:**
-- Modify: `.env.example:145-146`
+- Modify: `.env.example`
 
 - [ ] **Step 1: Add AI testing environment variables to .env.example**
 
@@ -150,6 +150,9 @@ Append to end of file:
 # ===================================
 # AI Testing (Stagehand)
 # ===================================
+
+# Base URL for tests (default: http://localhost:3001)
+BASE_URL=http://localhost:3001
 
 # OpenAI API Key (required for Stagehand AI)
 OPENAI_API_KEY=
@@ -163,6 +166,28 @@ BROWSERBASE_API_KEY=
 ```bash
 git add .env.example
 git commit -m "chore: add Stagehand environment variables to .env.example"
+```
+
+---
+
+### Task 1.5: Update .gitignore
+
+**Files:**
+- Modify: `.gitignore`
+
+- [ ] **Step 1: Add test-results directory to .gitignore**
+
+Add to `.gitignore`:
+```
+# AI test artifacts
+test-results/
+```
+
+- [ ] **Step 2: Commit**
+
+```bash
+git add .gitignore
+git commit -m "chore: add test-results to .gitignore"
 ```
 
 ---
@@ -1101,11 +1126,13 @@ The AI-enhanced testing framework is now complete with:
 
 - @browserbasehq/stagehand (to be installed)
 - @lightpanda/browser (already installed)
+- vitest (to be installed - Stagehand test runner)
+- tsx (to be installed - TypeScript execution for scrape tests)
 - zod (already installed)
-- tsx (needed for running TypeScript scrape tests)
 
 ## Notes
 
 - Stagehand requires `OPENAI_API_KEY` environment variable
 - Lightpanda smoke tests require the dev server running at localhost:3001
 - Existing Playwright tests remain completely unchanged
+- Stagehand tests use vitest as the test runner (Jest is used for unit tests, vitest for AI tests)
