@@ -113,7 +113,7 @@ class AnalyticsService {
       // Vercel Analytics custom events
       import('@vercel/analytics')
         .then(({ track }) => {
-          track(name, properties);
+          track(name, properties as Record<string, string | number | boolean>);
         })
         .catch(() => {
           // Silently fail if Vercel Analytics not available
@@ -175,7 +175,7 @@ export function trackEmbedGenerated(chartId: string, chartType?: string) {
 /**
  * Track search queries (anonymized)
  */
-export function trackSearch(query: string, resultsCount?: number) {
+export function trackSearch(query: string, _resultsCount?: number) {
   // Don't track potentially sensitive queries
   const sanitizedQuery =
     query.length > 100 ? query.substring(0, 100) + '...' : query;

@@ -160,7 +160,6 @@ export function ChartReportDocument({
       <Page size='A4' style={styles.page}>
         {/* Header */}
         <View style={styles.header}>
-          {/* @ts-expect-error react-pdf Image doesn't support alt */}
           <Image src='/serbia-logo.png' style={styles.logo} />
           <Text style={styles.title}>{title || labels.reportTitle}</Text>
           <Text style={styles.date}>
@@ -179,7 +178,6 @@ export function ChartReportDocument({
         {/* Chart Image */}
         {chartImage && (
           <View style={styles.chartContainer}>
-            {/* @ts-expect-error react-pdf Image doesn't support alt */}
             <Image src={chartImage} style={styles.chartImage} />
           </View>
         )}
