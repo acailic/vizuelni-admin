@@ -103,6 +103,7 @@
     "zustand": "^4.5.1"
   },
   "devDependencies": {
+    "@browserbasehq/stagehand": "^3.1.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@jest/globals": "^30.3.0",
@@ -140,8 +141,10 @@
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "tailwindcss-animate": "^1.0.7",
+    "tsx": "^4.21.0",
     "turbo": "^2.8.17",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vitest": "^4.1.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
