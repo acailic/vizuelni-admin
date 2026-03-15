@@ -1,42 +1,63 @@
-import type { Metadata } from 'next'
-import { getMessages, resolveLocale } from '@/lib/i18n/messages'
-import DemoPageClient from './page.client'
-import type { Locale } from '@/types'
+import type { Metadata } from 'next';
+import { resolveLocale } from '@/lib/i18n/messages';
+import type { Locale } from '@/lib/i18n/config';
+import DemoPageClient from './page.client';
 
 export async function generateStaticParams() {
-  return [{ locale: 'sr-Cyrl' }, { locale: 'sr-Latn' }, { locale: 'en' }]
+  return [{ locale: 'sr-Cyrl' }, { locale: 'sr-Latn' }, { locale: 'en' }];
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: Locale }>
+  params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
-  const { locale: localeParam } = await params
-  const locale = resolveLocale(localeParam)
-  const messages = getMessages(locale)
+  const { locale: localeParam } = await params;
+  const locale = resolveLocale(localeParam);
+  const copy = getDemoPageCopy(locale);
 
   return {
-    title: `${messages.demo?.title || 'Demo'} | Визуелни Административни Подаци Србије`,
-    description: messages.demo?.description || 'Explore interactive visualizations of Serbian government data.',
-  }
+    title: `${copy.title} | Визуелни Административни Подаци Србије`,
+    description: copy.subtitle,
+  };
 }
 
-export default async function DemoPage({ params }: { params: Promise<{ locale: Locale }> }) {
-  const { locale: localeParam } = await params
-  const locale = resolveLocale(localeParam)
-  const messages = getMessages(locale)
-
-  // Extract demo translations
-  const translations: Record<string, string> = messages.demo ? Object.entries(messages.demo).reduce((acc, [key, value]) => {
-    acc[key] = String(value)
-    return acc
-  }, {} as Record<string, string>) : {}
+export default async function DemoPage({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}) {
+  const { locale: localeParam } = await params;
+  const locale = resolveLocale(localeParam);
+  const copy = getDemoPageCopy(locale);
 
   return (
     <DemoPageClient
       locale={locale}
-      translations={translations}
+      translations={{
+        title: copy.title,
+        subtitle: copy.subtitle,
+      }}
     />
-  )
+  );
+}
+
+function getDemoPageCopy(locale: Locale) {
+  switch (locale) {
+    case 'sr-Cyrl':
+      return {
+        title: 'Визуелни Админ Србије',
+        subtitle: 'Интерактивне визуелизације државних података Републике Србије',
+      };
+    case 'sr-Latn':
+      return {
+        title: 'Vizuelni Admin Srbije',
+        subtitle: 'Interaktivne vizuelizacije državnih podataka Republike Srbije',
+      };
+    default:
+      return {
+        title: 'Vizuelni Admin Srbije',
+        subtitle: 'Interactive visualizations of Serbian government data',
+      };
+  }
 }

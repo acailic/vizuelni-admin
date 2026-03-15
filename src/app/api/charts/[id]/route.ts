@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { z } from 'zod'
 import { authOptions } from '@/lib/auth/auth-options'
+import { validateCsrf } from '@/lib/api/csrf'
 import { getChartById, updateChart, deleteChart, incrementViews } from '@/lib/db/charts'
-import { chartConfigSchema } from '@/types/chart-config'
+import { chartConfigSchema, type ChartConfig } from '@/types/chart-config'
 
 const updateChartSchema = z.object({
   title: z.string().trim().min(1).max(200).optional(),
@@ -55,6 +56,9 @@ export async function GET(_request: NextRequest, { params }: RouteParams) {
  * PUT /api/charts/[id] - Update a chart (owner only)
  */
 export async function PUT(request: NextRequest, { params }: RouteParams) {
+  const csrfError = validateCsrf(request)
+  if (csrfError) return csrfError
+
   try {
     const session = await getServerSession(authOptions)
     const sessionUserId = (session?.user as { id?: string })?.id
@@ -69,8 +73,8 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: 'Chart not found' }, { status: 404 })
     }
 
-    // Check ownership - allow anonymous charts to be claimed by first editor
-    if (chart.userId && chart.userId !== sessionUserId) {
+    // Check ownership - only the chart owner can edit
+    if (!chart.userId || chart.userId !== sessionUserId) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 
@@ -89,7 +93,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     const updatedChart = await updateChart(id, {
       title,
       description,
-      config: config as any,
+      config: config as ChartConfig | undefined,
       datasetIds,
       thumbnail,
       chartType: config?.type,
@@ -105,7 +109,10 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 /**
  * DELETE /api/charts/[id] - Delete a chart (owner only)
  */
-export async function DELETE(_request: NextRequest, { params }: RouteParams) {
+export async function DELETE(request: NextRequest, { params }: RouteParams) {
+  const csrfError = validateCsrf(request)
+  if (csrfError) return csrfError
+
   try {
     const session = await getServerSession(authOptions)
     const sessionUserId = (session?.user as { id?: string })?.id
@@ -120,8 +127,8 @@ export async function DELETE(_request: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: 'Chart not found' }, { status: 404 })
     }
 
-    // Check ownership - only owner can delete
-    if (chart.userId && chart.userId !== sessionUserId) {
+    // Check ownership - only the chart owner can delete
+    if (!chart.userId || chart.userId !== sessionUserId) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 

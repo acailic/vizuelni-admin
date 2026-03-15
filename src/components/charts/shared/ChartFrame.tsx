@@ -11,7 +11,13 @@ interface ChartFrameProps {
   children?: ReactNode
   emptyMessage?: string
   errorMessage?: string
+  /** Hint text shown below error message */
+  errorHint?: string
+  /** Hint text shown below empty message */
+  emptyHint?: string
   filterBar?: ReactNode
+  /** Hide header and reduce padding for thumbnail previews */
+  previewMode?: boolean
 }
 
 export const ChartFrame = forwardRef<HTMLDivElement, ChartFrameProps>(
@@ -24,7 +30,10 @@ export const ChartFrame = forwardRef<HTMLDivElement, ChartFrameProps>(
       children,
       emptyMessage,
       errorMessage,
+      errorHint,
+      emptyHint,
       filterBar,
+      previewMode = false,
     },
     ref
   ) => {
@@ -35,7 +44,7 @@ export const ChartFrame = forwardRef<HTMLDivElement, ChartFrameProps>(
         aria-live="polite"
       >
         <p className="text-sm font-medium text-red-700">{errorMessage}</p>
-        <p className="text-xs text-red-600">Покушајте поново учитавајте страницу или проверите податке.</p>
+        {errorHint && <p className="text-xs text-red-600">{errorHint}</p>}
       </div>
     ) : emptyMessage ? (
       <div
@@ -44,7 +53,7 @@ export const ChartFrame = forwardRef<HTMLDivElement, ChartFrameProps>(
         aria-live="polite"
       >
         <p className="text-sm text-slate-600">{emptyMessage}</p>
-        <p className="text-xs text-slate-500">Изаберите друге филтере или промените параметре.</p>
+        {emptyHint && <p className="text-xs text-slate-500">{emptyHint}</p>}
       </div>
     ) : (
       children
@@ -58,14 +67,16 @@ export const ChartFrame = forwardRef<HTMLDivElement, ChartFrameProps>(
     return (
       <section
         ref={ref}
-        className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-sm"
+        className={`rounded-[1.75rem] border border-slate-200 bg-white shadow-sm ${previewMode ? 'p-2' : 'p-5'}`}
       >
-        <header className="mb-4 space-y-1">
-          <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
-          {description ? (
-            <p className="text-sm leading-6 text-slate-600">{description}</p>
-          ) : null}
-        </header>
+        {!previewMode && (
+          <header className="mb-4 space-y-1">
+            <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
+            {description ? (
+              <p className="text-sm leading-6 text-slate-600">{description}</p>
+            ) : null}
+          </header>
+        )}
         {filterBar}
         <div style={containerStyle} className="@container">{content}</div>
       </section>

@@ -31,6 +31,8 @@ model SavedChart {
   @@index([userId])
   @@index([createdAt])
   @@index([chartType])
+  @@index([status, createdAt])
+  @@index([userId, status])
   @@map("charts")
 }
 

@@ -122,8 +122,11 @@ export function detectSemanticType(
 
         if (values.length === 0) continue
 
+        const valuePatterns = pattern.valuePatterns
+        if (!valuePatterns || valuePatterns.length === 0) continue
+
         const matchRatio = values.filter(v =>
-          pattern.valuePatterns!.some(p => p.test(v))
+          valuePatterns.some(p => p.test(v))
         ).length / values.length
 
         if (matchRatio >= 0.5) {
@@ -145,10 +148,11 @@ export function detectSemanticType(
 
   // Try each pattern type
   for (const [type, pattern] of Object.entries(PATTERNS)) {
-    if (!pattern.valuePatterns || pattern.valuePatterns.length === 0) continue
+    const valuePatterns = pattern.valuePatterns
+    if (!valuePatterns || valuePatterns.length === 0) continue
 
     const matchRatio = values.filter(v =>
-      pattern.valuePatterns.some(p => p.test(v))
+      valuePatterns.some(p => p.test(v))
     ).length / values.length
 
     if (matchRatio >= 0.6) {

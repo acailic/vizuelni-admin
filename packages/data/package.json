@@ -1,0 +1,47 @@
+{
+  "name": "@vizualni/data",
+  "version": "0.1.0-beta.1",
+  "description": "Data preparation utilities for Serbian government data - column classification, geographic matching, and dataset joining",
+  "type": "module",
+  "license": "MIT",
+  "author": "vizualni",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acailic/vizualni-admin.git",
+    "directory": "packages/data"
+  },
+  "keywords": [
+    "serbia",
+    "srbija",
+    "data-preparation",
+    "column-classification",
+    "geographic-matching",
+    "dataset-joining",
+    "opendata"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^4.0.0"
+  }
+}

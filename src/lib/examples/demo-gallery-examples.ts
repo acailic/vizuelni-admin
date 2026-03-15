@@ -1,5 +1,5 @@
 import type { FeaturedExampleConfig, ShowcaseCategory } from './types';
-import type { ParsedDataset } from '@/types/observation';
+import type { Observation, ParsedDataset } from '@/types/observation';
 
 // Import all data files - Demographics
 import populationPyramidData from '@/data/demo-gallery/demographics/population-pyramid.json';
@@ -68,7 +68,7 @@ function toParsedDataset(
   });
 
   return {
-    observations: data.map((d) => ({ ...d })),
+    observations: data.map((d) => ({ ...d })) as Observation[],
     dimensions: dimensionMeta,
     measures: measureMeta,
     metadataColumns: [],

@@ -1,29 +1,33 @@
-'use client'
+'use client';
 
-import { useEffect } from 'react'
+import { useEffect } from 'react';
 
-import { DatasetList } from '@/components/browse/DatasetList'
-import { FilterSidebar } from '@/components/browse/FilterSidebar'
-import { Pagination } from '@/components/browse/Pagination'
-import { SearchBar } from '@/components/browse/SearchBar'
-import { SerbianDataLibrary } from '@/components/browse/SerbianDataLibrary'
-import { useErrorModal } from '@/components/ui/ErrorModal'
-import { formatMessage, type Messages } from '@/lib/i18n/messages'
-import type { Locale } from '@/lib/i18n/config'
-import type { BrowseDataset, BrowseFacets, BrowseSearchParams } from '@/types/browse'
+import { DatasetList } from '@/components/browse/DatasetList';
+import { FilterSidebar } from '@/components/browse/FilterSidebar';
+import { Pagination } from '@/components/browse/Pagination';
+import { SearchBar } from '@/components/browse/SearchBar';
+import { SerbianDataLibrary } from '@/components/browse/SerbianDataLibrary';
+import { useErrorModal } from '@/components/ui/ErrorModal';
+import { formatMessage, type Messages } from '@/lib/i18n/messages';
+import type { Locale } from '@/lib/i18n/config';
+import type {
+  BrowseDataset,
+  BrowseFacets,
+  BrowseSearchParams,
+} from '@/types/browse';
 
 interface BrowseClientProps {
   datasets: {
-    data: BrowseDataset[]
-    total: number
-    page: number
-    page_size: number
-  }
-  facets: BrowseFacets
-  searchParams: BrowseSearchParams
-  locale: Locale
-  messages: Messages
-  error?: { message: string; details?: string }
+    data: BrowseDataset[];
+    total: number;
+    page: number;
+    page_size: number;
+  };
+  facets: BrowseFacets;
+  searchParams: BrowseSearchParams;
+  locale: Locale;
+  messages: Messages;
+  error?: { message: string; details?: string };
 }
 
 export function BrowseClient({
@@ -34,30 +38,32 @@ export function BrowseClient({
   messages,
   error,
 }: BrowseClientProps) {
-  const { showError } = useErrorModal()
+  const { showError } = useErrorModal();
 
   // Show error modal if server passed an error
   useEffect(() => {
     if (error) {
-      showError(error.message, error.details)
+      showError(error.message, error.details);
     }
-  }, [error, showError])
+  }, [error, showError]);
 
   return (
-    <main className="container-custom py-10">
-      <div className="mx-auto max-w-6xl space-y-8">
-        <header className="space-y-3">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-gov-secondary">
+    <main className='container-custom py-10'>
+      <div className='mx-auto max-w-6xl space-y-8'>
+        <header className='space-y-3'>
+          <p className='text-sm font-semibold uppercase tracking-[0.18em] text-gov-secondary'>
             {messages.browse.eyebrow}
           </p>
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900">
+          <h1 className='text-4xl font-bold tracking-tight text-gray-900'>
             {messages.browse.title}
           </h1>
-          <p className="max-w-3xl text-sm leading-7 text-gray-600">{messages.browse.description}</p>
+          <p className='max-w-3xl text-sm leading-7 text-gray-600'>
+            {messages.browse.description}
+          </p>
         </header>
 
         {/* Serbian Government Data Library Section */}
-        <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div className='rounded-2xl border border-gray-200 bg-white p-6 shadow-sm'>
           <SerbianDataLibrary
             locale={locale}
             labels={{
@@ -80,7 +86,7 @@ export function BrowseClient({
           placeholder={messages.browse.search_placeholder}
         />
 
-        <div className="grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)]">
+        <div className='grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)]'>
           <FilterSidebar
             facets={facets}
             labels={{
@@ -91,14 +97,17 @@ export function BrowseClient({
               frequency: messages.browse.filter_frequency,
               clear: messages.browse.clear_filters,
               all: messages.browse.all_options,
+              showAll: messages.common.view_all,
             }}
             selected={searchParams}
           />
 
-          <section className="space-y-4">
-            <div className="flex items-center justify-between rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-sm">
-              <p className="text-sm text-gray-600">
-                {formatMessage(messages.browse.results_count, { count: datasets.total })}
+          <section className='space-y-4'>
+            <div className='flex items-center justify-between rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-sm'>
+              <p className='text-sm text-gray-600'>
+                {formatMessage(messages.browse.results_count, {
+                  count: datasets.total,
+                })}
               </p>
             </div>
             <DatasetList
@@ -131,5 +140,5 @@ export function BrowseClient({
         </div>
       </div>
     </main>
-  )
+  );
 }

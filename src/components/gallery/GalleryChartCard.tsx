@@ -10,6 +10,7 @@ import {
   Eye,
   Calendar,
   User,
+  type LucideIcon,
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { srLatn, enUS } from 'date-fns/locale';
@@ -47,7 +48,7 @@ interface GalleryChartCardProps {
   };
 }
 
-const chartTypeIcons: Record<string, React.ComponentType<unknown>> = {
+const chartTypeIcons: Record<string, LucideIcon> = {
   line: LineChart,
   bar: BarChart3,
   column: BarChart3,

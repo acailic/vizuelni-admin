@@ -1,6 +1,10 @@
-import { useState, useEffect, useCallback, useMemo, useRef } from "react";
-import type { DataConnector, DataSchema } from "@vizualni/connectors";
-import type { Datum } from "@vizualni/core";
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import type {
+  BaseConnectorConfig,
+  DataConnector,
+  DataSchema,
+} from '@vizualni/connectors';
+import type { Datum } from '@vizualni/core';
 
 /**
  * State returned by the useConnector hook.
@@ -112,7 +116,10 @@ export interface UseConnectorReturn<
  * The hook uses JSON serialization to detect config changes.
  * Complex objects in config should be stable references or JSON-serializable.
  */
-export function useConnector<TConfig, TMeta = unknown>(
+export function useConnector<
+  TConfig extends BaseConnectorConfig,
+  TMeta = unknown,
+>(
   connector: DataConnector<TConfig, TMeta>,
   config: TConfig,
   options: { enabled?: boolean } = {}

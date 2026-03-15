@@ -28,6 +28,7 @@ export function BarChart({
   filterBar,
   showInternalLegend = true,
   hiddenSeriesKeys = [],
+  previewMode = false,
 }: ChartRendererComponentProps) {
   const series = getCartesianData(data, config, locale).filter(datum => datum.value !== null)
   const colors = getChartColors(config)
@@ -42,6 +43,7 @@ export function BarChart({
         filterBar={filterBar}
         height={height}
         emptyMessage="No numeric data available for this bar chart."
+        previewMode={previewMode}
       />
     )
   }
@@ -52,6 +54,7 @@ export function BarChart({
       description={config.description}
       filterBar={filterBar}
       height={height}
+      previewMode={previewMode}
     >
       <ResponsiveContainer width="100%" height="100%">
         <RechartsBarChart
@@ -75,7 +78,7 @@ export function BarChart({
             label={{ value: getAxisLabel(config.x_axis), angle: -90, position: 'insideLeft' }}
           />
           <Tooltip formatter={(value) => typeof value === 'number' ? formatNumber(value) : String(value)} />
-          {showInternalLegend && (config.options?.showLegend ?? true) ? <Legend /> : null}
+          {showInternalLegend && !previewMode && (config.options?.showLegend ?? true) ? <Legend /> : null}
           <Bar
             dataKey="value"
             fill={colors[0]}

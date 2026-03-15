@@ -27,9 +27,19 @@ export function LanguageSwitcher({ currentLang, onLanguageChange }: LanguageSwit
       }
     }
 
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape' && isOpen) {
+        setIsOpen(false)
+      }
+    }
+
     document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+    document.addEventListener('keydown', handleEscape)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [isOpen])
 
   const handleSelect = (lang: 'sr' | 'lat' | 'en') => {
     onLanguageChange(lang)

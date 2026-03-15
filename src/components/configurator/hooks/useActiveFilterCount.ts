@@ -1,72 +1,79 @@
-import { useMemo } from 'react'
-import { useConfiguratorStore } from '@/stores/configurator'
+import { useMemo } from 'react';
+import { useConfiguratorStore } from '@/stores/configurator';
+import type { ChartConfig } from '@/types/chart-config';
 
 /**
  * Returns the count of active filters in the chart configuration
  */
 export function useActiveFilterCount(): number {
-  const config = useConfiguratorStore(state => state.config)
+  const config = useConfiguratorStore(
+    (state) => state.config as Partial<ChartConfig>
+  );
 
   return useMemo(() => {
-    if (!config) return 0
+    if (!config) return 0;
 
-    let count = 0
+    let count = 0;
 
     // Count annotations if present
     if (config.annotations && config.annotations.length > 0) {
-      count += config.annotations.length
+      count += config.annotations.length;
     }
 
     // Count reference lines if present
     if (config.referenceLines && config.referenceLines.length > 0) {
-      count += config.referenceLines.length
+      count += config.referenceLines.length;
     }
 
-    return count
-  }, [config])
+    return count;
+  }, [config]);
 }
 
 /**
  * Returns the count of configured datasets
  */
 export function useDatasetCount(): number {
-  const datasetId = useConfiguratorStore(state => state.datasetId)
-  const datasets = useConfiguratorStore(state => state.datasets)
+  const datasetId = useConfiguratorStore((state) => state.datasetId);
+  const datasets = useConfiguratorStore((state) => state.datasets);
 
   return useMemo(() => {
-    let count = 0
-    if (datasetId) count++
-    count += datasets.length
-    return count
-  }, [datasetId, datasets])
+    let count = 0;
+    if (datasetId) count++;
+    count += datasets.length;
+    return count;
+  }, [datasetId, datasets]);
 }
 
 /**
  * Returns the count of configured chart fields
  */
 export function useConfiguredFieldCount(): number {
-  const config = useConfiguratorStore(state => state.config)
+  const config = useConfiguratorStore(
+    (state) => state.config as Partial<ChartConfig>
+  );
 
   return useMemo(() => {
-    if (!config) return 0
+    if (!config) return 0;
 
-    let count = 0
-    if (config.x_axis?.field) count++
-    if (config.y_axis?.field) count++
-    if (config.options?.secondaryField) count++
+    let count = 0;
+    if (config.x_axis?.field) count++;
+    if (config.y_axis?.field) count++;
+    if (config.options?.secondaryField) count++;
 
-    return count
-  }, [config])
+    return count;
+  }, [config]);
 }
 
 /**
  * Returns the count of annotations
  */
 export function useAnnotationCount(): number {
-  const config = useConfiguratorStore(state => state.config)
+  const config = useConfiguratorStore(
+    (state) => state.config as Partial<ChartConfig>
+  );
 
   return useMemo(() => {
-    if (!config?.annotations) return 0
-    return config.annotations.length
-  }, [config])
+    if (!config?.annotations) return 0;
+    return config.annotations.length;
+  }, [config]);
 }

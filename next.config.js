@@ -54,7 +54,7 @@ const nextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://data.gov.rs https://stats.data.gov.rs; frame-ancestors 'none'; base-uri 'self'; form-action 'self';",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://data.gov.rs https://stats.data.gov.rs; frame-ancestors 'none'; base-uri 'self'; form-action 'self';",
           },
         ],
       },
@@ -111,15 +111,7 @@ const nextConfig = {
   },
 
   eslint: {
-    // Only run ESLint on these directories during production builds
     dirs: ['src'],
-    // Ignore ESLint errors during build for demo
-    ignoreDuringBuilds: true,
-  },
-
-  typescript: {
-    // Ignore TypeScript errors during build for demo
-    ignoreBuildErrors: true,
   },
 
   output: 'standalone',

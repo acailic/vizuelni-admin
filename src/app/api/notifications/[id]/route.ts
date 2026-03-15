@@ -1,42 +1,47 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { prisma } from '@/lib/db/prisma'
-import { authOptions } from '@/lib/auth/auth-options'
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { prisma } from '@/lib/db/prisma';
+import { authOptions } from '@/lib/auth/auth-options';
+import { validateCsrf } from '@/lib/api/csrf';
 
 // PUT /api/notifications/[id] - Mark notification as read
 export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  try {
-    const session = await getServerSession(authOptions)
+  const csrfError = validateCsrf(request);
+  if (csrfError) return csrfError;
 
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  try {
+    const session = await getServerSession(authOptions);
+    const sessionUserId = (session?.user as { id?: string } | undefined)?.id;
+
+    if (!sessionUserId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const notification = await prisma.notification.updateMany({
       where: {
         id: params.id,
-        userId: session.user.id,
+        userId: sessionUserId,
       },
       data: { read: true },
-    })
+    });
 
     if (notification.count === 0) {
       return NextResponse.json(
         { error: 'Notification not found' },
         { status: 404 }
-      )
+      );
     }
 
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error marking notification as read:', error)
+    console.error('Error marking notification as read:', error);
     return NextResponse.json(
       { error: 'Failed to mark notification as read' },
       { status: 500 }
-    )
+    );
   }
 }
 
@@ -45,26 +50,30 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  try {
-    const session = await getServerSession(authOptions)
+  const csrfError = validateCsrf(request);
+  if (csrfError) return csrfError;
 
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  try {
+    const session = await getServerSession(authOptions);
+    const sessionUserId = (session?.user as { id?: string } | undefined)?.id;
+
+    if (!sessionUserId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     await prisma.notification.deleteMany({
       where: {
         id: params.id,
-        userId: session.user.id,
+        userId: sessionUserId,
       },
-    })
+    });
 
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error deleting notification:', error)
+    console.error('Error deleting notification:', error);
     return NextResponse.json(
       { error: 'Failed to delete notification' },
       { status: 500 }
-    )
+    );
   }
 }

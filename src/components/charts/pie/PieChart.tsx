@@ -21,6 +21,7 @@ export function PieChart({
   locale,
   filterBar,
   showInternalLegend = true,
+  previewMode = false,
 }: ChartRendererComponentProps) {
   const series = getPieData(data, config, locale)
   const colors = getChartColors(config)
@@ -35,6 +36,7 @@ export function PieChart({
         filterBar={filterBar}
         height={height}
         emptyMessage="No numeric data available for this pie chart."
+        previewMode={previewMode}
       />
     )
   }
@@ -45,6 +47,7 @@ export function PieChart({
       description={config.description}
       filterBar={filterBar}
       height={height}
+      previewMode={previewMode}
     >
       <ResponsiveContainer width="100%" height="100%">
         <RechartsPieChart>
@@ -52,7 +55,7 @@ export function PieChart({
             formatter={(value) => typeof value === 'number' ? formatNumber(value) : String(value)}
             labelFormatter={value => String(value)}
           />
-          {showInternalLegend && (config.options?.showLegend ?? true) ? <Legend /> : null}
+          {showInternalLegend && !previewMode && (config.options?.showLegend ?? true) ? <Legend /> : null}
           <Pie
             data={series}
             dataKey="value"

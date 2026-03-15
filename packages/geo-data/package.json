@@ -1,0 +1,54 @@
+{
+  "name": "@vizualni/geo-data",
+  "version": "0.1.0-beta.1",
+  "description": "Serbian geographic data for visualization - regions, districts, and municipalities GeoJSON with utility functions",
+  "type": "module",
+  "license": "MIT",
+  "author": "vizualni",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acailic/vizualni-admin.git",
+    "directory": "packages/geo-data"
+  },
+  "keywords": [
+    "serbia",
+    "srbija",
+    "geojson",
+    "geographic-data",
+    "maps",
+    "visualization",
+    "choropleth",
+    "regions",
+    "districts",
+    "municipalities"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./geo/regions": "./dist/geo/regions.json",
+    "./geo/districts": "./dist/geo/districts.json",
+    "./geo/municipalities": "./dist/geo/municipalities.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts && node -e \"const fs=require('fs'); const path=require('path'); fs.mkdirSync('dist/geo', { recursive: true }); for (const file of fs.readdirSync('src/geo')) { fs.copyFileSync(path.join('src/geo', file), path.join('dist/geo', file)); }\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/geojson": "^7946.0.16",
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^4.0.0"
+  }
+}

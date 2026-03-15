@@ -1,147 +1,148 @@
+import { createElement, type ComponentType } from 'react';
+
 import { bench, describe } from 'vitest';
 import { createRenderer } from 'react-test-renderer/shallow';
-import { LineChart, BarChart, AreaChart, PieChart } from '../index';
 
-// Assuming chart components are exported and take props: data and config
-// For simplicity, using mock configs and data
+import { AreaChart } from '../src/components/charts/area/AreaChart';
+import { BarChart } from '../src/components/charts/bar/BarChart';
+import { LineChart } from '../src/components/charts/line/LineChart';
+import { PieChart } from '../src/components/charts/pie/PieChart';
+import type {
+  ChartConfig,
+  ChartRendererComponentProps,
+  ChartRendererDataRow,
+} from '../src/types/chart-config';
 
-const generateData = (size: number) => {
-  return Array.from({ length: size }, (_, i) => ({
-    x: i,
-    y: Math.random() * 100,
+const generateData = (size: number): ChartRendererDataRow[] =>
+  Array.from({ length: size }, (_, i) => ({
     category: `cat${i % 10}`,
+    value: Math.random() * 100,
   }));
-};
 
-const mockConfig = {
-  chartType: 'line' as const,
-  fields: {
-    x: { componentId: 'x' },
-    y: { componentId: 'y' },
-    color: { type: 'single' as const, paletteId: 'blues', color: '#000' },
+const baseConfig = {
+  title: 'Benchmark Chart',
+  x_axis: { field: 'category', label: 'Category', type: 'category' as const },
+  y_axis: { field: 'value', label: 'Value', type: 'linear' as const },
+  options: {
+    animation: false,
+    showLegend: false,
+    showGrid: false,
   },
-  // Add other required fields from ChartConfig
-  key: 'test',
-  version: '1.0',
-  meta: {
-    title: { 'sr-Latn': 'Test', 'sr-Cyrl': 'Test', en: 'Test' },
-    description: { 'sr-Latn': 'Test', 'sr-Cyrl': 'Test', en: 'Test' },
-    label: { 'sr-Latn': 'Test', 'sr-Cyrl': 'Test', en: 'Test' },
-  },
-  cubes: [],
-  interactiveFiltersConfig: {
-    legend: { active: false, componentId: '' },
-    timeRange: { active: false, componentId: '', presets: { type: 'range', from: '', to: '' } },
-    dataFilters: { active: false, componentIds: [], defaultValueOverrides: {}, filterTypes: {} },
-    calculation: { active: false, type: 'identity' as const },
-  },
-  annotations: [],
-  limits: {},
-  conversionUnitsByComponentId: {},
-  activeField: undefined,
-};
+} satisfies Omit<ChartConfig, 'type'>;
 
 const renderer = createRenderer();
-
 const dataSizes = [100, 1000, 10000, 100000];
+
+function createConfig(type: ChartConfig['type']): ChartConfig {
+  return {
+    ...baseConfig,
+    type,
+  };
+}
+
+function renderBenchmarkChart(
+  Component: ComponentType<ChartRendererComponentProps>,
+  config: ChartConfig,
+  data: ChartRendererDataRow[]
+) {
+  renderer.render(
+    createElement(Component, {
+      config,
+      data,
+      height: 400,
+      locale: 'en',
+      previewMode: true,
+    })
+  );
+}
+
+function createMemoryHooks(chartType: ChartConfig['type'], size: number) {
+  return {
+    setup() {
+      const memBefore =
+        (performance as { memory?: { usedJSHeapSize?: number } }).memory
+          ?.usedJSHeapSize ?? 0;
+      return { memBefore };
+    },
+    teardown({ memBefore }: { memBefore: number }) {
+      const memAfter =
+        (performance as { memory?: { usedJSHeapSize?: number } }).memory
+          ?.usedJSHeapSize ?? 0;
+      const memUsed = memAfter - memBefore;
+
+      console.log(
+        JSON.stringify({
+          chartType,
+          dataSize: size,
+          memUsed,
+        })
+      );
+    },
+  };
+}
 
 describe('Chart Rendering Benchmarks', () => {
   describe('Line Chart', () => {
-    dataSizes.forEach(size => {
-      bench(`Line Chart with ${size} data points`, () => {
-        const data = generateData(size);
-        const config = { ...mockConfig, chartType: 'line' as const };
-        renderer.render(<LineChart data={data} config={config} />);
-      }, {
-        setup() {
-          // Measure memory before
-          const memBefore = (performance as any).memory?.usedJSHeapSize || 0;
-          return { memBefore };
+    dataSizes.forEach((size) => {
+      bench(
+        `Line Chart with ${size} data points`,
+        () => {
+          renderBenchmarkChart(
+            LineChart,
+            createConfig('line'),
+            generateData(size)
+          );
         },
-        teardown({ memBefore }) {
-          // Measure memory after and log
-          const memAfter = (performance as any).memory?.usedJSHeapSize || 0;
-          const memUsed = memAfter - memBefore;
-          console.log(JSON.stringify({
-            chartType: 'line',
-            dataSize: size,
-            memUsed,
-            // Frame rate not applicable for static render
-          }));
-        }
-      });
+        createMemoryHooks('line', size)
+      );
     });
   });
 
   describe('Bar Chart', () => {
-    dataSizes.forEach(size => {
-      bench(`Bar Chart with ${size} data points`, () => {
-        const data = generateData(size);
-        const config = { ...mockConfig, chartType: 'bar' as const };
-        renderer.render(<BarChart data={data} config={config} />);
-      }, {
-        setup() {
-          const memBefore = (performance as any).memory?.usedJSHeapSize || 0;
-          return { memBefore };
+    dataSizes.forEach((size) => {
+      bench(
+        `Bar Chart with ${size} data points`,
+        () => {
+          renderBenchmarkChart(
+            BarChart,
+            createConfig('bar'),
+            generateData(size)
+          );
         },
-        teardown({ memBefore }) {
-          const memAfter = (performance as any).memory?.usedJSHeapSize || 0;
-          const memUsed = memAfter - memBefore;
-          console.log(JSON.stringify({
-            chartType: 'bar',
-            dataSize: size,
-            memUsed,
-          }));
-        }
-      });
+        createMemoryHooks('bar', size)
+      );
     });
   });
 
   describe('Area Chart', () => {
-    dataSizes.forEach(size => {
-      bench(`Area Chart with ${size} data points`, () => {
-        const data = generateData(size);
-        const config = { ...mockConfig, chartType: 'area' as const };
-        renderer.render(<AreaChart data={data} config={config} />);
-      }, {
-        setup() {
-          const memBefore = (performance as any).memory?.usedJSHeapSize || 0;
-          return { memBefore };
+    dataSizes.forEach((size) => {
+      bench(
+        `Area Chart with ${size} data points`,
+        () => {
+          renderBenchmarkChart(
+            AreaChart,
+            createConfig('area'),
+            generateData(size)
+          );
         },
-        teardown({ memBefore }) {
-          const memAfter = (performance as any).memory?.usedJSHeapSize || 0;
-          const memUsed = memAfter - memBefore;
-          console.log(JSON.stringify({
-            chartType: 'area',
-            dataSize: size,
-            memUsed,
-          }));
-        }
-      });
+        createMemoryHooks('area', size)
+      );
     });
   });
 
   describe('Pie Chart', () => {
-    dataSizes.forEach(size => {
-      bench(`Pie Chart with ${size} data points`, () => {
-        const data = generateData(size);
-        const config = { ...mockConfig, chartType: 'pie' as const };
-        renderer.render(<PieChart data={data} config={config} />);
-      }, {
-        setup() {
-          const memBefore = (performance as any).memory?.usedJSHeapSize || 0;
-          return { memBefore };
+    dataSizes.forEach((size) => {
+      bench(
+        `Pie Chart with ${size} data points`,
+        () => {
+          renderBenchmarkChart(
+            PieChart,
+            createConfig('pie'),
+            generateData(size)
+          );
         },
-        teardown({ memBefore }) {
-          const memAfter = (performance as any).memory?.usedJSHeapSize || 0;
-          const memUsed = memAfter - memBefore;
-          console.log(JSON.stringify({
-            chartType: 'pie',
-            dataSize: size,
-            memUsed,
-          }));
-        }
-      });
+        createMemoryHooks('pie', size)
+      );
     });
   });
 });

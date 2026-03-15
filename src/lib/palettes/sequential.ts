@@ -1,10 +1,9 @@
 import { interpolateRgb } from 'd3-interpolate'
-import { quantize } from 'd3-array'
 
 export interface SequentialPalette {
   id: string
   name: string
-  colors: [string, string]
+  colors: string[]
   category: 'sequential'
   colorblindSafe: boolean
 }
@@ -23,6 +22,26 @@ export const sequentialPalettes: SequentialPalette[] = [
 export function interpolateSequentialPalette(paletteId: string, numColors: number): string[] {
   const palette = sequentialPalettes.find(p => p.id === paletteId)
   if (!palette) throw new Error(`Sequential palette "${paletteId}" not found`)
-  const interpolator = interpolateRgb(palette.colors[0], palette.colors[1])
-  return quantize(t => interpolator(t), numColors + 1).slice(1) as string[]
+  if (numColors <= 1) {
+    return [palette.colors[Math.floor(palette.colors.length / 2)]!]
+  }
+
+  return Array.from({ length: numColors }, (_, index) => {
+    const t = index / Math.max(1, numColors - 1)
+    return interpolateMultiStop(palette.colors, t)
+  })
+}
+
+function interpolateMultiStop(colors: string[], t: number): string {
+  if (colors.length === 1) {
+    return colors[0]!
+  }
+
+  const scaledIndex = t * (colors.length - 1)
+  const lowerIndex = Math.floor(scaledIndex)
+  const upperIndex = Math.min(lowerIndex + 1, colors.length - 1)
+  const segmentT = scaledIndex - lowerIndex
+  const interpolator = interpolateRgb(colors[lowerIndex]!, colors[upperIndex]!)
+
+  return interpolator(segmentT)
 }

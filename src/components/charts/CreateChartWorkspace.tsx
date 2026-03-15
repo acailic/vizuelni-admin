@@ -202,8 +202,8 @@ export function CreateChartWorkspace({
     // Join each secondary dataset sequentially
     let result = parsedDataset
     for (const ref of datasets) {
-      const secondary = secondaryDatasets.get(ref.datasetId)
-      const joinCfg = activeJoinConfig.get(ref.datasetId)
+      const secondary = secondaryDatasets[ref.datasetId]
+      const joinCfg = activeJoinConfig[ref.datasetId]
       
       if (secondary && joinCfg) {
         result = joinDatasets(result, secondary, {

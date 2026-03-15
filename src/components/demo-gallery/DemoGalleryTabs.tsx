@@ -22,7 +22,7 @@ const categories: (ShowcaseCategory | 'all')[] = [
 export function DemoGalleryTabs({
   activeCategory,
   onCategoryChange,
-  locale,
+  locale: _locale,
   labels,
 }: DemoGalleryTabsProps) {
   return (

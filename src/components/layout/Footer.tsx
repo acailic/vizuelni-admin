@@ -27,6 +27,7 @@ interface FooterProps {
 function FooterComponent({ locale, messages }: FooterProps) {
   const currentYear = new Date().getFullYear();
   const version = process.env.npm_package_version || '1.0.0';
+  const feedbackLabels = getFeedbackLabels(locale);
 
   const footerLinks = [
     { href: `/${locale}/about`, label: messages.about },
@@ -47,7 +48,10 @@ function FooterComponent({ locale, messages }: FooterProps) {
           <h3 className='mb-4 text-sm font-semibold text-[#0C1E42]'>
             {messages.footerFurtherInfo}
           </h3>
-          <FeedbackSection locale={locale} />
+          <FeedbackSection
+            locale={locale}
+            labels={feedbackLabels}
+          />
         </div>
 
         <div className='grid gap-8 md:grid-cols-3'>
@@ -130,3 +134,35 @@ function FooterComponent({ locale, messages }: FooterProps) {
 }
 
 export const Footer = memo(FooterComponent);
+
+function getFeedbackLabels(locale: Locale) {
+  switch (locale) {
+    case 'sr-Cyrl':
+      return {
+        foundBug: 'Пронашли сте грешку?',
+        reportBugDescription: 'Пријавите је да бисмо је брзо исправили',
+        reportBug: 'Пријави грешку',
+        newFeature: 'Нова функција?',
+        featureDescription: 'Пошаљите предлоге да обликујете будућност',
+        submit: 'Пошаљи',
+      };
+    case 'sr-Latn':
+      return {
+        foundBug: 'Pronašli ste grešku?',
+        reportBugDescription: 'Prijavite je da bismo je brzo ispravili',
+        reportBug: 'Prijavi grešku',
+        newFeature: 'Nova funkcija?',
+        featureDescription: 'Pošaljite predloge da oblikujete budućnost',
+        submit: 'Pošalji',
+      };
+    default:
+      return {
+        foundBug: 'Found a bug?',
+        reportBugDescription: 'Report it so we can fix it fast',
+        reportBug: 'Report a bug',
+        newFeature: 'New feature?',
+        featureDescription: 'Submit requests to shape the future',
+        submit: 'Submit',
+      };
+  }
+}

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth/auth-options'
+import { validateCsrf } from '@/lib/api/csrf'
 import { getChartById, publishChart } from '@/lib/db'
 
 interface RouteParams {
@@ -11,9 +12,12 @@ interface RouteParams {
  * POST /api/charts/[id]/publish - Publish a draft chart (owner only)
  */
 export async function POST(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: RouteParams
 ) {
+  const csrfError = validateCsrf(request)
+  if (csrfError) return csrfError
+
   try {
     // Check authentication
     const session = await getServerSession(authOptions)
@@ -30,7 +34,7 @@ export async function POST(
     }
 
     // Check ownership - only owner can publish
-    if (chart.userId && chart.userId !== sessionUserId) {
+    if (!chart.userId || chart.userId !== sessionUserId) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 

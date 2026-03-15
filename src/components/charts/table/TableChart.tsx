@@ -7,6 +7,7 @@ import { formatChartValue } from '@/components/charts/shared/chart-formatters'
 import { ChartFrame } from '@/components/charts/shared/ChartFrame'
 import type { ChartRendererComponentProps } from '@/types'
 import type { SortDirection } from '@/types/table-chart'
+import { getMessages, resolveLocale } from '@/lib/i18n/messages'
 
 export function TableChart({
   config,
@@ -14,6 +15,7 @@ export function TableChart({
   height = 400,
   locale,
   filterBar,
+  previewMode = false,
 }: ChartRendererComponentProps) {
   const [sortColumn, setSortColumn] = useState<string | null>(null)
   const [sortDirection, setSortDirection] = useState<SortDirection>(null)
@@ -21,13 +23,10 @@ export function TableChart({
 
   const columns = getTableColumns(data, config)
   const pageSize = config.options?.pageSize ?? 10
-  // Enable sorting by default for table charts
-  const sortable = true
+  const localeMessages = getMessages(resolveLocale(locale))
 
   const handleSort = useCallback(
     (column: string) => {
-      if (!sortable) return
-
       if (sortColumn === column) {
         if (sortDirection === 'asc') {
           setSortDirection('desc')
@@ -39,10 +38,9 @@ export function TableChart({
         setSortColumn(column)
         setSortDirection('asc')
       }
-      // Reset to first page when sorting
       setCurrentPage(0)
     },
-    [sortable, sortColumn, sortDirection]
+    [sortColumn, sortDirection]
   )
 
   const sortedRows = useMemo(() => {
@@ -81,6 +79,7 @@ export function TableChart({
         filterBar={filterBar}
         height={height}
         emptyMessage="No rows available for this table."
+        previewMode={previewMode}
       />
     )
   }
@@ -91,6 +90,7 @@ export function TableChart({
       description={config.description}
       filterBar={filterBar}
       height={height}
+      previewMode={previewMode}
     >
       <div className="h-full overflow-auto rounded-2xl border border-slate-200">
         <table className="min-w-full divide-y divide-slate-200 text-left text-sm">
@@ -99,17 +99,23 @@ export function TableChart({
               {columns.map((column) => (
                 <th
                   key={column}
-                  onClick={() => handleSort(column)}
-                  className={`px-4 py-3 font-medium text-slate-700 ${sortable ? 'cursor-pointer hover:bg-slate-100 select-none' : ''}`}
+                  scope="col"
+                  className="px-4 py-3 font-medium text-slate-700"
+                  aria-sort={sortColumn === column ? (sortDirection === 'asc' ? 'ascending' : 'descending') : 'none'}
                 >
-                  <div className="flex items-center gap-2">
-                    {column}
+                  <button
+                    type="button"
+                    onClick={() => handleSort(column)}
+                    className="flex w-full items-center gap-2 rounded-md px-0 text-left hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-gov-primary focus:ring-offset-2"
+                    aria-label={`${column} ${sortColumn === column && sortDirection === 'asc' ? localeMessages.common.next : localeMessages.common.previous}`}
+                  >
+                    <span>{column}</span>
                     {sortColumn === column && (
-                      <span className="text-gov-primary">
+                      <span className="text-gov-primary" aria-hidden="true">
                         {sortDirection === 'asc' ? '↑' : '↓'}
                       </span>
                     )}
-                  </div>
+                  </button>
                 </th>
               ))}
             </tr>
@@ -138,16 +144,18 @@ export function TableChart({
               <button
                 onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
                 disabled={currentPage === 0}
+                aria-label={localeMessages.common.previous}
                 className="px-3 py-1 text-sm border border-slate-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50"
               >
-                Previous
+                {localeMessages.common.previous}
               </button>
               <button
                 onClick={() => setCurrentPage((p) => Math.min(totalPages - 1, p + 1))}
                 disabled={currentPage >= totalPages - 1}
+                aria-label={localeMessages.common.next}
                 className="px-3 py-1 text-sm border border-slate-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50"
               >
-                Next
+                {localeMessages.common.next}
               </button>
             </div>
           </div>

@@ -18,10 +18,10 @@ interface FilterPillsProps {
   frequencyLabel: string
 }
 
-const keyLabels: Record<string, string> = {}
+const _keyLabels: Record<string, string> = {}
 
 export function FilterPills({
-  locale,
+  locale: _locale,
   clearAllLabel,
   organizationLabel,
   topicLabel,

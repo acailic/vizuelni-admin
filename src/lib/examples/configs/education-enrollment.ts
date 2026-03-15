@@ -25,8 +25,4 @@ export const educationEnrollmentConfig: FeaturedExampleConfig = {
     y_axis: { field: 'primary', type: 'linear', label: 'Enrollment (%)' },
     options: { paletteId: 'government', showLegend: true, showGrid: true },
   },
-  category: 'demographics',
-  preselectedFilters: {
-    dataFilters: { nivo: 'Visoko obrazovanje' },
-  },
 }

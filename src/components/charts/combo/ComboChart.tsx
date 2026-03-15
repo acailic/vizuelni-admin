@@ -29,6 +29,7 @@ export function ComboChart({
   filterBar,
   showInternalLegend = true,
   hiddenSeriesKeys = [],
+  previewMode = false,
 }: ChartRendererComponentProps) {
   const series = getCartesianData(data, config, locale).filter(datum => datum.value !== null)
   const colors = getChartColors(config)
@@ -46,6 +47,7 @@ export function ComboChart({
         filterBar={filterBar}
         height={height}
         emptyMessage="No numeric data available for this combo chart."
+        previewMode={previewMode}
       />
     )
   }
@@ -56,6 +58,7 @@ export function ComboChart({
       description={config.description}
       filterBar={filterBar}
       height={height}
+      previewMode={previewMode}
     >
       <ResponsiveContainer width="100%" height="100%">
         <ComposedChart data={series} margin={{ top: 8, right: 12, bottom: 24, left: 12 }}>
@@ -73,7 +76,7 @@ export function ComboChart({
             label={{ value: getAxisLabel(config.y_axis), angle: -90, position: 'insideLeft' }}
           />
           <Tooltip formatter={(value) => typeof value === 'number' ? formatNumber(value) : String(value)} />
-          {showInternalLegend && (config.options?.showLegend ?? true) ? <Legend /> : null}
+          {showInternalLegend && !previewMode && (config.options?.showLegend ?? true) ? <Legend /> : null}
           {showPrimary ? (
             <Bar
               dataKey="value"

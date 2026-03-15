@@ -1,12 +1,12 @@
-import type { FeaturedExampleConfig } from './types'
-import type { ParsedDataset } from '@/types/observation'
+import type { FeaturedExampleConfig } from './types';
+import type { Observation, ParsedDataset } from '@/types/observation';
 
 // Import data files
-import demographicsData from '@/data/showcase/serbia-demographics.json'
-import migrationData from '@/data/showcase/serbia-migration.json'
-import regionsData from '@/data/showcase/serbia-regions.json'
-import healthcareData from '@/data/showcase/serbia-healthcare.json'
-import diasporaData from '@/data/showcase/serbia-diaspora.json'
+import demographicsData from '@/data/showcase/serbia-demographics.json';
+import migrationData from '@/data/showcase/serbia-migration.json';
+import regionsData from '@/data/showcase/serbia-regions.json';
+import healthcareData from '@/data/showcase/serbia-healthcare.json';
+import diasporaData from '@/data/showcase/serbia-diaspora.json';
 
 /**
  * Convert raw JSON data to ParsedDataset format
@@ -23,28 +23,28 @@ function toParsedDataset(
     type: 'categorical' as const,
     values: [...new Set(data.map((d) => String(d[key])))],
     cardinality: [...new Set(data.map((d) => String(d[key])))].length,
-  }))
+  }));
 
   const measureMeta = measures.map((key) => {
-    const values = data.map((d) => Number(d[key])).filter((v) => !isNaN(v))
+    const values = data.map((d) => Number(d[key])).filter((v) => !isNaN(v));
     return {
       key,
       label: key.charAt(0).toUpperCase() + key.slice(1),
       min: Math.min(...values),
       max: Math.max(...values),
       hasNulls: data.some((d) => d[key] === null || d[key] === undefined),
-    }
-  })
+    };
+  });
 
   return {
-    observations: data.map((d) => ({ ...d })),
+    observations: data.map((d) => ({ ...d })) as Observation[],
     dimensions: dimensionMeta,
     measures: measureMeta,
     metadataColumns: [],
     columns: [...dimensions, ...measures],
     rowCount: data.length,
     source: { format: 'json', name: sourceName },
-  }
+  };
 }
 
 /**
@@ -146,7 +146,11 @@ export const showcaseExamples: FeaturedExampleConfig[] = [
       type: 'scatterplot',
       title: 'Regional Disparities',
       x_axis: { field: 'gdpIndex', type: 'linear', label: 'GDP Index' },
-      y_axis: { field: 'lifeExpectancy', type: 'linear', label: 'Life Expectancy' },
+      y_axis: {
+        field: 'lifeExpectancy',
+        type: 'linear',
+        label: 'Life Expectancy',
+      },
       options: {
         showGrid: true,
         showLegend: true,
@@ -228,7 +232,18 @@ export const showcaseExamples: FeaturedExampleConfig[] = [
         showLegend: true,
         showLabels: true,
         showPercentages: true,
-        colors: ['#0D4077', '#4B90F5', '#3558A2', '#C6363C', '#10B981', '#F59E0B', '#8B5CF6', '#EC4899', '#6366F1', '#14B8A6'],
+        colors: [
+          '#0D4077',
+          '#4B90F5',
+          '#3558A2',
+          '#C6363C',
+          '#10B981',
+          '#F59E0B',
+          '#8B5CF6',
+          '#EC4899',
+          '#6366F1',
+          '#14B8A6',
+        ],
       },
     },
     inlineData: toParsedDataset(
@@ -243,13 +258,13 @@ export const showcaseExamples: FeaturedExampleConfig[] = [
     dataSource: 'SORS - Statistical Office of the Republic of Serbia',
     lastUpdated: '2024-01-15',
   },
-]
+];
 
 /**
  * Get featured examples for landing page
  */
 export function getFeaturedExamples(): FeaturedExampleConfig[] {
-  return showcaseExamples.filter((ex) => ex.featured)
+  return showcaseExamples.filter((ex) => ex.featured);
 }
 
 /**
@@ -258,12 +273,12 @@ export function getFeaturedExamples(): FeaturedExampleConfig[] {
 export function getExamplesByCategory(
   category: 'demographics' | 'healthcare' | 'economy' | 'migration'
 ): FeaturedExampleConfig[] {
-  return showcaseExamples.filter((ex) => ex.category === category)
+  return showcaseExamples.filter((ex) => ex.category === category);
 }
 
 /**
  * Get example by ID
  */
 export function getExampleById(id: string): FeaturedExampleConfig | undefined {
-  return showcaseExamples.find((ex) => ex.id === id)
+  return showcaseExamples.find((ex) => ex.id === id);
 }

@@ -79,5 +79,15 @@ describe('Serbian Dataset Converter', () => {
       expect(parsed.columns).toContain('deaths')
       expect(parsed.columns).toContain('naturalChange')
     })
+
+    it('normalizes raw Serbian dimension metadata to ParsedDataset types', () => {
+      const dataset = getDatasetById('serbia-birth-rates')
+      if (!dataset) throw new Error('Dataset not found')
+
+      const parsed = convertToParsedDataset(dataset, 'en')
+
+      expect(parsed.dimensions[0]?.type).toBe('temporal')
+      expect(parsed.dimensions[0]?.values[0]).toBeInstanceOf(Date)
+    })
   })
 })

@@ -21,6 +21,7 @@ export function ScatterplotChart({
   height = 400,
   locale,
   filterBar,
+  previewMode = false,
 }: ChartRendererComponentProps) {
   const points = useMemo<ScatterPoint[]>(() => {
     if (!config.x_axis || !config.y_axis) {
@@ -53,6 +54,7 @@ export function ScatterplotChart({
         filterBar={filterBar}
         height={height}
         emptyMessage="No numeric pairs available for this scatterplot."
+        previewMode={previewMode}
       />
     )
   }
@@ -83,6 +85,7 @@ export function ScatterplotChart({
       description={config.description}
       filterBar={filterBar}
       height={height}
+      previewMode={previewMode}
     >
       <svg viewBox={`0 0 ${width} ${chartHeight}`} className="h-full w-full text-slate-500">
         <line

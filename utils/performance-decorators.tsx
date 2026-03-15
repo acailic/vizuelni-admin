@@ -3,18 +3,25 @@
  * Memoized components and performance utilities
  */
 
-import React, { memo, useMemo, useCallback, useRef, useEffect } from 'react';
-import { dynamic } from 'next/dynamic';
+import React, {
+  memo,
+  useMemo,
+  useCallback,
+  useRef,
+  useEffect,
+  useState,
+} from 'react';
+import dynamic from 'next/dynamic';
 
 // Performance monitoring decorator
-export const withPerformanceTracking = <P extends object>(
+export function withPerformanceTracking<P extends object>(
   componentName: string,
   Component: React.ComponentType<P>
-) => {
+) {
   const TrackedComponent = memo(Component);
 
   return (props: P) => {
-    const renderStart = useRef<number>();
+    const renderStart = useRef<number | undefined>(undefined);
 
     useEffect(() => {
       renderStart.current = performance.now();
@@ -22,30 +29,38 @@ export const withPerformanceTracking = <P extends object>(
       return () => {
         if (renderStart.current) {
           const renderTime = performance.now() - renderStart.current;
-          if (renderTime > 16) { // Alert if render takes more than one frame
-            console.warn(`🐌 Slow render detected: ${componentName} took ${renderTime.toFixed(2)}ms`);
+          if (renderTime > 16) {
+            // Alert if render takes more than one frame
+            console.warn(
+              `🐌 Slow render detected: ${componentName} took ${renderTime.toFixed(2)}ms`
+            );
           }
         }
       };
     });
 
-    return <TrackedComponent {...props} />;
+    return React.createElement(
+      TrackedComponent as unknown as React.ComponentType<P>,
+      props
+    );
   };
-};
+}
 
 // Lazy loading wrapper with performance tracking
-export const createLazyComponent = <P extends object>(
+export function createLazyComponent<P extends object>(
   importFn: () => Promise<{ default: React.ComponentType<P> }>,
   componentName: string,
   fallback?: React.ReactNode
-) => {
+) {
   const LazyComponent = dynamic(importFn, {
-    loading: fallback ? () => <>{fallback}</> : () => <div>Loading {componentName}...</div>,
+    loading: fallback
+      ? () => <>{fallback}</>
+      : () => <div>Loading {componentName}...</div>,
     ssr: false, // Disable SSR for better performance
-  });
+  }) as React.ComponentType<P>;
 
   return withPerformanceTracking(componentName, LazyComponent);
-};
+}
 
 // Virtualized list component for large datasets
 interface VirtualizedListProps<T> {
@@ -56,18 +71,21 @@ interface VirtualizedListProps<T> {
   overscan?: number;
 }
 
-export const VirtualizedList = memo(<T,>({
+function VirtualizedListInner<T>({
   items,
   itemHeight,
   containerHeight,
   renderItem,
   overscan = 5,
-}: VirtualizedListProps<T>) => {
+}: VirtualizedListProps<T>) {
   const [scrollTop, setScrollTop] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const visibleItems = useMemo(() => {
-    const startIndex = Math.max(0, Math.floor(scrollTop / itemHeight) - overscan);
+    const startIndex = Math.max(
+      0,
+      Math.floor(scrollTop / itemHeight) - overscan
+    );
     const endIndex = Math.min(
       items.length,
       Math.ceil((scrollTop + containerHeight) / itemHeight) + overscan
@@ -108,7 +126,11 @@ export const VirtualizedList = memo(<T,>({
       </div>
     </div>
   );
-}) as typeof VirtualizedList;
+}
+
+export const VirtualizedList = memo(VirtualizedListInner) as <T>(
+  props: VirtualizedListProps<T>
+) => JSX.Element;
 
 // Debounced input component for search/filter
 interface DebouncedInputProps {
@@ -118,43 +140,44 @@ interface DebouncedInputProps {
   placeholder?: string;
 }
 
-export const DebouncedInput = memo(({ value, onChange, debounceMs = 300, ...props }: DebouncedInputProps) => {
-  const [inputValue, setInputValue] = useState(value);
-  const timeoutRef = useRef<NodeJS.Timeout>();
+export const DebouncedInput = memo(
+  ({ value, onChange, debounceMs = 300, ...props }: DebouncedInputProps) => {
+    const [inputValue, setInputValue] = useState(value);
+    const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+      undefined
+    );
 
-  useEffect(() => {
-    setInputValue(value);
-  }, [value]);
+    useEffect(() => {
+      setInputValue(value);
+    }, [value]);
 
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setInputValue(newValue);
+    const handleChange = useCallback(
+      (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.target.value;
+        setInputValue(newValue);
 
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
 
-    timeoutRef.current = setTimeout(() => {
-      onChange(newValue);
-    }, debounceMs);
-  }, [onChange, debounceMs]);
+        timeoutRef.current = setTimeout(() => {
+          onChange(newValue);
+        }, debounceMs);
+      },
+      [onChange, debounceMs]
+    );
 
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
+    useEffect(() => {
+      return () => {
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
+      };
+    }, []);
 
-  return (
-    <input
-      {...props}
-      value={inputValue}
-      onChange={handleChange}
-    />
-  );
-});
+    return <input {...props} value={inputValue} onChange={handleChange} />;
+  }
+);
 
 // Image optimization component
 interface OptimizedImageProps {
@@ -168,60 +191,62 @@ interface OptimizedImageProps {
   className?: string;
 }
 
-export const OptimizedImage = memo(({
-  src,
-  alt,
-  width,
-  height,
-  priority = false,
-  loading = 'lazy',
-  placeholder = 'empty',
-  className,
-}: OptimizedImageProps) => {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [hasError, setHasError] = useState(false);
+export const OptimizedImage = memo(
+  ({
+    src,
+    alt,
+    width,
+    height,
+    priority = false,
+    loading = 'lazy',
+    placeholder = 'empty',
+    className,
+  }: OptimizedImageProps) => {
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [hasError, setHasError] = useState(false);
 
-  const handleLoad = useCallback(() => {
-    setIsLoaded(true);
-  }, []);
+    const handleLoad = useCallback(() => {
+      setIsLoaded(true);
+    }, []);
 
-  const handleError = useCallback(() => {
-    setHasError(true);
-  }, []);
+    const handleError = useCallback(() => {
+      setHasError(true);
+    }, []);
 
-  if (hasError) {
+    if (hasError) {
+      return (
+        <div
+          className={`image-error-placeholder ${className || ''}`}
+          style={{ width, height }}
+        >
+          Failed to load image
+        </div>
+      );
+    }
+
     return (
-      <div
-        className={`image-error-placeholder ${className || ''}`}
-        style={{ width, height }}
-      >
-        Failed to load image
+      <div className={`optimized-image-container ${className || ''}`}>
+        {!isLoaded && placeholder === 'blur' && (
+          <div className='image-placeholder-blur' />
+        )}
+
+        <img
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          loading={priority ? 'eager' : loading}
+          onLoad={handleLoad}
+          onError={handleError}
+          style={{
+            opacity: isLoaded ? 1 : 0,
+            transition: 'opacity 0.3s ease',
+          }}
+        />
       </div>
     );
   }
-
-  return (
-    <div className={`optimized-image-container ${className || ''}`}>
-      {!isLoaded && placeholder === 'blur' && (
-        <div className="image-placeholder-blur" />
-      )}
-
-      <img
-        src={src}
-        alt={alt}
-        width={width}
-        height={height}
-        loading={priority ? 'eager' : loading}
-        onLoad={handleLoad}
-        onError={handleError}
-        style={{
-          opacity: isLoaded ? 1 : 0,
-          transition: 'opacity 0.3s ease',
-        }}
-      />
-    </div>
-  );
-});
+);
 
 // Chart container with resize optimization
 interface ChartContainerProps {
@@ -231,52 +256,64 @@ interface ChartContainerProps {
   maintainAspectRatio?: boolean;
 }
 
-export const ChartContainer = memo(({ children, width, height, maintainAspectRatio = true }: ChartContainerProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+export const ChartContainer = memo(
+  ({
+    children,
+    width,
+    height,
+    maintainAspectRatio = true,
+  }: ChartContainerProps) => {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
-  useEffect(() => {
-    const updateDimensions = () => {
-      if (containerRef.current) {
-        const { clientWidth, clientHeight } = containerRef.current;
+    useEffect(() => {
+      const updateDimensions = () => {
+        if (containerRef.current) {
+          const { clientWidth, clientHeight } = containerRef.current;
 
-        if (width && height) {
-          setDimensions({ width, height });
-        } else if (maintainAspectRatio && width) {
-          setDimensions({ width, height: width * 0.6 }); // Default aspect ratio
-        } else {
-          setDimensions({ width: clientWidth, height: clientHeight });
+          if (width && height) {
+            setDimensions({ width, height });
+          } else if (maintainAspectRatio && width) {
+            setDimensions({ width, height: width * 0.6 }); // Default aspect ratio
+          } else {
+            setDimensions({ width: clientWidth, height: clientHeight });
+          }
         }
+      };
+
+      updateDimensions();
+
+      const resizeObserver = new ResizeObserver(updateDimensions);
+      if (containerRef.current) {
+        resizeObserver.observe(containerRef.current);
       }
-    };
 
-    updateDimensions();
+      return () => resizeObserver.disconnect();
+    }, [width, height, maintainAspectRatio]);
 
-    const resizeObserver = new ResizeObserver(updateDimensions);
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current);
-    }
-
-    return () => resizeObserver.disconnect();
-  }, [width, height, maintainAspectRatio]);
-
-  return (
-    <div ref={containerRef} className="chart-container" style={{ width, height }}>
-      {dimensions.width > 0 && dimensions.height > 0 && (
-        <div style={{ width: dimensions.width, height: dimensions.height }}>
-          {children}
-        </div>
-      )}
-    </div>
-  );
-});
+    return (
+      <div
+        ref={containerRef}
+        className='chart-container'
+        style={{ width, height }}
+      >
+        {dimensions.width > 0 && dimensions.height > 0 && (
+          <div style={{ width: dimensions.width, height: dimensions.height }}>
+            {children}
+          </div>
+        )}
+      </div>
+    );
+  }
+);
 
 // Cache for expensive computations
 class ComputationCache {
   private cache = new Map<string, { result: any; timestamp: number }>();
   private ttl: number;
 
-  constructor(ttl = 5000) { // 5 seconds default TTL
+  constructor(ttl = 5000) {
+    // 5 seconds default TTL
     this.ttl = ttl;
   }
 
@@ -305,11 +342,11 @@ class ComputationCache {
 export const computationCache = new ComputationCache();
 
 // Hook for expensive computations
-export const useComputation = <T>(
+export function useComputation<T>(
   key: string,
   compute: () => T,
   dependencies: React.DependencyList
-): T => {
+): T {
   return useMemo(() => {
     // Try to get from cache first
     const cached = computationCache.get(key);
@@ -322,7 +359,7 @@ export const useComputation = <T>(
     computationCache.set(key, result);
     return result;
   }, dependencies);
-};
+}
 
 // Performance monitoring hook
 export const usePerformanceMonitor = (componentName: string) => {
@@ -336,7 +373,9 @@ export const usePerformanceMonitor = (componentName: string) => {
     if (lastRenderTime.current > 0) {
       const timeSinceLastRender = now - lastRenderTime.current;
       if (renderCount.current > 1 && timeSinceLastRender < 16) {
-        console.warn(`🔄 Frequent re-renders detected: ${componentName} (${timeSinceLastRender.toFixed(2)}ms apart)`);
+        console.warn(
+          `🔄 Frequent re-renders detected: ${componentName} (${timeSinceLastRender.toFixed(2)}ms apart)`
+        );
       }
     }
 
@@ -349,21 +388,27 @@ export const usePerformanceMonitor = (componentName: string) => {
   };
 };
 
+function createPlaceholderComponent(label: string): React.ComponentType {
+  return function PlaceholderComponent() {
+    return <div>{label} unavailable.</div>;
+  };
+}
+
 // Lazy loading heavy components
 export const LazyMapVisualization = createLazyComponent(
-  () => import('../components/MapVisualization'),
+  async () => ({ default: createPlaceholderComponent('Map visualization') }),
   'MapVisualization',
   <div>Loading map...</div>
 );
 
 export const LazyAdvancedCharts = createLazyComponent(
-  () => import('../components/AdvancedCharts'),
+  async () => ({ default: createPlaceholderComponent('Advanced charts') }),
   'AdvancedCharts',
   <div>Loading charts...</div>
 );
 
 export const LazyDataTable = createLazyComponent(
-  () => import('../components/DataTable'),
+  async () => ({ default: createPlaceholderComponent('Data table') }),
   'DataTable',
   <div>Loading table...</div>
 );

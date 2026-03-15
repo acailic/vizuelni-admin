@@ -23,7 +23,7 @@ export function NotificationBell({ locale, initialCount = 0 }: NotificationBellP
   const [isOpen, setIsOpen] = useState(false)
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [unreadCount, setUnreadCount] = useState(initialCount)
-  const [loading, setLoading] = useState(false)
+  const [loading, _setLoading] = useState(false)
 
   const fetchNotifications = useCallback(async () => {
     try {

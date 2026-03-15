@@ -1,6 +1,6 @@
 'use client'
 
-import { forwardRef, useState, useCallback, useMemo, type ReactNode, type KeyboardEvent } from 'react'
+import { forwardRef, useId, useState, useCallback, useMemo, type ReactNode, type KeyboardEvent } from 'react'
 import type { ChartConfig, ChartRendererDataRow } from '@/types'
 
 interface ChartContainerProps {
@@ -74,9 +74,8 @@ export const ChartContainer = forwardRef<HTMLDivElement, ChartContainerProps>(
     }, [chartTypeLabel, config.title, showTableToggle])
 
     // Generate unique ID for description element
-    const descriptionId = useMemo(() => {
-      return `chart-description-${config.id || Math.random().toString(36).slice(2)}`
-    }, [config.id])
+    const reactId = useId()
+    const descriptionId = `chart-description-${config.id || reactId}`
 
     // Keyboard navigation handlers
     const handleKeyDown = useCallback(
@@ -252,13 +251,13 @@ export const focusIndicatorStyles = `
   /* Focus indicators with 3:1 contrast */
   .focus-visible:focus,
   .focus-visible:focus-visible {
-    outline: 3px solid #0D4077;
+    outline: 3px solid #082d54;
     outline-offset: 2px;
   }
 
   /* High contrast focus for interactive chart elements */
   .chart-visual:focus-within {
-    outline: 3px solid #0D4077;
+    outline: 3px solid #082d54;
     outline-offset: 2px;
   }
 
@@ -267,7 +266,7 @@ export const focusIndicatorStyles = `
     position: absolute;
     top: -40px;
     left: 0;
-    background: #0D4077;
+    background: #082d54;
     color: white;
     padding: 8px 16px;
     text-decoration: none;

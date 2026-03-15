@@ -1,17 +1,28 @@
 import { NextResponse } from 'next/server'
+import { z } from 'zod'
 import { ChartStatus } from '@/types/persistence'
 import prisma from '@/lib/db/prisma'
+
+const galleryQuerySchema = z.object({
+  sortBy: z.enum(['createdAt', 'views', 'updatedAt']).default('createdAt'),
+  sortOrder: z.enum(['asc', 'desc']).default('desc'),
+  page: z.coerce.number().int().min(1).default(1),
+  pageSize: z.coerce.number().int().min(1).max(100).default(50),
+})
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
-    const sortBy = searchParams.get('sortBy') || 'createdAt'
-    const sortOrder = searchParams.get('sortOrder') || 'desc'
-    const page = parseInt(searchParams.get('page') || '1')
-    const pageSize = parseInt(searchParams.get('pageSize') || '50')
+    const queryResult = galleryQuerySchema.safeParse(Object.fromEntries(searchParams))
 
-    const validSortBy = ['createdAt', 'views', 'updatedAt'].includes(sortBy) ? sortBy : 'createdAt'
-    const validSortOrder = ['asc', 'desc'].includes(sortOrder) ? sortOrder : 'desc'
+    if (!queryResult.success) {
+      return NextResponse.json(
+        { error: 'Invalid query parameters', details: queryResult.error.flatten() },
+        { status: 400 }
+      )
+    }
+
+    const { sortBy: validSortBy, sortOrder: validSortOrder, page, pageSize } = queryResult.data
 
     const [charts, total] = await Promise.all([
       prisma.savedChart.findMany({

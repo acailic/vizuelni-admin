@@ -37,14 +37,10 @@ export async function getChartStatistics(): Promise<ChartStatistics> {
 
   const perMonthAverage = Math.round(total / monthsActive);
 
-  const dashboards = await prisma.savedChart.count({
-    where: { status: 'PUBLISHED' },
-  });
-
   return {
     total,
     perMonthAverage,
-    dashboards,
+    dashboards: total,
   };
 }
 
@@ -52,18 +48,19 @@ export async function getChartStatistics(): Promise<ChartStatistics> {
  * Get view statistics
  */
 export async function getViewStatistics(): Promise<ViewStatistics> {
-  const result = await prisma.savedChart.aggregate({
-    where: { status: 'PUBLISHED' },
-    _sum: { views: true },
-  });
+  const [result, oldestChart] = await Promise.all([
+    prisma.savedChart.aggregate({
+      where: { status: 'PUBLISHED' },
+      _sum: { views: true },
+    }),
+    prisma.savedChart.findFirst({
+      where: { status: 'PUBLISHED' },
+      orderBy: { createdAt: 'asc' },
+      select: { createdAt: true },
+    }),
+  ]);
 
   const total = result._sum.views || 0;
-
-  const oldestChart = await prisma.savedChart.findFirst({
-    where: { status: 'PUBLISHED' },
-    orderBy: { createdAt: 'asc' },
-    select: { createdAt: true },
-  });
 
   const monthsActive = oldestChart
     ? monthsBetween(oldestChart.createdAt, new Date())

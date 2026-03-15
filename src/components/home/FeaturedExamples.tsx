@@ -1,6 +1,5 @@
 'use client'
 
-import { RefreshCw } from 'lucide-react'
 import { useState } from 'react'
 
 import { cn } from '@/lib/utils/cn'
@@ -123,7 +122,7 @@ export function FeaturedExamples({ locale }: FeaturedExamplesProps) {
     .filter(({ state }) => state?.status !== 'error')
 
   // Global retry function
-  const retryAll = () => {
+  const _retryAll = () => {
     setGlobalRetryKey((k) => k + 1)
     examples.forEach((e) => e?.retry?.())
   }

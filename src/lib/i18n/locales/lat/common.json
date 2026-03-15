@@ -428,7 +428,7 @@
   },
   "auth": {
     "login_title": "Prijavite se",
-    "login_subtitle": "prijavite se da biste čuvate i vizuelizacije",
+    "login_subtitle": "Prijavite se da biste čuvali i upravljali vizuelizacijama",
     "sign_in_with_github": "Prijava se sa GitHub-om",
     "sign_in_with_google": "Prijavi se sa Google-om",
     "sign_in_with_email": "Prijavi se sa i-mejlom",

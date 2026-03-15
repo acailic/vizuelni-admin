@@ -8,8 +8,10 @@ export function resolveChartLocale(locale?: string) {
   return localeMap[locale ?? 'sr-Cyrl'] ?? localeMap['sr-Cyrl']
 }
 
-export function createChartFormatters(locale?: string) {
-  const resolvedLocale = resolveChartLocale(locale)
+// Cache formatter instances by resolved locale
+const formatterCache = new Map<string, ReturnType<typeof buildFormatters>>()
+
+function buildFormatters(resolvedLocale: string) {
   const numberFormatter = new Intl.NumberFormat(resolvedLocale, {
     maximumFractionDigits: 2,
   })
@@ -39,6 +41,16 @@ export function createChartFormatters(locale?: string) {
       return dateFormatter.format(value)
     },
   }
+}
+
+export function createChartFormatters(locale?: string) {
+  const resolvedLocale = resolveChartLocale(locale)
+  const cached = formatterCache.get(resolvedLocale)
+  if (cached) return cached
+
+  const formatters = buildFormatters(resolvedLocale)
+  formatterCache.set(resolvedLocale, formatters)
+  return formatters
 }
 
 export function formatChartValue(value: unknown, locale?: string) {

@@ -1,4 +1,4 @@
-import { categoricalPalettes } from '@/lib/colors'
+import { getPalettesByType } from '@/lib/charts/palettes'
 import { sequentialPalettes, interpolateSequentialPalette } from './sequential'
 import { divergingPalettes, interpolateDivergingPalette, getDivergingColor } from './diverging'
 
@@ -12,7 +12,14 @@ export interface Palette {
   colorblindSafe: boolean
 }
 
-export { categoricalPalettes, sequentialPalettes, interpolateSequentialPalette, divergingPalettes, interpolateDivergingPalette, getDivergingColor }
+export const categoricalPalettes = getPalettesByType('categorical').map(palette => ({
+  value: palette.id,
+  label: palette.name,
+  colors: palette.colors,
+  colorblindSafe: palette.colorblindSafe,
+}))
+
+export { sequentialPalettes, interpolateSequentialPalette, divergingPalettes, interpolateDivergingPalette, getDivergingColor }
 
 export function getAllPalettes(): Record<PaletteType, Palette[]> {
   return {

@@ -1,6 +1,6 @@
 // src/lib/data/serbian-datasets/registry.ts
 
-import type { SerbianDataset, SerbianDatasetMeta, DataCategory } from './types';
+import type { RawSerbianDataset, SerbianDataset, SerbianDatasetMeta, DataCategory } from './types';
 
 // Import all datasets (will be populated as we create them)
 import birthRatesData from './data/birth-rates.json';
@@ -11,21 +11,38 @@ import diasporaDestinationsData from './data/diaspora-destinations.json';
 import migrationBalanceData from './data/migration-balance.json';
 import populationPyramidData from './data/population-pyramid.json';
 
-const ALL_DATASETS: SerbianDataset[] = [
-  birthRatesData as SerbianDataset,
-  fertilityRatesData as SerbianDataset,
-  naturalChangeData as SerbianDataset,
-  populationDeclineData as SerbianDataset,
-  diasporaDestinationsData as SerbianDataset,
-  migrationBalanceData as SerbianDataset,
-  populationPyramidData as SerbianDataset,
+const RAW_DATASETS: RawSerbianDataset[] = [
+  birthRatesData as RawSerbianDataset,
+  fertilityRatesData as RawSerbianDataset,
+  naturalChangeData as RawSerbianDataset,
+  populationDeclineData as RawSerbianDataset,
+  diasporaDestinationsData as RawSerbianDataset,
+  migrationBalanceData as RawSerbianDataset,
+  populationPyramidData as RawSerbianDataset,
 ];
+
+function normalizeCategory(category: string): DataCategory {
+  switch (category) {
+    case 'demographics':
+    case 'regional':
+    case 'healthcare':
+    case 'economic':
+      return category;
+    default:
+      return 'demographics';
+  }
+}
+
+const ALL_DATASETS: SerbianDataset[] = RAW_DATASETS.map(dataset => ({
+  ...dataset,
+  category: normalizeCategory(dataset.category),
+}));
 
 /**
  * Get all dataset metadata (lightweight, no observations)
  */
 export function getAllDatasetMeta(): SerbianDatasetMeta[] {
-  return ALL_DATASETS.map(({ observations, dimensions, measures, ...meta }) => meta);
+  return ALL_DATASETS.map(({ observations: _observations, dimensions: _dimensions, measures: _measures, ...meta }) => meta);
 }
 
 /**

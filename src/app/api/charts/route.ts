@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getServerSession } from 'next-auth'
 
 import { z } from 'zod'
 
+import { validateCsrf } from '@/lib/api/csrf'
+import { authOptions } from '@/lib/auth/auth-options'
 import { listCharts, createChart } from '@/lib/db'
 import { chartConfigSchema } from '@/types/chart-config'
+import type { ChartConfig } from '@/types/chart-config'
 import { ChartStatus } from '@/types/persistence'
 
 const createChartSchema = z.object({
@@ -57,7 +61,13 @@ export async function GET(request: NextRequest) {
  * POST /api/charts - Create a new chart (anonymous or authenticated)
  */
 export async function POST(request: NextRequest) {
+  const csrfError = validateCsrf(request)
+  if (csrfError) return csrfError
+
   try {
+    const session = await getServerSession(authOptions)
+    const sessionUserId = (session?.user as { id?: string } | undefined)?.id
+
     const body = await request.json()
     const parseResult = createChartSchema.safeParse(body)
 
@@ -73,11 +83,11 @@ export async function POST(request: NextRequest) {
     const chart = await createChart({
       title,
       description,
-      config: config as any, // Type cast to avoid discriminated union issues
+      config: config as ChartConfig,
       datasetIds,
       thumbnail,
       chartType: config.type,
-      // userId will be added later with authentication
+      userId: sessionUserId,
     })
 
     return NextResponse.json(chart, { status: 201 })

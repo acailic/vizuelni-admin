@@ -48,8 +48,11 @@ export function FilterPillsFromState({
     for (const [key, value] of Object.entries(filterState.dataFilters)) {
       if (value !== null && value !== undefined) {
         const dimensionLabel = dimensionLabels[key] || key
+        const MAX_DISPLAY_VALUES = 5
         const displayValue = Array.isArray(value)
-          ? value.map(v => valueLabels[key]?.[v] || v).join(', ')
+          ? value.length > MAX_DISPLAY_VALUES
+            ? value.slice(0, MAX_DISPLAY_VALUES).map(v => valueLabels[key]?.[v] || v).join(', ') + ` (+${value.length - MAX_DISPLAY_VALUES})`
+            : value.map(v => valueLabels[key]?.[v] || v).join(', ')
           : valueLabels[key]?.[value] || value
 
         result.push({

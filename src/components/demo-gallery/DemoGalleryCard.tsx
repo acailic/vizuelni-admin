@@ -21,24 +21,25 @@ export function DemoGalleryCard({
   return (
     <div
       onClick={onClick}
-      className='bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all cursor-pointer hover:border-blue-300'
+      className='bg-white rounded-lg shadow-md overflow-hidden border border-slate-200 hover:shadow-lg transition-all cursor-pointer hover:border-gov-secondary'
     >
-      <div className='h-48 bg-gray-50 dark:bg-gray-900 p-2'>
+      <div className='h-48 bg-slate-50 p-2'>
         {example.inlineData ? (
           <ChartRenderer
             config={example.chartConfig}
             data={example.inlineData.observations}
             locale={locale}
             previewMode={true}
+            height={176}
           />
         ) : (
-          <div className='h-full flex items-center justify-center text-gray-400'>
+          <div className='h-full flex items-center justify-center text-slate-400'>
             No preview
           </div>
         )}
       </div>
       <div className='p-3'>
-        <h3 className='font-medium text-gray-900 dark:text-white text-sm line-clamp-1'>
+        <h3 className='font-medium text-slate-900 text-sm line-clamp-1'>
           {title}
         </h3>
       </div>

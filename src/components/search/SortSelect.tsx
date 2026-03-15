@@ -13,7 +13,7 @@ interface SortSelectProps {
   options: SortOption[]
 }
 
-export function SortSelect({ locale, sortLabel, options }: SortSelectProps) {
+export function SortSelect({ locale: _locale, sortLabel, options }: SortSelectProps) {
   const { searchParams, setSearchParams } = useSearch()
   const currentSort = searchParams.get('sort') || 'relevance'
 

@@ -28,7 +28,7 @@ function TimeRangeBrushComponent({
   width,
   height = 80,
   locale,
-  labels,
+  labels: _labels,
   className,
 }: TimeRangeBrushProps) {
   const brushRef = useRef<SVGSVGElement>(null)
@@ -101,7 +101,7 @@ function TimeRangeBrushComponent({
     }
   }, [isDragging, range, selectionX, xScale, onRangeChange, innerWidth, margins])
 
-  const formatDate = (date: Date) => {
+  const _formatDate = (date: Date) => {
     return date.toLocaleDateString(locale === 'en' ? 'en-US' : 'sr-RS', {
       year: 'numeric',
       month: 'short',

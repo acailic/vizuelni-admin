@@ -190,9 +190,9 @@ const config: Config = {
     },
   },
   plugins: [
-    // Add plugins here as needed
-    // require('@tailwindcss/forms'),
-    // require('@tailwindcss/typography'),
+    require('tailwindcss-animate'),
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/forms'),
   ],
 };
 

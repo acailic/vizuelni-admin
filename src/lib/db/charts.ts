@@ -44,7 +44,9 @@ export async function listCharts(
   pagination: ChartListPagination = { page: 1, pageSize: 20, sortBy: 'createdAt', sortOrder: 'desc' }
 ): Promise<ChartListResult> {
   const where = {
-    ...(filters.status && { status: filters.status }),
+    ...(filters.status
+      ? { status: filters.status }
+      : { status: { not: ChartStatus.ARCHIVED } }),
     ...(filters.userId && { userId: filters.userId }),
     ...(filters.chartType && { chartType: filters.chartType }),
   }

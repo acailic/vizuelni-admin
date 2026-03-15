@@ -6,6 +6,7 @@ import {
   getAxisLabel,
   getTableColumns,
 } from '@/components/charts/shared/chart-data';
+import { ChartErrorBoundary } from '@/components/charts/shared/ChartErrorBoundary';
 import { ChartFrame } from '@/components/charts/shared/ChartFrame';
 import { ExportMenu } from '@/components/charts/shared/ExportMenu';
 import { FilterBar } from '@/components/filters';
@@ -299,26 +300,34 @@ export function ChartRenderer({
         </div>
       )}
 
-      <Suspense
-        fallback={
-          <ChartFrame
-            title={parsedConfig.title}
-            description={parsedConfig.description}
-            height={height}
-            emptyMessage='Loading chart renderer...'
-          />
-        }
+      <ChartErrorBoundary
+        title={parsedConfig.title}
+        description={parsedConfig.description}
+        height={height}
+        resetKey={`${chartId}:${locale}:${height}:${filteredData.length}:${hiddenSeriesKeys.join(',')}`}
       >
-        <RendererComponent
-          config={parsedConfig}
-          data={filteredData}
-          filterBar={filterBar}
-          height={height}
-          hiddenSeriesKeys={hiddenSeriesKeys}
-          locale={locale}
-          showInternalLegend={!showLegendFilter}
-        />
-      </Suspense>
+        <Suspense
+          fallback={
+            <ChartFrame
+              title={parsedConfig.title}
+              description={parsedConfig.description}
+              height={height}
+              emptyMessage='Loading chart renderer...'
+            />
+          }
+        >
+          <RendererComponent
+            config={parsedConfig}
+            data={filteredData}
+            filterBar={filterBar}
+            height={height}
+            hiddenSeriesKeys={hiddenSeriesKeys}
+            locale={locale}
+            showInternalLegend={!showLegendFilter}
+            previewMode={previewMode}
+          />
+        </Suspense>
+      </ChartErrorBoundary>
     </div>
   );
 }

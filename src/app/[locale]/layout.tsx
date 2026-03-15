@@ -1,28 +1,28 @@
-import { notFound } from 'next/navigation'
+import { notFound } from 'next/navigation';
 
-import { getMessages, resolveLocale } from '@/lib/i18n/messages'
-import { AppShell } from '@/components/layout/AppShell'
-import { locales } from '@/lib/i18n/config'
+import { getMessages, resolveLocale } from '@/lib/i18n/messages';
+import { AppShell } from '@/components/layout/AppShell';
+import { locales } from '@/lib/i18n/config';
 
 export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }))
+  return locales.map((locale) => ({ locale }));
 }
 
 export default async function LocaleLayout({
   children,
   params,
 }: {
-  children: React.ReactNode
-  params: Promise<{ locale: string }>
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale: localeParam } = await params
-  const locale = resolveLocale(localeParam)
+  const { locale: localeParam } = await params;
+  const locale = resolveLocale(localeParam);
 
   if (locale !== localeParam) {
-    notFound()
+    notFound();
   }
 
-  const messages = getMessages(locale)
+  const messages = getMessages(locale);
 
   return (
     <AppShell
@@ -30,20 +30,24 @@ export default async function LocaleLayout({
       messages={{
         sidebar: {
           browse: messages.sidebar?.browse || messages.common.datasets,
-          create: messages.sidebar?.create || messages.common.create || 'Create',
-          gallery: messages.sidebar?.gallery || messages.common.gallery || 'Gallery',
-          dashboard: messages.sidebar?.dashboard || messages.common.dashboard || 'Dashboard',
+          create: messages.sidebar?.create || 'Create',
+          gallery: messages.sidebar?.gallery || 'Gallery',
+          demoGallery: messages.sidebar?.demoGallery || 'Demo Gallery',
+          dashboard: messages.sidebar?.dashboard || 'Dashboard',
         },
         header: {
-          searchPlaceholder: messages.header?.searchPlaceholder || 'Search datasets...',
-          profile: messages.header?.profile || messages.common.profile || 'Profile',
-          settings: messages.header?.settings || messages.common.settings || 'Settings',
-          signOut: messages.header?.signOut || messages.common.signOut || 'Sign Out',
-          signIn: messages.header?.signIn || messages.common.signIn || 'Sign In',
+          searchPlaceholder:
+            messages.header?.searchPlaceholder || 'Search datasets...',
+          profile:
+            messages.header?.profile || messages.common.profile || 'Profile',
+          settings: messages.header?.settings || 'Settings',
+          signOut:
+            messages.header?.signOut || messages.common.logout || 'Sign Out',
+          signIn: messages.header?.signIn || messages.common.login || 'Sign In',
         },
       }}
     >
       {children}
     </AppShell>
-  )
+  );
 }

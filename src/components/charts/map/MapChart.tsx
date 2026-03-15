@@ -82,6 +82,7 @@ export function MapChart({
   height = 400,
   locale = 'en',
   filterBar,
+  previewMode = false,
 }: ChartRendererComponentProps) {
   const [geoData, setGeoData] = useState<GeoJSONData | null>(null)
   const [loading, setLoading] = useState(true)
@@ -244,6 +245,7 @@ export function MapChart({
         title={config.title}
         description={config.description}
         height={height}
+        previewMode={previewMode}
       >
         <div className="flex h-full items-center justify-center text-slate-500">
           {locale === 'sr-Cyrl'
@@ -263,6 +265,7 @@ export function MapChart({
         title={config.title}
         description={config.description}
         height={height}
+        previewMode={previewMode}
       >
         <div className="flex h-full items-center justify-center text-red-500">
           {locale === 'sr-Cyrl'
@@ -282,6 +285,7 @@ export function MapChart({
         title={config.title}
         description={config.description}
         height={height}
+        previewMode={previewMode}
       >
         <div className="flex h-full items-center justify-center text-slate-500">
           {locale === 'sr-Cyrl'
@@ -308,6 +312,7 @@ export function MapChart({
       description={config.description}
       height={height}
       filterBar={filterBar}
+      previewMode={previewMode}
     >
       <div className="relative h-full w-full">
         <MapContainer

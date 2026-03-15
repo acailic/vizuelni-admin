@@ -3,7 +3,7 @@
   "changelog": "@changesets/cli/changelog",
   "commit": false,
   "fixed": [],
-  "linked": [],
+  "linked": [["@vizualni/data", "@vizualni/geo-data", "@vizualni/charts", "@vizualni/core", "@vizualni/react", "@vizualni/connectors"]],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",

@@ -17,9 +17,9 @@ export interface ConfiguratorStoreState {
   initialized: boolean
   // Multi-dataset state
   datasets: DatasetReference[]
-  secondaryDatasets: Map<string, ParsedDataset>
-  joinSuggestions: Map<string, JoinSuggestion[]>
-  activeJoinConfig: Map<string, { primaryKey: string; secondaryKey: string }>
+  secondaryDatasets: Record<string, ParsedDataset>
+  joinSuggestions: Record<string, JoinSuggestion[]>
+  activeJoinConfig: Record<string, { primaryKey: string; secondaryKey: string }>
   // Persistence state
   savedChartId: string | null
   isDirty: boolean
@@ -90,9 +90,9 @@ const getInitialState = (): ConfiguratorStoreState => ({
   initialized: false,
   // Multi-dataset state
   datasets: [],
-  secondaryDatasets: new Map(),
-  joinSuggestions: new Map(),
-  activeJoinConfig: new Map(),
+  secondaryDatasets: {},
+  joinSuggestions: {},
+  activeJoinConfig: {},
   // Persistence state
   savedChartId: null,
   isDirty: false,
@@ -202,38 +202,29 @@ export const useConfiguratorStore = create<ConfiguratorStoreState & Configurator
         if (state.datasets.length >= 3) {
           return {} // Max 3 datasets
         }
-        const newDatasets = [...state.datasets, ref]
-        const newSecondaryDatasets = new Map(state.secondaryDatasets)
-        newSecondaryDatasets.set(ref.datasetId, dataset)
         return {
-          datasets: newDatasets,
-          secondaryDatasets: newSecondaryDatasets,
+          datasets: [...state.datasets, ref],
+          secondaryDatasets: { ...state.secondaryDatasets, [ref.datasetId]: dataset },
         }
       }),
 
     removeDataset: datasetId =>
       set(state => {
-        const newDatasets = state.datasets.filter(d => d.datasetId !== datasetId)
-        const newSecondaryDatasets = new Map(state.secondaryDatasets)
-        newSecondaryDatasets.delete(datasetId)
-        const newJoinSuggestions = new Map(state.joinSuggestions)
-        newJoinSuggestions.delete(datasetId)
-        const newActiveJoinConfig = new Map(state.activeJoinConfig)
-        newActiveJoinConfig.delete(datasetId)
+        const { [datasetId]: _sd, ...restSecondary } = state.secondaryDatasets
+        const { [datasetId]: _js, ...restJoin } = state.joinSuggestions
+        const { [datasetId]: _jc, ...restConfig } = state.activeJoinConfig
         return {
-          datasets: newDatasets,
-          secondaryDatasets: newSecondaryDatasets,
-          joinSuggestions: newJoinSuggestions,
-          activeJoinConfig: newActiveJoinConfig,
+          datasets: state.datasets.filter(d => d.datasetId !== datasetId),
+          secondaryDatasets: restSecondary,
+          joinSuggestions: restJoin,
+          activeJoinConfig: restConfig,
         }
       }),
 
     setJoinConfig: (datasetId, primaryKey, secondaryKey) =>
-      set(state => {
-        const newActiveJoinConfig = new Map(state.activeJoinConfig)
-        newActiveJoinConfig.set(datasetId, { primaryKey, secondaryKey })
-        return { activeJoinConfig: newActiveJoinConfig }
-      }),
+      set(state => ({
+        activeJoinConfig: { ...state.activeJoinConfig, [datasetId]: { primaryKey, secondaryKey } },
+      })),
 
     getJoinedDataset: () => {
       const state = get()
