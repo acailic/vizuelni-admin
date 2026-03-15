@@ -131,13 +131,16 @@ export function getStagehandConfig(): StagehandConfig {
 /**
  * Create a Stagehand instance with project defaults
  *
- * Note: CHROME_PATH env var must be set for LOCAL mode
- * Stagehand uses chrome-launcher which reads CHROME_PATH
+ * Supports:
+ * - LOCAL mode with Chrome (CHROME_PATH env var)
+ * - LOCAL mode with Lightpanda CDP (CDP_URL env var - pass via localBrowserLaunchOptions.cdpUrl)
+ * - BROWSERBASE mode (BROWSERBASE_API_KEY env var)
  */
 export async function createStagehandInstance(): Promise<Stagehand> {
   const config = getStagehandConfig();
 
-  const stagehand = new V3({
+  // Build V3 options
+  const v3Options: ConstructorParameters<typeof V3>[0] = {
     env: config.env,
     apiKey: config.apiKey,
     projectId: config.projectId,
@@ -148,8 +151,16 @@ export async function createStagehandInstance(): Promise<Stagehand> {
       apiKey: config.llmApiKey,
       baseURL: config.llmBaseURL,
     },
-  });
+  };
 
+  // Add CDP URL via localBrowserLaunchOptions for Lightpanda
+  if (config.cdpUrl) {
+    v3Options.localBrowserLaunchOptions = {
+      cdpUrl: config.cdpUrl,
+    };
+  }
+
+  const stagehand = new V3(v3Options);
   await stagehand.init();
   return stagehand;
 }
