@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   BarChart3,
   LineChart,
@@ -85,10 +86,13 @@ export function GalleryChartCard({
       {/* Thumbnail */}
       <div className='relative aspect-video bg-slate-100'>
         {chart.thumbnail ? (
-          <img
+          <Image
             src={`data:image/png;base64,${chart.thumbnail}`}
             alt={chart.title}
-            className='h-full w-full object-cover'
+            fill
+            unoptimized
+            sizes='(max-width: 1024px) 100vw, 25vw'
+            className='object-cover'
           />
         ) : (
           <div className='flex h-full items-center justify-center'>
@@ -123,9 +127,12 @@ export function GalleryChartCard({
         {chart.author && (
           <div className='mb-2 flex items-center gap-2'>
             {chart.author.image ? (
-              <img
+              <Image
                 src={chart.author.image}
                 alt={chart.author.name || ''}
+                width={20}
+                height={20}
+                unoptimized
                 className='h-5 w-5 rounded-full object-cover'
               />
             ) : (

@@ -18,7 +18,8 @@ interface DataGovRsConfig {
 
 // Default configuration
 const DEFAULT_CONFIG: DataGovRsConfig = {
-  baseURL: process.env.NEXT_PUBLIC_DATA_GOV_RS_API_URL || 'https://data.gov.rs/api/1',
+  baseURL:
+    process.env.NEXT_PUBLIC_DATA_GOV_RS_API_URL || 'https://data.gov.rs/api/1',
   apiKey: process.env.DATA_GOV_RS_API_KEY,
   timeout: parseInt(process.env.DATA_GOV_RS_API_TIMEOUT || '30000', 10),
   enableCache: process.env.ENABLE_API_CACHE === 'true',
@@ -28,7 +29,9 @@ const DEFAULT_CONFIG: DataGovRsConfig = {
 /**
  * Create a configured Axios instance for data.gov.rs API
  */
-export function createDataGovRsClient(config: Partial<DataGovRsConfig> = {}): AxiosInstance {
+export function createDataGovRsClient(
+  config: Partial<DataGovRsConfig> = {}
+): AxiosInstance {
   const finalConfig = { ...DEFAULT_CONFIG, ...config };
 
   const axiosConfig: AxiosRequestConfig = {
@@ -58,11 +61,6 @@ export function createDataGovRsClient(config: Partial<DataGovRsConfig> = {}): Ax
         };
       }
 
-      // Log request in development
-      if (process.env.NODE_ENV === 'development') {
-        console.log(`[DataGov.rs API] ${request.method?.toUpperCase()} ${request.url}`);
-      }
-
       return request;
     },
     (error) => {
@@ -72,33 +70,8 @@ export function createDataGovRsClient(config: Partial<DataGovRsConfig> = {}): Ax
 
   // Response interceptor
   client.interceptors.response.use(
-    (response) => {
-      // Log response in development
-      if (process.env.NODE_ENV === 'development') {
-        console.log(`[DataGov.rs API] Response:`, response.status, response.config.url);
-      }
-
-      return response;
-    },
-    (error) => {
-      // Handle errors
-      if (error.response) {
-        // Server responded with error status
-        console.error('[DataGov.rs API] Error Response:', {
-          status: error.response.status,
-          data: error.response.data,
-          url: error.config?.url,
-        });
-      } else if (error.request) {
-        // Request was made but no response received
-        console.error('[DataGov.rs API] No Response:', error.message);
-      } else {
-        // Something happened in setting up the request
-        console.error('[DataGov.rs API] Request Error:', error.message);
-      }
-
-      return Promise.reject(error);
-    }
+    (response) => response,
+    (error) => Promise.reject(error)
   );
 
   return client;
@@ -239,7 +212,10 @@ export function handleApiError(error: unknown): never {
 /**
  * Fetch datasets with pagination
  */
-export async function fetchDatasets(page = 1, pageSize = 20): Promise<PaginatedResponse<Dataset>> {
+export async function fetchDatasets(
+  page = 1,
+  pageSize = 20
+): Promise<PaginatedResponse<Dataset>> {
   try {
     const response = await dataGovRsClient.get<PaginatedResponse<Dataset>>(
       API_ENDPOINTS.DATASETS,
@@ -258,7 +234,9 @@ export async function fetchDatasets(page = 1, pageSize = 20): Promise<PaginatedR
  */
 export async function fetchDataset(id: string): Promise<Dataset> {
   try {
-    const response = await dataGovRsClient.get<Dataset>(API_ENDPOINTS.DATASET(id));
+    const response = await dataGovRsClient.get<Dataset>(
+      API_ENDPOINTS.DATASET(id)
+    );
     return response.data;
   } catch (error) {
     handleApiError(error);

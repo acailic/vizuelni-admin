@@ -1,12 +1,26 @@
-import type { Metadata } from 'next'
+import type { Metadata } from 'next';
+import { Inter, Noto_Serif } from 'next/font/google';
 
-import './globals.css'
-import { Providers } from './providers'
+import './globals.css';
+import { Providers } from './providers';
+
+const inter = Inter({
+  subsets: ['latin', 'latin-ext', 'cyrillic'],
+  display: 'swap',
+});
+
+const notoSerif = Noto_Serif({
+  subsets: ['latin', 'latin-ext', 'cyrillic'],
+  display: 'swap',
+  variable: '--font-serif',
+});
 
 export const metadata: Metadata = {
   title: 'Визуелни Администратор Србије | Visual Admin Serbia',
-  description: 'Create and embed visualizations from Serbian open government data - Креирајте и уградите визуализације из отворених података владе Србије',
-  keywords: 'open data, visualization, Serbia, отворени подаци, визуелизација, Србија, data.gov.rs',
+  description:
+    'Create and embed visualizations from Serbian open government data - Креирајте и уградите визуализације из отворених података владе Србије',
+  keywords:
+    'open data, visualization, Serbia, отворени подаци, визуелизација, Србија, data.gov.rs',
   authors: [{ name: 'Vizuelni Admin Srbije Team' }],
   openGraph: {
     title: 'Визуелни Администратор Србије',
@@ -15,23 +29,18 @@ export const metadata: Metadata = {
     alternateLocale: ['en_US'],
     type: 'website',
   },
-}
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="sr" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif:wght@400;600;700;900&display=swap&subset=cyrillic" rel="stylesheet" />
-      </head>
-      <body style={{ fontFamily: 'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
+    <html lang='sr' suppressHydrationWarning>
+      <body className={`${inter.className} ${notoSerif.variable}`}>
         <Providers>{children}</Providers>
       </body>
     </html>
-  )
+  );
 }

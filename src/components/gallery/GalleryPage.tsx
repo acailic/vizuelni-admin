@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { BarChart3 } from 'lucide-react';
 import {
   GalleryFilterBar,
@@ -49,11 +49,7 @@ export function GalleryPage({ locale, labels }: GalleryPageProps) {
   const [chartType, setChartType] = useState<ChartTypeFilter>('all');
   const [sort, setSort] = useState<SortOption>('newest');
 
-  useEffect(() => {
-    fetchCharts();
-  }, [sort]);
-
-  const fetchCharts = async () => {
+  const fetchCharts = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
@@ -70,7 +66,11 @@ export function GalleryPage({ locale, labels }: GalleryPageProps) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [labels.error, sort]);
+
+  useEffect(() => {
+    void fetchCharts();
+  }, [fetchCharts]);
 
   const filteredCharts = useMemo(() => {
     let result = charts;

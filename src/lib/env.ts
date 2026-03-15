@@ -11,7 +11,9 @@ const envSchema = z.object({
   // Application
   NEXT_PUBLIC_APP_NAME: z.string().optional(),
   NEXT_PUBLIC_APP_URL: z.string().url().optional(),
-  NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+  NODE_ENV: z
+    .enum(['development', 'production', 'test'])
+    .default('development'),
 
   // Data.gov.rs API
   NEXT_PUBLIC_DATA_GOV_RS_API_URL: z.string().url().optional(),
@@ -32,8 +34,14 @@ const envSchema = z.object({
 
   // Maps
   NEXT_PUBLIC_MAPBOX_TOKEN: z.string().optional(),
-  NEXT_PUBLIC_MAP_CENTER_LAT: z.string().regex(/^-?\d+(\.\d+)?$/).optional(),
-  NEXT_PUBLIC_MAP_CENTER_LNG: z.string().regex(/^-?\d+(\.\d+)?$/).optional(),
+  NEXT_PUBLIC_MAP_CENTER_LAT: z
+    .string()
+    .regex(/^-?\d+(\.\d+)?$/)
+    .optional(),
+  NEXT_PUBLIC_MAP_CENTER_LNG: z
+    .string()
+    .regex(/^-?\d+(\.\d+)?$/)
+    .optional(),
   NEXT_PUBLIC_MAP_DEFAULT_ZOOM: z.string().regex(/^\d+$/).optional(),
 
   // Features
@@ -58,19 +66,14 @@ const envSchema = z.object({
  * @returns Validated environment variables or throws error
  */
 export function validateEnv() {
-  try {
-    const parsed = envSchema.safeParse(process.env);
+  const parsed = envSchema.safeParse(process.env);
 
-    if (!parsed.success) {
-      console.error('❌ Invalid environment variables:', parsed.error.flatten().fieldErrors);
-      throw new Error('Invalid environment variables');
-    }
-
-    return parsed.data;
-  } catch (error) {
-    console.error('❌ Environment validation failed:', error);
-    throw error;
+  if (!parsed.success) {
+    const fieldErrors = JSON.stringify(parsed.error.flatten().fieldErrors);
+    throw new Error(`Invalid environment variables: ${fieldErrors}`);
   }
+
+  return parsed.data;
 }
 
 /**
@@ -124,7 +127,10 @@ export function getNumberEnv(key: string, fallback: number): number {
 /**
  * Check if required environment variables are set
  */
-export function checkRequiredEnvVars(): { success: boolean; missing: string[] } {
+export function checkRequiredEnvVars(): {
+  success: boolean;
+  missing: string[];
+} {
   const requiredVars = [
     'NEXT_PUBLIC_DATA_GOV_RS_API_URL',
     // Add more required variables as needed
@@ -142,14 +148,7 @@ export function checkRequiredEnvVars(): { success: boolean; missing: string[] } 
  * Log environment configuration (only in development)
  */
 export function logEnvConfig(): void {
-  if (isDevelopment()) {
-    console.log('🔧 Environment Configuration:');
-    console.log('  - NODE_ENV:', process.env.NODE_ENV);
-    console.log('  - API URL:', process.env.NEXT_PUBLIC_DATA_GOV_RS_API_URL);
-    console.log('  - Default Language:', process.env.NEXT_PUBLIC_DEFAULT_LANGUAGE);
-    console.log('  - Debug Mode:', process.env.NEXT_PUBLIC_DEBUG);
-    console.log('  - Analytics:', process.env.NEXT_PUBLIC_ENABLE_ANALYTICS);
-  }
+  if (!isDevelopment()) return;
 }
 
 // Export validated env for use in app

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {
   Document,
@@ -8,7 +8,7 @@ import {
   Image,
   StyleSheet,
   Font,
-} from '@react-pdf/renderer'
+} from '@react-pdf/renderer';
 
 // Register fonts for Cyrillic support
 Font.register({
@@ -22,7 +22,7 @@ Font.register({
       fontWeight: 'bold',
     },
   ],
-})
+});
 
 const styles = StyleSheet.create({
   page: {
@@ -122,29 +122,29 @@ const styles = StyleSheet.create({
     fontSize: 8,
     color: '#CCCCCC',
   },
-})
+});
 
 interface ChartReportDocumentProps {
-  title: string
-  description?: string
-  chartImage?: string
+  title: string;
+  description?: string;
+  chartImage?: string;
   metadata: {
-    createdAt: string
-    chartType: string
-    datasets: string[]
-    organization?: string
-    license?: string
-  }
-  locale: string
+    createdAt: string;
+    chartType: string;
+    datasets: string[];
+    organization?: string;
+    license?: string;
+  };
+  locale: string;
   labels: {
-    reportTitle: string
-    generatedOn: string
-    chartType: string
-    datasets: string
-    organization: string
-    license: string
-    watermark: string
-  }
+    reportTitle: string;
+    generatedOn: string;
+    chartType: string;
+    datasets: string;
+    organization: string;
+    license: string;
+    watermark: string;
+  };
 }
 
 export function ChartReportDocument({
@@ -157,13 +157,11 @@ export function ChartReportDocument({
 }: ChartReportDocumentProps) {
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
+      <Page size='A4' style={styles.page}>
         {/* Header */}
         <View style={styles.header}>
-          <Image
-            src="/serbia-logo.png"
-            style={styles.logo}
-          />
+          {/* @ts-expect-error react-pdf Image doesn't support alt */}
+          <Image src='/serbia-logo.png' style={styles.logo} />
           <Text style={styles.title}>{title || labels.reportTitle}</Text>
           <Text style={styles.date}>
             {labels.generatedOn}: {metadata.createdAt}
@@ -181,6 +179,7 @@ export function ChartReportDocument({
         {/* Chart Image */}
         {chartImage && (
           <View style={styles.chartContainer}>
+            {/* @ts-expect-error react-pdf Image doesn't support alt */}
             <Image src={chartImage} style={styles.chartImage} />
           </View>
         )}
@@ -222,11 +221,13 @@ export function ChartReportDocument({
         {/* Footer */}
         <View style={styles.footer}>
           <Text>Vizuelni Admin Srbije | {locale}</Text>
-          <Text render={({ pageNumber, totalPages }) => (
-            `${pageNumber} / ${totalPages}`
-          )} />
+          <Text
+            render={({ pageNumber, totalPages }) =>
+              `${pageNumber} / ${totalPages}`
+            }
+          />
         </View>
       </Page>
     </Document>
-  )
+  );
 }

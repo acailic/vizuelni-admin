@@ -8,7 +8,11 @@ const nextConfig = {
   distDir: process.env.NODE_ENV === 'development' ? '.next-dev' : '.next',
 
   experimental: {
-    optimizePackageImports: ['lucide-react', '@tanstack/react-query', 'recharts'],
+    optimizePackageImports: [
+      'lucide-react',
+      '@tanstack/react-query',
+      'recharts',
+    ],
   },
 
   images: {
@@ -21,6 +25,16 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'stats.data.gov.rs',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
         pathname: '/**',
       },
     ],
@@ -50,11 +64,13 @@ const nextConfig = {
           },
           {
             key: 'Permissions-Policy',
-            value: 'geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()',
+            value:
+              'geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()',
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://data.gov.rs https://stats.data.gov.rs; frame-ancestors 'none'; base-uri 'self'; form-action 'self';",
+            value:
+              "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://data.gov.rs https://stats.data.gov.rs; frame-ancestors 'none'; base-uri 'self'; form-action 'self';",
           },
         ],
       },
@@ -102,8 +118,10 @@ const nextConfig = {
       process.env.NEXT_PUBLIC_API_URL ||
       process.env.NEXT_PUBLIC_DATA_GOV_API_URL ||
       process.env.NEXT_PUBLIC_DATA_GOV_RS_API_URL,
-    NEXT_PUBLIC_DEFAULT_LOCALE: process.env.NEXT_PUBLIC_DEFAULT_LOCALE || 'sr-Cyrl',
-    NEXT_PUBLIC_ENABLE_DARK_MODE: process.env.NEXT_PUBLIC_ENABLE_DARK_MODE || 'true',
+    NEXT_PUBLIC_DEFAULT_LOCALE:
+      process.env.NEXT_PUBLIC_DEFAULT_LOCALE || 'sr-Cyrl',
+    NEXT_PUBLIC_ENABLE_DARK_MODE:
+      process.env.NEXT_PUBLIC_ENABLE_DARK_MODE || 'true',
   },
 
   webpack: (config) => {

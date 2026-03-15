@@ -1,10 +1,10 @@
-import type { NextAuthOptions } from 'next-auth'
-import { PrismaAdapter } from '@auth/prisma-adapter'
-import GithubProvider from 'next-auth/providers/github'
-import GoogleProvider from 'next-auth/providers/google'
-import CredentialsProvider from 'next-auth/providers/credentials'
-import bcrypt from 'bcrypt'
-import prisma from '@/lib/db/prisma'
+import type { NextAuthOptions } from 'next-auth';
+import { PrismaAdapter } from '@auth/prisma-adapter';
+import GithubProvider from 'next-auth/providers/github';
+import GoogleProvider from 'next-auth/providers/google';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import bcrypt from 'bcrypt';
+import prisma from '@/lib/db/prisma';
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -22,33 +22,40 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: 'Email',
       credentials: {
-        email: { label: 'Email', type: 'email', placeholder: 'name@example.com' },
+        email: {
+          label: 'Email',
+          type: 'email',
+          placeholder: 'name@example.com',
+        },
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          return null
+          return null;
         }
 
         // Find user by email
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
-        })
+        });
 
         // Verify password using bcrypt
         if (user && user.password) {
-          const isValid = await bcrypt.compare(credentials.password, user.password)
+          const isValid = await bcrypt.compare(
+            credentials.password,
+            user.password
+          );
           if (isValid) {
             return {
               id: user.id,
               email: user.email,
               name: user.name,
               image: user.image,
-            }
+            };
           }
         }
 
-        return null
+        return null;
       },
     }),
   ],
@@ -66,32 +73,19 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        (token as Record<string, unknown>).id = user.id
+        token.id = user.id;
       }
-      return token
+      return token;
     },
     async session({ session, token }) {
-      if (session.user) {
-        (session.user as Record<string, unknown>).id = (token as Record<string, unknown>).id as string
+      if (session.user && token.id) {
+        session.user.id = token.id;
       }
-      return session
-    },
-  },
-
-  events: {
-    async signIn({ user }) {
-      if (process.env.NODE_ENV === 'development') {
-        console.log(`User signed in: ${user.email}`)
-      }
-    },
-    async signOut({ token }) {
-      if (process.env.NODE_ENV === 'development') {
-        console.log(`User signed out: ${token.email}`)
-      }
+      return session;
     },
   },
 
   debug: process.env.NODE_ENV === 'development',
-}
+};
 
-export default authOptions
+export default authOptions;
