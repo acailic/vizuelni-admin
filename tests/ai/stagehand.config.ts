@@ -1,3 +1,8 @@
+// Load environment variables FIRST before any other code
+import { config } from 'dotenv';
+import { resolve } from 'path';
+config({ path: resolve(process.cwd(), '.env') });
+
 import { Stagehand, V3 } from '@browserbasehq/stagehand';
 import { z } from 'zod';
 
@@ -17,6 +22,8 @@ export interface StagehandConfig {
   llmBaseURL?: string;
   /** API key for the LLM provider (if different from BROWSERBASE_API_KEY) */
   llmApiKey?: string;
+  /** Browser executable path (Lightpanda or Chrome) */
+  browserPath?: string;
 }
 
 /**
@@ -47,10 +54,11 @@ export function getLLMConfig(): {
   const openaiApiKey = process.env.OPENAI_API_KEY;
 
   if (glmApiKey && glmBaseUrl) {
+    // Use openai/ prefix for OpenAI-compatible endpoints
     return {
       baseURL: glmBaseUrl,
       apiKey: glmApiKey,
-      modelName: glmModel,
+      modelName: `openai/${glmModel}`,
     };
   }
 
@@ -87,6 +95,9 @@ export function getStagehandConfig(): StagehandConfig {
   const useBrowserbase = !!process.env.BROWSERBASE_API_KEY;
   const llmConfig = getLLMConfig();
 
+  // Browser path: prefer BROWSER_PATH, fallback to CHROME_PATH
+  const browserPath = process.env.BROWSER_PATH || process.env.CHROME_PATH;
+
   return {
     env: useBrowserbase ? 'BROWSERBASE' : 'LOCAL',
     model: llmConfig.modelName,
@@ -96,6 +107,7 @@ export function getStagehandConfig(): StagehandConfig {
     serverCache: true,
     llmBaseURL: llmConfig.baseURL,
     llmApiKey: llmConfig.apiKey,
+    browserPath,
   };
 }
 
@@ -116,6 +128,12 @@ export async function createStagehandInstance(): Promise<Stagehand> {
       apiKey: config.llmApiKey,
       baseURL: config.llmBaseURL,
     },
+    // Use Lightpanda or custom browser if specified
+    browser: config.browserPath
+      ? {
+          executablePath: config.browserPath,
+        }
+      : undefined,
   });
 
   await stagehand.init();

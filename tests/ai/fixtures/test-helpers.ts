@@ -7,6 +7,9 @@ import {
   type Locale,
 } from '../stagehand.config';
 
+// Re-export for convenience
+export { createStagehandInstance };
+
 export interface TestContext {
   stagehand: Stagehand;
   locale: Locale;
