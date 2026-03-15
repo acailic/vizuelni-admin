@@ -114,8 +114,9 @@ git commit -m "chore: create AI and scrape test directory structure"
 
 Add after the `"test:qa"` script:
 ```json
-    "test:ai": "stagehand test tests/ai/",
-    "test:scrape": "tsx tests/scrape/",
+    "test:ai": "vitest run tests/ai/",
+    "test:ai:watch": "vitest tests/ai/",
+    "test:scrape": "tsx tests/scrape/index.ts",
     "test:all": "npm run test:e2e && npm run test:ai && npm run test:scrape",
 ```
 
@@ -480,9 +481,218 @@ git commit -m "feat: add Lightpanda performance benchmarks"
 
 ---
 
+### Task 2.4: Create Scrape Test Entry Point
+
+**Files:**
+- Create: `tests/scrape/index.ts`
+
+- [ ] **Step 1: Create scrape test runner entry point**
+
+```typescript
+// tests/scrape/index.ts
+import { smokeTest } from "./smoke/health-check";
+import { performanceBenchmark } from "./benchmarks/performance";
+
+const BASE_URL = process.env.BASE_URL || "http://localhost:3001";
+
+async function main() {
+  console.log("Lightpanda Scrape Test Runner");
+  console.log("=".repeat(50));
+  console.log(`Base URL: ${BASE_URL}\n`);
+
+  const args = process.argv.slice(2);
+  const runAll = args.length === 0 || args.includes("--all");
+  const runSmoke = args.includes("--smoke") || runAll;
+  const runPerf = args.includes("--perf") || runAll;
+
+  let hasErrors = false;
+
+  // Run smoke tests
+  if (runSmoke) {
+    console.log("\n📋 Running Smoke Tests...\n");
+    try {
+      await smokeTest(BASE_URL);
+      console.log("✅ Smoke tests passed");
+    } catch (error) {
+      console.error("❌ Smoke tests failed:", error);
+      hasErrors = true;
+    }
+  }
+
+  // Run performance benchmarks
+  if (runPerf) {
+    console.log("\n📊 Running Performance Benchmarks...\n");
+    try {
+      await performanceBenchmark(BASE_URL);
+      console.log("✅ Performance benchmarks completed");
+    } catch (error) {
+      console.error("❌ Performance benchmarks failed:", error);
+      hasErrors = true;
+    }
+  }
+
+  if (hasErrors) {
+    process.exit(1);
+  }
+
+  console.log("\n✅ All scrape tests completed successfully!");
+}
+
+main().catch((err) => {
+  console.error("Scrape test runner error:", err);
+  process.exit(1);
+});
+```
+
+- [ ] **Step 2: Update health-check.ts to export smokeTest function**
+
+Modify `tests/scrape/smoke/health-check.ts` to export the main test function:
+
+```typescript
+// tests/scrape/smoke/health-check.ts
+import { smokeTest as smokeTestUtil, fetchPage } from "../lightpanda";
+
+export async function smokeTest(baseUrl: string): Promise<void> {
+  console.log("Running Lightpanda smoke tests...\n");
+
+  // Test 1: Basic page health
+  console.log("1. Testing basic page health...");
+  const smokeResult = await smokeTestUtil(baseUrl);
+
+  for (const result of smokeResult.results) {
+    const status = result.status === 200 ? "✅" : "❌";
+    console.log(`   ${status} ${result.url} (${result.timing}ms)`);
+  }
+
+  if (!smokeResult.passed) {
+    throw new Error("Smoke tests failed: some pages returned non-200 status");
+  }
+
+  // Test 2: API health
+  console.log("\n2. Testing API endpoints...");
+  const apiResult = await fetchPage(`${baseUrl}/api/browse?page=1&limit=1`);
+  const apiStatus = apiResult.status === 200 ? "✅" : "❌";
+  console.log(`   ${apiStatus} /api/browse (${apiResult.timing}ms)`);
+
+  if (apiResult.status !== 200) {
+    throw new Error("API health check failed");
+  }
+
+  // Test 3: Response time check
+  console.log("\n3. Testing response times...");
+  const slowPages = smokeResult.results.filter((r) => r.timing > 5000);
+  if (slowPages.length > 0) {
+    console.warn(
+      "   ⚠️  Slow pages detected:",
+      slowPages.map((p) => `${p.url} (${p.timing}ms)`).join(", ")
+    );
+  } else {
+    console.log("   ✅ All pages responded within 5 seconds");
+  }
+}
+```
+
+- [ ] **Step 3: Update performance.ts to export benchmark function**
+
+Modify `tests/scrape/benchmarks/performance.ts` to export the main function:
+
+```typescript
+// tests/scrape/benchmarks/performance.ts
+import { fetchPage, fetchParallel } from "../lightpanda";
+
+const ITERATIONS = 5;
+
+// ... (keep existing benchmarkSinglePage and benchmarkParallel functions) ...
+
+export async function performanceBenchmark(baseUrl: string): Promise<void> {
+  console.log("Lightpanda Performance Benchmarks");
+  console.log("=".repeat(40));
+  console.log(`Base URL: ${baseUrl}`);
+  console.log(`Iterations: ${ITERATIONS}`);
+
+  // ... (keep existing benchmark logic) ...
+}
+```
+
+- [ ] **Step 4: Verify TypeScript compiles**
+
+Run:
+```bash
+npx tsc --noEmit tests/scrape/index.ts tests/scrape/smoke/health-check.ts tests/scrape/benchmarks/performance.ts
+```
+
+Expected: No errors
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add tests/scrape/index.ts tests/scrape/smoke/health-check.ts tests/scrape/benchmarks/performance.ts
+git commit -m "feat: add scrape test runner entry point"
+```
+
+---
+
 ## Chunk 3: Stagehand Configuration & Fixtures
 
-### Task 3.1: Create Stagehand Configuration
+### Task 3.1: Create vitest Configuration
+
+**Files:**
+- Create: `tests/ai/vitest.config.ts`
+
+- [ ] **Step 1: Create vitest configuration for AI tests**
+
+```typescript
+// tests/ai/vitest.config.ts
+import { defineConfig } from "vitest/config";
+
+export default defineConfig({
+  test: {
+    // Test file patterns
+    include: ["tests/ai/**/*.spec.ts"],
+
+    // Timeout settings (AI tests need longer timeouts)
+    testTimeout: 120000,
+    hookTimeout: 60000,
+
+    // Run tests sequentially (browser tests can conflict in parallel)
+    pool: "threads",
+    poolOptions: {
+      threads: {
+        singleThread: true,
+      },
+    },
+
+    // Global test setup
+    globals: true,
+
+    // Reporter
+    reporter: ["verbose", "html"],
+    outputFile: {
+      html: "test-results/ai-tests/report.html",
+    },
+  },
+});
+```
+
+- [ ] **Step 2: Verify TypeScript compiles**
+
+Run:
+```bash
+npx tsc --noEmit tests/ai/vitest.config.ts
+```
+
+Expected: No errors
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add tests/ai/vitest.config.ts
+git commit -m "feat: add vitest configuration for AI tests"
+```
+
+---
+
+### Task 3.2: Create Stagehand Configuration
 
 **Files:**
 - Create: `tests/ai/stagehand.config.ts`
@@ -491,44 +701,54 @@ git commit -m "feat: add Lightpanda performance benchmarks"
 
 ```typescript
 // tests/ai/stagehand.config.ts
-import { StagehandConfig } from "@browserbasehq/stagehand";
-import { z } from "zod";
+import { Stagehand } from "@browserbasehq/stagehand";
 
-const config: StagehandConfig = {
-  // Browser configuration
-  env: {
-    OPENAI_API_KEY: process.env.OPENAI_API_KEY || "",
-    BROWSERBASE_API_KEY: process.env.BROWSERBASE_API_KEY,
-  },
+export const BASE_URL = process.env.BASE_URL || "http://localhost:3001";
 
-  // Use local Chrome for development
-  browser: process.env.BROWSERBASE_API_KEY ? "browserbase" : "chrome",
-
-  // Base URL for tests
-  baseUrl: process.env.BASE_URL || "http://localhost:3001",
-
-  // Default timeouts
-  timeouts: {
-    action: 30000,
-    navigation: 30000,
-    extraction: 60000,
-  },
-
-  // Enable verbose logging in development
-  verbose: process.env.NODE_ENV === "development",
-
-  // Default extraction schema validation
-  defaultExtractionSchema: z.object({
-    success: z.boolean(),
-  }),
-};
-
-export default config;
-
-// Export commonly used values
-export const BASE_URL = config.baseUrl as string;
 export const LOCALES = ["sr-Latn", "sr-Cyrl", "en"] as const;
 export type Locale = (typeof LOCALES)[number];
+
+/**
+ * Create a Stagehand instance with project defaults
+ */
+export async function createStagehandInstance(): Promise<Stagehand> {
+  const useBrowserbase = !!process.env.BROWSERBASE_API_KEY;
+
+  const stagehand = new Stagehand({
+    // Use Browserbase cloud if API key is set, otherwise local Chrome
+    env: useBrowserbase ? "BROWSERBASE" : "LOCAL",
+
+    // AI model for natural language understanding
+    model: "openai/gpt-4o",
+
+    // Browserbase credentials (required if env is BROWSERBASE)
+    apiKey: process.env.BROWSERBASE_API_KEY,
+    projectId: process.env.BROWSERBASE_PROJECT_ID,
+
+    // Enable debug logging in development
+    verbose: process.env.NODE_ENV === "development" ? 1 : 0,
+
+    // Enable caching for faster repeated actions
+    enableCaching: true,
+  });
+
+  await stagehand.init();
+  return stagehand;
+}
+
+/**
+ * Test configuration constants
+ */
+export const TEST_CONFIG = {
+  // Default timeouts for AI operations
+  actionTimeout: 30000,
+  navigationTimeout: 30000,
+  extractionTimeout: 60000,
+
+  // Wait times for page interactions
+  pageLoadBuffer: 1000,
+  animationBuffer: 500,
+} as const;
 ```
 
 - [ ] **Step 2: Verify TypeScript compiles**
@@ -560,7 +780,12 @@ git commit -m "feat: add Stagehand configuration"
 // tests/ai/fixtures/test-helpers.ts
 import { Stagehand } from "@browserbasehq/stagehand";
 import { z } from "zod";
-import config, { BASE_URL, type Locale } from "../stagehand.config";
+import {
+  createStagehandInstance,
+  BASE_URL,
+  TEST_CONFIG,
+  type Locale,
+} from "../stagehand.config";
 
 export interface TestContext {
   stagehand: Stagehand;
@@ -571,9 +796,7 @@ export interface TestContext {
  * Create a Stagehand instance with default configuration
  */
 export async function createStagehand(): Promise<Stagehand> {
-  const stagehand = new Stagehand(config);
-  await stagehand.init();
-  return stagehand;
+  return createStagehandInstance();
 }
 
 /**
@@ -588,6 +811,8 @@ export async function navigateTo(
   await stagehand.page.goto(url);
   // Wait for page to be interactive
   await stagehand.page.waitForLoadState("domcontentloaded");
+  // Buffer for React hydration
+  await stagehand.page.waitForTimeout(TEST_CONFIG.pageLoadBuffer);
 }
 
 /**
