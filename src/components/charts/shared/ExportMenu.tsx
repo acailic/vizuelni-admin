@@ -1,9 +1,15 @@
-'use client'
+'use client';
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback } from 'react';
 
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
-import { Download, Image as ImageIcon, FileSpreadsheet, FileText, Loader2 } from 'lucide-react'
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import {
+  Download,
+  Image as ImageIcon,
+  FileSpreadsheet,
+  FileText,
+  Loader2,
+} from 'lucide-react';
 
 import {
   exportChartAsPNG,
@@ -12,47 +18,50 @@ import {
   type PNGExportOptions,
   type CSVExportOptions,
   type ExcelExportOptions,
-} from '@/lib/export'
+} from '@/lib/export';
+import { trackChartExported } from '@/lib/analytics';
 
 export interface ExportMenuProps {
   /** Chart container ref for PNG export */
-  chartRef?: React.RefObject<HTMLDivElement>
+  chartRef?: React.RefObject<HTMLDivElement>;
   /** Chart title for filenames */
-  title: string
+  title: string;
   /** Data to export (for CSV/Excel) */
-  data: Record<string, unknown>[]
+  data: Record<string, unknown>[];
   /** Column headers for CSV/Excel */
-  headers?: string[]
+  headers?: string[];
   /** Source attribution */
-  source?: string
+  source?: string;
   /** Locale for labels */
-  locale?: string
+  locale?: string;
   /** Labels for i18n */
   labels?: {
-    download?: string
-    imagePng?: string
-    dataCsv?: string
-    spreadsheetExcel?: string
-    exporting?: string
-    source?: string
-  }
+    download?: string;
+    imagePng?: string;
+    dataCsv?: string;
+    spreadsheetExcel?: string;
+    exporting?: string;
+    source?: string;
+  };
   /** Applied filters description */
-  filtersApplied?: string
+  filtersApplied?: string;
   /** Disabled export types */
-  disabledExports?: ('png' | 'csv' | 'excel')[]
+  disabledExports?: ('png' | 'csv' | 'excel')[];
+  /** Chart type for analytics tracking */
+  chartType?: string;
   /** Callback when export starts */
-  onExportStart?: (type: 'png' | 'csv' | 'excel') => void
+  onExportStart?: (type: 'png' | 'csv' | 'excel') => void;
   /** Callback when export completes */
-  onExportEnd?: (type: 'png' | 'csv' | 'excel') => void
+  onExportEnd?: (type: 'png' | 'csv' | 'excel') => void;
   /** Callback when export fails */
-  onExportError?: (type: 'png' | 'csv' | 'excel', error: Error) => void
+  onExportError?: (type: 'png' | 'csv' | 'excel', error: Error) => void;
 }
 
 type ExportState = {
-  png: boolean
-  csv: boolean
-  excel: boolean
-}
+  png: boolean;
+  csv: boolean;
+  excel: boolean;
+};
 
 const defaultLabels = {
   download: 'Download',
@@ -61,7 +70,7 @@ const defaultLabels = {
   spreadsheetExcel: 'Spreadsheet (Excel)',
   exporting: 'Exporting...',
   source: 'Source',
-}
+};
 
 export function ExportMenu({
   chartRef,
@@ -73,6 +82,7 @@ export function ExportMenu({
   labels = {},
   filtersApplied,
   disabledExports = [],
+  chartType,
   onExportStart,
   onExportEnd,
   onExportError,
@@ -81,18 +91,18 @@ export function ExportMenu({
     png: false,
     csv: false,
     excel: false,
-  })
-  const [isOpen, setIsOpen] = useState(false)
-  const mergedLabels = { ...defaultLabels, ...labels }
+  });
+  const [isOpen, setIsOpen] = useState(false);
+  const mergedLabels = { ...defaultLabels, ...labels };
 
   const handlePNGExport = useCallback(async () => {
     if (!chartRef?.current) {
-      console.error('Chart ref not available for PNG export')
-      return
+      console.error('Chart ref not available for PNG export');
+      return;
     }
 
-    setExporting((prev) => ({ ...prev, png: true }))
-    onExportStart?.('png')
+    setExporting((prev) => ({ ...prev, png: true }));
+    onExportStart?.('png');
 
     try {
       const options: PNGExportOptions = {
@@ -100,135 +110,168 @@ export function ExportMenu({
         scale: 2,
         backgroundColor: '#ffffff',
         source: source ? `${mergedLabels.source}: ${source}` : undefined,
-      }
+      };
 
-      await exportChartAsPNG(chartRef.current, options)
-      onExportEnd?.('png')
+      await exportChartAsPNG(chartRef.current, options);
+      trackChartExported('png', chartType);
+      onExportEnd?.('png');
     } catch (error) {
-      console.error('PNG export failed:', error)
-      onExportError?.('png', error as Error)
+      console.error('PNG export failed:', error);
+      onExportError?.('png', error as Error);
     } finally {
-      setExporting((prev) => ({ ...prev, png: false }))
+      setExporting((prev) => ({ ...prev, png: false }));
     }
-  }, [chartRef, title, source, mergedLabels.source, onExportStart, onExportEnd, onExportError])
+  }, [
+    chartRef,
+    title,
+    source,
+    mergedLabels.source,
+    onExportStart,
+    onExportEnd,
+    onExportError,
+  ]);
 
   const handleCSVExport = useCallback(() => {
-    setExporting((prev) => ({ ...prev, csv: true }))
-    onExportStart?.('csv')
+    setExporting((prev) => ({ ...prev, csv: true }));
+    onExportStart?.('csv');
 
     try {
-      const columnHeaders = headers || (data.length > 0 ? Object.keys(data[0]!) : [])
+      const columnHeaders =
+        headers || (data.length > 0 ? Object.keys(data[0]!) : []);
       const options: CSVExportOptions = {
         title,
         headers: columnHeaders,
         delimiter: ';',
         includeBOM: true,
-      }
+      };
 
-      exportDataAsCSV(data, options)
-      onExportEnd?.('csv')
+      exportDataAsCSV(data, options);
+      trackChartExported('csv', chartType);
+      onExportEnd?.('csv');
     } catch (error) {
-      console.error('CSV export failed:', error)
-      onExportError?.('csv', error as Error)
+      console.error('CSV export failed:', error);
+      onExportError?.('csv', error as Error);
     } finally {
-      setExporting((prev) => ({ ...prev, csv: false }))
+      setExporting((prev) => ({ ...prev, csv: false }));
     }
-  }, [data, headers, title, onExportStart, onExportEnd, onExportError])
+  }, [data, headers, title, onExportStart, onExportEnd, onExportError]);
 
   const handleExcelExport = useCallback(async () => {
-    setExporting((prev) => ({ ...prev, excel: true }))
-    onExportStart?.('excel')
+    setExporting((prev) => ({ ...prev, excel: true }));
+    onExportStart?.('excel');
 
     try {
-      const columnHeaders = headers || (data.length > 0 ? Object.keys(data[0]!) : [])
+      const columnHeaders =
+        headers || (data.length > 0 ? Object.keys(data[0]!) : []);
       const options: ExcelExportOptions = {
         title,
         headers: columnHeaders,
         source,
         filters: filtersApplied,
-      }
+      };
 
-      await exportDataAsExcel(data, options)
-      onExportEnd?.('excel')
+      await exportDataAsExcel(data, options);
+      trackChartExported('excel', chartType);
+      onExportEnd?.('excel');
     } catch (error) {
-      console.error('Excel export failed:', error)
-      onExportError?.('excel', error as Error)
+      console.error('Excel export failed:', error);
+      onExportError?.('excel', error as Error);
     } finally {
-      setExporting((prev) => ({ ...prev, excel: false }))
+      setExporting((prev) => ({ ...prev, excel: false }));
     }
-  }, [data, headers, title, source, filtersApplied, onExportStart, onExportEnd, onExportError])
+  }, [
+    data,
+    headers,
+    title,
+    source,
+    filtersApplied,
+    onExportStart,
+    onExportEnd,
+    onExportError,
+  ]);
 
-  const isPNGDisabled = disabledExports.includes('png') || !chartRef?.current || exporting.png
-  const isCSVDisabled = disabledExports.includes('csv') || data.length === 0 || exporting.csv
-  const isExcelDisabled = disabledExports.includes('excel') || data.length === 0 || exporting.excel
+  const isPNGDisabled =
+    disabledExports.includes('png') || !chartRef?.current || exporting.png;
+  const isCSVDisabled =
+    disabledExports.includes('csv') || data.length === 0 || exporting.csv;
+  const isExcelDisabled =
+    disabledExports.includes('excel') || data.length === 0 || exporting.excel;
 
   return (
     <DropdownMenu.Root open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenu.Trigger asChild>
         <button
-          className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          className='inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'
           aria-label={mergedLabels.download}
         >
-          <Download className="h-4 w-4" />
+          <Download className='h-4 w-4' />
           <span>{mergedLabels.download}</span>
         </button>
       </DropdownMenu.Trigger>
 
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          className="z-50 min-w-[200px] rounded-lg border border-slate-200 bg-white p-1 shadow-lg"
+          className='z-50 min-w-[200px] rounded-lg border border-slate-200 bg-white p-1 shadow-lg'
           sideOffset={5}
-          align="end"
+          align='end'
         >
           <DropdownMenu.Item
-            className="flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm text-slate-700 outline-none transition-colors hover:bg-slate-100 focus:bg-slate-100 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"
+            className='flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm text-slate-700 outline-none transition-colors hover:bg-slate-100 focus:bg-slate-100 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50'
             disabled={isPNGDisabled}
             onSelect={(e) => {
-              e.preventDefault()
-              handlePNGExport()
+              e.preventDefault();
+              handlePNGExport();
             }}
           >
             {exporting.png ? (
-              <Loader2 className="h-4 w-4 animate-spin text-blue-600" />
+              <Loader2 className='h-4 w-4 animate-spin text-blue-600' />
             ) : (
-              <ImageIcon className="h-4 w-4 text-slate-500" />
+              <ImageIcon className='h-4 w-4 text-slate-500' />
             )}
-            <span>{exporting.png ? mergedLabels.exporting : mergedLabels.imagePng}</span>
+            <span>
+              {exporting.png ? mergedLabels.exporting : mergedLabels.imagePng}
+            </span>
           </DropdownMenu.Item>
 
           <DropdownMenu.Item
-            className="flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm text-slate-700 outline-none transition-colors hover:bg-slate-100 focus:bg-slate-100 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"
+            className='flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm text-slate-700 outline-none transition-colors hover:bg-slate-100 focus:bg-slate-100 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50'
             disabled={isCSVDisabled}
             onSelect={(e) => {
-              e.preventDefault()
-              handleCSVExport()
+              e.preventDefault();
+              handleCSVExport();
             }}
           >
             {exporting.csv ? (
-              <Loader2 className="h-4 w-4 animate-spin text-blue-600" />
+              <Loader2 className='h-4 w-4 animate-spin text-blue-600' />
             ) : (
-              <FileText className="h-4 w-4 text-slate-500" />
+              <FileText className='h-4 w-4 text-slate-500' />
             )}
-            <span>{exporting.csv ? mergedLabels.exporting : mergedLabels.dataCsv}</span>
+            <span>
+              {exporting.csv ? mergedLabels.exporting : mergedLabels.dataCsv}
+            </span>
           </DropdownMenu.Item>
 
           <DropdownMenu.Item
-            className="flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm text-slate-700 outline-none transition-colors hover:bg-slate-100 focus:bg-slate-100 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"
+            className='flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm text-slate-700 outline-none transition-colors hover:bg-slate-100 focus:bg-slate-100 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50'
             disabled={isExcelDisabled}
             onSelect={(e) => {
-              e.preventDefault()
-              handleExcelExport()
+              e.preventDefault();
+              handleExcelExport();
             }}
           >
             {exporting.excel ? (
-              <Loader2 className="h-4 w-4 animate-spin text-blue-600" />
+              <Loader2 className='h-4 w-4 animate-spin text-blue-600' />
             ) : (
-              <FileSpreadsheet className="h-4 w-4 text-slate-500" />
+              <FileSpreadsheet className='h-4 w-4 text-slate-500' />
             )}
-            <span>{exporting.excel ? mergedLabels.exporting : mergedLabels.spreadsheetExcel}</span>
+            <span>
+              {exporting.excel
+                ? mergedLabels.exporting
+                : mergedLabels.spreadsheetExcel}
+            </span>
           </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
-  )
+  );
 }

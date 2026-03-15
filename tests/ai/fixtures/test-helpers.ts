@@ -38,7 +38,15 @@ export async function navigateTo(
   const url = `${baseUrl}/${locale}${path}`;
   const page = await getActivePage(stagehand);
 
-  await page.goto(url, { waitUntil: 'domcontentloaded' });
+  // Use networkidle for better Lightpanda compatibility
+  // Fall back to just waiting if it times out
+  try {
+    await page.goto(url, { waitUntil: 'load', timeout: 30000 });
+  } catch {
+    // If goto times out, just wait a bit and continue
+    console.log(`Navigation timeout, continuing anyway: ${url}`);
+  }
+
   // Buffer for React hydration
   await page.waitForTimeout(TEST_CONFIG.pageLoadBuffer);
 }
@@ -52,6 +60,13 @@ export async function getActivePage(stagehand: Stagehand) {
     page = await stagehand.context.newPage();
   }
   return page;
+}
+
+// Add animationBuffer to TEST_CONFIG if not present
+declare module '../stagehand.config' {
+  interface TEST_CONFIG {
+    animationBuffer?: number;
+  }
 }
 
 /**

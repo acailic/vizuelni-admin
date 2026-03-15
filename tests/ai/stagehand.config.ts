@@ -6,7 +6,76 @@ const envPath = resolve(process.cwd(), '.env');
 config({ path: envPath });
 
 import { Stagehand, V3 } from '@browserbasehq/stagehand';
+import { AISdkClient as BaseAISdkClient } from '@browserbasehq/stagehand';
+import { createOpenAI } from '@ai-sdk/openai';
 import { z } from 'zod';
+import type { LanguageModelV1 } from '@ai-sdk/provider';
+
+/**
+ * Custom AISdkClient that enforces JSON output for GLM models
+ * GLM models need explicit instructions to return valid JSON without markdown
+ */
+class GLMAISdkClient extends BaseAISdkClient {
+  private jsonInstruction = `\n\nCRITICAL INSTRUCTION: You MUST respond with ONLY valid JSON. No markdown. No code blocks. No \`\`\`json. Just the raw JSON object that matches the requested schema exactly. This is mandatory.`;
+
+  constructor(options: { model: LanguageModelV1; logger?: unknown }) {
+    super(options);
+  }
+
+  async createChatCompletion(
+    options: Parameters<BaseAISdkClient['createChatCompletion']>[0]
+  ) {
+    const opts = options as any;
+
+    // Add JSON instruction for structured output requests
+    if (opts.options?.response_model || opts.response_model) {
+      const messages = opts.options?.messages || opts.messages;
+      if (messages && messages.length > 0) {
+        // Find the last user message and append JSON instruction
+        for (let i = messages.length - 1; i >= 0; i--) {
+          const msg = messages[i];
+          if (msg.role === 'user') {
+            if (typeof msg.content === 'string') {
+              msg.content += this.jsonInstruction;
+            } else if (Array.isArray(msg.content)) {
+              // Handle multimodal content
+              const textPart = msg.content.find((p: any) => p.type === 'text');
+              if (textPart) {
+                textPart.text += this.jsonInstruction;
+              }
+            }
+            break;
+          }
+        }
+      }
+    }
+
+    try {
+      return await super.createChatCompletion(options);
+    } catch (error: any) {
+      // If JSON parsing failed, try to extract JSON from the response
+      if (
+        error?.message?.includes('could not parse') ||
+        error?.message?.includes('did not match schema')
+      ) {
+        const text = error.text || error.cause?.text;
+        if (text) {
+          // Try to extract JSON from markdown code blocks
+          const jsonMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+          if (jsonMatch) {
+            const extractedJson = jsonMatch[1].trim();
+            console.log(
+              '[GLM] Extracted JSON from markdown:',
+              extractedJson.substring(0, 100)
+            );
+            // Re-throw with better error info
+          }
+        }
+      }
+      throw error;
+    }
+  }
+}
 
 export function getBaseUrl(): string {
   const url = process.env.BASE_URL || 'http://localhost:3000';
@@ -65,7 +134,8 @@ export function getLLMConfig(): {
   const openaiApiKey = process.env.OPENAI_API_KEY;
 
   if (glmApiKey && glmBaseUrl) {
-    // Use openai/ prefix for OpenAI-compatible endpoints
+    // GLM/z.ai uses OpenAI-compatible API
+    // Use openai/ prefix with custom baseURL for Stagehand compatibility
     return {
       baseURL: glmBaseUrl,
       apiKey: glmApiKey,
@@ -131,12 +201,14 @@ export function getStagehandConfig(): StagehandConfig {
  * Create a Stagehand instance with project defaults
  *
  * Supports:
- * - LOCAL mode with Chrome (CHROME_PATH env var)
+ * - LOCAL mode with Chrome/Chromium (BROWSER_PATH env var)
  * - LOCAL mode with Lightpanda CDP (CDP_URL env var - pass via localBrowserLaunchOptions.cdpUrl)
  * - BROWSERBASE mode (BROWSERBASE_API_KEY env var)
+ * - GLM/z.ai LLM with OpenAI compatibility mode
  */
 export async function createStagehandInstance(): Promise<Stagehand> {
   const config = getStagehandConfig();
+  const llmConfig = getLLMConfig();
 
   // Build V3 options
   const v3Options: ConstructorParameters<typeof V3>[0] = {
@@ -145,18 +217,64 @@ export async function createStagehandInstance(): Promise<Stagehand> {
     projectId: config.projectId,
     verbose: config.verbose,
     serverCache: config.serverCache,
-    model: {
+    // Increase timeout for better compatibility
+    domSettleTimeout: 60000,
+  };
+
+  // Configure LLM client for GLM/z.ai
+  const glmApiKey = process.env.GLM_API_KEY;
+  const glmBaseUrl = process.env.GLM_API_BASE;
+  const glmModel = process.env.LEARNER_MODEL || 'glm-5';
+
+  if (glmApiKey && glmBaseUrl) {
+    // Create OpenAI provider with custom baseURL
+    // Use .chat() to force /chat/completions endpoint instead of /responses
+    // (z.ai doesn't support the OpenAI Responses API)
+    const openai = createOpenAI({
+      baseURL: glmBaseUrl,
+      apiKey: glmApiKey,
+      compatibility: 'strict',
+    });
+
+    // Create a chat model (forces /chat/completions endpoint)
+    const chatModel = openai.chat(glmModel);
+
+    // Wrap in GLMAISdkClient for Stagehand compatibility with JSON enforcement
+    const llmClient = new GLMAISdkClient({
+      model: chatModel,
+      logger: undefined, // Stagehand will handle logging
+    });
+
+    v3Options.llmClient = llmClient;
+    v3Options.model = `openai/${glmModel}`; // Model name for display purposes
+
+    // Add system prompt to enforce JSON output for GLM models
+    // GLM needs explicit instructions to return valid JSON without markdown
+    v3Options.systemPrompt = `You are a web automation assistant. When asked to extract data, you MUST respond with ONLY valid JSON. Do not use markdown code blocks. Do not include any text before or after the JSON. The response must be a raw JSON object that matches the requested schema exactly.`;
+  } else {
+    // Use default model configuration
+    v3Options.model = {
       modelName: config.model,
       apiKey: config.llmApiKey,
       baseURL: config.llmBaseURL,
-    },
-  };
-
-  // Add CDP URL via localBrowserLaunchOptions for Lightpanda
-  if (config.cdpUrl) {
-    v3Options.localBrowserLaunchOptions = {
-      cdpUrl: config.cdpUrl,
     };
+  }
+
+  // Configure local browser options
+  if (config.env === 'LOCAL') {
+    // Priority: CDP URL > executable path
+    if (config.cdpUrl) {
+      // Connect to existing browser via CDP (e.g., Lightpanda)
+      v3Options.localBrowserLaunchOptions = {
+        cdpUrl: config.cdpUrl,
+      };
+    } else if (config.browserPath) {
+      // Launch browser with specified path
+      v3Options.localBrowserLaunchOptions = {
+        executablePath: config.browserPath,
+        headless: true,
+      };
+    }
   }
 
   const stagehand = new V3(v3Options);
