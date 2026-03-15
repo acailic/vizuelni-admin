@@ -8,7 +8,7 @@ import type {
 import type { Locale } from '@/lib/i18n/config';
 import { DemoGalleryTabs } from './DemoGalleryTabs';
 import { DemoGalleryCard } from './DemoGalleryCard';
-import { DemoGalleryModal } from './DemoGalleryModal';
+import { DemoGalleryModalEnhanced } from './DemoGalleryModalEnhanced';
 
 interface DemoGalleryClientProps {
   examples: FeaturedExampleConfig[];
@@ -72,7 +72,7 @@ export function DemoGalleryClient({
       </div>
 
       {filteredExamples.length === 0 && (
-        <div className='text-center py-12 text-gray-500'>
+        <div className='text-center py-12 text-gray-500 dark:text-gray-400'>
           {locale === 'sr-Cyrl'
             ? 'Нема примера у овој категорији'
             : locale === 'sr-Latn'
@@ -81,8 +81,8 @@ export function DemoGalleryClient({
         </div>
       )}
 
-      {/* Modal */}
-      <DemoGalleryModal
+      {/* Enhanced Modal with Copy Code */}
+      <DemoGalleryModalEnhanced
         example={selectedExample}
         isOpen={!!selectedExample}
         onClose={() => setSelectedExample(null)}

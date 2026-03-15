@@ -195,6 +195,14 @@ A platform for visualization and analysis of administrative data of the Republic
 
 ### Installation
 
+#### Quick Start (No Install)
+
+Try it instantly in your browser:
+
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vizualni/vizualni-starter)
+
+#### Local Development
+
 ```bash
 # Clone repository
 git clone https://github.com/your-org/vizuelni-admin-srbije.git
@@ -208,6 +216,9 @@ cp .env.example .env.local
 
 # Run development server
 npm run dev
+
+# Or run with demo page auto-open
+npm run demo
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.

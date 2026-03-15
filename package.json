@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "description": "Визуелни Административни Подаци Србије - Platform for visualization of Serbian administrative data",
+  "packageManager": "npm@10.9.4",
+  "workspaces": [
+    "packages/*"
+  ],
   "keywords": [
     "serbia",
     "srbija",
@@ -25,7 +29,10 @@
   "license": "MIT",
   "scripts": {
     "dev": "next dev",
+    "demo": "next dev & sleep 3 && open http://localhost:3000/demo-gallery",
     "build": "next build",
+    "build:packages": "turbo run build --filter=@vizualni/*",
+    "build:all": "npm run build:packages && next build",
     "build:static": "next build",
     "start": "next start",
     "export": "next export",
@@ -33,7 +40,8 @@
     "lint:fix": "next lint --fix",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "type-check": "tsc --noEmit",
+    "type-check": "tsc --noEmit -p tsconfig.typecheck.json",
+    "typecheck": "npm run type-check",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -131,6 +139,7 @@
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "tailwindcss-animate": "^1.0.7",
+    "turbo": "^2.8.17",
     "typescript": "^5.3.3"
   },
   "lint-staged": {

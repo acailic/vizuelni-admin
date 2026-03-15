@@ -1,6 +1,8 @@
-export { ExampleCard } from './ExampleCard'
-export { FeaturedExamples } from './FeaturedExamples'
-export { GettingStartedGuide } from './GettingStartedGuide'
-export { HeroSection } from './HeroSection'
-export { QuickStats } from './QuickStats'
-export { useExampleData } from './useExampleData'
+export { ExampleCard } from './ExampleCard';
+export { FeaturedExamples } from './FeaturedExamples';
+export { GettingStartedGuide } from './GettingStartedGuide';
+export { HeroSection } from './HeroSection';
+export { HeroSectionAnimated } from './HeroSectionAnimated';
+export { HeroAnimatedChart } from './HeroAnimatedChart';
+export { QuickStats } from './QuickStats';
+export { useExampleData } from './useExampleData';

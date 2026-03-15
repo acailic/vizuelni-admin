@@ -1,18 +1,27 @@
-import { FeaturedExamples, GettingStartedGuide, HeroSection, QuickStats } from '@/components/home'
-import { ShowcaseGrid } from '@/components/showcase'
-import { getFeaturedExamples } from '@/lib/examples/showcase-examples'
-import { getMessages, resolveLocale } from '@/lib/i18n/messages'
+import {
+  FeaturedExamples,
+  GettingStartedGuide,
+  HeroSectionAnimated,
+  QuickStats,
+} from '@/components/home';
+import { ShowcaseGrid } from '@/components/showcase';
+import { getFeaturedExamples } from '@/lib/examples/showcase-examples';
+import { getMessages, resolveLocale } from '@/lib/i18n/messages';
 
-export default async function LocaleHomePage({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale: localeParam } = await params
-  const locale = resolveLocale(localeParam)
-  const messages = getMessages(locale)
-  const showcaseExamples = getFeaturedExamples()
+export default async function LocaleHomePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: localeParam } = await params;
+  const locale = resolveLocale(localeParam);
+  const messages = getMessages(locale);
+  const showcaseExamples = getFeaturedExamples();
 
   return (
-    <main className="container-custom py-16">
-      {/* Hero Section */}
-      <HeroSection
+    <main className='container-custom py-16'>
+      {/* Animated Hero Section */}
+      <HeroSectionAnimated
         locale={locale}
         title={messages.homepage.hero.title}
         subtitle={messages.homepage.hero.subtitle}
@@ -31,17 +40,21 @@ export default async function LocaleHomePage({ params }: { params: Promise<{ loc
       <FeaturedExamples locale={locale} />
 
       {/* Chart Showcase Gallery */}
-      <section className="py-12">
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-            {locale === 'sr-Cyrl' ? 'Истражите податке' : locale === 'sr-Latn' ? 'Istražite podatke' : 'Explore Data'}
+      <section className='py-12'>
+        <div className='mb-8'>
+          <h2 className='text-2xl font-bold text-gray-900 dark:text-white mb-2'>
+            {locale === 'sr-Cyrl'
+              ? 'Истражите податке'
+              : locale === 'sr-Latn'
+                ? 'Istražite podatke'
+                : 'Explore Data'}
           </h2>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className='text-gray-600 dark:text-gray-400'>
             {locale === 'sr-Cyrl'
               ? 'Визуелизације из званичних извора Србије'
               : locale === 'sr-Latn'
-              ? 'Vizuelizacije iz zvaničnih izvora Srbije'
-              : 'Visualizations from Serbian government data'}
+                ? 'Vizuelizacije iz zvaničnih izvora Srbije'
+                : 'Visualizations from Serbian government data'}
           </p>
         </div>
         <ShowcaseGrid
@@ -64,5 +77,5 @@ export default async function LocaleHomePage({ params }: { params: Promise<{ loc
         step3Description={messages.homepage.gettingStarted.step3Description}
       />
     </main>
-  )
+  );
 }
