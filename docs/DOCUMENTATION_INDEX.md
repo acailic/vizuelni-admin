@@ -23,6 +23,7 @@
 | [Getting Started (Non-Developers)](./GETTING-STARTED-NON-DEVELOPERS.md) | No-code visualization guide  | Journalists, citizens, government staff |
 | [Interactive Tutorials](./INTERACTIVE_TUTORIALS.md)                     | Step-by-step learning paths  | All users                               |
 | [Video Walkthrough Scripts](./VIDEO_WALKTHROUGH_SCRIPTS.md)             | Professional video tutorials | Content creators                        |
+| [Video Production Plan](./VIDEO_PRODUCTION_PLAN.md)                     | Production and distribution  | Marketing, content teams                |
 
 ### Technical Guides
 
@@ -32,6 +33,12 @@
 | [Data Journalism Toolkit](./DATA_JOURNALISM_TOOLKIT.md)               | Investigation templates        | Journalists, researchers |
 | [Troubleshooting Guide](./TROUBLESHOOTING.md)                         | Error solutions and debugging  | All users                |
 | [Versioning Strategy](./VERSIONING.md)                                | Release and migration policies | Technical leads          |
+
+### Strategic Comparison
+
+| Document                                              | Purpose                    | Audience        |
+| ----------------------------------------------------- | -------------------------- | --------------- |
+| [Competitive Comparison](./COMPETITIVE_COMPARISON.md) | vs Tableau, Power BI, etc. | Decision makers |
 
 ### Partnership Documentation
 
