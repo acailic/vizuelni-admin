@@ -60,6 +60,7 @@
     "@babel/plugin-transform-class-properties": "^7.28.6",
     "@babel/plugin-transform-private-methods": "^7.28.6",
     "@babel/plugin-transform-private-property-in-object": "^7.28.6",
+    "@lightpanda/browser": "^1.2.0",
     "@prisma/client": "^5.22.0",
     "@radix-ui/react-collapsible": "^1.1.12",
     "@radix-ui/react-dialog": "^1.0.5",
