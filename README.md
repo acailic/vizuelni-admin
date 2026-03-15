@@ -1,295 +1,478 @@
-# Визуелни Административни Подаци Србије / Visual Administrative Data Serbia
+# Визуелни Административни Подаци Србије
+
+**The Canonical Interface for Serbian Government Data**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-14+-black.svg)](https://nextjs.org/)
+[![npm version](https://img.shields.io/npm/v/@vizualni/core.svg)](https://www.npmjs.com/package/@vizualni/core)
 
-**Српски / Serbian** | [English](#english)
+[**Српски (ћирилица)**](#српски) | [**Srpski (latinica)**](#srpski) | [**English**](#english)
 
 ---
 
-## О пројекту / О проекту
+## The Vision
 
-Овај пројекат представља платформу за визуелизацију и анализу административних података Републике Србије, интегрисану са званичним порталом отворених података [data.gov.rs](https://data.gov.rs). Платформа омогућава преглед, претрагу и визуелизацију података из различитих државних институција.
+**Every Serbian citizen should be able to understand their government through data.**
 
-Этот проект представляет платформу для визуализации и анализа административных данных Республики Сербии, интегрированную с официальным порталом открытых данных [data.gov.rs](https://data.gov.rs). Платформа позволяет просмотр, поиск и визуализацию данных из различных государственных учреждений.
+Serbia has invested heavily in open data infrastructure—3,412+ datasets from 155+ organizations on [data.gov.rs](https://data.gov.rs). Yet most citizens cannot access, understand, or use this data. The gap isn't the data—it's the tools.
 
-## Карактеристике / Особенности
+**Vizualni Admin Srbije bridges that gap.**
 
-- **🎯 Вишеструки језици**: Подршка за српску ћирилицу, латиницу и енглески језик
-- **📊 Визуелизација података**: Интерактивне графиконе и мапе
-- **🔍 Напредна претрага**: Претрага по категоријама, организацијама и темама
-- **📱 Responsive дизајн**: Прилагођен свим уређајима
-- **⚡ Брзина**: Изграђен са Next.js за оптималне перформансе
-- **🎨 Tailwind CSS**: Модеран и одржив дизајн
-
-## Инсталација / Установка
-
-### Предуслови / Предварительные требования
-
-- Node.js 18.17 или новији
-- npm, yarn, или pnpm
-
-### Кораци инсталације / Шаги установки
-
-```bash
-# Клонирање репозиторијума / Клонирование репозитория
-git clone https://github.com/your-org/vizuelni-admin-srbije.git
-cd vizuelni-admin-srbije
-
-# Инсталација зависности / Установка зависимостей
-npm install
-# или / или
-yarn install
-# или / или
-pnpm install
-
-# Копирање променљивих окружења / Копирование переменных окружения
-cp .env.example .env.local
-
-# Покретање развојног сервера / Запуск сервера разработки
-npm run dev
-# или / или
-yarn dev
-```
-
-Отворите [http://localhost:3000](http://localhost:3000) у вашем прегледачу.
-
-## Структура пројекта / Структура проекта
-
-```
-vizuelni-admin-srbije/
-├── src/
-│   ├── app/                    # Next.js 14 App Router
-│   │   ├── [locale]/          # Internationalization routes
-│   │   ├── api/               # API routes
-│   │   └── layout.tsx         # Root layout
-│   ├── components/            # React компоненте
-│   │   ├── ui/               # UI primitives
-│   │   ├── layouts/          # Layout components
-│   │   ├── visualizations/   # Data viz components
-│   │   └── shared/           # Shared components
-│   ├── lib/                   # Core libraries
-│   │   ├── api/              # API client & services
-│   │   ├── i18n/             # Internationalization
-│   │   └── utils/            # Utilities
-│   ├── types/                 # TypeScript types
-│   └── styles/               # Global styles
-├── public/                    # Static assets
-│   ├── locales/              # Translation files
-│   │   ├── sr-Cyrl/         # Serbian Cyrillic
-│   │   ├── sr-Latn/         # Serbian Latin
-│   │   └── en/              # English
-│   └── images/               # Image assets
-├── docs/                      # Documentation
-├── .env.example              # Environment variables template
-├── next.config.js            # Next.js configuration
-├── tailwind.config.js        # Tailwind CSS configuration
-├── tsconfig.json             # TypeScript configuration
-└── package.json              # Dependencies
-```
-
-## Конфигурација / Конфигурация
-
-### Променљиве окружења / Переменные окружения
-
-Креирајте `.env.local` фајл на основу `.env.example`:
-
-Создайте файл `.env.local` на основе `.env.example`:
-
-```env
-# API Configuration
-NEXT_PUBLIC_API_URL=https://data.gov.rs/api/1
-NEXT_PUBLIC_API_VERSION=1
-
-# Optional: Analytics
-NEXT_PUBLIC_GA_ID=your-google-analytics-id
-
-# Optional: Maps
-NEXT_PUBLIC_MAPBOX_TOKEN=your-mapbox-token
-```
-
-### Интеграција са data.gov.rs API
-
-Пројекат је интегрисан са [data.gov.rs API](https://data.gov.rs) који пружа приступ:
-
-- 3,412+ скупова података
-- 6,589+ ресурса
-- Подаци из 155 организација
-
-Проект интегрирован с [data.gov.rs API](https://data.gov.rs) который предоставляет доступ к:
-
-- 3,412+ наборов данных
-- 6,589+ ресурсов
-- Данные из 155 организаций
-
-## Развој / Разработка
-
-### Скрипте
-
-```bash
-# Развој / Разработка
-npm run dev
-
-# Градња / Сборка
-npm run build
-
-# Покретање производње / Запуск production
-npm start
-
-# Линтер / Линтер
-npm run lint
-
-# Форматирање / Форматирование
-npm run format
-
-# Тестирање / Тестирование
-npm run test
-```
-
-### Конвенције кодирања / Конвенции кодирования
-
-- Користимо TypeScript за безбедност типова
-- Пратимо [Airbnb Style Guide](https://github.com/airbnb/javascript)
-- Комит поруке прате [Conventional Commits](https://www.conventionalcommits.org/)
-
-## Доприношење / Вклад
-
-Видите [CONTRIBUTING.md](./CONTRIBUTING.md) за детаље о томе како допринети пројекту.
-
-См. [CONTRIBUTING.md](./CONTRIBUTING.md) для получения подробной информации о том, как внести вклад в проект.
-
-## Лиценца / Лицензия
-
-Овај пројекат је лиценциран под MIT лиценцом - видите [LICENSE](./LICENSE) фајл за детаље.
-
-Этот проект лицензирован по лицензии MIT - см. файл [LICENSE](./LICENSE) для подробной информации.
-
-## Извори података / Источники данных
-
-- [data.gov.rs](https://data.gov.rs) - Портал отворених података Републике Србије
-- [API документација](https://data.gov.rs/api/1/swagger.json)
-
-## Контакт / Контакты
-
-- **Email**: opendata@ite.gov.rs
-- **Twitter**: [@kancelarijaITE](https://twitter.com/kancelarijaITE)
-- **LinkedIn**: [Канцеларија за ИТ и еУправу](https://www.linkedin.com/company/kancelarija-ite/)
+We're building the canonical interface between raw government data and citizen understanding—a platform that transforms complex datasets into clear, accessible visualizations that anyone can create, share, and understand.
 
 ---
 
 <a name="english"></a>
 
-## English
+## Why This Matters
 
-A platform for visualization and analysis of administrative data of the Republic of Serbia, integrated with the official open data portal [data.gov.rs](https://data.gov.rs).
+### The Problem
 
-### Features
+- **Transparency Gap**: Government data exists but remains inaccessible to most citizens
+- **Technical Barriers**: Existing tools require developer expertise
+- **Language Barriers**: International tools don't support Serbian languages
+- **Fragmented Ecosystem**: No unified approach to Serbian government data visualization
 
-- **🎯 Multi-language**: Support for Serbian Cyrillic, Latin, and English
-- **📊 Data Visualization**: Interactive charts and maps
-- **🔍 Advanced Search**: Search by categories, organizations, and topics
-- **📱 Responsive Design**: Optimized for all devices
-- **⚡ Performance**: Built with Next.js for optimal performance
-- **🎨 Tailwind CSS**: Modern and maintainable design
+### The Solution
 
-### Installation
+A **Serbian-first, government-integrated, citizen-focused** visualization platform that:
 
-#### Quick Start (No Install)
+| Generic Libraries                    | Vizualni Admin Srbije                                            |
+| ------------------------------------ | ---------------------------------------------------------------- |
+| You figure out the data              | **Data integration built-in** — direct data.gov.rs API           |
+| Internationalization as afterthought | **Serbian-first design** — Cyrillic, Latin, English from day one |
+| Generic examples                     | **Real Serbian datasets** — population, budget, elections        |
+| Community support                    | **Government-aligned roadmap** — shaped by actual agency needs   |
 
-Try it instantly in your browser:
+---
+
+## Three-Tier Value Proposition
+
+### 🏛️ Civic Impact (Primary)
+
+Making government data accessible to every Serbian citizen—transparency as infrastructure, not afterthought.
+
+### ⚙️ Technical Excellence (Secondary)
+
+Government-grade reliability with developer-friendly simplicity. TypeScript, WCAG 2.1 AA, comprehensive testing.
+
+### 🌍 Ecosystem Leadership (Tertiary)
+
+Setting the standard for Balkan government data visualization—building what others will follow.
+
+---
+
+## Quick Start
+
+### Try It Now
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/acailic/vizualni-admin)
 
-#### Local Development
+No installation required—experiment with Serbian government data visualization in your browser.
+
+### Installation
 
 ```bash
-# Clone repository
+# Clone the repository
 git clone https://github.com/your-org/vizuelni-admin-srbije.git
 cd vizuelni-admin-srbije
 
 # Install dependencies
 npm install
 
-# Copy environment variables
+# Set up environment
 cp .env.example .env.local
 
-# Run development server
+# Start development server
 npm run dev
-
-# Or run with demo page auto-open
-npm run demo
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000) to see the platform.
 
-### Data Sources
+### Using as a Library
 
-- [data.gov.rs](https://data.gov.rs) - Open Data Portal of the Republic of Serbia
-- [API Documentation](https://data.gov.rs/api/1/swagger.json)
+```bash
+# Core visualization primitives
+npm install @vizualni/core
 
-### License
+# React components
+npm install @vizualni/react
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+# Serbian geographic data
+npm install @vizualni/geo-data
+
+# Data preparation utilities
+npm install @vizualni/data
+
+# Chart configuration
+npm install @vizualni/charts
+```
 
 ---
+
+## Features
+
+### 🎯 Multi-Language Support
+
+Native support for Serbian Cyrillic, Serbian Latin, and English—not bolted on, built in.
+
+### 📊 8+ Chart Types
+
+Line, Bar, Column, Area, Pie, Scatterplot, Table, Combo, and Geographic maps—all configured for Serbian government data.
+
+### 🔍 data.gov.rs Integration
+
+Direct API integration with Serbia's official open data portal—access 3,412+ datasets instantly.
+
+### 🗺️ Serbian Geographic Data
+
+Built-in GeoJSON for all Serbian regions, districts, and municipalities. Create choropleth maps in minutes.
+
+### ♿ Accessibility First
+
+WCAG 2.1 AA compliant by default. Government data should be accessible to all citizens.
+
+### ⚡ Production Ready
+
+Next.js 14, React 18, TypeScript. Built for the scale and reliability government demands.
+
+---
+
+## Who This Is For
+
+### Government Agencies
+
+Transform your data into citizen-facing dashboards that meet transparency mandates. Free implementation support for first adopters.
+
+### Data Journalists
+
+The toolkit for investigating Serbian government data. Pre-built templates for budgets, elections, demographics.
+
+### Research Institutions
+
+Cite-ready visualizations with proper data provenance. Export to PDF, PowerPoint, or embed directly.
+
+### NGOs & Civil Society
+
+Make your advocacy data-driven. Visualize government performance, track promises, inform citizens.
+
+### Students & Educators
+
+Learn data visualization with real Serbian datasets. Course materials available for academic use.
+
+---
+
+## Monorepo Structure
+
+```
+vizuelni-admin-srbije/
+├── packages/
+│   ├── core/           # Framework-agnostic visualization primitives
+│   ├── react/          # React bindings and components
+│   ├── charts/         # Chart configuration schemas and validation
+│   ├── data/           # Data preparation utilities
+│   ├── geo-data/       # Serbian geographic data (GeoJSON)
+│   ├── connectors/     # Data source connectors (data.gov.rs, CSV, JSON)
+│   └── sample-data/    # Example Serbian government datasets
+├── src/
+│   ├── app/            # Next.js 14 App Router application
+│   ├── components/     # React components
+│   └── lib/            # Core libraries and utilities
+├── docs/               # Comprehensive documentation
+└── templates/          # StackBlitz and deployment templates
+```
+
+---
+
+## Examples
+
+### Population by Region
+
+```typescript
+import { BarChart } from '@vizualni/react';
+import { serbiaPopulation } from '@vizualni/sample-data';
+
+export function PopulationChart() {
+  return (
+    <BarChart
+      data={serbiaPopulation}
+      x="region"
+      y="population"
+      title="Population by Region (2024)"
+      locale="sr-Cyrl"
+    />
+  );
+}
+```
+
+### Budget Allocation Map
+
+```typescript
+import { ChoroplethMap } from '@vizualni/react';
+import { serbiaDistricts } from '@vizualni/geo-data';
+import { budget2024 } from '@vizualni/sample-data';
+
+export function BudgetMap() {
+  return (
+    <ChoroplethMap
+      geo={serbiaDistricts}
+      data={budget2024}
+      valueKey="allocation"
+      title="2024 Budget Allocation by District"
+      colorScheme="blues"
+    />
+  );
+}
+```
+
+### Direct data.gov.rs Integration
+
+```typescript
+import { DataGovClient } from '@vizualni/connectors';
+
+const client = new DataGovClient();
+
+// Search datasets
+const datasets = await client.searchDatasets({
+  query: 'populacija',
+  organization: 'republički-zavod-za-statistiku',
+});
+
+// Fetch and visualize
+const data = await client.getDatasetResources(datasets[0].id);
+```
+
+---
+
+## Documentation
+
+- **[Getting Started](./docs/GETTING-STARTED.md)** — Your first visualization in 5 minutes
+- **[API Reference](./docs/API_REFERENCE.md)** — Complete API documentation
+- **[Architecture](./docs/ARCHITECTURE.md)** — Technical deep dive
+- **[Data Connectors](./docs/DATA_CONNECTORS.md)** — Connecting to data sources
+- **[Deployment Guide](./docs/DEPLOYMENT.md)** — Production deployment
+
+---
+
+## Contributing
+
+We welcome contributions from developers, designers, translators, and domain experts.
+
+**High-Value Contributor Profiles:**
+
+- 🏛️ **Government Developers** — Real-world use cases, accessibility requirements
+- 🎓 **Academic Researchers** — Statistical accuracy, novel visualizations
+- 📰 **Data Journalists** — Edge cases, UX feedback, advocacy
+- 🌍 **Serbian Diaspora** — Internationalization, best practices
+- 💻 **Open Source Enthusiasts** — Bug fixes, documentation, features
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+
+---
+
+## Roadmap
+
+### Phase 1: Foundation (Months 1-6)
+
+- [x] Core visualization library
+- [x] data.gov.rs integration
+- [x] Multi-language support
+- [ ] Interactive tutorials
+- [ ] First government partnerships
+
+### Phase 2: Expansion (Months 7-18)
+
+- [ ] Geographic visualizations (municipal maps, election results)
+- [ ] Real-time dashboards
+- [ ] Export to PDF/PowerPoint
+- [ ] Comparison tools (year-over-year, municipality-to-municipality)
+
+### Phase 3: Leadership (Months 19-36)
+
+- [ ] Regional expansion (Croatia, Slovenia, Bosnia, Montenegro)
+- [ ] AI-powered insights and natural language queries
+- [ ] Mobile-first dashboard builder
+- [ ] Plugin marketplace
+
+---
+
+## Strategic Partnerships
+
+We're actively seeking partnerships with:
+
+**Government Agencies**
+
+- Ministry of Public Administration and Local Self-Government
+- Office for IT and eGovernment
+- Statistical Office of the Republic of Serbia
+- Cities of Belgrade, Novi Sad, Niš
+
+**Academic Institutions**
+
+- University of Belgrade (FON)
+- University of Novi Sad
+- Singidunum University
+
+**Media Organizations**
+
+- BIRN (Balkan Investigative Reporting Network)
+- CINS (Center for Investigative Journalism of Serbia)
+- KRIK (Crime and Corruption Reporting Network)
+
+**Interested?** Contact us at opendata@ite.gov.rs
+
+---
+
+## Sustainability Model
+
+**Open Core Approach:**
+
+| Free                    | Enterprise                                               |
+| ----------------------- | -------------------------------------------------------- |
+| Core library            | Advanced visualizations (geographic, network, real-time) |
+| Basic charts            | Custom data source connectors                            |
+| data.gov.rs integration | On-premise deployment                                    |
+| Community support       | SLA-backed support                                       |
+|                         | Training and workshops                                   |
+
+This ensures the project remains sustainable while keeping core functionality free and open.
+
+---
+
+## License
+
+MIT License — use it for any purpose, including commercial applications.
+
+See [LICENSE](./LICENSE) for details.
+
+---
+
+## Data Sources
+
+- [data.gov.rs](https://data.gov.rs) — Open Data Portal of the Republic of Serbia
+- [Statistical Office of the Republic of Serbia](https://www.stat.gov.rs) — Official statistics
+- [API Documentation](https://data.gov.rs/api/1/swagger.json) — data.gov.rs API reference
+
+---
+
+## Connect
+
+- **Email**: opendata@ite.gov.rs
+- **Twitter**: [@kancelarijaITE](https://twitter.com/kancelarijaITE)
+- **LinkedIn**: [Канцеларија за ИТ и еУправу](https://www.linkedin.com/company/kancelarija-ite/)
+- **Discord**: [Join Community](https://discord.gg/vizualni-admin)
+
+---
+
+## Acknowledgments
+
+Built with gratitude for:
+
+- The Serbian government's commitment to open data
+- The open source visualization community (Recharts, D3, Plotly)
+- All contributors who believe transparency is infrastructure
+
+---
+
+<div align="center">
 
 **Made with ❤️ for Serbia's Open Data Initiative**
 
+_Transparency as infrastructure, not afterthought._
+
+</div>
+
 ---
 
-## Demo Deployment
+<a name="српски"></a>
 
-### Quick Start for Demo
+## Српски (ћирилица)
+
+**Канонско интерфејс за српске државне податке**
+
+### Зашто ово важи
+
+Србија је уложила у инфраструктуру отворених података — преко 3.412 скупова података из 155+ организација на data.gov.rs. Ипак, већина грађана не може да приступи, разуме или користи ове податке. Јаз није у подацима — јаз је у алатима.
+
+**Визуелни Административни Подаци Србије премошћује тај јаз.**
+
+### Карактеристике
+
+- 🎯 **Вишеструки језици** — ћирилица, латиница, енглески
+- 📊 **8+ типова графикона** — Линијски, стубасти, кружни, мапе...
+- 🔍 **Интеграција са data.gov.rs** — Директан приступ 3.412+ скупова података
+- 🗺️ **Географски подаци** — GeoJSON за све регионе и општине
+- ♿ **Приступачност** — WCAG 2.1 AA компатибилно
+
+### Брзи почетак
 
 ```bash
-# Install dependencies
+# Клонирајте репозиторијум
+git clone https://github.com/your-org/vizuelni-admin-srbije.git
+
+# Инсталирајте зависности
 npm install
 
-# Run development server
+# Покрените развојни сервер
 npm run dev
-
-# Build for production
-npm run build
-
-# Deploy to Vercel
-npm run deploy:vercel
 ```
 
-### Demo Features
+### За кога је ово
 
-- **8+ Chart Types**: Line, Bar, Column, Area, Pie, Scatterplot, Table, Combo, Map
-- **Interactive Filters**: Real-time filtering and annotations
-- **Multi-dataset Support**: Combine up to 3 datasets
-- **Serbian Government Branding**: Official colors (#0D4077, #C6363C)
-- **Accessibility**: WCAG 2.1 AA compliant
-- **Multi-language**: Serbian Cyrillic, Latin, English
+- 🏛️ **Државне институције** — Трансформишите податке у грађанима приступачне контролне табле
+- 📰 **Новинари** — Комплетан алат за истраживање државних података
+- 🎓 **Истраживачи** — Визуализације спремне за цитирање
+- 🏢 **НВО** — Учини своје заговарање заснованим на подацима
 
-### Sample Data
+---
 
-Demo datasets are located in `public/data/sample-datasets/`:
+<a name="srpski"></a>
 
-- `serbian-population.json` - Regional population data
-- `serbian-gdp.json` - GDP by region
-- `serbian-unemployment.json` - Unemployment rates
-- `serbian-budget.json` - Budget allocation
-- `serbian-time-series.json` - Time series data
+## Srpski (latinica)
 
-### Deployment Options
+**Kanonski interfejs za srpske državne podatke**
 
-#### Vercel (Recommended)
+### Zašto ovo važi
+
+Srbija je uložila u infrastrukturu otvorenih podataka — preko 3.412 skupova podataka iz 155+ organizacija na data.gov.rs. Ipak, većina građana ne može da pristupi, razume ili koristi ove podatke. Jaz nije u podacima — jaz je u alatima.
+
+**Vizuelni Administrativni Podaci Srbije premošćuje taj jaz.**
+
+### Karakteristike
+
+- 🎯 **Višestruki jezici** — ćirilica, latinica, engleski
+- 📊 **8+ tipova grafikona** — Linijski, stubasti, kružni, mape...
+- 🔍 **Integracija sa data.gov.rs** — Direktan pristup 3.412+ skupova podataka
+- 🗺️ **Geografski podaci** — GeoJSON za sve regione i opštine
+- ♿ **Pristupačnost** — WCAG 2.1 AA kompatibilno
+
+### Brzi početak
 
 ```bash
-# Install Vercel CLI
-npm i -g vercel
+# Klonirajte repozitorijum
+git clone https://github.com/your-org/vizuelni-admin-srbije.git
 
-# Deploy to production
-vercel --prod
+# Instalirajte zavisnosti
+npm install
+
+# Pokrenite razvojni server
+npm run dev
 ```
 
-#### Static Export
+### Za koga je ovo
 
-```bash
-# Build static site
-npm run build:demo
-```
+- 🏛️ **Državne institucije** — Transformišite podatke u građanima pristupačne kontrolne table
+- 📰 **Novinari** — Kompletan alat za istraživanje državnih podataka
+- 🎓 **Istraživači** — Vizualizacije spremne za citiranje
+- 🏢 **NVO** — Učini svoje zagovaranje zasnovanim na podacima
+
+---
+
+<div align="center">
+
+**🇷🇸 🇷🇸 🇷🇸**
+
+_Every citizen deserves to understand their government._
+
+</div>
