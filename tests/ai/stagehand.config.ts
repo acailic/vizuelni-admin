@@ -13,18 +13,76 @@ export interface StagehandConfig {
   projectId?: string;
   verbose: 0 | 1 | 2;
   serverCache: boolean;
+  /** Custom LLM base URL (e.g., for z.ai or other OpenAI-compatible endpoints) */
+  llmBaseURL?: string;
+  /** API key for the LLM provider (if different from BROWSERBASE_API_KEY) */
+  llmApiKey?: string;
+}
+
+/**
+ * Get LLM configuration from environment variables
+ *
+ * Supports:
+ * - z.ai: Set ZAI_API_KEY and ZAI_BASE_URL
+ * - OpenAI: Set OPENAI_API_KEY (uses default OpenAI endpoint)
+ * - Custom: Set LLM_BASE_URL and LLM_API_KEY
+ */
+export function getLLMConfig(): {
+  baseURL?: string;
+  apiKey?: string;
+  modelName: string;
+} {
+  // Priority: z.ai > custom LLM > OpenAI default
+  const zaiApiKey = process.env.ZAI_API_KEY;
+  const zaiBaseUrl = process.env.ZAI_BASE_URL || 'https://api.z.ai/v1';
+
+  const customBaseUrl = process.env.LLM_BASE_URL;
+  const customApiKey = process.env.LLM_API_KEY;
+
+  const openaiApiKey = process.env.OPENAI_API_KEY;
+
+  if (zaiApiKey) {
+    return {
+      baseURL: zaiBaseUrl,
+      apiKey: zaiApiKey,
+      modelName: process.env.ZAI_MODEL || 'gpt-4o',
+    };
+  }
+
+  if (customBaseUrl && customApiKey) {
+    return {
+      baseURL: customBaseUrl,
+      apiKey: customApiKey,
+      modelName: process.env.LLM_MODEL || 'gpt-4o',
+    };
+  }
+
+  if (openaiApiKey) {
+    return {
+      modelName: process.env.OPENAI_MODEL || 'gpt-4o',
+      apiKey: openaiApiKey,
+    };
+  }
+
+  // Fallback - will likely fail without API key
+  return {
+    modelName: 'gpt-4o',
+  };
 }
 
 export function getStagehandConfig(): StagehandConfig {
   const useBrowserbase = !!process.env.BROWSERBASE_API_KEY;
+  const llmConfig = getLLMConfig();
 
   return {
     env: useBrowserbase ? 'BROWSERBASE' : 'LOCAL',
-    model: 'openai/gpt-4o',
+    model: llmConfig.modelName,
     apiKey: process.env.BROWSERBASE_API_KEY,
     projectId: process.env.BROWSERBASE_PROJECT_ID,
     verbose: (process.env.NODE_ENV === 'development' ? 1 : 0) as 0 | 1 | 2,
     serverCache: true,
+    llmBaseURL: llmConfig.baseURL,
+    llmApiKey: llmConfig.apiKey,
   };
 }
 
@@ -40,7 +98,11 @@ export async function createStagehandInstance(): Promise<Stagehand> {
     projectId: config.projectId,
     verbose: config.verbose,
     serverCache: config.serverCache,
-    model: config.model,
+    model: {
+      modelName: config.model,
+      apiKey: config.llmApiKey,
+      baseURL: config.llmBaseURL,
+    },
   });
 
   await stagehand.init();
