@@ -40,6 +40,12 @@
 | ----------------------------------------------------- | -------------------------- | --------------- |
 | [Competitive Comparison](./COMPETITIVE_COMPARISON.md) | vs Tableau, Power BI, etc. | Decision makers |
 
+### API & Data Validation
+
+| Document                                                  | Purpose                        | Audience          |
+| --------------------------------------------------------- | ------------------------------ | ----------------- |
+| [data.gov.rs API Validation](./DATA_GOV_RS_VALIDATION.md) | API testing results and limits | Developers, leads |
+
 ### Partnership Documentation
 
 | Document                                                            | Purpose                      | Audience             |
