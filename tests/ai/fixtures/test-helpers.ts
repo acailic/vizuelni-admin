@@ -10,7 +10,7 @@ import {
 // Re-export for convenience
 export { createStagehandInstance };
 
-// Re-export BASE_URL using getter for backwards compatibility
+// Get BASE_URL at runtime to ensure env vars are loaded
 export const BASE_URL = getBaseUrl();
 
 export interface TestContext {
@@ -33,13 +33,12 @@ export async function navigateTo(
   path: string,
   locale: Locale = 'sr-Latn'
 ): Promise<void> {
-  const url = `${BASE_URL}/${locale}${path}`;
-  console.log(`DEBUG: Navigating to: ${url}`);
+  // Get BASE_URL at call time to ensure env vars are loaded
+  const baseUrl = getBaseUrl();
+  const url = `${baseUrl}/${locale}${path}`;
   const page = await getActivePage(stagehand);
-  console.log(`DEBUG: Got page, current URL: ${page.url()}`);
 
   await page.goto(url, { waitUntil: 'domcontentloaded' });
-  console.log(`DEBUG: Navigated successfully`);
   // Buffer for React hydration
   await page.waitForTimeout(TEST_CONFIG.pageLoadBuffer);
 }

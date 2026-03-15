@@ -3,19 +3,18 @@ import { config } from 'dotenv';
 import { resolve } from 'path';
 
 const envPath = resolve(process.cwd(), '.env');
-console.log('DEBUG: Loading .env from:', envPath);
-const result = config({ path: envPath });
-console.log('DEBUG: dotenv result:', result.error || 'success');
-console.log('DEBUG: BASE_URL:', process.env.BASE_URL);
+config({ path: envPath });
 
 import { Stagehand, V3 } from '@browserbasehq/stagehand';
 import { z } from 'zod';
 
 export function getBaseUrl(): string {
-  return process.env.BASE_URL || 'http://localhost:3000';
+  const url = process.env.BASE_URL || 'http://localhost:3000';
+  // Remove trailing slash if present
+  return url.endsWith('/') ? url.slice(0, -1) : url;
 }
 
-// For backwards compatibility
+// For backwards compatibility - call function to get current value
 export const BASE_URL = getBaseUrl();
 
 export const LOCALES = ['sr-Latn', 'sr-Cyrl', 'en'] as const;
