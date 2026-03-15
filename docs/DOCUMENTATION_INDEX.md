@@ -30,6 +30,15 @@
 | --------------------------------------------------------------------- | ------------------------------ | ------------------------ |
 | [Geographic Visualization Guide](./GEOGRAPHIC_VISUALIZATION_GUIDE.md) | Map creation with Serbian data | Developers, analysts     |
 | [Data Journalism Toolkit](./DATA_JOURNALISM_TOOLKIT.md)               | Investigation templates        | Journalists, researchers |
+| [Troubleshooting Guide](./TROUBLESHOOTING.md)                         | Error solutions and debugging  | All users                |
+| [Versioning Strategy](./VERSIONING.md)                                | Release and migration policies | Technical leads          |
+
+### Partnership Documentation
+
+| Document                                                            | Purpose                      | Audience             |
+| ------------------------------------------------------------------- | ---------------------------- | -------------------- |
+| [Partnership Proposal Template](./PARTNERSHIP_PROPOSAL_TEMPLATE.md) | Outreach materials           | Business development |
+| [Pilot Partner Playbook](./PILOT_PARTNER_PLAYBOOK.md)               | Onboarding and support guide | Agency partners      |
 
 ---
 

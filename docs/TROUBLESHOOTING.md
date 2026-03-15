@@ -19,11 +19,13 @@ This guide helps you resolve common issues when using or developing with Vizualn
 **Causes:** Vizualni Admin requires Node.js 18 or higher.
 
 **Solutions:**
+
 1. Update Node.js to version 18 or later.
 2. Use a version manager like nvm: `nvm install 18 && nvm use 18`.
 3. Check your Node version: `node --version`.
 
 **Diagnostic Steps:**
+
 - Run `node --version` and `npm --version`.
 - Ensure your package.json specifies `"engines": {"node": ">=18"}`.
 
@@ -34,12 +36,14 @@ This guide helps you resolve common issues when using or developing with Vizualn
 **Causes:** Network issues, proxy settings, or insufficient permissions.
 
 **Solutions:**
+
 1. Clear npm cache: `npm cache clean --force`.
 2. Use a different registry if behind a proxy: `npm config set registry https://registry.npmjs.org/`.
 3. Install with verbose logging: `npm install --verbose`.
 4. If permission errors, use `sudo` (not recommended) or fix npm permissions.
 
 **Diagnostic Steps:**
+
 - Check internet connection.
 - Verify proxy settings: `npm config get proxy`.
 - Try installing a single package: `npm install react`.
@@ -51,11 +55,13 @@ This guide helps you resolve common issues when using or developing with Vizualn
 **Causes:** Incorrect installation or missing peer dependencies.
 
 **Solutions:**
+
 1. Reinstall the package: `npm uninstall vizualni-admin && npm install vizualni-admin`.
 2. Ensure peer dependencies are installed: React, Next.js, etc.
 3. Check package.json for correct version.
 
 **Diagnostic Steps:**
+
 - Verify installation: `npm list vizualni-admin`.
 - Check node_modules: `ls node_modules/vizualni-admin`.
 
@@ -68,11 +74,13 @@ This guide helps you resolve common issues when using or developing with Vizualn
 **Causes:** Type mismatches, missing type definitions, or outdated types.
 
 **Solutions:**
+
 1. Update TypeScript: `npm update typescript`.
 2. Check for type definition updates: `npm update @types/*`.
 3. Fix type issues in your code or report to Vizualni Admin if it's a library issue.
 
 **Diagnostic Steps:**
+
 - Run `npx tsc --noEmit` to check types without building.
 - Check tsconfig.json for correct settings.
 
@@ -83,11 +91,13 @@ This guide helps you resolve common issues when using or developing with Vizualn
 **Causes:** Incorrect import paths or missing dependencies.
 
 **Solutions:**
+
 1. Verify import paths match file structure.
 2. Ensure all dependencies are listed in package.json.
 3. Use absolute imports if relative paths are problematic.
 
 **Diagnostic Steps:**
+
 - Check webpack or bundler logs for detailed errors.
 - Verify file existence: `ls src/path/to/module`.
 
@@ -98,11 +108,13 @@ This guide helps you resolve common issues when using or developing with Vizualn
 **Causes:** Incompatible code for static generation.
 
 **Solutions:**
+
 - Refer to [Static Export Troubleshooting](./STATIC_EXPORT_TROUBLESHOOTING.md) for detailed steps.
 - Change `fallback: "blocking"` to `fallback: false` in `getStaticPaths`.
 - Pre-generate all paths in `getStaticPaths`.
 
 **Diagnostic Steps:**
+
 - Run `next build --debug` for more details.
 - Check `.next/prerender-manifest.json` for prerendered routes.
 - Inspect `out/` directory for generated files.
@@ -118,11 +130,13 @@ This guide helps you resolve common issues when using or developing with Vizualn
 **Causes:** Differences between server and client rendering, often due to browser-specific code.
 
 **Solutions:**
+
 1. Avoid using `window` or `document` without checks.
 2. Use `useEffect` for client-side only code.
 3. Ensure consistent data between server and client.
 
 **Diagnostic Steps:**
+
 - Check browser console for hydration warnings.
 - Use React DevTools to inspect component state.
 
@@ -133,11 +147,13 @@ This guide helps you resolve common issues when using or developing with Vizualn
 **Causes:** Incorrect data structure or missing dependencies.
 
 **Solutions:**
+
 1. Validate data against expected schema.
 2. Ensure D3.js or charting library is properly imported.
 3. Check for data loading errors.
 
 **Diagnostic Steps:**
+
 - Log data before passing to chart components.
 - Test with sample data from examples.
 
@@ -150,11 +166,13 @@ This guide helps you resolve common issues when using or developing with Vizualn
 **Causes:** CORS issues, incorrect URLs, or API downtime.
 
 **Solutions:**
+
 1. Verify API endpoints are accessible.
 2. Add CORS headers if needed.
 3. Implement error handling and retries.
 
 **Diagnostic Steps:**
+
 - Use browser dev tools network tab to inspect requests.
 - Test API endpoints directly with curl or Postman.
 
@@ -167,11 +185,13 @@ This guide helps you resolve common issues when using or developing with Vizualn
 **Causes:** Unused imports, missing tree-shaking, or large dependencies.
 
 **Solutions:**
+
 1. Use dynamic imports: `import('module')`.
 2. Enable code splitting in webpack/tsup config.
 3. Analyze bundle: `npm run analyze` (if available).
 
 **Diagnostic Steps:**
+
 - Run bundle analyzer: `npx webpack-bundle-analyzer`.
 - Check for duplicate dependencies: `npm ls --depth=0`.
 
@@ -182,11 +202,13 @@ This guide helps you resolve common issues when using or developing with Vizualn
 **Causes:** Inefficient rendering or data processing.
 
 **Solutions:**
+
 1. Implement virtualization for large datasets.
 2. Use memoization: `React.memo`, `useMemo`.
 3. Optimize data transformations.
 
 **Diagnostic Steps:**
+
 - Profile with React DevTools Profiler.
 - Measure render times with `performance.mark`.
 
@@ -199,11 +221,13 @@ This guide helps you resolve common issues when using or developing with Vizualn
 **Causes:** Uncleaned event listeners or retained references.
 
 **Solutions:**
+
 1. Clean up event listeners in `useEffect` return function.
 2. Avoid storing large objects in state unnecessarily.
 3. Use weak references where possible.
 
 **Diagnostic Steps:**
+
 - Use Chrome DevTools Memory tab to take heap snapshots.
 - Monitor memory usage over time.
 
@@ -216,11 +240,13 @@ This guide helps you resolve common issues when using or developing with Vizualn
 **Causes:** Incorrect base path, missing assets, or build configuration.
 
 **Solutions:**
+
 1. Set `NEXT_PUBLIC_BASE_PATH` to your repository name.
 2. Ensure all assets are in the correct path.
 3. Check deployment logs for errors.
 
 **Diagnostic Steps:**
+
 - Test locally with base path: `NEXT_PUBLIC_BASE_PATH=/repo-name npm run build`.
 - Verify `out/` directory structure.
 
@@ -233,11 +259,13 @@ This guide helps you resolve common issues when using or developing with Vizualn
 **Causes:** Dynamic routes not handled properly.
 
 **Solutions:**
+
 - Refer to [Static Export Troubleshooting](./STATIC_EXPORT_TROUBLESHOOTING.md).
 - Pre-generate all paths.
 - Use client-side routing for dynamic routes.
 
 **Diagnostic Steps:**
+
 - Check build output for missing HTML files.
 - Test with `npx serve out/` locally.
 
@@ -248,15 +276,229 @@ This guide helps you resolve common issues when using or developing with Vizualn
 **Causes:** Variables not prefixed with `NEXT_PUBLIC_` or not set in deployment.
 
 **Solutions:**
+
 1. Prefix client-side vars with `NEXT_PUBLIC_`.
 2. Set variables in deployment platform settings.
 3. Use `.env.local` for local development.
 
 **Diagnostic Steps:**
+
 - Log environment variables in code.
 - Check deployment platform documentation.
 
+---
+
+## Data Source Issues
+
+### Issue: "Failed to fetch dataset from data.gov.rs"
+
+**Symptoms:** 403 errors when accessing data.gov.rs datasets
+
+**Causes:** data.gov.rs rate limits (100 requests/minute unauthenticated)
+
+**Solutions:**
+
+1. Add API key:
+
+```typescript
+import { DataGovRsConnector } from '@vizualni/connectors';
+
+const connector = new DataGovRsConnector({
+  apiKey: process.env.DATA_GOV_RS_API_KEY,
+});
+```
+
+2. Enable caching:
+
+```typescript
+const connector = new DataGovRsConnector({
+  cache: { enabled: true, ttl: 3600 },
+});
+```
+
+**Get API key:** Register at data.gov.rs/user/register → API Keys section
+
+### Issue: "Invalid CSV format"
+
+**Symptoms:** Upload fails with column count errors
+
+**Solutions:**
+
+1. Check encoding (must be UTF-8):
+
+```bash
+file -i your-data.csv  # Should show charset=utf-8
+iconv -f ISO-8859-1 -t UTF-8 input.csv > output.csv  # Convert if needed
+```
+
+2. Validate structure:
+
+```typescript
+import { validateCSV } from '@vizualni/core';
+const issues = validateCSV('your-data.csv');
+```
+
+Common issues:
+| Problem | Fix |
+|---------|-----|
+| Missing headers | Add column names row |
+| Mixed delimiters | Use single delimiter (comma) |
+| BOM character | `sed -i '1s/^\xEF\xBB\xBF//' file.csv` |
+
+---
+
+## Geographic Visualization Issues
+
+### Issue: "Region not coloring on map"
+
+**Symptoms:** Map shows gray regions despite providing data
+
+**Causes:**
+
+1. Script mismatch (Cyrillic/Latin/English)
+2. Wrong geographic level
+3. Typos in names
+
+**Solutions:**
+
+```typescript
+import { normalizeRegionName, debugRegionMatching } from '@vizualni/geo-data';
+
+// Check what's failing
+const result = debugRegionMatching(data, 'districts');
+console.log('Unmatched:', result.unmatched);
+
+// Normalize names
+const cleanData = rawData.map((item) => ({
+  ...item,
+  name: normalizeRegionName(item.name),
+}));
+```
+
+All scripts work: `Београд` = `Beograd` = `Belgrade`
+
+### Issue: "Map shows Kosovo but no data"
+
+**Symptoms:** Gray region, politically sensitive
+
+**Solutions:**
+
+```typescript
+<SerbiaMap
+  data={data}
+  excludeRegions={['Косово и Метохија']}
+  footnote="Напомена: Подаци за Косово и Метохију нису доступни"
+/>
+```
+
+### Issue: "Labels overlapping"
+
+**Solutions:**
+
+```typescript
+// Option 1: Hide labels, use tooltips
+<SerbiaMap showLabels={false} tooltipTemplate={(r) => r.name} />
+
+// Option 2: Enable zoom
+<SerbiaMap zoomable={true} labelMinZoom={2} />
+```
+
+---
+
+## Chart Rendering Issues
+
+### Issue: "Colors look wrong"
+
+**Causes:**
+
+1. Outliers skewing scale
+2. All negative values with sequential scale
+
+**Solutions:**
+
+```typescript
+// Use quantile for outliers
+<SerbiaMap colorScaleType="quantile" colorScaleBuckets={5} />
+
+// Clamp values
+<SerbiaMap colorScaleDomain={[0, 100]} clampValues={true} />
+
+// Use diverging for negative values
+<SerbiaMap colorScale="red-blue" colorScaleCenter={0} />
+```
+
+---
+
+## Export Issues
+
+### Issue: "PNG export blank"
+
+**Solutions:**
+
+```typescript
+// Wait for render
+await mapRef.current?.waitForRender();
+const blob = await mapRef.current?.exportPNG({ scale: 2 });
+
+// Avoid CSS conflicts
+/* Remove: mix-blend-mode, filter, transparent background */
+```
+
+---
+
+## Browser Compatibility
+
+### Supported Browsers
+
+- Chrome 80+
+- Firefox 75+
+- Safari 14+
+- Edge 80+
+
+**Internet Explorer: Not supported**
+
+Check compatibility:
+
+```typescript
+import { browserSupport } from '@vizualni/core';
+if (!browserSupport()) {
+  // Show fallback message
+}
+```
+
+---
+
+## Getting Help
+
+### Before Contacting Support
+
+Gather debug info:
+
+```typescript
+import { getDebugInfo } from '@vizualni/core';
+console.log(getDebugInfo());
+```
+
+### Support Channels
+
+| Channel                            | Response Time | Best For        |
+| ---------------------------------- | ------------- | --------------- |
+| Email: opendata@ite.gov.rs         | 24 hours      | All issues      |
+| Discord: discord.gg/vizualni-admin | ~2 hours      | Quick questions |
+| GitHub Issues                      | 48 hours      | Bug reports     |
+
+### Reporting Bugs
+
+Include:
+
+1. Error message (full stack trace)
+2. Code that caused the error
+3. Browser and version
+4. Package versions (`npm list @vizualni/core`)
+5. Steps to reproduce
+
 If these steps don't resolve your issue, please provide:
+
 - Your environment (OS, Node version, package version)
 - Full error messages and stack traces
 - Steps to reproduce
