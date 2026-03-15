@@ -71,6 +71,7 @@ tmp/
 temp/
 .tmp/
 .temp/
+local/
 
 # OS generated files
 .DS_Store
@@ -113,6 +114,7 @@ playwright-report/
 
 # Husky
 .husky/
+.husky
 
 # Database
 *.db
