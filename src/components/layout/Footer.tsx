@@ -6,6 +6,7 @@ import { ExternalLink } from 'lucide-react';
 
 import { FeedbackSection } from './FeedbackSection';
 import type { Locale } from '@/lib/i18n/config';
+import { getMessages } from '@/lib/i18n/messages';
 
 interface FooterProps {
   locale: Locale;
@@ -27,7 +28,7 @@ interface FooterProps {
 function FooterComponent({ locale, messages }: FooterProps) {
   const currentYear = new Date().getFullYear();
   const version = process.env.npm_package_version || '1.0.0';
-  const feedbackLabels = getFeedbackLabels(locale);
+  const feedbackLabels = getMessages(locale).feedback;
 
   const footerLinks = [
     { href: `/${locale}/about`, label: messages.about },
@@ -134,35 +135,3 @@ function FooterComponent({ locale, messages }: FooterProps) {
 }
 
 export const Footer = memo(FooterComponent);
-
-function getFeedbackLabels(locale: Locale) {
-  switch (locale) {
-    case 'sr-Cyrl':
-      return {
-        foundBug: 'Пронашли сте грешку?',
-        reportBugDescription: 'Пријавите је да бисмо је брзо исправили',
-        reportBug: 'Пријави грешку',
-        newFeature: 'Нова функција?',
-        featureDescription: 'Пошаљите предлоге да обликујете будућност',
-        submit: 'Пошаљи',
-      };
-    case 'sr-Latn':
-      return {
-        foundBug: 'Pronašli ste grešku?',
-        reportBugDescription: 'Prijavite je da bismo je brzo ispravili',
-        reportBug: 'Prijavi grešku',
-        newFeature: 'Nova funkcija?',
-        featureDescription: 'Pošaljite predloge da oblikujete budućnost',
-        submit: 'Pošalji',
-      };
-    default:
-      return {
-        foundBug: 'Found a bug?',
-        reportBugDescription: 'Report it so we can fix it fast',
-        reportBug: 'Report a bug',
-        newFeature: 'New feature?',
-        featureDescription: 'Submit requests to shape the future',
-        submit: 'Submit',
-      };
-  }
-}
