@@ -1,506 +1,530 @@
-# Video Production Plan
+# Video Production & Distribution Plan
 
-**Logistics for creating and distributing tutorial videos**
+> **План за видео производњу и дистрибуцију** | Complete video content strategy
 
----
-
-## Overview
-
-This plan covers production, hosting, and distribution of the 5 tutorial videos outlined in [VIDEO_WALKTHROUGH_SCRIPTS.md](./VIDEO_WALKTHROUGH_SCRIPTS.md).
-
-### Video Summary
-
-| #   | Title                | Duration | Audience       | Priority |
-| --- | -------------------- | -------- | -------------- | -------- |
-| 1   | Platform Overview    | 3 min    | All            | P0       |
-| 2   | First Visualization  | 5 min    | Non-developers | P0       |
-| 3   | Geographic Maps      | 7 min    | Intermediate   | P1       |
-| 4   | Data Journalism      | 8 min    | Journalists    | P1       |
-| 5   | Developer Quickstart | 10 min   | Developers     | P1       |
-
-**Total content:** ~33 minutes
+This document outlines the strategy for creating, producing, and distributing video content for Vizuelni Admin Srbije.
 
 ---
 
-## Production Options
+## Executive Summary
 
-### Option A: In-House Production (Recommended)
+| Metric                  | Target                              |
+| ----------------------- | ----------------------------------- |
+| **Total Videos**        | 20 videos (Year 1)                  |
+| **Budget**              | €15,000 - €25,000                   |
+| **Timeline**            | 12 months                           |
+| **Primary Platform**    | YouTube                             |
+| **Secondary Platforms** | Vimeo, Website, Social Media        |
+| **Languages**           | Serbian (Cyrillic + Latin), English |
 
-**Pros:**
+---
 
-- Full control over content
-- Updates are easy
-- Cost-effective long-term
+## Video Categories
 
-**Cons:**
+### 1. Getting Started (5 videos)
 
-- Requires equipment and skills
-- Initial time investment
+| #   | Title                              | Duration | Priority |
+| --- | ---------------------------------- | -------- | -------- |
+| 1.1 | Добродошли у Визуелни Админ Србије | 3 min    | P0       |
+| 1.2 | Your First Chart in 5 Minutes      | 5 min    | P0       |
+| 1.3 | Understanding the Interface        | 7 min    | P1       |
+| 1.4 | Navigating Data Sources            | 6 min    | P1       |
+| 1.5 | Account Setup & Settings           | 4 min    | P2       |
 
-**Estimated cost:** €2,000-5,000 (equipment + software)
+### 2. Core Features (8 videos)
 
-**Equipment needed:**
+| #   | Title                     | Duration | Priority |
+| --- | ------------------------- | -------- | -------- |
+| 2.1 | Creating Bar Charts       | 8 min    | P0       |
+| 2.2 | Creating Line Charts      | 8 min    | P0       |
+| 2.3 | Geographic Visualizations | 12 min   | P0       |
+| 2.4 | Uploading Your Data       | 10 min   | P1       |
+| 2.5 | Customizing Charts        | 10 min   | P1       |
+| 2.6 | Exporting to PDF/Image    | 6 min    | P1       |
+| 2.7 | Sharing & Embedding       | 7 min    | P1       |
+| 2.8 | Using Templates           | 8 min    | P2       |
 
-| Item             | Recommended            | Budget Alternative |
-| ---------------- | ---------------------- | ------------------ |
-| Microphone       | Blue Yeti (€100)       | Headset mic (€30)  |
-| Screen recording | Camtasia (€250)        | OBS Studio (free)  |
-| Video editing    | DaVinci Resolve (free) | Same               |
-| Thumbnail design | Figma (free)           | Canva (free)       |
+### 3. Advanced Topics (4 videos)
 
-### Option B: Freelance Production
+| #   | Title                    | Duration | Priority |
+| --- | ------------------------ | -------- | -------- |
+| 3.1 | API Integration          | 15 min   | P1       |
+| 3.2 | Creating Dashboards      | 12 min   | P1       |
+| 3.3 | Advanced Customization   | 15 min   | P2       |
+| 3.4 | Performance Optimization | 10 min   | P2       |
 
-**Pros:**
+### 4. Use Case Examples (3 videos)
 
-- Professional quality
-- Fast turnaround
-
-**Cons:**
-
-- Updates require new contract
-- Higher cost
-
-**Estimated cost:** €1,500-3,000 per video (€7,500-15,000 total)
-
-**Recommended platforms:**
-
-- Upwork, Fiverr Pro, Local video production agencies in Belgrade
-
-### Option C: Hybrid Approach
-
-1. **In-house:** Screen recording + voiceover
-2. **Outsource:** Video editing, intro/outro graphics
-
-**Estimated cost:** €3,000-5,000 total
+| #   | Title                               | Duration | Priority |
+| --- | ----------------------------------- | -------- | -------- |
+| 4.1 | Budget Visualization for Government | 10 min   | P0       |
+| 4.2 | Data Journalism Workflow            | 12 min   | P1       |
+| 4.3 | NGO Transparency Reporting          | 10 min   | P2       |
 
 ---
 
 ## Production Timeline
 
-### Week 1-2: Pre-Production
+### Phase 1: Foundation (Months 1-3)
 
-**Tasks:**
-
-- [ ] Finalize scripts (already in VIDEO_WALKTHROUGH_SCRIPTS.md)
-- [ ] Set up recording environment
-- [ ] Test audio quality
-- [ ] Create demo accounts and sample data
-- [ ] Design intro/outro graphics
+```
+Month 1           Month 2           Month 3
+   │                 │                 │
+   ▼                 ▼                 ▼
+┌──────────┐     ┌──────────┐     ┌──────────┐
+│ Pre-     │     │ Film     │     │ Edit     │
+│ production│────▶│ Core     │────▶│ & Publish│
+│          │     │ Videos   │     │ First 5  │
+└──────────┘     └──────────┘     └──────────┘
+     │                 │                 │
+     └─ Scripts        └─ 5 videos      └─ YouTube
+     └─ Equipment                        channel
+     └─ Talent                           launch
+```
 
 **Deliverables:**
 
-- Recording setup complete
-- Demo data prepared
-- Graphics templates ready
+- 5 Getting Started videos
+- YouTube channel setup
+- Playlist structure
 
-### Week 3-4: Recording
+### Phase 2: Growth (Months 4-6)
 
-**Schedule:**
+**Deliverables:**
 
-| Day   | Video               | Duration | Notes                  |
-| ----- | ------------------- | -------- | ---------------------- |
-| Day 1 | Video 1: Overview   | 3 min    | Record 3-4 takes       |
-| Day 2 | Video 2: First Viz  | 5 min    | Screen recording       |
-| Day 3 | Video 3: Maps       | 7 min    | Geographic demos       |
-| Day 4 | Video 4: Journalism | 8 min    | Investigation workflow |
-| Day 5 | Video 5: Developer  | 10 min   | Code examples          |
+- 8 Core Features videos
+- SEO optimization
+- Community engagement
 
-**Recording checklist:**
+### Phase 3: Advanced (Months 7-9)
 
-- [ ] Quiet environment (no echo, no background noise)
-- [ ] Consistent lighting (if showing face)
-- [ ] 1080p minimum resolution (4K preferred)
-- [ ] Clear audio (no pops, hisses, or clipping)
-- [ ] Cursor visible and smooth
+**Deliverables:**
 
-### Week 5-6: Post-Production
+- 4 Advanced Topics videos
+- 2 Use Case videos
+- Subscriber milestone: 1,000
 
-**Tasks:**
+### Phase 4: Expansion (Months 10-12)
 
-- [ ] Edit raw footage
-- [ ] Add intro/outro graphics
-- [ ] Insert lower-thirds for names/terms
-- [ ] Add background music (royalty-free)
-- [ ] Create captions/subtitles (Serbian + English)
-- [ ] Export final versions
+**Deliverables:**
 
-**Export specifications:**
-
-| Platform      | Resolution     | Format      | Bitrate    |
-| ------------- | -------------- | ----------- | ---------- |
-| YouTube       | 4K (3840×2160) | MP4 (H.264) | 35-45 Mbps |
-| Vimeo         | 4K             | MP4         | Same       |
-| Website embed | 1080p          | MP4         | 8-12 Mbps  |
-| GIF previews  | 480p           | GIF         | <5MB       |
-
-### Week 7: Distribution
-
-**Tasks:**
-
-- [ ] Upload to YouTube
-- [ ] Upload to Vimeo (backup)
-- [ ] Create playlist
-- [ ] Add to documentation
-- [ ] Announce on social media
-- [ ] Embed on website
+- 1 Use Case video
+- English translations
+- Cross-platform distribution
 
 ---
 
-## Hosting Strategy
+## Production Budget
 
-### Primary: YouTube
+### Option A: In-House Production
 
-**Channel:** Create "Vizualni Admin Srbije" brand channel
+| Item                                    | Cost        | Notes    |
+| --------------------------------------- | ----------- | -------- |
+| Equipment (camera, mic, lighting)       | €3,000      | One-time |
+| Software (editing, screen recording)    | €1,500      | Annual   |
+| Staff time (20 videos × 8 hrs × €25/hr) | €4,000      |          |
+| Translations                            | €2,000      |          |
+| **Total**                               | **€10,500** |          |
 
-**Why YouTube:**
+### Option B: Freelance Production
 
-- Free unlimited hosting
-- SEO benefits
-- Embedding supported
-- Analytics available
-- Auto-captions (review and correct)
+| Item                        | Cost        | Notes |
+| --------------------------- | ----------- | ----- |
+| Script writing (20 × €100)  | €2,000      |       |
+| Voiceover (20 × €50)        | €1,000      |       |
+| Video editing (20 × €300)   | €6,000      |       |
+| Thumbnail design (20 × €25) | €500        |       |
+| Translations                | €2,000      |       |
+| **Total**                   | **€11,500** |       |
 
-**Channel setup:**
+### Option C: Agency Production
 
-- [ ] Create brand account
-- [ ] Design channel banner (2560×1440)
-- [ ] Upload channel icon (800×800)
-- [ ] Write channel description (Serbian + English)
-- [ ] Create playlists: "Tutoriali", "Tutorials", "Demostracije"
+| Item                        | Cost        | Notes |
+| --------------------------- | ----------- | ----- |
+| Full production (20 videos) | €20,000     |       |
+| Strategy & SEO              | €2,500      |       |
+| Translations & subtitles    | €2,500      |       |
+| **Total**                   | **€25,000** |       |
 
-### Secondary: Vimeo
-
-**Account:** Vimeo Pro (€20/month)
-
-**Why Vimeo:**
-
-- Professional appearance
-- Better privacy controls
-- Higher quality playback
-- No ads
-- Download links for offline use
-
-**Use cases:**
-
-- Government presentations
-- Training sessions
-- Press kit materials
-
-### Tertiary: Self-Hosted
-
-**For:** Enterprise customers with strict network policies
-
-**Implementation:**
-
-```html
-<video controls>
-  <source src="/videos/tutorial-1.mp4" type="video/mp4" />
-  <track
-    kind="captions"
-    src="/videos/tutorial-1-sr.vtt"
-    srclang="sr"
-    label="Srpski"
-  />
-  <track
-    kind="captions"
-    src="/videos/tutorial-1-en.vtt"
-    srclang="en"
-    label="English"
-  />
-</video>
-```
+**Recommendation:** Option B (Freelance) - best balance of quality and cost
 
 ---
 
-## Distribution Channels
+## Technical Specifications
 
-### 1. Documentation Website
+### Video Quality
 
-**Location:** docs.vizuelni-admin.rs/tutorials
+| Specification | Requirement               |
+| ------------- | ------------------------- |
+| Resolution    | 1920x1080 (1080p) minimum |
+| Frame Rate    | 30fps                     |
+| Codec         | H.264 (MP4)               |
+| Audio         | 48kHz, AAC, stereo        |
+| File Size     | < 2GB per video           |
 
-**Implementation:**
+### Screen Recording
 
-```markdown
-## Video Tutorials
+| Specification | Requirement                 |
+| ------------- | --------------------------- |
+| Resolution    | 2560x1440 (scaled to 1080p) |
+| Frame Rate    | 30fps                       |
+| Cursor        | Visible, highlighted        |
+| Clicks        | Visual indicator            |
 
-### 1. Platform Overview (3 min)
+### Audio
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/VIDEO_ID"></iframe>
-
-**What you'll learn:**
-
-- Platform capabilities
-- Key features
-- Getting started
-
-[Watch on YouTube](https://youtube.com/watch?v=VIDEO_ID) | [Download MP4](/videos/tutorial-1.mp4)
-```
-
-### 2. In-Platform Help
-
-**Location:** Help button → Video tutorials
-
-**Implementation:**
-
-```typescript
-<HelpPanel>
-  <VideoTutorial
-    title="Your First Visualization"
-    videoId="abc123"
-    duration="5:00"
-    level="beginner"
-  />
-</HelpPanel>
-```
-
-### 3. Social Media
-
-**Platforms:**
-
-- LinkedIn (professional audience)
-- Twitter/X (tech community)
-- Facebook (general Serbian audience)
-
-**Content strategy:**
-
-- Full videos on YouTube
-- 30-60 second clips on LinkedIn/Twitter
-- Native uploads to Facebook (algorithm preference)
-
-### 4. Email Newsletter
-
-**Announce new videos to:**
-
-- Registered users
-- Pilot partners
-- Newsletter subscribers
-
-**Template:**
-
-```markdown
-Нови туторијал: [Наслов]
-
-Погледајте наш најновији видео туторијал који покрива:
-
-- Тема 1
-- Тема 2
-- Тема 3
-
-📺 Гледајте: [YouTube линк]
-📖 Документација: [Документација линк]
-```
+| Specification    | Requirement                |
+| ---------------- | -------------------------- |
+| Microphone       | Condenser or lapel         |
+| Environment      | Quiet room, minimal reverb |
+| Background Music | Royalty-free, low volume   |
+| Levels           | -12dB to -6dB              |
 
 ---
 
-## SEO Optimization
+## Distribution Strategy
 
-### YouTube SEO
+### Primary Platform: YouTube
 
-**Titles (Serbian + English):**
-
-```
-Визуелизација података Србије | Прва визуелизација | Vizualni Admin Srbije
-Serbian Data Visualization | Your First Chart | Vizualni Admin Srbije
-```
-
-**Tags:**
+**Channel Setup:**
 
 ```
-србија, подаци, визуелизација, data visualization, serbia,
-open data, data.gov.rs, chart, map, react, tutorial
+Channel Name: Vizuelni Admin Srbije
+Handle: @vizuelni_srbija
+Description: Визуелни Административни Подаци Србије
+             Visualizing Serbian administrative data
+
+Topics: Data visualization, Open data, Serbia, Government data
 ```
 
-**Description template:**
+**Channel Art:**
+
+- Banner: 2560x1440px
+- Logo: 800x800px
+- Watermark: 150x150px
+
+**Playlists:**
+
+1. Почетак (Getting Started)
+2. Туторијали (Tutorials)
+3. Напредно (Advanced)
+4. Примери (Examples)
+
+### Secondary Platforms
+
+| Platform  | Use                   | Frequency       |
+| --------- | --------------------- | --------------- |
+| Vimeo     | High-quality embeds   | Same as YouTube |
+| Website   | Embedded tutorials    | All videos      |
+| Twitter/X | Clips, announcements  | Weekly          |
+| LinkedIn  | Professional audience | Bi-weekly       |
+| Facebook  | Serbian community     | Weekly          |
+
+### SEO Strategy
+
+**YouTube SEO:**
+
+```yaml
+Title Format: '[Topic] | Визуелни Админ Србије'
+Example: 'Како направити графикон | Визуелни Админ Србије'
+
+Tags:
+  - data visualization
+  - Serbia
+  - Србија
+  - open data
+  - отворени подаци
+  - charts
+  - графици
+  - tutorial
+  - туторијал
+
+Description Template: |
+  Научите како да [topic in Serbian].
+  Learn how to [topic in English].
+
+  ⏱️ Timeline:
+  0:00 - Увод / Introduction
+  0:30 - [Section 1]
+  ...
+
+  🔗 Links:
+  - Platform: https://vizuelni.rs
+  - Documentation: https://docs.vizuelni.rs
+  - Dataset: [link to data used]
+
+  📧 Contact: opendata@ite.gov.rs
+
+  #Визуелизација #Србија #OpenData
+```
+
+**Google Search SEO:**
+
+- Host on website with transcript
+- Embed YouTube video
+- Add schema markup for video
+- Create blog post summary
+
+---
+
+## Content Templates
+
+### Script Template
 
 ```markdown
-Научите како да [циљ видеоа].
+# Video Script: [Title]
 
-📖 Документација: https://docs.vizuelni-admin.rs/...
-💻 Пример кода: https://github.com/...
-📧 Контакт: opendata@ite.gov.rs
+## Metadata
 
-Временске ознаке:
-0:00 - Увод
-0:30 - Корак 1
+- Duration: X minutes
+- Language: Serbian / English
+- Priority: P0 / P1 / P2
+- Release Date: [Date]
+
+## Pre-Production
+
+- [ ] Script written
+- [ ] Voiceover recorded
+- [ ] Screen recording planned
+- [ ] Assets prepared
+
+## Script
+
+### Intro (0:00 - 0:30)
+
+**[Visual: Logo animation]**
+
+VO: Добродошли у Визуелни Админ Србије! У овом видеу ћете научити...
+Welcome to Vizuelni Admin Srbije! In this video, you'll learn...
+
+### Section 1: [Topic] (0:30 - X:XX)
+
+**[Visual: Screen recording]**
+
+VO: Прво, отворимо платформу...
+First, let's open the platform...
+
+**[Step-by-step instructions]**
+
+### Section 2: [Topic] (X:XX - X:XX)
+
 ...
 
-EN: Learn how to [goal]. This tutorial covers [topics].
+### Summary (X:XX - End)
+
+VO: Данас сте научили kako да...
+Today you learned how to...
+
+**[Visual: End screen with links]**
+
+## Post-Production
+
+- [ ] Edit complete
+- [ ] Subtitles added (Serbian + English)
+- [ ] Thumbnail designed
+- [ ] Description written
+- [ ] Tags added
+- [ ] Published
 ```
 
-### Website SEO
+### Thumbnail Guidelines
 
-**Schema markup:**
+```
+Size: 1280x720px
+Format: JPG or PNG
 
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "VideoObject",
-  "name": "Your First Visualization - Vizualni Admin Srbije",
-  "description": "Create your first data visualization with Serbian government data",
-  "thumbnailUrl": "https://vizuelni-admin.rs/videos/thumbnails/tutorial-2.jpg",
-  "uploadDate": "2026-03-15",
-  "duration": "PT5M",
-  "contentUrl": "https://vizuelni-admin.rs/videos/tutorial-2.mp4",
-  "embedUrl": "https://www.youtube.com/embed/VIDEO_ID"
-}
+Elements:
+- Screenshot from video (60% of frame)
+- Text overlay (Serbian + English)
+- Logo (bottom right)
+- Bright, contrasting colors
+
+Example:
+┌─────────────────────────────────────┐
+│                                     │
+│  [Screenshot]    ┌─────────────┐    │
+│                  │ Како        │    │
+│                  │ направити   │    │
+│                  │ графикон?   │    │
+│                  │ How to make │    │
+│                  │ a chart?    │    │
+│                  └─────────────┘    │
+│                           [LOGO]    │
+└─────────────────────────────────────┘
 ```
 
 ---
 
-## Accessibility
+## Promotion Strategy
 
-### Captions
+### Launch Campaign
+
+**Week 1:**
+
+- Publish first 3 videos
+- Announce on all channels
+- Email to registered users
+- Press release to tech media
+
+**Week 2-4:**
+
+- 2 videos per week
+- Engage with comments
+- Share on social media
+- Partner with Serbian tech blogs
+
+### Ongoing Promotion
+
+| Activity               | Frequency | Platform          |
+| ---------------------- | --------- | ----------------- |
+| New video announcement | Weekly    | Twitter, LinkedIn |
+| Tutorial highlights    | Bi-weekly | Facebook          |
+| User success stories   | Monthly   | Blog, YouTube     |
+| Live Q&A               | Quarterly | YouTube Live      |
+
+### Cross-Promotion
+
+- Embed videos in documentation
+- Link in email signatures
+- Include in onboarding emails
+- Add to GitHub README
+- Feature on homepage
+
+---
+
+## Analytics & KPIs
+
+### YouTube Metrics
+
+| Metric                | Month 3 | Month 6 | Month 12 |
+| --------------------- | ------- | ------- | -------- |
+| Subscribers           | 200     | 500     | 1,500    |
+| Total Views           | 2,000   | 10,000  | 50,000   |
+| Watch Time (hours)    | 100     | 500     | 2,500    |
+| Average View Duration | 3 min   | 4 min   | 5 min    |
+
+### Engagement Metrics
+
+| Metric                | Target |
+| --------------------- | ------ |
+| Like/View Ratio       | > 5%   |
+| Comment/View Ratio    | > 1%   |
+| Click-Through Rate    | > 5%   |
+| Subscriber Conversion | > 2%   |
+
+### Business Impact
+
+| Metric                        | Target       |
+| ----------------------------- | ------------ |
+| Video-driven signups          | 20% of total |
+| Support ticket reduction      | 15%          |
+| Time-to-first-chart reduction | 25%          |
+
+---
+
+## Localization
+
+### Subtitle Strategy
 
 **Languages:**
 
-- Serbian Cyrillic (primary)
-- Serbian Latin
-- English
+1. Serbian Cyrillic (default)
+2. Serbian Latin
+3. English
 
-**Format:** WebVTT (.vtt)
+**Implementation:**
 
-**Tools:**
+```xml
+<!-- YouTube caption file (SR-Cyrl) -->
+<?xml version="1.0" encoding="UTF-8"?>
+<transcript>
+  <text start="0" dur="3">Добродошли у Визуелни Админ Србије</text>
+  <text start="3" dur="4">У овом видеу ћете научити како да направите графикон</text>
+</transcript>
+```
 
-- YouTube auto-captions (review and correct)
-- Rev.com (€1.25/minute for professional)
-- Amara.org (free, crowdsourced)
+### Cultural Considerations
 
-### Transcripts
-
-**Include with each video:**
-
-- Full text transcript
-- Downloadable PDF
-- Searchable on documentation site
+- Use Serbian examples (cities, data)
+- Feature Serbian government logos
+- Include local context
+- Avoid international comparisons
 
 ---
 
-## Maintenance
+## Maintenance & Updates
 
-### Update Triggers
+### Update Schedule
 
-Videos should be updated when:
+| Trigger         | Action                                |
+| --------------- | ------------------------------------- |
+| UI change       | Update affected videos within 2 weeks |
+| Feature removal | Deprecate video, create replacement   |
+| New feature     | Create new video within 1 month       |
+| User confusion  | Add clarifying annotation             |
 
-- UI changes significantly
-- New features are added
-- User feedback indicates confusion
-- Annually (review for accuracy)
-
-### Version Control
-
-**File naming:**
+### Video Lifecycle
 
 ```
-tutorial-1-platform-overview-v1.0.mp4
-tutorial-1-platform-overview-v1.1.mp4 (minor updates)
-tutorial-1-platform-overview-v2.0.mp4 (major re-record)
-```
-
-**Changelog:**
-
-```markdown
-## Tutorial 2: First Visualization
-
-| Version | Date       | Changes                         |
-| ------- | ---------- | ------------------------------- |
-| 1.0     | 2026-03-15 | Initial release                 |
-| 1.1     | 2026-06-01 | Updated UI after v1.1.0 release |
+Published → Active → Outdated → Archived → Removed
+    │          │          │          │          │
+    └─ Promote  └─ Update  └─ Notice  └─ Unlist  └─ Delete
 ```
 
 ---
 
-## Budget Summary
+## Risk Mitigation
 
-### One-Time Costs
+### Common Issues
 
-| Item                   | Cost                             |
-| ---------------------- | -------------------------------- |
-| Microphone             | €100                             |
-| Video editing software | €0 (DaVinci free)                |
-| Screen recording       | €0 (OBS free) or €250 (Camtasia) |
-| Graphics design        | €200 (freelancer) or €0 (DIY)    |
-| **Total**              | **€300-550**                     |
+| Risk              | Probability | Impact | Mitigation                       |
+| ----------------- | ----------- | ------ | -------------------------------- |
+| Low views         | Medium      | High   | SEO optimization, promotion      |
+| Negative feedback | Low         | Medium | Comment moderation, improvements |
+| Outdated content  | High        | Medium | Regular review schedule          |
+| Budget overrun    | Medium      | High   | Clear scope, contingency         |
 
-### Ongoing Costs
+### Contingency Plan
 
-| Item                         | Monthly | Annual   |
-| ---------------------------- | ------- | -------- |
-| Vimeo Pro                    | €20     | €240     |
-| Music licensing (Artlist)    | €10     | €120     |
-| Thumbnail design (Canva Pro) | €12     | €144     |
-| **Total**                    | **€42** | **€504** |
+If initial videos underperform:
 
-### Freelance Alternative
-
-| Video            | Estimated Cost    |
-| ---------------- | ----------------- |
-| Video 1 (3 min)  | €500-1,000        |
-| Video 2 (5 min)  | €750-1,500        |
-| Video 3 (7 min)  | €1,000-2,000      |
-| Video 4 (8 min)  | €1,200-2,500      |
-| Video 5 (10 min) | €1,500-3,000      |
-| **Total**        | **€4,950-10,000** |
+1. Analyze viewer drop-off points
+2. Survey users for topics
+3. Adjust style/length
+4. Increase promotion budget
 
 ---
 
-## Success Metrics
+## Team & Roles
 
-### Track These KPIs
+### Minimum Team
 
-| Metric                   | Target | Measurement Tool     |
-| ------------------------ | ------ | -------------------- |
-| Total views (3 months)   | 10,000 | YouTube Analytics    |
-| Average watch time       | >60%   | YouTube Analytics    |
-| Click-through from docs  | >5%    | Google Analytics     |
-| Tutorial completion rate | >70%   | In-platform tracking |
-| Support tickets reduced  | -20%   | Support system       |
+| Role         | Responsibility         | Time Commitment |
+| ------------ | ---------------------- | --------------- |
+| Producer     | Strategy, coordination | 10 hrs/week     |
+| Scriptwriter | Content, scripts       | 8 hrs/week      |
+| Editor       | Production, editing    | 15 hrs/week     |
+| Voiceover    | Narration              | 4 hrs/week      |
 
-### Quarterly Review
+### Outsourcing Options
 
-- Compare video performance
-- Identify drop-off points
-- Gather user feedback
-- Plan updates
-
----
-
-## Quick Start (Minimal Viable Production)
-
-**If budget/time is limited, start with:**
-
-1. **Record with free tools:**
-   - OBS Studio for screen recording
-   - Built-in laptop microphone
-   - DaVinci Resolve for editing
-
-2. **Host on YouTube only:**
-   - Free, unlimited
-   - Good enough for MVP
-
-3. **Create 2 videos first:**
-   - Video 1: Platform Overview
-   - Video 2: First Visualization
-
-4. **Add captions via YouTube:**
-   - Auto-generate
-   - Manually correct
-
-**MVP timeline:** 2 weeks
-**MVP cost:** €0-100
+| Task          | Platform       | Budget     |
+| ------------- | -------------- | ---------- |
+| Voiceover     | Fiverr, Upwork | €50/video  |
+| Editing       | Upwork         | €200/video |
+| Thumbnails    | Fiverr         | €25/video  |
+| Transcription | Rev, Fiverr    | €30/video  |
 
 ---
 
 ## Next Steps
 
-1. [ ] Decide: in-house vs freelance
-2. [ ] Allocate budget
-3. [ ] Set up recording environment
-4. [ ] Schedule recording sessions
-5. [ ] Create YouTube channel
-6. [ ] Record first video (Platform Overview)
-7. [ ] Publish and gather feedback
-8. [ ] Iterate and produce remaining videos
+1. **Week 1:** Approve budget and timeline
+2. **Week 2:** Hire team / begin scripting
+3. **Week 3:** Record first 3 videos
+4. **Week 4:** Edit and publish
+5. **Week 5+:** Maintain schedule
 
 ---
 
-**Questions?** Contact: opendata@ite.gov.rs
+_Video Production Plan v1.0 - March 2026_

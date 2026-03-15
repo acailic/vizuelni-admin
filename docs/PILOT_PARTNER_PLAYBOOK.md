@@ -1,457 +1,573 @@
 # Pilot Partner Playbook
 
-**Complete guide for government agency early adopters**
+> **Приручник за пилот партнере** | Complete guide for first adopters
+
+This playbook provides everything you need to successfully onboard, deploy, and use Vizuelni Admin Srbije within your organization.
 
 ---
 
-## Overview
+## Table of Contents
 
-This playbook guides pilot partners through the Vizualni Admin Srbije adoption process. As an early adopter, you receive enhanced support, direct access to the development team, and the opportunity to shape the platform's future.
-
-### Pilot Program Benefits
-
-| Benefit               | Description                             | Value                   |
-| --------------------- | --------------------------------------- | ----------------------- |
-| **Free Pro Access**   | Full enterprise features at no cost     | €5,000/year value       |
-| **Priority Support**  | 4-hour response time, dedicated channel | Expedited resolution    |
-| **Custom Training**   | On-site or virtual training sessions    | Team enablement         |
-| **Feature Influence** | Direct input on roadmap priorities      | Shape the product       |
-| **Extended LTS**      | 24-month support guarantee              | Stability assurance     |
-| **Dedicated Contact** | Named technical account manager         | Relationship continuity |
+1. [Program Overview](#program-overview)
+2. [Onboarding Process](#onboarding-process)
+3. [Technical Setup](#technical-setup)
+4. [Support & SLA](#support--sla)
+5. [Success Metrics](#success-metrics)
+6. [Issue Reporting](#issue-reporting)
+7. [Feedback & Iteration](#feedback--iteration)
 
 ---
 
-## Onboarding Timeline
+## Program Overview
 
-### Week 1: Setup & Access
+### What is the Pilot Program?
 
-#### Day 1-2: Account Provisioning
+The Vizuelni Admin Srbije Pilot Program offers 5 early-adopter Serbian government agencies and media organizations:
 
-**What happens:**
+- **Free access** to all enterprise features for 12 months
+- **Priority support** with dedicated technical contact
+- **Direct influence** on product roadmap
+- **Custom training** for your team
+- **Recognition** as founding partner
 
-- Pilot partner account created
-- API keys generated
-- Team members invited
-- Access credentials shared
+### Who Qualifies?
 
-**Your actions:**
+| Organization Type  | Requirements                                    |
+| ------------------ | ----------------------------------------------- |
+| Government Agency  | Serbian public sector, data visualization needs |
+| Media Organization | Serbian journalism focus, data journalism team  |
+| NGO/Think Tank     | Transparency focus, public interest mission     |
 
-1. Verify email invitation
-2. Complete team member registration
-3. Set up 2FA (required for government accounts)
-4. Test login to dashboard.vizuelni-admin.rs
+### Pilot Partner Benefits
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    PILOT PARTNER PACKAGE                     │
+├─────────────────────────────────────────────────────────────┤
+│ ✅ Unlimited users                                           │
+│ ✅ All chart types and export options                        │
+│ ✅ Custom branding                                           │
+│ ✅ Priority feature requests                                 │
+│ ✅ Monthly check-in calls                                    │
+│ ✅ Direct Slack/Email channel                                │
+│ ✅ On-site training (Belgrade area)                          │
+│ ✅ Early access to new features                              │
+│                                                              │
+│ Value: €5,000/year → FREE for pilot period                   │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Onboarding Process
+
+### Timeline
+
+```
+Week 1        Week 2        Week 3        Week 4        Ongoing
+  │             │             │             │              │
+  ▼             ▼             ▼             ▼              ▼
+┌─────┐      ┌─────┐      ┌─────┐      ┌─────┐       ┌─────────┐
+│Kickoff│    │Setup │    │Training│   │Go Live│     │Support │
+│Call   │───▶│&Config│───▶│Session│───▶│Support│────▶│&Iterate│
+└─────┘      └─────┘      └─────┘      └─────┘       └─────────┘
+```
+
+### Week 1: Kickoff Call (60 minutes)
+
+**Agenda:**
+
+1. Team introductions (15 min)
+2. Your goals and use cases (20 min)
+3. Technical requirements review (15 min)
+4. Next steps and timeline (10 min)
+
+**Preparation:**
+
+- [ ] Identify 2-3 key use cases for data visualization
+- [ ] List data sources you want to integrate
+- [ ] Designate technical contact person
+- [ ] Prepare questions about capabilities
 
 **Deliverables:**
 
-- [ ] All team members can log in
-- [ ] 2FA enabled for all accounts
-- [ ] API keys stored securely
+- [ ] Technical contact assigned
+- [ ] Use case documentation
+- [ ] Deployment timeline agreed
 
-#### Day 3-5: Technical Setup
+### Week 2: Setup & Configuration
 
-**What happens:**
+**We Handle:**
 
-- Kick-off call with technical account manager
-- Environment assessment
-- Integration planning
+- [ ] Provision your organization account
+- [ ] Configure SSO (if applicable)
+- [ ] Set up custom branding (logo, colors)
+- [ ] Enable data source integrations
+- [ ] Create initial user accounts
 
-**Your actions:**
+**You Provide:**
 
-1. Complete technical assessment form
-2. Identify data sources to visualize
-3. List existing systems for integration
-4. Define initial use cases
+- [ ] Organization logo (SVG or PNG, transparent background)
+- [ ] Brand colors (hex codes)
+- [ ] User email list for invitations
+- [ ] SSO metadata (if using SAML/OAuth)
+- [ ] Data source credentials (if applicable)
 
-**Deliverables:**
+### Week 3: Training Session
 
-- [ ] Technical assessment complete
-- [ ] Data sources identified
-- [ ] Integration requirements documented
-
-### Week 2-3: Training
-
-#### Training Session 1: Platform Overview (2 hours)
-
-**Audience:** All team members
+**Format:** 2-hour live session (remote or on-site in Belgrade)
 
 **Agenda:**
 
-1. Platform capabilities demo (30 min)
-2. Data.gov.rs integration walkthrough (30 min)
-3. Hands-on: Create first visualization (45 min)
-4. Q&A (15 min)
+1. **Platform Overview** (20 min)
+   - Navigation and interface
+   - Key concepts and terminology
 
-**Materials provided:**
+2. **Creating Your First Chart** (30 min)
+   - Data upload walkthrough
+   - Chart type selection
+   - Customization options
+   - Saving and sharing
 
-- Recording
-- Slide deck
-- Hands-on exercise workbook
-- Quick reference card
+3. **Advanced Features** (30 min)
+   - Geographic visualizations
+   - Export to PDF/Image
+   - Embedding in websites
+   - API integration
 
-#### Training Session 2: Your Data, Your Way (2 hours)
+4. **Q&A and Hands-on Practice** (40 min)
+   - Work on your actual use cases
+   - Troubleshooting with expert help
 
-**Audience:** Technical team
+**Training Materials:**
 
-**Agenda:**
+- [ ] Video recording provided
+- [ ] Step-by-step guides in Serbian
+- [ ] Example datasets
+- [ ] Cheat sheet for common tasks
 
-1. Uploading custom datasets (20 min)
-2. Creating dashboards for your metrics (40 min)
-3. Embedding in existing websites (30 min)
-4. Export and reporting (20 min)
-5. Q&A (10 min)
-
-**Materials provided:**
-
-- Dataset templates
-- Dashboard examples
-- Embed code snippets
-- Export best practices
-
-#### Training Session 3: Advanced Features (2 hours)
-
-**Audience:** Technical team, analysts
-
-**Agenda:**
-
-1. Geographic visualizations with Serbian data (30 min)
-2. Scheduled reports and alerts (20 min)
-3. API integration for developers (40 min)
-4. Accessibility compliance (20 min)
-5. Q&A (10 min)
-
-**Materials provided:**
-
-- GeoJSON examples
-- API documentation
-- Accessibility checklist
-- Code samples
-
-### Week 4-6: Implementation
-
-#### Phase 1: Pilot Project
-
-**Objective:** Deploy one production visualization
-
-**Steps:**
-
-1. Select pilot dataset (with TAM guidance)
-2. Create visualization
-3. Internal review
-4. Security review
-5. Public launch
-
-**Support:**
-
-- Daily office hours access
-- Priority bug fixes
-- Design review assistance
-
-#### Phase 2: Expansion
-
-**Objective:** Add 2-3 additional visualizations
-
-**Steps:**
-
-1. Prioritize additional datasets
-2. Create dashboard integrating multiple visualizations
-3. Internal training for broader team
-4. Stakeholder demo
-5. Iteration based on feedback
-
-### Week 7-8: Stabilization
+### Week 4: Go Live Support
 
 **Activities:**
 
-- Performance review
-- User feedback collection
-- Documentation handoff
-- Knowledge transfer planning
-- Success metrics review
+- [ ] Final configuration review
+- [ ] User acceptance testing
+- [ ] Performance optimization
+- [ ] Documentation review
+- [ ] Launch announcement (optional)
 
 ---
 
-## Support Model
+## Technical Setup
+
+### System Requirements
+
+| Component | Minimum                             | Recommended    |
+| --------- | ----------------------------------- | -------------- |
+| Browser   | Chrome 90+, Firefox 88+, Safari 15+ | Latest version |
+| Internet  | 5 Mbps                              | 25+ Mbps       |
+| Screen    | 1366x768                            | 1920x1080+     |
+
+**No installation required** - Vizuelni Admin Srbije runs in your browser.
+
+### Authentication Options
+
+#### Option 1: Google OAuth (Recommended)
+
+```
+1. Click "Sign in with Google"
+2. Use your @gov.rs or organization email
+3. Grant permission
+4. Done!
+```
+
+#### Option 2: GitHub OAuth
+
+```
+1. Click "Sign in with GitHub"
+2. Authorize application
+3. Done!
+```
+
+#### Option 3: Email/Password
+
+```
+1. Click "Create account"
+2. Enter email and password
+3. Verify email
+4. Done!
+```
+
+#### Option 4: SAML SSO (Enterprise)
+
+Contact your technical lead for SSO configuration.
+
+### Data Source Integration
+
+#### Uploading CSV/Excel Files
+
+```typescript
+// Supported formats
+- CSV (UTF-8 encoding)
+- XLSX (Excel 2007+)
+- JSON (array of objects)
+
+// Size limits
+- Max file size: 50MB
+- Max rows: 100,000
+- Max columns: 100
+```
+
+#### Connecting to data.gov.rs
+
+```typescript
+// Automatic integration - no setup required
+// Available datasets:
+- Budget data (Budžet)
+- Population statistics (Populacija)
+- Economic indicators (Ekonomski pokazatelji)
+- Administrative divisions (Administrativna podela)
+```
+
+### Browser Configuration
+
+**Allow pop-ups** for PDF exports:
+
+```
+Chrome: Settings → Privacy → Site Settings → Pop-ups → Allow
+Firefox: Preferences → Privacy → Permissions → Block pop-ups → Exceptions
+Safari: Preferences → Websites → Pop-up Windows → Allow
+```
+
+**Enable JavaScript** (usually enabled by default).
+
+---
+
+## Support & SLA
 
 ### Support Channels
 
-| Channel              | Use Case                   | Response Time | Availability       |
-| -------------------- | -------------------------- | ------------- | ------------------ |
-| **Dedicated Slack**  | General questions, updates | 4 hours       | Business hours CET |
-| **Email (priority)** | Detailed issues, requests  | 4 hours       | Business hours CET |
-| **Phone hotline**    | Urgent production issues   | 1 hour        | 8:00-20:00 CET     |
-| **Weekly sync**      | Status updates, planning   | Scheduled     | Fixed time slot    |
+| Channel        | Response Time | Best For                                     |
+| -------------- | ------------- | -------------------------------------------- |
+| **Email**      | < 4 hours     | Non-urgent questions, documentation requests |
+| **Slack**      | < 2 hours     | Quick questions, troubleshooting             |
+| **Phone**      | < 1 hour      | Urgent issues, production outages            |
+| **Video Call** | Scheduled     | Complex problems, training                   |
 
-### Escalation Path
+### Service Level Agreement (SLA)
+
+| Metric                         | Target     | Measurement  |
+| ------------------------------ | ---------- | ------------ |
+| **Uptime**                     | 99.5%      | Monthly      |
+| **Response Time (Critical)**   | < 1 hour   | Per incident |
+| **Response Time (High)**       | < 4 hours  | Per incident |
+| **Response Time (Normal)**     | < 24 hours | Per incident |
+| **Resolution Time (Critical)** | < 8 hours  | Per incident |
+
+### Severity Levels
+
+| Level             | Definition                 | Examples                              |
+| ----------------- | -------------------------- | ------------------------------------- |
+| **Critical (P1)** | System down, no workaround | Platform inaccessible, data loss      |
+| **High (P2)**     | Major feature broken       | Exports failing, charts not rendering |
+| **Normal (P3)**   | Minor issue or question    | How-to questions, feature requests    |
+| **Low (P4)**      | Enhancement or suggestion  | UI improvements, new chart types      |
+
+### Your Dedicated Contacts
 
 ```
-Level 1: Technical Account Manager
-    ↓ (4 hours no resolution)
-Level 2: Senior Engineer
-    ↓ (8 hours no resolution)
-Level 3: Engineering Lead
-    ↓ (24 hours no resolution)
-Executive Sponsor Contact
+Technical Lead: [Name]
+Email: support-pilot@vizuelni.rs
+Slack: #pilot-support
+Phone: +381 11 XXX XXXX (Mon-Fri 9-17 CET)
+
+Emergency (24/7): +381 63 XXX XXXX
 ```
-
-### Your Technical Account Manager
-
-**Role:** Single point of contact for all technical matters
-
-**Responsibilities:**
-
-- Coordinate onboarding activities
-- Facilitate training sessions
-- Manage support requests
-- Track success metrics
-- Advocate for your feature requests
-
-**Contact:** [Assigned during kick-off]
-
----
-
-## Technical Requirements
-
-### For Web Platform Access
-
-| Requirement | Minimum                                       | Recommended    |
-| ----------- | --------------------------------------------- | -------------- |
-| Browser     | Chrome 80+, Firefox 75+, Safari 14+, Edge 80+ | Latest version |
-| Internet    | 5 Mbps                                        | 10+ Mbps       |
-| Screen      | 1366×768                                      | 1920×1080+     |
-
-### For API Integration
-
-| Requirement     | Details                               |
-| --------------- | ------------------------------------- |
-| Authentication  | API key (provided) or OAuth 2.0       |
-| Rate Limits     | 10,000 requests/hour (pilot partners) |
-| IP Whitelisting | Optional, contact TAM to enable       |
-| SSL             | Required (TLS 1.2+)                   |
-
-### For Self-Hosted Option (Enterprise)
-
-| Requirement | Details                                   |
-| ----------- | ----------------------------------------- |
-| Server      | 4 CPU, 8GB RAM, 50GB storage              |
-| Runtime     | Node.js 18+, Docker supported             |
-| Database    | PostgreSQL 14+ (optional, for caching)    |
-| Network     | Internal access, optional external access |
-
----
-
-## Security & Compliance
-
-### Data Handling
-
-| Aspect              | Implementation              |
-| ------------------- | --------------------------- |
-| **Data at rest**    | Encrypted (AES-256)         |
-| **Data in transit** | TLS 1.2+                    |
-| **Authentication**  | 2FA required, SSO available |
-| **Access logging**  | Full audit trail            |
-| **Data residency**  | EU servers (Frankfurt)      |
-
-### Compliance Certifications
-
-- [ ] ISO 27001 (planned Q3 2026)
-- [ ] SOC 2 Type II (planned Q4 2026)
-- [x] GDPR compliant
-- [x] Serbian Data Protection Law compliant
-
-### Government Security Requirements
-
-For agencies with specific security requirements:
-
-1. **On-premise deployment:** Available for classified data
-2. **Security questionnaire:** We'll complete your vendor assessment
-3. **Penetration testing:** Annual third-party audit, reports available
-4. **Breach notification:** 24-hour SLA for security incidents
 
 ---
 
 ## Success Metrics
 
-### Pilot Program KPIs
+### What We Measure Together
 
-We track these metrics to ensure pilot success:
+#### Usage Metrics
 
-| Metric                          | Target    | Measurement                  |
-| ------------------------------- | --------- | ---------------------------- |
-| **Time to first visualization** | < 2 weeks | From account creation        |
-| **Team adoption rate**          | > 80%     | Active users / Total invited |
-| **Visualizations created**      | 5+        | By end of pilot period       |
-| **User satisfaction**           | > 4.0/5.0 | Survey at 30 and 60 days     |
-| **Support ticket resolution**   | < 4 hours | Average response time        |
-| **Uptime**                      | 99.5%     | Platform availability        |
+- [ ] Active users per week
+- [ ] Charts created per month
+- [ ] Data uploads per month
+- [ ] Exports generated per month
+
+#### Quality Metrics
+
+- [ ] User satisfaction score (monthly survey)
+- [ ] Support ticket volume
+- [ ] Feature adoption rate
+- [ ] Time to first chart created
+
+#### Impact Metrics
+
+- [ ] Publications using your visualizations
+- [ ] Time saved vs. previous methods
+- [ ] Public engagement (views, shares)
 
 ### Monthly Review
 
-Each month during the pilot, we review:
+**Format:** 30-minute video call
 
-1. **Usage metrics:** Logins, visualizations created, API calls
-2. **Support metrics:** Tickets opened, resolution times
-3. **Feedback themes:** Common requests, pain points
-4. **Roadmap alignment:** Feature requests prioritization
+**Agenda:**
 
----
+1. Usage review (10 min)
+2. Challenges and wins (10 min)
+3. Roadmap preview (5 min)
+4. Feedback collection (5 min)
 
-## Communication Cadence
+### Success Stories
 
-### Weekly
+We'll work with you to document:
 
-- **Sync call:** 30 minutes, status update and planning
-- **Office hours:** Thursday 14:00-16:00 CET (optional)
+- How you're using the platform
+- Impact on your work
+- Time and cost savings
+- Lessons learned
 
-### Monthly
+With your permission, these may be featured in:
 
-- **Executive summary:** Usage report, success metrics
-- **Roadmap review:** Upcoming features, prioritization discussion
-
-### Quarterly
-
-- **Business review:** Strategic alignment, expansion planning
-- **Success story:** Case study development (with permission)
-
----
-
-## Common Questions
-
-### Data & Privacy
-
-**Q: Where is our data stored?**
-A: EU (Frankfurt). On-premise available for classified data.
-
-**Q: Can we delete our data?**
-A: Yes, full data deletion within 48 hours upon request.
-
-**Q: Do you access our visualizations?**
-A: Only with explicit permission for support purposes.
-
-### Technical
-
-**Q: Can we use our existing authentication?**
-A: Yes, SSO via SAML 2.0 or OAuth 2.0 is supported.
-
-**Q: What's the API rate limit?**
-A: 10,000 requests/hour for pilot partners (vs 1,000 for standard).
-
-**Q: Can we customize the appearance?**
-A: Yes, full theming support including your agency branding.
-
-### Commercial
-
-**Q: What happens after the pilot?**
-A: Transition to standard enterprise agreement or extended pilot.
-
-**Q: Is there a long-term commitment?**
-A: Pilot is commitment-free. Enterprise agreements are annual.
-
-**Q: Can other agencies see our work?**
-A: Only if you choose to make visualizations public.
+- Case studies
+- Marketing materials
+- Grant applications
+- Conference presentations
 
 ---
 
-## Transition to Production
+## Issue Reporting
 
-### End of Pilot Process
+### Before Reporting
 
-**8 weeks in:**
+1. **Check [Troubleshooting Guide](./TROUBLESHOOTING_GUIDE.md)**
+2. **Try basic fixes:**
+   - Refresh the page (Ctrl+R / Cmd+R)
+   - Clear browser cache
+   - Try a different browser
+   - Check internet connection
 
-1. Success metrics review
-2. Transition planning call
-3. Decision: production, extended pilot, or conclude
+### How to Report
 
-**If proceeding to production:**
+#### Option 1: In-App Feedback
 
-1. Enterprise agreement finalized
-2. Long-term support model established
-3. Success story development (optional)
-4. Reference customer status (optional)
+```
+Click (?) Help → Report Issue → Fill form → Submit
+```
 
-### Enterprise Agreement Benefits
+#### Option 2: Email
 
-- 24-month price lock
-- Dedicated infrastructure option
-- Custom SLA terms
-- Named contacts for all escalations
-- Quarterly business reviews
+```
+To: support-pilot@vizuelni.rs
+Subject: [PILOT] Brief description
 
----
+Include:
+- What you were trying to do
+- What happened (error message, screenshot)
+- What you expected
+- Browser and version
+```
 
-## Your Pilot Checklist
+#### Option 3: Slack
 
-### Week 1
+```
+#pilot-support channel
 
-- [ ] Accept email invitation
-- [ ] Complete team registration
-- [ ] Enable 2FA for all accounts
-- [ ] Store API keys securely
-- [ ] Complete technical assessment
-- [ ] Attend kick-off call
+@here [URGENCY] Description
+Screenshot/file attachment
+```
 
-### Week 2-3
+### Bug Report Template
 
-- [ ] Complete Training Session 1
-- [ ] Complete Training Session 2
-- [ ] Complete Training Session 3
-- [ ] Identify pilot dataset
-- [ ] Draft initial use cases
+```markdown
+## Summary
 
-### Week 4-6
+Brief description of the issue
 
-- [ ] Create first visualization
-- [ ] Pass internal review
-- [ ] Pass security review
-- [ ] Launch pilot visualization
-- [ ] Gather initial feedback
+## Steps to Reproduce
 
-### Week 7-8
+1. Go to...
+2. Click on...
+3. See error
 
-- [ ] Create 2+ additional visualizations
-- [ ] Build integrated dashboard
-- [ ] Train broader team
-- [ ] Complete feedback survey
-- [ ] Attend transition planning call
+## Expected Result
 
----
+What should happen
 
-## Contacts
+## Actual Result
 
-### Primary Contacts
+What actually happened
 
-| Role                      | Name                   | Email               | Phone |
-| ------------------------- | ---------------------- | ------------------- | ----- |
-| Technical Account Manager | [Assigned at kick-off] |                     |       |
-| Support Lead              |                        | support@vizualni.rs |       |
-| Executive Sponsor         |                        | opendata@ite.gov.rs |       |
+## Environment
 
-### Emergency Contacts
+- Browser: Chrome 120
+- OS: Windows 11
+- User: myemail@gov.rs
 
-**Production down:** +381 11 XXX XXXX (24/7)
+## Attachments
 
-**Security incident:** security@vizualni.rs
+- Screenshot: [attach]
+- Data file: [attach if relevant]
 
----
+## Urgency
 
-## Feedback
+- [ ] Blocking my work (P1)
+- [ ] Workaround available (P2)
+- [ ] Minor inconvenience (P3)
+```
 
-Your feedback shapes our roadmap. Share thoughts through:
+### Issue Lifecycle
 
-- Weekly sync calls
-- Slack #feedback channel
-- Monthly survey
-- Direct email to TAM
-
-**We commit to:**
-
-- Responding to all feedback within 48 hours
-- Explaining decisions when we can't implement suggestions
-- Crediting partners whose ideas ship in the product
+```
+Reported → Triaged → In Progress → Fixed → Verified → Closed
+   │          │           │           │         │
+   │          │           │           │         └─ You confirm fix works
+   │          │           │           └─ Deployed to production
+   │          │           └─ Developer working on it
+   │          └─ Priority assigned, team notified
+   └─ Acknowledged within SLA
+```
 
 ---
 
-**Welcome to the pilot program!**
+## Feedback & Iteration
 
-We're excited to partner with you in making Serbian government data more accessible and transparent.
+### Your Voice Matters
 
-_This playbook is a living document. Suggestions for improvement are always welcome._
+As a pilot partner, you have direct influence on our roadmap. We prioritize features based on:
+
+1. **Partner requests** (40% weight)
+2. **Strategic alignment** (30% weight)
+3. **Effort required** (20% weight)
+4. **Community requests** (10% weight)
+
+### Feedback Channels
+
+| Type             | How Often | Method                  |
+| ---------------- | --------- | ----------------------- |
+| Quick feedback   | Anytime   | In-app feedback button  |
+| Feature request  | Anytime   | Slack #feature-requests |
+| Monthly check-in | Monthly   | Scheduled call          |
+| Quarterly review | Quarterly | Formal survey           |
+
+### Feature Request Template
+
+```markdown
+## Problem Statement
+
+What problem are you trying to solve?
+
+## Proposed Solution
+
+How would you like it to work?
+
+## Use Case
+
+Specific example of when you'd use this
+
+## Priority
+
+How important is this to your work?
+
+- [ ] Critical - blocking adoption
+- [ ] High - significant productivity gain
+- [ ] Medium - nice to have
+- [ ] Low - future consideration
+
+## Alternatives Considered
+
+What workarounds have you tried?
+```
+
+### Roadmap Transparency
+
+We share our public roadmap at: `roadmap.vizuelni.rs`
+
+**What you'll see:**
+
+- Planned features (next 3 months)
+- In-progress work
+- Recently shipped
+- Under consideration
+
+**What you can do:**
+
+- Vote on features
+- Comment on proposals
+- See estimated timelines
+
+---
+
+## Appendix
+
+### Glossary
+
+| Term               | Definition                                          |
+| ------------------ | --------------------------------------------------- |
+| **Chart**          | Visual representation of data (bar, line, pie, map) |
+| **Dataset**        | Collection of data points to visualize              |
+| **Export**         | Save chart as PDF, PNG, or SVG                      |
+| **Embed**          | Insert chart into external website                  |
+| **Region Matcher** | Tool to standardize Serbian region names            |
+| **GeoJSON**        | Format for geographic boundary data                 |
+
+### Keyboard Shortcuts
+
+| Shortcut           | Action       |
+| ------------------ | ------------ |
+| `Ctrl+S` / `Cmd+S` | Save chart   |
+| `Ctrl+E` / `Cmd+E` | Export chart |
+| `Ctrl+Z` / `Cmd+Z` | Undo         |
+| `Ctrl+Shift+Z`     | Redo         |
+| `?`                | Open help    |
+| `Esc`              | Close modal  |
+
+### Common Tasks
+
+#### Create a Chart
+
+1. Click "New Chart"
+2. Upload data or select source
+3. Choose chart type
+4. Configure axes and labels
+5. Save
+
+#### Share a Chart
+
+1. Open chart
+2. Click "Share"
+3. Set visibility (public/private)
+4. Copy link or embed code
+
+#### Export to PDF
+
+1. Open chart
+2. Click "Export" → "PDF"
+3. Configure options (size, quality)
+4. Download
+
+---
+
+## Next Steps
+
+- [ ] Schedule kickoff call: support-pilot@vizuelni.rs
+- [ ] Prepare use case documentation
+- [ ] Designate technical contact
+- [ ] Gather branding assets (logo, colors)
+- [ ] Review troubleshooting guide
+- [ ] Join Slack channel
+
+---
+
+**Questions?** Contact your pilot program coordinator:
+
+📧 support-pilot@vizuelni.rs  
+📞 +381 11 XXX XXXX  
+💬 Slack: #pilot-support
+
+---
+
+_Welcome to the Vizuelni Admin Srbije Pilot Program!_

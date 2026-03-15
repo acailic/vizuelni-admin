@@ -1,12 +1,22 @@
 // Load environment variables FIRST before any other code
 import { config } from 'dotenv';
 import { resolve } from 'path';
-config({ path: resolve(process.cwd(), '.env') });
+
+const envPath = resolve(process.cwd(), '.env');
+console.log('DEBUG: Loading .env from:', envPath);
+const result = config({ path: envPath });
+console.log('DEBUG: dotenv result:', result.error || 'success');
+console.log('DEBUG: BASE_URL:', process.env.BASE_URL);
 
 import { Stagehand, V3 } from '@browserbasehq/stagehand';
 import { z } from 'zod';
 
-export const BASE_URL = process.env.BASE_URL || 'http://localhost:3001';
+export function getBaseUrl(): string {
+  return process.env.BASE_URL || 'http://localhost:3000';
+}
+
+// For backwards compatibility
+export const BASE_URL = getBaseUrl();
 
 export const LOCALES = ['sr-Latn', 'sr-Cyrl', 'en'] as const;
 export type Locale = (typeof LOCALES)[number];
@@ -24,6 +34,8 @@ export interface StagehandConfig {
   llmApiKey?: string;
   /** Browser executable path (Lightpanda or Chrome) */
   browserPath?: string;
+  /** CDP WebSocket URL for connecting to existing browser (e.g., Lightpanda) */
+  cdpUrl?: string;
 }
 
 /**
@@ -98,6 +110,10 @@ export function getStagehandConfig(): StagehandConfig {
   // Browser path: prefer BROWSER_PATH, fallback to CHROME_PATH
   const browserPath = process.env.BROWSER_PATH || process.env.CHROME_PATH;
 
+  // CDP URL for Lightpanda or other CDP-compatible browsers
+  // Set LIGHTPANDA_CDP_URL or CDP_URL to use an existing browser
+  const cdpUrl = process.env.LIGHTPANDA_CDP_URL || process.env.CDP_URL;
+
   return {
     env: useBrowserbase ? 'BROWSERBASE' : 'LOCAL',
     model: llmConfig.modelName,
@@ -108,11 +124,15 @@ export function getStagehandConfig(): StagehandConfig {
     llmBaseURL: llmConfig.baseURL,
     llmApiKey: llmConfig.apiKey,
     browserPath,
+    cdpUrl,
   };
 }
 
 /**
  * Create a Stagehand instance with project defaults
+ *
+ * Note: CHROME_PATH env var must be set for LOCAL mode
+ * Stagehand uses chrome-launcher which reads CHROME_PATH
  */
 export async function createStagehandInstance(): Promise<Stagehand> {
   const config = getStagehandConfig();
@@ -128,12 +148,6 @@ export async function createStagehandInstance(): Promise<Stagehand> {
       apiKey: config.llmApiKey,
       baseURL: config.llmBaseURL,
     },
-    // Use Lightpanda or custom browser if specified
-    browser: config.browserPath
-      ? {
-          executablePath: config.browserPath,
-        }
-      : undefined,
   });
 
   await stagehand.init();

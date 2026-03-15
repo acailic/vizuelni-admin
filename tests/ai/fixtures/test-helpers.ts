@@ -2,13 +2,16 @@ import { Stagehand } from '@browserbasehq/stagehand';
 import { z } from 'zod';
 import {
   createStagehandInstance,
-  BASE_URL,
+  getBaseUrl,
   TEST_CONFIG,
   type Locale,
 } from '../stagehand.config';
 
 // Re-export for convenience
 export { createStagehandInstance };
+
+// Re-export BASE_URL using getter for backwards compatibility
+export const BASE_URL = getBaseUrl();
 
 export interface TestContext {
   stagehand: Stagehand;
@@ -31,12 +34,25 @@ export async function navigateTo(
   locale: Locale = 'sr-Latn'
 ): Promise<void> {
   const url = `${BASE_URL}/${locale}${path}`;
-  const page = stagehand.context.pages()[0];
-  await page.goto(url);
-  // Wait for page to be interactive
-  await page.waitForLoadState('domcontentloaded');
+  console.log(`DEBUG: Navigating to: ${url}`);
+  const page = await getActivePage(stagehand);
+  console.log(`DEBUG: Got page, current URL: ${page.url()}`);
+
+  await page.goto(url, { waitUntil: 'domcontentloaded' });
+  console.log(`DEBUG: Navigated successfully`);
   // Buffer for React hydration
   await page.waitForTimeout(TEST_CONFIG.pageLoadBuffer);
+}
+
+/**
+ * Get the active page from Stagehand context
+ */
+export async function getActivePage(stagehand: Stagehand) {
+  let page = stagehand.context.pages()[0];
+  if (!page) {
+    page = await stagehand.context.newPage();
+  }
+  return page;
 }
 
 /**
@@ -48,7 +64,7 @@ export async function waitForText(
   timeout = 10000
 ): Promise<boolean> {
   try {
-    const page = stagehand.context.pages()[0];
+    const page = await getActivePage(stagehand);
     await page.waitForSelector(`text=${text}`, { timeout });
     return true;
   } catch {
@@ -85,7 +101,7 @@ export async function elementExists(
   selector: string
 ): Promise<boolean> {
   try {
-    const page = stagehand.context.pages()[0];
+    const page = await getActivePage(stagehand);
     const element = await page.locator(selector).first();
     return (await element.count()) > 0;
   } catch {
@@ -100,7 +116,7 @@ export async function captureDebugScreenshot(
   stagehand: Stagehand,
   name: string
 ): Promise<void> {
-  const page = stagehand.context.pages()[0];
+  const page = await getActivePage(stagehand);
   await page.screenshot({
     path: `test-results/ai-tests/debug-${name}-${Date.now()}.png`,
   });
