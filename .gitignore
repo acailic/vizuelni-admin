@@ -103,9 +103,9 @@ recipes/current-task.yml
 # Build outputs
 .next-dev/
 
-# Test artifacts
-playwright-report/
+# AI test artifacts
 test-results/
+playwright-report/
 
 # Screenshots
 *.png
