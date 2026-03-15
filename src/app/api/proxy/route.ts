@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
+import { checkRateLimit, RATE_LIMIT_CONFIGS } from '@/lib/api/rate-limit';
+
+import { validateCsrf } from '@/lib/api/csrf';
 
 const ALLOWED_HOSTNAMES = new Set(['data.gov.rs', 'stats.data.gov.rs']);
 
@@ -46,10 +50,20 @@ async function readResponseWithLimit(response: Response, maxBytes: number) {
   return result;
 }
 
-export async function GET(request: NextRequest) {
-  const url = request.nextUrl.searchParams.get('url');
+const urlSchema = z.string().url();
 
-  if (!url) {
+export async function GET(request: NextRequest) {
+  // Check rate limit (strict for proxy)
+  const rateLimitError = checkRateLimit(request, RATE_LIMIT_CONFIGS.proxy);
+  if (rateLimitError) return rateLimitError;
+
+  // Validate CSRF for proxy requests to prevent abuse
+  const csrfError = validateCsrf(request);
+  if (csrfError) return csrfError;
+
+  const urlParam = request.nextUrl.searchParams.get('url');
+
+  if (!urlParam) {
     return NextResponse.json(
       { error: 'URL parameter is required' },
       { status: 400 }
@@ -57,14 +71,14 @@ export async function GET(request: NextRequest) {
   }
 
   // Validate URL and check against hostname whitelist
-  let parsedUrl: URL;
-  try {
-    parsedUrl = new URL(url);
-  } catch {
+  const parseResult = urlSchema.safeParse(urlParam);
+  if (!parseResult.success) {
     return NextResponse.json({ error: 'Invalid URL' }, { status: 400 });
   }
 
-  if (!ALLOWED_HOSTNAMES.has(parsedUrl.hostname)) {
+  const url = new URL(parseResult.data);
+
+  if (!ALLOWED_HOSTNAMES.has(url.hostname)) {
     return NextResponse.json(
       { error: 'Only data.gov.rs URLs are allowed' },
       { status: 403 }
@@ -72,7 +86,7 @@ export async function GET(request: NextRequest) {
   }
 
   // Only allow HTTPS
-  if (parsedUrl.protocol !== 'https:') {
+  if (url.protocol !== 'https:') {
     return NextResponse.json(
       { error: 'Only HTTPS URLs are allowed' },
       { status: 403 }
@@ -80,7 +94,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const response = await fetch(url, {
+    const response = await fetch(url.toString(), {
       redirect: 'manual',
       headers: {
         'User-Agent': 'VizuelniAdminSrbije/1.0',

@@ -8,16 +8,16 @@ A quick-start template for building data visualizations with Serbian government 
 
 Click the button below to open this template in StackBlitz:
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vizualni/vizualni-starter)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/acailic/vizualni-admin)
 
 ### Option 2: Local Development
 
 ```bash
 # Clone the template
-npx create-next-app@latest my-vizualni-app --example https://github.com/vizualni/vizualni-starter
+npx create-next-app@latest my-vizualni-app --example https://github.com/acailic/vizualni-admin
 
 # Or use degit
-npx degit vizualni/vizualni-starter my-vizualni-app
+npx degit acailic/vizualni-admin my-vizualni-app
 
 cd my-vizualni-app
 

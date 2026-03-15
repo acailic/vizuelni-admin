@@ -1,0 +1,40 @@
+          {/* @ts-expect-error react-pdf Image doesn't support alt */}
+          <Image src='/serbia-logo.png' style={styles.logo} />
+          <Text style={styles.title}>{title || labels.reportTitle}</Text>
+          <Text style={styles.date}>
+            {labels.generatedOn}: {metadata.createdAt}
+          </Text>
+        </View>
+
+        {/* Chart Title & Description */}
+        <View style={styles.chartContainer}>
+          <Text style={styles.chartTitle}>{title}</Text>
+          {description && (
+            <Text style={styles.chartDescription}>{description}</Text>
+          )}
+        </View>
+
+        {/* Chart Image */}
+        {chartImage && (
+          <View style={styles.chartContainer}>
+            {/* @ts-expect-error react-pdf Image doesn't support alt */}
+          {/* @ts-expect-error react-pdf Image doesn't support alt */}
+          <Image alt="Serbia logo"  src='/serbia-logo.png' style={styles.logo} />
+          <Text style={styles.title}>{title || labels.reportTitle}</Text>
+          <Text style={styles.date}>
+            {labels.generatedOn}: {metadata.createdAt}
+          </Text>
+        </View>
+
+        {/* Chart Title & Description */}
+        <View style={styles.chartContainer}>
+          <Text style={styles.chartTitle}>{title}</Text>
+          {description && (
+            <Text style={styles.chartDescription}>{description}</Text>
+          )}
+        </View>
+
+        {/* Chart Image */}
+        {chartImage && (
+          <View style={styles.chartContainer}>
+            {/* @ts-expect-error react-pdf Image doesn't support alt */}

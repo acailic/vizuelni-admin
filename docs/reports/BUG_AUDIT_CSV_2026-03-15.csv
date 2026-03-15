@@ -1,0 +1,18 @@
+BUG_ID,Severity,Category,File,Title,Status
+SEC-001,Critical,Security,src/app/api/gallery/route.ts,Missing authentication on gallery,Fixed
+SEC-002,Critical,Security,src/app/api/charts/[id]/route.ts,TOCTOU race condition,Fixed
+SEC-003,Critical,Security,package.json,Dependency vulnerabilities,Open
+SEC-004,Critical,Security,src/app/api/proxy/route.ts,Missing rate limiting,Fixed
+SEC-005,Critical,Security,All API routes,Missing global rate limiting,Fixed
+BUG-001,High,Security,src/app/api/browse/preview/route.ts,Missing CSRF protection,Open
+BUG-002,High,Security,src/app/api/notifications/route.ts,Inefficient role check,Fixed
+BUG-003,High,Data,src/lib/db/charts.ts,Non-atomic view counter,Fixed
+BUG-004,High,Code Quality,src/components/pdf/ChartReportDocument.tsx,TypeScript errors,Fixed
+BUG-005,High,Accessibility,src/components/pdf/ChartReportDocument.tsx,Missing alt text,Fixed
+BUG-006,High,Testing,e2e/*.spec.ts,Test suite failures,Open
+BUG-007,High,Testing,30+ library files,Missing test coverage,Open
+BUG-008,Medium,Data,src/lib/data/loader.ts,CSV parser edge cases,Open
+BUG-009,Medium,Data,src/lib/api/datagov-client.ts,Cache invalidation,Open
+BUG-010,Medium,Code Quality,src/stores/configurator.ts,Complex init logic,Open
+BUG-011,Medium,UX,src/lib/hooks/useUrlState.ts,URL state sync,Open
+BUG-012,Low,Code Quality,Multiple files,Missing error boundaries,Open

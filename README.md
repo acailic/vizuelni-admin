@@ -199,7 +199,7 @@ A platform for visualization and analysis of administrative data of the Republic
 
 Try it instantly in your browser:
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vizualni/vizualni-starter)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/acailic/vizualni-admin)
 
 #### Local Development
 

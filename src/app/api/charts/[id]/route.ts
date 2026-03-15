@@ -1,10 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { z } from 'zod'
-import { authOptions } from '@/lib/auth/auth-options'
-import { validateCsrf } from '@/lib/api/csrf'
-import { getChartById, updateChart, deleteChart, incrementViews } from '@/lib/db/charts'
-import { chartConfigSchema, type ChartConfig } from '@/types/chart-config'
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { z } from 'zod';
+import { authOptions } from '@/lib/auth/auth-options';
+import { validateCsrf } from '@/lib/api/csrf';
+import { checkRateLimit, RATE_LIMIT_CONFIGS } from '@/lib/api/rate-limit';
+import { getChartById, incrementViews } from '@/lib/db/charts';
+import { chartConfigSchema } from '@/types/chart-config';
+import prisma from '@/lib/db/prisma';
 
 const updateChartSchema = z.object({
   title: z.string().trim().min(1).max(200).optional(),
@@ -12,10 +14,10 @@ const updateChartSchema = z.object({
   config: chartConfigSchema.optional(),
   datasetIds: z.array(z.string()).optional(),
   thumbnail: z.string().optional(),
-})
+});
 
 interface RouteParams {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: string }>;
 }
 
 /**
@@ -23,124 +25,176 @@ interface RouteParams {
  * Public for PUBLISHED charts, owner only for DRAFTs
  */
 export async function GET(_request: NextRequest, { params }: RouteParams) {
+  // Check rate limit
+  const rateLimitError = checkRateLimit(_request, RATE_LIMIT_CONFIGS.readOnly);
+  if (rateLimitError) return rateLimitError;
+
   try {
-    const { id } = await params
-    const chart = await getChartById(id)
+    const { id } = await params;
+    const chart = await getChartById(id);
 
     if (!chart) {
-      return NextResponse.json({ error: 'Chart not found' }, { status: 404 })
+      return NextResponse.json({ error: 'Chart not found' }, { status: 404 });
     }
 
     // Increment views for published charts (fire and forget)
     if (chart.status === 'PUBLISHED') {
-      incrementViews(id).catch(() => {})
+      incrementViews(id).catch(() => {});
     }
 
     // For drafts, check ownership
     if (chart.status !== 'PUBLISHED') {
-      const session = await getServerSession(authOptions)
-      const sessionUserId = (session?.user as { id?: string })?.id
+      const session = await getServerSession(authOptions);
+      const sessionUserId = (session?.user as { id?: string })?.id;
       if (!sessionUserId || chart.userId !== sessionUserId) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
       }
     }
 
-    return NextResponse.json(chart)
+    return NextResponse.json(chart);
   } catch (error) {
-    console.error('Error fetching chart:', error)
-    return NextResponse.json({ error: 'Failed to fetch chart' }, { status: 500 })
+    console.error('Error fetching chart:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch chart' },
+      { status: 500 }
+    );
   }
 }
 
 /**
  * PUT /api/charts/[id] - Update a chart (owner only)
+ * Uses atomic operation to prevent TOCTOU race condition
  */
 export async function PUT(request: NextRequest, { params }: RouteParams) {
-  const csrfError = validateCsrf(request)
-  if (csrfError) return csrfError
+  const csrfError = validateCsrf(request);
+  if (csrfError) return csrfError;
+
+  // Check rate limit
+  const rateLimitError = checkRateLimit(request, RATE_LIMIT_CONFIGS.api);
+  if (rateLimitError) return rateLimitError;
 
   try {
-    const session = await getServerSession(authOptions)
-    const sessionUserId = (session?.user as { id?: string })?.id
+    const session = await getServerSession(authOptions);
+    const sessionUserId = (session?.user as { id?: string })?.id;
     if (!sessionUserId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { id } = await params
-    const chart = await getChartById(id)
-
-    if (!chart) {
-      return NextResponse.json({ error: 'Chart not found' }, { status: 404 })
-    }
-
-    // Check ownership - only the chart owner can edit
-    if (!chart.userId || chart.userId !== sessionUserId) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
-    }
-
-    const body = await request.json()
-    const parseResult = updateChartSchema.safeParse(body)
+    const { id } = await params;
+    const body = await request.json();
+    const parseResult = updateChartSchema.safeParse(body);
 
     if (!parseResult.success) {
       return NextResponse.json(
         { error: 'Invalid request body', details: parseResult.error.flatten() },
         { status: 400 }
-      )
+      );
     }
 
-    const { title, description, config, datasetIds, thumbnail } = parseResult.data
+    const { title, description, config, datasetIds, thumbnail } =
+      parseResult.data;
 
-    const updatedChart = await updateChart(id, {
-      title,
-      description,
-      config: config as ChartConfig | undefined,
-      datasetIds,
-      thumbnail,
-      chartType: config?.type,
-    })
+    // Build update data
+    const updateData: any = {};
+    if (title !== undefined) updateData.title = title;
+    if (description !== undefined) updateData.description = description;
+    if (config !== undefined) {
+      updateData.config = JSON.stringify(config);
+      updateData.chartType = config.type;
+    }
+    if (datasetIds !== undefined)
+      updateData.datasetIds = JSON.stringify(datasetIds);
+    if (thumbnail !== undefined) updateData.thumbnail = thumbnail;
 
-    return NextResponse.json(updatedChart)
+    // Use atomic updateMany with userId in WHERE clause to prevent race condition
+    const result = await prisma.savedChart.updateMany({
+      where: {
+        id,
+        userId: sessionUserId, // Atomic ownership check
+      },
+      data: updateData,
+    });
+
+    if (result.count === 0) {
+      // Either chart doesn't exist or user doesn't own it
+      // Check if chart exists to return appropriate error
+      const chartExists = await prisma.savedChart.findUnique({
+        where: { id },
+        select: { id: true, userId: true },
+      });
+
+      if (!chartExists) {
+        return NextResponse.json({ error: 'Chart not found' }, { status: 404 });
+      }
+
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
+    // Fetch and return the updated chart
+    const updatedChart = await getChartById(id);
+    return NextResponse.json(updatedChart);
   } catch (error) {
-    console.error('Error updating chart:', error)
-    return NextResponse.json({ error: 'Failed to update chart' }, { status: 500 })
+    console.error('Error updating chart:', error);
+    return NextResponse.json(
+      { error: 'Failed to update chart' },
+      { status: 500 }
+    );
   }
 }
 
 /**
  * DELETE /api/charts/[id] - Delete a chart (owner only)
+ * Uses atomic operation to prevent TOCTOU race condition
  */
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
-  const csrfError = validateCsrf(request)
-  if (csrfError) return csrfError
+  const csrfError = validateCsrf(request);
+  if (csrfError) return csrfError;
+
+  // Check rate limit
+  const rateLimitError = checkRateLimit(request, RATE_LIMIT_CONFIGS.api);
+  if (rateLimitError) return rateLimitError;
 
   try {
-    const session = await getServerSession(authOptions)
-    const sessionUserId = (session?.user as { id?: string })?.id
+    const session = await getServerSession(authOptions);
+    const sessionUserId = (session?.user as { id?: string })?.id;
     if (!sessionUserId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { id } = await params
-    const chart = await getChartById(id)
+    const { id } = await params;
 
-    if (!chart) {
-      return NextResponse.json({ error: 'Chart not found' }, { status: 404 })
+    // Use atomic updateMany with userId in WHERE clause
+    // Soft delete by setting status to ARCHIVED
+    const result = await prisma.savedChart.updateMany({
+      where: {
+        id,
+        userId: sessionUserId, // Atomic ownership check
+      },
+      data: {
+        status: 'ARCHIVED',
+      },
+    });
+
+    if (result.count === 0) {
+      // Check if chart exists
+      const chartExists = await prisma.savedChart.findUnique({
+        where: { id },
+        select: { id: true, userId: true },
+      });
+
+      if (!chartExists) {
+        return NextResponse.json({ error: 'Chart not found' }, { status: 404 });
+      }
+
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    // Check ownership - only the chart owner can delete
-    if (!chart.userId || chart.userId !== sessionUserId) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
-    }
-
-    const success = await deleteChart(id)
-
-    if (!success) {
-      return NextResponse.json({ error: 'Failed to delete chart' }, { status: 500 })
-    }
-
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error deleting chart:', error)
-    return NextResponse.json({ error: 'Failed to delete chart' }, { status: 500 })
+    console.error('Error deleting chart:', error);
+    return NextResponse.json(
+      { error: 'Failed to delete chart' },
+      { status: 500 }
+    );
   }
 }

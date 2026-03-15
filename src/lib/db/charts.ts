@@ -1,13 +1,22 @@
-import type { ChartConfig } from '@/types/chart-config'
-import type { SavedChart, SavedChartMeta, CreateChartInput, UpdateChartInput, ChartListFilters, ChartListPagination, ChartListResult } from '@/types/persistence'
-import { ChartStatus } from '@/types/persistence'
-
-import prisma from './prisma'
+import type { ChartConfig } from '@/types/chart-config';
+import type {
+  SavedChart,
+  SavedChartMeta,
+  CreateChartInput,
+  UpdateChartInput,
+  ChartListFilters,
+  ChartListPagination,
+  ChartListResult,
+} from '@/types/persistence';
+import { ChartStatus } from '@/types/persistence';
+import prisma from './prisma';
 
 /**
  * Create a new saved chart
  */
-export async function createChart(input: CreateChartInput): Promise<SavedChart> {
+export async function createChart(
+  input: CreateChartInput
+): Promise<SavedChart> {
   const chart = await prisma.savedChart.create({
     data: {
       title: input.title,
@@ -19,9 +28,9 @@ export async function createChart(input: CreateChartInput): Promise<SavedChart> 
       userId: input.userId,
       status: ChartStatus.DRAFT,
     },
-  })
+  });
 
-  return dbChartToSavedChart(chart)
+  return dbChartToSavedChart(chart);
 }
 
 /**
@@ -30,10 +39,10 @@ export async function createChart(input: CreateChartInput): Promise<SavedChart> 
 export async function getChartById(id: string): Promise<SavedChart | null> {
   const chart = await prisma.savedChart.findUnique({
     where: { id },
-  })
+  });
 
-  if (!chart) return null
-  return dbChartToSavedChart(chart)
+  if (!chart) return null;
+  return dbChartToSavedChart(chart);
 }
 
 /**
@@ -41,7 +50,12 @@ export async function getChartById(id: string): Promise<SavedChart | null> {
  */
 export async function listCharts(
   filters: ChartListFilters = {},
-  pagination: ChartListPagination = { page: 1, pageSize: 20, sortBy: 'createdAt', sortOrder: 'desc' }
+  pagination: ChartListPagination = {
+    page: 1,
+    pageSize: 20,
+    sortBy: 'createdAt',
+    sortOrder: 'desc',
+  }
 ): Promise<ChartListResult> {
   const where = {
     ...(filters.status
@@ -49,7 +63,7 @@ export async function listCharts(
       : { status: { not: ChartStatus.ARCHIVED } }),
     ...(filters.userId && { userId: filters.userId }),
     ...(filters.chartType && { chartType: filters.chartType }),
-  }
+  };
 
   const [charts, total] = await Promise.all([
     prisma.savedChart.findMany({
@@ -59,7 +73,7 @@ export async function listCharts(
       take: pagination.pageSize,
     }),
     prisma.savedChart.count({ where }),
-  ])
+  ]);
 
   return {
     charts: charts.map(dbChartToMeta),
@@ -67,26 +81,35 @@ export async function listCharts(
     page: pagination.page,
     pageSize: pagination.pageSize,
     totalPages: Math.ceil(total / pagination.pageSize),
-  }
+  };
 }
 
 /**
  * Update a chart
  */
-export async function updateChart(id: string, input: UpdateChartInput): Promise<SavedChart | null> {
+export async function updateChart(
+  id: string,
+  input: UpdateChartInput
+): Promise<SavedChart | null> {
   const chart = await prisma.savedChart.update({
     where: { id },
     data: {
       ...(input.title !== undefined && { title: input.title }),
-      ...(input.description !== undefined && { description: input.description }),
-      ...(input.config !== undefined && { config: JSON.stringify(input.config) }),
-      ...(input.datasetIds !== undefined && { datasetIds: JSON.stringify(input.datasetIds) }),
+      ...(input.description !== undefined && {
+        description: input.description,
+      }),
+      ...(input.config !== undefined && {
+        config: JSON.stringify(input.config),
+      }),
+      ...(input.datasetIds !== undefined && {
+        datasetIds: JSON.stringify(input.datasetIds),
+      }),
       ...(input.thumbnail !== undefined && { thumbnail: input.thumbnail }),
       ...(input.chartType !== undefined && { chartType: input.chartType }),
     },
-  })
+  });
 
-  return dbChartToSavedChart(chart)
+  return dbChartToSavedChart(chart);
 }
 
 /**
@@ -97,10 +120,10 @@ export async function deleteChart(id: string): Promise<boolean> {
     await prisma.savedChart.update({
       where: { id },
       data: { status: ChartStatus.ARCHIVED },
-    })
-    return true
+    });
+    return true;
   } catch {
-    return false
+    return false;
   }
 }
 
@@ -114,23 +137,26 @@ export async function publishChart(id: string): Promise<SavedChart | null> {
       status: ChartStatus.PUBLISHED,
       publishedAt: new Date(),
     },
-  })
+  });
 
-  return dbChartToSavedChart(chart)
+  return dbChartToSavedChart(chart);
 }
 
 /**
  * Increment view counter (fire-and-forget)
+ * Uses atomic SQL update to prevent race conditions
  */
 export async function incrementViews(id: string): Promise<void> {
   try {
-    await prisma.savedChart.update({
-      where: { id },
-      data: { views: { increment: 1 } },
-    })
+    // Use raw SQL for atomic increment (SQLite-safe)
+    await prisma.$executeRaw`
+      UPDATE charts 
+      SET views = views + 1 
+      WHERE id = ${id}
+    `;
   } catch (error) {
     // Log but don't throw - view counting should not affect user experience
-    console.error('Failed to increment view count:', error)
+    console.error('Failed to increment view count:', error);
   }
 }
 
@@ -138,27 +164,32 @@ export async function incrementViews(id: string): Promise<void> {
  * Get public gallery charts (published only)
  */
 export async function getGalleryCharts(
-  pagination: Omit<ChartListPagination, 'status'> = { page: 1, pageSize: 20, sortBy: 'createdAt', sortOrder: 'desc' }
+  pagination: Omit<ChartListPagination, 'status'> = {
+    page: 1,
+    pageSize: 20,
+    sortBy: 'createdAt',
+    sortOrder: 'desc',
+  }
 ): Promise<ChartListResult> {
-  return listCharts({ status: ChartStatus.PUBLISHED }, pagination)
+  return listCharts({ status: ChartStatus.PUBLISHED }, pagination);
 }
 
 // Helper functions to convert DB models to domain types
 
 function dbChartToSavedChart(chart: {
-  id: string
-  title: string
-  description: string | null
-  config: string
-  datasetIds: string
-  thumbnail: string | null
-  chartType: string
-  status: string
-  views: number
-  userId: string | null
-  createdAt: Date
-  updatedAt: Date
-  publishedAt: Date | null
+  id: string;
+  title: string;
+  description: string | null;
+  config: string;
+  datasetIds: string;
+  thumbnail: string | null;
+  chartType: string;
+  status: string;
+  views: number;
+  userId: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
 }): SavedChart {
   return {
     id: chart.id,
@@ -174,20 +205,20 @@ function dbChartToSavedChart(chart: {
     createdAt: chart.createdAt,
     updatedAt: chart.updatedAt,
     publishedAt: chart.publishedAt,
-  }
+  };
 }
 
 function dbChartToMeta(chart: {
-  id: string
-  title: string
-  description: string | null
-  chartType: string
-  status: string
-  views: number
-  userId: string | null
-  createdAt: Date
-  updatedAt: Date
-  publishedAt: Date | null
+  id: string;
+  title: string;
+  description: string | null;
+  chartType: string;
+  status: string;
+  views: number;
+  userId: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
 }): SavedChartMeta {
   return {
     id: chart.id,
@@ -200,5 +231,5 @@ function dbChartToMeta(chart: {
     createdAt: chart.createdAt,
     updatedAt: chart.updatedAt,
     publishedAt: chart.publishedAt,
-  }
+  };
 }

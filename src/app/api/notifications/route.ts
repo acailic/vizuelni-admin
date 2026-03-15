@@ -4,9 +4,14 @@ import { z } from 'zod';
 import { prisma } from '@/lib/db/prisma';
 import { authOptions } from '@/lib/auth/auth-options';
 import { validateCsrf } from '@/lib/api/csrf';
+import { checkRateLimit, RATE_LIMIT_CONFIGS } from '@/lib/api/rate-limit';
 
 // GET /api/notifications - Get user's notifications
 export async function GET(request: NextRequest) {
+  // Check rate limit
+  const rateLimitError = checkRateLimit(request, RATE_LIMIT_CONFIGS.readOnly);
+  if (rateLimitError) return rateLimitError;
+
   try {
     const session = await getServerSession(authOptions);
     const sessionUserId = (session?.user as { id?: string } | undefined)?.id;
@@ -16,21 +21,30 @@ export async function GET(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url);
-    const limit = parseInt(searchParams.get('limit') || '20');
-    const offset = parseInt(searchParams.get('offset') || '0');
+    const limit = Math.min(parseInt(searchParams.get('limit') || '20'), 100); // Cap at 100
+    const offset = Math.max(parseInt(searchParams.get('offset') || '0'), 0); // Ensure non-negative
 
-    const notifications = await prisma.notification.findMany({
-      where: { userId: sessionUserId },
-      orderBy: { createdAt: 'desc' },
-      take: limit,
-      skip: offset,
+    const [notifications, unreadCount, totalCount] = await Promise.all([
+      prisma.notification.findMany({
+        where: { userId: sessionUserId },
+        orderBy: { createdAt: 'desc' },
+        take: limit,
+        skip: offset,
+      }),
+      prisma.notification.count({
+        where: { userId: sessionUserId, read: false },
+      }),
+      prisma.notification.count({
+        where: { userId: sessionUserId },
+      }),
+    ]);
+
+    return NextResponse.json({
+      notifications,
+      unreadCount,
+      totalCount,
+      hasMore: offset + notifications.length < totalCount,
     });
-
-    const unreadCount = await prisma.notification.count({
-      where: { userId: sessionUserId, read: false },
-    });
-
-    return NextResponse.json({ notifications, unreadCount });
   } catch (error) {
     console.error('Error fetching notifications:', error);
     return NextResponse.json(
@@ -45,7 +59,7 @@ const createNotificationSchema = z.object({
   type: z.enum(['dataset_update', 'chart_saved', 'announcement', 'export']),
   title: z.string().trim().min(1).max(200),
   message: z.string().trim().min(1).max(2000),
-  actionUrl: z.string().url().optional(),
+  actionUrl: z.string().url().optional().or(z.literal('')),
 });
 
 // POST /api/notifications - Create a notification (admin only)
@@ -53,21 +67,26 @@ export async function POST(request: NextRequest) {
   const csrfError = validateCsrf(request);
   if (csrfError) return csrfError;
 
+  // Check rate limit (strict for admin operations)
+  const rateLimitError = checkRateLimit(request, RATE_LIMIT_CONFIGS.auth);
+  if (rateLimitError) return rateLimitError;
+
   try {
     const session = await getServerSession(authOptions);
-    const sessionUserId = (session?.user as { id?: string } | undefined)?.id;
+    const sessionUser = session?.user as
+      | { id?: string; role?: string }
+      | undefined;
 
-    if (!sessionUserId) {
+    if (!sessionUser?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Check if user is admin
-    const user = await prisma.user.findUnique({
-      where: { id: sessionUserId },
-    });
-
-    if (user?.role !== 'ADMIN') {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    // Check role from session (no database query needed)
+    if (sessionUser.role !== 'ADMIN') {
+      return NextResponse.json(
+        { error: 'Forbidden - Admin access required' },
+        { status: 403 }
+      );
     }
 
     const body = await request.json();
@@ -82,13 +101,26 @@ export async function POST(request: NextRequest) {
 
     const { userId, type, title, message, actionUrl } = parseResult.data;
 
+    // Verify target user exists
+    const targetUser = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { id: true },
+    });
+
+    if (!targetUser) {
+      return NextResponse.json(
+        { error: 'Target user not found' },
+        { status: 404 }
+      );
+    }
+
     const notification = await prisma.notification.create({
       data: {
         userId,
         type,
         title,
         message,
-        actionUrl,
+        actionUrl: actionUrl || undefined,
       },
     });
 
