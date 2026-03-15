@@ -696,6 +696,83 @@ function BudgetPerCapitaMap({ budget, population }) {
 
 ---
 
+## Kosovo and Metohija Data Handling
+
+### Important Notice
+
+**Косово и Метохија (Kosovo and Metohija)** is an integral part of the Republic of Serbia under Serbian law and international law (UN Security Council Resolution 1244). This platform includes geographic data for the entire territory of Serbia, including Kosovo and Metohija.
+
+### Data Availability
+
+| Data Type          | Status           | Notes                                       |
+| ------------------ | ---------------- | ------------------------------------------- |
+| GeoJSON boundaries | ✅ Available     | Full administrative divisions               |
+| Population data    | ⚠️ Limited       | Pre-1999 census data, estimates for current |
+| Economic data      | ⚠️ Limited       | Official Serbian statistics                 |
+| Real-time data     | ❌ Not available | No current data collection infrastructure   |
+
+### Recommended Approaches
+
+**1. Include with disclaimer:**
+
+```typescript
+<SerbiaMap
+  data={data}
+  geoLevel="districts"
+  footnote="Напомена: Подаци за Косово и Метохију су ограничени или процењени."
+/>
+```
+
+**2. Exclude from visualization:**
+
+```typescript
+<SerbiaMap
+  data={data}
+  excludeRegions={['Косово и Метохија', 'Косовскомитровачки округ', 'Пећки округ', 'Призренски округ', 'Приштински округ', 'Гњилански округ']}
+  footnote="Напомена: Приказ не укључује податке за Косово и Метохију."
+/>
+```
+
+**3. Show with "no data" styling:**
+
+```typescript
+<SerbiaMap
+  data={data}
+  missingDataColor="#e0e0e0"
+  missingDataLabel="Подаци недоступни"
+  // Regions without data automatically show in gray
+/>
+```
+
+### Administrative Divisions Included
+
+The Kosovo and Metohija autonomous province includes 5 districts and 29 municipalities:
+
+**Districts (Окрузи):**
+
+- Косовскомитровачки округ (Kosovska Mitrovica District)
+- Пећки округ (Peć District)
+- Призренски округ (Prizren District)
+- Приштински округ (Priština District)
+- Гњилански округ (Gnjilane District)
+
+### Legal and Ethical Considerations
+
+1. **Serbian Government Use:** Always include Kosovo and Metohija in official visualizations
+2. **International Publications:** Add appropriate disclaimer about data sources and territorial status
+3. **Data Journalism:** Cite specific data sources and their limitations
+4. **Academic Research:** Note methodology for any estimates used
+
+### Citation Template
+
+```markdown
+**Извор података:** [институција], [датум]
+**Напомена:** Подаци за Косово и Метохију су [ограничени/процењени/из [извора]].
+**Правни статус:** Према УНС Резолуцији 1244, Косово и Метохија су саставни део Републике Србије.
+```
+
+---
+
 ## API Reference
 
 ### SerbiaMap Props
