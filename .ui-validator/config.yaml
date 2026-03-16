@@ -1,0 +1,49 @@
+model: glm-5
+defaultLocale: sr-Latn
+
+pages:
+  - path: /
+    name: Home
+  - path: /browse
+    name: Browse
+  - path: /create
+    name: Create
+  - path: /sr-Cyrl
+    name: Home (Cyrillic)
+  - path: /en
+    name: Home (English)
+
+specs:
+  - .ui-validator/specs/*.yaml
+
+discovery:
+  max_depth: 3
+  include_forms: true
+  include_navigation: true
+  cache_ttl_hours: 24
+
+validation:
+  viewports:
+    - name: desktop
+      width: 1280
+      height: 800
+    - name: tablet
+      width: 768
+      height: 1024
+    - name: mobile
+      width: 375
+      height: 667
+  screenshot_on_issue: true
+  dom_snapshot_on_issue: true
+  timeout_ms: 30000
+
+report:
+  format: json
+  output: test-results/ui-validation.json
+  include_screenshots: true
+  include_suggestions: true
+  include_dom_snapshots: false
+
+thresholds:
+  max_critical: 0
+  max_warnings: 10

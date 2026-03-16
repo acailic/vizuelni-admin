@@ -1,0 +1,17 @@
+path: /browse
+name: Browse
+critical_elements:
+  - selector: 'main h1'
+    expectation: Browse page should expose a visible primary heading.
+  - selector: 'input[type="search"][aria-label]'
+    expectation: Search bar should be visible and ready for input.
+  - selector: 'aside .text-sm.uppercase'
+    expectation: Filter sidebar heading should be visible.
+  - selector: 'aside button[type="button"]'
+    expectation: Filter sidebar should expose multiple filter controls.
+    min_count: 4
+  - selector: 'article'
+    expectation: Dataset listing should render at least one dataset card.
+    min_count: 1
+  - selector: 'nav[aria-label="Pagination"]'
+    expectation: Pagination controls should be visible when dataset browsing is active.

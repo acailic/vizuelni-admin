@@ -1,0 +1,16 @@
+path: /
+name: Home
+critical_elements:
+  - selector: 'section[aria-labelledby="hero-title"] h1#hero-title'
+    expectation: Hero heading should be present and readable.
+  - selector: 'section[aria-labelledby="quick-stats-title"] .grid > div'
+    expectation: Quick stats section should show at least three stat cards.
+    min_count: 3
+  - selector: 'section[aria-labelledby="featured-examples-title"] h2#featured-examples-title'
+    expectation: Featured examples section heading should be visible.
+  - selector: 'section[aria-labelledby="featured-examples-title"] article'
+    expectation: Featured examples section should render at least one example card.
+    min_count: 1
+  - selector: 'section[aria-labelledby="getting-started-title"] h3'
+    expectation: Getting started section should show the three onboarding steps.
+    min_count: 3

@@ -107,6 +107,7 @@ recipes/current-task.yml
 # AI test artifacts
 test-results/
 playwright-report/
+.ui-validator/discovered-tasks.json
 
 # Screenshots
 *.png
