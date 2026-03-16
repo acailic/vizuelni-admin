@@ -74,6 +74,9 @@ export default async function LocaleHomePage({
         step2Description={messages.homepage.gettingStarted.step2Description}
         step3Title={messages.homepage.gettingStarted.step3Title}
         step3Description={messages.homepage.gettingStarted.step3Description}
+        ctaLabel={messages.homepage.finalCta.tryDemo}
+        ctaHref='/demo-gallery'
+        locale={locale}
       />
     </main>
   );

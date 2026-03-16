@@ -1,19 +1,23 @@
-import { ArrowRight, BarChart2, Search, Share2 } from 'lucide-react'
+import Link from 'next/link';
+import { ArrowRight, BarChart2, Search, Share2 } from 'lucide-react';
 
 interface Step {
-  icon: React.ReactNode
-  title: string
-  description: string
+  icon: React.ReactNode;
+  title: string;
+  description: string;
 }
 
 interface GettingStartedGuideProps {
-  step1Title: string
-  step1Description: string
-  step2Title: string
-  step2Description: string
-  step3Title: string
-  step3Description: string
-  sectionTitle: string
+  step1Title: string;
+  step1Description: string;
+  step2Title: string;
+  step2Description: string;
+  step3Title: string;
+  step3Description: string;
+  sectionTitle: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  locale?: string;
 }
 
 export function GettingStartedGuide({
@@ -24,53 +28,71 @@ export function GettingStartedGuide({
   step3Title,
   step3Description,
   sectionTitle,
+  ctaLabel,
+  ctaHref,
+  locale = 'en',
 }: GettingStartedGuideProps) {
   const steps: Step[] = [
     {
-      icon: <Search className="h-8 w-8" />,
+      icon: <Search className='h-8 w-8' />,
       title: step1Title,
       description: step1Description,
     },
     {
-      icon: <BarChart2 className="h-8 w-8" />,
+      icon: <BarChart2 className='h-8 w-8' />,
       title: step2Title,
       description: step2Description,
     },
     {
-      icon: <Share2 className="h-8 w-8" />,
+      icon: <Share2 className='h-8 w-8' />,
       title: step3Title,
       description: step3Description,
     },
-  ]
+  ];
 
   return (
-    <section className="py-12" aria-labelledby="getting-started-title">
+    <section className='py-12' aria-labelledby='getting-started-title'>
       <h2
-        id="getting-started-title"
-        className="mb-8 text-center text-2xl font-bold text-gray-900"
+        id='getting-started-title'
+        className='mb-8 text-center text-2xl font-bold text-gray-900'
       >
         {sectionTitle}
       </h2>
-      <div className="flex flex-col items-center gap-6 md:flex-row md:items-start md:justify-between">
+      <div className='flex flex-col items-center gap-6 md:flex-row md:items-start md:justify-between'>
         {steps.map((step, index) => (
-          <div key={index} className="flex flex-col items-center text-center">
-            <div className="flex items-center gap-4">
+          <div key={index} className='flex flex-col items-center text-center'>
+            <div className='flex items-center gap-4'>
               {/* Step number and content */}
-              <div className="flex flex-col items-center">
-                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-gov-primary to-gov-accent text-white shadow-lg">
+              <div className='flex flex-col items-center'>
+                <div className='mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-gov-primary to-gov-accent text-white shadow-lg'>
                   {step.icon}
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">{step.title}</h3>
-                <p className="mt-2 max-w-xs text-sm text-gray-600">{step.description}</p>
+                <h3 className='text-lg font-semibold text-gray-900'>
+                  {step.title}
+                </h3>
+                <p className='mt-2 max-w-xs text-sm text-gray-600'>
+                  {step.description}
+                </p>
               </div>
               {/* Arrow between steps */}
               {index < steps.length - 1 && (
-                <ArrowRight className="hidden h-6 w-6 text-gray-300 md:block lg:block" />
+                <ArrowRight className='hidden h-6 w-6 text-gray-300 md:block lg:block' />
               )}
             </div>
           </div>
         ))}
       </div>
+      {ctaLabel && ctaHref && (
+        <div className='mt-10 flex justify-center'>
+          <Link
+            href={`/${locale}${ctaHref}`}
+            className='inline-flex items-center gap-2 rounded-lg bg-gov-primary px-6 py-3 text-sm font-semibold text-white shadow-md transition-all hover:bg-gov-primary/90 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-gov-primary focus:ring-offset-2'
+          >
+            {ctaLabel}
+            <ArrowRight className='h-4 w-4' aria-hidden='true' />
+          </Link>
+        </div>
+      )}
     </section>
-  )
+  );
 }
