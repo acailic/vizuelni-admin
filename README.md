@@ -90,6 +90,32 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) to see the platform.
 
+## Running on StackBlitz
+
+This project is optimized for [StackBlitz](https://stackblitz.com), a browser-based development environment.
+
+### Quick Start on StackBlitz
+
+1. Open the project on StackBlitz
+2. Wait for npm install to complete (skip the husky, prisma generate)
+3. Run `npm run dev:stackblitz`
+4. Open http://localhost:3001
+
+### StackBlitz-Specific Configuration
+
+- **Port**: 3001 (to avoid conflicts)
+- **Memory**: 4GB allocated for Node.js
+- **Database**: SQLite (file-based, no migrations needed)
+- **Hot reload**: Enabled for faster development
+
+### Troubleshooting
+
+If you see memory errors:
+
+- Close other browser tabs
+- Run `npm run dev:stackblitz` again
+- Check browser console for errors
+
 ### Using as a Library
 
 ```bash

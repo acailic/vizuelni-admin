@@ -1,0 +1,24 @@
+{
+  "install_command": "npm install",
+  "start_command": "npm run dev:stackblitz",
+  "build_command": "npm run build:stackblitz",
+  "node_version": "20",
+  "packages": [
+    "recharts",
+    "d3",
+    "next",
+    "react",
+    "react-dom",
+    "leaflet"
+  ],
+  "scripts": {
+    "postinstall": false
+  },
+  "env": {
+    "DATABASE_URL": "file:./prisma/dev.db",
+    "NEXT_PUBLIC_APP_NAME": "Vizuelni Admin Srbije",
+    "NEXT_PUBLIC_DEFAULT_LOCALE": "sr-Cyrl",
+    "NEXT_PUBLIC_ENABLE_DARK_MODE": "false"
+  },
+  "template": "node"
+}
