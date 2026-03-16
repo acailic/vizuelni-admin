@@ -1,6 +1,9 @@
+export { CodeExamplePanel } from './CodeExamplePanel';
+export { ComparisonTable } from './ComparisonTable';
 export { ExampleCard } from './ExampleCard';
 export { FeaturedExamples } from './FeaturedExamples';
 export { FeaturesGrid } from './FeaturesGrid';
+export { FinalCta } from './FinalCta';
 export { GettingStartedGuide } from './GettingStartedGuide';
 export { HeroSection } from './HeroSection';
 export { HeroSectionAnimated } from './HeroSectionAnimated';
