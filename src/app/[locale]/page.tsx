@@ -25,8 +25,15 @@ export default async function LocaleHomePage({
         locale={locale}
         title={messages.homepage.hero.title}
         subtitle={messages.homepage.hero.subtitle}
-        primaryCta={messages.homepage.hero.browseCta}
-        secondaryCta={messages.homepage.hero.createCta}
+        primaryCta={messages.homepage.hero.tryDemoCta}
+        secondaryCta={messages.homepage.hero.starGithubCta}
+        socialProofLabels={{
+          openSource: messages.homepage.socialProof.badge.openSource,
+          accessibility: messages.homepage.socialProof.badge.accessibility,
+          multilingual: messages.homepage.socialProof.badge.multilingual,
+          examples: messages.homepage.socialProof.badge.examples,
+        }}
+        previewAlt={messages.homepage.hero.previewAlt}
       />
 
       {/* Quick Stats Section */}
@@ -36,25 +43,17 @@ export default async function LocaleHomePage({
         usersLabel={messages.homepage.stats.users}
       />
 
-      {/* Featured Examples Section */}
+      {/* Solution Showcase Section */}
       <FeaturedExamples locale={locale} />
 
-      {/* Chart Showcase Gallery */}
+      {/* Live Examples Gallery */}
       <section className='py-12'>
         <div className='mb-8'>
           <h2 className='text-2xl font-bold text-gray-900 dark:text-white mb-2'>
-            {locale === 'sr-Cyrl'
-              ? 'Истражите податке'
-              : locale === 'sr-Latn'
-                ? 'Istražite podatke'
-                : 'Explore Data'}
+            {messages.homepage.liveExamples.title}
           </h2>
-          <p className='text-gray-600 dark:text-gray-400'>
-            {locale === 'sr-Cyrl'
-              ? 'Визуелизације из званичних извора Србије'
-              : locale === 'sr-Latn'
-                ? 'Vizuelizacije iz zvaničnih izvora Srbije'
-                : 'Visualizations from Serbian government data'}
+          <p className='text-gray-600 dark:text-gray-400 max-w-2xl'>
+            {messages.homepage.liveExamples.subtitle}
           </p>
         </div>
         <ShowcaseGrid
