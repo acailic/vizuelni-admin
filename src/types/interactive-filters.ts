@@ -1,17 +1,16 @@
-export type InteractiveCalculation = 'absolute' | 'percent'
-export type InteractiveFilterValue = string | string[] | null
+import type {
+  InteractiveCalculation,
+  InteractiveFilterValue,
+  InteractiveTimeRange,
+  InteractiveFiltersState,
+} from '@vizualni/shared-kernel/types/filter'
 
-export interface InteractiveTimeRange {
-  from: string | null
-  to: string | null
-}
-
-export interface InteractiveFiltersState {
-  legend: Record<string, boolean>
-  timeRange: InteractiveTimeRange
-  timeSlider: string | null
-  dataFilters: Record<string, InteractiveFilterValue>
-  calculation: InteractiveCalculation
+// Re-export types from shared-kernel
+export type {
+  InteractiveCalculation,
+  InteractiveFilterValue,
+  InteractiveTimeRange,
+  InteractiveFiltersState,
 }
 
 export interface InteractiveFilterDefaults extends InteractiveFiltersState {

@@ -1,0 +1,101 @@
+{
+  "name": "@vizualni/datagov-client",
+  "version": "0.1.0-beta.1",
+  "description": "Canonical data.gov.rs API client with typed resources, retry, cache, and timeout support",
+  "type": "module",
+  "license": "MIT",
+  "author": "vizualni",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acailic/vizualni-admin.git",
+    "directory": "packages/infrastructure/datagov-client"
+  },
+  "keywords": [
+    "serbia",
+    "srbija",
+    "data-gov-rs",
+    "api-client",
+    "fetch",
+    "opendata",
+    "infrastructure"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./client": {
+      "types": "./dist/client.d.ts",
+      "import": "./dist/client.js",
+      "require": "./dist/client.cjs"
+    },
+    "./errors": {
+      "types": "./dist/errors.d.ts",
+      "import": "./dist/errors.js",
+      "require": "./dist/errors.cjs"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js",
+      "require": "./dist/types.cjs"
+    },
+    "./datasets": {
+      "types": "./dist/datasets.d.ts",
+      "import": "./dist/datasets.js",
+      "require": "./dist/datasets.cjs"
+    },
+    "./organizations": {
+      "types": "./dist/organizations.d.ts",
+      "import": "./dist/organizations.js",
+      "require": "./dist/organizations.cjs"
+    },
+    "./reuses": {
+      "types": "./dist/reuses.d.ts",
+      "import": "./dist/reuses.js",
+      "require": "./dist/reuses.cjs"
+    },
+    "./topics": {
+      "types": "./dist/topics.d.ts",
+      "import": "./dist/topics.js",
+      "require": "./dist/topics.cjs"
+    },
+    "./contacts": {
+      "types": "./dist/contacts.d.ts",
+      "import": "./dist/contacts.js",
+      "require": "./dist/contacts.cjs"
+    },
+    "./discussions": {
+      "types": "./dist/discussions.d.ts",
+      "import": "./dist/discussions.js",
+      "require": "./dist/discussions.cjs"
+    },
+    "./dataservices": {
+      "types": "./dist/dataservices.d.ts",
+      "import": "./dist/dataservices.js",
+      "require": "./dist/dataservices.cjs"
+    },
+    "./site": {
+      "types": "./dist/site.d.ts",
+      "import": "./dist/site.js",
+      "require": "./dist/site.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "node ./node_modules/tsup/dist/cli-default.js --config tsup.config.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^4.0.0"
+  }
+}

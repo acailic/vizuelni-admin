@@ -1,206 +1,144 @@
-/**
- * API Service Layer for data.gov.rs
- *
- * Provides high-level functions for fetching data from the Serbian Government Open Data Portal
- */
+import {
+  DataGovAPIError,
+  datasets,
+  organizations,
+  reuses,
+  site,
+  type Dataset,
+  type Organization,
+  type Reuse,
+} from '@vizualni/datagov-client'
 
-import { dataGovRsClient, API_ENDPOINTS } from './config';
-import type { PaginatedResponse, Dataset, Organization } from '@/types/api';
+interface PaginatedResponse<T> {
+  data: T[]
+  total: number
+  page: number
+  page_size: number
+  totalPages?: number
+  next_page?: string
+  previous_page?: string
+}
 
-/**
- * Dataset API Service
- */
+function toPaginatedResponse<T>(page: {
+  data: T[]
+  total: number
+  page: number
+  page_size: number
+  next_page?: string
+  previous_page?: string
+}): PaginatedResponse<T> {
+  return {
+    data: page.data,
+    total: page.total,
+    page: page.page,
+    page_size: page.page_size,
+    totalPages: page.total === 0 ? 0 : Math.ceil(page.total / page.page_size),
+    next_page: page.next_page,
+    previous_page: page.previous_page,
+  }
+}
+
+function unsupported(endpoint: string): never {
+  throw new DataGovAPIError(
+    `The ${endpoint} endpoint is not implemented in the canonical data.gov.rs client`,
+    501,
+    'Not Implemented',
+    endpoint
+  )
+}
+
 export const DatasetService = {
-  /**
-   * Get all datasets with pagination
-   */
   async getAll(page = 1, pageSize = 20): Promise<PaginatedResponse<Dataset>> {
-    const response = await dataGovRsClient.get<PaginatedResponse<Dataset>>(
-      API_ENDPOINTS.DATASETS,
-      { params: { page, page_size: pageSize } }
-    );
-    return response.data;
+    const response = await datasets.list({ page, page_size: pageSize })
+    return toPaginatedResponse(response)
   },
 
-  /**
-   * Get a single dataset by ID or slug
-   */
   async getById(id: string): Promise<Dataset> {
-    const response = await dataGovRsClient.get<Dataset>(API_ENDPOINTS.DATASET(id));
-    return response.data;
+    return datasets.get(id)
   },
 
-  /**
-   * Search datasets
-   */
   async search(query: string, page = 1, pageSize = 20): Promise<PaginatedResponse<Dataset>> {
-    const response = await dataGovRsClient.get<PaginatedResponse<Dataset>>(
-      API_ENDPOINTS.DATASETS,
-      { params: { q: query, page, page_size: pageSize } }
-    );
-    return response.data;
+    const response = await datasets.list({ q: query, page, page_size: pageSize })
+    return toPaginatedResponse(response)
   },
 
-  /**
-   * Get featured datasets for homepage
-   */
   async getFeatured(): Promise<Dataset[]> {
-    const response = await dataGovRsClient.get<Dataset[]>(API_ENDPOINTS.SITE_HOME_DATASETS);
-    return response.data;
+    return site.homeDatasets()
   },
 
-  /**
-   * Get dataset suggestions for autocomplete
-   */
   async suggest(query: string, size = 10): Promise<Dataset[]> {
-    const response = await dataGovRsClient.get<{ suggestions: Dataset[] }>(
-      API_ENDPOINTS.DATASET_SUGGEST,
-      { params: { q: query, size } }
-    );
-    return response.data.suggestions || [];
+    return datasets.suggest(query, size)
   },
 
-  /**
-   * Get datasets by organization
-   */
-  async getByOrganization(orgId: string, page = 1, pageSize = 20): Promise<PaginatedResponse<Dataset>> {
-    const response = await dataGovRsClient.get<PaginatedResponse<Dataset>>(
-      API_ENDPOINTS.ORGANIZATION_DATASETS(orgId),
-      { params: { page, page_size: pageSize } }
-    );
-    return response.data;
+  async getByOrganization(
+    orgId: string,
+    page = 1,
+    pageSize = 20
+  ): Promise<PaginatedResponse<Dataset>> {
+    const response = await organizations.datasets(orgId, { page, page_size: pageSize })
+    return toPaginatedResponse(response)
   },
 
-  /**
-   * Get dataset resources
-   */
   async getResources(datasetId: string): Promise<Dataset['resources']> {
-    const dataset = await this.getById(datasetId);
-    return dataset.resources;
+    return datasets.resources(datasetId)
   },
-};
+}
 
-/**
- * Organization API Service
- */
 export const OrganizationService = {
-  /**
-   * Get all organizations with pagination
-   */
   async getAll(page = 1, pageSize = 20): Promise<PaginatedResponse<Organization>> {
-    const response = await dataGovRsClient.get<PaginatedResponse<Organization>>(
-      API_ENDPOINTS.ORGANIZATIONS,
-      { params: { page, page_size: pageSize } }
-    );
-    return response.data;
+    const response = await organizations.list({ page, page_size: pageSize })
+    return toPaginatedResponse(response)
   },
 
-  /**
-   * Get a single organization by ID or slug
-   */
   async getById(id: string): Promise<Organization> {
-    const response = await dataGovRsClient.get<Organization>(API_ENDPOINTS.ORGANIZATION(id));
-    return response.data;
+    return organizations.get(id)
   },
 
-  /**
-   * Search organizations
-   */
-  async search(query: string, page = 1, pageSize = 20): Promise<PaginatedResponse<Organization>> {
-    const response = await dataGovRsClient.get<PaginatedResponse<Organization>>(
-      API_ENDPOINTS.ORGANIZATIONS,
-      { params: { q: query, page, page_size: pageSize } }
-    );
-    return response.data;
+  async search(
+    query: string,
+    page = 1,
+    pageSize = 20
+  ): Promise<PaginatedResponse<Organization>> {
+    const response = await organizations.list({ q: query, page, page_size: pageSize })
+    return toPaginatedResponse(response)
   },
-};
+}
 
-/**
- * Reuse API Service (Examples of data usage)
- */
 export const ReuseService = {
-  /**
-   * Get all reuses with pagination
-   */
-  async getAll(page = 1, pageSize = 20): Promise<PaginatedResponse<unknown>> {
-    const response = await dataGovRsClient.get<PaginatedResponse<unknown>>(
-      API_ENDPOINTS.REUSES,
-      { params: { page, page_size: pageSize } }
-    );
-    return response.data;
+  async getAll(page = 1, pageSize = 20): Promise<PaginatedResponse<Reuse>> {
+    const response = await reuses.list({ page, page_size: pageSize })
+    return toPaginatedResponse(response)
   },
 
-  /**
-   * Get featured reuses for homepage
-   */
-  async getFeatured(): Promise<unknown[]> {
-    const response = await dataGovRsClient.get<unknown[]>(API_ENDPOINTS.SITE_HOME_REUSES);
-    return response.data;
+  async getFeatured(): Promise<Reuse[]> {
+    return site.homeReuses()
   },
-};
+}
 
-/**
- * Spatial API Service (Geographic data)
- */
 export const SpatialService = {
-  /**
-   * Get zone by ID
-   */
-  async getZone(id: string): Promise<unknown> {
-    const response = await dataGovRsClient.get(API_ENDPOINTS.SPATIAL_ZONE(id));
-    return response.data;
+  async getZone(id: string): Promise<never> {
+    unsupported(`/spatial/zones/${id}/`)
   },
 
-  /**
-   * Suggest zones for autocomplete
-   */
-  async suggestZones(query: string, size = 10): Promise<unknown[]> {
-    const response = await dataGovRsClient.get(API_ENDPOINTS.SPATIAL_SUGGEST, {
-      params: { q: query, size },
-    });
-    return response.data;
+  async suggestZones(_query: string, _size = 10): Promise<never> {
+    unsupported('/spatial/suggest/')
   },
-};
+}
 
-/**
- * Tags API Service
- */
 export const TagsService = {
-  /**
-   * Suggest tags for autocomplete
-   */
-  async suggest(query: string, size = 10): Promise<string[]> {
-    const response = await dataGovRsClient.get(API_ENDPOINTS.TAGS_SUGGEST, {
-      params: { q: query, size },
-    });
-    return response.data;
+  async suggest(_query: string, _size = 10): Promise<never> {
+    unsupported('/tags/suggest/')
   },
-};
+}
 
-/**
- * Activity API Service (Recent changes)
- */
 export const ActivityService = {
-  /**
-   * Get recent activity
-   */
-  async getRecent(page = 1, pageSize = 20): Promise<unknown[]> {
-    const response = await dataGovRsClient.get(API_ENDPOINTS.ACTIVITY, {
-      params: { page, page_size: pageSize },
-    });
-    return response.data;
+  async getRecent(_page = 1, _pageSize = 20): Promise<never> {
+    unsupported('/activity/')
   },
-};
+}
 
-/**
- * Site API Service (Site information)
- */
 export const SiteService = {
-  /**
-   * Get site information and metrics
-   */
   async getInfo(): Promise<unknown> {
-    const response = await dataGovRsClient.get(API_ENDPOINTS.SITE);
-    return response.data;
+    return site.info()
   },
-};
+}

@@ -5,7 +5,8 @@
   "description": "Визуелни Административни Подаци Србије - Platform for visualization of Serbian administrative data",
   "packageManager": "npm@10.9.4",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "packages/infrastructure/*"
   ],
   "keywords": [
     "serbia",
@@ -42,9 +43,9 @@
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "type-check": "tsc --noEmit -p tsconfig.typecheck.json",
     "typecheck": "npm run type-check",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
+    "test": "NEXT_IGNORE_INCORRECT_LOCKFILE=1 jest",
+    "test:watch": "NEXT_IGNORE_INCORRECT_LOCKFILE=1 jest --watch",
+    "test:coverage": "NEXT_IGNORE_INCORRECT_LOCKFILE=1 jest --coverage",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:debug": "playwright test --debug",
@@ -81,7 +82,6 @@
     "@tanstack/react-query-devtools": "^5.24.0",
     "@vercel/analytics": "^2.0.1",
     "autoprefixer": "^10.4.17",
-    "axios": "^1.6.7",
     "bcrypt": "^6.0.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",

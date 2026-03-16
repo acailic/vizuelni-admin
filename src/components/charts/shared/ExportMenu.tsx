@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
+import { exportChart } from '@vizualni/application';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import {
   Download,
@@ -12,29 +13,20 @@ import {
 } from 'lucide-react';
 
 import {
-  exportChartAsPNG,
-  exportDataAsCSV,
-  exportDataAsExcel,
-  type PNGExportOptions,
-  type CSVExportOptions,
-  type ExcelExportOptions,
+  createCSVBlob,
+  createExcelBlob,
+  createPNGBlob,
+  createSafeFilename,
 } from '@/lib/export';
 import { trackChartExported } from '@/lib/analytics';
 
 export interface ExportMenuProps {
-  /** Chart container ref for PNG export */
   chartRef?: React.RefObject<HTMLDivElement>;
-  /** Chart title for filenames */
   title: string;
-  /** Data to export (for CSV/Excel) */
   data: Record<string, unknown>[];
-  /** Column headers for CSV/Excel */
   headers?: string[];
-  /** Source attribution */
   source?: string;
-  /** Locale for labels */
   locale?: string;
-  /** Labels for i18n */
   labels?: {
     download?: string;
     imagePng?: string;
@@ -43,17 +35,11 @@ export interface ExportMenuProps {
     exporting?: string;
     source?: string;
   };
-  /** Applied filters description */
   filtersApplied?: string;
-  /** Disabled export types */
   disabledExports?: ('png' | 'csv' | 'excel')[];
-  /** Chart type for analytics tracking */
   chartType?: string;
-  /** Callback when export starts */
   onExportStart?: (type: 'png' | 'csv' | 'excel') => void;
-  /** Callback when export completes */
   onExportEnd?: (type: 'png' | 'csv' | 'excel') => void;
-  /** Callback when export fails */
   onExportError?: (type: 'png' | 'csv' | 'excel', error: Error) => void;
 }
 
@@ -71,6 +57,16 @@ const defaultLabels = {
   exporting: 'Exporting...',
   source: 'Source',
 };
+
+function downloadBlob(blob: Blob, filename: string) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.download = filename;
+  link.href = url;
+  link.click();
+
+  setTimeout(() => URL.revokeObjectURL(url), 100);
+}
 
 export function ExportMenu({
   chartRef,
@@ -95,99 +91,51 @@ export function ExportMenu({
   const [isOpen, setIsOpen] = useState(false);
   const mergedLabels = { ...defaultLabels, ...labels };
 
-  const handlePNGExport = useCallback(async () => {
-    if (!chartRef?.current) {
-      console.error('Chart ref not available for PNG export');
-      return;
-    }
-
-    setExporting((prev) => ({ ...prev, png: true }));
-    onExportStart?.('png');
+  const handleExport = useCallback(async (type: 'png' | 'csv' | 'excel') => {
+    setExporting((prev) => ({ ...prev, [type]: true }));
+    onExportStart?.(type);
 
     try {
-      const options: PNGExportOptions = {
-        title,
-        scale: 2,
-        backgroundColor: '#ffffff',
-        source: source ? `${mergedLabels.source}: ${source}` : undefined,
-      };
+      const result = await exportChart(
+        {
+          format: type,
+          title,
+          data,
+          headers,
+          source,
+          pngSource: source ? `${mergedLabels.source}: ${source}` : undefined,
+          filtersApplied,
+          chartElement: chartRef?.current ?? null,
+        },
+        {
+          createFilename: createSafeFilename,
+          createPngBlob: createPNGBlob,
+          createCsvBlob: createCSVBlob,
+          createExcelBlob,
+        }
+      );
 
-      await exportChartAsPNG(chartRef.current, options);
-      trackChartExported('png', chartType);
-      onExportEnd?.('png');
+      downloadBlob(result.blob, result.filename);
+      trackChartExported(type, chartType);
+      onExportEnd?.(type);
     } catch (error) {
-      console.error('PNG export failed:', error);
-      onExportError?.('png', error as Error);
+      console.error(`${type.toUpperCase()} export failed:`, error);
+      onExportError?.(type, error as Error);
     } finally {
-      setExporting((prev) => ({ ...prev, png: false }));
+      setExporting((prev) => ({ ...prev, [type]: false }));
     }
   }, [
     chartRef,
-    title,
-    source,
-    mergedLabels.source,
-    onExportStart,
-    onExportEnd,
-    onExportError,
-  ]);
-
-  const handleCSVExport = useCallback(() => {
-    setExporting((prev) => ({ ...prev, csv: true }));
-    onExportStart?.('csv');
-
-    try {
-      const columnHeaders =
-        headers || (data.length > 0 ? Object.keys(data[0]!) : []);
-      const options: CSVExportOptions = {
-        title,
-        headers: columnHeaders,
-        delimiter: ';',
-        includeBOM: true,
-      };
-
-      exportDataAsCSV(data, options);
-      trackChartExported('csv', chartType);
-      onExportEnd?.('csv');
-    } catch (error) {
-      console.error('CSV export failed:', error);
-      onExportError?.('csv', error as Error);
-    } finally {
-      setExporting((prev) => ({ ...prev, csv: false }));
-    }
-  }, [data, headers, title, onExportStart, onExportEnd, onExportError]);
-
-  const handleExcelExport = useCallback(async () => {
-    setExporting((prev) => ({ ...prev, excel: true }));
-    onExportStart?.('excel');
-
-    try {
-      const columnHeaders =
-        headers || (data.length > 0 ? Object.keys(data[0]!) : []);
-      const options: ExcelExportOptions = {
-        title,
-        headers: columnHeaders,
-        source,
-        filters: filtersApplied,
-      };
-
-      await exportDataAsExcel(data, options);
-      trackChartExported('excel', chartType);
-      onExportEnd?.('excel');
-    } catch (error) {
-      console.error('Excel export failed:', error);
-      onExportError?.('excel', error as Error);
-    } finally {
-      setExporting((prev) => ({ ...prev, excel: false }));
-    }
-  }, [
+    chartType,
     data,
-    headers,
-    title,
-    source,
     filtersApplied,
-    onExportStart,
+    headers,
+    mergedLabels.source,
     onExportEnd,
     onExportError,
+    onExportStart,
+    source,
+    title,
   ]);
 
   const isPNGDisabled =
@@ -220,7 +168,7 @@ export function ExportMenu({
             disabled={isPNGDisabled}
             onSelect={(e) => {
               e.preventDefault();
-              handlePNGExport();
+              void handleExport('png');
             }}
           >
             {exporting.png ? (
@@ -238,7 +186,7 @@ export function ExportMenu({
             disabled={isCSVDisabled}
             onSelect={(e) => {
               e.preventDefault();
-              handleCSVExport();
+              void handleExport('csv');
             }}
           >
             {exporting.csv ? (
@@ -256,7 +204,7 @@ export function ExportMenu({
             disabled={isExcelDisabled}
             onSelect={(e) => {
               e.preventDefault();
-              handleExcelExport();
+              void handleExport('excel');
             }}
           >
             {exporting.excel ? (

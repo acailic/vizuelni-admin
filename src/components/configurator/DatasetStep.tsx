@@ -1,13 +1,13 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import { loadAndClassifyDataset } from '@vizualni/application';
 
 import {
   getDatasetDetailData,
   isAllowedPreviewHost,
   isPreviewableFormat,
 } from '@/lib/api/browse';
-import { loadDatasetFromUrl } from '@/lib/data';
 import { useConfiguratorStore } from '@/stores/configurator';
 import type { Dataset } from '@/types';
 
@@ -96,7 +96,7 @@ export function DatasetStep(props: DatasetStepProps) {
           const previewUrl = new URL(previewResource.url);
 
           if (isAllowedPreviewHost(previewUrl.hostname)) {
-            const parsed = await loadDatasetFromUrl(previewResource.url, {
+            const parsed = await loadAndClassifyDataset(previewResource.url, {
               datasetId: fullDataset.id,
               resourceId: previewResource.id,
               resourceUrl: previewResource.url,

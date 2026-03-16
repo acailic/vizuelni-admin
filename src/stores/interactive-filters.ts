@@ -12,38 +12,14 @@ import type {
   InteractiveFilterValue,
 } from '@/types'
 
-function normalizeLegendState(
-  current: Record<string, boolean> | undefined,
-  defaults: Record<string, boolean>
-) {
-  return Object.fromEntries(
-    Object.keys(defaults).map(key => [key, current?.[key] ?? defaults[key] ?? true])
-  )
-}
+import {
+  normalizeLegendState,
+  normalizeDataFilters,
+  mergeFiltersWithDefaults,
+} from '@vizualni/charts'
 
-function normalizeDataFilters(
-  current: Record<string, InteractiveFilterValue> | undefined,
-  defaults: Record<string, InteractiveFilterValue>
-) {
-  return Object.fromEntries(
-    Object.keys(defaults).map(key => [key, current?.[key] ?? defaults[key] ?? null])
-  )
-}
-
-function mergeWithDefaults(
-  current: InteractiveFiltersState | undefined,
-  defaults: InteractiveFiltersState
-): InteractiveFiltersState {
-  return {
-    ...defaults,
-    ...current,
-    legend: normalizeLegendState(current?.legend, defaults.legend),
-    dataFilters: normalizeDataFilters(current?.dataFilters, defaults.dataFilters),
-    timeRange: current?.timeRange ?? defaults.timeRange,
-    timeSlider: current?.timeSlider ?? defaults.timeSlider,
-    calculation: current?.calculation ?? defaults.calculation,
-  }
-}
+// Re-export for backward compatibility
+export { normalizeLegendState, normalizeDataFilters, mergeFiltersWithDefaults as mergeWithDefaults }
 
 export const useInteractiveFiltersStore = create<InteractiveFiltersStoreState>((set, _get) => ({
   charts: {},
@@ -52,7 +28,7 @@ export const useInteractiveFiltersStore = create<InteractiveFiltersStoreState>((
     set(state => ({
       charts: {
         ...state.charts,
-        [chartId]: mergeWithDefaults(state.charts[chartId], defaults),
+        [chartId]: mergeFiltersWithDefaults(state.charts[chartId], defaults),
       },
       defaults: {
         ...state.defaults,

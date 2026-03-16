@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-import { getDataset, getDatasetResources } from '@/lib/api/datagov'
+import { datasets } from '@vizualni/datagov-client'
 
 export async function GET(
   _request: Request,
@@ -9,8 +9,8 @@ export async function GET(
   const id = params.id
 
   try {
-    const dataset = await getDataset(id)
-    const resources = await getDatasetResources(id)
+    const dataset = await datasets.get(id)
+    const resources = dataset.resources
 
     return NextResponse.json({
       dataset,

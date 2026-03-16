@@ -6,7 +6,7 @@ import {
   clearCache,
   DataGovAPIError,
   dataGovAPI,
-} from '@/lib/api/datagov-client'
+} from '@vizualni/datagov-client'
 
 describe('DataGovAPI exports', () => {
   it('exports datasets API object', () => {

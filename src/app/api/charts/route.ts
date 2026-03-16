@@ -4,10 +4,10 @@ import { z } from 'zod';
 import { validateCsrf } from '@/lib/api/csrf';
 import { checkRateLimit, RATE_LIMIT_CONFIGS } from '@/lib/api/rate-limit';
 import { authOptions } from '@/lib/auth/auth-options';
-import { listCharts, createChart } from '@/lib/db';
+import { getChartRepository } from '@/lib/db/chart-repository-prisma';
 import { chartConfigSchema } from '@/types/chart-config';
 import type { ChartConfig } from '@/types/chart-config';
-import { ChartStatus } from '@/types/persistence';
+import { ChartStatus } from '@vizualni/charts';
 
 const createChartSchema = z.object({
   title: z.string().trim().min(1).max(200),
@@ -53,7 +53,8 @@ export async function GET(request: NextRequest) {
 
     const { page, pageSize, sortBy, sortOrder, chartType } = queryResult.data;
 
-    const result = await listCharts(
+    const repository = getChartRepository();
+    const result = await repository.list(
       { status: ChartStatus.PUBLISHED, chartType },
       { page, pageSize, sortBy, sortOrder }
     );
@@ -96,7 +97,8 @@ export async function POST(request: NextRequest) {
     const { title, description, config, datasetIds, thumbnail } =
       parseResult.data;
 
-    const chart = await createChart({
+    const repository = getChartRepository();
+    const chart = await repository.create({
       title,
       description,
       config: config as ChartConfig,

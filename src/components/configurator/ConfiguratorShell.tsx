@@ -1,13 +1,13 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { loadAndClassifyDataset } from '@vizualni/application';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { ArrowLeft } from 'lucide-react';
 
 import { getSuggestedChartConfig } from '@/lib/charts/suggestions';
-import { loadDatasetFromUrl } from '@/lib/data';
 import { useUrlState } from '@/lib/hooks/useUrlState';
 import { URL_STATE_VERSION, type PartialUrlState } from '@/lib/url';
 import {
@@ -232,7 +232,7 @@ export function ConfiguratorShell({
     setPreloadError(null);
 
     try {
-      const loadedDataset = await loadDatasetFromUrl(preselectedResourceUrl, {
+      const loadedDataset = await loadAndClassifyDataset(preselectedResourceUrl, {
         datasetId: preselectedDatasetId,
         resourceId: preselectedResourceId,
         resourceUrl: preselectedResourceUrl,

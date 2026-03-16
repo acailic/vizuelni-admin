@@ -3,7 +3,7 @@
  * Captures charts as rendered (SVG or Canvas) with 2x resolution
  */
 
-import { toPng } from 'html-to-image';
+import { toBlob, toPng } from 'html-to-image';
 
 import { createSafeFilename } from './filename';
 
@@ -32,28 +32,13 @@ export interface PNGExportOptions {
   source?: string;
 }
 
-/**
- * Export a DOM element (chart container) as PNG image
- * 
- * @param element - The DOM element to capture
- * @param options - Export options
- * @returns Promise that resolves when download starts
- */
-export async function exportChartAsPNG(
+async function withSourceAttribution<T>(
   element: HTMLElement,
-  options: PNGExportOptions
-): Promise<void> {
-  const {
-    scale = 2,
-    backgroundColor = '#ffffff',
-    width,
-    height,
-    title,
-    source,
-  } = options;
-
-  // Add source attribution if provided
+  source: string | undefined,
+  callback: () => Promise<T>
+): Promise<T> {
   let attributionElement: HTMLElement | null = null;
+
   if (source) {
     attributionElement = document.createElement('div');
     attributionElement.style.cssText = `
@@ -70,35 +55,74 @@ export async function exportChartAsPNG(
   }
 
   try {
-    const exportOptions: ExportOptions = {
-      quality: 1,
-      pixelRatio: scale,
-      backgroundColor,
-      filter: (node: Node) => {
-        // Filter out any elements that shouldn't be in export
-        if ((node as HTMLElement).classList?.contains('no-export')) {
-          return false;
-        }
-        return true;
-      },
-    };
-
-    if (width) exportOptions.width = width;
-    if (height) exportOptions.height = height;
-
-    const dataUrl = await toPng(element, exportOptions);
-
-    // Create download link
-    const link = document.createElement('a');
-    link.download = createSafeFilename(title, 'png');
-    link.href = dataUrl;
-    link.click();
+    return await callback();
   } finally {
-    // Clean up attribution element
     if (attributionElement && element.contains(attributionElement)) {
       element.removeChild(attributionElement);
     }
   }
+}
+
+function buildExportOptions(options: PNGExportOptions): ExportOptions {
+  const {
+    scale = 2,
+    backgroundColor = '#ffffff',
+    width,
+    height,
+  } = options;
+
+  const exportOptions: ExportOptions = {
+    quality: 1,
+    pixelRatio: scale,
+    backgroundColor,
+    filter: (node: Node) => {
+      if ((node as HTMLElement).classList?.contains('no-export')) {
+        return false;
+      }
+      return true;
+    },
+  };
+
+  if (width) exportOptions.width = width;
+  if (height) exportOptions.height = height;
+
+  return exportOptions;
+}
+
+export async function createPNGBlob(
+  element: HTMLElement,
+  options: PNGExportOptions
+): Promise<Blob> {
+  return withSourceAttribution(element, options.source, async () => {
+    const blob = await toBlob(element, buildExportOptions(options));
+
+    if (!blob) {
+      throw new Error('Failed to generate PNG blob');
+    }
+
+    return blob;
+  });
+}
+
+/**
+ * Export a DOM element (chart container) as PNG image
+ * 
+ * @param element - The DOM element to capture
+ * @param options - Export options
+ * @returns Promise that resolves when download starts
+ */
+export async function exportChartAsPNG(
+  element: HTMLElement,
+  options: PNGExportOptions
+): Promise<void> {
+  const dataUrl = await withSourceAttribution(element, options.source, async () => {
+    return toPng(element, buildExportOptions(options));
+  });
+
+  const link = document.createElement('a');
+  link.download = createSafeFilename(options.title, 'png');
+  link.href = dataUrl;
+  link.click();
 }
 
 /**

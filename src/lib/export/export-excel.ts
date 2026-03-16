@@ -30,32 +30,20 @@ async function loadXLSX() {
   return XLSX;
 }
 
-/**
- * Create Excel workbook with styled headers and metadata
- * 
- * @param data - Array of objects to export
- * @param options - Export options
- * @returns Promise that resolves with download triggered
- */
-export async function exportDataAsExcel<T extends Record<string, unknown>>(
+export async function createExcelBlob<T extends Record<string, unknown>>(
   data: T[],
   options: ExcelExportOptions
-): Promise<void> {
+): Promise<Blob> {
   const XLSX = await loadXLSX();
 
   const { title, headers, source, filters, sheetName } = options;
 
-  // Create workbook and worksheet
   const workbook = XLSX.utils.book_new();
   const sheet = XLSX.utils.aoa_to_sheet([]);
-
-  // Prepare data with header row
   const rows: (string | number | null | undefined)[][] = [];
 
-  // Add header row
   rows.push(headers);
 
-  // Add data rows
   data.forEach((item) => {
     const row = headers.map((header) => {
       const value = (item as Record<string, unknown>)[header];
@@ -66,10 +54,8 @@ export async function exportDataAsExcel<T extends Record<string, unknown>>(
     rows.push(row);
   });
 
-  // Add empty row before metadata
   rows.push([]);
 
-  // Add metadata rows
   const exportDate = new Date().toLocaleDateString('sr-RS', {
     year: 'numeric',
     month: 'long',
@@ -86,25 +72,20 @@ export async function exportDataAsExcel<T extends Record<string, unknown>>(
     rows.push([`Примењени филтери: ${filters}`]);
   }
 
-  // Add rows to sheet
   XLSX.utils.sheet_add_aoa(sheet, rows, { origin: 'A1' });
 
-  // Set column widths based on header length
   const colWidths = headers.map((header) => ({
     wch: Math.max(header.length, 15),
   }));
   sheet['!cols'] = colWidths;
 
-  // Style header row (using cell properties)
   const headerRange = XLSX.utils.decode_range(sheet['!ref'] || 'A1');
-  headerRange.e.r = 0; // Only first row
+  headerRange.e.r = 0;
 
   for (let col = headerRange.s.c; col <= headerRange.e.c; col++) {
     const cellAddress = XLSX.utils.encode_cell({ r: 0, c: col });
     if (!sheet[cellAddress]) continue;
 
-    // Apply styling (note: xlsx library has limited styling support)
-    // For full styling, we would need exceljs or a similar library
     sheet[cellAddress].s = {
       fill: {
         patternType: 'solid',
@@ -122,26 +103,36 @@ export async function exportDataAsExcel<T extends Record<string, unknown>>(
     };
   }
 
-  // Truncate sheet name to 31 characters (Excel limit)
   const finalSheetName = (sheetName || title).substring(0, 31);
-
-  // Add sheet to workbook
   XLSX.utils.book_append_sheet(workbook, sheet, finalSheetName);
 
-  // Generate Excel file and trigger download
   const excelBuffer = XLSX.write(workbook, {
     bookType: 'xlsx',
     type: 'array',
     cellStyles: true,
   });
 
-  const blob = new Blob([excelBuffer], {
+  return new Blob([excelBuffer], {
     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   });
+}
+
+/**
+ * Create Excel workbook with styled headers and metadata
+ * 
+ * @param data - Array of objects to export
+ * @param options - Export options
+ * @returns Promise that resolves with download triggered
+ */
+export async function exportDataAsExcel<T extends Record<string, unknown>>(
+  data: T[],
+  options: ExcelExportOptions
+): Promise<void> {
+  const blob = await createExcelBlob(data, options);
 
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
-  link.download = createSafeFilename(title, 'xlsx');
+  link.download = createSafeFilename(options.title, 'xlsx');
   link.href = url;
   link.click();
 

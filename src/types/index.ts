@@ -120,6 +120,7 @@ export type {
   ChartConfig,
   ChartConfigInput,
   ChartOptions,
+  ConfiguratorStep,
   ChartRendererComponentProps,
   ChartRendererDataRow,
   ChartType,
@@ -127,14 +128,6 @@ export type {
   GeoLevel,
   SupportedChartType,
 } from './chart-config';
-
-// Configurator step type (for use with store and URL params)
-export type ConfiguratorStep =
-  | 'dataset'
-  | 'chartType'
-  | 'mapping'
-  | 'customize'
-  | 'review';
 
 export {
   axisConfigSchema,

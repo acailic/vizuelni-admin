@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth/auth-options'
 import { validateCsrf } from '@/lib/api/csrf'
-import { getChartById, publishChart } from '@/lib/db'
+import { getChartRepository } from '@/lib/db/chart-repository-prisma'
 
 interface RouteParams {
   params: Promise<{ id: string }>
@@ -27,24 +27,21 @@ export async function POST(
     }
 
     const { id } = await params
-    const chart = await getChartById(id)
+    const repository = getChartRepository()
 
-    if (!chart) {
-      return NextResponse.json({ error: 'Chart not found' }, { status: 404 })
-    }
+    const result = await repository.publishOwned(id, sessionUserId)
 
-    // Check ownership - only owner can publish
-    if (!chart.userId || chart.userId !== sessionUserId) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
-    }
-
-    const publishedChart = await publishChart(id)
-
-    if (!publishedChart) {
+    if (!result.success) {
+      if (result.error === 'NOT_FOUND') {
+        return NextResponse.json({ error: 'Chart not found' }, { status: 404 })
+      }
+      if (result.error === 'FORBIDDEN') {
+        return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+      }
       return NextResponse.json({ error: 'Failed to publish chart' }, { status: 500 })
     }
 
-    return NextResponse.json(publishedChart)
+    return NextResponse.json(result.data)
   } catch (error) {
     console.error('Error publishing chart:', error)
     return NextResponse.json({ error: 'Failed to publish chart' }, { status: 500 })

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { searchDatasets, getFeaturedDatasets, getRecentDatasets } from '@/lib/api/datagov'
+import { datasets, site } from '@vizualni/datagov-client'
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
@@ -14,23 +14,38 @@ export async function GET(request: NextRequest) {
     let result
 
     if (type === 'featured') {
-      const datasets = await getFeaturedDatasets()
+      const datasetsList = await site.homeDatasets()
       result = {
-        datasets,
-        total: datasets.length,
+        datasets: datasetsList,
+        total: datasetsList.length,
         page: 1,
-        page_size: datasets.length,
+        page_size: datasetsList.length,
       }
     } else if (type === 'recent') {
-      const datasets = await getRecentDatasets(pageSize)
-      result = {
-        datasets,
-        total: datasets.length,
+      const response = await datasets.list({
         page: 1,
-        page_size: datasets.length,
+        page_size: pageSize,
+        sort: '-created',
+      })
+      result = {
+        datasets: response.data,
+        total: response.total,
+        page: response.page,
+        page_size: response.page_size,
       }
     } else {
-      result = await searchDatasets(query, page, pageSize)
+      const response = await datasets.list({
+        q: query,
+        page,
+        page_size: pageSize,
+      })
+
+      result = {
+        datasets: response.data,
+        total: response.total,
+        page: response.page,
+        page_size: response.page_size,
+      }
     }
 
     return NextResponse.json(result)

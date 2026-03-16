@@ -1,0 +1,77 @@
+{
+  "name": "@vizualni/shared-kernel",
+  "version": "0.1.0-beta.1",
+  "description": "Shared kernel types and Serbian text utilities for Vizualni packages",
+  "type": "module",
+  "license": "MIT",
+  "author": "vizualni",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acailic/vizualni-admin.git",
+    "directory": "packages/shared-kernel"
+  },
+  "keywords": [
+    "serbia",
+    "srbija",
+    "shared-kernel",
+    "typescript",
+    "ddd",
+    "clean-architecture"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./types/observation": {
+      "types": "./dist/types/observation.d.ts",
+      "import": "./dist/types/observation.js",
+      "require": "./dist/types/observation.cjs"
+    },
+    "./types/filter": {
+      "types": "./dist/types/filter.d.ts",
+      "import": "./dist/types/filter.js",
+      "require": "./dist/types/filter.cjs"
+    },
+    "./types/transform-context": {
+      "types": "./dist/types/transform-context.d.ts",
+      "import": "./dist/types/transform-context.js",
+      "require": "./dist/types/transform-context.cjs"
+    },
+    "./types/geographic": {
+      "types": "./dist/types/geographic.d.ts",
+      "import": "./dist/types/geographic.js",
+      "require": "./dist/types/geographic.cjs"
+    },
+    "./types/pagination": {
+      "types": "./dist/types/pagination.d.ts",
+      "import": "./dist/types/pagination.js",
+      "require": "./dist/types/pagination.cjs"
+    },
+    "./serbian/transliteration": {
+      "types": "./dist/serbian/transliteration.d.ts",
+      "import": "./dist/serbian/transliteration.js",
+      "require": "./dist/serbian/transliteration.cjs"
+    },
+    "./serbian/collation": {
+      "types": "./dist/serbian/collation.d.ts",
+      "import": "./dist/serbian/collation.js",
+      "require": "./dist/serbian/collation.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup --config tsup.config.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.0"
+  }
+}

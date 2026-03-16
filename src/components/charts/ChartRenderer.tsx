@@ -2,6 +2,17 @@
 
 import { Suspense, useMemo, useRef } from 'react';
 
+import { prepareChartData } from '@vizualni/application';
+import {
+  getChartId,
+  normalizeChartType,
+  parseChartConfig,
+  supportsCalculationToggle,
+  supportsLegendFilter,
+  type ChartConfigInput,
+  type ChartRendererDataRow,
+} from '@vizualni/charts';
+
 import {
   getAxisLabel,
   getTableColumns,
@@ -10,37 +21,17 @@ import { ChartErrorBoundary } from '@/components/charts/shared/ChartErrorBoundar
 import { ChartFrame } from '@/components/charts/shared/ChartFrame';
 import { ExportMenu } from '@/components/charts/shared/ExportMenu';
 import { FilterBar } from '@/components/filters';
-import {
-  getChartId,
-  getChartSeriesKeys,
-  getFilterableDimensions,
-  getTemporalValues,
-  isTemporalChart,
-  supportsCalculationToggle,
-  supportsLegendFilter,
-} from '@/lib/charts/interactive-filters';
 import { getChartDefinition } from '@/lib/charts/registry';
-import { applyInteractiveFilters } from '@/lib/data';
 import { getMessages, resolveLocale } from '@/lib/i18n/messages';
 import { useChartInteractiveFilters } from '@/stores/interactive-filters';
-import {
-  normalizeChartType,
-  type Observation,
-  parseChartConfig,
-  type ChartConfigInput,
-  type ChartRendererDataRow,
-} from '@/types';
 
 interface ChartRendererProps {
   config: ChartConfigInput;
   data: ChartRendererDataRow[];
   height?: number;
   locale?: string;
-  /** Source dataset name for attribution */
   sourceDataset?: string;
-  /** Preview mode hides filter controls but still applies filters */
   previewMode?: boolean;
-  /** Preselected filters to apply (used in preview mode) */
   preselectedFilters?: {
     dataFilters?: Record<string, string | string[] | null>;
     timeRange?: { from: string | null; to: string | null };
@@ -59,24 +50,24 @@ export function ChartRenderer({
 }: ChartRendererProps) {
   const chartContainerRef = useRef<HTMLDivElement>(null);
 
-  const parseResult = useMemo(() => {
+  const prepareResult = useMemo(() => {
     try {
       return {
-        parsedConfig: parseChartConfig(config),
+        preparedData: prepareChartData(config, data, undefined, locale),
         error: null,
       };
     } catch (error) {
       return {
-        parsedConfig: null,
+        preparedData: null,
         error,
       };
     }
-  }, [config]);
+  }, [config, data, locale]);
 
   const localeMessages = getMessages(resolveLocale(locale));
 
   const parsedConfig =
-    parseResult.parsedConfig ??
+    prepareResult.preparedData?.parsedConfig ??
     parseChartConfig({
       type: 'table',
       title: config.title || 'Chart',
@@ -84,27 +75,9 @@ export function ChartRenderer({
 
   const normalizedType = normalizeChartType(parsedConfig.type);
   const chartId = useMemo(() => getChartId(parsedConfig), [parsedConfig]);
-
-  const seriesKeys = useMemo(
-    () =>
-      supportsLegendFilter(parsedConfig)
-        ? getChartSeriesKeys(parsedConfig)
-        : [],
-    [parsedConfig]
-  );
-
-  const temporalValues = useMemo(
-    () =>
-      isTemporalChart(parsedConfig, data)
-        ? getTemporalValues(parsedConfig, data)
-        : [],
-    [data, parsedConfig]
-  );
-
-  const dimensions = useMemo(
-    () => getFilterableDimensions(parsedConfig, data, locale),
-    [data, locale, parsedConfig]
-  );
+  const seriesKeys = prepareResult.preparedData?.seriesKeys ?? [];
+  const temporalValues = prepareResult.preparedData?.temporalValues ?? [];
+  const dimensions = prepareResult.preparedData?.dimensions ?? [];
 
   const filterDefaults = useMemo(
     () => ({
@@ -135,23 +108,19 @@ export function ChartRenderer({
     [filters.legend]
   );
 
-  const filteredData = useMemo(
-    () =>
-      applyInteractiveFilters(
-        data as Observation[],
-        filters,
-        parsedConfig
-      ) as ChartRendererDataRow[],
-    [data, filters, parsedConfig]
-  );
+  const filteredData = useMemo(() => {
+    if (prepareResult.error) {
+      return data;
+    }
 
-  // Get column headers for export
+    return prepareChartData(parsedConfig, data, filters, locale).filteredData;
+  }, [data, filters, locale, parsedConfig, prepareResult.error]);
+
   const exportHeaders = useMemo(
     () => getTableColumns(filteredData, parsedConfig),
     [filteredData, parsedConfig]
   );
 
-  // Build source attribution text
   const sourceAttribution = sourceDataset
     ? localeMessages.common.export?.sourceAttribution?.replace(
         '{{dataset}}',
@@ -159,7 +128,6 @@ export function ChartRenderer({
       ) || `Source: data.gov.rs — ${sourceDataset}`
     : undefined;
 
-  // Build filters description for Excel metadata
   const filtersApplied = useMemo(() => {
     const parts: string[] = [];
     if (filters.calculation === 'percent') {
@@ -173,7 +141,6 @@ export function ChartRenderer({
     return parts.length > 0 ? parts.join(', ') : undefined;
   }, [filters, localeMessages]);
 
-  // Export menu labels
   const exportLabels = {
     download: localeMessages.common.export?.download || 'Download',
     imagePng: localeMessages.common.export?.imagePng || 'Image (PNG)',
@@ -189,7 +156,6 @@ export function ChartRenderer({
   const showTimeFilters = temporalValues.length > 1;
   const showCalculationFilter = supportsCalculationToggle(parsedConfig);
 
-  // In preview mode, don't show filter controls
   const filterBar = previewMode ? undefined : showLegendFilter ||
     showTimeFilters ||
     showCalculationFilter ||
@@ -241,15 +207,15 @@ export function ChartRenderer({
     />
   ) : undefined;
 
-  if (parseResult.error) {
+  if (prepareResult.error) {
     return (
       <ChartFrame
         title={config.title || 'Chart'}
         description={config.description}
         height={height}
         errorMessage={
-          parseResult.error instanceof Error
-            ? parseResult.error.message
+          prepareResult.error instanceof Error
+            ? prepareResult.error.message
             : 'Chart configuration is invalid.'
         }
       />
@@ -284,7 +250,6 @@ export function ChartRenderer({
 
   return (
     <div ref={chartContainerRef} className='relative'>
-      {/* Export Menu - positioned absolutely in top-right (hidden in preview mode) */}
       {!previewMode && (
         <div className='absolute right-5 top-5 z-10'>
           <ExportMenu

@@ -1,10 +1,10 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { loadAndClassifyDataset } from '@vizualni/application'
 
 import { getCachedDataset, setCachedDataset } from '@/lib/examples/cache'
 import type { FeaturedExampleConfig, LoadingStatus } from '@/lib/examples/types'
-import { loadDatasetFromUrl } from '@/lib/data/loader'
 import type { ParsedDataset } from '@/types/observation'
 
 interface UseExampleDataResult {
@@ -59,7 +59,7 @@ export function useExampleData(config: FeaturedExampleConfig): UseExampleDataRes
       setError(null)
 
       try {
-        const result = await loadDatasetFromUrl(config.resourceUrl, {
+        const result = await loadAndClassifyDataset(config.resourceUrl, {
           fetchInit: { signal },
         })
 

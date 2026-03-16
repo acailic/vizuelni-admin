@@ -2,9 +2,14 @@
 
 import { useState, useMemo, memo, useRef, useCallback } from 'react'
 
+import { exportChart } from '@vizualni/application'
+import {
+  createCSVBlob,
+  createExcelBlob,
+  createPNGBlob,
+  createSafeFilename,
+} from '@/lib/export'
 import { generateChartEmbedCode, type EmbedTheme } from '@/lib/embed'
-import { exportDataAsCSV } from '@/lib/export/export-csv'
-import { exportChartAsPNG } from '@/lib/export/export-png'
 import { cn } from '@/lib/utils/cn'
 import { useConfiguratorStore, isConfigReady } from '@/stores/configurator'
 import { useInteractiveFiltersStore } from '@/stores/interactive-filters'
@@ -45,6 +50,16 @@ interface PreviewStepProps {
     dataset?: string
     latestUpdate?: string
   }
+}
+
+function downloadBlob(blob: Blob, filename: string) {
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.download = filename
+  link.href = url
+  link.click()
+
+  setTimeout(() => URL.revokeObjectURL(url), 100)
 }
 
 function PreviewStepComponent({ data, locale: _locale, labels }: PreviewStepProps) {
@@ -138,25 +153,50 @@ function PreviewStepComponent({ data, locale: _locale, labels }: PreviewStepProp
     }
 
     try {
-      await exportChartAsPNG(chartElement, {
-        title: config.title || 'chart',
-        source: datasetTitle ? `data.gov.rs — ${datasetTitle}` : 'data.gov.rs',
-        scale: 2,
-        backgroundColor: '#ffffff',
-      })
+      const exportResult = await exportChart(
+        {
+          format: 'png',
+          title: config.title || 'chart',
+          data,
+          source: datasetTitle ? `data.gov.rs — ${datasetTitle}` : 'data.gov.rs',
+          chartElement,
+        },
+        {
+          createFilename: createSafeFilename,
+          createPngBlob: createPNGBlob,
+          createCsvBlob: createCSVBlob,
+          createExcelBlob,
+        }
+      )
+      downloadBlob(exportResult.blob, exportResult.filename)
     } catch (error) {
       console.error('Failed to export PNG:', error)
     }
-  }, [config.title, datasetTitle])
+  }, [config.title, data, datasetTitle])
 
   const handleDownloadCSV = useCallback(() => {
     if (!data.length) return
 
-    exportDataAsCSV(data, {
-      title: config.title || 'chart-data',
-      delimiter: ';', // Serbian locale uses semicolon
-      includeBOM: true, // UTF-8 BOM for Excel compatibility
-    })
+    void exportChart(
+      {
+        format: 'csv',
+        title: config.title || 'chart-data',
+        data,
+        headers: data.length > 0 ? Object.keys(data[0]!) : [],
+      },
+      {
+        createFilename: createSafeFilename,
+        createPngBlob: createPNGBlob,
+        createCsvBlob: createCSVBlob,
+        createExcelBlob,
+      }
+    )
+      .then((result) => {
+        downloadBlob(result.blob, result.filename)
+      })
+      .catch((error) => {
+        console.error('Failed to export CSV:', error)
+      })
   }, [data, config.title])
 
   const getShareUrl = () => {

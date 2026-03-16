@@ -1,6 +1,7 @@
+import { loadAndClassifyDataset } from '@vizualni/application'
+
 import { ChartRenderer } from '@/components/charts/ChartRenderer'
 import { getDatasetDetailData, isAllowedPreviewHost, isPreviewableFormat } from '@/lib/api/browse'
-import { loadDatasetFromUrl } from '@/lib/data/loader'
 import { parseEmbedTheme, getThemeStyles } from '@/lib/embed'
 import { decodeFullUrlState, type UrlState } from '@/lib/url'
 
@@ -74,7 +75,7 @@ export default async function EmbedChartPage({ searchParams }: EmbedChartPagePro
       const previewUrl = new URL(previewResource.url)
 
       if (isAllowedPreviewHost(previewUrl.hostname)) {
-        const parsedDataset = await loadDatasetFromUrl(previewResource.url, {
+        const parsedDataset = await loadAndClassifyDataset(previewResource.url, {
           datasetId: dataset.datasetId,
           resourceId: dataset.resourceId,
           resourceUrl: previewResource.url,

@@ -1,6 +1,11 @@
 'use client'
 
 import { create } from 'zustand'
+import {
+  canProceedFromStep,
+  isConfigReady,
+  stepOrder,
+} from '@vizualni/charts'
 
 import type { ChartConfig, ConfiguratorStep, ParsedDataset, SupportedChartType, DatasetReference, JoinSuggestion } from '@/types'
 import type { PreviewBreakpoint } from '@/components/configurator/PreviewBreakpointToggle'
@@ -69,14 +74,6 @@ export interface ConfiguratorStoreActions {
   // Preview breakpoint actions
   setPreviewBreakpoint: (breakpoint: PreviewBreakpoint) => void
 }
-
-const stepOrder: ConfiguratorStep[] = [
-  'dataset',
-  'chartType',
-  'mapping',
-  'customize',
-  'review',
-]
 
 const getInitialState = (): ConfiguratorStoreState => ({
   step: 'dataset',
@@ -179,7 +176,7 @@ export const useConfiguratorStore = create<ConfiguratorStoreState & Configurator
     nextStep: () => {
       const { step } = get()
       const normalizedStep = step === 'dataset' ? 'chartType' : step
-      const currentIndex = stepOrder.indexOf(normalizedStep)
+          const currentIndex = stepOrder.indexOf(normalizedStep)
       if (currentIndex < stepOrder.length - 1) {
         set({ step: stepOrder[currentIndex + 1] })
       }
@@ -247,32 +244,4 @@ export const useConfiguratorStore = create<ConfiguratorStoreState & Configurator
   })
 )
 
-export function isConfigReady(config: Partial<ChartConfig>): boolean {
-  if (config.type === 'table') {
-    return true
-  }
-
-  return !!config.x_axis?.field && !!config.y_axis?.field
-}
-
-export function canProceedFromStep(
-  step: ConfiguratorStep,
-  config: Partial<ChartConfig>,
-  parsedDataset: ParsedDataset | null = null
-): boolean {
-  switch (step) {
-    case 'dataset':
-      return parsedDataset !== null
-    case 'chartType':
-      return !!config.type
-    case 'mapping':
-      return isConfigReady(config)
-    case 'customize':
-    case 'review':
-      return true
-    default:
-      return false
-  }
-}
-
-export { stepOrder }
+export { isConfigReady, canProceedFromStep, stepOrder }

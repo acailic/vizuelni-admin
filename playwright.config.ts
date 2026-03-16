@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test'
+import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests/e2e',
@@ -10,7 +10,7 @@ export default defineConfig({
   reporter: [
     ['html', { open: 'never' }],
     ['json', { outputFile: 'test-results/results.json' }],
-    ['list']
+    ['list'],
   ],
   use: {
     baseURL: 'http://localhost:3001',
@@ -41,9 +41,9 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npm run dev',
+    command: 'NEXT_IGNORE_INCORRECT_LOCKFILE=1 npm run dev',
     url: 'http://localhost:3001',
     reuseExistingServer: true,
     timeout: 120 * 1000,
   },
-})
+});

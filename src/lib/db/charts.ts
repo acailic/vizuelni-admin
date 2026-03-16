@@ -1,3 +1,5 @@
+import { Prisma } from '@prisma/client';
+
 import type { ChartConfig } from '@/types/chart-config';
 import type {
   SavedChart,
@@ -65,23 +67,31 @@ export async function listCharts(
     ...(filters.chartType && { chartType: filters.chartType }),
   };
 
-  const [charts, total] = await Promise.all([
-    prisma.savedChart.findMany({
-      where,
-      orderBy: { [pagination.sortBy]: pagination.sortOrder },
-      skip: (pagination.page - 1) * pagination.pageSize,
-      take: pagination.pageSize,
-    }),
-    prisma.savedChart.count({ where }),
-  ]);
+  try {
+    const [charts, total] = await Promise.all([
+      prisma.savedChart.findMany({
+        where,
+        orderBy: { [pagination.sortBy]: pagination.sortOrder },
+        skip: (pagination.page - 1) * pagination.pageSize,
+        take: pagination.pageSize,
+      }),
+      prisma.savedChart.count({ where }),
+    ]);
 
-  return {
-    charts: charts.map(dbChartToMeta),
-    total,
-    page: pagination.page,
-    pageSize: pagination.pageSize,
-    totalPages: Math.ceil(total / pagination.pageSize),
-  };
+    return {
+      charts: charts.map(dbChartToMeta),
+      total,
+      page: pagination.page,
+      pageSize: pagination.pageSize,
+      totalPages: Math.ceil(total / pagination.pageSize),
+    };
+  } catch (error) {
+    if (isMissingChartsTableError(error)) {
+      return emptyChartListResult(pagination);
+    }
+
+    throw error;
+  }
 }
 
 /**
@@ -206,6 +216,40 @@ function dbChartToSavedChart(chart: {
     updatedAt: chart.updatedAt,
     publishedAt: chart.publishedAt,
   };
+}
+
+function emptyChartListResult(
+  pagination: ChartListPagination
+): ChartListResult {
+  return {
+    charts: [],
+    total: 0,
+    page: pagination.page,
+    pageSize: pagination.pageSize,
+    totalPages: 0,
+  };
+}
+
+function isMissingChartsTableError(error: unknown): boolean {
+  if (isPrismaKnownRequestError(error)) {
+    return error.code === 'P2021';
+  }
+
+  return (
+    error instanceof Error &&
+    /table .*charts.* does not exist/i.test(error.message)
+  );
+}
+
+function isPrismaKnownRequestError(
+  error: unknown
+): error is Prisma.PrismaClientKnownRequestError {
+  return Boolean(
+    error &&
+    typeof error === 'object' &&
+    'code' in error &&
+    typeof (error as { code?: unknown }).code === 'string'
+  );
 }
 
 function dbChartToMeta(chart: {

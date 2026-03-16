@@ -3,17 +3,25 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-import type {
-  DashboardConfig,
-  LayoutItem,
-  ChartConfig,
-  SharedFilterConfig,
-} from '@/types'
 import {
+  MAX_CHARTS,
+  canAddChart as canAddChartRule,
+  type DashboardTemplate,
+} from '@vizualni/charts'
+
+import {
+  DASHBOARD_TEMPLATES,
+  type LayoutItem,
+  type SharedFilterConfig,
+  type DashboardConfig,
   createEmptyDashboard,
   createDashboardFromTemplate,
-  DASHBOARD_TEMPLATES,
 } from '@/types/dashboard'
+import type { ChartConfig } from '@/types'
+
+// Re-export for backward compatibility
+export { DASHBOARD_TEMPLATES, type LayoutItem }
+export { canAddChartRule as canAddChart, MAX_CHARTS }
 
 export interface DashboardStoreState {
   dashboard: DashboardConfig | null
@@ -59,8 +67,6 @@ export interface DashboardStoreActions {
   importFromJson: (json: string) => boolean
 }
 
-const MAX_CHARTS = 6
-
 const getInitialState = (): DashboardStoreState => ({
   dashboard: null,
   editMode: false,
@@ -83,7 +89,7 @@ export const useDashboardStore = create<DashboardStoreState & DashboardStoreActi
         }),
 
       createFromTemplate: (templateId, title) => {
-        const template = DASHBOARD_TEMPLATES.find(t => t.id === templateId)
+        const template = DASHBOARD_TEMPLATES.find((t: DashboardTemplate) => t.id === templateId)
         if (!template) {
           set({ dashboard: createEmptyDashboard(title) })
           return
@@ -139,7 +145,7 @@ export const useDashboardStore = create<DashboardStoreState & DashboardStoreActi
       addChart: (chartId, config, layout) =>
         set(state => {
           if (!state.dashboard) return {}
-          if (Object.keys(state.dashboard.charts).length >= MAX_CHARTS) {
+          if (!canAddChartRule(Object.keys(state.dashboard.charts).length)) {
             console.warn('Maximum charts reached')
             return {}
           }
@@ -314,9 +320,9 @@ export const selectChartCount = (state: DashboardStoreState): number =>
   state.dashboard ? Object.keys(state.dashboard.charts).length : 0
 
 export const selectCanAddChart = (state: DashboardStoreState): boolean =>
-  selectChartCount(state) < MAX_CHARTS
+  canAddChartRule(selectChartCount(state))
 
 export const selectSelectedChart = (state: DashboardStoreState): ChartConfig | null =>
   state.dashboard && state.selectedChartId
-    ? state.dashboard.charts[state.selectedChartId] ?? null
+    ? (state.dashboard.charts[state.selectedChartId] as ChartConfig) ?? null
     : null

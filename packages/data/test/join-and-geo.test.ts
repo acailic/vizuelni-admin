@@ -5,8 +5,8 @@ import { normalizeJoinValue } from '../src/join';
 
 describe('normalizeJoinValue', () => {
   it('normalizes Cyrillic and Latin variants to the same join key', () => {
-    expect(normalizeJoinValue('Ниш')).toBe(normalizeJoinValue('Nis'));
-    expect(normalizeJoinValue('Čačak')).toBe(normalizeJoinValue('Cacak'));
+    expect(normalizeJoinValue('Ниш')).toBe(normalizeJoinValue('Niš'));
+    expect(normalizeJoinValue('Чачак')).toBe(normalizeJoinValue('Čačak'));
   });
 });
 

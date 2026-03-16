@@ -13,7 +13,7 @@
 export { createSafeFilename, transliterateToLatin, getDateForFilename } from './filename';
 
 // PNG export
-export { exportChartAsPNG, exportChartBySelector } from './export-png';
+export { createPNGBlob, exportChartAsPNG, exportChartBySelector } from './export-png';
 export type { PNGExportOptions } from './export-png';
 
 // CSV export
@@ -26,5 +26,5 @@ export {
 export type { CSVExportOptions } from './export-csv';
 
 // Excel export
-export { exportDataAsExcel, exportTableAsExcel } from './export-excel';
+export { createExcelBlob, exportDataAsExcel, exportTableAsExcel } from './export-excel';
 export type { ExcelExportOptions } from './export-excel';

@@ -1,18 +1,20 @@
-export interface Annotation {
-  key: string
-  title: Record<string, string> // locale -> title
-  description?: Record<string, string> // locale -> description
-  targets: Array<{
-    componentId: string
-    value: string | number
-  }>
-  color?: string
-  style: 'filled' | 'outline'
-  defaultOpen: boolean
+/**
+ * Annotation types for interactive chart annotations.
+ *
+ * Re-exports from @vizualni/charts for backward compatibility.
+ */
+
+import type {
+  InteractiveAnnotation,
+  InteractiveChartAnnotation,
+} from '@vizualni/charts'
+
+// Re-export types from package
+export type {
+  InteractiveAnnotation,
+  InteractiveChartAnnotation,
 }
 
-export interface ChartAnnotation extends Annotation {
-  x: number
-  y: number
-  visible: boolean
-}
+// Backward-compatible type aliases
+export type Annotation = InteractiveAnnotation
+export type ChartAnnotation = InteractiveChartAnnotation

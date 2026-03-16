@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { loadAndClassifyDataset } from '@vizualni/application'
 
 import { formatDistanceToNow } from 'date-fns'
 import { srLatn, enUS } from 'date-fns/locale'
@@ -8,7 +9,6 @@ import type { Metadata } from 'next'
 
 import { ChartRenderer } from '@/components/charts/ChartRenderer'
 import { getDatasetDetailData, isAllowedPreviewHost, isPreviewableFormat } from '@/lib/api/browse'
-import { loadDatasetFromUrl } from '@/lib/data/loader'
 import { getChartById, incrementViews } from '@/lib/db'
 import { getMessages, resolveLocale } from '@/lib/i18n/messages'
 
@@ -64,7 +64,7 @@ export default async function SavedChartPage({ params }: SavedChartPageProps) {
         const previewUrl = new URL(previewResource.url)
 
         if (isAllowedPreviewHost(previewUrl.hostname)) {
-          const parsedDataset = await loadDatasetFromUrl(previewResource.url, {
+          const parsedDataset = await loadAndClassifyDataset(previewResource.url, {
             datasetId,
             resourceId: previewResource.id,
             resourceUrl: previewResource.url,
