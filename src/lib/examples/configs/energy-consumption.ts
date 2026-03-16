@@ -1,4 +1,4 @@
-import type { FeaturedExampleConfig } from '../types'
+import type { FeaturedExampleConfig } from '../types';
 
 export const energyConsumptionConfig: FeaturedExampleConfig = {
   id: 'energy-consumption',
@@ -17,12 +17,13 @@ export const energyConsumptionConfig: FeaturedExampleConfig = {
   chartConfig: {
     type: 'bar',
     title: 'Energy Consumption',
-    x_axis: { field: 'consumption_twh', type: 'linear', label: 'Consumption (TWh)' },
-    y_axis: { field: 'sector', type: 'category', label: 'Sector' },
+    x_axis: { field: 'sector', type: 'category', label: 'Sector' },
+    y_axis: {
+      field: 'consumption_twh',
+      type: 'linear',
+      label: 'Consumption (TWh)',
+    },
     options: { paletteId: 'government', showLegend: false, showGrid: true },
   },
   category: 'economy',
-  preselectedFilters: {
-    dataFilters: { year: '2023' },
-  },
-}
+};

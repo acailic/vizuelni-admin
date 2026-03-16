@@ -1,4 +1,4 @@
-import type { FeaturedExampleConfig } from '../types'
+import type { FeaturedExampleConfig } from '../types';
 
 export const healthIndicatorsConfig: FeaturedExampleConfig = {
   id: 'health-indicators',
@@ -15,14 +15,20 @@ export const healthIndicatorsConfig: FeaturedExampleConfig = {
   datasetId: 'health-indicators',
   resourceUrl: '/data/health-indicators.csv',
   category: 'healthcare',
-  preselectedFilters: {
-    dataFilters: { indicator: 'Očekivano trajanje života' },
-  },
   chartConfig: {
     type: 'line',
     title: 'Health Indicators',
     x_axis: { field: 'year', type: 'category', label: 'Year' },
-    y_axis: { field: 'life_expectancy', type: 'linear', label: 'Life Expectancy' },
-    options: { paletteId: 'government', showLegend: true, showGrid: true, showDots: true },
+    y_axis: {
+      field: 'life_expectancy',
+      type: 'linear',
+      label: 'Life Expectancy',
+    },
+    options: {
+      paletteId: 'government',
+      showLegend: true,
+      showGrid: true,
+      showDots: true,
+    },
   },
-}
+};

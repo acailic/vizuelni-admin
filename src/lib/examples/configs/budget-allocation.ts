@@ -1,12 +1,12 @@
-import { parseDatasetContent } from '@/lib/data/loader'
-import type { FeaturedExampleConfig } from '../types'
+import { parseDatasetContent } from '@/lib/data/loader';
+import type { FeaturedExampleConfig } from '../types';
 
-import budgetRaw from '@/data/serbian-budget.json'
+import budgetRaw from '@/data/serbian-budget.json';
 
-const budgetDataset = parseDatasetContent(
-  JSON.stringify(budgetRaw),
-  { format: 'json', datasetId: 'serbian-budget' }
-)
+const budgetDataset = parseDatasetContent(JSON.stringify(budgetRaw), {
+  format: 'json',
+  datasetId: 'serbian-budget',
+});
 
 export const budgetAllocationConfig: FeaturedExampleConfig = {
   id: 'budget-allocation',
@@ -31,7 +31,4 @@ export const budgetAllocationConfig: FeaturedExampleConfig = {
   },
   inlineData: budgetDataset,
   category: 'economy',
-  preselectedFilters: {
-    dataFilters: { showTop: '5' },
-  },
-}
+};

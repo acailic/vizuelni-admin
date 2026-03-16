@@ -1,12 +1,12 @@
-import { parseDatasetContent } from '@/lib/data/loader'
-import type { FeaturedExampleConfig } from '../types'
+import { parseDatasetContent } from '@/lib/data/loader';
+import type { FeaturedExampleConfig } from '../types';
 
-import unemploymentRaw from '@/data/serbian-unemployment.json'
+import unemploymentRaw from '@/data/serbian-unemployment.json';
 
 const unemploymentDataset = parseDatasetContent(
   JSON.stringify(unemploymentRaw),
   { format: 'json', datasetId: 'serbian-unemployment' }
-)
+);
 
 export const unemploymentRateConfig: FeaturedExampleConfig = {
   id: 'unemployment-rate',
@@ -25,13 +25,10 @@ export const unemploymentRateConfig: FeaturedExampleConfig = {
   chartConfig: {
     type: 'bar',
     title: 'Unemployment Rate',
-    x_axis: { field: 'rate', type: 'linear', label: 'Rate (%)' },
-    y_axis: { field: 'name', type: 'category', label: 'Region' },
+    x_axis: { field: 'name', type: 'category', label: 'Region' },
+    y_axis: { field: 'rate', type: 'linear', label: 'Rate (%)' },
     options: { paletteId: 'government', showLegend: false, showGrid: true },
   },
   inlineData: unemploymentDataset,
   category: 'economy',
-  preselectedFilters: {
-    timeRange: { from: '2020', to: '2024' },
-  },
-}
+};

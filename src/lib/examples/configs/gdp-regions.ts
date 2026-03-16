@@ -1,12 +1,12 @@
-import { parseDatasetContent } from '@/lib/data/loader'
-import type { FeaturedExampleConfig } from '../types'
+import { parseDatasetContent } from '@/lib/data/loader';
+import type { FeaturedExampleConfig } from '../types';
 
-import gdpRaw from '@/data/serbian-gdp.json'
+import gdpRaw from '@/data/serbian-gdp.json';
 
-const gdpDataset = parseDatasetContent(
-  JSON.stringify(gdpRaw),
-  { format: 'json', datasetId: 'serbian-gdp' }
-)
+const gdpDataset = parseDatasetContent(JSON.stringify(gdpRaw), {
+  format: 'json',
+  datasetId: 'serbian-gdp',
+});
 
 export const gdpRegionsConfig: FeaturedExampleConfig = {
   id: 'gdp-regions',
@@ -32,6 +32,6 @@ export const gdpRegionsConfig: FeaturedExampleConfig = {
   inlineData: gdpDataset,
   category: 'economy',
   preselectedFilters: {
-    dataFilters: { region: 'Beogradski region' },
+    dataFilters: { region: 'Београд' },
   },
-}
+};

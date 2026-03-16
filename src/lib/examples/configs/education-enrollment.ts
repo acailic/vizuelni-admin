@@ -1,4 +1,4 @@
-import type { FeaturedExampleConfig } from '../types'
+import type { FeaturedExampleConfig } from '../types';
 
 export const educationEnrollmentConfig: FeaturedExampleConfig = {
   id: 'education-enrollment',
@@ -15,14 +15,15 @@ export const educationEnrollmentConfig: FeaturedExampleConfig = {
   datasetId: 'education-enrollment',
   resourceUrl: '/data/education-enrollment.csv',
   category: 'demographics',
-  preselectedFilters: {
-    dataFilters: { nivo: 'Visoko obrazovanje' },
-  },
   chartConfig: {
     type: 'area',
     title: 'Education Enrollment',
     x_axis: { field: 'year', type: 'category', label: 'Year' },
-    y_axis: { field: 'primary', type: 'linear', label: 'Enrollment (%)' },
+    y_axis: {
+      field: 'university',
+      type: 'linear',
+      label: 'University Enrollment (%)',
+    },
     options: { paletteId: 'government', showLegend: true, showGrid: true },
   },
-}
+};
