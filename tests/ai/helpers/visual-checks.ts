@@ -3,7 +3,6 @@
  * Used for visual regression testing to detect visibility and layout issues
  */
 
-import type { Page } from 'playwright';
 import type { Stagehand } from '@browserbasehq/stagehand';
 import { getContrastRatio, meetsWCAGAA } from './contrast-utils';
 import { getActivePage } from '../fixtures/test-helpers';
@@ -70,13 +69,24 @@ export interface VisualCheckResult
  * Detects low-contrast text that may be hard to read
  */
 export async function checkTextVisibility(
-  page: Page
+  page: any
 ): Promise<TextVisibilityResult> {
   const result = await page.evaluate(() => {
-    // Clear previous check data to prevent stale data
-    (window as any).__visualCheckData = [];
+    const getSelector = (el) => {
+      const className =
+        typeof el.className === 'string'
+          ? (el.className ?? '')
+          : (el.getAttribute('class') ?? '');
 
-    // Get all text-containing elements
+      return el.id
+        ? `#${el.id}`
+        : className
+          ? `${el.tagName.toLowerCase()}.${className.split(' ')[0]}`
+          : el.tagName.toLowerCase();
+    };
+
+    window.__visualCheckData = [];
+
     const textElements = document.querySelectorAll(
       'p, h1, h2, h3, h4, h5, h6, span, a, button, label, li, td, th, div'
     );
@@ -85,70 +95,62 @@ export async function checkTextVisibility(
     let hiddenByOverflow = 0;
 
     textElements.forEach((el) => {
-      // Skip empty elements
-      const text = el.textContent?.trim();
-      if (!text || text.length < 3) return;
+      try {
+        const text = el.textContent?.trim();
+        if (!text || text.length < 3) return;
 
-      // Check if element is visible
-      const style = window.getComputedStyle(el);
-      const rect = el.getBoundingClientRect();
+        const style = window.getComputedStyle(el);
+        const rect = el.getBoundingClientRect();
 
-      if (
-        style.display === 'none' ||
-        style.visibility === 'hidden' ||
-        style.opacity === '0'
-      ) {
-        return; // Skip hidden elements
-      }
+        if (
+          style.display === 'none' ||
+          style.visibility === 'hidden' ||
+          style.opacity === '0'
+        ) {
+          return;
+        }
 
-      if (rect.width === 0 || rect.height === 0) {
-        hiddenByOverflow++;
+        if (rect.width === 0 || rect.height === 0) {
+          hiddenByOverflow++;
+          return;
+        }
+
+        visibleCount++;
+
+        const textColor = style.color;
+        let bgColor = style.backgroundColor;
+
+        if (bgColor === 'rgba(0, 0, 0, 0)' || bgColor === 'transparent') {
+          let parent = el.parentElement;
+          while (parent) {
+            const parentStyle = window.getComputedStyle(parent);
+            bgColor = parentStyle.backgroundColor;
+            if (bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent') {
+              break;
+            }
+            parent = parent.parentElement;
+          }
+        }
+
+        const selector = getSelector(el);
+        window.__visualCheckData = window.__visualCheckData || [];
+        window.__visualCheckData.push({
+          selector,
+          text: text.substring(0, 50),
+          textColor,
+          bgColor,
+          fontSize: parseFloat(style.fontSize),
+          fontWeight: style.fontWeight,
+        });
+      } catch {
         return;
       }
-
-      visibleCount++;
-
-      // Get text color
-      const textColor = style.color;
-      let bgColor = style.backgroundColor;
-
-      // If background is transparent, traverse up to find actual background
-      if (bgColor === 'rgba(0, 0, 0, 0)' || bgColor === 'transparent') {
-        let parent = el.parentElement;
-        while (parent) {
-          const parentStyle = window.getComputedStyle(parent);
-          bgColor = parentStyle.backgroundColor;
-          if (bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent') {
-            break;
-          }
-          parent = parent.parentElement;
-        }
-      }
-
-      // Calculate contrast ratio (will be done in Node context)
-      const selector = el.id
-        ? `#${el.id}`
-        : el.className && typeof el.className === 'string'
-          ? `${el.tagName.toLowerCase()}.${el.className.split(' ')[0]}`
-          : el.tagName.toLowerCase();
-
-      // Store for contrast calculation
-      (window as any).__visualCheckData =
-        (window as any).__visualCheckData || [];
-      (window as any).__visualCheckData.push({
-        selector,
-        text: text.substring(0, 50),
-        textColor,
-        bgColor,
-        fontSize: parseFloat(style.fontSize),
-        fontWeight: style.fontWeight,
-      });
     });
 
     return {
       visibleTextElements: visibleCount,
       hiddenByOverflow,
-      elementsData: (window as any).__visualCheckData || [],
+      elementsData: window.__visualCheckData || [],
     };
   });
 
@@ -181,9 +183,22 @@ export async function checkTextVisibility(
  * Check that interactive elements are visible and not obscured
  */
 export async function checkInteractiveElements(
-  page: Page
+  page: any
 ): Promise<InteractiveElementsResult> {
   return page.evaluate(() => {
+    const getSelector = (el: Element) => {
+      const className =
+        typeof (el as Element & { className?: unknown }).className === 'string'
+          ? ((el as Element & { className: string }).className ?? '')
+          : (el.getAttribute('class') ?? '');
+
+      return el.id
+        ? `#${el.id}`
+        : className
+          ? `${el.tagName.toLowerCase()}.${className.split(' ')[0]}`
+          : el.tagName.toLowerCase();
+    };
+
     const buttons = document.querySelectorAll('button');
     const links = document.querySelectorAll('a[href]');
     const inputs = document.querySelectorAll('input, select, textarea');
@@ -198,11 +213,7 @@ export async function checkInteractiveElements(
       const style = window.getComputedStyle(el);
       const rect = el.getBoundingClientRect();
 
-      const selector = el.id
-        ? `#${el.id}`
-        : el.className && typeof el.className === 'string'
-          ? `${el.tagName.toLowerCase()}.${el.className.split(' ')[0]}`
-          : el.tagName.toLowerCase();
+      const selector = getSelector(el);
 
       // Check if hidden by CSS
       if (style.display === 'none') {
@@ -277,9 +288,22 @@ export async function checkInteractiveElements(
  * Check layout integrity - no horizontal scroll, overflow issues
  */
 export async function checkLayoutIntegrity(
-  page: Page
+  page: any
 ): Promise<LayoutIntegrityResult> {
   return page.evaluate(() => {
+    const getSelector = (el: Element) => {
+      const className =
+        typeof (el as Element & { className?: unknown }).className === 'string'
+          ? ((el as Element & { className: string }).className ?? '')
+          : (el.getAttribute('class') ?? '');
+
+      return el.id
+        ? `#${el.id}`
+        : className
+          ? `${el.tagName.toLowerCase()}.${className.split(' ')[0]}`
+          : el.tagName.toLowerCase();
+    };
+
     const viewportWidth = window.innerWidth;
     const contentWidth = document.documentElement.scrollWidth;
     const documentHeight = document.documentElement.scrollHeight;
@@ -300,11 +324,7 @@ export async function checkLayoutIntegrity(
 
       if (rect.width > viewportWidth + 10) {
         // 10px tolerance
-        const selector = el.id
-          ? `#${el.id}`
-          : el.className && typeof el.className === 'string'
-            ? `${el.tagName.toLowerCase()}.${el.className.split(' ')[0]}`
-            : el.tagName.toLowerCase();
+        const selector = getSelector(el);
 
         overflowElements.push({
           selector,
@@ -328,9 +348,22 @@ export async function checkLayoutIntegrity(
  * Check for hidden/z-index issues
  */
 export async function checkHiddenElements(
-  page: Page
+  page: any
 ): Promise<HiddenElementsResult> {
   return page.evaluate(() => {
+    const getSelector = (el: Element) => {
+      const className =
+        typeof (el as Element & { className?: unknown }).className === 'string'
+          ? ((el as Element & { className: string }).className ?? '')
+          : (el.getAttribute('class') ?? '');
+
+      return el.id
+        ? `#${el.id}`
+        : className
+          ? `${el.tagName.toLowerCase()}.${className.split(' ')[0]}`
+          : el.tagName.toLowerCase();
+    };
+
     let displayNone = 0;
     let visibilityHidden = 0;
     let opacityZero = 0;
@@ -341,11 +374,7 @@ export async function checkHiddenElements(
     document.querySelectorAll('*').forEach((el) => {
       const style = window.getComputedStyle(el);
       const rect = el.getBoundingClientRect();
-      const selector = el.id
-        ? `#${el.id}`
-        : el.className && typeof el.className === 'string'
-          ? `${el.tagName.toLowerCase()}.${el.className.split(' ')[0]}`
-          : el.tagName.toLowerCase();
+      const selector = getSelector(el);
 
       if (style.display === 'none') displayNone++;
       if (style.visibility === 'hidden') visibilityHidden++;
@@ -388,13 +417,11 @@ export async function runFullVisualCheck(
 ): Promise<VisualCheckResult> {
   const page = await getActivePage(stagehand);
 
-  const [textVisibility, interactiveElements, layoutIntegrity, hiddenElements] =
-    await Promise.all([
-      checkTextVisibility(page),
-      checkInteractiveElements(page),
-      checkLayoutIntegrity(page),
-      checkHiddenElements(page),
-    ]);
+  // Stagehand page.evaluate is not reliable under parallel execution.
+  const textVisibility = await checkTextVisibility(page);
+  const interactiveElements = await checkInteractiveElements(page);
+  const layoutIntegrity = await checkLayoutIntegrity(page);
+  const hiddenElements = await checkHiddenElements(page);
 
   return {
     ...textVisibility,
