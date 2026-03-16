@@ -7,8 +7,8 @@ config({ path: resolve(process.cwd(), '.env') });
 
 export default defineConfig({
   test: {
-    // Test file patterns
-    include: ['tests/ai/**/*.spec.ts'],
+    // Test file patterns (include both .spec.ts for flows and .test.ts for helpers)
+    include: ['tests/ai/**/*.spec.ts', 'tests/ai/**/*.test.ts'],
 
     // Timeout settings (AI tests need longer timeouts)
     testTimeout: 120000,
