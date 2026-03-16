@@ -57,6 +57,22 @@ Vizuelni Admin Srbije is an open-source Serbian government data visualization pl
 - Emphasize "no coding required"
 - Add live chart preview in hero
 
+**Hero Live Preview:**
+
+Use the **Serbian Population Pyramid** chart from demo gallery as the embedded preview:
+
+- Visually striking and immediately understandable
+- Shows demographic data (relevant to journalists)
+- Uses the existing `demo-gallery-examples.ts` data
+- File: `src/lib/examples/demo-gallery-examples.ts` → demographics category → population pyramid
+
+**CTA Link Destinations:**
+
+| CTA              | Link                                        | Rationale                                 |
+| ---------------- | ------------------------------------------- | ----------------------------------------- |
+| "Try Demo"       | `/[locale]/demo-gallery`                    | Takes users directly to interactive demos |
+| "View on GitHub" | `https://github.com/acailic/vizualni-admin` | Repository URL                            |
+
 ### Landing Page Sections
 
 1. **Hero + Social Proof** - First impression, value prop
@@ -72,7 +88,7 @@ Vizuelni Admin Srbije is an open-source Serbian government data visualization pl
 | --------------------------- | --------------------------------------------------- |
 | `HeroSectionAnimated.tsx`   | Add social proof bar, refine CTAs, add live preview |
 | `src/app/[locale]/page.tsx` | Add HowItWorks and UseCases sections                |
-| `SocialProof.tsx` (NEW)     | GitHub stars badge, feature badges                  |
+| `SocialProof.tsx` (NEW)     | GitHub stars badge (with threshold), feature badges |
 | `HowItWorks.tsx` (NEW)      | 3-step visual guide                                 |
 | `UseCases.tsx` (NEW)        | Audience-specific value props                       |
 | Locale files                | New copy in all 3 languages                         |
@@ -129,6 +145,7 @@ src/app/[locale]/page.tsx
 - "Serbian Data" / "Српски подаци"
 - "WCAG 2.1 AA" / "WCAG 2.1 AA"
 - "Open Source" / "Отворени код"
+- GitHub Stars: Display only if ≥ 50 stars (fetch via GitHub API, hide if below threshold to avoid undermining credibility at launch)
 
 **How It Works:**
 
