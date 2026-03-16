@@ -4,6 +4,10 @@ import { ChartReportDocument } from '@/components/pdf';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth/auth-options';
 import { validateCsrf } from '@/lib/api/csrf';
+import {
+  isStaticExportBuild,
+  staticExportApiUnavailable,
+} from '@/lib/next/static-export';
 
 interface ReportRequest {
   title: string;
@@ -17,6 +21,10 @@ interface ReportRequest {
 }
 
 export async function POST(request: NextRequest) {
+  if (isStaticExportBuild) {
+    return staticExportApiUnavailable();
+  }
+
   const csrfError = validateCsrf(request);
   if (csrfError) return csrfError;
 

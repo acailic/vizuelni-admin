@@ -7,10 +7,10 @@ echo "🚀 Starting GitHub Pages local development..."
 
 # Build for GitHub Pages
 echo "📦 Building for GitHub Pages..."
-yarn build:gh-pages-local
+npm run build:gh-pages-local
 
 # Start the server
 echo "🌐 Starting local server..."
 echo "Visit http://localhost:3000/vizualni-admin/ to preview"
 echo "Press Ctrl+C to stop"
-yarn serve:gh-pages
+npm run serve:gh-pages

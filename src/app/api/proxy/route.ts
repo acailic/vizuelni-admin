@@ -3,6 +3,10 @@ import { z } from 'zod';
 import { checkRateLimit, RATE_LIMIT_CONFIGS } from '@/lib/api/rate-limit';
 
 import { validateCsrf } from '@/lib/api/csrf';
+import {
+  isStaticExportBuild,
+  staticExportApiUnavailable,
+} from '@/lib/next/static-export';
 
 const ALLOWED_HOSTNAMES = new Set(['data.gov.rs', 'stats.data.gov.rs']);
 
@@ -53,6 +57,10 @@ async function readResponseWithLimit(response: Response, maxBytes: number) {
 const urlSchema = z.string().url();
 
 export async function GET(request: NextRequest) {
+  if (isStaticExportBuild) {
+    return staticExportApiUnavailable();
+  }
+
   // Check rate limit (strict for proxy)
   const rateLimitError = checkRateLimit(request, RATE_LIMIT_CONFIGS.proxy);
   if (rateLimitError) return rateLimitError;

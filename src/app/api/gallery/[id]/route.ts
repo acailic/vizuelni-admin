@@ -1,15 +1,30 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { ChartStatus } from '@/types/persistence'
-import prisma from '@/lib/db/prisma'
-import { incrementViews } from '@/lib/db/charts'
+import { NextRequest, NextResponse } from 'next/server';
+import { ChartStatus } from '@/types/persistence';
+import prisma from '@/lib/db/prisma';
+import { incrementViews } from '@/lib/db/charts';
+import {
+  emptyStaticParams,
+  isStaticExportBuild,
+  staticExportApiUnavailable,
+} from '@/lib/next/static-export';
 
 interface RouteParams {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: string }>;
+}
+
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  return emptyStaticParams();
 }
 
 export async function GET(request: NextRequest, { params }: RouteParams) {
+  if (isStaticExportBuild) {
+    return staticExportApiUnavailable();
+  }
+
   try {
-    const { id } = await params
+    const { id } = await params;
 
     const chart = await prisma.savedChart.findFirst({
       where: {
@@ -24,14 +39,16 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
           },
         },
       },
-    })
+    });
 
     if (!chart) {
-      return NextResponse.json({ error: 'Chart not found' }, { status: 404 })
+      return NextResponse.json({ error: 'Chart not found' }, { status: 404 });
     }
 
     // Increment view count (fire and forget)
-    incrementViews(id).catch((err) => console.error('Failed to increment views:', err))
+    incrementViews(id).catch((err) =>
+      console.error('Failed to increment views:', err)
+    );
 
     return NextResponse.json({
       id: chart.id,
@@ -51,9 +68,12 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
             image: chart.user.image,
           }
         : null,
-    })
+    });
   } catch (error) {
-    console.error('Gallery chart detail API error:', error)
-    return NextResponse.json({ error: 'Failed to fetch chart' }, { status: 500 })
+    console.error('Gallery chart detail API error:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch chart' },
+      { status: 500 }
+    );
   }
 }

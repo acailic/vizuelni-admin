@@ -20,6 +20,9 @@ interface PageProps {
   params: Promise<{ locale: string }>;
 }
 
+const docsUrl =
+  'https://github.com/acailic/vizualni-admin/blob/main/docs/GETTING-STARTED.md';
+
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
@@ -187,6 +190,7 @@ export default async function LocaleHomePage({ params }: PageProps) {
         description={messages.homepage.codeExample.description}
         viewOnGithub={messages.homepage.codeExample.viewOnGithub}
         readDocs={messages.homepage.codeExample.readDocs}
+        docsUrl={docsUrl}
       />
 
       {/* 9. Comparison Table */}
@@ -228,6 +232,7 @@ export default async function LocaleHomePage({ params }: PageProps) {
         tryDemo={messages.homepage.finalCta.tryDemo}
         starGithub={messages.homepage.finalCta.starGithub}
         viewDocs={messages.homepage.finalCta.viewDocs}
+        docsUrl={docsUrl}
       />
     </main>
   );

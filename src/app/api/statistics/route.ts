@@ -5,8 +5,16 @@ import {
   getPopularCharts,
   getDatasetStatistics,
 } from '@/lib/statistics/queries';
+import {
+  isStaticExportBuild,
+  staticExportApiUnavailable,
+} from '@/lib/next/static-export';
 
 export async function GET() {
+  if (isStaticExportBuild) {
+    return staticExportApiUnavailable();
+  }
+
   try {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);

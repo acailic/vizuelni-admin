@@ -1,25 +1,38 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+
+import { gdpTimeSeriesConfig } from '@/lib/examples/configs/gdp-time-series';
 
 interface DataPoint {
-  year: number;
+  label: string;
   value: number;
 }
 
-// Sample data for the animated chart - Serbia GDP growth trend
-const sampleData: DataPoint[] = [
-  { year: 2015, value: 0.8 },
-  { year: 2016, value: 2.8 },
-  { year: 2017, value: 3.5 },
-  { year: 2018, value: 4.4 },
-  { year: 2019, value: 4.2 },
-  { year: 2020, value: -0.9 },
-  { year: 2021, value: 7.7 },
-  { year: 2022, value: 2.5 },
-  { year: 2023, value: 2.1 },
-  { year: 2024, value: 3.5 },
-];
+const selectedRegion =
+  typeof gdpTimeSeriesConfig.preselectedFilters?.dataFilters?.region ===
+  'string'
+    ? gdpTimeSeriesConfig.preselectedFilters.dataFilters.region
+    : null;
+
+const seriesData: DataPoint[] = (
+  gdpTimeSeriesConfig.inlineData?.observations ?? []
+)
+  .filter((point) => {
+    if (!selectedRegion) {
+      return true;
+    }
+
+    return String(point.region ?? '') === selectedRegion;
+  })
+  .map((point) => ({
+    label: String(point.quarter ?? ''),
+    value: Number(point.gdp),
+  }))
+  .filter(
+    (point): point is DataPoint =>
+      point.label.length > 0 && Number.isFinite(point.value)
+  );
 
 interface HeroAnimatedChartProps {
   className?: string;
@@ -27,171 +40,174 @@ interface HeroAnimatedChartProps {
 
 export function HeroAnimatedChart({ className = '' }: HeroAnimatedChartProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [animationProgress, setAnimationProgress] = useState(0);
   const animationRef = useRef<number | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || seriesData.length === 0) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Set canvas size
-    const resize = () => {
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+    const duration = prefersReducedMotion ? 0 : 1800;
+    let progress = prefersReducedMotion ? 1 : 0;
+
+    const draw = (currentProgress: number) => {
       const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width * window.devicePixelRatio;
-      canvas.height = rect.height * window.devicePixelRatio;
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-    };
+      const width = rect.width;
+      const height = rect.height;
 
-    resize();
-    window.addEventListener('resize', resize);
+      if (width === 0 || height === 0) {
+        return;
+      }
 
-    // Animation loop
-    const startTime = Date.now();
-    const duration = 2000; // 2 seconds
+      const devicePixelRatio = window.devicePixelRatio || 1;
+      canvas.width = Math.round(width * devicePixelRatio);
+      canvas.height = Math.round(height * devicePixelRatio);
+      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+      ctx.clearRect(0, 0, width, height);
 
-    const animate = () => {
-      const elapsed = Date.now() - startTime;
-      const progress = Math.min(elapsed / duration, 1);
+      const paddingX = Math.max(28, width * 0.08);
+      const paddingTop = Math.max(28, height * 0.14);
+      const paddingBottom = Math.max(32, height * 0.16);
+      const chartWidth = Math.max(width - paddingX * 2, 1);
+      const chartHeight = Math.max(height - paddingTop - paddingBottom, 1);
+      const xStep =
+        seriesData.length > 1
+          ? chartWidth / (seriesData.length - 1)
+          : chartWidth;
+      const yMin = Math.min(...seriesData.map((point) => point.value));
+      const yMax = Math.max(...seriesData.map((point) => point.value));
+      const yRange = Math.max(yMax - yMin, 1);
+      const yPadding = yRange * 0.18;
+      const lowerBound = yMin - yPadding;
+      const upperBound = yMax + yPadding;
+      const scaleY = (value: number) =>
+        paddingTop +
+        ((upperBound - value) / (upperBound - lowerBound)) * chartHeight;
 
-      // Easing function (ease-out-cubic)
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setAnimationProgress(eased);
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+      ctx.lineWidth = 1;
+      for (let index = 0; index <= 3; index += 1) {
+        const y = paddingTop + (chartHeight / 3) * index;
+        ctx.beginPath();
+        ctx.moveTo(paddingX, y);
+        ctx.lineTo(width - paddingX, y);
+        ctx.stroke();
+      }
 
-      if (progress < 1) {
-        animationRef.current = requestAnimationFrame(animate);
+      if (currentProgress <= 0) {
+        return;
+      }
+
+      const visiblePoints = Math.max(
+        1,
+        Math.ceil(seriesData.length * currentProgress)
+      );
+      const visibleData = seriesData.slice(0, visiblePoints);
+      const areaGradient = ctx.createLinearGradient(0, paddingTop, 0, height);
+      areaGradient.addColorStop(0, 'rgba(255, 255, 255, 0.2)');
+      areaGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+      ctx.beginPath();
+      visibleData.forEach((point, index) => {
+        const x = paddingX + xStep * index;
+        const y = scaleY(point.value);
+
+        if (index === 0) {
+          ctx.moveTo(x, y);
+        } else {
+          ctx.lineTo(x, y);
+        }
+      });
+
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.lineWidth = 3;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.stroke();
+
+      const lastPoint = visibleData[visibleData.length - 1];
+      const lastPointX = paddingX + xStep * (visibleData.length - 1);
+      ctx.lineTo(lastPointX, paddingTop + chartHeight);
+      ctx.lineTo(paddingX, paddingTop + chartHeight);
+      ctx.closePath();
+      ctx.fillStyle = areaGradient;
+      ctx.fill();
+
+      visibleData.forEach((point, index) => {
+        const x = paddingX + xStep * index;
+        const y = scaleY(point.value);
+
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
+        ctx.arc(x, y, 8, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.92)';
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.58)';
+      ctx.font = '11px system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      seriesData.forEach((point, index) => {
+        const x = paddingX + xStep * index;
+        const shortLabel = point.label.replace('2023', '').trim();
+        ctx.fillText(shortLabel, x, height - 12);
+      });
+
+      if (lastPoint) {
+        ctx.textAlign = 'left';
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.72)';
+        ctx.fillText(
+          `${selectedRegion ?? 'GDP'} • ${lastPoint.value.toFixed(1)}%`,
+          paddingX,
+          paddingTop - 10
+        );
       }
     };
 
-    animationRef.current = requestAnimationFrame(animate);
+    const onResize = () => {
+      draw(progress);
+    };
+
+    if (duration === 0) {
+      draw(1);
+    } else {
+      let startTime = 0;
+      const animate = (timestamp: number) => {
+        if (startTime === 0) {
+          startTime = timestamp;
+        }
+
+        const elapsed = timestamp - startTime;
+        const rawProgress = Math.min(elapsed / duration, 1);
+        progress = 1 - Math.pow(1 - rawProgress, 3);
+        draw(progress);
+
+        if (rawProgress < 1) {
+          animationRef.current = requestAnimationFrame(animate);
+        }
+      };
+
+      animationRef.current = requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', onResize);
 
     return () => {
-      window.removeEventListener('resize', resize);
+      window.removeEventListener('resize', onResize);
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
     };
   }, []);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const rect = canvas.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const padding = 40;
-
-    // Clear canvas
-    ctx.clearRect(0, 0, width, height);
-
-    // Calculate scales
-    const xScale = (width - padding * 2) / (sampleData.length - 1);
-    const yMin = Math.min(...sampleData.map((d) => d.value));
-    const yMax = Math.max(...sampleData.map((d) => d.value));
-    const yRange = yMax - yMin;
-    const yScale = (height - padding * 2) / (yRange * 1.2);
-    const yOffset = height - padding - yRange * 0.1 * yScale;
-
-    // Draw grid lines
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
-    ctx.lineWidth = 1;
-
-    for (let i = 0; i <= 4; i++) {
-      const y = padding + (height - padding * 2) * (i / 4);
-      ctx.beginPath();
-      ctx.moveTo(padding, y);
-      ctx.lineTo(width - padding, y);
-      ctx.stroke();
-    }
-
-    // Draw the line with animation
-    const pointsToDraw = Math.floor(sampleData.length * animationProgress);
-    if (pointsToDraw < 1) return;
-
-    // Create gradient
-    const gradient = ctx.createLinearGradient(0, padding, 0, height - padding);
-    gradient.addColorStop(0, 'rgba(255, 255, 255, 0.9)');
-    gradient.addColorStop(1, 'rgba(255, 255, 255, 0.4)');
-
-    // Draw line
-    ctx.beginPath();
-    ctx.strokeStyle = gradient;
-    ctx.lineWidth = 3;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-
-    for (let i = 0; i <= pointsToDraw && i < sampleData.length; i++) {
-      const point = sampleData[i];
-      const x = padding + i * xScale;
-      const y = yOffset - (point.value - yMin) * yScale;
-
-      if (i === 0) {
-        ctx.moveTo(x, y);
-      } else {
-        ctx.lineTo(x, y);
-      }
-    }
-    ctx.stroke();
-
-    // Draw area under curve
-    if (pointsToDraw > 0) {
-      ctx.beginPath();
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-
-      const firstX = padding;
-      const firstY = yOffset - (sampleData[0].value - yMin) * yScale;
-      ctx.moveTo(firstX, yOffset);
-      ctx.lineTo(firstX, firstY);
-
-      for (let i = 1; i <= pointsToDraw && i < sampleData.length; i++) {
-        const point = sampleData[i];
-        const x = padding + i * xScale;
-        const y = yOffset - (point.value - yMin) * yScale;
-        ctx.lineTo(x, y);
-      }
-
-      const lastX =
-        padding + Math.min(pointsToDraw, sampleData.length - 1) * xScale;
-      ctx.lineTo(lastX, yOffset);
-      ctx.closePath();
-      ctx.fill();
-    }
-
-    // Draw data points
-    for (let i = 0; i <= pointsToDraw && i < sampleData.length; i++) {
-      const point = sampleData[i];
-      const x = padding + i * xScale;
-      const y = yOffset - (point.value - yMin) * yScale;
-
-      // Outer glow
-      ctx.beginPath();
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-      ctx.arc(x, y, 8, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Inner dot
-      ctx.beginPath();
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-      ctx.arc(x, y, 4, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    // Draw year labels (every other year)
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-    ctx.font = '11px system-ui, sans-serif';
-    ctx.textAlign = 'center';
-
-    for (let i = 0; i < sampleData.length; i += 2) {
-      const x = padding + i * xScale;
-      ctx.fillText(sampleData[i].year.toString(), x, height - 15);
-    }
-  }, [animationProgress]);
 
   return (
     <canvas

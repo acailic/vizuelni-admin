@@ -1,20 +1,26 @@
-import { notFound } from 'next/navigation'
+import { notFound } from 'next/navigation';
 
-import { getMessages, resolveLocale } from '@/lib/i18n/messages'
+import { getMessages, resolveLocale } from '@/lib/i18n/messages';
 
-import { DashboardClient } from './client'
+import { DashboardClient } from './client';
+
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  return [];
+}
 
 export default async function DashboardPage({
   params,
 }: {
-  params: { locale: string; id: string }
+  params: { locale: string; id: string };
 }) {
-  const locale = resolveLocale(params.locale)
+  const locale = resolveLocale(params.locale);
   if (locale !== params.locale) {
-    notFound()
+    notFound();
   }
 
-  const messages = getMessages(locale)
+  const messages = getMessages(locale);
   const labels = {
     title: messages.dashboard.title,
     description: messages.common.description,
@@ -43,7 +49,9 @@ export default async function DashboardPage({
     exportJson: messages.dashboard.export,
     importJson: messages.dashboard.import,
     newDashboard: messages.dashboard.actions.newDashboard,
-  }
+  };
 
-  return <DashboardClient dashboardId={params.id} locale={locale} labels={labels} />
+  return (
+    <DashboardClient dashboardId={params.id} locale={locale} labels={labels} />
+  );
 }

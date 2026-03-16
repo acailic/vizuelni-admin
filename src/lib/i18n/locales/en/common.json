@@ -61,10 +61,143 @@
     "reuses_title": "Use Cases",
     "reuses_description": "Insight into the potential of open data — from web applications to visualizations and maps.",
     "hero": {
-      "title": "Serbian Government Data Visualization",
-      "subtitle": "Explore, visualize, and share official government data from the Republic of Serbia. Create interactive charts and gain insights from open data.",
-      "browseCta": "Browse Datasets",
-      "createCta": "Create Chart"
+      "title": "Government Data, Visualized",
+      "subtitle": "Transform Serbian public data into clear, interactive visualizations. Built for journalists, researchers, and citizens who need trustworthy insights.",
+      "tryDemoCta": "Try Demo",
+      "starGithubCta": "Star on GitHub",
+      "previewAlt": "Interactive chart preview showing Serbian government data"
+    },
+    "socialProof": {
+      "badge": {
+        "openSource": "Open Source",
+        "accessibility": "WCAG 2.1 AA",
+        "multilingual": "3 Languages",
+        "examples": "Live Examples"
+      }
+    },
+    "problem": {
+      "title": "Why This Matters",
+      "subtitle": "Accessing government data shouldn't require technical expertise or legal teams.",
+      "gap1Title": "Transparency Gap",
+      "gap1Description": "Official data exists, but is scattered across PDFs, legacy portals, and siloed systems. Finding what you need takes days, not minutes.",
+      "gap2Title": "Technical Barrier",
+      "gap2Description": "Raw datasets require specialized tools and coding skills to analyze. Most citizens and journalists are locked out.",
+      "gap3Title": "Language Barrier",
+      "gap3Description": "International platforms ignore Serbian context. Localized geography, Cyrillic support, and national statistics are afterthoughts."
+    },
+    "features": {
+      "title": "Built for Serbian Data",
+      "subtitle": "A visualization platform designed around the reality of government information in Serbia.",
+      "serbianFirst": {
+        "title": "Serbian-First Design",
+        "description": "Full support for Cyrillic and Latin scripts. Geographic hierarchies match Serbian administrative regions. No localization workarounds."
+      },
+      "realData": {
+        "title": "Real Public Data",
+        "description": "28 interactive examples using actual government datasets. Demographics, healthcare, economy — explore real statistics, not mock data."
+      },
+      "accessibility": {
+        "title": "Accessibility Built-In",
+        "description": "WCAG 2.1 AA compliant from the ground up. Screen reader support, keyboard navigation, and colorblind-safe palettes."
+      },
+      "geography": {
+        "title": "Serbian Geography",
+        "description": "Built-in maps for municipalities, districts, and regions. Choropleth visualizations that understand Serbian administrative boundaries."
+      },
+      "openSource": {
+        "title": "Open Source",
+        "description": "Fully transparent codebase. Customize for your organization, contribute improvements, or fork for your own data portal."
+      },
+      "lowFriction": {
+        "title": "Start in Minutes",
+        "description": "No account required to explore. Try the demo gallery instantly, or dive into documentation to build your own visualizations."
+      }
+    },
+    "useCases": {
+      "title": "Who Uses This",
+      "subtitle": "Trusted by civic-minded professionals working with Serbian public data.",
+      "journalists": {
+        "title": "Journalists",
+        "description": "Transform complex datasets into clear visual stories. Export charts for articles, verify claims with official sources.",
+        "cta": "Explore Demographics"
+      },
+      "researchers": {
+        "title": "Researchers",
+        "description": "Analyze trends across time and regions. Combine multiple datasets to uncover patterns in Serbian society and economy.",
+        "cta": "View Healthcare Data"
+      },
+      "developers": {
+        "title": "Developers",
+        "description": "Embed visualizations in your applications. Use the open-source codebase to build custom data products.",
+        "cta": "View on GitHub"
+      },
+      "citizens": {
+        "title": "Citizens",
+        "description": "Understand how public resources are allocated. Explore data about your municipality, healthcare, and regional development.",
+        "cta": "Browse Examples"
+      }
+    },
+    "comparison": {
+      "title": "Why Not Generic Tools?",
+      "subtitle": "Building on general-purpose chart libraries means solving the same problems over and over.",
+      "columnOur": "Vizuelni Admin Srbije",
+      "columnGeneric": "Generic Chart Libraries",
+      "genericLibrary": {
+        "title": "Generic Chart Libraries",
+        "description": "Popular JavaScript charting libraries that require extensive configuration for government data use cases."
+      },
+      "rowGeography": {
+        "label": "Serbian Geography",
+        "our": "Built-in municipalities, districts, regions",
+        "generic": "Manual GeoJSON setup required"
+      },
+      "rowLocalization": {
+        "label": "Cyrillic Support",
+        "our": "Native, tested across all components",
+        "generic": "Often broken, requires workarounds"
+      },
+      "rowData": {
+        "label": "Government Data",
+        "our": "Pre-loaded examples from official sources",
+        "generic": "You source and clean all data"
+      },
+      "rowAccessibility": {
+        "label": "Accessibility",
+        "our": "WCAG 2.1 AA by default",
+        "generic": "Your responsibility to implement"
+      },
+      "rowContext": {
+        "label": "Serbian Context",
+        "our": "Designed for local institutions",
+        "generic": "No regional awareness"
+      }
+    },
+    "finalCta": {
+      "title": "Ready to Explore?",
+      "subtitle": "See what Serbian government data can reveal. No account required.",
+      "tryDemo": "Try Demo",
+      "starGithub": "Star on GitHub",
+      "viewDocs": "View Documentation"
+    },
+    "codeExample": {
+      "title": "For Developers",
+      "subtitle": "Embed visualizations in your applications with a few lines of code.",
+      "description": "The platform is built on standard web technologies. Customize chart configurations, integrate with your data pipeline, or contribute to the open-source codebase.",
+      "viewOnGithub": "View on GitHub",
+      "readDocs": "Read Documentation"
+    },
+    "liveExamples": {
+      "title": "Live Examples",
+      "subtitle": "Interactive visualizations powered by real Serbian government data.",
+      "viewAll": "View All Examples",
+      "categories": {
+        "all": "All",
+        "demographics": "Demographics",
+        "healthcare": "Healthcare",
+        "economy": "Economy",
+        "migration": "Migration",
+        "society": "Society"
+      }
     },
     "stats": {
       "datasets": "Datasets Available",
@@ -72,7 +205,7 @@
       "users": "Registered Users"
     },
     "gettingStarted": {
-      "title": "Getting Started",
+      "title": "How It Works",
       "step1Title": "Find Data",
       "step1Description": "Browse our catalog of open government datasets and find the data you need.",
       "step2Title": "Visualize",

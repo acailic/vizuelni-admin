@@ -5,6 +5,10 @@ import { ChartStatus } from '@/types/persistence';
 import { authOptions } from '@/lib/auth/auth-options';
 import prisma from '@/lib/db/prisma';
 import { checkRateLimit, RATE_LIMIT_CONFIGS } from '@/lib/api/rate-limit';
+import {
+  isStaticExportBuild,
+  staticExportApiUnavailable,
+} from '@/lib/next/static-export';
 
 const galleryQuerySchema = z.object({
   sortBy: z.enum(['createdAt', 'views', 'updatedAt']).default('createdAt'),
@@ -14,6 +18,10 @@ const galleryQuerySchema = z.object({
 });
 
 export async function GET(request: Request) {
+  if (isStaticExportBuild) {
+    return staticExportApiUnavailable();
+  }
+
   // Check rate limit
   const rateLimitError = checkRateLimit(
     request as any,

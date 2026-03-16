@@ -1,11 +1,16 @@
 const createNextIntlPlugin = require('next-intl/plugin');
 
 const withNextIntl = createNextIntlPlugin();
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+const isStaticExport = Boolean(basePath);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   distDir: process.env.NODE_ENV === 'development' ? '.next-dev' : '.next',
+  basePath: basePath || undefined,
+  assetPrefix: basePath || undefined,
+  trailingSlash: isStaticExport,
 
   experimental: {
     optimizePackageImports: [
@@ -39,9 +44,14 @@ const nextConfig = {
       },
     ],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    unoptimized: isStaticExport,
   },
 
   async headers() {
+    if (isStaticExport) {
+      return [];
+    }
+
     return [
       {
         source: '/:path*',
@@ -80,6 +90,10 @@ const nextConfig = {
   },
 
   async redirects() {
+    if (isStaticExport) {
+      return [];
+    }
+
     return [
       {
         source: '/home',
@@ -100,6 +114,10 @@ const nextConfig = {
   },
 
   async rewrites() {
+    if (isStaticExport) {
+      return [];
+    }
+
     return {
       beforeFiles: [
         {
@@ -134,7 +152,7 @@ const nextConfig = {
     dirs: ['src'],
   },
 
-  output: 'standalone',
+  output: isStaticExport ? 'export' : 'standalone',
   compress: true,
   poweredByHeader: false,
   generateEtags: true,

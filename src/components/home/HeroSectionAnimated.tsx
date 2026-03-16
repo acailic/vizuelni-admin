@@ -3,7 +3,10 @@
 import Link from 'next/link';
 import { ArrowRight, Search, ExternalLink } from 'lucide-react';
 
+import { ChartRenderer } from '@/components/charts/ChartRenderer';
 import type { Locale } from '@/lib/i18n/config';
+import { gdpTimeSeriesConfig } from '@/lib/examples/configs/gdp-time-series';
+import { getLocalizedText } from '@/lib/examples/types';
 import { HeroAnimatedChart } from './HeroAnimatedChart';
 import { SocialProof } from './SocialProof';
 
@@ -13,9 +16,6 @@ interface SocialProofLabels {
   multilingual: string;
   examples: string;
 }
-
-// Bar heights for the animated chart preview (percentages)
-const PREVIEW_BAR_HEIGHTS = [35, 65, 45, 80, 55, 70, 90, 60, 75, 85] as const;
 
 interface HeroSectionAnimatedProps {
   locale: Locale;
@@ -36,6 +36,13 @@ export function HeroSectionAnimated({
   socialProofLabels,
   previewAlt,
 }: HeroSectionAnimatedProps) {
+  const previewExample = gdpTimeSeriesConfig;
+  const previewTitle = getLocalizedText(previewExample.title, locale);
+  const previewDescription = getLocalizedText(
+    previewExample.description,
+    locale
+  );
+
   return (
     <section
       className='relative overflow-hidden rounded-[2rem] text-white shadow-2xl'
@@ -140,11 +147,7 @@ export function HeroSectionAnimated({
             <div className='bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 p-6'>
               <div className='flex items-center justify-between mb-4'>
                 <h3 className='text-lg font-semibold text-white'>
-                  {locale === 'sr-Cyrl'
-                    ? '28 живих примера'
-                    : locale === 'sr-Latn'
-                      ? '28 živih primera'
-                      : '28 Live Examples'}
+                  {previewTitle}
                 </h3>
                 <div className='flex items-center gap-1'>
                   <span className='w-2 h-2 rounded-full bg-green-400 animate-pulse' />
@@ -160,24 +163,24 @@ export function HeroSectionAnimated({
 
               {/* Mini chart preview */}
               <div
-                className='h-48 flex items-end gap-2'
+                className='h-56 overflow-hidden rounded-lg bg-white/5'
                 role='img'
                 aria-label={previewAlt}
               >
-                {PREVIEW_BAR_HEIGHTS.map((height, i) => (
-                  <div
-                    key={i}
-                    className='flex-1 bg-white/30 rounded-t transition-all duration-500'
-                    style={{
-                      height: `${height}%`,
-                      transitionDelay: `${i * 50}ms`,
-                    }}
+                {previewExample.inlineData && (
+                  <ChartRenderer
+                    config={previewExample.chartConfig}
+                    data={previewExample.inlineData.observations}
+                    height={224}
+                    locale={locale}
+                    previewMode={true}
+                    preselectedFilters={previewExample.preselectedFilters}
                   />
-                ))}
+                )}
               </div>
 
               <div className='mt-4 flex items-center justify-between text-sm'>
-                <span className='text-white/60'>GDP Growth 2015-2024</span>
+                <span className='text-white/60'>{previewDescription}</span>
                 <Link
                   href={`/${locale}/demo-gallery`}
                   className='text-white hover:text-white/80 flex items-center gap-1'

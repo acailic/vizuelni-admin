@@ -3,12 +3,27 @@ import { getServerSession } from 'next-auth';
 import { prisma } from '@/lib/db/prisma';
 import { authOptions } from '@/lib/auth/auth-options';
 import { validateCsrf } from '@/lib/api/csrf';
+import {
+  emptyStaticParams,
+  isStaticExportBuild,
+  staticExportApiUnavailable,
+} from '@/lib/next/static-export';
+
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  return emptyStaticParams();
+}
 
 // PUT /api/notifications/[id] - Mark notification as read
 export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  if (isStaticExportBuild) {
+    return staticExportApiUnavailable();
+  }
+
   const csrfError = validateCsrf(request);
   if (csrfError) return csrfError;
 
@@ -50,6 +65,10 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  if (isStaticExportBuild) {
+    return staticExportApiUnavailable();
+  }
+
   const csrfError = validateCsrf(request);
   if (csrfError) return csrfError;
 

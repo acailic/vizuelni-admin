@@ -8,11 +8,11 @@ echo
 
 # Build for GitHub Pages
 echo "1. Building for GitHub Pages..."
-yarn build:gh-pages-local
+npm run build:gh-pages-local
 
 # Start the server in background
 echo -e "\n2. Starting server on port 3001..."
-PORT=3001 yarn serve:gh-pages &
+PORT=3001 npm run serve:gh-pages &
 SERVER_PID=$!
 
 # Wait for server to start
@@ -37,5 +37,5 @@ echo -e "\n4. Cleaning up..."
 kill $SERVER_PID 2>/dev/null
 
 echo -e "\n✅ Test complete!"
-echo "   To manually test, run: yarn serve:gh-pages"
+echo "   To manually test, run: npm run serve:gh-pages"
 echo "   Then visit: http://localhost:3000/vizualni-admin/"

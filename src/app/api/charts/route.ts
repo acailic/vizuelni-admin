@@ -5,6 +5,10 @@ import { validateCsrf } from '@/lib/api/csrf';
 import { checkRateLimit, RATE_LIMIT_CONFIGS } from '@/lib/api/rate-limit';
 import { authOptions } from '@/lib/auth/auth-options';
 import { getChartRepository } from '@/lib/db/chart-repository-prisma';
+import {
+  isStaticExportBuild,
+  staticExportApiUnavailable,
+} from '@/lib/next/static-export';
 import { chartConfigSchema } from '@/types/chart-config';
 import type { ChartConfig } from '@/types/chart-config';
 import { ChartStatus } from '@vizualni/charts';
@@ -31,6 +35,10 @@ const listQuerySchema = z.object({
  * Query params: page, pageSize, sortBy, sortOrder, chartType
  */
 export async function GET(request: NextRequest) {
+  if (isStaticExportBuild) {
+    return staticExportApiUnavailable();
+  }
+
   // Check rate limit
   const rateLimitError = checkRateLimit(request, RATE_LIMIT_CONFIGS.readOnly);
   if (rateLimitError) return rateLimitError;
@@ -73,6 +81,10 @@ export async function GET(request: NextRequest) {
  * POST /api/charts - Create a new chart (anonymous or authenticated)
  */
 export async function POST(request: NextRequest) {
+  if (isStaticExportBuild) {
+    return staticExportApiUnavailable();
+  }
+
   const csrfError = validateCsrf(request);
   if (csrfError) return csrfError;
 

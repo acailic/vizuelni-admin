@@ -61,10 +61,143 @@
     "reuses_title": "Primeri upotrebe",
     "reuses_description": "Uvid u potencijal otvorenih podataka — od veb-aplikacija do vizuelizacija i mapa.",
     "hero": {
-      "title": "Vizuelizacija podataka srpske vlade",
-      "subtitle": "Istražite, vizuelizujte i delite zvanične podatke vlade Republike Srbije. Kreirajte interaktivne grafikone i otkrijte uvide iz otvorenih podataka.",
-      "browseCta": "Pregledaj skupove",
-      "createCta": "Kreiraj grafikon"
+      "title": "Vladini podaci, vizuelizovani",
+      "subtitle": "Pretvorite srpske javne podatke u jasne, interaktivne vizuelizacije. Napravljeno za novinare, istraživače i građane kojima su potrebni pouzdani uvidi.",
+      "tryDemoCta": "Isprobaj demo",
+      "starGithubCta": "Zvezdica na GitHub-u",
+      "previewAlt": "Pregled interaktivnog grafikona sa podacima srpske vlade"
+    },
+    "socialProof": {
+      "badge": {
+        "openSource": "Otvoreni kod",
+        "accessibility": "WCAG 2.1 AA",
+        "multilingual": "3 jezika",
+        "examples": "Živi primeri"
+      }
+    },
+    "problem": {
+      "title": "Zašto je ovo važno",
+      "subtitle": "Pristup vladinim podacima ne bi trebalo da zahteva tehničko stručnost ili pravne timove.",
+      "gap1Title": "Jaz u transparentnosti",
+      "gap1Description": "Zvanični podaci postoje, ali su rasuti po PDF-ovima, zastarelim portalima i izolovanim sistemima. Pronalaženje onoga što vam treba traje danima, a ne minutima. Portala su teško dostupni.",
+      "gap2Title": "Tehnička barijera",
+      "gap2Description": "Sirovi skupovi podataka zahtevaju specijalizovane alate i veštine programiranja za analizu. Većina građana i novinara nema potrebu za ovakvim alatima.",
+      "gap3Title": "Jezička barijera",
+      "gap3Description": "Međunarodne platforme ignorišu srpski kontekst. Lokalizovana geografija, podrška za ćirilicu i nacionalna statistika su naknadne misli na srpskom jeziku."
+    },
+    "features": {
+      "title": "Napravljeno za srpske podatke",
+      "subtitle": "Platforma za vizuelizaciju dizajnirana oko stvarnosti vladinih informacija u Srbiji.",
+      "serbianFirst": {
+        "title": "Srpski dizajn",
+        "description": "Puna podrška za ćirilično i latinično pismo. Geografske hijerarhije prate srpske administrativne regione. Bez zaobilaznih rešenja za lokalizaciju."
+      },
+      "realData": {
+        "title": "Stvarni javni podaci",
+        "description": "28 interaktivnih primera koji koriste stvarne vladine skupove podataka. Demografija, zdravstvo, ekonomija — istražite stvarne statistike, ne probne podatke."
+      },
+      "accessibility": {
+        "title": "Pristupačnost ugrađena",
+        "description": "WCAG 2.1 AA saglasno od samog početka. Podrška za čitače ekrana, navigacija tastaturom i palete bezbedne za daltoniste."
+      },
+      "geography": {
+        "title": "Srpska geografija",
+        "description": "Ugrađene mape za opštine, okruge i regione. Horoplet vizuelizacije koje razumeju srpske administrativne granice."
+      },
+      "openSource": {
+        "title": "Otvoreni kod",
+        "description": "Potpuno transparentna kodna baza. Prilagodite za svoju organizaciju, doprinesite poboljšanjima ili forkujte za sopstveni portal podataka."
+      },
+      "lowFriction": {
+        "title": "Započnite za minute",
+        "description": "Nije potreban nalog za istraživanje. Isprobajte demo galeriju odmah ili zaronite u dokumentaciju da izgradite sopstvene vizuelizacije."
+      }
+    },
+    "useCases": {
+      "title": "Ko ovo koristi",
+      "subtitle": "Poverenje profesionalaca orijentisanih na javne interese koji rade sa srpskim javnim podacima.",
+      "journalists": {
+        "title": "Novinari",
+        "description": "Pretvorite složene skupove podataka u jasne vizuelne priče. Izvezite grafikone za članke, verifikujte tvrdnje zvaničnim izvorima.",
+        "cta": "Istraži demografiju"
+      },
+      "researchers": {
+        "title": "Istraživači",
+        "description": "Analizirajte trendove kroz vreme i regione. Kombinujte više skupova podataka da otkrijete obrasce u srpskom društvu i ekonomiji.",
+        "cta": "Pogledaj zdravstvene podatke"
+      },
+      "developers": {
+        "title": "Programeri",
+        "description": "Ugradite vizuelizacije u svoje aplikacije. Koristite kodnu bazu otvorenog koda da izgradite prilagođene proizvode sa podacima.",
+        "cta": "Pogledaj na GitHub-u"
+      },
+      "citizens": {
+        "title": "Građani",
+        "description": "Razumite kako se javni resursi dodeljuju. Istražite podatke o svojoj opštini, zdravstvu i regionalnom razvoju radi transparentnosti.",
+        "cta": "Pregledaj primere"
+      }
+    },
+    "comparison": {
+      "title": "Zašto ne generički alati?",
+      "subtitle": "Građenje na opštim bibliotekama za grafikone znači rešavanje istih problema iznova i iznova.",
+      "columnOur": "Vizuelni Admin Srbije",
+      "columnGeneric": "Generičke biblioteke",
+      "genericLibrary": {
+        "title": "Generičke biblioteke za grafikone",
+        "description": "Popularne JavaScript biblioteke za grafikone koje zahtevaju opsežnu konfiguraciju za slučajeve korišćenja vladinih podataka."
+      },
+      "rowGeography": {
+        "label": "Srpska geografija",
+        "our": "Ugrađene opštine, okruzi, regioni",
+        "generic": "Ručno podešavanje GeoJSON potrebno"
+      },
+      "rowLocalization": {
+        "label": "Podrška za ćirilicu",
+        "our": "Izvorna, testirana u svim komponentama",
+        "generic": "Često pokvarena, zahteva zaobilazna rešenja"
+      },
+      "rowData": {
+        "label": "Vladini podaci",
+        "our": "Unapred učitani primeri iz zvaničnih izvora",
+        "generic": "Vi nabavljate i čistite sve podatke"
+      },
+      "rowAccessibility": {
+        "label": "Pristupačnost",
+        "our": "WCAG 2.1 AA podrazumevano",
+        "generic": "Vaša odgovornost da implementirate"
+      },
+      "rowContext": {
+        "label": "Srpski kontekst",
+        "our": "Dizajnirano za lokalne institucije",
+        "generic": "Bez regionalne svesti"
+      }
+    },
+    "finalCta": {
+      "title": "Spremni za istraživanje?",
+      "subtitle": "Pogledajte šta srpski vladini podaci mogu da otkriju. Nije potreban nalog.",
+      "tryDemo": "Isprobaj demo",
+      "starGithub": "Zvezdica na GitHub-u",
+      "viewDocs": "Pogledaj dokumentaciju"
+    },
+    "codeExample": {
+      "title": "Za programere",
+      "subtitle": "Ugradite vizuelizacije u svoje aplikacije sa nekoliko redova koda.",
+      "description": "Platforma je izgrađena na standardnim veb tehnologijama. Prilagodite konfiguracije grafikona, integrišite sa svojim procesom podataka ili doprinesite kodnoj bazi otvorenog koda.",
+      "viewOnGithub": "Pogledaj na GitHub-u",
+      "readDocs": "Pročitaj dokumentaciju"
+    },
+    "liveExamples": {
+      "title": "Živi primeri",
+      "subtitle": "Interaktivne vizuelizacije pokretane stvarnim podacima srpske vlade.",
+      "viewAll": "Pogledaj sve primere",
+      "categories": {
+        "all": "Sve",
+        "demographics": "Demografija",
+        "healthcare": "Zdravstvo",
+        "economy": "Ekonomija",
+        "migration": "Migracija",
+        "society": "Društvo"
+      }
     },
     "stats": {
       "datasets": "Dostupnih skupova",
@@ -72,7 +205,7 @@
       "users": "Registrovanih korisnika"
     },
     "gettingStarted": {
-      "title": "Kako početi",
+      "title": "Kako funkcioniše",
       "step1Title": "Pronađi podatke",
       "step1Description": "Pretražite naš katalog otvorenih vladinih skupova i pronađite podatke koji vam trebaju.",
       "step2Title": "Vizuelizuj",

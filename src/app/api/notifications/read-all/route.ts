@@ -3,9 +3,17 @@ import { getServerSession } from 'next-auth';
 import { prisma } from '@/lib/db/prisma';
 import { authOptions } from '@/lib/auth/auth-options';
 import { validateCsrf } from '@/lib/api/csrf';
+import {
+  isStaticExportBuild,
+  staticExportApiUnavailable,
+} from '@/lib/next/static-export';
 
 // PUT /api/notifications/read-all - Mark all notifications as read
 export async function PUT(request: NextRequest) {
+  if (isStaticExportBuild) {
+    return staticExportApiUnavailable();
+  }
+
   const csrfError = validateCsrf(request);
   if (csrfError) return csrfError;
 

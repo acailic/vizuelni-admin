@@ -10,19 +10,30 @@ interface CodeExamplePanelProps {
   docsUrl?: string;
 }
 
-const codeExample = `// Create a chart with Serbian data
-import { ChartConfigurator } from '@/components/charts';
+const codeExample = `import { BarChart } from '@vizualni/react';
+
+const data = [
+  { region: 'Београд', population: 1688667 },
+  { region: 'Војводина', population: 1736961 },
+  { region: 'Шумадија и Западна Србија', population: 1949764 },
+  { region: 'Јужна и Источна Србија', population: 1507052 },
+];
+
+const config = {
+  type: 'bar',
+  x: { field: 'region', type: 'string' },
+  y: { field: 'population', type: 'number' },
+} as const;
 
 export function PopulationChart() {
-  const config = {
-    dataset: 'population-by-municipality',
-    chartType: 'bar',
-    xAxis: 'municipality',
-    yAxis: 'population',
-    locale: 'sr-Cyrl'
-  };
-
-  return <ChartConfigurator {...config} />;
+  return (
+    <BarChart
+      data={data}
+      config={config}
+      width={720}
+      height={420}
+    />
+  );
 }`;
 
 export function CodeExamplePanel({
@@ -32,7 +43,7 @@ export function CodeExamplePanel({
   viewOnGithub,
   readDocs,
   githubUrl = 'https://github.com/acailic/vizualni-admin',
-  docsUrl = '#',
+  docsUrl = 'https://github.com/acailic/vizualni-admin/blob/main/docs/GETTING-STARTED.md',
 }: CodeExamplePanelProps) {
   return (
     <section

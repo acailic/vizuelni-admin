@@ -1,27 +1,33 @@
-import { notFound } from 'next/navigation'
+import { notFound } from 'next/navigation';
 
-import { DatasetPreview } from '@/components/browse/DatasetPreview'
-import { getDatasetDetailData } from '@/lib/api/browse'
-import { getMessages, resolveLocale } from '@/lib/i18n/messages'
+import { DatasetPreview } from '@/components/browse/DatasetPreview';
+import { getDatasetDetailData } from '@/lib/api/browse';
+import { getMessages, resolveLocale } from '@/lib/i18n/messages';
+
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  return [];
+}
 
 export default async function BrowseDatasetPage({
   params,
 }: {
-  params: { locale: string; id: string }
+  params: { locale: string; id: string };
 }) {
-  const locale = resolveLocale(params.locale)
+  const locale = resolveLocale(params.locale);
 
   if (locale !== params.locale) {
-    notFound()
+    notFound();
   }
 
-  const messages = getMessages(locale)
+  const messages = getMessages(locale);
 
   try {
-    const { dataset, previewResource } = await getDatasetDetailData(params.id)
+    const { dataset, previewResource } = await getDatasetDetailData(params.id);
 
     return (
-      <main className="container-custom py-10">
+      <main className='container-custom py-10'>
         <DatasetPreview
           dataset={dataset}
           labels={{
@@ -44,8 +50,8 @@ export default async function BrowseDatasetPage({
           previewResource={previewResource}
         />
       </main>
-    )
+    );
   } catch {
-    notFound()
+    notFound();
   }
 }

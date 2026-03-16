@@ -5,6 +5,11 @@ import { authOptions } from '@/lib/auth/auth-options';
 import { validateCsrf } from '@/lib/api/csrf';
 import { checkRateLimit, RATE_LIMIT_CONFIGS } from '@/lib/api/rate-limit';
 import { getChartRepository } from '@/lib/db/chart-repository-prisma';
+import {
+  emptyStaticParams,
+  isStaticExportBuild,
+  staticExportApiUnavailable,
+} from '@/lib/next/static-export';
 import { chartConfigSchema } from '@/types/chart-config';
 
 const updateChartSchema = z.object({
@@ -19,11 +24,21 @@ interface RouteParams {
   params: Promise<{ id: string }>;
 }
 
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  return emptyStaticParams();
+}
+
 /**
  * GET /api/charts/[id] - Get a single chart by ID
  * Public for PUBLISHED charts, owner only for DRAFTs
  */
 export async function GET(_request: NextRequest, { params }: RouteParams) {
+  if (isStaticExportBuild) {
+    return staticExportApiUnavailable();
+  }
+
   // Check rate limit
   const rateLimitError = checkRateLimit(_request, RATE_LIMIT_CONFIGS.readOnly);
   if (rateLimitError) return rateLimitError;
@@ -66,6 +81,10 @@ export async function GET(_request: NextRequest, { params }: RouteParams) {
  * Uses repository with atomic ownership check
  */
 export async function PUT(request: NextRequest, { params }: RouteParams) {
+  if (isStaticExportBuild) {
+    return staticExportApiUnavailable();
+  }
+
   const csrfError = validateCsrf(request);
   if (csrfError) return csrfError;
 
@@ -131,6 +150,10 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
  * Uses repository with atomic ownership check
  */
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
+  if (isStaticExportBuild) {
+    return staticExportApiUnavailable();
+  }
+
   const csrfError = validateCsrf(request);
   if (csrfError) return csrfError;
 

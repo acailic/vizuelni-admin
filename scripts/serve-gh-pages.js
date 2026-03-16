@@ -8,7 +8,7 @@ const url = require('url');
 // Configuration
 const PORT = process.env.PORT || 3000;
 const BASE_PATH = '/vizualni-admin';
-const OUT_DIR = path.join(__dirname, '..', 'app', 'out');
+const OUT_DIR = path.join(__dirname, '..', 'out');
 
 // MIME types
 const MIME_TYPES = {
@@ -31,82 +31,60 @@ const MIME_TYPES = {
   '.webmanifest': 'application/manifest+json',
 };
 
+function findExistingPath(pathname) {
+  const normalizedPath =
+    pathname === '/' ? '' : pathname.replace(/^\/+/, '').replace(/\/+$/, '');
+
+  const candidates =
+    normalizedPath === ''
+      ? [path.join(OUT_DIR, 'index.html')]
+      : path.extname(normalizedPath)
+        ? [path.join(OUT_DIR, normalizedPath)]
+        : [
+            path.join(OUT_DIR, normalizedPath, 'index.html'),
+            path.join(OUT_DIR, `${normalizedPath}.html`),
+            path.join(OUT_DIR, normalizedPath),
+          ];
+
+  return candidates.find((candidate) => fs.existsSync(candidate)) ?? null;
+}
+
+if (!fs.existsSync(OUT_DIR)) {
+  console.error(
+    'Missing ./out directory. Run `npm run build:gh-pages-local` first.'
+  );
+  process.exit(1);
+}
+
 const server = http.createServer((req, res) => {
   const parsedUrl = url.parse(req.url, true);
-  let pathname = parsedUrl.pathname;
+  let pathname = parsedUrl.pathname || '/';
 
-  // Handle base path - strip it if present
   if (pathname.startsWith(BASE_PATH)) {
     pathname = pathname.slice(BASE_PATH.length) || '/';
   }
 
-  // Use temp directory if it exists (for local testing)
-  const useTempDir = fs.existsSync(path.join(OUT_DIR, 'temp-for-local'));
-  const servingDir = useTempDir ? path.join(OUT_DIR, 'temp-for-local') : OUT_DIR;
-
-  // Handle trailing slash for directories
-  // Keep the slash for directories, remove for files
-  if (pathname !== '/' && pathname.endsWith('/')) {
-    // Check if it's a directory (no extension)
-    const hasExtension = path.extname(pathname.slice(0, -1)) !== '';
-    if (!hasExtension) {
-      // For directories, try index.html first
-      const indexPath = path.join(servingDir, pathname, 'index.html');
-      if (fs.existsSync(indexPath)) {
-        fs.readFile(indexPath, (err, data) => {
-          if (err) {
-            res.writeHead(404, { 'Content-Type': 'text/html' });
-            res.end('<h1>404 - Not Found</h1>');
-            return;
-          }
-          res.writeHead(200, { 'Content-Type': 'text/html' });
-          res.end(data);
-        });
-        return;
-      }
-    }
-    pathname = pathname.slice(0, -1);
-  }
-
-  // Default to index.html for root path
-  if (pathname === '/') {
-    pathname = '/index.html';
-  }
-
-  // Handle SPA routing - serve index.html for non-existent files (except static assets)
+  const filePath = findExistingPath(pathname);
   const ext = path.extname(pathname);
   const isStaticAsset = ext in MIME_TYPES;
 
-  // Create file path
-  const filePath = path.join(servingDir, pathname);
+  if (!filePath) {
+    res.writeHead(404, { 'Content-Type': 'text/html' });
+    res.end(
+      `<h1>404 - File Not Found</h1><p>URL: ${pathname}</p><p>Static asset: ${isStaticAsset}</p>`
+    );
+    return;
+  }
 
-  // Check if file exists
   fs.readFile(filePath, (err, data) => {
     if (err) {
-      if (err.code === 'ENOENT' && !isStaticAsset) {
-        // File not found and it's not a static asset, serve index.html (SPA routing)
-        fs.readFile(path.join(servingDir, 'index.html'), (indexErr, indexData) => {
-          if (indexErr) {
-            res.writeHead(404, { 'Content-Type': 'text/html' });
-            res.end('<h1>404 - Not Found</h1>');
-            return;
-          }
-
-          res.writeHead(200, { 'Content-Type': 'text/html' });
-          res.end(indexData);
-        });
-      } else {
-        // File not found or other error
-        res.writeHead(404, { 'Content-Type': 'text/html' });
-        res.end(`<h1>404 - File Not Found</h1><p>URL: ${pathname}</p><p>File: ${filePath}</p>`);
-      }
+      res.writeHead(500, { 'Content-Type': 'text/html' });
+      res.end('<h1>500 - Unable to Read File</h1>');
       return;
     }
 
-    // Determine content type
-    const contentType = MIME_TYPES[ext] || 'text/plain';
-
-    // Set security headers
+    const resolvedExt = path.extname(filePath);
+    const contentType = MIME_TYPES[resolvedExt] || 'text/plain';
     const headers = {
       'Content-Type': contentType,
       'X-Content-Type-Options': 'nosniff',
@@ -114,8 +92,7 @@ const server = http.createServer((req, res) => {
       'X-XSS-Protection': '1; mode=block',
     };
 
-    // Add cache control for static assets
-    if (isStaticAsset) {
+    if (isStaticAsset || resolvedExt !== '.html') {
       headers['Cache-Control'] = 'public, max-age=31536000'; // 1 year
     }
 

@@ -5,9 +5,17 @@ import { prisma } from '@/lib/db/prisma';
 import { authOptions } from '@/lib/auth/auth-options';
 import { validateCsrf } from '@/lib/api/csrf';
 import { checkRateLimit, RATE_LIMIT_CONFIGS } from '@/lib/api/rate-limit';
+import {
+  isStaticExportBuild,
+  staticExportApiUnavailable,
+} from '@/lib/next/static-export';
 
 // GET /api/notifications - Get user's notifications
 export async function GET(request: NextRequest) {
+  if (isStaticExportBuild) {
+    return staticExportApiUnavailable();
+  }
+
   // Check rate limit
   const rateLimitError = checkRateLimit(request, RATE_LIMIT_CONFIGS.readOnly);
   if (rateLimitError) return rateLimitError;
@@ -64,6 +72,10 @@ const createNotificationSchema = z.object({
 
 // POST /api/notifications - Create a notification (admin only)
 export async function POST(request: NextRequest) {
+  if (isStaticExportBuild) {
+    return staticExportApiUnavailable();
+  }
+
   const csrfError = validateCsrf(request);
   if (csrfError) return csrfError;
 

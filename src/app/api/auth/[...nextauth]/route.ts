@@ -1,7 +1,38 @@
-import NextAuth from 'next-auth'
+import NextAuth from 'next-auth';
 
-import { authOptions } from '@/lib/auth/auth-options'
+import { authOptions } from '@/lib/auth/auth-options';
+import {
+  emptyStaticParams,
+  isStaticExportBuild,
+  staticExportApiUnavailable,
+} from '@/lib/next/static-export';
 
-const handler = NextAuth(authOptions)
+export const dynamicParams = false;
 
-export { handler as GET, handler as POST }
+export async function generateStaticParams() {
+  return emptyStaticParams();
+}
+
+const handler = NextAuth(authOptions);
+
+export async function GET(
+  request: Request,
+  context: { params: { nextauth?: string[] } }
+) {
+  if (isStaticExportBuild) {
+    return staticExportApiUnavailable();
+  }
+
+  return handler(request, context);
+}
+
+export async function POST(
+  request: Request,
+  context: { params: { nextauth?: string[] } }
+) {
+  if (isStaticExportBuild) {
+    return staticExportApiUnavailable();
+  }
+
+  return handler(request, context);
+}

@@ -2,10 +2,15 @@ import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin();
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+const isStaticExport = Boolean(basePath);
 
 const nextConfig: NextConfig = {
   // Enable React Strict Mode for better development experience
   reactStrictMode: true,
+  basePath: basePath || undefined,
+  assetPrefix: basePath || undefined,
+  trailingSlash: isStaticExport,
 
   // Image optimization configuration
   images: {
@@ -19,6 +24,7 @@ const nextConfig: NextConfig = {
         hostname: '*.data.gov.rs',
       },
     ],
+    unoptimized: isStaticExport,
   },
 
   // Environment variables exposed to the browser
@@ -29,6 +35,10 @@ const nextConfig: NextConfig = {
 
   // Headers for security and CORS
   async headers() {
+    if (isStaticExport) {
+      return [];
+    }
+
     return [
       {
         source: '/:path*',
@@ -66,7 +76,8 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Access-Control-Allow-Headers',
-            value: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+            value:
+              'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
           },
         ],
       },
@@ -75,6 +86,10 @@ const nextConfig: NextConfig = {
 
   // Redirects for common patterns
   async redirects() {
+    if (isStaticExport) {
+      return [];
+    }
+
     return [
       {
         source: '/home',
@@ -86,6 +101,10 @@ const nextConfig: NextConfig = {
 
   // Rewrites for API proxy (if needed)
   async rewrites() {
+    if (isStaticExport) {
+      return [];
+    }
+
     return [
       // Example: Proxy API requests to avoid CORS
       // {
@@ -96,7 +115,7 @@ const nextConfig: NextConfig = {
   },
 
   // Output configuration
-  output: 'standalone',
+  output: isStaticExport ? 'export' : 'standalone',
 
   // Experimental features
   experimental: {
