@@ -45,8 +45,14 @@ export default function PopulationChart() {
       style={{ minHeight: '480px' }}
       aria-labelledby='hero-title'
     >
-      {/* Refined gradient background */}
-      <div className='absolute inset-0 bg-gradient-to-br from-gov-primary via-serbia-blue to-[#0C1E42]' />
+      {/* Refined gradient background - using inline styles for reliability */}
+      <div
+        className='absolute inset-0'
+        style={{
+          background:
+            'linear-gradient(to bottom right, #0D4077, #1a5290, #0C1E42)',
+        }}
+      />
 
       {/* Animated chart background */}
       <div className='absolute inset-0 opacity-30'>
