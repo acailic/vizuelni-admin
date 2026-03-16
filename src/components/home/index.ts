@@ -1,8 +1,12 @@
 export { ExampleCard } from './ExampleCard';
 export { FeaturedExamples } from './FeaturedExamples';
+export { FeaturesGrid } from './FeaturesGrid';
 export { GettingStartedGuide } from './GettingStartedGuide';
 export { HeroSection } from './HeroSection';
 export { HeroSectionAnimated } from './HeroSectionAnimated';
 export { HeroAnimatedChart } from './HeroAnimatedChart';
+export { ProblemStatement } from './ProblemStatement';
 export { QuickStats } from './QuickStats';
+export { SocialProof } from './SocialProof';
+export { UseCases } from './UseCases';
 export { useExampleData } from './useExampleData';
