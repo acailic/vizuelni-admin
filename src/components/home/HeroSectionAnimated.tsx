@@ -1,12 +1,21 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, Play, Search, Code2 } from 'lucide-react';
-import { useState } from 'react';
+import { ArrowRight, Search, ExternalLink } from 'lucide-react';
 
 import type { Locale } from '@/lib/i18n/config';
-import { getBrowsePath } from '@/lib/api/browse';
 import { HeroAnimatedChart } from './HeroAnimatedChart';
+import { SocialProof } from './SocialProof';
+
+interface SocialProofLabels {
+  openSource: string;
+  accessibility: string;
+  multilingual: string;
+  examples: string;
+}
+
+// Bar heights for the animated chart preview (percentages)
+const PREVIEW_BAR_HEIGHTS = [35, 65, 45, 80, 55, 70, 90, 60, 75, 85] as const;
 
 interface HeroSectionAnimatedProps {
   locale: Locale;
@@ -14,6 +23,8 @@ interface HeroSectionAnimatedProps {
   subtitle: string;
   primaryCta: string;
   secondaryCta: string;
+  socialProofLabels: SocialProofLabels;
+  previewAlt: string;
 }
 
 export function HeroSectionAnimated({
@@ -22,23 +33,9 @@ export function HeroSectionAnimated({
   subtitle,
   primaryCta,
   secondaryCta,
+  socialProofLabels,
+  previewAlt,
 }: HeroSectionAnimatedProps) {
-  const [showCodeExample, setShowCodeExample] = useState(false);
-
-  const codeExample = `import { BarChart } from '@vizualni/charts';
-import { populationByRegion } from '@vizualni/sample-data';
-
-export default function PopulationChart() {
-  return (
-    <BarChart
-      data={populationByRegion}
-      xField="region"
-      yField="population"
-      title="Population by Region"
-    />
-  );
-}`;
-
   return (
     <section
       className='relative overflow-hidden rounded-[2rem] text-white shadow-2xl'
@@ -80,6 +77,11 @@ export default function PopulationChart() {
 
       {/* Main content */}
       <div className='relative z-10 px-8 py-12 md:py-16'>
+        {/* Social Proof at top */}
+        <div className='mb-8'>
+          <SocialProof labels={socialProofLabels} />
+        </div>
+
         <div className='grid lg:grid-cols-2 gap-12 items-center'>
           {/* Left column - Text content */}
           <div>
@@ -115,7 +117,7 @@ export default function PopulationChart() {
             <div className='mt-8 flex flex-wrap gap-4'>
               <Link
                 className='group inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-3.5 text-sm font-semibold text-gov-primary shadow-lg transition-all duration-200 hover:bg-gray-50 hover:shadow-xl hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gov-primary'
-                href={getBrowsePath(locale)}
+                href={`/${locale}/demo-gallery`}
               >
                 <Search className='h-4 w-4 transition-transform group-hover:scale-110' />
                 {primaryCta}
@@ -123,164 +125,71 @@ export default function PopulationChart() {
 
               <Link
                 className='group inline-flex items-center gap-2 rounded-2xl border border-white/25 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-200 hover:bg-white/15 hover:border-white/40 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gov-primary'
-                href={`/${locale}/create`}
+                href='https://github.com/acailic/vizualni-admin'
+                target='_blank'
+                rel='noopener noreferrer'
               >
                 {secondaryCta}
-                <ArrowRight className='h-4 w-4 transition-transform group-hover:translate-x-1' />
+                <ExternalLink className='h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5' />
               </Link>
-
-              <button
-                onClick={() => setShowCodeExample(!showCodeExample)}
-                className='group inline-flex items-center gap-2 rounded-2xl border border-white/25 bg-transparent px-6 py-3.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-white/10 hover:border-white/40 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gov-primary'
-              >
-                <Code2 className='h-4 w-4' />
-                {locale === 'sr-Cyrl'
-                  ? 'Види код'
-                  : locale === 'sr-Latn'
-                    ? 'Vidi kod'
-                    : 'View Code'}
-              </button>
             </div>
           </div>
 
-          {/* Right column - Code example or chart preview */}
+          {/* Right column - Chart preview card */}
           <div className='relative'>
-            {showCodeExample ? (
-              <div className='bg-gray-900/80 backdrop-blur-sm rounded-xl border border-white/10 overflow-hidden'>
-                <div className='flex items-center gap-2 px-4 py-3 border-b border-white/10 bg-black/20'>
-                  <div className='flex gap-1.5'>
-                    <div className='w-3 h-3 rounded-full bg-red-500/80' />
-                    <div className='w-3 h-3 rounded-full bg-yellow-500/80' />
-                    <div className='w-3 h-3 rounded-full bg-green-500/80' />
-                  </div>
-                  <span className='text-xs text-white/50 ml-2'>
-                    PopulationChart.tsx
+            <div className='bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 p-6'>
+              <div className='flex items-center justify-between mb-4'>
+                <h3 className='text-lg font-semibold text-white'>
+                  {locale === 'sr-Cyrl'
+                    ? '28 живих примера'
+                    : locale === 'sr-Latn'
+                      ? '28 živih primera'
+                      : '28 Live Examples'}
+                </h3>
+                <div className='flex items-center gap-1'>
+                  <span className='w-2 h-2 rounded-full bg-green-400 animate-pulse' />
+                  <span className='text-xs text-white/60'>
+                    {locale === 'sr-Cyrl'
+                      ? 'Стварни подаци'
+                      : locale === 'sr-Latn'
+                        ? 'Stvarni podaci'
+                        : 'Real Data'}
                   </span>
                 </div>
-                <pre className='p-4 text-sm overflow-x-auto'>
-                  <code className='text-white/90'>{codeExample}</code>
-                </pre>
-                <div className='px-4 py-3 border-t border-white/10 bg-black/20 flex items-center justify-between'>
-                  <span className='text-xs text-white/50'>
-                    {locale === 'sr-Cyrl'
-                      ? 'Копирајте и покрените'
-                      : locale === 'sr-Latn'
-                        ? 'Kopirajte i pokrenite'
-                        : 'Copy and run'}
-                  </span>
-                  <button
-                    onClick={() => navigator.clipboard.writeText(codeExample)}
-                    className='text-xs text-white/70 hover:text-white flex items-center gap-1'
-                  >
-                    <Code2 className='w-3 h-3' />
-                    {locale === 'sr-Cyrl'
-                      ? 'Копирај'
-                      : locale === 'sr-Latn'
-                        ? 'Kopiraj'
-                        : 'Copy'}
-                  </button>
-                </div>
               </div>
-            ) : (
-              <div className='bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 p-6'>
-                <div className='flex items-center justify-between mb-4'>
-                  <h3 className='text-lg font-semibold text-white'>
-                    {locale === 'sr-Cyrl'
-                      ? 'Брз почетак'
-                      : locale === 'sr-Latn'
-                        ? 'Brz početak'
-                        : 'Quick Start'}
-                  </h3>
-                  <div className='flex items-center gap-1'>
-                    <span className='w-2 h-2 rounded-full bg-green-400 animate-pulse' />
-                    <span className='text-xs text-white/60'>
-                      {locale === 'sr-Cyrl'
-                        ? 'Учитава се...'
-                        : locale === 'sr-Latn'
-                          ? 'Učitava se...'
-                          : 'Loading...'}
-                    </span>
-                  </div>
-                </div>
 
-                {/* Mini chart preview */}
-                <div className='h-48 flex items-end gap-2'>
-                  {[35, 65, 45, 80, 55, 70, 90, 60, 75, 85].map((height, i) => (
-                    <div
-                      key={i}
-                      className='flex-1 bg-white/30 rounded-t transition-all duration-500'
-                      style={{
-                        height: `${height * (showCodeExample ? 0 : 1)}%`,
-                        transitionDelay: `${i * 50}ms`,
-                      }}
-                    />
-                  ))}
-                </div>
-
-                <div className='mt-4 flex items-center justify-between text-sm'>
-                  <span className='text-white/60'>GDP Growth 2015-2024</span>
-                  <Link
-                    href={`/${locale}/demo-gallery`}
-                    className='text-white hover:text-white/80 flex items-center gap-1'
-                  >
-                    {locale === 'sr-Cyrl'
-                      ? 'Више примера'
-                      : locale === 'sr-Latn'
-                        ? 'Više primera'
-                        : 'More examples'}
-                    <ArrowRight className='w-3 h-3' />
-                  </Link>
-                </div>
+              {/* Mini chart preview */}
+              <div
+                className='h-48 flex items-end gap-2'
+                role='img'
+                aria-label={previewAlt}
+              >
+                {PREVIEW_BAR_HEIGHTS.map((height, i) => (
+                  <div
+                    key={i}
+                    className='flex-1 bg-white/30 rounded-t transition-all duration-500'
+                    style={{
+                      height: `${height}%`,
+                      transitionDelay: `${i * 50}ms`,
+                    }}
+                  />
+                ))}
               </div>
-            )}
-          </div>
-        </div>
-      </div>
 
-      {/* Bottom stats bar */}
-      <div className='relative z-10 border-t border-white/10 bg-black/10 backdrop-blur-sm'>
-        <div className='px-8 py-4 flex flex-wrap items-center justify-center gap-8 md:gap-16'>
-          <div className='text-center'>
-            <div className='text-2xl font-bold text-white'>28+</div>
-            <div className='text-xs text-white/60'>
-              {locale === 'sr-Cyrl'
-                ? 'Графикона'
-                : locale === 'sr-Latn'
-                  ? 'Grafikona'
-                  : 'Charts'}
-            </div>
-          </div>
-          <div className='text-center'>
-            <div className='text-2xl font-bold text-white'>3</div>
-            <div className='text-xs text-white/60'>
-              {locale === 'sr-Cyrl'
-                ? 'Језика'
-                : locale === 'sr-Latn'
-                  ? 'Jezika'
-                  : 'Languages'}
-            </div>
-          </div>
-          <div className='text-center'>
-            <div className='text-2xl font-bold text-white'>100%</div>
-            <div className='text-xs text-white/60'>
-              {locale === 'sr-Cyrl'
-                ? 'Отворен код'
-                : locale === 'sr-Latn'
-                  ? 'Otvoren kod'
-                  : 'Open Source'}
-            </div>
-          </div>
-          <div className='text-center'>
-            <div className='text-2xl font-bold text-white flex items-center gap-1'>
-              <Play className='w-4 h-4' />
-              npm
-            </div>
-            <div className='text-xs text-white/60'>
-              {locale === 'sr-Cyrl'
-                ? 'Инсталирај'
-                : locale === 'sr-Latn'
-                  ? 'Instaliraj'
-                  : 'Install'}
+              <div className='mt-4 flex items-center justify-between text-sm'>
+                <span className='text-white/60'>GDP Growth 2015-2024</span>
+                <Link
+                  href={`/${locale}/demo-gallery`}
+                  className='text-white hover:text-white/80 flex items-center gap-1'
+                >
+                  {locale === 'sr-Cyrl'
+                    ? 'Више примера'
+                    : locale === 'sr-Latn'
+                      ? 'Više primera'
+                      : 'More examples'}
+                  <ArrowRight className='w-3 h-3' />
+                </Link>
+              </div>
             </div>
           </div>
         </div>
