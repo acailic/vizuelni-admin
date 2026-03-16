@@ -4,9 +4,15 @@
 
 **Goal:** Transform the landing page into a marketing-focused page for journalists and researchers with social proof, clear CTAs, and audience-specific sections.
 
-**Architecture:** Add three new marketing components (SocialProof, HowItWorks, UseCases), modify the hero section to include them, update locale files with new copy in all 3 languages.
+**Architecture:** Add three new marketing components (SocialProof, HowItWorks, UseCases), modify the hero section to include them, update locale files with new copy in all 3 languages. **Note:** This plan implements Phase 1 (Landing Page Marketing Components) of the full spec. Additional phases (documentation site, SEO optimization, etc.) are out of scope for this plan.
 
 **Tech Stack:** Next.js 14, React 18, TypeScript, Tailwind CSS, Lucide icons
+
+**Breaking Changes:**
+
+- Hero CTAs change from "Browse Datasets"/"Create Chart" to "Try Demo"/"View on GitHub" (intentional per spec)
+- Bottom stats bar in hero is REPLACED by SocialProof at top (avoids redundancy)
+- "View Code" button is removed (simplifies UX for journalist audience)
 
 ---
 
@@ -467,14 +473,13 @@ Expected: No errors
 - Modify: `src/lib/i18n/locales/sr/common.json`
 - Modify: `src/lib/i18n/locales/lat/common.json`
 
+**Note:** The locale directory names are `en`, `sr`, and `lat` (not `sr-Cyrl`). The app's `resolveLocale()` function maps `sr-Cyrl` URL param to the `sr` directory.
+
 - [ ] **Step 1: Add English copy to en/common.json**
 
-Add to the `homepage` object in `src/lib/i18n/locales/en/common.json`:
+In `src/lib/i18n/locales/en/common.json`, find the `"homepage"` object (starts around line 51) and ADD these new keys inside it. The existing `hero` object has `browseCta` and `createCta` - ADD `tryDemo` and `viewGithub` alongside them (don't delete the old ones, they may be used elsewhere):
 
 ```json
-{
-  "homepage": {
-    "...existing keys...",
     "socialProof": {
       "chartTypes": "Chart Types",
       "serbianData": "Serbian Data",
@@ -506,25 +511,27 @@ Add to the `homepage` object in `src/lib/i18n/locales/en/common.json`:
       "developersTitle": "For Developers",
       "developersDescription": "Clone the repo, customize components, and deploy your own instance.",
       "developersCta": "View on GitHub"
-    },
+    }
+```
+
+Then UPDATE the `hero` object by adding two new keys (keep existing keys):
+
+```json
     "hero": {
       "title": "Transform Serbian Government Data into Clear Visualizations",
       "subtitle": "No coding required. Explore budgets, demographics, and public data in minutes.",
+      "browseCta": "Browse Datasets",
+      "createCta": "Create Chart",
       "tryDemo": "Try Demo",
       "viewGithub": "View on GitHub"
     }
-  }
-}
 ```
 
 - [ ] **Step 2: Add Serbian Cyrillic copy to sr/common.json**
 
-Add to the `homepage` object in `src/lib/i18n/locales/sr/common.json`:
+In `src/lib/i18n/locales/sr/common.json`, add the same structure with Serbian Cyrillic text:
 
 ```json
-{
-  "homepage": {
-    "...existing keys...",
     "socialProof": {
       "chartTypes": "Типова графикона",
       "serbianData": "Српски подаци",
@@ -556,25 +563,27 @@ Add to the `homepage` object in `src/lib/i18n/locales/sr/common.json`:
       "developersTitle": "За програмере",
       "developersDescription": "Клонирајте репозиторијум, прилагодите компоненте и поставите своју инстанцу.",
       "developersCta": "Погледајте на GitHub-у"
-    },
+    }
+```
+
+Update the `hero` object:
+
+```json
     "hero": {
       "title": "Трансформишите податке српске владе у јасне визуелизације",
       "subtitle": "Без програмирања. Истражите буџете, демографију и јавне податке за минуте.",
+      "browseCta": "Прегледај скупове података",
+      "createCta": "Направи графикон",
       "tryDemo": "Испробајте демо",
       "viewGithub": "Погледајте на GitHub-у"
     }
-  }
-}
 ```
 
 - [ ] **Step 3: Add Serbian Latin copy to lat/common.json**
 
-Add to the `homepage` object in `src/lib/i18n/locales/lat/common.json`:
+In `src/lib/i18n/locales/lat/common.json`, add the same structure with Serbian Latin text:
 
 ```json
-{
-  "homepage": {
-    "...existing keys...",
     "socialProof": {
       "chartTypes": "Tipova grafikona",
       "serbianData": "Srpski podaci",
@@ -606,20 +615,27 @@ Add to the `homepage` object in `src/lib/i18n/locales/lat/common.json`:
       "developersTitle": "Za programere",
       "developersDescription": "Klonirajte repozitorijum, prilagodite komponente i postavite svoju instancu.",
       "developersCta": "Pogledajte na GitHub-u"
-    },
+    }
+```
+
+Update the `hero` object:
+
+```json
     "hero": {
       "title": "Transformišite podatke srpske vlade u jasne vizuelizacije",
       "subtitle": "Bez programiranja. Istražite budžete, demografiju i javne podatke za minute.",
+      "browseCta": "Pregledaj skupove podataka",
+      "createCta": "Napravi grafikon",
       "tryDemo": "Isprobajte demo",
       "viewGithub": "Pogledajte na GitHub-u"
     }
-  }
-}
 ```
 
 - [ ] **Step 4: Verify JSON is valid**
 
-Run: `node -e "JSON.parse(require('fs').readFileSync('src/lib/i18n/locales/en/common.json'))"` for each locale
+Run: `node -e "JSON.parse(require('fs').readFileSync('src/lib/i18n/locales/en/common.json'))"`
+Run: `node -e "JSON.parse(require('fs').readFileSync('src/lib/i18n/locales/sr/common.json'))"`
+Run: `node -e "JSON.parse(require('fs').readFileSync('src/lib/i18n/locales/lat/common.json'))"`
 Expected: No errors
 
 ---
@@ -632,17 +648,31 @@ Expected: No errors
 
 - Modify: `src/components/home/HeroSectionAnimated.tsx`
 
-- [ ] **Step 1: Import SocialProof component**
+**Breaking Changes:**
 
-Add to imports in `src/components/home/HeroSectionAnimated.tsx`:
+- Bottom stats bar (showing "28+ Charts", "3 Languages", "100% Open Source", "npm Install") is REMOVED - replaced by SocialProof at top
+- "View Code" button and `showCodeExample` state are REMOVED - simplifies UX for journalist audience
+- CTAs change from internal links to demo-gallery and GitHub
+
+- [ ] **Step 1: Update imports**
+
+Replace the lucide-react import line with:
+
+```typescript
+import { ArrowRight, Play, Github } from 'lucide-react';
+```
+
+Add SocialProof import:
 
 ```typescript
 import { SocialProof } from './SocialProof';
 ```
 
-- [ ] **Step 2: Update props interface to include new labels**
+Remove unused imports: `Search`, `Code2`
 
-Update `HeroSectionAnimatedProps` interface:
+- [ ] **Step 2: Update props interface**
+
+Replace `HeroSectionAnimatedProps` interface with:
 
 ```typescript
 interface HeroSectionAnimatedProps {
@@ -661,12 +691,22 @@ interface HeroSectionAnimatedProps {
 }
 ```
 
-- [ ] **Step 3: Add SocialProof above headline**
+- [ ] **Step 3: Remove showCodeExample state and codeExample constant**
 
-Insert after the opening `<section>` tag and before `<div className='relative z-10 px-8 py-12 md:py-16'>`:
+Delete these lines:
 
 ```typescript
-{/* Social Proof Bar */}
+const [showCodeExample, setShowCodeExample] = useState(false);
+
+const codeExample = `...`; // The entire code example string
+```
+
+- [ ] **Step 4: Add SocialProof above headline**
+
+Insert AFTER the decorative elements (grid pattern overlay) and BEFORE the main content div:
+
+```typescript
+{/* Social Proof Bar - replaces bottom stats bar */}
 <div className='relative z-10 px-8 pt-8'>
   <SocialProof
     locale={locale}
@@ -679,9 +719,9 @@ Insert after the opening `<section>` tag and before `<div className='relative z-
 </div>
 ```
 
-- [ ] **Step 4: Update CTA buttons to link to demo-gallery and GitHub**
+- [ ] **Step 5: Replace CTA buttons section**
 
-Replace the existing CTA buttons section with:
+Find the `<div className='mt-8 flex flex-wrap gap-4'>` section and REPLACE the entire div with:
 
 ```typescript
 <div className='mt-8 flex flex-wrap gap-4'>
@@ -706,21 +746,70 @@ Replace the existing CTA buttons section with:
 </div>
 ```
 
-- [ ] **Step 5: Import Github and Play icons**
+- [ ] **Step 6: Remove View Code button and code example panel**
 
-Add to lucide-react import:
+DELETE the entire "View Code" button (the third button in the CTA section) and DELETE the entire right column code example panel (the `{showCodeExample ? ... : ...}` block in the right column).
+
+Replace the right column with a simple chart preview:
 
 ```typescript
-import { ArrowRight, Play, Github, Code2 } from 'lucide-react';
+{/* Right column - Chart preview */}
+<div className='relative'>
+  <div className='bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 p-6'>
+    <div className='flex items-center justify-between mb-4'>
+      <h3 className='text-lg font-semibold text-white'>
+        {locale === 'sr-Cyrl'
+          ? 'Живи пример'
+          : locale === 'sr-Latn'
+            ? 'Živi primer'
+            : 'Live Example'}
+      </h3>
+      <div className='flex items-center gap-1'>
+        <span className='w-2 h-2 rounded-full bg-green-400 animate-pulse' />
+        <span className='text-xs text-white/60'>
+          {locale === 'sr-Cyrl'
+            ? 'Учитано'
+            : locale === 'sr-Latn'
+              ? 'Učitano'
+              : 'Loaded'}
+        </span>
+      </div>
+    </div>
+
+    {/* Mini chart preview */}
+    <div className='h-48 flex items-end gap-2'>
+      {[35, 65, 45, 80, 55, 70, 90, 60, 75, 85].map((height, i) => (
+        <div
+          key={i}
+          className='flex-1 bg-white/30 rounded-t transition-all duration-500'
+          style={{ height: `${height}%` }}
+        />
+      ))}
+    </div>
+
+    <div className='mt-4 flex items-center justify-between text-sm'>
+      <span className='text-white/60'>GDP Growth 2015-2024</span>
+      <Link
+        href={`/${locale}/demo-gallery`}
+        className='text-white hover:text-white/80 flex items-center gap-1'
+      >
+        {locale === 'sr-Cyrl'
+          ? 'Више примера'
+          : locale === 'sr-Latn'
+            ? 'Više primera'
+            : 'More examples'}
+        <ArrowRight className='w-3 h-3' />
+      </Link>
+    </div>
+  </div>
+</div>
 ```
 
-(Remove `Search` if no longer used)
+- [ ] **Step 7: Remove the bottom stats bar**
 
-- [ ] **Step 6: Remove View Code button (keep it simple for journalists)**
+DELETE the entire bottom stats bar section (the div with `border-t border-white/10 bg-black/10` containing the 4 stat items: Charts, Languages, Open Source, npm).
 
-Remove the "View Code" button that toggles code example - simplify for journalist audience.
-
-- [ ] **Step 7: Verify component compiles**
+- [ ] **Step 8: Verify component compiles**
 
 Run: `npx tsc --noEmit src/components/home/HeroSectionAnimated.tsx`
 Expected: No errors
