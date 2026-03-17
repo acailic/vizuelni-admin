@@ -1,0 +1,14 @@
+path: /browse
+name: Dataset Browser
+locale: sr-Latn
+critical_elements:
+  - selector: "input[type='search']"
+    expectation: Search input
+    required: true
+    must_be_visible: true
+
+  - selector: "[data-testid='dataset-card'], [class*='card']"
+    expectation: Dataset cards
+    required: true
+    must_be_visible: true
+    min_count: 1

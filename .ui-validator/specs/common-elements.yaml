@@ -1,0 +1,13 @@
+path: /
+name: Common Elements
+locale: sr-Latn
+critical_elements:
+  - selector: "nav, [role='navigation']"
+    expectation: Navigation
+    required: true
+    must_be_visible: true
+
+  - selector: "main, [role='main']"
+    expectation: Main content
+    required: true
+    must_be_visible: true

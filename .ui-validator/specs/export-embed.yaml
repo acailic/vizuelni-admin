@@ -1,0 +1,13 @@
+path: /create
+name: Export Controls
+locale: sr-Latn
+critical_elements:
+  - selector: "button:has-text('Izvoz')"
+    expectation: Export button
+    required: true
+    must_be_visible: true
+
+  - selector: "button:has-text('Deli')"
+    expectation: Share button
+    required: true
+    must_be_visible: true

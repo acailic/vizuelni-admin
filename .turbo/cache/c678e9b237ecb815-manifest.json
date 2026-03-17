@@ -1,0 +1,251 @@
+{
+  "files": {
+    "packages/shared-kernel/dist/types/filter.js": {
+      "size": 0,
+      "mtime_nanos": 1773660982858245228,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/serbian/transliteration.d.cts": {
+      "size": 176,
+      "mtime_nanos": 1773660982857584883,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/types/pagination.d.cts": {
+      "size": 165,
+      "mtime_nanos": 1773660982858784808,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/types/pagination.d.ts": {
+      "size": 165,
+      "mtime_nanos": 1773660982858849509,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/chunk-WWVNQMDA.js": {
+      "size": 969,
+      "mtime_nanos": 1773660982856857963,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/types/filter.d.cts": {
+      "size": 777,
+      "mtime_nanos": 1773660982858078326,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/serbian/transliteration.cjs": {
+      "size": 2024,
+      "mtime_nanos": 1773660982857443569,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/types/transform-context.d.ts": {
+      "size": 310,
+      "mtime_nanos": 1773660982859066184,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/chunk-TFYGHXFI.js": {
+      "size": 621,
+      "mtime_nanos": 1773660982856799183,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/types/filter.d.ts": {
+      "size": 776,
+      "mtime_nanos": 1773660982858170969,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/types/geographic.d.cts": {
+      "size": 210,
+      "mtime_nanos": 1773660982858344634,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/types/pagination.cjs": {
+      "size": 779,
+      "mtime_nanos": 1773660982858724936,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/types/geographic.cjs": {
+      "size": 779,
+      "mtime_nanos": 1773660982858281767,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/types/geographic.d.ts": {
+      "size": 210,
+      "mtime_nanos": 1773660982858408153,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/types/observation.cjs": {
+      "size": 782,
+      "mtime_nanos": 1773660982858506457,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/index.cjs": {
+      "size": 2723,
+      "mtime_nanos": 1773660982856908698,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/types/pagination.js": {
+      "size": 0,
+      "mtime_nanos": 1773660982858910473,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/index.d.cts": {
+      "size": 770,
+      "mtime_nanos": 1773660982856960084,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/types/observation.d.cts": {
+      "size": 2069,
+      "mtime_nanos": 1773660982858567311,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/serbian/collation.d.cts": {
+      "size": 294,
+      "mtime_nanos": 1773660982857248143,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/serbian/collation.cjs": {
+      "size": 1718,
+      "mtime_nanos": 1773660982857187630,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/serbian/transliteration.js": {
+      "size": 94,
+      "mtime_nanos": 1773660982857861280,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/.turbo/turbo-build.log": {
+      "size": 2361,
+      "mtime_nanos": 1773660982855524383,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/index.d.ts": {
+      "size": 763,
+      "mtime_nanos": 1773660982857027510,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/serbian/collation.js": {
+      "size": 150,
+      "mtime_nanos": 1773660982857378407,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/types/observation.d.ts": {
+      "size": 2069,
+      "mtime_nanos": 1773660982858630038,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/types/transform-context.cjs": {
+      "size": 800,
+      "mtime_nanos": 1773660982858944076,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/types/transform-context.d.cts": {
+      "size": 310,
+      "mtime_nanos": 1773660982859004769,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/index.js": {
+      "size": 231,
+      "mtime_nanos": 1773660982857096409,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/serbian/transliteration.d.ts": {
+      "size": 175,
+      "mtime_nanos": 1773660982857708895,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/types/observation.js": {
+      "size": 0,
+      "mtime_nanos": 1773660982858691303,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/types/geographic.js": {
+      "size": 0,
+      "mtime_nanos": 1773660982858472153,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/types/transform-context.js": {
+      "size": 0,
+      "mtime_nanos": 1773660982859140673,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/serbian/collation.d.ts": {
+      "size": 293,
+      "mtime_nanos": 1773660982857315189,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/shared-kernel/dist/types/filter.cjs": {
+      "size": 767,
+      "mtime_nanos": 1773660982857996373,
+      "mode": 436,
+      "is_dir": false
+    }
+  },
+  "order": [
+    "packages/shared-kernel/.turbo/turbo-build.log",
+    "packages/shared-kernel/dist/chunk-TFYGHXFI.js",
+    "packages/shared-kernel/dist/chunk-WWVNQMDA.js",
+    "packages/shared-kernel/dist/index.cjs",
+    "packages/shared-kernel/dist/index.d.cts",
+    "packages/shared-kernel/dist/index.d.ts",
+    "packages/shared-kernel/dist/index.js",
+    "packages/shared-kernel/dist/serbian/collation.cjs",
+    "packages/shared-kernel/dist/serbian/collation.d.cts",
+    "packages/shared-kernel/dist/serbian/collation.d.ts",
+    "packages/shared-kernel/dist/serbian/collation.js",
+    "packages/shared-kernel/dist/serbian/transliteration.cjs",
+    "packages/shared-kernel/dist/serbian/transliteration.d.cts",
+    "packages/shared-kernel/dist/serbian/transliteration.d.ts",
+    "packages/shared-kernel/dist/serbian/transliteration.js",
+    "packages/shared-kernel/dist/types/filter.cjs",
+    "packages/shared-kernel/dist/types/filter.d.cts",
+    "packages/shared-kernel/dist/types/filter.d.ts",
+    "packages/shared-kernel/dist/types/filter.js",
+    "packages/shared-kernel/dist/types/geographic.cjs",
+    "packages/shared-kernel/dist/types/geographic.d.cts",
+    "packages/shared-kernel/dist/types/geographic.d.ts",
+    "packages/shared-kernel/dist/types/geographic.js",
+    "packages/shared-kernel/dist/types/observation.cjs",
+    "packages/shared-kernel/dist/types/observation.d.cts",
+    "packages/shared-kernel/dist/types/observation.d.ts",
+    "packages/shared-kernel/dist/types/observation.js",
+    "packages/shared-kernel/dist/types/pagination.cjs",
+    "packages/shared-kernel/dist/types/pagination.d.cts",
+    "packages/shared-kernel/dist/types/pagination.d.ts",
+    "packages/shared-kernel/dist/types/pagination.js",
+    "packages/shared-kernel/dist/types/transform-context.cjs",
+    "packages/shared-kernel/dist/types/transform-context.d.cts",
+    "packages/shared-kernel/dist/types/transform-context.d.ts",
+    "packages/shared-kernel/dist/types/transform-context.js"
+  ]
+}

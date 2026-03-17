@@ -1,0 +1,41 @@
+{
+  "files": {
+    "packages/core/dist/index.d.cts": {
+      "size": 35554,
+      "mtime_nanos": 1773660982856960084,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/core/dist/index.d.ts": {
+      "size": 35554,
+      "mtime_nanos": 1773660982857096409,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/core/dist/index.js": {
+      "size": 12430,
+      "mtime_nanos": 1773660982857248143,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/core/dist/index.cjs": {
+      "size": 14573,
+      "mtime_nanos": 1773660982856857963,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/core/.turbo/turbo-build.log": {
+      "size": 447,
+      "mtime_nanos": 1773660982855524383,
+      "mode": 436,
+      "is_dir": false
+    }
+  },
+  "order": [
+    "packages/core/.turbo/turbo-build.log",
+    "packages/core/dist/index.cjs",
+    "packages/core/dist/index.d.cts",
+    "packages/core/dist/index.d.ts",
+    "packages/core/dist/index.js"
+  ]
+}
