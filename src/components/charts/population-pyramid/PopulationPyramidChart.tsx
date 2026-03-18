@@ -17,6 +17,7 @@ import {
   formatChartValue,
 } from '@/components/charts/shared/chart-formatters';
 import { ChartFrame } from '@/components/charts/shared/ChartFrame';
+import { useChartAnimation } from '@/hooks/useChartAnimation';
 import type { ChartRendererComponentProps } from '@/types';
 
 export function PopulationPyramidChart({
@@ -29,6 +30,7 @@ export function PopulationPyramidChart({
   hiddenSeriesKeys = [],
   previewMode = false,
 }: ChartRendererComponentProps) {
+  const { ref } = useChartAnimation();
   const maleField = config.options?.pyramidMaleField ?? config.y_axis?.field;
   const femaleField =
     config.options?.pyramidFemaleField ?? config.options?.secondaryField;
@@ -84,13 +86,14 @@ export function PopulationPyramidChart({
       height={height}
       previewMode={previewMode}
     >
-      <ResponsiveContainer width='100%' height='100%'>
-        <BarChart
-          data={series}
-          layout='vertical'
-          margin={{ top: 8, right: 24, bottom: 8, left: 24 }}
-          stackOffset='sign'
-        >
+      <div ref={ref} className="h-full w-full">
+        <ResponsiveContainer width='100%' height='100%'>
+          <BarChart
+            data={series}
+            layout='vertical'
+            margin={{ top: 8, right: 24, bottom: 8, left: 24 }}
+            stackOffset='sign'
+          >
           {(config.options?.showGrid ?? true) ? (
             <CartesianGrid strokeDasharray='3 3' horizontal={false} />
           ) : null}
@@ -134,6 +137,7 @@ export function PopulationPyramidChart({
           ) : null}
         </BarChart>
       </ResponsiveContainer>
+      </div>
     </ChartFrame>
   );
 }

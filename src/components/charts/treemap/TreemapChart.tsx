@@ -11,6 +11,7 @@ import {
   formatChartValue,
 } from '@/components/charts/shared/chart-formatters'
 import { ChartFrame } from '@/components/charts/shared/ChartFrame'
+import { useChartAnimation } from '@/hooks/useChartAnimation'
 import type { ChartRendererComponentProps } from '@/types'
 
 function TreemapCell({
@@ -66,6 +67,7 @@ export function TreemapChart({
   filterBar,
   previewMode = false,
 }: ChartRendererComponentProps) {
+  const { ref, shouldAnimate, duration, easing } = useChartAnimation()
   const colors = getChartColors(config)
   const { formatNumber } = createChartFormatters(locale)
   const series = data
@@ -99,22 +101,26 @@ export function TreemapChart({
       height={height}
       previewMode={previewMode}
     >
-      <ResponsiveContainer width='100%' height='100%'>
-        <Treemap
-          data={series}
-          dataKey='size'
-          aspectRatio={4 / 3}
-          stroke='#ffffff'
-          content={<TreemapCell colors={colors} />}
-          isAnimationActive={config.options?.animation ?? false}
-        >
+      <div ref={ref} className="h-full w-full">
+        <ResponsiveContainer width='100%' height='100%'>
+          <Treemap
+            data={series}
+            dataKey='size'
+            aspectRatio={4 / 3}
+            stroke='#ffffff'
+            content={<TreemapCell colors={colors} />}
+            isAnimationActive={shouldAnimate && config.options?.animation !== false}
+            animationDuration={duration}
+            animationEasing={easing as any}
+          >
           <Tooltip
             formatter={value =>
               typeof value === 'number' ? formatNumber(value) : String(value)
             }
           />
-        </Treemap>
-      </ResponsiveContainer>
+          </Treemap>
+        </ResponsiveContainer>
+      </div>
     </ChartFrame>
   )
 }

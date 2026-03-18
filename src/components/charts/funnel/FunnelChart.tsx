@@ -18,6 +18,7 @@ import {
   formatChartValue,
 } from '@/components/charts/shared/chart-formatters'
 import { ChartFrame } from '@/components/charts/shared/ChartFrame'
+import { useChartAnimation } from '@/hooks/useChartAnimation'
 import type { ChartRendererComponentProps } from '@/types'
 
 export function FunnelChart({
@@ -28,6 +29,7 @@ export function FunnelChart({
   filterBar,
   previewMode = false,
 }: ChartRendererComponentProps) {
+  const { ref, shouldAnimate, duration, easing } = useChartAnimation()
   const colors = getChartColors(config)
   const { formatNumber } = createChartFormatters(locale)
   const series = data
@@ -64,19 +66,22 @@ export function FunnelChart({
       height={height}
       previewMode={previewMode}
     >
-      <ResponsiveContainer width='100%' height='100%'>
-        <RechartsFunnelChart>
-          <Tooltip
-            formatter={value =>
-              typeof value === 'number' ? formatNumber(value) : String(value)
-            }
-          />
-          <Funnel
-            data={series}
-            dataKey='value'
-            nameKey='name'
-            isAnimationActive={config.options?.animation ?? false}
-          >
+      <div ref={ref} className="h-full w-full">
+        <ResponsiveContainer width='100%' height='100%'>
+          <RechartsFunnelChart>
+            <Tooltip
+              formatter={value =>
+                typeof value === 'number' ? formatNumber(value) : String(value)
+              }
+            />
+            <Funnel
+              data={series}
+              dataKey='value'
+              nameKey='name'
+              isAnimationActive={shouldAnimate && config.options?.animation !== false}
+              animationDuration={duration}
+              animationEasing={easing as any}
+            >
             {series.map((entry, index) => (
               <Cell key={`${entry.name}-${index}`} fill={colors[index % colors.length]} />
             ))}
@@ -84,8 +89,9 @@ export function FunnelChart({
               <LabelList dataKey='name' position='right' fill='#334155' stroke='none' />
             ) : null}
           </Funnel>
-        </RechartsFunnelChart>
-      </ResponsiveContainer>
+            </RechartsFunnelChart>
+        </ResponsiveContainer>
+      </div>
     </ChartFrame>
   )
 }
