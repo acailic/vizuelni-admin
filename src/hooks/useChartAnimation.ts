@@ -1,3 +1,5 @@
+'use client'
+
 import { useMemo } from 'react'
 import { useAnimationSettingsStore } from '@/stores/animation-settings'
 import { useChartInView } from './useChartInView'
@@ -22,8 +24,8 @@ export function useChartAnimation(): UseChartAnimationResult {
     // Disabled globally
     if (!settings.enabled) return false
 
-    // Note: useChartInView already handles prefers-reduced-motion internally
-    // We respect that via the respectReducedMotion setting in the store
+    // Note: useChartInView already handles prefers-reduced-motion internally via CSS
+    // The store's respectReducedMotion setting could be used to override this behavior in the future
 
     // Must be in viewport
     return inView
