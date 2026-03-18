@@ -1,0 +1,21 @@
+BUG_ID,Severity,Category,File,Component,Description,Status,Priority
+SEC-001,Critical,Security,src/app/api/gallery/route.ts,Gallery,"Missing authentication exposes user data without consent","Open
+SEC-002,Critical,Security,src/app/api/charts/[id]/route.ts,"TOCTOU race condition in chart operations","Critical
+SEC-003,Critical,Security, package.json,"Dependency vulnerabilities (@auth/core, @next/eslint-plugin-next, ajv, cookie)
+High
+SEC-004,Critical,Security, src/app/api/proxy/route.ts,"Missing rate limiting on proxy endpoint","Critical
+SEC-005,Critical,Security, All API routes,"Missing rate limiting on all endpoints","Critical
+
+BUG-001,High,Security, src/app/api/browse/preview/route.ts,"Missing CSRF protection","High
+BUG-002,High,Security, src/app/api/notifications/route.ts,"Database query on every request for role check","High
+BUG-003,High,Data, src/lib/db/charts.ts,"Non-atomic view counter increment","High
+BUG-004,High,Code Quality, src/components/pdf/ChartReportDocument.tsx,"Unused @ts-expect-error directives","High
+BUG-005,High,Accessibility, src/components/pdf/ChartReportDocument.tsx,"Missing alt text on images","High
+BUG-006,High,Testing, e2e/*.spec.ts,"70/99 test suites failing (Playwright compatibility)
+High
+BUG-007,High,Testing, 30+ library files lack unit tests","High
+BUG-008,Medium,Data, src/lib/data/loader.ts,"CSV parser memory edge cases","Medium
+BUG-009,Medium,Data, src/lib/api/datagov-client.ts,"Cache invalidation missing","Medium
+BUG-010,Medium,Code Quality, src/stores/configurator.ts,"Complex initialization logic","Medium
+BUG-011,Medium,UX, src/lib/hooks/useUrlState.ts,"URL state not restored on back button","Medium
+BUG-012,Low,Code Quality, Multiple files,"Missing error boundaries (only 1 found)","Low

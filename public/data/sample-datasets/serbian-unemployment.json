@@ -1,0 +1,79 @@
+[
+  {
+    "name": "Месечни стопа запослености по регион",
+    " "__id": "serbia-regions",
+    "__typename": " "region",
+    {
+      "name": "Београд",
+      " "region": "Београд",
+      " "year": 2024,
+      " "month": "1,
+      " "unemployed": 4.9,
+      " "employed": 85.5,
+      " "rate": 5.44
+    },
+    {
+      " "name": "Врањ",
+      " "region": "Врањ",
+      " "year": 2024,
+      " "month": 1,
+      " "unemployed": 5.5,
+      " "employed": 79.8,
+      " "rate": 6.56
+    },
+    {
+      " "name": "Јуж",
+      " "region": "Јуж",
+      " "year": 2024,
+      " "month": 1,
+      " "unemployed": 6.3,
+      " "employed": 62.2,
+      " "rate": 9.23
+    },
+    {
+      " "name": "Зајечни",
+      " "region": "Зајечни",
+      " "year": 2024,
+      " "month": 1,
+      " "unemployed": 7.1,
+      " "employed": 70.3,
+      " "rate": 9.64
+    },
+    {
+      " "name": "Шумадија",
+      " "region": "Шумадија",
+      " "year": 2024,
+      " "month": 1,
+      " "unemployed": 8.2,
+      " "employed": 91.8,
+      " "rate": 8.15
+    },
+    {
+      " "name": "Бор",
+      " "region": "Бор",
+      " "year": 2024,
+      " "month": 1,
+      " "unemployed": 9.8,
+      " "employed": 107.2,
+      " "rate": 8.69
+    },
+    {
+      " "name": "Сремски",
+      " "region": "Сремски",
+      " "year": 2024,
+      " "month": 1,
+      " "unemployed": 11.5,
+      " "employed": 139.4,
+      " "rate": 7.63
+    },
+    {
+      "name": "Бачка",
+      " "region": "Бачка",
+      " "year": 2024,
+      " "month": 1,
+      " "unemployed": 12.1,
+      " "employed": 150.3,
+      " "rate": 7.46
+    }
+  ]
+}

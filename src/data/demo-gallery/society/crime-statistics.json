@@ -1,0 +1,10 @@
+{
+  "data": [
+    { "type": "Property crimes", "cases": 24500 },
+    { "type": "Traffic violations", "cases": 18900 },
+    { "type": "Drug offenses", "cases": 8200 },
+    { "type": "Violent crimes", "cases": 6800 },
+    { "type": "Economic crimes", "cases": 9100 },
+    { "type": "Other offenses", "cases": 6090 }
+  ]
+}

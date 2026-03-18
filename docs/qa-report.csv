@@ -1,0 +1,68 @@
+chart_id,title,metric_unit,selector_issues,axis_formatting,locale_casing,source_link,last_updated,notes
+serbia-population-decline,Serbia Population Decline,Population,No,No,No,Yes,Yes,Added axis labels for x_axis and y_axis
+serbia-migration-balance,Migration Balance,Count,No,No,No,Yes,Yes,Added axis labels
+serbia-regional-disparities,Regional Disparities,GDP Index,No,No,No,Yes,Yes,Already had proper labels
+serbia-healthcare-comparison,Healthcare Comparison,Per 100000,No,No,No,Yes,Yes,Already had proper labels
+serbia-diaspora-destinations,Diaspora Destinations,Share (%),No,No,No,Yes,Yes,Added axis labels
+demo-population-pyramid,Serbia Population Pyramid,Male/Female,No,No,No,Yes,Yes,Already had proper labels
+demo-birth-rates,Birth Rate Trend,Rate (per 1000),No,No,No,Yes,Yes,Already had proper labels
+demo-fertility-rates,Total Fertility Rate,Fertility Rate,No,No,No,Yes,Yes,Already had proper labels
+demo-natural-change,Natural Population Change,Count,No,No,No,Yes,Yes,Already had proper labels
+demo-population-decline,Population Decline,Population,No,No,No,Yes,Yes,Already had proper labels
+demo-age-distribution,Age Distribution,Share (%),No,No,No,Yes,Yes,Added axis labels
+demo-cancer-incidence,Cancer Incidence,Cases,No,No,No,Yes,Yes,Already had proper labels
+demo-cancer-by-sex,Cancer by Sex,Cases,No,No,No,Yes,Yes,Already had proper labels
+demo-cancer-mortality,Cancer Mortality,Mortality Rate,No,No,No,Yes,Yes,Already had proper labels
+demo-cancer-trends,Cancer Trends,Incidence Rate,No,No,No,Yes,Yes,Already had proper labels
+demo-healthcare-workers,Healthcare Workers,Count,No,No,No,Yes,Yes,Already had proper labels
+demo-screening-rates,Screening Rates,Rate (%),No,No,No,Yes,Yes,Already had proper labels
+demo-survival-rates,Survival Rates,Survival Rate (%),No,No,No,Yes,Yes,Already had proper labels
+demo-gdp-growth,GDP Growth,GDP Growth (%),No,No,No,Yes,Yes,Already had proper labels
+demo-inflation,Inflation Rate,Rate (%),No,No,No,Yes,Yes,Already had proper labels
+demo-industrial-production,Industrial Production,Growth (%),No,No,No,Yes,Yes,Already had proper labels
+demo-wages,Average Wages,Salary (RSD),No,No,No,Yes,Yes,Already had proper labels
+demo-employment,Employment Rate,Rate (%),No,No,No,Yes,Yes,Already had proper labels
+demo-diaspora-destinations,Diaspora Destinations,Population,No,No,No,Yes,Yes,Already had proper labels
+demo-migration-balance,Migration Balance,Count,No,No,No,Yes,Yes,Already had proper labels
+demo-immigration-trends,Immigration Trends,Immigrants,No,No,No,Yes,Yes,Already had proper labels
+demo-emigration-trends,Emigration Trends,Emigrants,No,No,No,Yes,Yes,Already had proper labels
+demo-education-levels,Education Levels,Students,No,No,No,Yes,Yes,Already had proper labels
+demo-tourism,Tourism,Tourists,No,No,No,Yes,Yes,Already had proper labels
+demo-crime-statistics,Crime Statistics,Cases,No,No,No,Yes,Yes,Already had proper labels
+demo-vital-statistics,Vital Statistics,Count,No,No,No,Yes,Yes,Already had proper labels
+demo-labour-market,Labour Market,Salary (RSD),No,No,No,Yes,Yes,Already had proper labels
+demo-regional-disparities,Regional Disparities,GDP per Capita (EUR),No,No,No,Yes,Yes,Already had proper labels
+demo-pisa-scores,PISA scores,Serbia,No,No,No,Yes,Yes,Already had proper labels
+demo-teacher-student-ratios,Teacher-student ratios,Ratio,No,No,No,Yes,Yes,Already had proper labels
+demo-enrollment-by-level,Enrollment by level,Students,No,No,No,Yes,Yes,Already had proper labels
+demo-air-quality-by-city,Air quality by city,Value,No,No,No,Yes,Yes,Already had proper labels
+demo-water-quality-stations,Water quality stations,Index,No,No,No,Yes,Yes,Already had proper labels
+demo-waste-management,Waste management,Amount,No,No,No,Yes,Yes,Already had proper labels
+demo-fdi-inflows,FDI inflows,EUR bn,No,No,No,Yes,Yes,Already had proper labels
+demo-trade-balance-partners,Trade balance by partner,EUR m,No,No,No,Yes,Yes,Already had proper labels
+demo-sector-gdp,GDP by sector,Share,No,No,No,Yes,Yes,Already had proper labels
+demo-internet-penetration,Internet penetration,Coverage,No,No,No,Yes,Yes,Already had proper labels
+demo-energy-production-flow,Energy production flow,Share,No,No,No,Yes,Yes,Already had proper labels
+demo-road-network,Road network,Kilometers,No,No,No,Yes,Yes,Already had proper labels
+demo-budget-execution,Budget execution,RSD bn,No,No,No,Yes,Yes,Already had proper labels
+demo-tax-revenue-mix,Tax revenue mix,Share,No,No,No,Yes,Yes,Already had proper labels
+demo-municipal-spending-distribution,Municipal spending distribution,Spending per capita,No,No,No,Yes,Yes,Already had proper labels
+regional-comparison,Regional Comparison,GDP Growth (%),No,No,No,Yes,Yes,Added tags, dataSource, lastUpdated
+gdp-time-series,GDP Over Time,GDP Growth (%),No,No,No,Yes,Yes,Added tags, dataSource, lastUpdated
+population-regions,Population by City,Population,No,No,No,Yes,Yes,Added tags, dataSource, lastUpdated
+budget-allocation,Budget Allocation,Amount (RSD),No,No,No,Yes,Yes,Added tags, dataSource, lastUpdated; improved y_axis label and options
+education-enrollment,Education Enrollment,University Enrollment (%),No,No,No,Yes,Yes,Added tags, dataSource, lastUpdated
+energy-consumption,Energy Consumption,Consumption (TWh),No,No,No,Yes,Yes,Added tags, dataSource, lastUpdated
+health-indicators,Health Indicators,Life Expectancy (years),No,No,No,Yes,Yes,Added tags, dataSource, lastUpdated; improved y_axis label
+gdp-regions,GDP by Region,GDP Growth (%),No,No,No,Yes,Yes,Added tags, dataSource, lastUpdated
+population-pyramid,Population Pyramid,Population,No,No,No,Yes,Yes,Already complete
+gdp-sectors,GDP by Sector,GDP Share (%),No,No,No,Yes,Yes,Already complete
+inflation-rate,Inflation Rate,Inflation (%),No,No,No,Yes,Yes,Already complete
+education-enrollment-levels,Education Levels,Students,No,No,No,Yes,Yes,Already complete
+air-quality-index,Air Quality Index,AQI,No,No,No,Yes,Yes,Already complete
+budget-execution,Budget Execution,Billion RSD,No,No,No,Yes,Yes,Already complete
+road-accidents,Road Accidents,Accidents,No,No,No,Yes,Yes,Already complete
+unemployment-rate,Unemployment Rate,Rate (%),No,No,No,Yes,Yes,Added tags, dataSource, lastUpdated
+vaccination-rates,Vaccination Coverage,Coverage (%),No,No,No,Yes,Yes,Already complete
+hospital-capacity,Healthcare Capacity,Beds per 1000,No,No,No,Yes,Yes,Already complete
+population-density,Population Density,People per km2,No,No,No,Yes,Yes,Already complete

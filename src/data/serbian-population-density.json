@@ -1,0 +1,204 @@
+{
+  "data": [
+    {
+      "district": "Београд",
+      "district_lat": "Beograd",
+      "district_en": "Belgrade",
+      "density": 365.2,
+      "population": 1680000,
+      "area_km2": 4601
+    },
+    {
+      "district": "Новосадски",
+      "district_lat": "Novosadski",
+      "district_en": "Novi Sad",
+      "density": 158.4,
+      "population": 415000,
+      "area_km2": 2621
+    },
+    {
+      "district": "Јужнобачки",
+      "district_lat": "Južnobački",
+      "district_en": "South Bačka",
+      "density": 112.8,
+      "population": 593000,
+      "area_km2": 5263
+    },
+    {
+      "district": "Сремски",
+      "district_lat": "Sremski",
+      "district_en": "Srem",
+      "density": 82.5,
+      "population": 312000,
+      "area_km2": 3782
+    },
+    {
+      "district": "Севербанатски",
+      "district_lat": "Severnobanatski",
+      "district_en": "North Banat",
+      "density": 45.2,
+      "population": 147000,
+      "area_km2": 3256
+    },
+    {
+      "district": "Средњебанатски",
+      "district_lat": "Srednjebanatski",
+      "district_en": "Central Banat",
+      "density": 52.8,
+      "population": 186000,
+      "area_km2": 3525
+    },
+    {
+      "district": "Јужнобанатски",
+      "district_lat": "Južnobanatski",
+      "district_en": "South Banat",
+      "density": 68.4,
+      "population": 298000,
+      "area_km2": 4357
+    },
+    {
+      "district": "Западнобачки",
+      "district_lat": "Zapadnobački",
+      "district_en": "West Bačka",
+      "density": 38.6,
+      "population": 182000,
+      "area_km2": 4718
+    },
+    {
+      "district": "Севернобачки",
+      "district_lat": "Severnobački",
+      "district_en": "North Bačka",
+      "density": 62.4,
+      "population": 198000,
+      "area_km2": 3173
+    },
+    {
+      "district": "Расински",
+      "district_lat": "Rasinski",
+      "district_en": "Rasina",
+      "density": 48.5,
+      "population": 245000,
+      "area_km2": 5052
+    },
+    {
+      "district": "Рашки",
+      "district_lat": "Raški",
+      "district_en": "Raška",
+      "density": 32.8,
+      "population": 312000,
+      "area_km2": 9512
+    },
+    {
+      "district": "Моравички",
+      "district_lat": "Moravički",
+      "district_en": "Moravica",
+      "density": 52.1,
+      "population": 218000,
+      "area_km2": 4184
+    },
+    {
+      "district": "Златиборски",
+      "district_lat": "Zlatiborski",
+      "district_en": "Zlatibor",
+      "density": 28.6,
+      "population": 285000,
+      "area_km2": 9965
+    },
+    {
+      "district": "Колубарски",
+      "district_lat": "Kolubarski",
+      "district_en": "Kolubara",
+      "density": 58.2,
+      "population": 198000,
+      "area_km2": 3403
+    },
+    {
+      "district": "Подунавски",
+      "district_lat": "Podunavski",
+      "district_en": "Podunavlje",
+      "density": 72.8,
+      "population": 215000,
+      "area_km2": 2953
+    },
+    {
+      "district": "Браничевски",
+      "district_lat": "Braničevski",
+      "district_en": "Braničevo",
+      "density": 42.5,
+      "population": 192000,
+      "area_km2": 4518
+    },
+    {
+      "district": "Шумадијски",
+      "district_lat": "Šumadijski",
+      "district_en": "Šumadija",
+      "density": 85.2,
+      "population": 298000,
+      "area_km2": 3498
+    },
+    {
+      "district": "Поморавски",
+      "district_lat": "Pomoravski",
+      "district_en": "Pomoravlje",
+      "density": 48.8,
+      "population": 215000,
+      "area_km2": 4406
+    },
+    {
+      "district": "Борски",
+      "district_lat": "Borski",
+      "district_en": "Bor",
+      "density": 35.2,
+      "population": 145000,
+      "area_km2": 4122
+    },
+    {
+      "district": "Зајечарски",
+      "district_lat": "Zaječarski",
+      "district_en": "Zaječar",
+      "density": 28.4,
+      "population": 128000,
+      "area_km2": 4508
+    },
+    {
+      "district": "Нишавски",
+      "district_lat": "Nišavski",
+      "district_en": "Nišava",
+      "density": 68.5,
+      "population": 375000,
+      "area_km2": 5474
+    },
+    {
+      "district": "Топлички",
+      "district_lat": "Toplički",
+      "district_en": "Toplica",
+      "density": 22.8,
+      "population": 91000,
+      "area_km2": 3991
+    },
+    {
+      "district": "Пиротски",
+      "district_lat": "Pirotski",
+      "district_en": "Pirot",
+      "density": 25.6,
+      "population": 92000,
+      "area_km2": 3594
+    },
+    {
+      "district": "Јабланички",
+      "district_lat": "Jablanički",
+      "district_en": "Jablanica",
+      "density": 42.8,
+      "population": 215000,
+      "area_km2": 5023
+    },
+    {
+      "district": "Пчињски",
+      "district_lat": "Pčinjski",
+      "district_en": "Pčinja",
+      "density": 38.5,
+      "population": 158000,
+      "area_km2": 4104
+    }
+  ]
+}

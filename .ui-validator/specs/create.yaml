@@ -1,0 +1,16 @@
+path: /create
+name: Create
+critical_elements:
+  - selector: 'header button'
+    expectation: Configurator should expose a back navigation control.
+  - selector: 'nav[aria-label="Configurator steps"] li'
+    expectation: Configurator should render all five workflow steps.
+    min_count: 5
+  - selector: 'aside'
+    expectation: Configurator content sidebar should be visible.
+  - selector: '[role="group"] button[aria-pressed]'
+    expectation: Preview breakpoint selector should expose four viewport controls.
+    min_count: 4
+  - selector: '.rounded-xl.bg-gov-primary, .rounded-xl.border'
+    expectation: Configurator should show next or previous navigation controls.
+    min_count: 1

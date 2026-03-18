@@ -1,0 +1,355 @@
+{
+  "id": "demo-transport",
+  "title": "Саобраћајне незгоде / Road Accidents",
+  "description": "Road traffic accident statistics by region in Serbia. Monthly data for 2024 including number of accidents, injuries, and fatalities across Belgrade, Vojvodina, and South Serbia regions.",
+  "organization": {
+    "name": "Министарство унутрашњих послова / Ministry of Interior",
+    "slug": "mup"
+  },
+  "topic": "transport",
+  "tags": ["transport", "road safety", "accidents", "traffic", "safety"],
+  "resources": [
+    {
+      "id": "demo-transport-csv",
+      "title": "Road Accidents Data (CSV)",
+      "format": "csv",
+      "url": "/data/serbian-road-accidents.json",
+      "filesize": 4500
+    },
+    {
+      "id": "demo-transport-json",
+      "title": "Road Accidents Data (JSON)",
+      "format": "json",
+      "url": "/data/serbian-road-accidents.json",
+      "filesize": 3800
+    }
+  ],
+  "last_modified": "2025-01-10",
+  "page": "https://data.gov.rs/datasets/road-accidents",
+  "data": [
+    {
+      "region": "Београд",
+      "region_lat": "Beograd",
+      "region_en": "Belgrade",
+      "month": "2024-01",
+      "accidents": 245,
+      "injuries": 185,
+      "fatalities": 3
+    },
+    {
+      "region": "Београд",
+      "region_lat": "Beograd",
+      "region_en": "Belgrade",
+      "month": "2024-02",
+      "accidents": 218,
+      "injuries": 162,
+      "fatalities": 2
+    },
+    {
+      "region": "Београд",
+      "region_lat": "Beograd",
+      "region_en": "Belgrade",
+      "month": "2024-03",
+      "accidents": 268,
+      "injuries": 198,
+      "fatalities": 4
+    },
+    {
+      "region": "Београд",
+      "region_lat": "Beograd",
+      "region_en": "Belgrade",
+      "month": "2024-04",
+      "accidents": 285,
+      "injuries": 215,
+      "fatalities": 5
+    },
+    {
+      "region": "Београд",
+      "region_lat": "Beograd",
+      "region_en": "Belgrade",
+      "month": "2024-05",
+      "accidents": 312,
+      "injuries": 238,
+      "fatalities": 4
+    },
+    {
+      "region": "Београд",
+      "region_lat": "Beograd",
+      "region_en": "Belgrade",
+      "month": "2024-06",
+      "accidents": 298,
+      "injuries": 225,
+      "fatalities": 3
+    },
+    {
+      "region": "Београд",
+      "region_lat": "Beograd",
+      "region_en": "Belgrade",
+      "month": "2024-07",
+      "accidents": 325,
+      "injuries": 248,
+      "fatalities": 6
+    },
+    {
+      "region": "Београд",
+      "region_lat": "Beograd",
+      "region_en": "Belgrade",
+      "month": "2024-08",
+      "accidents": 338,
+      "injuries": 258,
+      "fatalities": 5
+    },
+    {
+      "region": "Београд",
+      "region_lat": "Beograd",
+      "region_en": "Belgrade",
+      "month": "2024-09",
+      "accidents": 295,
+      "injuries": 218,
+      "fatalities": 4
+    },
+    {
+      "region": "Београд",
+      "region_lat": "Beograd",
+      "region_en": "Belgrade",
+      "month": "2024-10",
+      "accidents": 278,
+      "injuries": 205,
+      "fatalities": 3
+    },
+    {
+      "region": "Београд",
+      "region_lat": "Beograd",
+      "region_en": "Belgrade",
+      "month": "2024-11",
+      "accidents": 265,
+      "injuries": 195,
+      "fatalities": 4
+    },
+    {
+      "region": "Београд",
+      "region_lat": "Beograd",
+      "region_en": "Belgrade",
+      "month": "2024-12",
+      "accidents": 242,
+      "injuries": 178,
+      "fatalities": 3
+    },
+    {
+      "region": "Војводина",
+      "region_lat": "Vojvodina",
+      "region_en": "Vojvodina",
+      "month": "2024-01",
+      "accidents": 185,
+      "injuries": 138,
+      "fatalities": 5
+    },
+    {
+      "region": "Војводина",
+      "region_lat": "Vojvodina",
+      "region_en": "Vojvodina",
+      "month": "2024-02",
+      "accidents": 162,
+      "injuries": 118,
+      "fatalities": 4
+    },
+    {
+      "region": "Војводина",
+      "region_lat": "Vojvodina",
+      "region_en": "Vojvodina",
+      "month": "2024-03",
+      "accidents": 195,
+      "injuries": 145,
+      "fatalities": 6
+    },
+    {
+      "region": "Војводина",
+      "region_lat": "Vojvodina",
+      "region_en": "Vojvodina",
+      "month": "2024-04",
+      "accidents": 215,
+      "injuries": 162,
+      "fatalities": 5
+    },
+    {
+      "region": "Војводина",
+      "region_lat": "Vojvodina",
+      "region_en": "Vojvodina",
+      "month": "2024-05",
+      "accidents": 238,
+      "injuries": 178,
+      "fatalities": 7
+    },
+    {
+      "region": "Војводина",
+      "region_lat": "Vojvodina",
+      "region_en": "Vojvodina",
+      "month": "2024-06",
+      "accidents": 225,
+      "injuries": 168,
+      "fatalities": 5
+    },
+    {
+      "region": "Војводина",
+      "region_lat": "Vojvodina",
+      "region_en": "Vojvodina",
+      "month": "2024-07",
+      "accidents": 248,
+      "injuries": 185,
+      "fatalities": 8
+    },
+    {
+      "region": "Војводина",
+      "region_lat": "Vojvodina",
+      "region_en": "Vojvodina",
+      "month": "2024-08",
+      "accidents": 255,
+      "injuries": 192,
+      "fatalities": 6
+    },
+    {
+      "region": "Војводина",
+      "region_lat": "Vojvodina",
+      "region_en": "Vojvodina",
+      "month": "2024-09",
+      "accidents": 218,
+      "injuries": 162,
+      "fatalities": 5
+    },
+    {
+      "region": "Војводина",
+      "region_lat": "Vojvodina",
+      "region_en": "Vojvodina",
+      "month": "2024-10",
+      "accidents": 195,
+      "injuries": 145,
+      "fatalities": 4
+    },
+    {
+      "region": "Војводина",
+      "region_lat": "Vojvodina",
+      "region_en": "Vojvodina",
+      "month": "2024-11",
+      "accidents": 178,
+      "injuries": 132,
+      "fatalities": 5
+    },
+    {
+      "region": "Војводина",
+      "region_lat": "Vojvodina",
+      "region_en": "Vojvodina",
+      "month": "2024-12",
+      "accidents": 165,
+      "injuries": 122,
+      "fatalities": 4
+    },
+    {
+      "region": "Јужна Србија",
+      "region_lat": "Južna Srbija",
+      "region_en": "South Serbia",
+      "month": "2024-01",
+      "accidents": 125,
+      "injuries": 92,
+      "fatalities": 4
+    },
+    {
+      "region": "Јужна Србија",
+      "region_lat": "Južna Srbija",
+      "region_en": "South Serbia",
+      "month": "2024-02",
+      "accidents": 108,
+      "injuries": 78,
+      "fatalities": 3
+    },
+    {
+      "region": "Јужна Србија",
+      "region_lat": "Južna Srbija",
+      "region_en": "South Serbia",
+      "month": "2024-03",
+      "accidents": 135,
+      "injuries": 98,
+      "fatalities": 5
+    },
+    {
+      "region": "Јужна Србија",
+      "region_lat": "Južna Srbija",
+      "region_en": "South Serbia",
+      "month": "2024-04",
+      "accidents": 148,
+      "injuries": 108,
+      "fatalities": 4
+    },
+    {
+      "region": "Јужна Србија",
+      "region_lat": "Južna Srbija",
+      "region_en": "South Serbia",
+      "month": "2024-05",
+      "accidents": 165,
+      "injuries": 122,
+      "fatalities": 6
+    },
+    {
+      "region": "Јужна Србија",
+      "region_lat": "Južna Srbija",
+      "region_en": "South Serbia",
+      "month": "2024-06",
+      "accidents": 158,
+      "injuries": 115,
+      "fatalities": 5
+    },
+    {
+      "region": "Јужна Србија",
+      "region_lat": "Južna Srbija",
+      "region_en": "South Serbia",
+      "month": "2024-07",
+      "accidents": 172,
+      "injuries": 128,
+      "fatalities": 7
+    },
+    {
+      "region": "Јужна Србија",
+      "region_lat": "Južna Srbija",
+      "region_en": "South Serbia",
+      "month": "2024-08",
+      "accidents": 178,
+      "injuries": 132,
+      "fatalities": 5
+    },
+    {
+      "region": "Јужна Србија",
+      "region_lat": "Južna Srbija",
+      "region_en": "South Serbia",
+      "month": "2024-09",
+      "accidents": 152,
+      "injuries": 112,
+      "fatalities": 4
+    },
+    {
+      "region": "Јужна Србија",
+      "region_lat": "Južna Srbija",
+      "region_en": "South Serbia",
+      "month": "2024-10",
+      "accidents": 138,
+      "injuries": 102,
+      "fatalities": 3
+    },
+    {
+      "region": "Јужна Србија",
+      "region_lat": "Južna Srbija",
+      "region_en": "South Serbia",
+      "month": "2024-11",
+      "accidents": 128,
+      "injuries": 95,
+      "fatalities": 4
+    },
+    {
+      "region": "Јужна Србија",
+      "region_lat": "Južna Srbija",
+      "region_en": "South Serbia",
+      "month": "2024-12",
+      "accidents": 118,
+      "injuries": 85,
+      "fatalities": 3
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "files": {
+    "packages/connectors/dist": {
+      "size": 0,
+      "mtime_nanos": 0,
+      "mode": 0,
+      "is_dir": true
+    },
+    "packages/connectors/.turbo/turbo-build.log": {
+      "size": 449,
+      "mtime_nanos": 1773659405269276716,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/connectors/dist/index.d.cts": {
+      "size": 9500,
+      "mtime_nanos": 1773659405218277007,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/connectors/dist/index.js": {
+      "size": 6380,
+      "mtime_nanos": 1773659403941284294,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/connectors/dist/index.d.ts": {
+      "size": 9500,
+      "mtime_nanos": 1773659405218277007,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/connectors/dist/index.cjs": {
+      "size": 7649,
+      "mtime_nanos": 1773659403941284294,
+      "mode": 436,
+      "is_dir": false
+    }
+  },
+  "order": [
+    "packages/connectors/.turbo/turbo-build.log",
+    "packages/connectors/dist",
+    "packages/connectors/dist/index.cjs",
+    "packages/connectors/dist/index.d.cts",
+    "packages/connectors/dist/index.d.ts",
+    "packages/connectors/dist/index.js"
+  ]
+}

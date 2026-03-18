@@ -1,0 +1,16 @@
+{
+  "data": [
+    { "region": "Belgrade", "spending": 1850 },
+    { "region": "Belgrade", "spending": 2010 },
+    { "region": "Belgrade", "spending": 1930 },
+    { "region": "Vojvodina", "spending": 1320 },
+    { "region": "Vojvodina", "spending": 1410 },
+    { "region": "Vojvodina", "spending": 1495 },
+    { "region": "Sumadija", "spending": 1010 },
+    { "region": "Sumadija", "spending": 1085 },
+    { "region": "Sumadija", "spending": 1155 },
+    { "region": "South Serbia", "spending": 920 },
+    { "region": "South Serbia", "spending": 980 },
+    { "region": "South Serbia", "spending": 1040 }
+  ]
+}

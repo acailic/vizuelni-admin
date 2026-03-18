@@ -1,0 +1,67 @@
+{
+  "measures": {
+    "незапосленост": "unemployment_rate",
+    "nezaposlenost": "unemployment_rate",
+    "популација": "population",
+    "populacija": "population",
+    "буџет": "budget",
+    "budžet": "budget",
+    "просечна плата": "average_salary",
+    "просечна зарада": "average_salary",
+    "prosečna plata": "average_salary",
+    "gdp": "gdp",
+    "бдп": "gdp",
+    "инфлација": "inflation",
+    "inflacija": "inflation",
+    "образовање": "education",
+    "obrazovanje": "education",
+    "здравство": "healthcare",
+    "zdravstvo": "healthcare"
+  },
+  "regions": {
+    "Београд": "belgrade",
+    "Београду": "belgrade",
+    "Beograd": "belgrade",
+    "Belgrade": "belgrade",
+    "Нови Сад": "novi-sad",
+    "Новом Саду": "novi-sad",
+    "Novi Sad": "novi-sad",
+    "Ниш": "nis",
+    "Нишу": "nis",
+    "Niš": "nis",
+    "Војводина": "vojvodina",
+    "Војводини": "vojvodina",
+    "Vojvodina": "vojvodina",
+    "Централна Србија": "central-serbia",
+    "Centralna Srbija": "central-serbia"
+  },
+  "time_expressions": {
+    "ова година": "current_year",
+    "this year": "current_year",
+    "прошла година": "previous_year",
+    "prošla godina": "previous_year",
+    "last year": "previous_year",
+    "од 2020": {
+      "since": "2020"
+    },
+    "from 2020": {
+      "since": "2020"
+    },
+    "до 2024": {
+      "until": "2024"
+    },
+    "to 2024": {
+      "until": "2024"
+    }
+  },
+  "query_types": {
+    "прикажи": "show",
+    "prikaži": "show",
+    "show": "show",
+    "упореди": "compare",
+    "uporedi": "compare",
+    "compare": "compare",
+    "тренд": "trend",
+    "trend": "trend"
+  }
+}

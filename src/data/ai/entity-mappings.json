@@ -1,0 +1,56 @@
+{
+  "regions": {
+    "belgrade": {
+      "id": "belgrade",
+      "displayName": {
+        "sr-Cyrl": "Београд",
+        "sr-Latn": "Beograd",
+        "en": "Belgrade"
+      },
+      "code": "RS-BEG",
+      "type": "city"
+    },
+    "novi-sad": {
+      "id": "novi-sad",
+      "displayName": {
+        "sr-Cyrl": "Нови Сад",
+        "sr-Latn": "Novi Sad",
+        "en": "Novi Sad"
+      },
+      "code": "RS-NS",
+      "type": "city"
+    },
+    "vojvodina": {
+      "id": "vojvodina",
+      "displayName": {
+        "sr-Cyrl": "Војводина",
+        "sr-Latn": "Vojvodina",
+        "en": "Vojvodina"
+      },
+      "code": "RS-VO",
+      "type": "region"
+    }
+  },
+  "datasets": {
+    "unemployment": {
+      "id": "unemployment-rate",
+      "displayName": {
+        "sr-Cyrl": "Стопа незапослености",
+        "sr-Latn": "Stopa nezaposlenosti",
+        "en": "Unemployment Rate"
+      },
+      "source": "data.gov.rs",
+      "updateFrequency": "monthly"
+    },
+    "population": {
+      "id": "population-census",
+      "displayName": {
+        "sr-Cyrl": "Популација",
+        "sr-Latn": "Populacija",
+        "en": "Population"
+      },
+      "source": "data.gov.rs",
+      "updateFrequency": "yearly"
+    }
+  }
+}

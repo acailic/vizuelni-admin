@@ -1,0 +1,9 @@
+{
+  "data": [
+    { "level": "Preschool", "students": 182000 },
+    { "level": "Primary", "students": 510000 },
+    { "level": "Secondary", "students": 245000 },
+    { "level": "Higher Education", "students": 176000 },
+    { "level": "Master/PhD", "students": 34000 }
+  ]
+}

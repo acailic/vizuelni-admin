@@ -1,0 +1,11 @@
+{
+  "data": [
+    { "source": "Thermal", "target": "Electricity", "value": 64 },
+    { "source": "Hydro", "target": "Electricity", "value": 27 },
+    { "source": "Wind", "target": "Electricity", "value": 5 },
+    { "source": "Solar", "target": "Electricity", "value": 2 },
+    { "source": "Electricity", "target": "Households", "value": 42 },
+    { "source": "Electricity", "target": "Industry", "value": 33 },
+    { "source": "Electricity", "target": "Services", "value": 21 }
+  ]
+}

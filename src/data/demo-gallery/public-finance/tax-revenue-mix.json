@@ -1,0 +1,10 @@
+{
+  "data": [
+    { "tax": "VAT", "share": 34 },
+    { "tax": "Excise", "share": 23 },
+    { "tax": "Personal income tax", "share": 16 },
+    { "tax": "Corporate tax", "share": 14 },
+    { "tax": "Customs", "share": 5 },
+    { "tax": "Other", "share": 8 }
+  ]
+}

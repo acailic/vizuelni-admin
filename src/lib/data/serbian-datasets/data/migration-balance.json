@@ -1,0 +1,121 @@
+{
+  "id": "serbia-migration-balance",
+  "title": {
+    "sr": "Миграциони биланс 2015-2024",
+    "lat": "Migracioni bilans 2015-2024",
+    "en": "Migration Balance 2015-2024"
+  },
+  "description": {
+    "sr": "Број имиграната и емиграната у Србији по годинама",
+    "lat": "Broj imigranata i emigranata u Srbiji po godinama",
+    "en": "Number of immigrants and emigrants in Serbia by year"
+  },
+  "category": "demographics",
+  "tags": [
+    "migration",
+    "immigration",
+    "emigration",
+    "demographics",
+    "time-series"
+  ],
+  "source": {
+    "name": "Statistical Office of Serbia",
+    "url": "https://www.stat.gov.rs/"
+  },
+  "lastUpdated": "2024-12-01",
+  "suggestedChartType": "bar",
+  "observations": [
+    {
+      "year": 2015,
+      "immigrants": 28000,
+      "emigrants": 45000,
+      "netMigration": -17000
+    },
+    {
+      "year": 2016,
+      "immigrants": 30000,
+      "emigrants": 48000,
+      "netMigration": -18000
+    },
+    {
+      "year": 2017,
+      "immigrants": 32000,
+      "emigrants": 50000,
+      "netMigration": -18000
+    },
+    {
+      "year": 2018,
+      "immigrants": 35000,
+      "emigrants": 52000,
+      "netMigration": -17000
+    },
+    {
+      "year": 2019,
+      "immigrants": 38000,
+      "emigrants": 55000,
+      "netMigration": -17000
+    },
+    {
+      "year": 2020,
+      "immigrants": 25000,
+      "emigrants": 35000,
+      "netMigration": -10000
+    },
+    {
+      "year": 2021,
+      "immigrants": 30000,
+      "emigrants": 42000,
+      "netMigration": -12000
+    },
+    {
+      "year": 2022,
+      "immigrants": 45000,
+      "emigrants": 38000,
+      "netMigration": 7000
+    },
+    {
+      "year": 2023,
+      "immigrants": 52000,
+      "emigrants": 40000,
+      "netMigration": 12000
+    },
+    {
+      "year": 2024,
+      "immigrants": 48000,
+      "emigrants": 42000,
+      "netMigration": 6000
+    }
+  ],
+  "dimensions": [
+    {
+      "key": "year",
+      "label": "Year",
+      "type": "temporal",
+      "values": [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],
+      "cardinality": 10
+    }
+  ],
+  "measures": [
+    {
+      "key": "immigrants",
+      "label": "Immigrants",
+      "min": 25000,
+      "max": 52000,
+      "hasNulls": false
+    },
+    {
+      "key": "emigrants",
+      "label": "Emigrants",
+      "min": 35000,
+      "max": 55000,
+      "hasNulls": false
+    },
+    {
+      "key": "netMigration",
+      "label": "Net Migration",
+      "min": -18000,
+      "max": 12000,
+      "hasNulls": false
+    }
+  ]
+}

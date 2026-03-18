@@ -1,0 +1,42 @@
+[
+  {
+    "id": "unemployment-trend",
+    "templates": {
+      "sr-Cyrl": "Прикажи тренд незапослености у {region} од {year}",
+      "sr-Latn": "Prikaži trend nezaposlenosti u {region} od {year}",
+      "en": "Show unemployment trend in {region} since {year}"
+    },
+    "intent": "trend",
+    "required_entities": ["region", "year"]
+  },
+  {
+    "id": "budget-comparison",
+    "templates": {
+      "sr-Cyrl": "Упореди буџет {region1} и {region2}",
+      "sr-Latn": "Uporedi budžet {region1} i {region2}",
+      "en": "Compare budget of {region1} and {region2}"
+    },
+    "intent": "comparison",
+    "required_entities": ["region1", "region2"]
+  },
+  {
+    "id": "population-map",
+    "templates": {
+      "sr-Cyrl": "Прикажи популацију на мапи",
+      "sr-Latn": "Prikaži populaciju na mapi",
+      "en": "Show population on map"
+    },
+    "intent": "geographic",
+    "required_entities": []
+  },
+  {
+    "id": "top-regions",
+    "templates": {
+      "sr-Cyrl": "Топ {n} региона по {measure}",
+      "sr-Latn": "Top {n} regiona po {measure}",
+      "en": "Top {n} regions by {measure}"
+    },
+    "intent": "ranking",
+    "required_entities": ["measure"]
+  }
+]

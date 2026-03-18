@@ -1,0 +1,165 @@
+{
+  "audit_metadata": {
+    "repository": "vizuelni-admin-srbije",
+    "date": "2026-03-15",
+    "auditor": "Automated Analysis System",
+    "version": "0.1.0"
+  },
+  "summary": {
+    "total_issues": 47,
+    "critical": 5,
+    "high": 12,
+    "medium": 18,
+    "low": 12
+  },
+  "issues": [
+    {
+      "id": "SEC-001",
+      "severity": "critical",
+      "category": "security",
+      "file": "src/app/api/gallery/route.ts",
+      "title": "Missing Authentication on Gallery Route",
+      "description": "Gallery endpoint exposes user information without authentication",
+      "impact": "Privacy violation, unauthorized data access",
+      "status": "fixed"
+    },
+    {
+      "id": "SEC-002",
+      "severity": "critical",
+      "category": "security",
+      "file": "src/app/api/charts/[id]/route.ts",
+      "title": "TOCTOU Race Condition",
+      "description": "Race condition in chart ownership verification",
+      "impact": "Potential unauthorized chart modification",
+      "status": "fixed"
+    },
+    {
+      "id": "SEC-003",
+      "severity": "critical",
+      "category": "security",
+      "file": "package.json",
+      "title": "Dependency Vulnerabilities",
+      "description": "Multiple packages with known vulnerabilities",
+      "impact": "DoS attacks, security bypasses",
+      "status": "open",
+      "remediation": "npm audit fix --force"
+    },
+    {
+      "id": "SEC-004",
+      "severity": "critical",
+      "category": "security",
+      "file": "src/app/api/proxy/route.ts",
+      "title": "Missing Rate Limiting on Proxy",
+      "description": "Proxy endpoint lacks rate limiting",
+      "impact": "Can be abused for DoS or rate limit bypass",
+      "status": "fixed"
+    },
+    {
+      "id": "SEC-005",
+      "severity": "critical",
+      "category": "security",
+      "file": "All API routes",
+      "title": "Missing Rate Limiting",
+      "description": "No rate limiting on any API endpoints",
+      "impact": "DoS attacks, brute force, API abuse",
+      "status": "fixed"
+    },
+    {
+      "id": "BUG-001",
+      "severity": "high",
+      "category": "security",
+      "file": "src/app/api/browse/preview/route.ts",
+      "title": "Missing CSRF Protection",
+      "description": "POST endpoint lacks CSRF validation",
+      "impact": "CSRF attacks possible",
+      "status": "open"
+    },
+    {
+      "id": "BUG-002",
+      "severity": "high",
+      "category": "security",
+      "file": "src/app/api/notifications/route.ts",
+      "title": "Inefficient Role Check",
+      "description": "Database query on every request for admin role verification",
+      "impact": "Performance degradation",
+      "status": "fixed"
+    },
+    {
+      "id": "BUG-003",
+      "severity": "high",
+      "category": "data",
+      "file": "src/lib/db/charts.ts",
+      "title": "Non-atomic View Counter",
+      "description": "View counter increment not atomic under concurrent access",
+      "impact": "Lost view counts",
+      "status": "fixed"
+    },
+    {
+      "id": "BUG-004",
+      "severity": "high",
+      "category": "code_quality",
+      "file": "src/components/pdf/ChartReportDocument.tsx",
+      "title": "TypeScript Errors",
+      "description": "Unused @ts-expect-error directives",
+      "impact": "May mask runtime errors",
+      "status": "open"
+    },
+    {
+      "id": "BUG-005",
+      "severity": "high",
+      "category": "accessibility",
+      "file": "src/components/pdf/ChartReportDocument.tsx",
+      "title": "Missing Alt Text",
+      "description": "Images lack alt attributes",
+      "impact": "WCAG Level A violation",
+      "status": "open"
+    },
+    {
+      "id": "BUG-006",
+      "severity": "high",
+      "category": "testing",
+      "file": "e2e/*.spec.ts",
+      "title": "Test Suite Failures",
+      "description": "70/99 test suites failing",
+      "impact": "No E2E regression protection",
+      "status": "open",
+      "remediation": "Update Playwright, reinstall browsers"
+    },
+    {
+      "id": "BUG-007",
+      "severity": "high",
+      "category": "testing",
+      "file": "30+ library files",
+      "title": "Missing Test Coverage",
+      "description": "Critical library files lack unit tests",
+      "impact": "No regression detection",
+      "status": "open"
+    }
+  ],
+  "positive_findings": [
+    "No hardcoded secrets",
+    "No SQL injection vulnerabilities",
+    "No eval() usage",
+    "No dangerouslySetInnerHTML",
+    "Zero console.log statements",
+    "Zero any types",
+    "Good TypeScript strict mode"
+  ],
+  "recommendations": {
+    "immediate": [
+      "Fix dependency vulnerabilities",
+      "Add rate limiting to all endpoints",
+      "Fix test suite"
+    ],
+    "this_week": [
+      "Add CSRF to all POST routes",
+      "Fix accessibility issues",
+      "Add comprehensive tests"
+    ],
+    "this_month": [
+      "Implement error boundaries",
+      "Performance optimization",
+      "Add input validation"
+    ]
+  }
+}

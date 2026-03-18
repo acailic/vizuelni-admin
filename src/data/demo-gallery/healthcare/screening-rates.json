@@ -1,0 +1,8 @@
+{
+  "data": [
+    { "type": "Cervical (Visual)", "serbia": 35, "eu": 70 },
+    { "type": "Cervical (Pap)", "serbia": 25, "eu": 75 },
+    { "type": "Breast (Mammography)", "serbia": 30, "eu": 72 },
+    { "type": "Colorectal (FIT)", "serbia": 15, "eu": 55 }
+  ]
+}

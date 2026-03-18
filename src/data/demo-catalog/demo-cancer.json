@@ -1,0 +1,44 @@
+{
+  "id": "demo-cancer",
+  "title": "Инциденца рака / Cancer Incidence",
+  "description": "Cancer incidence data by type in Serbia. Number of new cancer cases diagnosed annually, broken down by cancer type including lung, colorectal, breast, prostate, skin, and bladder cancer.",
+  "organization": {
+    "name": "Републички завод за статистику / Statistical Office of the Republic of Serbia",
+    "slug": "rsz"
+  },
+  "topic": "healthcare",
+  "tags": [
+    "healthcare",
+    "cancer",
+    "disease",
+    "health",
+    "statistics",
+    "oncology"
+  ],
+  "resources": [
+    {
+      "id": "demo-cancer-csv",
+      "title": "Cancer Incidence Data (CSV)",
+      "format": "csv",
+      "url": "/data/demo-gallery/healthcare/cancer-incidence.json",
+      "filesize": 450
+    },
+    {
+      "id": "demo-cancer-json",
+      "title": "Cancer Incidence Data (JSON)",
+      "format": "json",
+      "url": "/data/demo-gallery/healthcare/cancer-incidence.json",
+      "filesize": 380
+    }
+  ],
+  "last_modified": "2024-03-20",
+  "page": "https://data.gov.rs/datasets/cancer-incidence",
+  "data": [
+    { "type": "Lung", "cases": 4200 },
+    { "type": "Colorectal", "cases": 3200 },
+    { "type": "Breast", "cases": 3200 },
+    { "type": "Prostate", "cases": 2200 },
+    { "type": "Skin", "cases": 1600 },
+    { "type": "Bladder", "cases": 1500 }
+  ]
+}

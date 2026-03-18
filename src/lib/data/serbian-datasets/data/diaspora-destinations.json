@@ -1,0 +1,66 @@
+{
+  "id": "serbia-diaspora-destinations",
+  "title": {
+    "sr": "Српска дијаспора по државама",
+    "lat": "Srpska dijaspora po državama",
+    "en": "Serbian Diaspora by Country"
+  },
+  "description": {
+    "sr": "Број грађана Србије у иностранству по државама пребивалишта",
+    "lat": "Broj građana Srbije u inostranstvu po državama prebivališta",
+    "en": "Number of Serbian citizens abroad by country of residence"
+  },
+  "category": "demographics",
+  "tags": ["diaspora", "migration", "demographics", "geographic"],
+  "source": {
+    "name": "Ministry of Foreign Affairs of Serbia / UN Estimates",
+    "url": "https://www.mfa.gov.rs/"
+  },
+  "lastUpdated": "2024-12-01",
+  "suggestedChartType": "bar",
+  "observations": [
+    { "country": "Germany", "population": 450000 },
+    { "country": "Austria", "population": 300000 },
+    { "country": "Switzerland", "population": 200000 },
+    { "country": "United States", "population": 180000 },
+    { "country": "Italy", "population": 150000 },
+    { "country": "United Kingdom", "population": 100000 },
+    { "country": "France", "population": 80000 },
+    { "country": "Canada", "population": 70000 },
+    { "country": "Australia", "population": 60000 },
+    { "country": "Sweden", "population": 50000 },
+    { "country": "Slovenia", "population": 45000 },
+    { "country": "Netherlands", "population": 35000 }
+  ],
+  "dimensions": [
+    {
+      "key": "country",
+      "label": "Country",
+      "type": "nominal",
+      "values": [
+        "Germany",
+        "Austria",
+        "Switzerland",
+        "United States",
+        "Italy",
+        "United Kingdom",
+        "France",
+        "Canada",
+        "Australia",
+        "Sweden",
+        "Slovenia",
+        "Netherlands"
+      ],
+      "cardinality": 12
+    }
+  ],
+  "measures": [
+    {
+      "key": "population",
+      "label": "Serbian Diaspora Population",
+      "min": 35000,
+      "max": 450000,
+      "hasNulls": false
+    }
+  ]
+}

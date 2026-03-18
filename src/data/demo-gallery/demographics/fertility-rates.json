@@ -1,0 +1,11 @@
+{
+  "data": [
+    { "year": 2000, "fertility": 1.7, "replacement": 2.1 },
+    { "year": 2005, "fertility": 1.64, "replacement": 2.1 },
+    { "year": 2010, "fertility": 1.45, "replacement": 2.1 },
+    { "year": 2015, "fertility": 1.46, "replacement": 2.1 },
+    { "year": 2020, "fertility": 1.48, "replacement": 2.1 },
+    { "year": 2023, "fertility": 1.61, "replacement": 2.1 },
+    { "year": 2024, "fertility": 1.42, "replacement": 2.1 }
+  ]
+}

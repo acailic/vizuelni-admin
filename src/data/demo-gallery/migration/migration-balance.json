@@ -1,0 +1,14 @@
+{
+  "data": [
+    { "year": 2015, "immigrants": 28000, "emigrants": 40000 },
+    { "year": 2016, "immigrants": 29000, "emigrants": 42000 },
+    { "year": 2017, "immigrants": 27000, "emigrants": 38000 },
+    { "year": 2018, "immigrants": 30000, "emigrants": 41000 },
+    { "year": 2019, "immigrants": 32000, "emigrants": 45000 },
+    { "year": 2020, "immigrants": 25000, "emigrants": 35000 },
+    { "year": 2021, "immigrants": 28000, "emigrants": 32000 },
+    { "year": 2022, "immigrants": 35000, "emigrants": 29000 },
+    { "year": 2023, "immigrants": 41273, "emigrants": 37000 },
+    { "year": 2024, "immigrants": 38000, "emigrants": 46132 }
+  ]
+}

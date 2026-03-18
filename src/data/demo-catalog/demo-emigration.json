@@ -1,0 +1,41 @@
+{
+  "id": "demo-emigration",
+  "title": "Исељавање / Emigration Trends",
+  "description": "Annual emigration trends from Serbia. Number of people emigrating from Serbia each year from 2015 to 2024, showing demographic shifts and migration patterns.",
+  "organization": {
+    "name": "Републички завод за статистику / Statistical Office of the Republic of Serbia",
+    "slug": "rsz"
+  },
+  "topic": "migration",
+  "tags": ["migration", "emigration", "demographics", "population", "diaspora"],
+  "resources": [
+    {
+      "id": "demo-emigration-csv",
+      "title": "Emigration Data (CSV)",
+      "format": "csv",
+      "url": "/data/demo-gallery/migration/emigration-trends.json",
+      "filesize": 420
+    },
+    {
+      "id": "demo-emigration-json",
+      "title": "Emigration Data (JSON)",
+      "format": "json",
+      "url": "/data/demo-gallery/migration/emigration-trends.json",
+      "filesize": 350
+    }
+  ],
+  "last_modified": "2024-08-20",
+  "page": "https://data.gov.rs/datasets/emigration",
+  "data": [
+    { "year": 2015, "emigrants": 40000 },
+    { "year": 2016, "emigrants": 42000 },
+    { "year": 2017, "emigrants": 38000 },
+    { "year": 2018, "emigrants": 41000 },
+    { "year": 2019, "emigrants": 45000 },
+    { "year": 2020, "emigrants": 35000 },
+    { "year": 2021, "emigrants": 32000 },
+    { "year": 2022, "emigrants": 29000 },
+    { "year": 2023, "emigrants": 37000 },
+    { "year": 2024, "emigrants": 46132 }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "data": [
+    {
+      "category": "Порез на доходак",
+      "category_lat": "Porez na dohodak",
+      "category_en": "Income Tax",
+      "type": "revenue",
+      "value": 285.5
+    },
+    {
+      "category": "Порез на добит",
+      "category_lat": "Porez na dobit",
+      "category_en": "Corporate Tax",
+      "type": "revenue",
+      "value": 142.3
+    },
+    {
+      "category": "ПДВ",
+      "category_lat": "PDV",
+      "category_en": "VAT",
+      "type": "revenue",
+      "value": 528.8
+    },
+    {
+      "category": "Акцизе",
+      "category_lat": "Akize",
+      "category_en": "Excise",
+      "type": "revenue",
+      "value": 198.4
+    },
+    {
+      "category": "Царине",
+      "category_lat": "Carine",
+      "category_en": "Customs",
+      "type": "revenue",
+      "value": 85.2
+    },
+    {
+      "category": "Остали приходи",
+      "category_lat": "Ostali prihodi",
+      "category_en": "Other Revenue",
+      "type": "revenue",
+      "value": 156.7
+    },
+    {
+      "category": "Здравство",
+      "category_lat": "Zdravstvo",
+      "category_en": "Healthcare",
+      "type": "expenditure",
+      "value": -312.4
+    },
+    {
+      "category": "Образовање",
+      "category_lat": "Obrazovanje",
+      "category_en": "Education",
+      "type": "expenditure",
+      "value": -245.8
+    },
+    {
+      "category": "Одбрана",
+      "category_lat": "Odbrana",
+      "category_en": "Defense",
+      "type": "expenditure",
+      "value": -168.5
+    },
+    {
+      "category": "Инфраструктура",
+      "category_lat": "Infrastruktura",
+      "category_en": "Infrastructure",
+      "type": "expenditure",
+      "value": -198.2
+    },
+    {
+      "category": "Социјална заштита",
+      "category_lat": "Socijalna zaštita",
+      "category_en": "Social Welfare",
+      "type": "expenditure",
+      "value": -285.6
+    },
+    {
+      "category": "Јавна управа",
+      "category_lat": "Javna uprava",
+      "category_en": "Public Administration",
+      "type": "expenditure",
+      "value": -142.3
+    },
+    {
+      "category": "Остали расходи",
+      "category_lat": "Ostali rashodi",
+      "category_en": "Other Expenditure",
+      "type": "expenditure",
+      "value": -98.5
+    }
+  ]
+}

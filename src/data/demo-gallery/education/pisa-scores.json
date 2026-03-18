@@ -1,0 +1,7 @@
+{
+  "data": [
+    { "domain": "Reading", "serbia": 440, "oecd": 476 },
+    { "domain": "Mathematics", "serbia": 447, "oecd": 472 },
+    { "domain": "Science", "serbia": 448, "oecd": 485 }
+  ]
+}

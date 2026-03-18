@@ -1,0 +1,786 @@
+{
+  "common": {
+    "title": "Portal otvorenih podataka",
+    "description": "Portal otvorenih podataka Republike Srbije",
+    "home": "Početna",
+    "datasets": "Skupovi podataka",
+    "organizations": "Organizacije",
+    "topics": "Teme",
+    "reuses": "Primeri upotrebe",
+    "news": "Vesti",
+    "about": "O nama",
+    "contact": "Kontakt",
+    "search": "Pretraga",
+    "search_placeholder": "Pretražite podatke...",
+    "language": "Jezik",
+    "login": "Prijava",
+    "register": "Registracija",
+    "logout": "Odjava",
+    "profile": "Profil",
+    "loading": "Učitavanje...",
+    "error": "Greška",
+    "retry": "Pokušaj ponovo",
+    "view_all": "Vidi sve",
+    "view_more": "Vidi još",
+    "back": "Nazad",
+    "next": "Sledeće",
+    "previous": "Prethodno",
+    "filter": "Filter",
+    "sort": "Sortiraj",
+    "download": "Preuzmi",
+    "share": "Podeli",
+    "close": "Zatvori",
+    "yes": "Da",
+    "no": "Ne",
+    "cancel": "Otkaži",
+    "save": "Sačuvaj",
+    "delete": "Obriši",
+    "edit": "Uredi",
+    "export": {
+      "download": "Preuzmi",
+      "imagePng": "Slika (PNG)",
+      "imageSvg": "Vektor (SVG)",
+      "dataCsv": "Podaci (CSV)",
+      "spreadsheetExcel": "Tabela (Excel)",
+      "exporting": "Izvoz...",
+      "source": "Izvor",
+      "sourceAttribution": "Izvor: data.gov.rs — {{dataset}}",
+      "filtersApplied": "Primenjeni filteri",
+      "copyToClipboard": "Kopiraj u klipbord"
+    }
+  },
+  "homepage": {
+    "hero_title": "Dobrodošli na Portal otvorenih podataka Republike Srbije!",
+    "hero_subtitle": "Ovde možete saznati više o dostupnim skupovima otvorenih podataka i primerima upotrebe, i pratiti najnovija dešavanja u svetu otvorenih podataka",
+    "hero_description": "Portal nudi mogućnost registracije svim zainteresovanim korisnicima, koji takođe mogu objaviti kako otvorene podatke, tako i primer upotrebe. Pridružite se našoj rastućoj zajednici!",
+    "featured_datasets": "Istaknuti podaci",
+    "recent_datasets": "Poslednji podaci",
+    "datasets_title": "Skupovi podataka",
+    "datasets_description": "Kompletni, ažurni i izvorni podaci, dostupni svima za slobodan pristup, korišćenje i deljenje.",
+    "organizations_title": "Organizacije",
+    "organizations_description": "Institucije i organizacije koje objavljuju otvorene podatke.",
+    "reuses_title": "Primeri upotrebe",
+    "reuses_description": "Uvid u potencijal otvorenih podataka — od veb-aplikacija do vizuelizacija i mapa.",
+    "hero": {
+      "title": "Javni podaci Srbije",
+      "subtitle": "Najlakši način da istražite javne podatke Srbije",
+      "tryDemoCta": "Isprobaj demo galeriju",
+      "examplesLink": "Primeri podataka",
+      "docsLink": "Dokumentacija",
+      "previewAlt": "Pregled piramide starosti Srbije"
+    },
+    "quickProof": {
+      "examples": "28+ interaktivnih primera",
+      "officialSources": "Zvanični izvori podataka",
+      "cyrillicLatin": "Ćirilica i latinica",
+      "serbianMaps": "Ugrađene mape Srbije"
+    },
+    "featuredExamples": {
+      "title": "Istaknuti primeri",
+      "subtitle": "Stvarne vizuelizacije od zvaničnih vladinih podataka",
+      "openInteractive": "Otvori interaktivno",
+      "source": "Izvor",
+      "period": "Period",
+      "lastUpdated": "Ažurirano"
+    },
+    "socialProof": {
+      "badge": {
+        "openSource": "GitHub repozitorijum",
+        "accessibility": "Pristupačno za sve",
+        "multilingual": "3 jezika",
+        "examples": "Dinamički primeri"
+      }
+    },
+    "problem": {
+      "title": "Zašto je ovo važno",
+      "subtitle": "Pristup vladinim podacima ne bi trebalo da zahteva tehničko stručnost ili pravne timove.",
+      "gap1Title": "Jaz u transparentnosti",
+      "gap1Description": "Zvanični podaci postoje, ali su rasuti po PDF-ovima, zastarelim portalima i izolovanim sistemima. Pronalaženje onoga što vam treba traje danima, a ne minutima. Portala su teško dostupni.",
+      "gap2Title": "Tehnička barijera",
+      "gap2Description": "Sirovi skupovi podataka zahtevaju specijalizovane alate i veštine programiranja za analizu. Većina građana i novinara nema potrebu za ovakvim alatima.",
+      "gap3Title": "Jezička barijera",
+      "gap3Description": "Međunarodne platforme ignorišu srpski kontekst. Lokalizovana geografija, podrška za ćirilicu i nacionalna statistika su naknadne misli na srpskom jeziku."
+    },
+    "features": {
+      "title": "Napravljeno za srpske podatke",
+      "subtitle": "Platforma za vizuelizaciju dizajnirana oko stvarnosti vladinih informacija u Srbiji.",
+      "serbianFirst": {
+        "title": "Srpski dizajn",
+        "description": "Puna podrška za ćirilično i latinično pismo. Geografske hijerarhije prate srpske administrativne regione. Bez zaobilaznih rešenja za lokalizaciju."
+      },
+      "realData": {
+        "title": "Stvarni javni podaci",
+        "description": "28 interaktivnih primera koji koriste stvarne vladine skupove podataka. Demografija, zdravstvo, ekonomija — istražite stvarne statistike, ne probne podatke."
+      },
+      "accessibility": {
+        "title": "Pristupačnost ugrađena",
+        "description": "WCAG 2.1 AA saglasno od samog početka. Podrška za čitače ekrana, navigacija tastaturom i palete bezbedne za daltoniste."
+      },
+      "geography": {
+        "title": "Srpska geografija",
+        "description": "Ugrađene mape za opštine, okruge i regione. Horoplet vizuelizacije koje razumeju srpske administrativne granice."
+      },
+      "openSource": {
+        "title": "Otvoreni kod",
+        "description": "Potpuno transparentna kodna baza. Prilagodite za svoju organizaciju, doprinesite poboljšanjima ili forkujte za sopstveni portal podataka."
+      },
+      "lowFriction": {
+        "title": "Započnite za minute",
+        "description": "Nije potreban nalog za istraživanje. Isprobajte demo galeriju odmah ili zaronite u dokumentaciju da izgradite sopstvene vizuelizacije."
+      }
+    },
+    "useCases": {
+      "title": "Ko ovo koristi",
+      "subtitle": "Jednostavan pristup javnim podacima za sve",
+      "citizens": {
+        "title": "Građani",
+        "description": "Razumite kako se javni resursi dodeljuju. Istražite podatke o svojoj opštini, zdravstvu i regionalnom razvoju.",
+        "cta": "Pregledaj primere"
+      },
+      "developers": {
+        "title": "Programeri",
+        "description": "Ugradite vizuelizacije u svoje aplikacije. Koristite kodnu bazu otvorenog koda da izgradite prilagođene proizvode sa podacima.",
+        "cta": "Pogledaj na GitHub-u"
+      }
+    },
+    "comparison": {
+      "title": "Zašto ne generički alati?",
+      "subtitle": "Izgrađeno od prvog dana za srpske javne podatke",
+      "columnOur": "Vizuelni Admin",
+      "columnGeneric": "Generičke biblioteke",
+      "genericLibrary": {
+        "title": "Generičke biblioteke za grafikone",
+        "description": "Popularne JavaScript biblioteke za grafikone koje zahtevaju opsežnu konfiguraciju za slučajeve korišćenja vladinih podataka."
+      },
+      "rowGeography": {
+        "label": "Srpska geografija",
+        "our": "Ugrađene opštine, okruzi, regioni",
+        "generic": "Ručno GeoJSON potrebno"
+      },
+      "rowLocalization": {
+        "label": "Ćirilica i latinica",
+        "our": "Izvorna, testirana",
+        "generic": "Često pokvarena"
+      },
+      "rowData": {
+        "label": "Vladini podaci",
+        "our": "28+ primera učitano",
+        "generic": "Vi čistite podatke"
+      },
+      "rowAccessibility": {
+        "label": "Pristupačnost",
+        "our": "WCAG 2.1 AA podrazumevano",
+        "generic": "Vaša odgovornost"
+      },
+      "rowContext": {
+        "label": "Srpski kontekst",
+        "our": "Dizajnirano za lokalne institucije",
+        "generic": "Bez regionalne svesti"
+      }
+    },
+    "audience": {
+      "title": "Za koga je ovo?",
+      "citizens": {
+        "title": "Građani",
+        "subtitle": "Razumite podatke",
+        "description": "Istražite podatke o svojoj opštini"
+      },
+      "developers": {
+        "title": "Programeri",
+        "subtitle": "Ugradite vizuelizacije",
+        "description": "Koristite otvoreni kod za svoje projekte"
+      }
+    },
+    "howItWorks": {
+      "title": "Kako funkcioniše",
+      "step1": "Pronađi",
+      "step2": "Vizuelizuj",
+      "step3": "Podeli"
+    },
+    "developerSection": {
+      "title": "Za programere",
+      "reactComponents": "React komponente",
+      "localizedCharts": "Lokalizovani grafikoni",
+      "serbianMaps": "Srpske mape",
+      "typescript": "TypeScript podrška",
+      "viewDocs": "Dokumentacija",
+      "viewGithub": "GitHub",
+      "gettingStarted": "Kako početi"
+    },
+    "finalCta": {
+      "title": "Spremni za istraživanje?",
+      "subtitle": "Pogledajte šta srpski javni podaci mogu da otkriju",
+      "tryDemo": "Isprobaj demo",
+      "starGithub": "GitHub repozitorijum",
+      "viewDocs": "Pogledaj dokumentaciju"
+    },
+    "codeExample": {
+      "title": "Za programere",
+      "subtitle": "Ugradite vizuelizacije u svoje aplikacije sa nekoliko redova koda.",
+      "description": "Platforma je izgrađena na standardnim veb tehnologijama. Prilagodite konfiguracije grafikona, integrišite sa svojim procesom podataka ili doprinesite kodnoj bazi otvorenog koda.",
+      "viewOnGithub": "Pogledaj na GitHub-u",
+      "readDocs": "Pročitaj dokumentaciju"
+    },
+    "liveExamples": {
+      "title": "Živi primeri",
+      "subtitle": "Interaktivne vizuelizacije pokretane stvarnim podacima srpske vlade.",
+      "viewAll": "Pogledaj sve primere",
+      "categories": {
+        "all": "Sve",
+        "demographics": "Demografija",
+        "healthcare": "Zdravstvo",
+        "economy": "Ekonomija",
+        "migration": "Migracija",
+        "society": "Društvo"
+      }
+    },
+    "stats": {
+      "datasets": "Dostupnih skupova",
+      "charts": "Javnih grafikona",
+      "users": "Registrovanih korisnika"
+    },
+    "gettingStarted": {
+      "title": "Kako funkcioniše",
+      "step1Title": "Pronađi podatke",
+      "step1Description": "Pretražite naš katalog otvorenih vladinih skupova i pronađite podatke koji vam trebaju.",
+      "step2Title": "Vizuelizuj",
+      "step2Description": "Kreirajte interaktivne grafikone i vizuelizacije pomoću naših jednostavnih alata.",
+      "step3Title": "Podeli",
+      "step3Description": "Podelite svoje vizuelizacije sa drugima ili ih ugradite na svoj veb-sajt."
+    }
+  },
+  "datasets": {
+    "title": "Skupovi podataka",
+    "description": "Pretražite i istražite otvorene podatke",
+    "search_results": "Rezultati pretrage",
+    "no_results": "Nema rezultata",
+    "total_datasets": "skupova podataka",
+    "resources": "resursa",
+    "reuses": "primera upotrebe",
+    "downloads": "preuzimanja",
+    "views": "pregleda",
+    "last_modified": "Poslednja izmena",
+    "created_at": "Kreirano",
+    "organization": "Organizacija",
+    "tags": "Oznake",
+    "license": "Licenca",
+    "frequency": "Ažuriranje",
+    "temporal_coverage": "Vremenski period",
+    "spatial_coverage": "Prostorni obuhvat",
+    "format": "Format",
+    "size": "Veličina",
+    "download_data": "Preuzmi podatke",
+    "view_schema": "Pogledaj šemu",
+    "api_endpoint": "API krajnja tačka"
+  },
+  "browse": {
+    "eyebrow": "Pronalaženje skupova",
+    "title": "Pregledaj skupove podataka",
+    "description": "Pretražite zvanični katalog data.gov.rs, suzite rezultate po metapodacima i pregledajte resurse skupa pre izrade vizuelizacije.",
+    "search_placeholder": "Pretražite skupove, organizacije ili teme...",
+    "clear_search": "Obriši pretragu",
+    "filters": "Filteri",
+    "filter_organization": "Organizacija",
+    "filter_topic": "Tema",
+    "filter_format": "Format",
+    "filter_frequency": "Učestalost ažuriranja",
+    "clear_filters": "Obriši filtere",
+    "all_options": "Sve opcije",
+    "results_count": "Pronađeno {{count}} skupova podataka",
+    "no_results": "Nijedan skup ne odgovara pretrazi",
+    "no_results_hint": "Pokušajte sa širim pojmom ili uklonite neki filter.",
+    "last_updated": "Poslednja izmena",
+    "resources": "Resursi",
+    "preview": "Pregled",
+    "preview_limit": "Prikazuje se prvih 100 redova kada je dostupan CSV ili JSON resurs.",
+    "preview_error": "Pregled resursa nije moguće učitati.",
+    "preview_empty": "Za ovaj skup još nije dostupan resurs koji se može pregledati u CSV ili JSON formatu.",
+    "visualize": "Vizuelizuj ovaj skup",
+    "visualize_placeholder": "Ruta za konfigurator grafikona još nije implementirana. Ova privremena stranica potvrđuje da pregled skupa može bezbedno da prosledi izabrani skup bez odvođenja korisnika na 404.",
+    "selected_dataset": "Izabrani skup",
+    "back_to_browse": "Nazad na pregled skupova",
+    "metadata": "Metapodaci",
+    "page": "Strana",
+    "of": "od",
+    "serbianDataLibrary": {
+      "title": "Biblioteka podataka Vlade Srbije",
+      "description": "Odabrani skupovi podataka iz zvaničnih statističkih izvora Srbije",
+      "useDataset": "Koristi skup",
+      "viewDetails": "Vidi detalje",
+      "categories": {
+        "all": "Svi",
+        "demographics": "Demografija",
+        "regional": "Regionalno",
+        "healthcare": "Zdravstvo",
+        "economic": "Ekonomija"
+      },
+      "chartTypes": {
+        "bar": "Stubčasti grafikon",
+        "line": "Linijski grafikon"
+      },
+      "tags": "Oznake",
+      "source": "Izvor",
+      "lastUpdated": "Poslednja izmena"
+    }
+  },
+  "charts": {
+    "title": "Grafikoni",
+    "types": {
+      "line": "Linijski",
+      "bar": "Trakasti",
+      "column": "Stubičasti",
+      "area": "Površinski",
+      "pie": "Pitasti",
+      "scatterplot": "Dijagram rasejanja",
+      "table": "Tabela",
+      "combo": "Kombinovani"
+    },
+    "states": {
+      "no_data": "Nema podataka za prikaz.",
+      "invalid_config": "Konfiguracija grafikona nije ispravna.",
+      "unsupported": "Ovaj tip grafikona još nije podržan."
+    },
+    "builder": {
+      "secondary_measure": "Dodatna mera"
+    },
+    "configurator": {
+      "steps": {
+        "dataset": "Skup podataka",
+        "chartType": "Tip grafikona",
+        "mapping": "Mapiranje",
+        "customize": "Podešavanje",
+        "review": "Pregled"
+      },
+      "stepIndicator": "Korak {{current}} od {{total}}",
+      "backToBrowse": "Nazad na pregled",
+      "compatible": "Kompatibilno sa ovim skupom",
+      "disabled_reason": "Nedostupno:",
+      "select_dataset": "Izaberite skup podataka",
+      "select_resource": "Izaberite resurs",
+      "search_datasets": "Pretražite skupove podataka...",
+      "no_datasets": "Nema pronađenih skupova",
+      "loading_dataset": "Učitavanje skupa podataka...",
+      "load_error": "Greška pri učitavanju skupa podataka",
+      "dataset_info": "Informacije o skupu",
+      "organization": "Organizacija",
+      "dimensions": "Dimenzije",
+      "measures": "Mere",
+      "rows": "Redovi",
+      "preview_data": "Pregled podataka",
+      "x_axis": "X osa",
+      "y_axis": "Y osa",
+      "color_by": "Boja po",
+      "segment_by": "Segmentiraj po",
+      "chart_title": "Naslov grafikona",
+      "chart_description": "Opis grafikona",
+      "source_attribution": "Izvor: data.gov.rs — {{title}}",
+      "color_palette": "Paleta boja",
+      "legend_position": "Pozicija legende",
+      "legend_top": "Gornja",
+      "legend_bottom": "Donja",
+      "legend_right": "Desna",
+      "legend_none": "Bez legende",
+      "show_legend": "Prikaži legendu",
+      "show_grid": "Prikaži mrežu",
+      "animation": "Animacija",
+      "curve_type": "Tip krive",
+      "curve_linear": "Linearna",
+      "curve_monotone": "Monotona",
+      "curve_step": "Stepenasta",
+      "fill_opacity": "Prozirnost popune",
+      "donut_mode": "Prstenasti prikaz",
+      "show_labels": "Prikaži oznake",
+      "show_percentages": "Prikaži procente",
+      "dot_size": "Veličina tačke",
+      "page_size": "Redova po strani",
+      "grouping": "Grupisanje",
+      "grouped": "Grupisano",
+      "stacked": "Slojevito",
+      "percent_stacked": "Procentualno slojevito",
+      "ready": "Konfiguracija spremna za",
+      "select_field": "Izaberite polje",
+      "validation": {
+        "required_dimension": "Dimenzija je obavezna",
+        "required_measure": "Mera je obavezna",
+        "pie_single_measure": "Pitasti grafikon zahteva tačno jednu meru",
+        "scatter_two_measures": "Dijagram rasejanja zahteva dve mere",
+        "combo_two_measures": "Kombinovani grafikon zahteva dve mere"
+      },
+      "preview": {
+        "title": "Pregled grafikona",
+        "description": "Podesite tip grafikona i mapiranje osa",
+        "no_config": "Izaberite tip grafikona i podesite mapiranje"
+      },
+      "previewBreakpoints": {
+        "desktop": "Desktop",
+        "laptop": "Laptop",
+        "tablet": "Tablet",
+        "mobile": "Mobilni",
+        "tooltip": "Pregled na različitim veličinama ekrana"
+      },
+      "actions": {
+        "download_png": "Preuzmi PNG",
+        "download_csv": "Preuzmi CSV",
+        "copy_embed": "Kopiraj embed kod",
+        "copy_url": "Kopiraj URL",
+        "save_chart": "Sačuvaj grafikon"
+      },
+      "embed": {
+        "size": "Veličina umetanja",
+        "width": "Širina",
+        "height": "Visina",
+        "theme": "Tema",
+        "theme_light": "Svetla",
+        "theme_dark": "Tamna",
+        "theme_auto": "Automatska"
+      },
+      "next": "Sledeće",
+      "previous": "Prethodno",
+      "finish": "Završi"
+    },
+    "workspace": {
+      "preview_title": "Pregled grafikona",
+      "preview_description": "Podesite tip grafikona i mapiranje osa sa leve strane. Desno se prikazuje trenutni pregled nad prvim redovima izabranog resursa.",
+      "loaded_rows": "Učitani redovi",
+      "detected_columns": "Prepoznate kolone",
+      "suggested_chart": "Predloženi tip",
+      "unavailable": "Pregled za kreiranje nije dostupan",
+      "no_preview": "Izabrani skup nema CSV ili JSON resurs koji se može bezbedno učitati za konfiguraciju grafikona.",
+      "select_dataset": "Izaberite skup iz pregleda skupova kako biste otvorili radni prostor za grafikone.",
+      "datasets": "Skupovi podataka",
+      "primary_dataset": "Primarni",
+      "add_dataset": "Dodaj skup",
+      "max_datasets_reached": "Maksimum 3 skupa"
+    },
+    "filters": {
+      "legend_show_all": "Prikaži sve",
+      "legend_hide_all": "Sakrij sve",
+      "all": "Sve",
+      "search": "Pretraga...",
+      "no_results": "Nema rezultata",
+      "from": "Od",
+      "to": "Do",
+      "absolute": "Apsolutno",
+      "percent": "Procentualno",
+      "reset_all": "Poništi sve",
+      "play": "Pokreni",
+      "pause": "Pauziraj"
+    },
+    "multiDataset": {
+      "addDataset": "Dodaj skup podataka",
+      "removeDataset": "Ukloni",
+      "joinBy": "Spoji po",
+      "joinPreview": "Pregled spajanja",
+      "noMatchingColumns": "Nema podudarnih kolona. Skupovi podataka možda nemaju kompatibilne dimenzije za spajanje.",
+      "lowOverlap": "Nisko preklapanje ({{percent}}%). Proverite da li su kolone kompatibilne.",
+      "innerJoin": "Unutrašnje spajanje",
+      "leftJoin": "Levo spajanje",
+      "primary": "Primarni",
+      "secondary": "Sekundarni",
+      "maxDatasetsReached": "Maksimum 3 skupa podataka",
+      "selectJoinKey": "Izaberite kolonu za spajanje",
+      "overlapPercent": "Preklapanje: {{percent}}%",
+      "matchedColumns": "poklapanje",
+      "searchDatasets": "Pretraži skupove podataka...",
+      "loading": "Učitavanje skupa podataka...",
+      "confirm": "Dodaj na grafikon"
+    }
+  },
+  "dashboard": {
+    "title": "Kontrolna tabla",
+    "untitled": "Neimenovana kontrolna tabla",
+    "editMode": "Uređivanje",
+    "viewMode": "Pregled",
+    "addChart": "Dodaj grafikon",
+    "save": "Sačuvaj",
+    "export": "Izvezi",
+    "import": "Uvezi",
+    "sharedFilters": "Deljeni filteri",
+    "maxChartsReached": "Maksimum 6 grafikona",
+    "empty": "Nema grafikona na ovoj kontrolnoj tabli",
+    "addFirstChart": "Kliknite 'Dodaj grafikon' da biste započeli",
+    "loadingChart": "Učitavanje grafikona...",
+    "errorLoading": "Greška pri učitavanju grafikona",
+    "removeChart": "Ukloni grafikon",
+    "editChart": "Uredi grafikon",
+    "configure": "Podesite ovaj grafikon",
+    "templates": {
+      "title": "Izaberite šablon",
+      "selectTemplate": "Izaberite početni raspored za vašu kontrolnu tablu",
+      "skipForNow": "Započnite sa praznom kontrolnom tablom",
+      "single": "Jedan grafikon",
+      "single_desc": "Jedan veliki grafikon",
+      "side_by_side": "Jedan pored drugog",
+      "side_by_side_desc": "Dva grafikona jedan pored drugog",
+      "grid_2x2": "2x2 mreža",
+      "grid_2x2_desc": "Četiri grafikona u 2x2 mreži",
+      "hero_plus_two": "Glavni + dva mala",
+      "hero_plus_two_desc": "Jedan veliki grafikon sa dva manja ispod",
+      "orStartFromScratch": "Ili počnite od nule",
+      "blankDashboard": "Prazna kontrolna tabla",
+      "blankDashboardDesc": "Započnite sa čistim platnom"
+    },
+    "actions": {
+      "newDashboard": "Nova kontrolna tabla",
+      "openDashboard": "Otvori kontrolnu tablu",
+      "duplicate": "Dupliraj",
+      "share": "Podeli"
+    }
+  },
+  "organizations": {
+    "title": "Organizacije",
+    "description": "Organizacije koje objavljuju otvorene podatke",
+    "total_organizations": "organizacija",
+    "datasets_count": "skupova podataka",
+    "members": "članova",
+    "view_datasets": "Pogledaj skupove podataka",
+    "certified": "Sertifikovana",
+    "public_service": "Javni servis"
+  },
+  "topics": {
+    "title": "Teme",
+    "description": "Istražite podatke po temama",
+    "view_topic": "Pogledaj temu"
+  },
+  "reuses": {
+    "title": "Primeri upotrebe",
+    "description": "Aplikacije i projekti koji koriste otvorene podatke",
+    "total_reuses": "primera upotrebe",
+    "datasets_used": "korišćenih skupova podataka",
+    "view_reuse": "Pogledaj primer"
+  },
+  "footer": {
+    "about": "O nama",
+    "api_documentation": "API dokumentacija",
+    "terms": "Uslovi korišćenja",
+    "privacy": "Politika privatnosti",
+    "contact": "Kontakt",
+    "follow_us": "Pratite nas",
+    "useful_links": "Korisni linkovi",
+    "documentation": "Dokumentacija",
+    "other_portals": "Drugi portali",
+    "open_data_hub": "Open Data Hub",
+    "open_data_participate": "Uključite se u svet otvorenih podataka",
+    "open_data_description": "Otvoreni podaci doprinose privrednom rastu, modernizaciji javne uprave, kvalitetnijim uslugama za građane.",
+    "visit_hub": "Posetite Open Data Hub",
+    "view_full_doc": "Pogledajte kompletnu dokumentaciju",
+    "aboutGov": "O portalu",
+    "accessibility": "Pristupačnost",
+    "dataSources": "Izvori podataka",
+    "lastUpdated": "Ažurirano",
+    "version": "Verzija",
+    "allRightsReserved": "Sva prava zadržana",
+    "officialSite": "Zvanični sajt Vlade"
+  },
+  "errors": {
+    "404_title": "Stranica nije pronađena",
+    "404_message": "Stranica koju tražite ne postoji ili je pomerena.",
+    "500_title": "Greška servera",
+    "500_message": "Došlo je do greške na serveru. Molimo pokušajte kasnije.",
+    "network_error": "Greška u mreži. Proverite vašu internet vezu.",
+    "api_error": "Greška pri učitavanju podataka.",
+    "generic_error": "Došlo je do greške. Molimo pokušajte ponovo.",
+    "modal": {
+      "title": "Greška",
+      "tryAgain": "Pokušaj ponovo",
+      "dismiss": "Zatvori",
+      "showDetails": "Prikaži tehničke detalje",
+      "hideDetails": "Sakrij detalje",
+      "failedToLoad": "Učitavanje podataka nije uspelo. Proverite vezu i pokušajte ponovo."
+    }
+  },
+  "metadata": {
+    "site_name": "Portal otvorenih podataka",
+    "site_description": "zvanični portal otvorenih podataka Republike Srbije",
+    "og_image": "/images/og-image-lat.png"
+  },
+  "auth": {
+    "login_title": "Prijavite se",
+    "login_subtitle": "Prijavite se da biste čuvali i upravljali vizuelizacijama",
+    "sign_in_with_github": "Prijava se sa GitHub-om",
+    "sign_in_with_google": "Prijavi se sa Google-om",
+    "sign_in_with_email": "Prijavi se sa i-mejlom",
+    "email": "I-mejl",
+    "password": "Lozinka",
+    "sign_in": "Prijavi se",
+    "sign_out": "odjavi se",
+    "or": "ili",
+    "no_account": "Nemate nalog?",
+    "register": "Registrujte se",
+    "my_profile": "Moj profil"
+  },
+  "profile": {
+    "title": "Moj profil",
+    "subtitle": "Upravljajte vašim sačuvanim vizuelizacijama",
+    "my_charts": "Svi grafikoni",
+    "drafts": "Nacrti",
+    "published": "Objavljeni",
+    "no_charts": "Još niste kreirali nijedan grafik",
+    "create_first": "Kreirajte prvi grafik",
+    "views": "pregleda",
+    "edit": "Uredi",
+    "delete": "Obriši",
+    "delete_confirm": "Da li ste sigurni da želite da obrišete ovaj grafik?",
+    "view": "Pogledaj",
+    "draft": "Nacrt",
+    "published_label": "Objavljen"
+  },
+  "userDashboard": {
+    "title": "Moja kontrolna tabla",
+    "subtitle": "Upravljajte vašim vizuelizacijama i kontrolnim tablama",
+    "tab_my_charts": "Moji grafikoni",
+    "tab_my_dashboards": "Moje kontrolne table",
+    "tab_favorites": "Omiljeno",
+    "create_chart": "Kreiraj grafikon",
+    "create_dashboard": "Kreiraj kontrolnu tablu",
+    "no_charts": "Još nema grafikona",
+    "no_charts_hint": "Kreirajte prvu vizuelizaciju da biste započeli",
+    "no_dashboards": "Još nema kontrolnih tabli",
+    "no_dashboards_hint": "Kreirajte kontrolnu tablu da biste kombinovali više grafikona",
+    "no_favorites": "Još nema omiljenih",
+    "no_favorites_hint": "Grafikoni koje označite kao omiljene pojaviće se ovde",
+    "last_updated": "Poslednja izmena",
+    "views": "pregleda",
+    "edit": "Uredi",
+    "delete": "Obriši",
+    "view": "Pogledaj",
+    "delete_confirm": "Da li ste sigurni da želite da obrišete ovaj grafikon?",
+    "draft": "Nacrt",
+    "published": "Objavljeno",
+    "coming_soon": "Uskoro"
+  },
+  "header": {
+    "searchPlaceholder": "Pretraži skupove podataka...",
+    "profile": "Profil",
+    "settings": "Podešavanja",
+    "signOut": "Odjava",
+    "signIn": "Prijava"
+  },
+  "featured": {
+    "title": "Primeri vizuelizacija",
+    "description": "Istražite vizuelizacije napravljene od podataka srpske vlade",
+    "viewChart": "Pogledaj grafikon",
+    "chartType": "Tip grafikona",
+    "loadingError": "Nije moguće učitati podatke",
+    "retry": "Ponovi",
+    "retryAll": "Ponovi sve",
+    "allFailed": "Nije moguće učitati primere"
+  },
+  "sidebar": {
+    "browse": "Pregledaj",
+    "create": "Kreiraj",
+    "gallery": "Galerija",
+    "demoGallery": "Demo galerija",
+    "dashboard": "Kontrolna tabla",
+    "analytics": "Analitika"
+  },
+  "gallery": {
+    "featuredTitle": "Izdvojeni primeri",
+    "title": "Galerija",
+    "description": "Istražite vizuelizacije koje je napravila zajednica",
+    "searchPlaceholder": "Pretraži grafikone...",
+    "allTypes": "Svi tipovi",
+    "filterByType": "Filtriraj po tipu",
+    "sortBy": "Sortiraj po",
+    "newest": "Najnoviji",
+    "mostViewed": "Najgledaniji",
+    "noCharts": "Nije pronađen nijedan grafikon",
+    "tryDifferent": "Pokušajte da promenite pretragu ili filtere",
+    "views": "pregleda",
+    "by": "od",
+    "backToGallery": "Nazad u galeriju",
+    "published": "Objavljeno",
+    "lastUpdated": "Poslednja izmena",
+    "notFound": "Grafikon nije pronađen",
+    "embedTitle": "Kod za ugradnju",
+    "embedWidth": "Širina",
+    "embedHeight": "Visina",
+    "copyCode": "Kopiraj kod",
+    "copied": "Kopirano!",
+    "preview": "Pregled"
+  },
+  "statistics": {
+    "title": "Statistike",
+    "chartsCreated": "Kreirano grafikona",
+    "totalViews": "Ukupno pregleda",
+    "perMonth": "~{{count}}/mesečno",
+    "popularChartsAllTime": "Najpopularniji grafikoni (ikada)",
+    "popularChartsLast30Days": "Najpopularniji grafikoni (poslednjih 30 dana)",
+    "views": "pregleda",
+    "dashboards": "Kontrolne table",
+    "datasetsUsed": "Korišćeni skupovi podataka"
+  },
+  "feedback": {
+    "foundBug": "Pronašli ste grešku?",
+    "reportBugDescription": "Prijavite je da bismo je brzo ispravili",
+    "reportBug": "Prijavi grešku",
+    "newFeature": "Nova funkcija?",
+    "featureDescription": "Pošaljite predloge da oblikujete budućnost",
+    "submit": "Pošalji"
+  },
+  "demoGallery": {
+    "title": "Galerija podataka Srbije",
+    "subtitle": "43 interaktivnih vizualizacija sa stvarnim vladinim podacima",
+    "resultsSectionTitle": "Dostupne vizualizacije",
+    "resultsSummaryAll": "Dostupno je {{count}} vizualizacija",
+    "resultsSummaryFiltered": "{{count}} vizualizacija u kategoriji {{category}}",
+    "empty": "Nema primera u ovoj kategoriji",
+    "openExample": "Otvorite primer",
+    "previewLoading": "Učitavanje pregleda…",
+    "previewUnavailable": "Pregled nije dostupan",
+    "categories": {
+      "all": "Sve",
+      "demographics": "Demografija",
+      "healthcare": "Zdravstvo",
+      "economy": "Ekonomija",
+      "migration": "Migracija",
+      "society": "Društvo"
+    },
+    "modal": {
+      "close": "Zatvori",
+      "viewData": "Pogledaj podatke",
+      "hideData": "Sakrij podatke",
+      "showingRows": "Prikazano je prvih {{shown}} od {{total}} redova",
+      "tableCaption": "Pregled uzorka podataka za {{title}}"
+    }
+  },
+  "dataSource": {
+    "official": "Zvanični katalog",
+    "demo": "Demo skupovi",
+    "sourceLabel": "Izvor",
+    "status": {
+      "connected": "Povezan",
+      "connecting": "Povezivanje...",
+      "fallback": "Rezervni režim",
+      "error": "Nedostupan"
+    },
+    "lastUpdate": "Poslednje ažuriranje"
+  },
+  "analytics": {
+    "title": "Analitički pregled Srbije",
+    "subtitle": "Poređenje po godinama za srpske upravne okruge",
+    "yearA": "Početna godina",
+    "yearB": "Uporedna godina",
+    "domains": {
+      "demographics": "Demografija",
+      "economy": "Ekonomija",
+      "education": "Obrazovanje",
+      "health": "Zdravstvo"
+    },
+    "kpi": {
+      "population": "Stanovništvo",
+      "gdp": "BDP po stanovniku",
+      "employment": "Stopa zaposlenosti",
+      "districts": "Upravni okruzi"
+    },
+    "chart": {
+      "title": "Poređenje po godinama",
+      "mapTitle": "Geografska distribucija"
+    },
+    "table": {
+      "rank": "#",
+      "region": "Okrug",
+      "delta": "Promena"
+    }
+  }
+}

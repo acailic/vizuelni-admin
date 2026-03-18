@@ -1,0 +1,50 @@
+{
+  "name": "@vizualni/application",
+  "version": "0.1.0-beta.1",
+  "description": "Application-layer use cases for chart preparation, dataset loading, and export workflows",
+  "type": "module",
+  "license": "MIT",
+  "author": "vizualni",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acailic/vizualni-admin.git",
+    "directory": "packages/application"
+  },
+  "keywords": [
+    "serbia",
+    "srbija",
+    "application",
+    "use-cases",
+    "charts",
+    "opendata"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@vizualni/charts": "^0.1.0-beta.1",
+    "@vizualni/data": "^0.1.0-beta.1",
+    "@vizualni/shared-kernel": "^0.1.0-beta.1"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^4.0.0"
+  }
+}

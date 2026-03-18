@@ -1,0 +1,61 @@
+{
+  "id": "serbia-fertility-rates",
+  "title": {
+    "sr": "Стопа фертилитета vs ниво замене",
+    "lat": "Stopa fertilitteta vs nivo zamene",
+    "en": "Fertility Rate vs Replacement Level"
+  },
+  "description": {
+    "sr": "Укупна стопа фертилитета у поређењу са нивом замене од 2.1",
+    "lat": "Ukupna stopa fertilitteta u poređenju sa nivom zamene od 2.1",
+    "en": "Total fertility rate compared to replacement level of 2.1"
+  },
+  "category": "demographics",
+  "tags": [
+    "fertility",
+    "demographics",
+    "time-series",
+    "population",
+    "replacement-level"
+  ],
+  "source": {
+    "name": "Statistical Office of Serbia / UN",
+    "url": "https://www.stat.gov.rs/"
+  },
+  "lastUpdated": "2024-12-01",
+  "suggestedChartType": "line",
+  "observations": [
+    { "year": 2000, "fertilityRate": 1.7, "replacementLevel": 2.1 },
+    { "year": 2005, "fertilityRate": 1.64, "replacementLevel": 2.1 },
+    { "year": 2010, "fertilityRate": 1.45, "replacementLevel": 2.1 },
+    { "year": 2015, "fertilityRate": 1.46, "replacementLevel": 2.1 },
+    { "year": 2020, "fertilityRate": 1.48, "replacementLevel": 2.1 },
+    { "year": 2023, "fertilityRate": 1.61, "replacementLevel": 2.1 },
+    { "year": 2024, "fertilityRate": 1.42, "replacementLevel": 2.1 }
+  ],
+  "dimensions": [
+    {
+      "key": "year",
+      "label": "Year",
+      "type": "temporal",
+      "values": [2000, 2005, 2010, 2015, 2020, 2023, 2024],
+      "cardinality": 7
+    }
+  ],
+  "measures": [
+    {
+      "key": "fertilityRate",
+      "label": "Total Fertility Rate",
+      "min": 1.42,
+      "max": 1.7,
+      "hasNulls": false
+    },
+    {
+      "key": "replacementLevel",
+      "label": "Replacement Level",
+      "min": 2.1,
+      "max": 2.1,
+      "hasNulls": false
+    }
+  ]
+}

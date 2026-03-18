@@ -1,0 +1,9 @@
+{
+  "data": [
+    { "stage": "Approved budget", "amount": 1820 },
+    { "stage": "Reallocations", "amount": 95 },
+    { "stage": "Efficiency savings", "amount": -32 },
+    { "stage": "EU grants", "amount": 44 },
+    { "stage": "Executed budget", "amount": 1927, "type": "total" }
+  ]
+}

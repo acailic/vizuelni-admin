@@ -1,0 +1,9 @@
+{
+  "data": [
+    { "cancer": "Breast", "serbia": 75, "eu": 83 },
+    { "cancer": "Prostate", "serbia": 82, "eu": 87 },
+    { "cancer": "Colorectal", "serbia": 55, "eu": 62 },
+    { "cancer": "Lung", "serbia": 15, "eu": 20 },
+    { "cancer": "Pancreas", "serbia": 8, "eu": 10 }
+  ]
+}

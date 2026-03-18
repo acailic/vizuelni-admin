@@ -1,0 +1,10 @@
+{
+  "data": [
+    { "year": 2019, "inflow": 3.8 },
+    { "year": 2020, "inflow": 3.0 },
+    { "year": 2021, "inflow": 4.4 },
+    { "year": 2022, "inflow": 4.6 },
+    { "year": 2023, "inflow": 4.9 },
+    { "year": 2024, "inflow": 5.2 }
+  ]
+}

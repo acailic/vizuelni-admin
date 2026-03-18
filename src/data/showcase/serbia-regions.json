@@ -1,0 +1,16 @@
+{
+  "data": [
+    { "region": "Belgrade", "gdpIndex": 180, "lifeExpectancy": 76.0 },
+    { "region": "Vojvodina", "gdpIndex": 95, "lifeExpectancy": 74.5 },
+    {
+      "region": "Sumadija & Western Serbia",
+      "gdpIndex": 75,
+      "lifeExpectancy": 73.2
+    },
+    {
+      "region": "Southern & Eastern Serbia",
+      "gdpIndex": 67,
+      "lifeExpectancy": 72.5
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "id": "demo-air-quality",
+  "title": "Квалитет ваздуха / Air Quality",
+  "description": "Air quality measurements by city and pollutant type. Includes PM2.5, PM10, and NO2 concentration levels for major Serbian cities: Belgrade, Novi Sad, Nis, and Bor.",
+  "organization": {
+    "name": "Агенција за заштиту животне средине / Serbian Environmental Protection Agency",
+    "slug": "sepa"
+  },
+  "topic": "environment",
+  "tags": [
+    "environment",
+    "air quality",
+    "pollution",
+    "pm25",
+    "pm10",
+    "no2",
+    "health"
+  ],
+  "resources": [
+    {
+      "id": "demo-air-quality-csv",
+      "title": "Air Quality Data (CSV)",
+      "format": "csv",
+      "url": "/data/demo-gallery/environment/air-quality-by-city.json",
+      "filesize": 680
+    },
+    {
+      "id": "demo-air-quality-json",
+      "title": "Air Quality Data (JSON)",
+      "format": "json",
+      "url": "/data/demo-gallery/environment/air-quality-by-city.json",
+      "filesize": 590
+    }
+  ],
+  "last_modified": "2024-09-30",
+  "page": "https://data.gov.rs/datasets/air-quality",
+  "data": [
+    { "city": "Belgrade", "pollutant": "PM2.5", "value": 35 },
+    { "city": "Belgrade", "pollutant": "PM10", "value": 52 },
+    { "city": "Belgrade", "pollutant": "NO2", "value": 28 },
+    { "city": "Novi Sad", "pollutant": "PM2.5", "value": 28 },
+    { "city": "Novi Sad", "pollutant": "PM10", "value": 45 },
+    { "city": "Novi Sad", "pollutant": "NO2", "value": 21 },
+    { "city": "Nis", "pollutant": "PM2.5", "value": 18 },
+    { "city": "Nis", "pollutant": "PM10", "value": 32 },
+    { "city": "Nis", "pollutant": "NO2", "value": 17 },
+    { "city": "Bor", "pollutant": "PM2.5", "value": 65 },
+    { "city": "Bor", "pollutant": "PM10", "value": 95 },
+    { "city": "Bor", "pollutant": "NO2", "value": 41 }
+  ]
+}

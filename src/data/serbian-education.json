@@ -1,0 +1,44 @@
+{
+  "data": [
+    {
+      "level": "Основна школа",
+      "level_lat": "Osnovna škola",
+      "level_en": "Primary School",
+      "students": 485000,
+      "schools": 1523,
+      "teachers": 32000
+    },
+    {
+      "level": "Средња школа",
+      "level_lat": "Srednja škola",
+      "level_en": "Secondary School",
+      "students": 295000,
+      "schools": 412,
+      "teachers": 21000
+    },
+    {
+      "level": "Факултет",
+      "level_lat": "Fakultet",
+      "level_en": "University",
+      "students": 210000,
+      "schools": 85,
+      "teachers": 12500
+    },
+    {
+      "level": "Мастер студије",
+      "level_lat": "Master studije",
+      "level_en": "Master Studies",
+      "students": 45000,
+      "schools": 85,
+      "teachers": 12500
+    },
+    {
+      "level": "Докторске студије",
+      "level_lat": "Doktorske studije",
+      "level_en": "PhD Studies",
+      "students": 12000,
+      "schools": 85,
+      "teachers": 12500
+    }
+  ]
+}

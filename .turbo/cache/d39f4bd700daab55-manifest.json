@@ -1,0 +1,62 @@
+{
+  "files": {
+    "packages/geo-data/dist/geo/regions.json": {
+      "size": 2323,
+      "mtime_nanos": 1773660982856960084,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/geo-data/dist/index.d.cts": {
+      "size": 46668,
+      "mtime_nanos": 1773660982857187630,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/geo-data/dist/index.js": {
+      "size": 36685,
+      "mtime_nanos": 1773660982857443569,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/geo-data/dist/geo/municipalities.json": {
+      "size": 18411,
+      "mtime_nanos": 1773660982856908698,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/geo-data/dist/index.d.ts": {
+      "size": 46668,
+      "mtime_nanos": 1773660982857378407,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/geo-data/dist/index.cjs": {
+      "size": 38072,
+      "mtime_nanos": 1773660982857096409,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/geo-data/.turbo/turbo-build.log": {
+      "size": 687,
+      "mtime_nanos": 1773660982855524383,
+      "mode": 436,
+      "is_dir": false
+    },
+    "packages/geo-data/dist/geo/districts.json": {
+      "size": 9881,
+      "mtime_nanos": 1773660982856799183,
+      "mode": 436,
+      "is_dir": false
+    }
+  },
+  "order": [
+    "packages/geo-data/.turbo/turbo-build.log",
+    "packages/geo-data/dist/geo/districts.json",
+    "packages/geo-data/dist/geo/municipalities.json",
+    "packages/geo-data/dist/geo/regions.json",
+    "packages/geo-data/dist/index.cjs",
+    "packages/geo-data/dist/index.d.cts",
+    "packages/geo-data/dist/index.d.ts",
+    "packages/geo-data/dist/index.js"
+  ]
+}

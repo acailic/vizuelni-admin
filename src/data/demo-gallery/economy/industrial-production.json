@@ -1,0 +1,12 @@
+{
+  "data": [
+    { "year": 2018, "industrial": 2.8 },
+    { "year": 2019, "industrial": 0.5 },
+    { "year": 2020, "industrial": -2.3 },
+    { "year": 2021, "industrial": 5.8 },
+    { "year": 2022, "industrial": -1.1 },
+    { "year": 2023, "industrial": -3.5 },
+    { "year": 2024, "industrial": 3.0 },
+    { "year": 2025, "industrial": 2.2 }
+  ]
+}

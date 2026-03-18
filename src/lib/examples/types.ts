@@ -1,0 +1,107 @@
+import type { Locale } from '@/lib/i18n/config';
+import type { ChartConfig } from '@/types/chart-config';
+import type { ParsedDataset } from '@/types/observation';
+
+/**
+ * Localized text structure with shorthand locale keys
+ * Used for storing localized strings in configuration files
+ * - sr: Serbian Cyrillic
+ * - lat: Serbian Latin
+ * - en: English
+ */
+export interface LocalizedText {
+  sr: string;
+  lat: string;
+  en: string;
+}
+
+/**
+ * Mapping from canonical Locale to LocalizedText shorthand keys
+ */
+const LOCALE_TO_KEY: Record<Locale, keyof LocalizedText> = {
+  'sr-Cyrl': 'sr',
+  'sr-Latn': 'lat',
+  en: 'en',
+};
+
+/**
+ * Preselected filters for preview mode
+ */
+export interface PreselectedFilters {
+  /** Data dimension filters to pre-apply */
+  dataFilters?: Record<string, string | string[] | null>;
+  /** Time range filter to pre-apply */
+  timeRange?: { from: string | null; to: string | null };
+  /** Calculation mode to pre-apply */
+  calculation?: 'absolute' | 'percent';
+}
+
+/** Category for showcase filtering/grouping */
+export type ShowcaseCategory =
+  | 'demographics'
+  | 'healthcare'
+  | 'economy'
+  | 'migration'
+  | 'society';
+
+/**
+ * Configuration for a single featured example chart
+ */
+export interface FeaturedExampleConfig {
+  /** Unique identifier for the example */
+  id: string;
+  /** Localized title */
+  title: LocalizedText;
+  /** Localized description */
+  description: LocalizedText;
+  /** data.gov.rs dataset ID (for reference/links) */
+  datasetId: string;
+  /** Direct URL to CSV/JSON resource */
+  resourceUrl: string;
+  /** Chart configuration using existing ChartConfig type */
+  chartConfig: ChartConfig;
+  /** Pre-parsed dataset for inline data (bypasses fetch) */
+  inlineData?: ParsedDataset;
+  /** Preselected filters to apply in preview mode */
+  preselectedFilters?: PreselectedFilters;
+  /** Category for filtering/grouping (showcase feature) */
+  category?: ShowcaseCategory;
+  /** Tags for search (showcase feature) */
+  tags?: string[];
+  /** Show on landing page? (showcase feature) */
+  featured?: boolean;
+  /** Data source attribution (showcase feature) */
+  dataSource?: string;
+  /** URL to the data.gov.rs dataset page */
+  dataSourceUrl?: string;
+  /** Last updated date (showcase feature) */
+  lastUpdated?: string;
+  /** Time period covered by the data (e.g., "2020–2024") */
+  period?: string;
+}
+
+/**
+ * Loading status for example data
+ */
+export type LoadingStatus = 'idle' | 'loading' | 'success' | 'error';
+
+/**
+ * State for a single example
+ */
+export interface ExampleState {
+  config: FeaturedExampleConfig;
+  dataset: ParsedDataset | null;
+  status: LoadingStatus;
+  error: Error | null;
+}
+
+/**
+ * Helper to get localized text from canonical Locale
+ * Falls back to English if the localized value is empty
+ */
+export function getLocalizedText(text: LocalizedText, locale: Locale): string {
+  const key = LOCALE_TO_KEY[locale];
+  const value = text[key];
+  // Fall back to English if the value is empty or undefined
+  return value || text.en;
+}

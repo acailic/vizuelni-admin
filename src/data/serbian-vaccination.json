@@ -1,0 +1,154 @@
+{
+  "data": [
+    {
+      "district": "Београд",
+      "district_lat": "Beograd",
+      "district_en": "Belgrade",
+      "coverage": 72.5
+    },
+    {
+      "district": "Јужнобачки",
+      "district_lat": "Južnobački",
+      "district_en": "South Bačka",
+      "coverage": 68.3
+    },
+    {
+      "district": "Сремски",
+      "district_lat": "Sremski",
+      "district_en": "Srem",
+      "coverage": 65.8
+    },
+    {
+      "district": "Новосадски",
+      "district_lat": "Novosadski",
+      "district_en": "Novi Sad",
+      "coverage": 71.2
+    },
+    {
+      "district": "Севербанатски",
+      "district_lat": "Severnobanatski",
+      "district_en": "North Banat",
+      "coverage": 62.4
+    },
+    {
+      "district": "Средњебанатски",
+      "district_lat": "Srednjebanatski",
+      "district_en": "Central Banat",
+      "coverage": 64.1
+    },
+    {
+      "district": "Јужнобанатски",
+      "district_lat": "Južnobanatski",
+      "district_en": "South Banat",
+      "coverage": 66.7
+    },
+    {
+      "district": "Западнобачки",
+      "district_lat": "Zapadnobački",
+      "district_en": "West Bačka",
+      "coverage": 58.9
+    },
+    {
+      "district": "Севернобачки",
+      "district_lat": "Severnobački",
+      "district_en": "North Bačka",
+      "coverage": 60.2
+    },
+    {
+      "district": "Расински",
+      "district_lat": "Rasinski",
+      "district_en": "Rasina",
+      "coverage": 55.4
+    },
+    {
+      "district": "Рашки",
+      "district_lat": "Raški",
+      "district_en": "Raška",
+      "coverage": 52.8
+    },
+    {
+      "district": "Моравички",
+      "district_lat": "Moravički",
+      "district_en": "Moravica",
+      "coverage": 58.1
+    },
+    {
+      "district": "Златиборски",
+      "district_lat": "Zlatiborski",
+      "district_en": "Zlatibor",
+      "coverage": 56.7
+    },
+    {
+      "district": "Колубарски",
+      "district_lat": "Kolubarski",
+      "district_en": "Kolubara",
+      "coverage": 61.3
+    },
+    {
+      "district": "Подунавски",
+      "district_lat": "Podunavski",
+      "district_en": "Podunavlje",
+      "coverage": 63.8
+    },
+    {
+      "district": "Браничевски",
+      "district_lat": "Braničevski",
+      "district_en": "Braničevo",
+      "coverage": 54.6
+    },
+    {
+      "district": "Шумадијски",
+      "district_lat": "Šumadijski",
+      "district_en": "Šumadija",
+      "coverage": 59.4
+    },
+    {
+      "district": "Поморавски",
+      "district_lat": "Pomoravski",
+      "district_en": "Pomoravlje",
+      "coverage": 53.2
+    },
+    {
+      "district": "Борски",
+      "district_lat": "Borski",
+      "district_en": "Bor",
+      "coverage": 48.9
+    },
+    {
+      "district": "Зајечарски",
+      "district_lat": "Zaječarski",
+      "district_en": "Zaječar",
+      "coverage": 51.1
+    },
+    {
+      "district": "Нишавски",
+      "district_lat": "Nišavski",
+      "district_en": "Nišava",
+      "coverage": 64.2
+    },
+    {
+      "district": "Топлички",
+      "district_lat": "Toplički",
+      "district_en": "Toplica",
+      "coverage": 47.3
+    },
+    {
+      "district": "Пиротски",
+      "district_lat": "Pirotski",
+      "district_en": "Pirot",
+      "coverage": 49.8
+    },
+    {
+      "district": "Јабланички",
+      "district_lat": "Jablanički",
+      "district_en": "Jablanica",
+      "coverage": 46.5
+    },
+    {
+      "district": "Пчињски",
+      "district_lat": "Pčinjski",
+      "district_en": "Pčinja",
+      "coverage": 44.8
+    }
+  ]
+}

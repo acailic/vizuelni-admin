@@ -1,0 +1,12 @@
+{
+  "data": [
+    { "year": 2018, "unemployment": 12.9, "employment": 47.4 },
+    { "year": 2019, "unemployment": 10.5, "employment": 49.0 },
+    { "year": 2020, "unemployment": 9.9, "employment": 48.4 },
+    { "year": 2021, "unemployment": 10.0, "employment": 49.2 },
+    { "year": 2022, "unemployment": 9.0, "employment": 50.5 },
+    { "year": 2023, "unemployment": 9.3, "employment": 51.0 },
+    { "year": 2024, "unemployment": 8.2, "employment": 51.4 },
+    { "year": 2025, "unemployment": 8.2, "employment": 51.3 }
+  ]
+}

@@ -1,0 +1,242 @@
+{
+  "data": [
+    {
+      "age_group": "0-4",
+      "gender": "Мушки",
+      "gender_lat": "Muški",
+      "gender_en": "Male",
+      "value": 165000
+    },
+    {
+      "age_group": "0-4",
+      "gender": "Женско",
+      "gender_lat": "Žensko",
+      "gender_en": "Female",
+      "value": 157000
+    },
+    {
+      "age_group": "5-9",
+      "gender": "Мушки",
+      "gender_lat": "Muški",
+      "gender_en": "Male",
+      "value": 172000
+    },
+    {
+      "age_group": "5-9",
+      "gender": "Женско",
+      "gender_lat": "Žensko",
+      "gender_en": "Female",
+      "value": 164000
+    },
+    {
+      "age_group": "10-14",
+      "gender": "Мушки",
+      "gender_lat": "Muški",
+      "gender_en": "Male",
+      "value": 178000
+    },
+    {
+      "age_group": "10-14",
+      "gender": "Женско",
+      "gender_lat": "Žensko",
+      "gender_en": "Female",
+      "value": 170000
+    },
+    {
+      "age_group": "15-19",
+      "gender": "Мушки",
+      "gender_lat": "Muški",
+      "gender_en": "Male",
+      "value": 185000
+    },
+    {
+      "age_group": "15-19",
+      "gender": "Женско",
+      "gender_lat": "Žensko",
+      "gender_en": "Female",
+      "value": 177000
+    },
+    {
+      "age_group": "20-24",
+      "gender": "Мушки",
+      "gender_lat": "Muški",
+      "gender_en": "Male",
+      "value": 192000
+    },
+    {
+      "age_group": "20-24",
+      "gender": "Женско",
+      "gender_lat": "Žensko",
+      "gender_en": "Female",
+      "value": 186000
+    },
+    {
+      "age_group": "25-29",
+      "gender": "Мушки",
+      "gender_lat": "Muški",
+      "gender_en": "Male",
+      "value": 198000
+    },
+    {
+      "age_group": "25-29",
+      "gender": "Женско",
+      "gender_lat": "Žensko",
+      "gender_en": "Female",
+      "value": 193000
+    },
+    {
+      "age_group": "30-34",
+      "gender": "Мушки",
+      "gender_lat": "Muški",
+      "gender_en": "Male",
+      "value": 205000
+    },
+    {
+      "age_group": "30-34",
+      "gender": "Женско",
+      "gender_lat": "Žensko",
+      "gender_en": "Female",
+      "value": 201000
+    },
+    {
+      "age_group": "35-39",
+      "gender": "Мушки",
+      "gender_lat": "Muški",
+      "gender_en": "Male",
+      "value": 212000
+    },
+    {
+      "age_group": "35-39",
+      "gender": "Женско",
+      "gender_lat": "Žensko",
+      "gender_en": "Female",
+      "value": 208000
+    },
+    {
+      "age_group": "40-44",
+      "gender": "Мушки",
+      "gender_lat": "Muški",
+      "gender_en": "Male",
+      "value": 218000
+    },
+    {
+      "age_group": "40-44",
+      "gender": "Женско",
+      "gender_lat": "Žensko",
+      "gender_en": "Female",
+      "value": 215000
+    },
+    {
+      "age_group": "45-49",
+      "gender": "Мушки",
+      "gender_lat": "Muški",
+      "gender_en": "Male",
+      "value": 225000
+    },
+    {
+      "age_group": "45-49",
+      "gender": "Женско",
+      "gender_lat": "Žensko",
+      "gender_en": "Female",
+      "value": 222000
+    },
+    {
+      "age_group": "50-54",
+      "gender": "Мушки",
+      "gender_lat": "Muški",
+      "gender_en": "Male",
+      "value": 198000
+    },
+    {
+      "age_group": "50-54",
+      "gender": "Женско",
+      "gender_lat": "Žensko",
+      "gender_en": "Female",
+      "value": 205000
+    },
+    {
+      "age_group": "55-59",
+      "gender": "Мушки",
+      "gender_lat": "Muški",
+      "gender_en": "Male",
+      "value": 175000
+    },
+    {
+      "age_group": "55-59",
+      "gender": "Женско",
+      "gender_lat": "Žensko",
+      "gender_en": "Female",
+      "value": 185000
+    },
+    {
+      "age_group": "60-64",
+      "gender": "Мушки",
+      "gender_lat": "Muški",
+      "gender_en": "Male",
+      "value": 155000
+    },
+    {
+      "age_group": "60-64",
+      "gender": "Женско",
+      "gender_lat": "Žensko",
+      "gender_en": "Female",
+      "value": 168000
+    },
+    {
+      "age_group": "65-69",
+      "gender": "Мушки",
+      "gender_lat": "Muški",
+      "gender_en": "Male",
+      "value": 128000
+    },
+    {
+      "age_group": "65-69",
+      "gender": "Женско",
+      "gender_lat": "Žensko",
+      "gender_en": "Female",
+      "value": 145000
+    },
+    {
+      "age_group": "70-74",
+      "gender": "Мушки",
+      "gender_lat": "Muški",
+      "gender_en": "Male",
+      "value": 98000
+    },
+    {
+      "age_group": "70-74",
+      "gender": "Женско",
+      "gender_lat": "Žensko",
+      "gender_en": "Female",
+      "value": 118000
+    },
+    {
+      "age_group": "75-79",
+      "gender": "Мушки",
+      "gender_lat": "Muški",
+      "gender_en": "Male",
+      "value": 72000
+    },
+    {
+      "age_group": "75-79",
+      "gender": "Женско",
+      "gender_lat": "Žensko",
+      "gender_en": "Female",
+      "value": 92000
+    },
+    {
+      "age_group": "80+",
+      "gender": "Мушки",
+      "gender_lat": "Muški",
+      "gender_en": "Male",
+      "value": 58000
+    },
+    {
+      "age_group": "80+",
+      "gender": "Женско",
+      "gender_lat": "Žensko",
+      "gender_en": "Female",
+      "value": 85000
+    }
+  ]
+}

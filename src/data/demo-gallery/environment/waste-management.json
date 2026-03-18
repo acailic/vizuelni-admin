@@ -1,0 +1,8 @@
+{
+  "data": [
+    { "wasteType": "Municipal", "amount": 2500000 },
+    { "wasteType": "Industrial", "amount": 800000 },
+    { "wasteType": "Packaging", "amount": 210000 },
+    { "wasteType": "Hazardous", "amount": 50000 }
+  ]
+}

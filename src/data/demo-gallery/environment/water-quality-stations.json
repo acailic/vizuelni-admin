@@ -1,0 +1,9 @@
+{
+  "data": [
+    { "station": "Danube - Belgrade", "qualityIndex": 81 },
+    { "station": "Danube - Novi Sad", "qualityIndex": 84 },
+    { "station": "Sava - Sabac", "qualityIndex": 79 },
+    { "station": "Morava - Cuprija", "qualityIndex": 68 },
+    { "station": "Timok - Zajecar", "qualityIndex": 71 }
+  ]
+}

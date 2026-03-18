@@ -1,0 +1,39 @@
+{
+  "id": "demo-gdp",
+  "title": "Раст БДП / GDP Growth",
+  "description": "Gross Domestic Product growth rates for Serbia. Annual percentage change in real GDP from 2018 to 2025, showing economic performance and recovery trends.",
+  "organization": {
+    "name": "Републички завод за статистику / Statistical Office of the Republic of Serbia",
+    "slug": "rsz"
+  },
+  "topic": "economy",
+  "tags": ["economy", "gdp", "growth", "macroeconomic", "statistics"],
+  "resources": [
+    {
+      "id": "demo-gdp-csv",
+      "title": "GDP Growth Data (CSV)",
+      "format": "csv",
+      "url": "/data/demo-gallery/economy/gdp-growth.json",
+      "filesize": 512
+    },
+    {
+      "id": "demo-gdp-json",
+      "title": "GDP Growth Data (JSON)",
+      "format": "json",
+      "url": "/data/demo-gallery/economy/gdp-growth.json",
+      "filesize": 420
+    }
+  ],
+  "last_modified": "2024-12-01",
+  "page": "https://data.gov.rs/datasets/gdp-growth",
+  "data": [
+    { "year": 2018, "gdp": 4.4 },
+    { "year": 2019, "gdp": 4.2 },
+    { "year": 2020, "gdp": -0.9 },
+    { "year": 2021, "gdp": 7.7 },
+    { "year": 2022, "gdp": 2.5 },
+    { "year": 2023, "gdp": 2.1 },
+    { "year": 2024, "gdp": 3.0 },
+    { "year": 2025, "gdp": 3.5 }
+  ]
+}

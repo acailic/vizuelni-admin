@@ -1,0 +1,22 @@
+{
+  "data": [
+    { "ageGroup": "0-4", "male": -140000, "female": 135000 },
+    { "ageGroup": "5-9", "male": -145000, "female": 140000 },
+    { "ageGroup": "10-14", "male": -150000, "female": 145000 },
+    { "ageGroup": "15-19", "male": -155000, "female": 150000 },
+    { "ageGroup": "20-24", "male": -165000, "female": 160000 },
+    { "ageGroup": "25-29", "male": -175000, "female": 170000 },
+    { "ageGroup": "30-34", "male": -180000, "female": 175000 },
+    { "ageGroup": "35-39", "male": -185000, "female": 180000 },
+    { "ageGroup": "40-44", "male": -195000, "female": 190000 },
+    { "ageGroup": "45-49", "male": -200000, "female": 195000 },
+    { "ageGroup": "50-54", "male": -210000, "female": 205000 },
+    { "ageGroup": "55-59", "male": -220000, "female": 215000 },
+    { "ageGroup": "60-64", "male": -230000, "female": 235000 },
+    { "ageGroup": "65-69", "male": -200000, "female": 220000 },
+    { "ageGroup": "70-74", "male": -160000, "female": 190000 },
+    { "ageGroup": "75-79", "male": -110000, "female": 140000 },
+    { "ageGroup": "80-84", "male": -70000, "female": 100000 },
+    { "ageGroup": "85+", "male": -45000, "female": 75000 }
+  ]
+}

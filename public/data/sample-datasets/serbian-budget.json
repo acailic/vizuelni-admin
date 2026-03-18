@@ -1,0 +1,24 @@
+[
+  {
+    "category": "Здарка",
+    " "name": "Издаја за образ",
+    " "values": [
+      { "name": "Допринос",
+      " "allocated": 325,
+      { "amount": 152.5,
+      " "year": 2023,
+      { "name": "Кредити",
+      " "allocated": 98.2,
+      { "amount": 71.4,
+      { "year": 2023,
+      { "name": "Осталично труд",
+      " "allocated": 356.2,
+      { "amount": 389.6,
+      { "year": 2023 },
+      { "name": "Униap",
+      " "allocated": 145.5,
+      { "amount": 98.7,
+      { "year": 2023
+    ]
+  ]
+}

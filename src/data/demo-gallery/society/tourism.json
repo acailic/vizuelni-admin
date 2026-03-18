@@ -1,0 +1,16 @@
+{
+  "data": [
+    { "month": "Jan", "tourists2024": 78500, "tourists2023": 72100 },
+    { "month": "Feb", "tourists2024": 82300, "tourists2023": 76400 },
+    { "month": "Mar", "tourists2024": 105400, "tourists2023": 102800 },
+    { "month": "Apr", "tourists2024": 128600, "tourists2023": 125200 },
+    { "month": "May", "tourists2024": 145200, "tourists2023": 142800 },
+    { "month": "Jun", "tourists2024": 168400, "tourists2023": 163500 },
+    { "month": "Jul", "tourists2024": 198500, "tourists2023": 192400 },
+    { "month": "Aug", "tourists2024": 215600, "tourists2023": 208300 },
+    { "month": "Sep", "tourists2024": 156300, "tourists2023": 149800 },
+    { "month": "Oct", "tourists2024": 124800, "tourists2023": 118600 },
+    { "month": "Nov", "tourists2024": 92400, "tourists2023": 89200 },
+    { "month": "Dec", "tourists2024": 88700, "tourists2023": 84500 }
+  ]
+}

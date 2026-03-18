@@ -1,0 +1,116 @@
+{
+  "data": [
+    {
+      "sector": "Услуге",
+      "sector_lat": "Usluge",
+      "sector_en": "Services",
+      "value": 55.2,
+      "parent": null
+    },
+    {
+      "sector": "Трговина",
+      "sector_lat": "Trgovina",
+      "sector_en": "Trade",
+      "value": 18.5,
+      "parent": "Услуге"
+    },
+    {
+      "sector": "Транспорт",
+      "sector_lat": "Transport",
+      "sector_en": "Transport",
+      "value": 8.2,
+      "parent": "Услуге"
+    },
+    {
+      "sector": "ИТ секторе",
+      "sector_lat": "IT sektor",
+      "sector_en": "IT Sector",
+      "value": 6.8,
+      "parent": "Услуге"
+    },
+    {
+      "sector": "Финансије",
+      "sector_lat": "Finansije",
+      "sector_en": "Finance",
+      "value": 12.1,
+      "parent": "Услуге"
+    },
+    {
+      "sector": "Остале услуге",
+      "sector_lat": "Ostale usluge",
+      "sector_en": "Other Services",
+      "value": 9.6,
+      "parent": "Услуге"
+    },
+    {
+      "sector": "Индустрија",
+      "sector_lat": "Industrija",
+      "sector_en": "Industry",
+      "value": 28.4,
+      "parent": null
+    },
+    {
+      "sector": "Прерада",
+      "sector_lat": "Prerada",
+      "sector_en": "Manufacturing",
+      "value": 15.3,
+      "parent": "Индустрија"
+    },
+    {
+      "sector": "Рударство",
+      "sector_lat": "Rudarstvo",
+      "sector_en": "Mining",
+      "value": 2.8,
+      "parent": "Индустрија"
+    },
+    {
+      "sector": "Енергетика",
+      "sector_lat": "Energetika",
+      "sector_en": "Energy",
+      "value": 5.2,
+      "parent": "Индустрија"
+    },
+    {
+      "sector": "Грађевинарство",
+      "sector_lat": "Građevinarstvo",
+      "sector_en": "Construction",
+      "value": 5.1,
+      "parent": null
+    },
+    {
+      "sector": "Пољопривреда",
+      "sector_lat": "Poljoprivreda",
+      "sector_en": "Agriculture",
+      "value": 8.3,
+      "parent": null
+    },
+    {
+      "sector": "Ратарство",
+      "sector_lat": "Ratarstvo",
+      "sector_en": "Crop Production",
+      "value": 4.2,
+      "parent": "Пољопривреда"
+    },
+    {
+      "sector": "Сточарство",
+      "sector_lat": "Stočarstvo",
+      "sector_en": "Livestock",
+      "value": 3.1,
+      "parent": "Пољопривреда"
+    },
+    {
+      "sector": "Остало",
+      "sector_lat": "Ostalo",
+      "sector_en": "Other",
+      "value": 1.0,
+      "parent": "Пољопривреда"
+    },
+    {
+      "sector": "Порези",
+      "sector_lat": "Porezi",
+      "sector_en": "Taxes",
+      "value": 3.0,
+      "parent": null
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+path: /create
+name: Chart Creation Wizard
+locale: sr-Latn
+critical_elements:
+  - selector: "[data-testid='dataset-selector'], [role='listbox']"
+    expectation: Dataset selection dropdown
+    required: true
+    must_be_visible: true
+
+  - selector: "[data-testid*='chart-type-']"
+    expectation: Chart type buttons
+    required: true
+    must_be_visible: true
+    min_count: 4
+
+  - selector: 'canvas, svg'
+    expectation: Chart preview
+    required: true
+    must_be_visible: true

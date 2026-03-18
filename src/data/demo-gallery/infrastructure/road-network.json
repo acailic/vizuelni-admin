@@ -1,0 +1,8 @@
+{
+  "data": [
+    { "region": "Belgrade", "kilometers": 820 },
+    { "region": "Vojvodina", "kilometers": 2140 },
+    { "region": "Sumadija", "kilometers": 1780 },
+    { "region": "South Serbia", "kilometers": 1950 }
+  ]
+}

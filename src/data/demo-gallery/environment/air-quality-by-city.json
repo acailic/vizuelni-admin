@@ -1,0 +1,16 @@
+{
+  "data": [
+    { "city": "Belgrade", "pollutant": "PM2.5", "value": 35 },
+    { "city": "Belgrade", "pollutant": "PM10", "value": 52 },
+    { "city": "Belgrade", "pollutant": "NO2", "value": 28 },
+    { "city": "Novi Sad", "pollutant": "PM2.5", "value": 28 },
+    { "city": "Novi Sad", "pollutant": "PM10", "value": 45 },
+    { "city": "Novi Sad", "pollutant": "NO2", "value": 21 },
+    { "city": "Nis", "pollutant": "PM2.5", "value": 18 },
+    { "city": "Nis", "pollutant": "PM10", "value": 32 },
+    { "city": "Nis", "pollutant": "NO2", "value": 17 },
+    { "city": "Bor", "pollutant": "PM2.5", "value": 65 },
+    { "city": "Bor", "pollutant": "PM10", "value": 95 },
+    { "city": "Bor", "pollutant": "NO2", "value": 41 }
+  ]
+}

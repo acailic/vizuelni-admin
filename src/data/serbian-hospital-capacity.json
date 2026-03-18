@@ -1,0 +1,52 @@
+{
+  "data": [
+    {
+      "region": "Београд",
+      "region_lat": "Beograd",
+      "region_en": "Belgrade",
+      "beds_per_1000": 5.8,
+      "hospitals": 28,
+      "doctors": 8500
+    },
+    {
+      "region": "Војводина",
+      "region_lat": "Vojvodina",
+      "region_en": "Vojvodina",
+      "beds_per_1000": 4.2,
+      "hospitals": 22,
+      "doctors": 4200
+    },
+    {
+      "region": "Шумадија",
+      "region_lat": "Šumadija",
+      "region_en": "Šumadija",
+      "beds_per_1000": 3.8,
+      "hospitals": 8,
+      "doctors": 1800
+    },
+    {
+      "region": "Јужна Србија",
+      "region_lat": "Južna Srbija",
+      "region_en": "South Serbia",
+      "beds_per_1000": 3.5,
+      "hospitals": 12,
+      "doctors": 2100
+    },
+    {
+      "region": "Западна Србија",
+      "region_lat": "Zapadna Srbija",
+      "region_en": "West Serbia",
+      "beds_per_1000": 3.6,
+      "hospitals": 10,
+      "doctors": 1900
+    },
+    {
+      "region": "Источна Србија",
+      "region_lat": "Istočna Srbija",
+      "region_en": "East Serbia",
+      "beds_per_1000": 3.2,
+      "hospitals": 6,
+      "doctors": 1200
+    }
+  ]
+}

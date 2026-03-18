@@ -1,0 +1,9 @@
+{
+  "data": [
+    { "sector": "Services", "share": 57 },
+    { "sector": "Industry", "share": 25 },
+    { "sector": "Construction", "share": 7 },
+    { "sector": "Agriculture", "share": 6 },
+    { "sector": "ICT", "share": 5 }
+  ]
+}

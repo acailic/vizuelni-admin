@@ -1,0 +1,36 @@
+{
+  "id": "demo-education",
+  "title": "Упис у школе / School Enrollment",
+  "description": "Student enrollment numbers by education level in Serbia. Covers preschool, primary, secondary, higher education, and master/PhD programs.",
+  "organization": {
+    "name": "Министарство просвете / Ministry of Education",
+    "slug": "mpn"
+  },
+  "topic": "education",
+  "tags": ["education", "enrollment", "students", "schools", "learning"],
+  "resources": [
+    {
+      "id": "demo-education-csv",
+      "title": "School Enrollment Data (CSV)",
+      "format": "csv",
+      "url": "/data/demo-gallery/education/enrollment-by-level.json",
+      "filesize": 380
+    },
+    {
+      "id": "demo-education-json",
+      "title": "School Enrollment Data (JSON)",
+      "format": "json",
+      "url": "/data/demo-gallery/education/enrollment-by-level.json",
+      "filesize": 310
+    }
+  ],
+  "last_modified": "2024-10-01",
+  "page": "https://data.gov.rs/datasets/education-enrollment",
+  "data": [
+    { "level": "Preschool", "students": 182000 },
+    { "level": "Primary", "students": 510000 },
+    { "level": "Secondary", "students": 245000 },
+    { "level": "Higher Education", "students": 176000 },
+    { "level": "Master/PhD", "students": 34000 }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "data": [
+    { "partner": "European Union", "balance": -1200 },
+    { "partner": "CEFTA", "balance": 340 },
+    { "partner": "China", "balance": -1850 },
+    { "partner": "Russia", "balance": 260 },
+    { "partner": "Turkey", "balance": -140 }
+  ]
+}

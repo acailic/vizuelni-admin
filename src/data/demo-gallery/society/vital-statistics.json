@@ -1,0 +1,14 @@
+{
+  "data": [
+    { "year": 2015, "births": 66004, "deaths": 101559 },
+    { "year": 2016, "births": 65638, "deaths": 103702 },
+    { "year": 2017, "births": 64875, "deaths": 102620 },
+    { "year": 2018, "births": 63505, "deaths": 101573 },
+    { "year": 2019, "births": 61597, "deaths": 101541 },
+    { "year": 2020, "births": 61447, "deaths": 116829 },
+    { "year": 2021, "births": 62180, "deaths": 136622 },
+    { "year": 2022, "births": 60512, "deaths": 109203 },
+    { "year": 2023, "births": 61052, "deaths": 97081 },
+    { "year": 2024, "births": 60845, "deaths": 98230 }
+  ]
+}

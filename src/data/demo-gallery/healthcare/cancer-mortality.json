@@ -1,0 +1,10 @@
+{
+  "data": [
+    { "type": "Lung", "mortality": 185 },
+    { "type": "Colorectal", "mortality": 75 },
+    { "type": "Breast", "mortality": 45 },
+    { "type": "Prostate", "mortality": 38 },
+    { "type": "Pancreas", "mortality": 52 },
+    { "type": "Stomach", "mortality": 28 }
+  ]
+}

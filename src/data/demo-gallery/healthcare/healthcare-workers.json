@@ -1,0 +1,9 @@
+{
+  "data": [
+    { "type": "Doctors", "count": 22000 },
+    { "type": "Nurses", "count": 65000 },
+    { "type": "Pharmacists", "count": 4500 },
+    { "type": "Dentists", "count": 3200 },
+    { "type": "Other", "count": 18000 }
+  ]
+}
