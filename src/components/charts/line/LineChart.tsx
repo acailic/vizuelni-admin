@@ -18,7 +18,7 @@ import {
 } from '@/components/charts/shared/chart-data';
 import { createChartFormatters } from '@/components/charts/shared/chart-formatters';
 import { ChartFrame } from '@/components/charts/shared/ChartFrame';
-import { useChartInView } from '@/hooks/useChartInView';
+import { useChartAnimation } from '@/hooks/useChartAnimation';
 import type { ChartRendererComponentProps } from '@/types';
 
 export function LineChart({
@@ -31,7 +31,7 @@ export function LineChart({
   hiddenSeriesKeys = [],
   previewMode = false,
 }: ChartRendererComponentProps) {
-  const { ref, inView } = useChartInView();
+  const { ref, shouldAnimate, duration, easing } = useChartAnimation();
   const series = getCartesianData(data, config, locale).filter(
     (datum) => datum.value !== null
   );
@@ -123,9 +123,9 @@ export function LineChart({
             stroke={colors[0]}
             strokeWidth={3}
             dot={previewMode ? false : (config.options?.showDots ?? true)}
-            isAnimationActive={inView && config.options?.animation !== false}
-            animationDuration={800}
-            animationEasing='ease-out'
+            isAnimationActive={shouldAnimate && config.options?.animation !== false}
+            animationDuration={duration}
+            animationEasing={easing as any}
             name={getAxisLabel(config.y_axis)}
           />
         </RechartsLineChart>
