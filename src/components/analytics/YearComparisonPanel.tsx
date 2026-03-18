@@ -82,6 +82,8 @@ export function YearComparisonPanel({
         font: { size: 11 },
       },
       margin: { l: 56, r: 16, t: 40, b: 80 },
+      // Force Plotly to detect data changes by using a revision key
+      datarevision: `${datasetA.year}-${datasetB.year}`,
     };
 
     return { plotData: data, layout: chartLayout };

@@ -91,6 +91,7 @@ export function AnalyticsDashboard({ locale, messages }: AnalyticsDashboardProps
           style={{ minHeight: 380 }}
         >
           <YearComparisonPanel
+            key={`chart-${yearA}-${yearB}-${activeDomain}`}
             datasetA={datasetA}
             datasetB={datasetB}
             metricLabel={domain.metricLabel}
@@ -105,6 +106,7 @@ export function AnalyticsDashboard({ locale, messages }: AnalyticsDashboardProps
           style={{ minHeight: 380 }}
         >
           <AnalyticsMapPanel
+            key={`map-${yearB}-${activeDomain}`}
             dataset={datasetB}
             metricLabel={domain.metricLabel}
             unit={domain.unit}
@@ -116,6 +118,7 @@ export function AnalyticsDashboard({ locale, messages }: AnalyticsDashboardProps
 
       {/* Ranking table */}
       <MetricRankingTable
+        key={`table-${yearA}-${yearB}-${activeDomain}`}
         datasetA={datasetA}
         datasetB={datasetB}
         unit={domain.unit}
