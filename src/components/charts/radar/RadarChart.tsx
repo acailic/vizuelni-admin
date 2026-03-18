@@ -11,6 +11,7 @@ import {
   Tooltip,
 } from 'recharts';
 
+import { useChartAnimation } from '@/hooks/useChartAnimation';
 import {
   getAxisLabel,
   getChartColors,
@@ -33,6 +34,7 @@ export function RadarChart({
   hiddenSeriesKeys = [],
   previewMode = false,
 }: ChartRendererComponentProps) {
+  const { ref, shouldAnimate, duration, easing } = useChartAnimation();
   const primaryKey = config.y_axis?.field;
   const secondaryKey = config.options?.secondaryField;
   const colors = getChartColors(config);
@@ -83,6 +85,7 @@ export function RadarChart({
       height={height}
       previewMode={previewMode}
     >
+      <div ref={ref} className="h-full w-full">
       <ResponsiveContainer width='100%' height='100%'>
         <RechartsRadarChart data={series} outerRadius='78%'>
           <PolarGrid
@@ -112,7 +115,9 @@ export function RadarChart({
               stroke={colors[0]}
               fill={colors[0]}
               fillOpacity={config.options?.fillOpacity ?? 0.35}
-              isAnimationActive={config.options?.animation ?? false}
+              isAnimationActive={shouldAnimate && config.options?.animation !== false}
+              animationDuration={duration}
+              animationEasing={easing as any}
             />
           ) : null}
           {showSecondary && secondaryKey ? (
@@ -122,11 +127,14 @@ export function RadarChart({
               stroke={colors[1] ?? colors[0]}
               fill={colors[1] ?? colors[0]}
               fillOpacity={0.18}
-              isAnimationActive={config.options?.animation ?? false}
+              isAnimationActive={shouldAnimate && config.options?.animation !== false}
+              animationDuration={duration}
+              animationEasing={easing as any}
             />
           ) : null}
         </RechartsRadarChart>
       </ResponsiveContainer>
+      </div>
     </ChartFrame>
   );
 }

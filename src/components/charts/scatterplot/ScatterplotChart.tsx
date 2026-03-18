@@ -7,7 +7,7 @@ import { extent, max , scaleLinear } from 'd3'
 import { toNumericValue } from '@/components/charts/shared/chart-data'
 import { formatChartValue } from '@/components/charts/shared/chart-formatters'
 import { ChartFrame } from '@/components/charts/shared/ChartFrame'
-import { useChartInView } from '@/hooks/useChartInView'
+import { useChartAnimation } from '@/hooks/useChartAnimation'
 import type { ChartRendererComponentProps } from '@/types'
 
 interface ScatterPoint {
@@ -24,7 +24,7 @@ export function ScatterplotChart({
   filterBar,
   previewMode = false,
 }: ChartRendererComponentProps) {
-  const { ref, inView } = useChartInView()
+  const { ref, shouldAnimate } = useChartAnimation()
   const points = useMemo<ScatterPoint[]>(() => {
     if (!config.x_axis || !config.y_axis) {
       return []
@@ -113,8 +113,8 @@ export function ScatterplotChart({
             r={dotRadius}
             fill="#0D4077"
             fillOpacity={dotOpacity}
-            className={inView ? 'chart-dot-appear' : ''}
-            style={inView ? { '--dot-delay': `${Math.min(index * 12, 400)}ms` } as CSSProperties : undefined}
+            className={shouldAnimate ? 'chart-dot-appear' : ''}
+            style={shouldAnimate ? { '--dot-delay': `${Math.min(index * 12, 400)}ms` } as CSSProperties : undefined}
           >
             <title>{`${point.label}: ${point.x}, ${point.y}`}</title>
           </circle>

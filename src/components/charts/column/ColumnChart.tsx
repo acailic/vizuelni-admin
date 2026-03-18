@@ -18,7 +18,7 @@ import {
 } from '@/components/charts/shared/chart-data'
 import { createChartFormatters } from '@/components/charts/shared/chart-formatters'
 import { ChartFrame } from '@/components/charts/shared/ChartFrame'
-import { useChartInView } from '@/hooks/useChartInView'
+import { useChartAnimation } from '@/hooks/useChartAnimation'
 import type { ChartRendererComponentProps } from '@/types'
 
 export function ColumnChart({
@@ -31,7 +31,7 @@ export function ColumnChart({
   hiddenSeriesKeys = [],
   previewMode = false,
 }: ChartRendererComponentProps) {
-  const { ref, inView } = useChartInView()
+  const { ref, shouldAnimate, duration, easing } = useChartAnimation()
   const series = getCartesianData(data, config, locale).filter(datum => datum.value !== null)
   const colors = getChartColors(config)
   const { formatNumber } = createChartFormatters(locale)
@@ -80,9 +80,9 @@ export function ColumnChart({
             dataKey="value"
             fill={colors[0]}
             radius={[8, 8, 0, 0]}
-            isAnimationActive={inView && config.options?.animation !== false}
-            animationDuration={600}
-            animationEasing="ease-out"
+            isAnimationActive={shouldAnimate && config.options?.animation !== false}
+            animationDuration={duration}
+            animationEasing={easing as any}
             name={getAxisLabel(config.y_axis)}
           />
         </RechartsBarChart>

@@ -15,7 +15,7 @@ import {
 } from '@/components/charts/shared/chart-data';
 import { createChartFormatters } from '@/components/charts/shared/chart-formatters';
 import { ChartFrame } from '@/components/charts/shared/ChartFrame';
-import { useChartInView } from '@/hooks/useChartInView';
+import { useChartAnimation } from '@/hooks/useChartAnimation';
 import type { ChartRendererComponentProps } from '@/types';
 
 export function PieChart({
@@ -27,7 +27,7 @@ export function PieChart({
   showInternalLegend = true,
   previewMode = false,
 }: ChartRendererComponentProps) {
-  const { ref, inView } = useChartInView();
+  const { ref, shouldAnimate, duration, easing } = useChartAnimation();
   const series = getPieData(data, config, locale);
   const colors = getChartColors(config);
   const { formatNumber, formatPercent } = createChartFormatters(locale);
@@ -84,9 +84,9 @@ export function PieChart({
                       : String(name)
                 : false
             }
-            isAnimationActive={inView && config.options?.animation !== false}
-            animationDuration={800}
-            animationEasing='ease-out'
+            isAnimationActive={shouldAnimate && config.options?.animation !== false}
+            animationDuration={duration}
+            animationEasing={easing as any}
           >
             {series.map((entry, index) => (
               <Cell key={entry.name} fill={colors[index % colors.length]} />
