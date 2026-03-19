@@ -1,0 +1,316 @@
+{
+  "analysis": {
+    "date": "2026-03-19",
+    "repository": "vizuelni-admin-srbije",
+    "focus": "functional-correctness"
+  },
+  "summary": {
+    "critical": 1,
+    "high": 7,
+    "medium": 25,
+    "low": 62,
+    "total": 95,
+    "fixed": 0
+  },
+  "bugs": [
+    {
+      "id": "BUG-001",
+      "title": "Increment Views Uses Wrong Table Name",
+      "severity": "critical",
+      "component": "auth",
+      "file": "src/lib/db/charts.ts",
+      "line": 162,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-002",
+      "title": "Charts.ts Functions Bypass Ownership Checks",
+      "severity": "high",
+      "component": "auth",
+      "file": "src/lib/db/charts.ts",
+      "line": 100,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-003",
+      "title": "SSR Hydration Mismatch - Animation Settings Store",
+      "severity": "high",
+      "component": "state",
+      "file": "src/stores/animation-settings.ts",
+      "line": 29,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-004",
+      "title": "SSR Hydration Mismatch - Dashboard Store",
+      "severity": "high",
+      "component": "state",
+      "file": "src/stores/dashboard.ts",
+      "line": 77,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-005",
+      "title": "Missing accessibilityPage Key in English Locale",
+      "severity": "high",
+      "component": "i18n",
+      "file": "src/lib/i18n/locales/en/common.json",
+      "line": 1,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-006",
+      "title": "Missing accessibilityPage Key in Serbian Latin Locale",
+      "severity": "high",
+      "component": "i18n",
+      "file": "src/lib/i18n/locales/lat/common.json",
+      "line": 1,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-007",
+      "title": "Stale Closure in DataSourceContext useEffect",
+      "severity": "high",
+      "component": "state",
+      "file": "src/contexts/DataSourceContext.tsx",
+      "line": 74,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-008",
+      "title": "Stale Closure in TutorialContext useCallback",
+      "severity": "high",
+      "component": "state",
+      "file": "src/lib/tutorials/TutorialContext.tsx",
+      "line": 133,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-009",
+      "title": "No Fallback for Missing Translations",
+      "severity": "medium",
+      "component": "i18n",
+      "file": "src/lib/i18n/messages.ts",
+      "line": 22,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-010",
+      "title": "Hardcoded No Time Data Available String",
+      "severity": "medium",
+      "component": "i18n",
+      "file": "src/components/filters/TimeRangeBrush.tsx",
+      "line": 218,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-011",
+      "title": "Inconsistent date-fns Locale Handling",
+      "severity": "medium",
+      "component": "i18n",
+      "file": "src/components/gallery/GalleryChartCard.tsx",
+      "line": 70,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-012",
+      "title": "Default Labels Hardcoded in DatasetInfoFooter",
+      "severity": "medium",
+      "component": "i18n",
+      "file": "src/components/charts/shared/DatasetInfoFooter.tsx",
+      "line": 28,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-013",
+      "title": "Animation State Not Cleared on Navigation",
+      "severity": "medium",
+      "component": "state",
+      "file": "src/stores/animation.ts",
+      "line": 139,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-014",
+      "title": "Potential Animation Frame Leak on Unmount",
+      "severity": "medium",
+      "component": "state",
+      "file": "src/stores/animation.ts",
+      "line": 18,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-015",
+      "title": "Race Condition in Animation Loop State Updates",
+      "severity": "medium",
+      "component": "state",
+      "file": "src/components/charts/shared/AnimationControls.tsx",
+      "line": 74,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-016",
+      "title": "Non-Atomic Owned Operation Verification",
+      "severity": "medium",
+      "component": "auth",
+      "file": "src/lib/db/chart-repository-prisma.ts",
+      "line": 120,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-017",
+      "title": "OAuth User Role Not Refreshed on Subsequent Logins",
+      "severity": "medium",
+      "component": "auth",
+      "file": "src/lib/auth/auth-options.ts",
+      "line": 101,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-018",
+      "title": "Demo Mode Prisma Client Cast Allows Unsafe Operations",
+      "severity": "medium",
+      "component": "auth",
+      "file": "src/lib/db/prisma.ts",
+      "line": 21,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-019",
+      "title": "Empty Dataset Classification Returns Incorrect Min/Max",
+      "severity": "medium",
+      "component": "data",
+      "file": "packages/data/src/domain/classifier.ts",
+      "line": 172,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-020",
+      "title": "AggregateObservations Returns 0 for Min/Max/Avg on Empty Groups",
+      "severity": "medium",
+      "component": "data",
+      "file": "packages/data/src/domain/transforms.ts",
+      "line": 144,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-021",
+      "title": "Join Silently Drops Duplicate Keys",
+      "severity": "medium",
+      "component": "data",
+      "file": "packages/data/src/domain/join.ts",
+      "line": 70,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-022",
+      "title": "CSV Streaming May Truncate Mid-Row",
+      "severity": "medium",
+      "component": "data",
+      "file": "packages/data/src/application/load-dataset.ts",
+      "line": 253,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-023",
+      "title": "Missing prefers-reduced-motion Support in useChartInView",
+      "severity": "medium",
+      "component": "charts",
+      "file": "src/hooks/useChartInView.ts",
+      "line": 12,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-024",
+      "title": "PieChart Empty Array Handling",
+      "severity": "medium",
+      "component": "charts",
+      "file": "src/components/charts/pie/PieChart.tsx",
+      "line": 34,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-025",
+      "title": "MapChart Missing Empty State",
+      "severity": "medium",
+      "component": "charts",
+      "file": "src/components/charts/map/MapChart.tsx",
+      "line": 168,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-026",
+      "title": "State Mutation Risk in updateConfig",
+      "severity": "medium",
+      "component": "charts",
+      "file": "src/stores/configurator.ts",
+      "line": 142,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-027",
+      "title": "Double Initialization in ChartBuilder",
+      "severity": "medium",
+      "component": "charts",
+      "file": "src/components/charts/ChartBuilder.tsx",
+      "line": 103,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-028",
+      "title": "URL Sync Race Condition",
+      "severity": "medium",
+      "component": "charts",
+      "file": "src/components/charts/CreateChartWorkspace.tsx",
+      "line": 195,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-029",
+      "title": "Empty ChartId Handling in Interactive Filters",
+      "severity": "medium",
+      "component": "charts",
+      "file": "src/stores/interactive-filters.ts",
+      "line": 169,
+      "status": "pending"
+    },
+    {
+      "id": "BUG-030",
+      "title": "Missing ChartId in Interactive Filters Store",
+      "severity": "medium",
+      "component": "state",
+      "file": "src/stores/interactive-filters.ts",
+      "line": 169,
+      "status": "pending"
+    }
+  ],
+  "lowBugs": {
+    "consoleStatements": [
+      { "file": "src/lib/pwa/dashboard-sync.ts", "line": 54 },
+      { "file": "src/lib/tutorials/TutorialContext.tsx", "lines": [35, 81] },
+      { "file": "src/lib/tutorials/useTutorialStorage.ts", "line": 52 }
+    ],
+    "anyTypes": 27,
+    "hardcodedStrings": {
+      "ariaLabels": 10,
+      "placeholders": 4,
+      "titles": 5
+    },
+    "missingNullChecks": 8,
+    "raceConditions": 5,
+    "memoryLeaks": 3,
+    "missingValidation": 5
+  },
+  "testFailures": [
+    {
+      "file": "src/components/ui/__tests__/CollapsibleFilters.test.tsx",
+      "line": 140,
+      "description": "aria-controls uses React auto-generated IDs"
+    },
+    {
+      "file": "tests/unit/charts/ChartRenderer.test.tsx",
+      "line": 80,
+      "description": "IntersectionObserver not defined in test environment"
+    }
+  ]
+}

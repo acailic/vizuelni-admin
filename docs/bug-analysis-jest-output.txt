@@ -1,0 +1,4 @@
+
+> vizuelni-admin@0.1.0 test
+> NEXT_IGNORE_INCORRECT_LOCKFILE=1 jest
+
