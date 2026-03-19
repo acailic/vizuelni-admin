@@ -19,11 +19,11 @@
 ### Review Areas (Priority Order)
 | Priority | Area | Key Files |
 |----------|------|-----------|
-| 1 | Charts | `src/components/charts/**/*.tsx` (48 files) |
+| 1 | Charts | `src/components/charts/**/*.tsx` (47 files) |
 | 2 | State Management | `src/stores/*.ts` (5 files) |
 | 3 | Authentication | `src/lib/auth/auth-options.ts`, `src/lib/db/charts.ts` |
 | 4 | Data Pipeline | `src/lib/data/*.ts`, `src/lib/api/*.ts` |
-| 5 | Localization | `src/lib/i18n/*.ts`, `public/locales/*.json` |
+| 5 | Localization | `src/lib/i18n/*.ts`, `src/lib/i18n/locales/**/*.json` |
 
 ---
 
@@ -61,7 +61,7 @@ Add each type error as potential bug candidate to working notes.
 
 - [ ] **Step 1: Run ESLint**
 
-Run: `npx eslint . --ext .ts,.tsx 2>&1 | tee docs/bug-analysis-eslint-output.txt`
+Run: `npx eslint . 2>&1 | tee docs/bug-analysis-eslint-output.txt`
 Expected: List of lint errors/warnings or clean output
 
 - [ ] **Step 2: Filter for functional issues**
@@ -80,7 +80,7 @@ Add each relevant lint issue as potential bug candidate.
 ### Task 1.3: Test Suite Execution
 
 **Files:**
-- Review: `tests/**/*.test.ts` (26 unit test files)
+- Review: `tests/**/*.test.ts` (25 unit test files)
 - Output: Capture to `docs/bug-analysis-jest-output.txt`
 
 - [ ] **Step 1: Run Jest tests**
@@ -329,7 +329,7 @@ Record all findings with severity classification.
 ### Task 2.5: Localization Review (Priority 5)
 
 **Files:**
-- Review: `src/lib/i18n/*.ts`, `public/locales/*.json`
+- Review: `src/lib/i18n/*.ts`, `src/lib/i18n/locales/**/*.json`
 - Focus: i18n completeness, date/number formatting
 
 - [ ] **Step 1: Review i18n configuration**
@@ -342,7 +342,11 @@ Check for:
 
 - [ ] **Step 2: Check translation completeness**
 
-Run: Compare keys across `public/locales/en.json`, `sr-Cyrl.json`, `sr-Latn.json`
+Run: Compare keys across:
+- `src/lib/i18n/locales/en/common.json`
+- `src/lib/i18n/locales/lat/common.json`
+- `src/lib/i18n/locales/sr/common.json`
+- `public/locales/sr-Cyrl.json`
 
 Check for:
 - Missing keys in any locale
