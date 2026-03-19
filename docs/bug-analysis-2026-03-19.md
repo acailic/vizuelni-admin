@@ -8,11 +8,11 @@
 
 | Severity | Count | Fixed |
 |----------|-------|-------|
-| Critical | 1 | 0 |
-| High | 7 | 0 |
+| Critical | 1 | 1 |
+| High | 7 | 4 |
 | Medium | 25 | 0 |
 | Low | 62 | 0 |
-| **Total** | **95** | **0** |
+| **Total** | **95** | **5** |
 
 ---
 
@@ -37,7 +37,7 @@ Potential mismatch between raw SQL table name and Prisma model mapping.
 2. Check database - views count not incremented
 3. Check console for silent error
 
-**Fix Status:** Pending
+**Fix Status:** ✅ Fixed (commit: 92e1b5c2)
 
 ---
 
