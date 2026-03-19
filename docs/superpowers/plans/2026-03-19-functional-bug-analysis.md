@@ -61,7 +61,7 @@ Add each type error as potential bug candidate to working notes.
 
 - [ ] **Step 1: Run ESLint**
 
-Run: `npx eslint . 2>&1 | tee docs/bug-analysis-eslint-output.txt`
+Run: `npm run lint 2>&1 | tee docs/bug-analysis-eslint-output.txt`
 Expected: List of lint errors/warnings or clean output
 
 - [ ] **Step 2: Filter for functional issues**
