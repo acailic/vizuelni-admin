@@ -153,21 +153,14 @@ export async function publishChart(id: string): Promise<SavedChart | null> {
 }
 
 /**
- * Increment view counter (fire-and-forget)
- * Uses atomic SQL update to prevent race conditions
+ * Increment view counter
+ * Uses Prisma's atomic increment to prevent race conditions
  */
 export async function incrementViews(id: string): Promise<void> {
-  try {
-    // Use raw SQL for atomic increment (SQLite-safe)
-    await prisma.$executeRaw`
-      UPDATE charts 
-      SET views = views + 1 
-      WHERE id = ${id}
-    `;
-  } catch (error) {
-    // Log but don't throw - view counting should not affect user experience
-    console.error('Failed to increment view count:', error);
-  }
+  await prisma.savedChart.update({
+    where: { id },
+    data: { views: { increment: 1 } },
+  });
 }
 
 /**

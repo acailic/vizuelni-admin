@@ -13,7 +13,7 @@ jest.mock('@/lib/db/prisma', () => ({
 }));
 
 import { ChartStatus } from '@/types/persistence';
-import { listCharts } from '@/lib/db/charts';
+import { listCharts, incrementViews } from '@/lib/db/charts';
 
 const prismaMock = jest.requireMock('@/lib/db/prisma').default as {
   savedChart: {
@@ -48,5 +48,42 @@ describe('listCharts', () => {
       pageSize: 12,
       totalPages: 0,
     });
+  });
+});
+
+describe('incrementViews', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('uses Prisma atomic increment instead of raw SQL', async () => {
+    const chartId = 'test-chart-id';
+
+    prismaMock.savedChart.update.mockResolvedValue({
+      id: chartId,
+      views: 1,
+    });
+
+    await incrementViews(chartId);
+
+    // Should use Prisma's update with increment, not $executeRaw
+    expect(prismaMock.savedChart.update).toHaveBeenCalledWith({
+      where: { id: chartId },
+      data: { views: { increment: 1 } },
+    });
+
+    // Should NOT use raw SQL
+    expect(prismaMock.$executeRaw).not.toHaveBeenCalled();
+  });
+
+  it('throws error when chart not found', async () => {
+    const chartId = 'non-existent-id';
+
+    const prismaError = new Error('Record not found');
+    (prismaError as unknown as Record<string, unknown>).code = 'P2025';
+    prismaMock.savedChart.update.mockRejectedValue(prismaError);
+
+    // Should throw the error, not silently catch it
+    await expect(incrementViews(chartId)).rejects.toThrow('Record not found');
   });
 });
