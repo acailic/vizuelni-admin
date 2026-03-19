@@ -19,7 +19,7 @@
 ### Review Areas (Priority Order)
 | Priority | Area | Key Files |
 |----------|------|-----------|
-| 1 | Charts | `src/components/charts/**/*.tsx` (47 files) |
+| 1 | Charts | `src/components/charts/**/*.tsx` (48 files) |
 | 2 | State Management | `src/stores/*.ts` (5 files) |
 | 3 | Authentication | `src/lib/auth/auth-options.ts`, `src/lib/db/charts.ts` |
 | 4 | Data Pipeline | `src/lib/data/*.ts`, `src/lib/api/*.ts` |
@@ -80,7 +80,7 @@ Add each relevant lint issue as potential bug candidate.
 ### Task 1.3: Test Suite Execution
 
 **Files:**
-- Review: `tests/**/*.test.ts` (25 unit test files)
+- Review: `tests/**/*.test.ts` (26 test files)
 - Output: Capture to `docs/bug-analysis-jest-output.txt`
 
 - [ ] **Step 1: Run Jest tests**
