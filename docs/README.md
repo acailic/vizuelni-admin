@@ -14,6 +14,9 @@ Welcome to the Vizualni Admin documentation hub.
 ### [📊 Visualization Guides](guides/)
 
 - [Visualization Best Practices](VISUALIZATION_GUIDE.md) - Design principles
+- [Dataset to Visualization Flow](DATASET_TO_VISUALIZATION_FLOW.md) - End-to-end process from discovery to chart rendering
+- [Dataset Visualization Tutorial](DATASET_VISUALIZATION_TUTORIAL.md) - Simpler non-technical walkthrough for choosing and visualizing data
+- [Developer Dataset Workflow](DEVELOPER_DATASET_WORKFLOW.md) - Repo-specific implementation workflow with hooks, transforms, and chart config
 - [Chart Types Guide](guides/chart-types-guide.md) - Choosing the right chart
 - [Serbian Government Styling](CLAUDE.md) - Design system reference
 
