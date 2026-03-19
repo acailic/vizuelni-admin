@@ -99,6 +99,30 @@ export function TutorialProvider({
     [allTutorials, storage]
   );
 
+  // Complete tutorial (defined before nextStep to avoid stale closure)
+  const completeTutorial = useCallback(() => {
+    if (!activeTutorial) return;
+
+    storage.completeTutorial(
+      activeTutorial.id,
+      activeTutorial.duration,
+      activeTutorial.badges
+    );
+
+    trackTutorialEvent({
+      type: 'tutorial_completed',
+      tutorialId: activeTutorial.id,
+      totalDuration: tutorialStartTime
+        ? Date.now() - tutorialStartTime.getTime()
+        : 0,
+    });
+
+    setIsActive(false);
+    setActiveTutorial(null);
+    setCurrentStep(0);
+    setTutorialStartTime(null);
+  }, [activeTutorial, storage, tutorialStartTime]);
+
   // Go to next step
   const nextStep = useCallback(() => {
     if (!activeTutorial) return;
@@ -130,7 +154,7 @@ export function TutorialProvider({
       nextIndex
     );
     setCurrentStep(nextIndex);
-  }, [activeTutorial, currentStep, storage, tutorialStartTime]);
+  }, [activeTutorial, completeTutorial, currentStep, storage, tutorialStartTime]);
 
   // Go to previous step
   const previousStep = useCallback(() => {
@@ -168,30 +192,6 @@ export function TutorialProvider({
     setActiveTutorial(null);
     setCurrentStep(0);
   }, [activeTutorial, currentStep, storage]);
-
-  // Complete tutorial
-  const completeTutorial = useCallback(() => {
-    if (!activeTutorial) return;
-
-    storage.completeTutorial(
-      activeTutorial.id,
-      activeTutorial.duration,
-      activeTutorial.badges
-    );
-
-    trackTutorialEvent({
-      type: 'tutorial_completed',
-      tutorialId: activeTutorial.id,
-      totalDuration: tutorialStartTime
-        ? Date.now() - tutorialStartTime.getTime()
-        : 0,
-    });
-
-    setIsActive(false);
-    setActiveTutorial(null);
-    setCurrentStep(0);
-    setTutorialStartTime(null);
-  }, [activeTutorial, storage, tutorialStartTime]);
 
   // Exit tutorial (without marking as skipped or completed)
   const exitTutorial = useCallback(() => {
