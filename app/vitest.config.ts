@@ -4,10 +4,25 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-  plugins: [react() as any],
+  plugins: [
+    react({
+      jsxRuntime: "automatic",
+    }) as any,
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./"),
+      // Force all React imports to resolve to the same version
+      react: path.resolve(__dirname, "../node_modules/react"),
+      "react-dom": path.resolve(__dirname, "../node_modules/react-dom"),
+      "react-dom/client": path.resolve(
+        __dirname,
+        "../node_modules/react-dom/client"
+      ),
+      "react/jsx-dev-runtime": path.resolve(
+        __dirname,
+        "../node_modules/react/jsx-dev-runtime"
+      ),
     },
   },
   test: {
@@ -33,8 +48,6 @@ export default defineConfig({
       provider: "v8",
       reporter: ["text", "json", "html", "lcov"],
       reportsDirectory: "./coverage",
-      // Vitest 4: coverage.all and coverage.extensions are removed
-      // Use include to specify source files for coverage
       include: ["**/*.{js,jsx,ts,tsx}"],
       exclude: [
         "node_modules/**",
@@ -60,6 +73,11 @@ export default defineConfig({
         branches: 75,
         statements: 80,
       },
+    },
+    deps: {
+      interop: ["react", "react-dom"],
+      // Inline React packages to avoid multiple copies
+      inline: ["react", "react-dom", "@lingui/react"],
     },
   },
 });

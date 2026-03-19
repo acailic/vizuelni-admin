@@ -308,8 +308,17 @@ const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
 const customRender = (ui: React.ReactElement, options?: any) =>
   rtlRender(ui, { wrapper: AllTheProviders, ...options });
 
+// Custom renderHook with providers wrapper
+const customRenderHook = <TResult, TProps>(
+  hook: (props: TProps) => TResult,
+  options?: any
+) => {
+  const { renderHook: rtlRenderHook } = require("@testing-library/react");
+  return rtlRenderHook(hook, { wrapper: AllTheProviders, ...options });
+};
+
 // Re-export everything
 export * from "@testing-library/react";
-export { customRender as render };
+export { customRender as render, customRenderHook as renderHook };
 
 import "@testing-library/jest-dom/vitest";
