@@ -65,13 +65,12 @@ export function DataSourceProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState<Error | null>(null);
   const [isFallbackDismissed, setIsFallbackDismissed] = useState(false);
 
-  // Read from localStorage on mount
+  // Read from localStorage on mount (BUG-007: removed source from deps to prevent infinite loop)
   useEffect(() => {
     const storedSource = getInitialSource();
-    if (storedSource !== source) {
-      setSource(storedSource);
-    }
-  }, []);
+    setSource(storedSource);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Intentionally empty - only run on mount
 
   const switchSource = useCallback((newSource: DataSourceType) => {
     setSource(newSource);
