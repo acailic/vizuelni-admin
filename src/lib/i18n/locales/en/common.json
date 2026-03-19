@@ -755,5 +755,106 @@
       "region": "Region",
       "delta": "Change"
     }
+  },
+  "accessibilityPage": {
+    "title": "Accessibility Statement",
+    "subtitle": "Our commitment to digital accessibility for citizens of Serbia",
+    "seeAlso": "See also: Chart Types Guide",
+    "complianceLevel": {
+      "title": "Compliance Level",
+      "description": "This platform aims to conform to WCAG 2.1 Level AA (Web Content Accessibility Guidelines). We continuously work to ensure our visualizations and data are accessible to all citizens of Serbia."
+    },
+    "supportedFeatures": {
+      "title": "Supported Features",
+      "keyboardNavigation": {
+        "title": "Keyboard Navigation",
+        "description": "All interactive elements are accessible via keyboard (Tab, Shift+Tab, Enter, Space, Escape, arrow keys)."
+      },
+      "chartTableAlternative": {
+        "title": "Chart Table Alternative",
+        "description": "Every chart has a \"Show as table\" button that displays data in a format optimized for screen readers."
+      },
+      "ariaLabels": {
+        "title": "ARIA Labels",
+        "description": "Charts have aria-label and aria-describedby attributes describing chart type and content."
+      },
+      "colorContrast": {
+        "title": "Color Contrast",
+        "description": "All colors meet WCAG AA standard (contrast ratio ≥4.5:1 for text, ≥3:1 for graphical elements)."
+      },
+      "reducedMotion": {
+        "title": "Reduced Motion Support",
+        "description": "Platform respects prefers-reduced-motion system setting. Animations are disabled when this option is active."
+      },
+      "colorblindPalettes": {
+        "title": "Colorblind-Safe Palettes",
+        "description": "Available palettes: Okabe-Ito, Viridis, Plasma, and Inferno, optimized for deuteranopia, protanopia, and tritanopia."
+      },
+      "patternOverlays": {
+        "title": "Pattern Overlays",
+        "description": "Charts can use patterns (lines, dots, diagonals) in addition to colors for distinguishing categories."
+      }
+    },
+    "keyboardNav": {
+      "title": "Keyboard Navigation",
+      "description": "All interactive elements can be accessed using a keyboard. Use Tab to navigate between elements, Enter or Space to activate buttons, and Escape to close dialogs.",
+      "keyHeader": "Key",
+      "actionHeader": "Action",
+      "tab": "Move to next interactive element",
+      "shiftTab": "Move to previous element",
+      "enterSpace": "Activate buttons and links",
+      "arrows": "Navigate between chart data points",
+      "home": "First data point",
+      "end": "Last data point",
+      "escape": "Close dialogs and tooltips"
+    },
+    "accessibleCharts": {
+      "title": "Accessible Charts",
+      "description": "Every chart on this platform includes an accessible data table. Click the \"Show as table\" button to view data in a format optimized for screen readers.",
+      "whatIncludesTitle": "What accessible charts include",
+      "ariaLabelsDesc": "ARIA labels describe chart type and content",
+      "dataSummaryDesc": "Data summary includes highest, lowest, and average values",
+      "trendInfoDesc": "Trend information where applicable (increasing/decreasing)",
+      "skipLinkDesc": "Skip link for direct navigation to table"
+    },
+    "colorAccessibility": {
+      "title": "Color Accessibility",
+      "description": "We provide multiple color palette options designed for different types of color vision deficiency. Switch palettes in chart configuration to find one that works best for you.",
+      "colorblindPalettesTitle": "Colorblind-Safe Palettes",
+      "okabeIto": "optimized for all types",
+      "viridis": "perceptually uniform",
+      "plasma": "for sequential data",
+      "patternAlternativesTitle": "Pattern Alternatives",
+      "patternAlternativesDesc": "Charts can use patterns (lines, dots, diagonals) in addition to colors for categories and regions."
+    },
+    "reducedMotionSection": {
+      "title": "Reduced Motion",
+      "description": "If you prefer reduced motion, this platform respects your system preferences. Enable \"Reduce motion\" in your operating system settings, and all chart animations will be disabled.",
+      "note": "Supported via CSS media query prefers-reduced-motion."
+    },
+    "knownLimitations": {
+      "title": "Known Limitations",
+      "mapTiles": "Some third-party map tiles may have color contrast issues",
+      "multiSeriesCharts": "Complex multi-series charts may be difficult to navigate without a screen reader",
+      "abbreviations": "Historical data tables may contain abbreviations without expansions",
+      "scatterBubble": "Scatter and bubble charts have limited screen reader support — use table alternative"
+    },
+    "testingScope": {
+      "title": "Testing Scope",
+      "description": "Accessibility is tested on the following browser and assistive technology combinations:",
+      "browsersTitle": "Browsers",
+      "assistiveTechTitle": "Assistive Technologies",
+      "testingNote": "Automated testing: axe-core, Lighthouse. Manual testing: keyboard navigation, screen readers."
+    },
+    "feedback": {
+      "title": "Report an Accessibility Issue",
+      "description": "We are committed to providing an accessible experience for all users. If you encounter barriers or have suggestions for improvement, please contact us.",
+      "contactMethods": "Contact Methods:",
+      "note": "Note: The contact information above are examples. For actual contacts, see the About page."
+    },
+    "footer": {
+      "lastUpdated": "Last updated",
+      "updateNote": "This statement will be periodically updated as platform functionality evolves."
+    }
   }
 }

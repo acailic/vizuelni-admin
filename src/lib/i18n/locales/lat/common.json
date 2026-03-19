@@ -782,5 +782,106 @@
       "region": "Okrug",
       "delta": "Promena"
     }
+  },
+  "accessibilityPage": {
+    "title": "Izjava o pristupačnosti",
+    "subtitle": "Naša posvećenost digitalnoj pristupačnosti za građane Srbije",
+    "seeAlso": "Pogledajte takođe: Vodič za tipove grafikona",
+    "complianceLevel": {
+      "title": "Nivo usaglašenosti",
+      "description": "Ova platforma teži usaglašenosti sa standardom WCAG 2.1 Level AA (Web Content Accessibility Guidelines). Kontinuirano radimo na tome da osiguramo da naše vizuelizacije i podaci budu pristupačni svim građanima Srbije."
+    },
+    "supportedFeatures": {
+      "title": "Podržane funkcije",
+      "keyboardNavigation": {
+        "title": "Navigacija tastaturom",
+        "description": "Svi interaktivni elementi su dostupni preko tastature (Tab, Shift+Tab, Enter, Space, Escape, strelice)."
+      },
+      "chartTableAlternative": {
+        "title": "Tabela alternativa za grafikone",
+        "description": "Svaki grafikon ima dugme „Prikaži kao tabelu" koje prikazuje podatke u formatu optimizovanom za čitače ekrana."
+      },
+      "ariaLabels": {
+        "title": "ARIA oznake",
+        "description": "Grafikoni imaju aria-label i aria-describedby atribute sa opisom tipa grafika i sadržaja."
+      },
+      "colorContrast": {
+        "title": "Kontrast boja",
+        "description": "Sve boje ispunjavaju WCAG AA standard (odnos kontrasta ≥4.5:1 za tekst, ≥3:1 za grafičke elemente)."
+      },
+      "reducedMotion": {
+        "title": "Poštovanje podešavanja pokreta",
+        "description": "Platforma poštuje sistemsko podešavanje prefers-reduced-motion. Animacije su onemogućene kada je ova opcija aktivna."
+      },
+      "colorblindPalettes": {
+        "title": "Palete za daltoniste",
+        "description": "Dostupne palete Okabe-Ito, Viridis, Plasma i Inferno, optimizovane za deuteranopia, protanopia i tritanopia."
+      },
+      "patternOverlays": {
+        "title": "Šabloni za kategorije",
+        "description": "Grafikoni mogu koristiti šablone (linije, tačke, kose linije) pored boja za razlikovanje kategorija."
+      }
+    },
+    "keyboardNav": {
+      "title": "Navigacija tastaturom",
+      "description": "Svi interaktivni elementi mogu se pristupiti pomoću tastature. Koristite Tab za kretanje između elemenata, Enter ili Space za aktivaciju dugmadi, i Escape za zatvaranje dijaloga.",
+      "keyHeader": "Taster",
+      "actionHeader": "Akcija",
+      "tab": "Prelazak na sledeći interaktivni element",
+      "shiftTab": "Povratak na prethodni element",
+      "enterSpace": "Aktiviranje dugmadi i linkova",
+      "arrows": "Navigacija između tačaka podataka na grafikonu",
+      "home": "Prva tačka podataka",
+      "end": "Poslednja tačka podataka",
+      "escape": "Zatvaranje dijaloga i tooltip-ova"
+    },
+    "accessibleCharts": {
+      "title": "Pristupačni grafikoni",
+      "description": "Svaki grafikon na ovoj platformi uključuje pristupačnu tabelu podataka. Kliknite na dugme „Prikaži kao tabelu" da biste videli podatke u formatu optimizovanom za čitače ekrana.",
+      "whatIncludesTitle": "Šta sadrži pristupačni grafikon",
+      "ariaLabelsDesc": "ARIA oznake opisuju tip grafika i sadržaj",
+      "dataSummaryDesc": "Rezime podataka uključuje najvišu, najnižu i prosečnu vrednost",
+      "trendInfoDesc": "Informacije o trendu kada je primenljivo (rastući/opadajući)",
+      "skipLinkDesc": "Skip link za direkatan prelazak na tabelu"
+    },
+    "colorAccessibility": {
+      "title": "Pristupačnost boja",
+      "description": "Obezbeđujemo višestruke opcije paleta boja dizajnirane za različite tipove nedostatka vida u boji. Promenite paletu u konfiguraciji grafika da biste pronašli onu koja vam najviše odgovara.",
+      "colorblindPalettesTitle": "Palete za daltoniste",
+      "okabeIto": "optimizovana za sve tipove",
+      "viridis": "perceptivno uniformna",
+      "plasma": "za sekvencijalne podatke",
+      "patternAlternativesTitle": "Šabloni kao alternativa",
+      "patternAlternativesDesc": "Grafikoni mogu koristiti šablone (linije, tačke, kose linije) pored boja za kategorije i regione."
+    },
+    "reducedMotionSection": {
+      "title": "Smanjeni pokret",
+      "description": "Ako preferirate smanjene animacije, ova platforma poštuje vaša sistemska podešavanja. Omogućite „Smanji pokret" u podešavanjima operativnog sistema, i sve animacije grafika će biti onemogućene.",
+      "note": "Podržano putem CSS media query-ja prefers-reduced-motion."
+    },
+    "knownLimitations": {
+      "title": "Poznata ograničenja",
+      "mapTiles": "Neke karte trećih strana mogu imati problema sa kontrastom boja",
+      "multiSeriesCharts": "Složeni grafikoni sa više serija mogu biti teški za navigaciju bez čitača ekrana",
+      "abbreviations": "Istorijske tabele podataka mogu sadržati skraćenice bez proširenja",
+      "scatterBubble": "Grafikoni rasejanja i mehurići imaju ograničenu podršku za čitače ekrana — koristite tabelu alternativu"
+    },
+    "testingScope": {
+      "title": "Obim testiranja",
+      "description": "Pristupačnost se testira na sledećim kombinacijama pregledača i pomoćnih tehnologija:",
+      "browsersTitle": "Pregledači",
+      "assistiveTechTitle": "Pomoćne tehnologije",
+      "testingNote": "Automatsko testiranje: axe-core, Lighthouse. Ručno testiranje: tastaturna navigacija, čitači ekrana."
+    },
+    "feedback": {
+      "title": "Prijavite problem pristupačnosti",
+      "description": "Posvećeni smo pružanju pristupačnog iskustva za sve korisnike. Ako naiđete na barijere ili imate predloge za poboljšanje, kontaktirajte nas.",
+      "contactMethods": "Načini kontakta:",
+      "note": "Napomena: Gornji kontakt podaci su primeri. Za stvarne kontaktete pogledajte stranicu „O nama"."
+    },
+    "footer": {
+      "lastUpdated": "Poslednje ažuriranje",
+      "updateNote": "Ova izjava će biti periodično ažurirana kako se funkcionalnost platforme razvija."
+    }
   }
 }
