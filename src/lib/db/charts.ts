@@ -95,14 +95,18 @@ export async function listCharts(
 }
 
 /**
- * Update a chart
+ * Update a chart with ownership verification
+ *
+ * @deprecated Use getChartRepository().updateOwned() instead for atomic ownership checks.
+ * This function requires userId to prevent unauthorized modifications.
  */
-export async function updateChart(
+export async function updateChartOwned(
   id: string,
+  userId: string,
   input: UpdateChartInput
 ): Promise<SavedChart | null> {
-  const chart = await prisma.savedChart.update({
-    where: { id },
+  const result = await prisma.savedChart.updateMany({
+    where: { id, userId },
     data: {
       ...(input.title !== undefined && { title: input.title }),
       ...(input.description !== undefined && {
@@ -119,37 +123,54 @@ export async function updateChart(
     },
   });
 
-  return dbChartToSavedChart(chart);
-}
-
-/**
- * Soft delete a chart (set status to ARCHIVED)
- */
-export async function deleteChart(id: string): Promise<boolean> {
-  try {
-    await prisma.savedChart.update({
-      where: { id },
-      data: { status: ChartStatus.ARCHIVED },
-    });
-    return true;
-  } catch {
-    return false;
+  if (result.count === 0) {
+    return null;
   }
+
+  return getChartById(id);
 }
 
 /**
- * Publish a chart (set status to PUBLISHED)
+ * Soft delete a chart with ownership verification (set status to ARCHIVED)
+ *
+ * @deprecated Use getChartRepository().softDeleteOwned() instead for atomic ownership checks.
+ * This function requires userId to prevent unauthorized deletions.
  */
-export async function publishChart(id: string): Promise<SavedChart | null> {
-  const chart = await prisma.savedChart.update({
-    where: { id },
+export async function deleteChartOwned(
+  id: string,
+  userId: string
+): Promise<boolean> {
+  const result = await prisma.savedChart.updateMany({
+    where: { id, userId },
+    data: { status: ChartStatus.ARCHIVED },
+  });
+
+  return result.count > 0;
+}
+
+/**
+ * Publish a chart with ownership verification (set status to PUBLISHED)
+ *
+ * @deprecated Use getChartRepository().publishOwned() instead for atomic ownership checks.
+ * This function requires userId to prevent unauthorized publishing.
+ */
+export async function publishChartOwned(
+  id: string,
+  userId: string
+): Promise<SavedChart | null> {
+  const result = await prisma.savedChart.updateMany({
+    where: { id, userId },
     data: {
       status: ChartStatus.PUBLISHED,
       publishedAt: new Date(),
     },
   });
 
-  return dbChartToSavedChart(chart);
+  if (result.count === 0) {
+    return null;
+  }
+
+  return getChartById(id);
 }
 
 /**
