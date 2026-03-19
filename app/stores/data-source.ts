@@ -77,6 +77,9 @@ const saveToURL = (dataSource: DataSource) => {
  * @param router - Next.js router instance
  * @returns Zustand middleware function with data source persistence
  */
+// Track subscriptions for cleanup (prevents memory leaks if store is recreated)
+const routerSubscriptions = new WeakMap<SingletonRouter, () => void>();
+
 const dataSourceStoreMiddleware =
   (config: StateCreator<DataSourceStore>, router: SingletonRouter) =>
   (
@@ -128,9 +131,20 @@ const dataSourceStoreMiddleware =
       }
     };
 
-    // No need to unsubscribe, as store is created once and needs to update
-    // URL continuously.
+    // Clean up any existing subscription for this router
+    const existingUnsubscribe = routerSubscriptions.get(router);
+    if (existingUnsubscribe) {
+      existingUnsubscribe();
+    }
+
+    // Subscribe to router events
     router.events.on("routeChangeComplete", callback);
+
+    // Store unsubscribe function for cleanup
+    const unsubscribe = () => {
+      router.events.off("routeChangeComplete", callback);
+    };
+    routerSubscriptions.set(router, unsubscribe);
 
     // Initialize with correct url.
     router.ready(callback);

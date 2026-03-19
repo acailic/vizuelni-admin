@@ -1,0 +1,180 @@
+{
+  "generated": "2026-03-19",
+  "repository": "vizualni-admin",
+  "analyzer": "Claude Opus 4.6",
+  "method": "Layered Multi-Pass Analysis",
+  "summary": {
+    "total": 53,
+    "critical": 6,
+    "high": 19,
+    "medium": 19,
+    "low": 9
+  },
+  "bugs": [
+    {
+      "id": "BUG-001",
+      "severity": "critical",
+      "category": "security",
+      "file": "app/lib/python-runner.ts",
+      "line": 95,
+      "title": "Command Injection in Python Runner",
+      "description": "Python execution uses shell-escaped arguments but still allows command injection through crafted arguments",
+      "impact": "Remote code execution if attacker controls input",
+      "recommendedFix": "Use child_process.spawn instead of exec, implement strict input validation"
+    },
+    {
+      "id": "BUG-002",
+      "severity": "critical",
+      "category": "security",
+      "file": "app/pages/api/insights/analyze.ts",
+      "line": 26,
+      "title": "Path Traversal in Temp File Creation",
+      "description": "Temp file creation without proper validation allows path traversal",
+      "impact": "Arbitrary file write outside temp directory",
+      "recommendedFix": "Validate input data, use secure temp file creation with tmp module"
+    },
+    {
+      "id": "BUG-003",
+      "severity": "critical",
+      "category": "integration",
+      "file": "app/db/client.ts",
+      "line": 31,
+      "title": "Mocked Prisma Client in Production",
+      "description": "Prisma client is completely mocked in production environment",
+      "impact": "No database persistence in production",
+      "recommendedFix": "Implement proper Prisma client configuration for production"
+    },
+    {
+      "id": "BUG-004",
+      "severity": "critical",
+      "category": "type-safety",
+      "file": "app/configurator/components/filters.tsx",
+      "line": 314,
+      "title": "Unsafe Type Assertion",
+      "description": "sortFilterValues(group as any) bypasses type system",
+      "impact": "Runtime errors, bypassed type checking",
+      "recommendedFix": "Properly type the group parameter or create a type guard"
+    },
+    {
+      "id": "BUG-005",
+      "severity": "critical",
+      "category": "type-safety",
+      "file": "app/configurator/configurator-state/index.tsx",
+      "line": 246,
+      "title": "Multiple Unsafe Type Assertions on State",
+      "description": "(s as any).layout.type === 'dashboard' && (s as any).layout.layout === 'canvas'",
+      "impact": "Runtime errors from bypassed type checking",
+      "recommendedFix": "Define proper interface for layout state"
+    },
+    {
+      "id": "BUG-006",
+      "severity": "critical",
+      "category": "logic",
+      "file": "app/stores/data-source.ts",
+      "line": 133,
+      "title": "Race Condition in Data Source Store",
+      "description": "Event listener is added without cleanup in dataSourceStoreMiddleware",
+      "impact": "Memory leaks and race conditions when store is recreated",
+      "recommendedFix": "Add cleanup logic to unsubscribe from router events"
+    },
+    {
+      "id": "BUG-007",
+      "severity": "high",
+      "category": "security",
+      "file": "package.json",
+      "line": 0,
+      "title": "Vulnerable serialize-javascript Package",
+      "description": "serialize-javascript ≤7.0.2 has RCE vulnerability (GHSA-5c6j-r48x-rmvq)",
+      "impact": "Remote code execution via serialized strings",
+      "recommendedFix": "Upgrade to serialize-javascript ≥7.0.3"
+    },
+    {
+      "id": "BUG-008",
+      "severity": "high",
+      "category": "security",
+      "file": "package.json",
+      "line": 0,
+      "title": "Vulnerable rollup Package",
+      "description": "rollup ≥4.0.0 <4.59.0 has path traversal vulnerability (CVE-2026-27606)",
+      "impact": "Path traversal allowing file writes outside output directory",
+      "recommendedFix": "Upgrade to rollup ≥4.59.0"
+    },
+    {
+      "id": "BUG-009",
+      "severity": "high",
+      "category": "security",
+      "file": "app/pages/api/auth/[...nextauth].ts",
+      "line": 32,
+      "title": "Development Authentication Bypass",
+      "description": "Auto-authentication in development mode bypasses all authentication checks",
+      "impact": "Credential leakage in development environments",
+      "recommendedFix": "Implement proper environment isolation"
+    },
+    {
+      "id": "BUG-010",
+      "severity": "high",
+      "category": "security",
+      "file": "app/middleware.ts",
+      "line": 346,
+      "title": "Middleware Disabled",
+      "description": "Middleware is completely disabled (empty matcher), no routes are protected",
+      "impact": "All API endpoints accessible without authentication",
+      "recommendedFix": "Configure proper route matching for protected endpoints"
+    },
+    {
+      "id": "BUG-011",
+      "severity": "high",
+      "category": "logic",
+      "file": "app/configurator/configurator-state/context.tsx",
+      "line": 302,
+      "title": "Stale Closure in Configurator Context",
+      "description": "useEffect dependency array is empty but uses variables from closure",
+      "impact": "Stale state causing incorrect behavior",
+      "recommendedFix": "Add all dependencies to the useEffect array"
+    },
+    {
+      "id": "BUG-012",
+      "severity": "high",
+      "category": "logic",
+      "file": "app/configurator/components/configurator.tsx",
+      "line": 223,
+      "title": "Unhandled Promise Rejection",
+      "description": "initChartStateFromChartEdit call is not wrapped in try/catch",
+      "impact": "Unhandled promise rejections",
+      "recommendedFix": "Add try/catch block around the async call"
+    },
+    {
+      "id": "BUG-013",
+      "severity": "high",
+      "category": "logic",
+      "file": "app/hooks/use-keyboard-navigation.ts",
+      "line": 74,
+      "title": "Event Listener Not Removed",
+      "description": "Event listener is only removed when enabled changes, not on unmount",
+      "impact": "Memory leak",
+      "recommendedFix": "Ensure cleanup runs on unmount regardless of enabled state"
+    },
+    {
+      "id": "BUG-014",
+      "severity": "high",
+      "category": "integration",
+      "file": "app/lib/dataset-service.ts",
+      "line": 32,
+      "title": "No Timeout on Fetch Calls",
+      "description": "Multiple fetch calls lack timeout handling",
+      "impact": "API vulnerable to hanging requests",
+      "recommendedFix": "Implement AbortController with reasonable timeout"
+    },
+    {
+      "id": "BUG-015",
+      "severity": "high",
+      "category": "integration",
+      "file": "app/pages/api/insights/analyze.ts",
+      "line": 37,
+      "title": "Command Injection in Python Subprocess",
+      "description": "Python subprocess execution without input validation",
+      "impact": "Command injection via locale or maxInsights parameters",
+      "recommendedFix": "Validate locale and maxInsights parameters"
+    }
+  ]
+}

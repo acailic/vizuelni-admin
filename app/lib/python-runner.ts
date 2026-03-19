@@ -2,12 +2,9 @@
  * Utility functions for running Python scripts from the dataset discovery tool
  */
 
-import { exec } from 'child_process';
-import * as fs from 'fs';
-import * as path from 'path';
-import { promisify } from 'util';
-
-const execAsync = promisify(exec);
+import { spawn } from "child_process";
+import * as fs from "fs";
+import * as path from "path";
 
 export interface PythonExecutionOptions {
   timeout?: number;
@@ -29,17 +26,8 @@ export class PythonRunner {
 
   constructor() {
     // Path to the scenarios directory where dataset_discovery is located
-    this.scenariosCwd = path.join(process.cwd(), '..', '..', 'scenarios');
-    this.basePythonPath = '/usr/bin/python3'; // Default Python path
-  }
-
-  /**
-   * Escape a shell argument to prevent command injection
-   */
-  private escapeShellArg(arg: string): string {
-    // Use single quotes and escape any existing single quotes
-    // This is the safest approach for shell argument escaping
-    return `'${arg.replace(/'/g, "'\\''")}'`;
+    this.scenariosCwd = path.join(process.cwd(), "..", "..", "scenarios");
+    this.basePythonPath = "/usr/bin/python3"; // Default Python path
   }
 
   /**
@@ -47,16 +35,26 @@ export class PythonRunner {
    */
   private validatePath(pathStr: string): boolean {
     // Reject paths with directory traversal
-    if (pathStr.includes('..')) return false;
+    if (pathStr.includes("..")) return false;
     // Reject absolute paths outside allowed directories
-    if (pathStr.startsWith('/') && !pathStr.startsWith(this.scenariosCwd)) {
+    if (pathStr.startsWith("/") && !pathStr.startsWith(this.scenariosCwd)) {
       return false;
     }
     return true;
   }
 
   /**
-   * Execute the dataset discovery Python script
+   * Validate that a string argument is safe (no command injection)
+   */
+  private validateArg(arg: string): boolean {
+    // Allow alphanumeric, dashes, underscores, spaces, and common safe chars
+    // Reject shell metacharacters
+    const dangerousPattern = /[;&|`$(){}[\]\\<>!]/;
+    return !dangerousPattern.test(arg);
+  }
+
+  /**
+   * Execute the dataset discovery Python script using spawn for safety
    */
   async runDatasetDiscovery(
     args: string[],
@@ -67,56 +65,88 @@ export class PythonRunner {
       timeout = 30000,
       cwd = this.scenariosCwd,
       env = process.env,
-      pythonPath = this.basePythonPath
+      pythonPath = this.basePythonPath,
     } = options;
 
     try {
       // Path to the discover_datasets.py script
       const scriptPath = path.join(
         this.scenariosCwd,
-        'dataset_discovery',
-        'discover_datasets.py'
+        "dataset_discovery",
+        "discover_datasets.py"
       );
 
       // Validate paths
       if (!this.validatePath(scriptPath)) {
-        throw new Error('Invalid script path');
+        throw new Error("Invalid script path");
       }
 
-      // Build the Python command with properly escaped arguments
-      const escapedArgs = args.map((arg) => {
-        // If arg is already quoted, validate and use as-is
-        if (arg.startsWith('"') && arg.endsWith('"')) {
-          return arg;
+      if (!this.validatePath(pythonPath)) {
+        throw new Error("Invalid Python path");
+      }
+
+      // Validate all arguments to prevent command injection
+      for (const arg of args) {
+        if (!this.validateArg(arg)) {
+          throw new Error(`Invalid argument: contains dangerous characters`);
         }
-        return this.escapeShellArg(arg);
-      });
+      }
 
-      const pythonCmd = `${this.escapeShellArg(pythonPath)} ${this.escapeShellArg(scriptPath)} ${escapedArgs.join(' ')}`;
+      // Build arguments array for spawn (no shell interpolation)
+      const spawnArgs = [scriptPath, ...args];
 
-      // Execute the Python script
-      const { stdout, stderr } = await execAsync(pythonCmd, {
+      // Execute the Python script using spawn (safer than exec)
+      const pythonProcess = spawn(pythonPath, spawnArgs, {
         cwd,
-        timeout,
         env: {
           ...env,
-          PYTHONPATH: path.join(this.scenariosCwd, 'dataset_discovery')
-        }
+          PYTHONPATH: path.join(this.scenariosCwd, "dataset_discovery"),
+        },
+        timeout,
+      });
+
+      // Collect stdout and stderr
+      let stdout = "";
+      let stderr = "";
+
+      pythonProcess.stdout.on("data", (chunk) => {
+        stdout += chunk;
+      });
+
+      pythonProcess.stderr.on("data", (chunk) => {
+        stderr += chunk;
+      });
+
+      // Wait for process to complete with timeout
+      const exitCode = await new Promise<number>((resolve, reject) => {
+        const timeoutId = setTimeout(() => {
+          pythonProcess.kill();
+          reject(new Error(`Process timed out after ${timeout}ms`));
+        }, timeout);
+
+        pythonProcess.on("close", (code) => {
+          clearTimeout(timeoutId);
+          resolve(code ?? 1);
+        });
+
+        pythonProcess.on("error", (err) => {
+          clearTimeout(timeoutId);
+          reject(err);
+        });
       });
 
       return {
         stdout,
         stderr,
-        success: true,
-        tempFiles
+        success: exitCode === 0,
+        tempFiles,
       };
-
     } catch (error: any) {
       return {
-        stdout: error.stdout || '',
+        stdout: error.stdout || "",
         stderr: error.stderr || error.message,
         success: false,
-        tempFiles
+        tempFiles,
       };
     }
   }
@@ -124,8 +154,8 @@ export class PythonRunner {
   /**
    * Create a temporary file and return its path
    */
-  createTempFile(prefix: string, suffix: string = '.json'): string {
-    const tempDir = path.join(process.cwd(), 'temp');
+  createTempFile(prefix: string, suffix: string = ".json"): string {
+    const tempDir = path.join(process.cwd(), "temp");
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }
@@ -142,7 +172,7 @@ export class PythonRunner {
    * Clean up temporary files
    */
   cleanupTempFiles(files: string[]): void {
-    files.forEach(file => {
+    files.forEach((file) => {
       try {
         if (fs.existsSync(file)) {
           fs.unlinkSync(file);
@@ -170,31 +200,31 @@ export class PythonRunner {
     if (options.category) {
       // Validate category is alphanumeric + safe chars
       if (!/^[\w\s-]+$/.test(options.category)) {
-        throw new Error('Invalid category format');
+        throw new Error("Invalid category format");
       }
-      args.push('--category', options.category);
+      args.push("--category", options.category);
     } else if (options.query) {
       // Query will be escaped by runDatasetDiscovery
-      args.push('--query', options.query);
+      args.push("--query", options.query);
       if (!options.expandDiacritics) {
-        args.push('--no-expand-diacritics');
+        args.push("--no-expand-diacritics");
       }
     } else {
-      throw new Error('Either query or category must be provided');
+      throw new Error("Either query or category must be provided");
     }
 
     // Add output file
-    const outputFile = options.output || this.createTempFile('datasets');
-    args.push('--output', outputFile);
+    const outputFile = options.output || this.createTempFile("datasets");
+    args.push("--output", outputFile);
     tempFiles.push(outputFile);
 
     // Add minimum results
     if (options.minResults) {
-      args.push('--min-results', String(options.minResults));
+      args.push("--min-results", String(options.minResults));
     }
 
     const result = await this.runDatasetDiscovery(args, {
-      cwd: this.scenariosCwd
+      cwd: this.scenariosCwd,
     });
 
     result.tempFiles = tempFiles;
@@ -209,7 +239,7 @@ export class PythonRunner {
       throw new Error(`Output file not found: ${filePath}`);
     }
 
-    const content = fs.readFileSync(filePath, 'utf8');
+    const content = fs.readFileSync(filePath, "utf8");
     try {
       return JSON.parse(content);
     } catch (error) {
@@ -221,7 +251,7 @@ export class PythonRunner {
    * List available categories from the discovery tool
    */
   async listCategories(): Promise<PythonExecutionResult> {
-    return this.runDatasetDiscovery(['--list-categories']);
+    return this.runDatasetDiscovery(["--list-categories"]);
   }
 }
 

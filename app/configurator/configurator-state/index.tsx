@@ -43,7 +43,7 @@ export { initChartStateFromChartEdit, initChartStateFromCube } from "./init";
 export { saveChartLocally } from "./local-storage";
 
 export type GetConfiguratorStateAction<
-  T extends ConfiguratorStateAction["type"],
+  T extends ConfiguratorStateAction["type"]
 > = Extract<ConfiguratorStateAction, { type: T }>;
 
 export const getStateWithCurrentDataSource = (state: ConfiguratorState) => {
@@ -238,14 +238,19 @@ export const isLayouting = (
   return s.state === "LAYOUTING";
 };
 
+// Type for dashboard free canvas layout - extracted inline to avoid import issues
+type DashboardFreeCanvasLayout = Extract<
+  ConfiguratorStateLayouting["layout"],
+  { type: "dashboard"; layout: "canvas" }
+>;
+
 export const isLayoutingFreeCanvas = (
   s: ConfiguratorStateWithChartConfigs
-): s is ConfiguratorStateLayouting => {
-  return (
-    !isConfiguring(s) &&
-    (s as any).layout.type === "dashboard" &&
-    (s as any).layout.layout === "canvas"
-  );
+): s is ConfiguratorStateLayouting & { layout: DashboardFreeCanvasLayout } => {
+  if (isConfiguring(s)) return false;
+  // Type guard: check if state has layout property with correct shape
+  const maybeLayout = (s as ConfiguratorStateLayouting).layout;
+  return maybeLayout?.type === "dashboard" && maybeLayout?.layout === "canvas";
 };
 
 export const isPublishing = (
@@ -294,12 +299,13 @@ export const addDatasetInConfig = function (
 
   // Need to go over fields, and replace any IRI part of the joinBy by "joinBy__<index>"
   const { encodings } = getChartSpec(chartConfig);
+  // Fields are dynamically accessed based on encoding - use unknown with runtime check
   const encodingAndFields = encodings.map(
-    (e: { field: string; idAttributes: string[] }) =>
-      [
-        e,
-        chartConfig.fields[e.field as keyof typeof chartConfig.fields] as any,
-      ] as const
+    (e: { field: string; idAttributes: string[] }) => {
+      const fieldKey = e.field as keyof typeof chartConfig.fields;
+      const field = chartConfig.fields[fieldKey];
+      return [e, field] as const;
+    }
   );
   for (const [encoding, field] of encodingAndFields) {
     if (!field) {

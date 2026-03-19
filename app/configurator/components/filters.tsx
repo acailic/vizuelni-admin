@@ -311,7 +311,12 @@ const MultiFilterContent = ({
             ) || ascending(a[0], b[0])
       )
       .map(([parent, group]) => {
-        return [parent, sortFilterValues(group as any)] as any;
+        // Type assertion needed: groupByParent expects { parents } but HierarchyValue
+        // is used at runtime with dynamically added parents property
+        return [parent, sortFilterValues(group as HierarchyValue[])] as [
+          string,
+          HierarchyValue[]
+        ];
       });
 
     return {
@@ -826,8 +831,8 @@ const TreeAccordion = ({
             state === "SELECTED"
               ? "checkmark"
               : state === "CHILDREN_SELECTED"
-                ? "indeterminate"
-                : "show"
+              ? "indeterminate"
+              : "show"
           }
           className={classes.optionCheck}
           style={{
@@ -897,8 +902,8 @@ const Tree = ({
         const state = selectedValues.map((d) => d.value).includes(value)
           ? "SELECTED"
           : areChildrenSelected({ children, selectedValues })
-            ? "CHILDREN_SELECTED"
-            : "NOT_SELECTED";
+          ? "CHILDREN_SELECTED"
+          : "NOT_SELECTED";
 
         return (
           <TreeAccordion
@@ -976,28 +981,25 @@ const DrawerContent = forwardRef<
         (d) => d.value
       );
 
-      const depthsMetadata = flatOptions.reduce(
-        (acc, d) => {
-          if (!acc[d.depth]) {
-            acc[d.depth] = { selectable: false, expandable: false };
-          }
+      const depthsMetadata = flatOptions.reduce((acc, d) => {
+        if (!acc[d.depth]) {
+          acc[d.depth] = { selectable: false, expandable: false };
+        }
 
-          if (acc[d.depth].selectable === false && d.hasValue) {
-            acc[d.depth].selectable = true;
-          }
+        if (acc[d.depth].selectable === false && d.hasValue) {
+          acc[d.depth].selectable = true;
+        }
 
-          if (
-            acc[d.depth].expandable === false &&
-            d.children &&
-            d.children.length > 0
-          ) {
-            acc[d.depth].expandable = true;
-          }
+        if (
+          acc[d.depth].expandable === false &&
+          d.children &&
+          d.children.length > 0
+        ) {
+          acc[d.depth].expandable = true;
+        }
 
-          return acc;
-        },
-        {} as Record<number, { selectable: boolean; expandable: boolean }>
-      );
+        return acc;
+      }, {} as Record<number, { selectable: boolean; expandable: boolean }>);
 
       const maxDepth = max(flatOptions, (d) => d.depth);
 
