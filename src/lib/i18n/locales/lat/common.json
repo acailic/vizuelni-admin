@@ -799,7 +799,7 @@
       },
       "chartTableAlternative": {
         "title": "Tabela alternativa za grafikone",
-        "description": "Svaki grafikon ima dugme „Prikaži kao tabelu" koje prikazuje podatke u formatu optimizovanom za čitače ekrana."
+        "description": "Svaki grafikon ima dugme \"Prikaži kao tabelu\" koje prikazuje podatke u formatu optimizovanom za čitače ekrana."
       },
       "ariaLabels": {
         "title": "ARIA oznake",
@@ -837,7 +837,7 @@
     },
     "accessibleCharts": {
       "title": "Pristupačni grafikoni",
-      "description": "Svaki grafikon na ovoj platformi uključuje pristupačnu tabelu podataka. Kliknite na dugme „Prikaži kao tabelu" da biste videli podatke u formatu optimizovanom za čitače ekrana.",
+      "description": "Svaki grafikon na ovoj platformi uključuje pristupačnu tabelu podataka. Kliknite na dugme \"Prikaži kao tabelu\" da biste videli podatke u formatu optimizovanom za čitače ekrana.",
       "whatIncludesTitle": "Šta sadrži pristupačni grafikon",
       "ariaLabelsDesc": "ARIA oznake opisuju tip grafika i sadržaj",
       "dataSummaryDesc": "Rezime podataka uključuje najvišu, najnižu i prosečnu vrednost",
@@ -856,7 +856,7 @@
     },
     "reducedMotionSection": {
       "title": "Smanjeni pokret",
-      "description": "Ako preferirate smanjene animacije, ova platforma poštuje vaša sistemska podešavanja. Omogućite „Smanji pokret" u podešavanjima operativnog sistema, i sve animacije grafika će biti onemogućene.",
+      "description": "Ako preferirate smanjene animacije, ova platforma poštuje vaša sistemska podešavanja. Omogućite \"Smanji pokret\" u podešavanjima operativnog sistema, i sve animacije grafika će biti onemogućene.",
       "note": "Podržano putem CSS media query-ja prefers-reduced-motion."
     },
     "knownLimitations": {
@@ -877,7 +877,7 @@
       "title": "Prijavite problem pristupačnosti",
       "description": "Posvećeni smo pružanju pristupačnog iskustva za sve korisnike. Ako naiđete na barijere ili imate predloge za poboljšanje, kontaktirajte nas.",
       "contactMethods": "Načini kontakta:",
-      "note": "Napomena: Gornji kontakt podaci su primeri. Za stvarne kontaktete pogledajte stranicu „O nama"."
+      "note": "Napomena: Gornji kontakt podaci su primeri. Za stvarne kontaktete pogledajte stranicu \"O nama\"."
     },
     "footer": {
       "lastUpdated": "Poslednje ažuriranje",
