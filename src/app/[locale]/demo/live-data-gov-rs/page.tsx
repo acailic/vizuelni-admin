@@ -18,7 +18,7 @@ export async function generateMetadata({
   const copy = getDemoTranslations(locale);
 
   return {
-    title: `${copy.title} | Vizuelni Admin Srbije`,
+    title: `${copy.title} | Визуелни Административни Подаци Србије`,
     description: copy.subtitle,
   };
 }

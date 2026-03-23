@@ -316,7 +316,7 @@ test.describe('Live Data Demo Page', () => {
 
       // Copy button should exist (may be disabled if no data)
       const buttonCount = await copyButton.count();
-      expect(buttonCount).toBeGreaterThanOrEqual(0);
+      expect(buttonCount).toBeGreaterThan(0);
     });
   });
 
