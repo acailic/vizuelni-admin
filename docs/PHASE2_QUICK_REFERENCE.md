@@ -242,9 +242,9 @@ goose run-plan-feature feature-41-realtime-dashboards
 
 ## 📞 Contact
 
-**Project Lead:** TBD  
-**Technical Lead:** TBD  
-**Questions:** opendata@ite.gov.rs
+**Project Lead:** TBD
+**Technical Lead:** TBD
+**Questions:** https://github.com/acailic/vizualni-admin/issues
 
 ---
 

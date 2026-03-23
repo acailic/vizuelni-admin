@@ -5,149 +5,91 @@
 | Version | Supported          | Security Updates |
 |---------|--------------------|------------------|
 | 1.x.x   | :white_check_mark: | :white_check_mark: |
-| 0.x.x   | :x:                | :x:                |
+| 0.x.x   | :x:                | :x:              |
 
 ## Reporting a Vulnerability
 
-For security vulnerabilities, please follow our responsible disclosure process:
+**Do not open a public GitHub issue for security vulnerabilities.**
 
-### Do NOT open a public issue
+Instead, use one of these methods:
 
-Instead, send details to **security@example.com** with:
+### Option 1: GitHub Security Advisory (Preferred)
+
+Report vulnerabilities through [GitHub Security Advisories](https://github.com/acailic/vizualni-admin/security/advisories).
+
+### Option 2: Private GitHub Issue
+
+Create a [private security report](https://github.com/acailic/vizualni-admin/security/advisories/new).
+
+### What to Include
 
 - Vulnerability type and severity
 - Steps to reproduce
 - Potential impact assessment
 - Any mitigation suggestions
 
-### Response Timeline
+## Response Timeline
 
-- **Initial Response**: Within 48 hours
-- **Assessment**: Within 5 business days
-- **Fix Timeline**: 90 days for critical vulnerabilities
-- **Public Disclosure**: After fix is deployed
+We aim to respond to security reports as quickly as possible:
 
-### Security Awards
+- **Initial Response**: Within 72 hours
+- **Assessment**: Within 7 business days
+- **Fix Timeline**: Depends on severity and complexity
+- **Public Disclosure**: After fix is deployed and released
 
-We reward responsible disclosure:
+## Security Measures
 
-- **Critical**: $500 USD
-- **High**: $300 USD  
-- **Medium**: $100 USD
-- **Low**: $50 USD
+This project implements security best practices:
 
-## Security Features
+### Code Security
 
-### OWASP Top 10 Compliance
+- **TypeScript**: Type safety reduces runtime errors
+- **Input Validation**: All user inputs are validated
+- **Parameterized Queries**: SQL injection prevention
+- **Authentication**: Secure auth with NextAuth.js
 
-This project implements comprehensive security measures addressing all OWASP Top 10 risks:
+### Dependencies
 
-- **A01: Broken Access Control** - Role-based access control implemented
-- **A02: Cryptographic Failures** - Strong encryption with modern algorithms
-- **A03: Injection** - Parameterized queries and input validation
-- **A04: Insecure Design** - Security-by-design architecture principles
-- **A05: Security Misconfiguration** - Secure defaults and hardened configurations
-- **A06: Vulnerable Components** - Automated scanning and dependency management
-- **A07: Authentication Failures** - Secure authentication with NextAuth
-- **A08: Software/Data Integrity** - Code signing and integrity checks
-- **A09: Logging/Monitoring** - Comprehensive security monitoring with Sentry
-- **A10: SSRF** - Network access controls and allow-listing
+- **Dependabot**: Automated dependency updates for security patches
+- **GitHub Security Advisories**: Automated vulnerability alerts
+- **Regular Audits**: Periodic review of dependencies
 
 ### Security Headers
 
-We implement all recommended security headers:
+The application configures security headers:
 
-```http
-Content-Security-Policy: default-src 'self'...
-X-Content-Type-Options: nosniff
-X-Frame-Options: DENY
-X-XSS-Protection: 1; mode=block
-Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-Referrer-Policy: strict-origin-when-cross-origin
-Permissions-Policy: camera=(), microphone=(), geolocation=()...
-Cross-Origin-Embedder-Policy: require-corp
-Cross-Origin-Opener-Policy: same-origin
-Cross-Origin-Resource-Policy: same-origin
-```
-
-### Dependency Security
-
-- **Automated Scanning**: Daily vulnerability scans with Dependabot
-- **CodeQL Analysis**: Static analysis for code security issues
-- **Dependency Review**: Automated review of dependency changes
-- **Secret Detection**: Automated scanning for leaked credentials
-
-### Infrastructure Security
-
-- **HTTPS Only**: Enforced secure connections
-- **CDN Protection**: DDoS protection via Cloudflare
-- **Backup Security**: Encrypted backups with secure storage
-- **Access Control**: Multi-factor authentication for developers
-
-## Security Monitoring
-
-We use comprehensive security monitoring:
-
-- **Sentry**: Error tracking and performance monitoring
-- **GitHub Security Advisories**: Vulnerability alerts
-- **Dependabot**: Automated dependency updates
-- **CodeQL**: Advanced static analysis
-- **Security Headers Scanner**: Continuous header validation
+- `X-Content-Type-Options: nosniff`
+- `X-Frame-Options: DENY`
+- `X-XSS-Protection: 1; mode=block`
+- `Referrer-Policy: strict-origin-when-cross-origin`
 
 ## Best Practices
 
 ### For Users
 
-1. **Keep Updated**: Always use the latest version
-2. **Report Issues**: Report suspicious behavior immediately
-3. **Secure Authentication**: Use strong, unique passwords
-4. **Network Security**: Use on secure networks only
+1. Keep the application updated to the latest version
+2. Report suspicious behavior promptly
+3. Use strong authentication credentials
 
 ### For Developers
 
-1. **Code Review**: All code changes undergo security review
-2. **Testing**: Comprehensive security testing before deployment
-3. **Dependencies**: Regular audits of third-party libraries
-4. **Documentation**: Keep security documentation current
-
-## Security Scoring
-
-Our current security metrics:
-
-| Category | Score | Status |
-|----------|-------|---------|
-| **Dependency Security** | 9.5/10 | ✅ Excellent |
-| **Code Security** | 9.0/10 | ✅ Excellent |
-| **Secret Management** | 8.5/10 | ✅ Good |
-| **Network Security** | 9.5/10 | ✅ Excellent |
-| **Infrastructure Security** | 8.0/10 | ✅ Good |
-| **Overall Score** | **8.9/10** | 🏆 **A+** |
+1. Never commit secrets or credentials to the repository
+2. Follow secure coding practices
+3. Review dependencies before adding them
+4. Run security audits regularly: `npm audit`
 
 ## Security Tools Used
 
-- **GitHub Advanced Security**: Code scanning, dependency analysis, secret scanning
-- **Snyk**: Open source vulnerability scanner
-- **OWASP ZAP**: Web application security scanner
-- **Security Headers Scanner**: Header validation tool
-- **Bundle Analyzer**: Bundle security analysis
+These tools are configured for this project:
 
-## Contact Information
-
-For security-related inquiries:
-
-- **Security Team**: security@example.com
-- **Lead Developer**: acailic@example.com
-- **GitHub Security**: [GitHub Security Advisory](https://github.com/acailic/vizualni-admin/security/advisories)
+- **GitHub Dependabot**: Dependency vulnerability scanning
+- **GitHub CodeQL**: Static code analysis (when enabled)
+- **npm audit**: Dependency security audit
 
 ## Acknowledgments
 
-We thank the security community for helping us maintain and improve our security posture. Special thanks to:
-
-- OWASP Foundation for security guidelines
-- GitHub Security Team for tools and guidance
-- Security researchers who responsibly disclose vulnerabilities
-- Our users who report security issues
+We appreciate responsible disclosure of security vulnerabilities. Contributors who report valid security issues will be acknowledged in release notes (if desired).
 
 ---
 
-🛡️ **Security is everyone's responsibility. Together we build safer software.**
+If you discover a security issue, please report it responsibly through the channels above. Thank you for helping keep this project secure.

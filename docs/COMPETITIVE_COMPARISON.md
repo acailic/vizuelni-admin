@@ -363,4 +363,4 @@ import { SerbiaMap } from '@vizualni/react';
 
 ---
 
-**Questions?** Contact: opendata@ite.gov.rs
+**Questions?** Open a GitHub Issue: https://github.com/acailic/vizualni-admin/issues

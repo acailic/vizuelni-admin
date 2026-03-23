@@ -797,4 +797,4 @@ The Kosovo and Metohija autonomous province includes 5 districts and 29 municipa
 
 ---
 
-**Questions?** Contact: opendata@ite.gov.rs
+**Questions?** Open a GitHub Issue: https://github.com/acailic/vizualni-admin/issues

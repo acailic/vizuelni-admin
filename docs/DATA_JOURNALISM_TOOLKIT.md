@@ -574,7 +574,7 @@ data.gov.rs. Визуелизација: Визуелни Администрат
 
 ### How to Partner
 
-1. Contact: opendata@ite.gov.rs
+1. Open a GitHub Issue: https://github.com/acailic/vizualni-admin/issues
 2. Provide organization details
 3. Sign partnership agreement
 4. Receive access credentials
@@ -614,7 +614,7 @@ data.gov.rs. Визуелизација: Визуелни Администрат
 - Niš
 - Kragujevac
 
-Contact opendata@ite.gov.rs for schedule.
+Check https://github.com/acailic/vizualni-admin/issues for schedule.
 
 ---
 
@@ -622,7 +622,7 @@ Contact opendata@ite.gov.rs for schedule.
 
 ### Technical Support
 
-- **Email**: opendata@ite.gov.rs
+- **GitHub Issues**: https://github.com/acailic/vizualni-admin/issues
 - **Response time**: 24 hours (business days)
 - **Languages**: Serbian (Cyrillic/Latin), English
 
@@ -634,4 +634,4 @@ Contact opendata@ite.gov.rs for schedule.
 
 ---
 
-**Questions?** Contact: opendata@ite.gov.rs
+**Questions?** Open a GitHub Issue: https://github.com/acailic/vizualni-admin/issues

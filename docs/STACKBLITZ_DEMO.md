@@ -10,7 +10,7 @@ This guide sets up a working demo environment on StackBlitz so users can try the
 
 ### Option 1: One-Click Demo (Recommended)
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/your-org/vizuelni-admin-srbije-demo)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/acailic/vizualni-admin)
 
 Opens a fully configured demo with:
 
@@ -237,7 +237,7 @@ export default function PlaygroundPage() {
 
 ```html
 <iframe
-  src="https://stackblitz.com/github/your-org/vizuelni-admin-srbije-demo?embed=1&file=app/page.tsx"
+  src="https://stackblitz.com/github/acailic/vizualni-admin?embed=1&file=app/page.tsx"
   width="100%"
   height="500"
   frameborder="0"
@@ -247,7 +247,7 @@ export default function PlaygroundPage() {
 ### Markdown Link
 
 ```markdown
-[![Open Demo](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/your-org/vizuelni-admin-srbije-demo)
+[![Open Demo](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/acailic/vizualni-admin)
 ```
 
 ---
@@ -410,7 +410,7 @@ trackDemoEvent('chart_created', { type: 'bar', dataPoints: 5 });
 
 ## Next Steps
 
-1. **Try the demo:** [stackblitz.com/...](https://stackblitz.com/github/your-org/vizuelni-admin-srbije-demo)
+1. **Try the demo:** [stackblitz.com/...](https://stackblitz.com/github/acailic/vizualni-admin)
 2. **Read tutorials:** [Tutorials Guide](./TUTORIALS_GUIDE.md)
 3. **Join community:** [Community Infrastructure](./COMMUNITY_INFRASTRUCTURE.md)
 4. **Start building:** [Chart Plugin Guide](./CHART_PLUGIN_GUIDE.md)

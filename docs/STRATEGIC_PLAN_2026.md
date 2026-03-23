@@ -1436,4 +1436,4 @@ BS-1/2/3: Black swan events
 
 _Strategic Plan 2026 — Vizuelni Admin Srbije_
 _Version 1.0 — March 2026_
-_Contact: opendata@ite.gov.rs_
+_Contact: https://github.com/acailic/vizualni-admin/issues_

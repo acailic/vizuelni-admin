@@ -220,7 +220,7 @@
 
 ### П: Како да пријавим проблем?
 
-**О:** Пошаљите е-пошту на opendata@ite.gov.rs
+**О:** Пријавите проблем на GitHub Issues: https://github.com/acailic/vizualni-admin/issues
 
 ---
 
@@ -237,8 +237,8 @@
 ## Помоћ и подршка
 
 - **Документација:** [docs.vizuelni.rs](https://docs.vizuelni.rs)
-- **Е-пошта:** opendata@ite.gov.rs
-- **GitHub:** [github.com/your-org/vizuelni-admin-srbije](https://github.com/your-org/vizuelni-admin-srbije)
+- **GitHub:** [github.com/acailic/vizualni-admin](https://github.com/acailic/vizualni-admin)
+- **Пријаве:** [GitHub Issues](https://github.com/acailic/vizualni-admin/issues)
 
 ---
 

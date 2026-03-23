@@ -440,7 +440,7 @@ Key arguments:
 ## Next Steps
 
 - **Try it free:** [vizuelni.rs/demo](https://vizuelni.rs/demo)
-- **Talk to our team:** opendata@ite.gov.rs
+- **Talk to our team:** https://github.com/acailic/vizualni-admin/issues
 - **Read case studies:** [docs/case-studies](./case-studies/)
 - **Start pilot:** [Pilot Partner Playbook](./PILOT_PARTNER_PLAYBOOK.md)
 

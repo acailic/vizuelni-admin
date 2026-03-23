@@ -568,4 +568,4 @@ REAL-TIME (10%): Transportation, environment
 
 ---
 
-*For questions or feedback, contact: opendata@ite.gov.rs*
+*For questions or feedback, open a GitHub Issue: https://github.com/acailic/vizualni-admin/issues*

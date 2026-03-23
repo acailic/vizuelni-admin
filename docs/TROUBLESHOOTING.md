@@ -483,9 +483,8 @@ console.log(getDebugInfo());
 
 | Channel                            | Response Time | Best For        |
 | ---------------------------------- | ------------- | --------------- |
-| Email: opendata@ite.gov.rs         | 24 hours      | All issues      |
+| GitHub Issues                      | 24 hours      | All issues      |
 | Discord: discord.gg/vizualni-admin | ~2 hours      | Quick questions |
-| GitHub Issues                      | 48 hours      | Bug reports     |
 
 ### Reporting Bugs
 

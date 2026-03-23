@@ -253,7 +253,7 @@ Description Template: |
   - Documentation: https://docs.vizuelni.rs
   - Dataset: [link to data used]
 
-  📧 Contact: opendata@ite.gov.rs
+  📧 Contact: https://github.com/acailic/vizualni-admin/issues
 
   #Визуелизација #Србија #OpenData
 ```

@@ -408,7 +408,7 @@ npm run build
 ### Before Reporting
 
 1. Check this guide
-2. Search [GitHub Issues](https://github.com/your-org/vizuelni-admin-srbije/issues)
+2. Search [GitHub Issues](https://github.com/acailic/vizualni-admin/issues)
 3. Gather info:
 
 ```bash
@@ -441,5 +441,4 @@ npm run build 2>&1 | head -100
 
 ## Contact
 
-- **GitHub Issues:** [Report a bug](https://github.com/your-org/vizuelni-admin-srbije/issues)
-- **Email:** opendata@ite.gov.rs
+- **GitHub Issues:** [Report a bug](https://github.com/acailic/vizualni-admin/issues)

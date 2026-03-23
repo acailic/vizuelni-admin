@@ -373,7 +373,7 @@ For developers embedding in React applications.
 
 - **Discord:** [Join our community](https://discord.gg/vizualni-admin)
 - **GitHub Discussions:** Ask questions, share work
-- **Email:** opendata@ite.gov.rs
+- **GitHub Issues:** https://github.com/acailic/vizualni-admin/issues
 
 ### Training
 
@@ -384,7 +384,7 @@ We offer free training sessions for:
 - Academic institutions
 - NGOs
 
-Contact us at opendata@ite.gov.rs to schedule.
+Open a GitHub issue at https://github.com/acailic/vizualni-admin/issues to schedule.
 
 ---
 
@@ -449,7 +449,7 @@ Help us improve this guide!
 - Did you get stuck?
 - What would you like to learn next?
 
-Email: opendata@ite.gov.rs
+GitHub Issues: https://github.com/acailic/vizualni-admin/issues
 
 ---
 

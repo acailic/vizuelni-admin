@@ -327,9 +327,9 @@ community a harassment-free experience for everyone.
 
 To report a Code of Conduct violation:
 
-1. Email: acailic@example.com
-2. Use GitHub's private reporting feature
-3. Contact the project lead directly
+1. Use GitHub's private reporting feature
+2. Open a GitHub Issue for non-sensitive matters
+3. Contact the project lead via GitHub
 
 All reports will be reviewed and investigated.
 
@@ -458,7 +458,7 @@ If you have questions about governance or need clarification:
 1. Review this document thoroughly
 2. Check [CONTRIBUTING.md](../CONTRIBUTING.md) for contribution process
 3. Open a GitHub Discussion
-4. Contact project lead: acailic@example.com
+4. Open a GitHub Issue
 
 ---
 

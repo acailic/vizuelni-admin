@@ -329,7 +329,7 @@ For government agencies with extended approval cycles:
 3. **Migration support:** Dedicated support channel
 4. **Compatibility testing:** Access to pre-release versions
 
-Contact: opendata@ite.gov.rs for agency support agreements
+Contact: https://github.com/acailic/vizualni-admin/issues for agency support agreements
 
 ---
 
@@ -375,12 +375,12 @@ Every release includes a CHANGELOG.md entry following [Keep a Changelog](https:/
 | **Email list**             | Breaking changes, security advisories |
 | **Discord #announcements** | Release summaries                     |
 
-Subscribe: opendata@ite.gov.rs with subject "SUBSCRIBE VERSIONS"
+Subscribe: Watch https://github.com/acailic/vizualni-admin/issues for version updates
 
 ---
 
 ## Questions?
 
-**Version compatibility:** opendata@ite.gov.rs
+**Version compatibility:** https://github.com/acailic/vizualni-admin/issues
 **Migration assistance:** discord.gg/vizualni-admin
 **Enterprise support:** Contact for SLA-backed support agreements

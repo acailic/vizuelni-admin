@@ -232,7 +232,7 @@ scripts/run-phase2-features.sh
 
 **Project Lead:** TBD
 **Technical Lead:** TBD
-**Email:** opendata@ite.gov.rs
+**GitHub Issues:** https://github.com/acailic/vizualni-admin/issues
 
 ---
 

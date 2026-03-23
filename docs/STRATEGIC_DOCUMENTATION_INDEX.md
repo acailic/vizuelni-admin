@@ -193,10 +193,10 @@ This comprehensive strategic analysis provides a complete roadmap for building a
 
 ## 📞 Contact & Support
 
-**Project Lead:** Vizualni Admin Srbije Team  
-**Email:** opendata@ite.gov.rs  
-**Twitter:** [@kancelarijaITE](https://twitter.com/kancelarijaITE)  
-**LinkedIn:** [Канцеларија за ИТ и еУправу](https://www.linkedin.com/company/kancelarija-ite/)  
+**Project Lead:** Vizualni Admin Srbije Team
+**GitHub Issues:** https://github.com/acailic/vizualni-admin/issues
+**Twitter:** [@kancelarijaITE](https://twitter.com/kancelarijaITE)
+**LinkedIn:** [Канцеларија за ИТ и еУправу](https://www.linkedin.com/company/kancelarija-ite/)
 **Discord:** [Join Community](https://discord.gg/vizualni-admin)
 
 ---

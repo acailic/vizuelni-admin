@@ -9,7 +9,7 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/vizuelni-admin-srbije.git
+git clone https://github.com/acailic/vizualni-admin.git
 cd vizuelni-admin-srbije
 
 # Install dependencies

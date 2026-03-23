@@ -464,7 +464,7 @@ Subject: Алат за визуелизацију података за ваше
 
 2. **Канцеларија за ИТ и еУправу**
    - Rationale: Technical expertise and influence
-   - Contact: opendata@ite.gov.rs
+   - Contact: https://github.com/acailic/vizualni-admin/issues
    - Timeline: Week 3
 
 3. **Републички завод за статистику**
@@ -552,4 +552,4 @@ Subject: Re: Партнерство за транспарентност пода
 
 ---
 
-**Questions?** Contact opendata@ite.gov.rs
+**Questions?** Open a GitHub Issue: https://github.com/acailic/vizualni-admin/issues

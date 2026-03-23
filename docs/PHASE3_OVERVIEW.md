@@ -200,7 +200,7 @@ See individual feature maps for detailed timelines.
 
 - **Technical Lead**: [TBD]
 - **Product Owner**: [TBD]
-- **Government Liaison**: opendata@ite.gov.rs
+- **Government Liaison**: https://github.com/acailic/vizualni-admin/issues
 - **Community Discord**: https://discord.gg/vizualni-admin
 
 ---

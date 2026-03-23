@@ -978,4 +978,4 @@ const SerbiaMap = React.lazy(() => import('@vizualni/react/serbia-map'));
 
 ---
 
-**Questions?** Contact: opendata@ite.gov.rs
+**Questions?** Open a GitHub Issue: https://github.com/acailic/vizualni-admin/issues

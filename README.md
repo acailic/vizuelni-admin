@@ -75,7 +75,7 @@ No installation required—experiment with Serbian government data visualization
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/vizuelni-admin-srbije.git
+git clone https://github.com/acailic/vizualni-admin.git
 cd vizuelni-admin-srbije
 
 # Install dependencies
@@ -384,10 +384,9 @@ See [LICENSE](./LICENSE) for details.
 
 ## Connect
 
-- **Email**: opendata@ite.gov.rs
+- **Issues**: [GitHub Issues](https://github.com/acailic/vizualni-admin/issues)
 - **Twitter**: [@kancelarijaITE](https://twitter.com/kancelarijaITE)
 - **LinkedIn**: [Канцеларија за ИТ и еУправу](https://www.linkedin.com/company/kancelarija-ite/)
-- **Discord**: [Join Community](https://discord.gg/vizualni-admin)
 
 ---
 
@@ -435,7 +434,7 @@ _Transparency as infrastructure, not afterthought._
 
 ```bash
 # Клонирајте репозиторијум
-git clone https://github.com/your-org/vizuelni-admin-srbije.git
+git clone https://github.com/acailic/vizualni-admin.git
 
 # Инсталирајте зависности
 npm install
@@ -477,7 +476,7 @@ Srbija je uložila u infrastrukturu otvorenih podataka — preko 3.412 skupova p
 
 ```bash
 # Klonirajte repozitorijum
-git clone https://github.com/your-org/vizuelni-admin-srbije.git
+git clone https://github.com/acailic/vizualni-admin.git
 
 # Instalirajte zavisnosti
 npm install

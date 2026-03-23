@@ -248,7 +248,7 @@ We're building tools to make data.gov.rs accessible to every citizen.
 ## Resources
 
 - 📖 Documentation: https://vizuelni-admin.rs/docs
-- 💻 GitHub: https://github.com/your-org/vizuelni-admin-srbije
+- 💻 GitHub: https://github.com/acailic/vizualni-admin
 - 🐛 Bug reports: GitHub Issues
 - 💬 Discussions: GitHub Discussions
 
@@ -428,8 +428,8 @@ See our development setup below.
 
 ```bash
 # Fork and clone
-git clone https://github.com/YOUR_USERNAME/vizuelni-admin-srbije.git
-cd vizuelni-admin-srbije
+git clone https://github.com/acailic/vizualni-admin.git
+cd vizualni-admin
 
 # Install dependencies
 npm install
@@ -555,7 +555,6 @@ vizuelni-admin-srbije/
 ## Questions?
 
 - 💬 [GitHub Discussions](link)
-- 📧 opendata@ite.gov.rs
 - 🐦 [@kancelarijaITE](https://twitter.com/kancelarijaITE)
 
 ## License
@@ -826,4 +825,4 @@ _View online:_ [link]
 
 ---
 
-**Questions?** Contact: opendata@ite.gov.rs
+**Questions?** Open a GitHub Issue: https://github.com/acailic/vizualni-admin/issues

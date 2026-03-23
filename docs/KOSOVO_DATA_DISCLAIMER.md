@@ -318,8 +318,7 @@ This platform presents data in accordance with Serbian law and the Serbian gover
 
 **Vizuelni Admin Srbije**
 
-- Email: opendata@ite.gov.rs
-- GitHub: [Issues page]
+- GitHub Issues: https://github.com/acailic/vizualni-admin/issues
 
 ---
 

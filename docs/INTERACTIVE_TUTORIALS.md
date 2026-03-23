@@ -889,9 +889,7 @@ import { BarChart } from '@vizualni/react';
 ### Getting Help
 
 - 📖 [Documentation](/docs)
-- 💬 [Discord Community](https://discord.gg/vizualni-admin)
-- 🐛 [Report Issues](https://github.com/your-org/vizuelni-admin-srbije/issues)
-- 📧 [Email Support](mailto:opendata@ite.gov.rs)
+- 🐛 [Report Issues](https://github.com/acailic/vizualni-admin/issues)
 
 ---
 

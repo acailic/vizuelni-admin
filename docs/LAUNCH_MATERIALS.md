@@ -66,7 +66,7 @@ developer.
 > this is for you.
 >
 > **Demo:** [StackBlitz Template]
-> **GitHub:** [github.com/your-org/vizuelni-admin-srbije]
+> **GitHub:** [github.com/acailic/vizualni-admin]
 > **Docs:** [docs.vizuelni-admin.rs]
 >
 > Живели! 🇷🇸
@@ -379,7 +379,7 @@ GitHub: [link]
 Платформа је већ доступна за тестирање, а преговори са државним
 институцијама о партнерству су у току.
 
-За више информација: opendata@ite.gov.rs
+За више информација: https://github.com/acailic/vizualni-admin/issues
 
 ### For International Tech Media
 
@@ -405,8 +405,8 @@ English), direct data.gov.rs API integration, a visual chart builder,
 React components for developers, and WCAG 2.1 AA accessibility compliance.
 
 The platform is available immediately under the MIT license. Government
-agencies interested in implementation support can contact the team at
-opendata@ite.gov.rs.
+agencies interested in implementation support can open a GitHub issue at
+https://github.com/acailic/vizualni-admin/issues.
 
 For more information: [website]
 
@@ -542,8 +542,8 @@ data usage terms.
 ### Brand Usage
 
 The Vizualni Admin Srbije name and logo may be used with attribution for
-promotional purposes. Contact opendata@ite.gov.rs for brand guidelines.
+promotional purposes. Open a GitHub issue at https://github.com/acailic/vizualni-admin/issues for brand guidelines.
 
 ---
 
-**Questions?** Contact us at opendata@ite.gov.rs
+**Questions?** Open a GitHub Issue: https://github.com/acailic/vizualni-admin/issues

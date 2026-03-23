@@ -223,7 +223,7 @@ Mobile Dashboard Builder
 
 - **Technical Lead**: [TBD]
 - **Product Owner**: [TBD]
-- **Government Liaison**: opendata@ite.gov.rs
+- **Government Liaison**: https://github.com/acailic/vizualni-admin/issues
 - **Community**: https://discord.gg/vizualni-admin
 
 ---

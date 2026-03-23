@@ -79,7 +79,7 @@
 
 1. Read [Partnership Proposal Template](./PARTNERSHIP_PROPOSAL_TEMPLATE.md)
 2. Review [Implementation Support Package](./PARTNERSHIP_PROPOSAL_TEMPLATE.md#implementation-support-package)
-3. Contact opendata@ite.gov.rs
+3. Open a GitHub Issue: https://github.com/acailic/vizualni-admin/issues
 
 ---
 
@@ -149,7 +149,7 @@ See [Geographic Visualization Guide](./GEOGRAPHIC_VISUALIZATION_GUIDE.md) for ex
 
 - **Discord**: [discord.gg/vizualni-admin](https://discord.gg/vizualni-admin)
 - **GitHub Discussions**: Feature requests, Q&A, showcase
-- **Email**: opendata@ite.gov.rs
+- **GitHub Issues**: https://github.com/acailic/vizualni-admin/issues
 
 ### Contribute
 
@@ -167,7 +167,7 @@ See [Contributing Guide](./guide/CONTRIBUTING.md) and [Community Infrastructure]
 
 ### Technical Support
 
-- **Email**: opendata@ite.gov.rs
+- **GitHub Issues**: https://github.com/acailic/vizualni-admin/issues
 - **Response time**: 24 hours (business days)
 - **Languages**: Serbian (Cyrillic/Latin), English
 
@@ -180,7 +180,7 @@ Free training sessions for:
 - Academic institutions
 - NGOs
 
-Contact opendata@ite.gov.rs to schedule.
+Open a GitHub issue at https://github.com/acailic/vizualni-admin/issues to schedule.
 
 ---
 
@@ -190,4 +190,4 @@ MIT License - See [LICENSE](../LICENSE) for details.
 
 ---
 
-**Questions?** Contact: opendata@ite.gov.rs
+**Questions?** Open a GitHub Issue: https://github.com/acailic/vizualni-admin/issues

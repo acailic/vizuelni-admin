@@ -226,6 +226,6 @@ We have an **18-24 month window** to establish market leadership in Serbian gove
 
 ---
 
-**Contact:** opendata@ite.gov.rs  
-**Date:** March 16, 2026  
+**Contact:** https://github.com/acailic/vizualni-admin/issues
+**Date:** March 16, 2026
 **Status:** Ready to Execute

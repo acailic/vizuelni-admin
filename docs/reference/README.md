@@ -275,9 +275,9 @@ Contributions are welcome! Please see the main repository for contribution guide
 For security vulnerabilities, please follow our responsible disclosure policy:
 
 1. **Do NOT** open a public issue
-2. Send details to **security@example.com**
-3. We'll respond within 48 hours
-4. Allow us 90 days to fix before public disclosure
+2. Report via [GitHub Security Advisories](https://github.com/acailic/vizualni-admin/security/advisories)
+3. We'll respond as quickly as possible
+4. Allow us time to fix before public disclosure
 
 ## Related Projects
 

@@ -516,4 +516,4 @@ echo "Load test complete"
 
 **Last validated:** March 14, 2026
 **Next validation:** April 14, 2026
-**Contact:** opendata@ite.gov.rs
+**Contact:** https://github.com/acailic/vizualni-admin/issues

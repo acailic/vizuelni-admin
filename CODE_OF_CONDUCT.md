@@ -59,8 +59,8 @@ representative at an online or offline event.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders responsible for enforcement at
-opendata@ite.gov.rs.
+reported to the community leaders responsible for enforcement by
+[opening a GitHub Issue](https://github.com/acailic/vizualni-admin/issues).
 
 All complaints will be reviewed and investigated promptly and fairly.
 
@@ -134,11 +134,9 @@ For answers to common questions about this code of conduct, see the FAQ at
 
 ## Contact Information
 
-For questions or concerns about this Code of Conduct, please contact:
+For questions or concerns about this Code of Conduct, please:
 
-- **Email**: opendata@ite.gov.rs
-- **Address**: Канцеларија за ИТ и еУправу, Влада Републике Србије
-- **Website**: https://www.ite.gov.rs/
+- [Open a GitHub Issue](https://github.com/acailic/vizualni-admin/issues)
 
 ---
 

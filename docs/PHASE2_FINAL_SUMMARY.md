@@ -210,7 +210,7 @@ docs/
 
 **Project Lead:** TBD
 **Technical Lead:** TBD
-**Email:** opendata@ite.gov.rs
+**GitHub Issues:** https://github.com/acailic/vizualni-admin/issues
 
 ---
 
@@ -248,4 +248,4 @@ docs/
 
 ---
 
-_For questions or clarifications, contact opendata@ite.gov.rs_
+_For questions or clarifications, open a GitHub Issue: https://github.com/acailic/vizualni-admin/issues_

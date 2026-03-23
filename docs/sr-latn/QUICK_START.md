@@ -183,8 +183,8 @@ Ovaj vodič će vam pomoći da počnete da koristite Vizuelni Admin Srbije za ne
 ## Pomoć i podrška
 
 - **Dokumentacija:** [docs.vizuelni.rs](https://docs.vizuelni.rs)
-- **E-pošta:** opendata@ite.gov.rs
-- **GitHub:** [github.com/your-org/vizuelni-admin-srbije](https://github.com/your-org/vizuelni-admin-srbije)
+- **GitHub:** [github.com/acailic/vizualni-admin](https://github.com/acailic/vizualni-admin)
+- **Prijave:** [GitHub Issues](https://github.com/acailic/vizualni-admin/issues)
 
 ---
 

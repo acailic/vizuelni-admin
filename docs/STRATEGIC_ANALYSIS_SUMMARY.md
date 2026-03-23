@@ -312,4 +312,4 @@ For detailed analysis, see:
 **Document Status:** Complete ✅  
 **Last Updated:** March 16, 2026  
 **Maintainer:** Vizualni Admin Srbije Team  
-**Contact:** opendata@ite.gov.rs
+**Contact:** https://github.com/acailic/vizualni-admin/issues

@@ -268,7 +268,7 @@ Always respect and preserve dataset metadata:
 
 - **API Documentation**: https://data.gov.rs/rs/apidoc
 - **Terms of Use**: https://data.gov.rs/terms
-- **Contact**: opendata@ite.gov.rs
+- **Contact**: https://github.com/acailic/vizualni-admin/issues
 - **Twitter**: @kancelarijaITE
 - **LinkedIn**: /company/kancelarija-ite/
 - **RSS Feeds**: 

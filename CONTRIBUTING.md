@@ -15,7 +15,7 @@ First off, thank you for considering contributing to this project! It's people l
 
 ## Code of Conduct
 
-This project and everyone participating in it is governed by our [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to opendata@ite.gov.rs.
+This project and everyone participating in it is governed by our [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior by opening a GitHub Issue.
 
 ## Getting Started
 
@@ -33,7 +33,7 @@ This project and everyone participating in it is governed by our [Code of Conduc
 
 2. **Clone your fork locally**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/vizuelni-admin-srbije.git
+   git clone https://github.com/acailic/vizualni-admin.git
    cd vizuelni-admin-srbije
    ```
 
@@ -308,8 +308,7 @@ This project supports three languages:
 
 ## Questions or Need Help?
 
-- Create an issue with the `question` label
-- Email us at opendata@ite.gov.rs
+- [Open a GitHub Issue](https://github.com/acailic/vizualni-admin/issues) with the `question` label
 - Check existing documentation in `/docs`
 
 ## Recognition

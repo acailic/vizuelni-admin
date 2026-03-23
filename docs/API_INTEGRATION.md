@@ -391,7 +391,7 @@ test('fetches datasets', async () => {
 
 - **API Documentation:** https://data.gov.rs/api/1/swagger.json
 - **Data Portal:** https://data.gov.rs
-- **Contact:** opendata@ite.gov.rs
+- **Contact:** https://github.com/acailic/vizualni-admin/issues
 - **GitHub Issues:** Report bugs and request features
 
 ---

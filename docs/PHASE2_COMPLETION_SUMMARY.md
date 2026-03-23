@@ -289,9 +289,9 @@ Month 17-18: Launch & Review
 
 ## 📞 Contact
 
-**Project Lead:** TBD  
-**Technical Lead:** TBD  
-**Email:** opendata@ite.gov.rs
+**Project Lead:** TBD
+**Technical Lead:** TBD
+**GitHub Issues:** https://github.com/acailic/vizualni-admin/issues
 
 ---
 

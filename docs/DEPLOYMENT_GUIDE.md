@@ -211,8 +211,8 @@ sudo apt install nginx
 #### Deploy Steps
 ```bash
 # 1. Clone repository
-git clone https://github.com/your-org/vizuelni-admin-srbije.git
-cd vizuelni-admin-srbije
+git clone https://github.com/acailic/vizualni-admin.git
+cd vizualni-admin
 
 # 2. Install dependencies
 npm ci
