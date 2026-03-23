@@ -90,6 +90,12 @@ export interface DemoTranslations {
   codeDescription: string;
   codeNoData: string;
   codeNoSelection: string;
+  // Schema warnings
+  schemaWarningNoNumeric: string;
+  schemaWarningManyColumns: string;
+  schemaWarningYearNotRecognized: string;
+  // Raw Preview row count message
+  rawPreviewShowingRows: string;
   // Fallback Banner
   fallbackBannerTitle: string;
   fallbackBannerMessage: string;
@@ -214,6 +220,12 @@ export function getDemoTranslations(locale: Locale): DemoTranslations {
         codeDescription: 'Копирајте овај код у свој React пројекат да бисте добили исти графикон.',
         codeNoData: 'Нема података за генерисање кода.',
         codeNoSelection: 'Изаберите скуп података да бисте видели код.',
+        // Schema warnings
+        schemaWarningNoNumeric: 'Нема нумеричких колона - можда није погодно за графиконе',
+        schemaWarningManyColumns: 'Много текстуалних колона - подаци можда захтевају филтрирање',
+        schemaWarningYearNotRecognized: 'Откривена колона године, али није аутоматски препозната као временско поље',
+        // Raw Preview row count message
+        rawPreviewShowingRows: 'Приказује се 10 од {count} редова',
         // Fallback Banner
         fallbackBannerTitle: 'Приказују се архивирани подаци',
         fallbackBannerMessage: 'Жива веза са data.gov.rs није доступна. Приказују се архивирани подаци са',
@@ -258,7 +270,7 @@ export function getDemoTranslations(locale: Locale): DemoTranslations {
         metadataNoSelection: 'Nije izabran skup podataka',
         metadataNoSelectionHint: 'Kliknite na jednu od kartica iznad da biste izabrali skup podataka.',
         // Raw Preview panel
-        rawPreviewDelimiter: 'Razdvojnjk',
+        rawPreviewDelimiter: 'Razdvojnik',
         rawPreviewResourceHost: 'Domaćin resursa',
         rawPreviewRowCount: 'Broj redova (uzorak)',
         rawPreviewHeaders: 'Zaglavlja',
@@ -296,6 +308,12 @@ export function getDemoTranslations(locale: Locale): DemoTranslations {
         codeDescription: 'Kopirajte ovaj kod u svoj React projekat da biste dobili isti grafikon.',
         codeNoData: 'Nema podataka za generisanje koda.',
         codeNoSelection: 'Izaberite skup podataka da biste videli kod.',
+        // Schema warnings
+        schemaWarningNoNumeric: 'Nema numeričkih kolona - možda nije pogodno za grafikone',
+        schemaWarningManyColumns: 'Mnogo tekstualnih kolona - podaci možda zahtevaju filtriranje',
+        schemaWarningYearNotRecognized: 'Otkrivena kolona godine, ali nije automatski prepoznata kao vremensko polje',
+        // Raw Preview row count message
+        rawPreviewShowingRows: 'Prikazuje se 10 od {count} redova',
         // Fallback Banner
         fallbackBannerTitle: 'Prikazuju se arhivirani podaci',
         fallbackBannerMessage: 'Živa veza sa data.gov.rs nije dostupna. Prikazuju se arhivirani podaci sa',
@@ -377,6 +395,12 @@ export function getDemoTranslations(locale: Locale): DemoTranslations {
         codeDescription: 'Copy this code into your React project to get the same chart.',
         codeNoData: 'No data available to generate code.',
         codeNoSelection: 'Select a dataset to see the code.',
+        // Schema warnings
+        schemaWarningNoNumeric: 'No numeric columns detected - may not be suitable for charts',
+        schemaWarningManyColumns: 'Many text columns detected - data may need filtering',
+        schemaWarningYearNotRecognized: 'Year column detected but not auto-recognized as time field',
+        // Raw Preview row count message
+        rawPreviewShowingRows: 'Showing 10 of {count} rows',
         // Fallback Banner
         fallbackBannerTitle: 'Showing Archived Data',
         fallbackBannerMessage: 'Live connection to data.gov.rs is unavailable. Showing archived data from',

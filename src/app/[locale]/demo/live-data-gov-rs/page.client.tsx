@@ -36,6 +36,7 @@ import {
   Legend,
 } from 'recharts';
 import type { Locale } from '@/lib/i18n/config';
+import { withBasePath } from '@/lib/url/base-path';
 import {
   DATASET_PRESETS,
   getChartTypeLabel,
@@ -49,7 +50,7 @@ interface ParsedSchema {
   measures: string[];
   timeField: string | null;
   geoField: string | null;
-  warnings: string[];
+  warnings: ('NO_NUMERIC' | 'MANY_COLUMNS' | 'YEAR_NOT_RECOGNIZED')[];
   columnTypes: Record<string, 'text' | 'number' | 'mixed'>;
 }
 
@@ -72,12 +73,26 @@ const INITIAL_RAW_DATA_STATE: RawDataState = {
   rowCount: 0,
 };
 
-// Serbian government blue color
-const GOV_BLUE = '#0D4077';
-const GOV_SECONDARY = '#1a5290';
-
 // Colors for multi-line charts
+const GOV_BLUE = '#0D4077';
 const CHART_COLORS = [GOV_BLUE, '#C6363C', '#4B90F5', '#2d8a4e', '#e6a817', '#8b5cf6'];
+
+/**
+ * Map a structured schema warning code to its localized string.
+ */
+function getSchemaWarningText(
+  warning: 'NO_NUMERIC' | 'MANY_COLUMNS' | 'YEAR_NOT_RECOGNIZED',
+  t: DemoTranslations
+): string {
+  switch (warning) {
+    case 'NO_NUMERIC':
+      return t.schemaWarningNoNumeric;
+    case 'MANY_COLUMNS':
+      return t.schemaWarningManyColumns;
+    case 'YEAR_NOT_RECOGNIZED':
+      return t.schemaWarningYearNotRecognized;
+  }
+}
 
 /**
  * Detect the delimiter used in CSV content
@@ -169,6 +184,45 @@ function isGeoField(header: string): boolean {
 }
 
 /**
+ * Strip leading metadata lines from CSV text.
+ * Some CSVs (e.g. sensor data) include key-value metadata rows at the top
+ * (e.g. "Location - latitude,44.85876,,,,,") before the real header.
+ * Detects these by checking if more than half of the comma-separated fields
+ * in a line are empty, which is a reliable indicator of metadata rows.
+ */
+// Check at most this many non-blank lines for metadata headers
+const MAX_METADATA_LINES_TO_CHECK = 5;
+// A line is considered a metadata row if more than this fraction of its fields are empty
+// (e.g. "Location - latitude,44.85876,,,,," has 5/7 ≈ 71% empty fields)
+const METADATA_EMPTY_FIELD_THRESHOLD = 0.5;
+
+function stripMetadataLines(text: string, delimiter: string): string {
+  const lines = text.split('\n');
+  if (lines.length <= 1) return text;
+
+  let startIdx = 0;
+  let checkedNonBlank = 0;
+  for (let i = 0; i < lines.length && checkedNonBlank < MAX_METADATA_LINES_TO_CHECK; i++) {
+    const trimmed = lines[i].trim();
+    if (trimmed === '') {
+      // Advance past leading blank lines
+      if (i === startIdx) startIdx = i + 1;
+      continue;
+    }
+    checkedNonBlank++;
+    const fields = trimmed.split(delimiter);
+    const emptyCount = fields.filter((f) => f.trim() === '').length;
+    if (fields.length > 1 && emptyCount / fields.length > METADATA_EMPTY_FIELD_THRESHOLD) {
+      startIdx = i + 1;
+    } else {
+      break;
+    }
+  }
+
+  return lines.slice(startIdx).join('\n');
+}
+
+/**
  * Analyze column types and detect schema
  */
 function analyzeSchema(
@@ -179,7 +233,7 @@ function analyzeSchema(
   const measures: string[] = [];
   let timeField: string | null = null;
   let geoField: string | null = null;
-  const warnings: string[] = [];
+  const warnings: ('NO_NUMERIC' | 'MANY_COLUMNS' | 'YEAR_NOT_RECOGNIZED')[] = [];
   const columnTypes: Record<string, 'text' | 'number' | 'mixed'> = {};
 
   // Sample up to 100 rows for analysis
@@ -238,13 +292,13 @@ function analyzeSchema(
 
   // Generate warnings
   if (measures.length === 0) {
-    warnings.push('No numeric columns detected - may not be suitable for charts');
+    warnings.push('NO_NUMERIC');
   }
   if (dimensions.length > 10) {
-    warnings.push('Many text columns detected - data may need filtering');
+    warnings.push('MANY_COLUMNS');
   }
   if (!timeField && headers.some((h) => h.toLowerCase().includes('godina') || h.toLowerCase().includes('year'))) {
-    warnings.push('Year column detected but not auto-recognized as time field');
+    warnings.push('YEAR_NOT_RECOGNIZED');
   }
 
   return {
@@ -326,7 +380,8 @@ export default function LiveDataDemoClient({
     headers: string[];
   } => {
     const delimiter = detectDelimiter(text);
-    const parseResult = Papa.parse<Record<string, string>>(text, {
+    const cleanedText = stripMetadataLines(text, delimiter);
+    const parseResult = Papa.parse<Record<string, string>>(cleanedText, {
       header: true,
       delimiter,
       skipEmptyLines: true,
@@ -354,7 +409,9 @@ export default function LiveDataDemoClient({
     captured: string;
   } | null> => {
     try {
-      const response = await fetch(`/demo-snapshots/live-data-gov-rs/${presetId}.json`);
+      const response = await fetch(
+        withBasePath(`/demo-snapshots/live-data-gov-rs/${presetId}.json`)
+      );
       if (!response.ok) {
         console.warn(`No fallback snapshot found for ${presetId}`);
         return null;
@@ -1300,7 +1357,7 @@ export default function DatasetChart() {
 
                   {rawData.rowCount > 10 && (
                     <p className='text-xs text-slate-400 italic'>
-                      Showing 10 of {rawData.rowCount.toLocaleString()} rows
+                      {t.rawPreviewShowingRows.replace('{count}', rawData.rowCount.toLocaleString())}
                     </p>
                   )}
                 </div>
@@ -1424,7 +1481,7 @@ export default function DatasetChart() {
                       <ul className='space-y-1'>
                         {schema.warnings.map((warning, idx) => (
                           <li key={idx} className='text-xs text-amber-700'>
-                            {warning}
+                            {getSchemaWarningText(warning, t)}
                           </li>
                         ))}
                       </ul>
