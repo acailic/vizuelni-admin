@@ -12,7 +12,7 @@ export interface Dashboard {
 }
 
 export class DashboardSyncManager {
-  private dbName = 'vizualni-admin-offline';
+  private dbName = 'vizuelni-admin-offline';
   private dbVersion = 1;
 
   async saveOffline(dashboard: Dashboard): Promise<void> {

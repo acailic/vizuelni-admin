@@ -100,6 +100,16 @@ recipes/current-task.yml
 .worktrees/
 .superpowers/
 .playwright-mcp/
+.omc/
+
+# Plans and generated docs
+docs/plans/
+
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+.python-version
 
 # Build outputs
 .next-dev/

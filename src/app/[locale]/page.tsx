@@ -18,7 +18,7 @@ interface PageProps {
 }
 
 const docsUrl =
-  'https://github.com/acailic/vizualni-admin/blob/main/docs/GETTING-STARTED.md';
+  'https://github.com/acailic/vizuelni-admin/blob/main/docs/GETTING-STARTED.md';
 
 export async function generateMetadata({
   params,
