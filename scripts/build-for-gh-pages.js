@@ -24,7 +24,7 @@ try {
   console.log('📁 Files ready at: ./out/');
   console.log('\n🚀 To test locally, run:');
   console.log('   npm run serve:gh-pages');
-  console.log('   Then visit: http://localhost:3000/vizualni-admin/');
+  console.log('   Then visit: http://localhost:3000/vizuelni-admin/');
 } catch (error) {
   console.error('\n❌ Build failed:', error.message);
   process.exit(1);

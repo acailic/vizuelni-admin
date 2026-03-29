@@ -7,7 +7,7 @@ const url = require('url');
 
 // Configuration
 const PORT = process.env.PORT || 3000;
-const BASE_PATH = '/vizualni-admin';
+const BASE_PATH = '/vizuelni-admin';
 const OUT_DIR = path.join(__dirname, '..', 'out');
 
 // MIME types
