@@ -11,7 +11,7 @@ const customJestConfig = {
     '<rootDir>/src/**/__tests__/**/*.(test|spec).(ts|tsx|js|jsx)',
     '<rootDir>/tests/unit/**/*.(test|spec).(ts|tsx|js|jsx)',
     '<rootDir>/tests/integration/**/*.(test|spec).(ts|tsx|js|jsx)',
-    '<rootDir>/tests/ai/**/*.(test|spec).(ts|tsx|js|jsx)',
+    // AI flow tests use Vitest - run separately via npm run test:ai
   ],
   moduleNameMapper: {
     '^@vizualni/application$': '<rootDir>/packages/application/src/index.ts',

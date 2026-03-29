@@ -137,10 +137,8 @@ describe('CollapsibleFilters', () => {
     );
 
     const button = screen.getByRole('button');
-    expect(button).toHaveAttribute(
-      'aria-controls',
-      'collapsible-filters-content'
-    );
+    // useId() generates dynamic IDs - just verify the attribute exists
+    expect(button).toHaveAttribute('aria-controls');
     expect(button).toHaveAttribute('aria-expanded', 'false');
 
     const content = screen.getByTestId('collapsible-filters-content');

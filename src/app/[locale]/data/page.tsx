@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { resolveLocale } from '@/lib/i18n/messages';
 import { InsightExplorer } from '@/components/insight-explorer/InsightExplorer';
 import { DataSourceProvider } from '@/contexts/DataSourceContext';
+import { ChartSkeleton } from '@/components/ui/Skeleton';
 
 interface PageProps {
   params: Promise<{ locale: string }>;
@@ -32,7 +33,7 @@ export default async function DataPage({ params }: PageProps) {
   return (
     <main className='container-custom py-8'>
       <DataSourceProvider>
-        <Suspense fallback={<div className='text-slate-500'>Loading...</div>}>
+        <Suspense fallback={<ChartSkeleton />}>
           <InsightExplorer locale={locale} />
         </Suspense>
       </DataSourceProvider>
