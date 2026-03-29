@@ -22,7 +22,7 @@ interface AudienceSegmentationProps {
   };
 }
 
-const GITHUB_URL = 'https://github.com/acailic/vizualni-admin';
+const GITHUB_URL = 'https://github.com/acailic/vizuelni-admin';
 
 export function AudienceSegmentation({
   locale,

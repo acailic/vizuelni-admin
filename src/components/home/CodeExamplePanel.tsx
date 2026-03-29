@@ -42,8 +42,8 @@ export function CodeExamplePanel({
   description,
   viewOnGithub,
   readDocs,
-  githubUrl = 'https://github.com/acailic/vizualni-admin',
-  docsUrl = 'https://github.com/acailic/vizualni-admin/blob/main/docs/GETTING-STARTED.md',
+  githubUrl = 'https://github.com/acailic/vizuelni-admin',
+  docsUrl = 'https://github.com/acailic/vizuelni-admin/blob/main/docs/GETTING-STARTED.md',
 }: CodeExamplePanelProps) {
   return (
     <section

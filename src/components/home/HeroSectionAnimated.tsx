@@ -132,7 +132,7 @@ export function HeroSectionAnimated({
 
               <Link
                 className='group inline-flex items-center gap-2 rounded-2xl border border-white/25 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-200 hover:bg-white/15 hover:border-white/40 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gov-primary'
-                href='https://github.com/acailic/vizualni-admin'
+                href='https://github.com/acailic/vizuelni-admin'
                 target='_blank'
                 rel='noopener noreferrer'
               >

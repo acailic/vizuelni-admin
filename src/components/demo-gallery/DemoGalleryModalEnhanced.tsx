@@ -196,7 +196,7 @@ export function DemoGalleryModalEnhanced({
                 <CodeExampleBlock code={codeExample} locale={locale} />
                 <div className='mt-4 flex flex-wrap gap-3'>
                   <a
-                    href={`https://stackblitz.com/github/acailic/vizualni-admin?file=src%2Fapp%2Fchart.tsx&showChart=${example.id}`}
+                    href={`https://stackblitz.com/github/acailic/vizuelni-admin?file=src%2Fapp%2Fchart.tsx&showChart=${example.id}`}
                     target='_blank'
                     rel='noopener noreferrer'
                     className='inline-flex min-h-11 items-center gap-2 rounded-lg bg-gov-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-gov-secondary focus:outline-none focus:ring-2 focus:ring-gov-primary/20 focus:ring-offset-2'

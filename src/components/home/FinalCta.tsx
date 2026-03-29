@@ -32,7 +32,7 @@ export function FinalCta({
   tryDemo,
   starGithub,
   viewDocs,
-  githubUrl = 'https://github.com/acailic/vizualni-admin',
+  githubUrl = 'https://github.com/acailic/vizuelni-admin',
   docsUrl,
   trustLabels,
 }: FinalCtaProps) {

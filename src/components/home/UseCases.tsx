@@ -67,7 +67,7 @@ export function UseCases({
       title: developersTitle,
       description: developersDescription,
       cta: developersCta,
-      href: 'https://github.com/acailic/vizualni-admin',
+      href: 'https://github.com/acailic/vizuelni-admin',
       external: true,
     },
     {

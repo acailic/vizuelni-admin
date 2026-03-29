@@ -191,7 +191,7 @@ export const DATE_FORMATS = {
 export const SOCIAL_LINKS = {
   twitter: 'https://twitter.com/vizuelniadmin',
   linkedin: 'https://www.linkedin.com/company/vizuelni-admin-srbije',
-  github: 'https://github.com/acailic/vizualni-admin',
+  github: 'https://github.com/acailic/vizuelni-admin',
   // Contact via GitHub Issues: https://github.com/acailic/vizualni-admin/issues
 } as const;
 
